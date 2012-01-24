@@ -43,7 +43,7 @@ public class MPD {
     private MPDDatabase mpdDatabase;
     private MPDEventRelayer mpdEventRelayer;
     private MPDAdmin mpdAdmin;
-    private final String version;
+    private String version;
     private static final int TRIES = 3;
     /**
      * The location of the mpd properties file.
@@ -278,6 +278,12 @@ public class MPD {
         public String getStatusPrefix() {
             return (prefix);
         }
+    }
+
+    /**
+     * Default no argument constructor
+     */
+    public MPD() {
     }
 
     /**
@@ -540,7 +546,7 @@ public class MPD {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command to the server
      */
-    synchronized Collection<String> sendMPDCommand(MPDCommand command) throws MPDConnectionException, MPDResponseException {
+    protected synchronized Collection<String> sendMPDCommand(MPDCommand command) throws MPDConnectionException, MPDResponseException {
         byte[] bytesToSend;
         List<String> responseList = new ArrayList<String>();
         OutputStream outStream = null;

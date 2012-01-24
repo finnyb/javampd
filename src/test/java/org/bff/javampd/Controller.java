@@ -4,6 +4,7 @@
  */
 package org.bff.javampd;
 
+import org.bff.javampd.capture.CaptureMPD;
 import org.bff.javampd.data.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
@@ -41,6 +42,8 @@ public class Controller {
     private static String version;
     private static final String URL_PREFIX = "";
     private static final String PROP_PORT = "port";
+    private static final String PROP_MOCK = "mock";
+    private static final String PROP_CAPTURE = "capture";
     private static Controller instance;
     private static final int INDEX_ARTIST = 0;
     private static final int INDEX_ALBUM = 1;
@@ -68,10 +71,22 @@ public class Controller {
     private String serverPath;
     private String password;
     private final MPDDatabase database;
+    private boolean mock;
+    private boolean capture;
 
     private Controller() throws IOException, MPDConnectionException {
         loadProperties();
-        this.mpd = new MPD(this.server, this.port, this.password);
+
+        if(isMock()) {
+
+        } else {
+            if(isCapture()) {
+                this.mpd = new CaptureMPD(this.server, this.port, this.password);
+            }  else {
+                this.mpd = new MPD(this.server, this.port, this.password);
+            }
+        }
+
         this.database = mpd.getMPDDatabase();
     }
 
@@ -97,6 +112,8 @@ public class Controller {
             setServerPath(props.getProperty(PROP_SERVER_PATH));
             this.password = props.getProperty(PROP_PASSWORD);
             version = props.getProperty(PROP_VERSION);
+            setMock(Boolean.parseBoolean(props.getProperty(PROP_MOCK, "true")));
+            setCapture(Boolean.parseBoolean(props.getProperty(PROP_CAPTURE, "false")));
         } finally {
             assert in != null;
             in.close();
@@ -512,5 +529,21 @@ public class Controller {
      */
     public String getPassword() {
         return password;
+    }
+
+    public boolean isMock() {
+        return mock;
+    }
+
+    public void setMock(boolean mock) {
+        this.mock = mock;
+    }
+
+    public boolean isCapture() {
+        return capture;
+    }
+
+    public void setCapture(boolean capture) {
+        this.capture = capture;
     }
 }
