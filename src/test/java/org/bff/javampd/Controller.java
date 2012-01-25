@@ -8,6 +8,7 @@ import org.bff.javampd.capture.CaptureMPD;
 import org.bff.javampd.data.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.mock.MockMPD;
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDSong;
@@ -78,7 +79,7 @@ public class Controller {
         loadProperties();
 
         if(isMock()) {
-
+                 this.mpd = new MockMPD(this.server, this.port, this.password);
         } else {
             if(isCapture()) {
                 this.mpd = new CaptureMPD(this.server, this.port, this.password);

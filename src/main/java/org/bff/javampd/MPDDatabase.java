@@ -934,6 +934,7 @@ public class MPDDatabase {
                 retList.add((s.split(":")[1]).trim());
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("String with array problem:" + s);
+                retList.add("");
             }
         }
         return (retList);

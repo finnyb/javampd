@@ -178,7 +178,6 @@ public class MPDDatabaseTest extends BaseTest {
                 Assert.fail("Year " + year + " does not exist in list.");
             }
         }
-
     }
 
     @Test

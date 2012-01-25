@@ -37,7 +37,7 @@ public class MPD {
     private InetAddress serverAddress;
     private Socket socket;
     private String lastError;
-    private Properties prop;
+    private static Properties prop;
     private MPDPlayer mpdPlayer;
     private MPDPlaylist mpdPlaylist;
     private MPDDatabase mpdDatabase;
@@ -280,6 +280,10 @@ public class MPD {
         }
     }
 
+    static {
+        loadMpdPropValues();
+    }
+
     /**
      * Default no argument constructor
      */
@@ -359,7 +363,6 @@ public class MPD {
      */
     public MPD(String server, int port, String password, int timeout) throws UnknownHostException, MPDConnectionException {
         try {
-            loadMpdPropValues();
             this.serverAddress = InetAddress.getByName(server);
             this.port = port;
             this.version = connect(timeout);
@@ -631,7 +634,7 @@ public class MPD {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *          if there is a problem sending the command to the server
      */
-    synchronized boolean sendMPDCommands(List<MPDCommand> commandList) throws MPDConnectionException, MPDResponseException {
+    protected synchronized boolean sendMPDCommands(List<MPDCommand> commandList) throws MPDConnectionException, MPDResponseException {
         boolean isOk = true;
         StringBuffer sb;
 
@@ -839,7 +842,7 @@ public class MPD {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *                             if there are connection issues
      */
-    private synchronized String connect(int timeout) throws IOException, MPDConnectionException {
+    protected synchronized String connect(int timeout) throws IOException, MPDConnectionException {
         BufferedReader in;
 
         this.socket = new Socket();
@@ -901,10 +904,10 @@ public class MPD {
         return (line.substring(prop.getProperty(response.getProp()).length()));
     }
 
-    private void loadMpdPropValues() {
+    private static void loadMpdPropValues() {
         prop = new Properties();
 
-        InputStream is = getClass().getResourceAsStream(PROPFILE);
+        InputStream is = MPD.class.getResourceAsStream(PROPFILE);
 
         try {
             prop.load(is);

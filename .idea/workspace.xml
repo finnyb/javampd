@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="902cf731-e22e-4261-bef9-099762fee65c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/bff/javampd/MPD.java" afterPath="$PROJECT_DIR$/src/main/java/org/bff/javampd/MPD.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/bff/javampd/MPDDatabase.java" afterPath="$PROJECT_DIR$/src/main/java/org/bff/javampd/MPDDatabase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/bff/javampd/Controller.java" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/TestProperties.properties" afterPath="$PROJECT_DIR$/src/test/resources/TestProperties.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDDatabaseTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDDatabaseTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/testdata.txt" afterPath="$PROJECT_DIR$/src/test/resources/testdata.txt" />
     </list>
     <ignored path="javampd.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,7 +28,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java" line="43" class="org.bff.javampd.capture.CaptureMPD" package="org.bff.javampd.capture">
+      <breakpoint url="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDDatabaseTest.java" line="117" class="org.bff.javampd.MPDDatabaseTest" package="org.bff.javampd">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -80,10 +82,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TestProperties.properties" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/TestProperties.properties">
+      <file leaf-file-name="MPDDatabase.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/MPDDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="9" selection-start="362" selection-end="362" vertical-scroll-proportion="0.2735632">
+            <state line="936" column="32" selection-start="36852" selection-end="36852" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#27793#27803#0" expanded="true" />
+                <element signature="e#36568#36576#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MPDStandAloneMonitorTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/monitor/MPDStandAloneMonitorTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="138" column="0" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.5928753">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MPDTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="32" column="0" selection-start="689" selection-end="689" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MPDGenre.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/objects/MPDGenre.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="0" selection-start="398" selection-end="398" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MPDSong.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/objects/MPDSong.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="154" column="40" selection-start="3241" selection-end="3241" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -92,34 +133,27 @@
       <file leaf-file-name="MPDDatabaseTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDDatabaseTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="0" selection-start="3862" selection-end="3862" vertical-scroll-proportion="0.0">
+            <state line="117" column="0" selection-start="4022" selection-end="4022" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MPDDatabase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/MPDDatabase.java">
+      <file leaf-file-name="MockMPD.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1061" column="0" selection-start="41829" selection-end="41829" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="29" column="0" selection-start="809" selection-end="809" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Songs.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/data/Songs.java">
+      <file leaf-file-name="TestProperties.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/TestProperties.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="0" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Controller.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/Controller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="0" selection-start="2991" selection-end="2991" vertical-scroll-proportion="-5.576923">
+            <state line="14" column="9" selection-start="362" selection-end="362" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -134,35 +168,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CaptureMPD.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java">
+      <file leaf-file-name="Genres.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/data/Genres.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="42" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#981#989#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MockMPD.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="46" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0">
+            <state line="24" column="0" selection-start="570" selection-end="570" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MPD.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/MPD.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="634" column="0" selection-start="21576" selection-end="21576" vertical-scroll-proportion="-6.230769">
-              <folding>
-                <element signature="e#18293#18301#0" expanded="true" />
-                <element signature="e#25415#25423#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -183,13 +193,16 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/main/resources/org/bff/javampd/mpd.properties" />
-        <option value="$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/bff/javampd/Capture.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/Capture.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/bff/javampd/Controller.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/bff/javampd/MPD.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/testdata.txt" />
+        <option value="$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDDatabaseTest.java" />
         <option value="$PROJECT_DIR$/src/test/resources/TestProperties.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/org/bff/javampd/MPDDatabase.java" />
       </list>
     </option>
   </component>
@@ -232,6 +245,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -289,6 +304,44 @@
               <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javampd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javampd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javampd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javampd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="capture" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -306,8 +359,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -322,9 +373,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="JUnit.AllTests">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -347,24 +398,6 @@
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -394,6 +427,24 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -528,10 +579,10 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24906467" sideWeight="0.6109253" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38907468" sideWeight="0.49812934" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24906467" sideWeight="0.49275362" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5072464" sideWeight="0.49812934" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -595,24 +646,30 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/org/bff/javampd/mpd.properties">
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.5/junit-4.5.jar!/org/junit/internal/runners/statements/RunAfters.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="22" selection-start="647" selection-end="647" vertical-scroll-proportion="0.0" />
+        <state line="12" column="16" selection-start="615" selection-end="615" vertical-scroll-proportion="0.38398358">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/monitor/MPDEventRelayer.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.5/junit-4.5.jar!/org/junit/internal/runners/statements/RunBefores.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="305" column="19" selection-start="9197" selection-end="9197" vertical-scroll-proportion="0.6666667" />
+        <state line="12" column="16" selection-start="619" selection-end="619" vertical-scroll-proportion="0.38398358">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDAdminTest.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.5/junit-4.5.jar!/org/junit/internal/runners/statements/InvokeMethod.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="39" selection-start="911" selection-end="911" vertical-scroll-proportion="0.0" />
+        <state line="11" column="16" selection-start="492" selection-end="492" vertical-scroll-proportion="0.34907597">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.5/junit-4.5.jar!/org/junit/runners/model/FrameworkMethod.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="12" column="28" selection-start="431" selection-end="431" vertical-scroll-proportion="0.31827515">
           <folding>
             <element signature="e#0#1631#0" expanded="true" />
           </folding>
@@ -621,38 +678,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="0" selection-start="2991" selection-end="2991" vertical-scroll-proportion="-5.576923">
+        <state line="61" column="54" selection-start="2346" selection-end="2354" vertical-scroll-proportion="-6.230769">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/data/Songs.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/objects/MPDSong.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0">
+        <state line="154" column="40" selection-start="3241" selection-end="3241" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/MPDDatabase.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.5/junit-4.5.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1061" column="0" selection-start="41829" selection-end="41829" vertical-scroll-proportion="0.0">
+        <state line="11" column="40" selection-start="397" selection-end="397" vertical-scroll-proportion="-6.8">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/MPD.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="634" column="0" selection-start="21576" selection-end="21576" vertical-scroll-proportion="-6.230769">
+        <state line="32" column="0" selection-start="689" selection-end="689" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/objects/MPDGenre.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="398" selection-end="398" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="809" selection-end="809" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#18293#18301#0" expanded="true" />
-            <element signature="e#25415#25423#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDDatabaseTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/TestProperties.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="0" selection-start="3862" selection-end="3862" vertical-scroll-proportion="0.0">
+        <state line="14" column="9" selection-start="362" selection-end="362" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/data/Genres.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="0" selection-start="570" selection-end="570" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -664,26 +741,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDDatabaseTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="46" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0">
+        <state line="117" column="0" selection-start="4022" selection-end="4022" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/bff/javampd/MPDDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="42" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.0">
+        <state line="936" column="32" selection-start="36852" selection-end="36852" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#981#989#0" expanded="true" />
+            <element signature="e#27793#27803#0" expanded="true" />
+            <element signature="e#36568#36576#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/TestProperties.properties">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/bff/javampd/monitor/MPDStandAloneMonitorTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="9" selection-start="362" selection-end="362" vertical-scroll-proportion="0.2735632">
+        <state line="138" column="0" selection-start="4031" selection-end="4031" vertical-scroll-proportion="0.5928753">
           <folding />
         </state>
       </provider>

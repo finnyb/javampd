@@ -22,9 +22,15 @@ public class CaptureMPD extends MPD {
         super(server, port, password);
     }
 
+    protected synchronized String connect(int timeout) throws IOException, MPDConnectionException {
+        String version = super.connect(timeout);
+        writeToFile("connect: " + version);
+        return version;
+    }
+
     public List<String> sendMPDCommand(MPDCommand command) throws MPDResponseException, MPDConnectionException {
         writeToFile("Command: " + command.getCommand());
-        
+
         List<String> response = new ArrayList<String>(super.sendMPDCommand(command));
 
         for (String s : command.getParams()) {
@@ -39,7 +45,7 @@ public class CaptureMPD extends MPD {
         }
         return response;
     }
-    
+
     private void writeToFile(String str) {
         File file = new File(TEST_FILE);
         if (!file.exists()) {
