@@ -7302,8 +7302,8 @@ Command: stats
 		Response:artists: 5
 		Response:albums: 30
 		Response:songs: 360
-		Response:uptime: 1565056
-		Response:playtime: 435
+		Response:uptime: 1643667
+		Response:playtime: 539
 		Response:db_playtime: 1800
 		Response:db_update: 1324748894
 Command: stats
@@ -7311,8 +7311,8 @@ Command: stats
 		Response:artists: 5
 		Response:albums: 30
 		Response:songs: 360
-		Response:uptime: 1565056
-		Response:playtime: 435
+		Response:uptime: 1643667
+		Response:playtime: 539
 		Response:db_playtime: 1800
 		Response:db_update: 1324748894
 Command: stats
@@ -7320,8 +7320,8 @@ Command: stats
 		Response:artists: 5
 		Response:albums: 30
 		Response:songs: 360
-		Response:uptime: 1565056
-		Response:playtime: 435
+		Response:uptime: 1643667
+		Response:playtime: 539
 		Response:db_playtime: 1800
 		Response:db_update: 1324748894
 Command: list
@@ -29488,8 +29488,8 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20034
-		Response:playlistlength: 360
+		Response:playlist: 25767
+		Response:playlistlength: 365
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
@@ -29501,8 +29501,8 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20034
-		Response:playlistlength: 360
+		Response:playlist: 25767
+		Response:playlistlength: 365
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
@@ -29516,8 +29516,8 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20034
-		Response:playlistlength: 360
+		Response:playlist: 25767
+		Response:playlistlength: 365
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
@@ -29531,7 +29531,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20035
+		Response:playlist: 25768
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29544,7 +29544,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20035
+		Response:playlist: 25768
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29557,7 +29557,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20395
+		Response:playlist: 26128
 		Response:playlistlength: 360
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29570,7 +29570,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20395
+		Response:playlist: 26128
 		Response:playlistlength: 360
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29585,20 +29585,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20395
+		Response:playlist: 26128
 		Response:playlistlength: 360
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 19726
+		Response:songid: 25380
 		Response:time: 1:5
 		Response:elapsed: 1.463
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 19727
+		Response:nextsongid: 25381
 Command: clear
 	Param:null
 Command: status
@@ -29608,7 +29608,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20396
+		Response:playlist: 26129
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29621,7 +29621,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20396
+		Response:playlist: 26129
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29634,7 +29634,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20756
+		Response:playlist: 26489
 		Response:playlistlength: 360
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29647,7 +29647,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20756
+		Response:playlist: 26489
 		Response:playlistlength: 360
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29664,7 +29664,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20756
+		Response:playlist: 26489
 		Response:playlistlength: 360
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29679,7 +29679,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20757
+		Response:playlist: 26490
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29692,35 +29692,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20757
-		Response:playlistlength: 0
-		Response:xfade: 0
-		Response:mixrampdb: 0.000000
-		Response:mixrampdelay: nan
-		Response:state: stop
-Command: clear
-	Param:null
-Command: status
-	Param:null
-		Response:volume: 5
-		Response:repeat: 0
-		Response:random: 0
-		Response:single: 0
-		Response:consume: 0
-		Response:playlist: 20758
-		Response:playlistlength: 0
-		Response:xfade: 0
-		Response:mixrampdb: 0.000000
-		Response:mixrampdelay: nan
-		Response:state: stop
-Command: status
-	Param:null
-		Response:volume: 5
-		Response:repeat: 0
-		Response:random: 0
-		Response:single: 0
-		Response:consume: 0
-		Response:playlist: 20758
+		Response:playlist: 26490
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29735,7 +29707,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20759
+		Response:playlist: 26491
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29748,7 +29720,35 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20759
+		Response:playlist: 26491
+		Response:playlistlength: 0
+		Response:xfade: 0
+		Response:mixrampdb: 0.000000
+		Response:mixrampdelay: nan
+		Response:state: stop
+Command: clear
+	Param:null
+Command: status
+	Param:null
+		Response:volume: 5
+		Response:repeat: 0
+		Response:random: 0
+		Response:single: 0
+		Response:consume: 0
+		Response:playlist: 26492
+		Response:playlistlength: 0
+		Response:xfade: 0
+		Response:mixrampdb: 0.000000
+		Response:mixrampdelay: nan
+		Response:state: stop
+Command: status
+	Param:null
+		Response:volume: 5
+		Response:repeat: 0
+		Response:random: 0
+		Response:single: 0
+		Response:consume: 0
+		Response:playlist: 26492
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29763,7 +29763,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20760
+		Response:playlist: 26493
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29776,7 +29776,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20760
+		Response:playlist: 26493
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29795,7 +29795,7 @@ Command: playlistinfo
 		Response:Genre: Rock
 		Response:Comment: Comment0
 		Response:Pos: 0
-		Response:Id: 20446
+		Response:Id: 26100
 Command: add
 	Param:directory1/Artist0-Album0-1-Title1-1990-Rock-null-null.mp3
 Command: status
@@ -29805,7 +29805,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20761
+		Response:playlist: 26494
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29818,7 +29818,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20761
+		Response:playlist: 26494
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29837,7 +29837,7 @@ Command: playlistinfo
 		Response:Genre: Rock
 		Response:Comment: Comment0
 		Response:Pos: 0
-		Response:Id: 20446
+		Response:Id: 26100
 		Response:file: directory1/Artist0-Album0-1-Title1-1990-Rock-null-null.mp3
 		Response:Last-Modified: 2011-12-24T15:59:52Z
 		Response:Time: 5
@@ -29848,7 +29848,7 @@ Command: playlistinfo
 		Response:Date: 1990
 		Response:Genre: Rock
 		Response:Pos: 1
-		Response:Id: 20447
+		Response:Id: 26101
 Command: clear
 	Param:null
 Command: status
@@ -29858,7 +29858,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20762
+		Response:playlist: 26495
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29871,7 +29871,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20762
+		Response:playlist: 26495
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29886,7 +29886,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20763
+		Response:playlist: 26496
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29899,7 +29899,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20763
+		Response:playlist: 26496
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29918,7 +29918,7 @@ Command: playlistinfo
 		Response:Genre: Rock
 		Response:Comment: Comment0
 		Response:Pos: 0
-		Response:Id: 20448
+		Response:Id: 26102
 Command: playlistinfo
 	Param:null
 		Response:file: directory1/Artist0-Album0-0-Title0-1990-Rock-Comment0-null.mp3
@@ -29932,7 +29932,7 @@ Command: playlistinfo
 		Response:Genre: Rock
 		Response:Comment: Comment0
 		Response:Pos: 0
-		Response:Id: 20448
+		Response:Id: 26102
 		Response:file: directory1/Artist0-Album0-1-Title1-1990-Rock-null-null.mp3
 		Response:Last-Modified: 2011-12-24T15:59:52Z
 		Response:Time: 5
@@ -29943,7 +29943,7 @@ Command: playlistinfo
 		Response:Date: 1990
 		Response:Genre: Rock
 		Response:Pos: 1
-		Response:Id: 20449
+		Response:Id: 26103
 Command: clear
 	Param:null
 Command: status
@@ -29953,7 +29953,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20765
+		Response:playlist: 26498
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29966,13 +29966,15 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20765
+		Response:playlist: 26498
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: stop
 Command: load
+	Param:DOESNTEXIST
+ResponseException: [50@0] {load} No such playlist
 Command: status
 	Param:null
 		Response:volume: 5
@@ -29980,7 +29982,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20765
+		Response:playlist: 26498
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -29996,22 +29998,22 @@ Command: clear
 	Param:null
 	Param:null
 		Response:volume: 5
-		Response:repeat: 0
 Command: status
+		Response:repeat: 0
 		Response:random: 0
 	Param:null
 		Response:single: 0
 		Response:volume: 5
 		Response:consume: 0
-		Response:playlist: 20765
+		Response:playlist: 26498
 		Response:repeat: 0
 		Response:playlistlength: 0
 		Response:random: 0
-		Response:xfade: 0
 		Response:single: 0
+		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:consume: 0
-		Response:playlist: 20766
+		Response:playlist: 26499
 		Response:mixrampdelay: nan
 		Response:playlistlength: 0
 		Response:state: stop
@@ -30026,7 +30028,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20766
+		Response:playlist: 26499
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30050,7 +30052,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20767
+		Response:playlist: 26500
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30063,7 +30065,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20767
+		Response:playlist: 26500
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30076,7 +30078,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20767
+		Response:playlist: 26500
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30089,7 +30091,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20767
+		Response:playlist: 26500
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30104,7 +30106,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20768
+		Response:playlist: 26501
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30117,7 +30119,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20768
+		Response:playlist: 26501
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30141,7 +30143,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20769
+		Response:playlist: 26502
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30154,7 +30156,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20769
+		Response:playlist: 26502
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30167,7 +30169,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20769
+		Response:playlist: 26502
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30187,7 +30189,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20769
+		Response:playlist: 26502
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30200,7 +30202,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20769
+		Response:playlist: 26502
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30215,7 +30217,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20770
+		Response:playlist: 26503
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30228,7 +30230,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20770
+		Response:playlist: 26503
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30252,7 +30254,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20771
+		Response:playlist: 26504
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30265,7 +30267,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20771
+		Response:playlist: 26504
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30283,9 +30285,9 @@ Command: playlistinfo
 		Response:Date: 1990
 		Response:Genre: Rock
 		Response:Pos: 0
-		Response:Id: 20452
+		Response:Id: 26106
 Command: deleteid
-	Param:20452
+	Param:26106
 Command: status
 	Param:null
 		Response:volume: 5
@@ -30293,7 +30295,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20772
+		Response:playlist: 26505
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30306,7 +30308,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20772
+		Response:playlist: 26505
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30319,7 +30321,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20772
+		Response:playlist: 26505
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30332,7 +30334,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20772
+		Response:playlist: 26505
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30352,7 +30354,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20772
+		Response:playlist: 26505
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30367,7 +30369,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20773
+		Response:playlist: 26506
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30380,7 +30382,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20773
+		Response:playlist: 26506
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30404,7 +30406,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20774
+		Response:playlist: 26507
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30417,7 +30419,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20774
+		Response:playlist: 26507
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30432,7 +30434,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20775
+		Response:playlist: 26508
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30445,7 +30447,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20775
+		Response:playlist: 26508
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30460,20 +30462,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20775
+		Response:playlist: 26508
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20453
+		Response:songid: 26107
 		Response:time: 1:5
 		Response:elapsed: 1.231
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20454
+		Response:nextsongid: 26108
 Command: status
 	Param:null
 		Response:volume: 5
@@ -30481,20 +30483,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20775
+		Response:playlist: 26508
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20453
+		Response:songid: 26107
 		Response:time: 2:5
-		Response:elapsed: 2.229
+		Response:elapsed: 2.368
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20454
+		Response:nextsongid: 26108
 Command: status
 	Param:null
 		Response:volume: 5
@@ -30502,20 +30504,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20775
+		Response:playlist: 26508
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20453
+		Response:songid: 26107
 		Response:time: 3:5
 		Response:elapsed: 3.367
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20454
+		Response:nextsongid: 26108
 Command: ping
 	Param:null
 Command: outputs
@@ -30532,7 +30534,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20776
+		Response:playlist: 26509
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30545,7 +30547,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20776
+		Response:playlist: 26509
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30569,7 +30571,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20776
+		Response:playlist: 26509
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30582,7 +30584,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20776
+		Response:playlist: 26509
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30597,7 +30599,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20777
+		Response:playlist: 26510
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30610,7 +30612,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20777
+		Response:playlist: 26510
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30625,7 +30627,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20778
+		Response:playlist: 26511
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30638,7 +30640,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20778
+		Response:playlist: 26511
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30653,7 +30655,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20779
+		Response:playlist: 26512
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30666,7 +30668,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20779
+		Response:playlist: 26512
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30681,7 +30683,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20780
+		Response:playlist: 26513
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30694,7 +30696,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20780
+		Response:playlist: 26513
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30709,7 +30711,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20781
+		Response:playlist: 26514
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30722,7 +30724,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20781
+		Response:playlist: 26514
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30737,7 +30739,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20782
+		Response:playlist: 26515
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30750,7 +30752,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20782
+		Response:playlist: 26515
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30765,7 +30767,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20783
+		Response:playlist: 26516
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30778,7 +30780,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20783
+		Response:playlist: 26516
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30793,7 +30795,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20784
+		Response:playlist: 26517
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30806,7 +30808,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20784
+		Response:playlist: 26517
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30821,7 +30823,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20785
+		Response:playlist: 26518
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30834,7 +30836,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20785
+		Response:playlist: 26518
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30849,7 +30851,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20786
+		Response:playlist: 26519
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30862,7 +30864,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20786
+		Response:playlist: 26519
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30877,20 +30879,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20786
+		Response:playlist: 26519
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20455
+		Response:songid: 26109
 		Response:time: 1:5
 		Response:elapsed: 0.998
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20456
+		Response:nextsongid: 26110
 Command: clear
 	Param:null
 Command: status
@@ -30900,7 +30902,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20787
+		Response:playlist: 26520
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30913,7 +30915,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20787
+		Response:playlist: 26520
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30937,7 +30939,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20788
+		Response:playlist: 26521
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30950,7 +30952,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20788
+		Response:playlist: 26521
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30965,7 +30967,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20789
+		Response:playlist: 26522
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30978,7 +30980,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20789
+		Response:playlist: 26522
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -30993,7 +30995,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20790
+		Response:playlist: 26523
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31006,7 +31008,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20790
+		Response:playlist: 26523
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31021,7 +31023,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20791
+		Response:playlist: 26524
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31034,7 +31036,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20791
+		Response:playlist: 26524
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31049,7 +31051,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20792
+		Response:playlist: 26525
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31062,7 +31064,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20792
+		Response:playlist: 26525
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31077,7 +31079,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20793
+		Response:playlist: 26526
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31090,7 +31092,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20793
+		Response:playlist: 26526
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31105,7 +31107,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20794
+		Response:playlist: 26527
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31118,7 +31120,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20794
+		Response:playlist: 26527
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31133,7 +31135,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20795
+		Response:playlist: 26528
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31146,7 +31148,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20795
+		Response:playlist: 26528
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31161,7 +31163,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20796
+		Response:playlist: 26529
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31174,7 +31176,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20796
+		Response:playlist: 26529
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31189,7 +31191,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20797
+		Response:playlist: 26530
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31202,7 +31204,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20797
+		Response:playlist: 26530
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31217,20 +31219,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20797
+		Response:playlist: 26530
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20465
+		Response:songid: 26119
 		Response:time: 1:5
-		Response:elapsed: 0.998
+		Response:elapsed: 0.975
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20466
+		Response:nextsongid: 26120
 Command: ping
 	Param:null
 Command: outputs
@@ -31245,20 +31247,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20797
+		Response:playlist: 26530
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20465
+		Response:songid: 26119
 		Response:time: 2:5
 		Response:elapsed: 1.997
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20466
+		Response:nextsongid: 26120
 Command: stop
 	Param:null
 Command: status
@@ -31268,16 +31270,16 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20797
+		Response:playlist: 26530
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: stop
 		Response:song: 0
-		Response:songid: 20465
+		Response:songid: 26119
 		Response:nextsong: 1
-		Response:nextsongid: 20466
+		Response:nextsongid: 26120
 Command: clear
 	Param:null
 Command: status
@@ -31287,7 +31289,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20798
+		Response:playlist: 26531
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31300,7 +31302,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20798
+		Response:playlist: 26531
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31324,7 +31326,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20799
+		Response:playlist: 26532
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31337,7 +31339,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20799
+		Response:playlist: 26532
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31352,7 +31354,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20800
+		Response:playlist: 26533
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31365,7 +31367,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20800
+		Response:playlist: 26533
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31380,7 +31382,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20801
+		Response:playlist: 26534
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31393,7 +31395,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20801
+		Response:playlist: 26534
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31408,7 +31410,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20802
+		Response:playlist: 26535
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31421,7 +31423,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20802
+		Response:playlist: 26535
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31436,7 +31438,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20803
+		Response:playlist: 26536
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31449,7 +31451,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20803
+		Response:playlist: 26536
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31464,7 +31466,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20804
+		Response:playlist: 26537
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31477,7 +31479,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20804
+		Response:playlist: 26537
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31492,7 +31494,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20805
+		Response:playlist: 26538
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31505,7 +31507,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20805
+		Response:playlist: 26538
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31520,7 +31522,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20806
+		Response:playlist: 26539
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31533,7 +31535,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20806
+		Response:playlist: 26539
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31548,7 +31550,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20807
+		Response:playlist: 26540
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31561,7 +31563,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20807
+		Response:playlist: 26540
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31576,7 +31578,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20808
+		Response:playlist: 26541
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31589,7 +31591,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20808
+		Response:playlist: 26541
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31604,20 +31606,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20808
+		Response:playlist: 26541
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20475
+		Response:songid: 26129
 		Response:time: 1:5
 		Response:elapsed: 0.998
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20476
+		Response:nextsongid: 26130
 Command: status
 	Param:null
 		Response:volume: 5
@@ -31625,20 +31627,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20808
+		Response:playlist: 26541
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20475
+		Response:songid: 26129
 		Response:time: 2:5
 		Response:elapsed: 1.997
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20476
+		Response:nextsongid: 26130
 Command: ping
 	Param:null
 Command: outputs
@@ -31655,20 +31657,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20808
+		Response:playlist: 26541
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: pause
 		Response:song: 0
-		Response:songid: 20475
+		Response:songid: 26129
 		Response:time: 2:5
 		Response:elapsed: 2.461
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20476
+		Response:nextsongid: 26130
 Command: clear
 	Param:null
 Command: status
@@ -31678,7 +31680,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20809
+		Response:playlist: 26542
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31691,7 +31693,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20809
+		Response:playlist: 26542
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31715,7 +31717,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20809
+		Response:playlist: 26542
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31728,7 +31730,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20809
+		Response:playlist: 26542
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31741,7 +31743,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20809
+		Response:playlist: 26542
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31761,7 +31763,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20809
+		Response:playlist: 26542
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31774,7 +31776,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20809
+		Response:playlist: 26542
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31787,7 +31789,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20809
+		Response:playlist: 26542
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31802,7 +31804,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20810
+		Response:playlist: 26543
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31815,7 +31817,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20810
+		Response:playlist: 26543
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31830,7 +31832,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20811
+		Response:playlist: 26544
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31843,7 +31845,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20811
+		Response:playlist: 26544
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31858,7 +31860,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20812
+		Response:playlist: 26545
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31871,7 +31873,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20812
+		Response:playlist: 26545
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31886,7 +31888,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20813
+		Response:playlist: 26546
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31899,7 +31901,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20813
+		Response:playlist: 26546
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31914,7 +31916,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20814
+		Response:playlist: 26547
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31927,7 +31929,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20814
+		Response:playlist: 26547
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31942,7 +31944,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20815
+		Response:playlist: 26548
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31955,7 +31957,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20815
+		Response:playlist: 26548
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31970,7 +31972,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20816
+		Response:playlist: 26549
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31983,7 +31985,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20816
+		Response:playlist: 26549
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -31998,7 +32000,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20817
+		Response:playlist: 26550
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32011,7 +32013,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20817
+		Response:playlist: 26550
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32026,7 +32028,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20818
+		Response:playlist: 26551
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32039,7 +32041,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20818
+		Response:playlist: 26551
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32054,7 +32056,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20819
+		Response:playlist: 26552
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32067,7 +32069,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20819
+		Response:playlist: 26552
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32084,20 +32086,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20819
+		Response:playlist: 26552
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20485
+		Response:songid: 26139
 		Response:time: 1:5
 		Response:elapsed: 1.115
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20486
+		Response:nextsongid: 26140
 Command: ping
 	Param:null
 Command: outputs
@@ -32112,20 +32114,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20819
+		Response:playlist: 26552
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20485
+		Response:songid: 26139
 		Response:time: 2:5
 		Response:elapsed: 2.113
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20486
+		Response:nextsongid: 26140
 Command: status
 	Param:null
 		Response:volume: 5
@@ -32133,20 +32135,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20819
+		Response:playlist: 26552
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20485
+		Response:songid: 26139
 		Response:time: 3:5
 		Response:elapsed: 3.111
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20486
+		Response:nextsongid: 26140
 Command: clear
 	Param:null
 Command: status
@@ -32156,7 +32158,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20820
+		Response:playlist: 26553
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32169,7 +32171,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20820
+		Response:playlist: 26553
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32193,7 +32195,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20821
+		Response:playlist: 26554
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32206,7 +32208,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20821
+		Response:playlist: 26554
 		Response:playlistlength: 1
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32221,7 +32223,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20822
+		Response:playlist: 26555
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32234,7 +32236,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20822
+		Response:playlist: 26555
 		Response:playlistlength: 2
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32249,7 +32251,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20823
+		Response:playlist: 26556
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32262,7 +32264,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20823
+		Response:playlist: 26556
 		Response:playlistlength: 3
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32277,7 +32279,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20824
+		Response:playlist: 26557
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32290,7 +32292,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20824
+		Response:playlist: 26557
 		Response:playlistlength: 4
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32305,7 +32307,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20825
+		Response:playlist: 26558
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32318,7 +32320,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20825
+		Response:playlist: 26558
 		Response:playlistlength: 5
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32333,7 +32335,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20826
+		Response:playlist: 26559
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32346,7 +32348,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20826
+		Response:playlist: 26559
 		Response:playlistlength: 6
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32361,7 +32363,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20827
+		Response:playlist: 26560
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32374,7 +32376,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20827
+		Response:playlist: 26560
 		Response:playlistlength: 7
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32389,7 +32391,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20828
+		Response:playlist: 26561
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32402,7 +32404,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20828
+		Response:playlist: 26561
 		Response:playlistlength: 8
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32417,7 +32419,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20829
+		Response:playlist: 26562
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32430,7 +32432,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20829
+		Response:playlist: 26562
 		Response:playlistlength: 9
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32445,7 +32447,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20830
+		Response:playlist: 26563
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32458,7 +32460,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20830
+		Response:playlist: 26563
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32475,20 +32477,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20830
+		Response:playlist: 26563
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: pause
 		Response:song: 0
-		Response:songid: 20495
+		Response:songid: 26149
 		Response:time: 0:5
-		Response:elapsed: 0.000
+		Response:elapsed: 0.209
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20496
+		Response:nextsongid: 26150
 Command: status
 	Param:null
 		Response:volume: 5
@@ -32496,20 +32498,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20830
+		Response:playlist: 26563
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: pause
 		Response:song: 0
-		Response:songid: 20495
+		Response:songid: 26149
 		Response:time: 0:5
-		Response:elapsed: 0.000
+		Response:elapsed: 0.209
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20496
+		Response:nextsongid: 26150
 Command: ping
 	Param:null
 Command: outputs
@@ -32526,20 +32528,20 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20830
+		Response:playlist: 26563
 		Response:playlistlength: 10
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
 		Response:mixrampdelay: nan
 		Response:state: play
 		Response:song: 0
-		Response:songid: 20495
+		Response:songid: 26149
 		Response:time: 1:5
-		Response:elapsed: 1.091
+		Response:elapsed: 1.231
 		Response:bitrate: 48
 		Response:audio: 44100:24:1
 		Response:nextsong: 1
-		Response:nextsongid: 20496
+		Response:nextsongid: 26150
 Command: clear
 	Param:null
 Command: status
@@ -32549,7 +32551,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20831
+		Response:playlist: 26564
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32562,7 +32564,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20831
+		Response:playlist: 26564
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32591,7 +32593,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20831
+		Response:playlist: 26564
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32604,7 +32606,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20831
+		Response:playlist: 26564
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000
@@ -32617,7 +32619,7 @@ Command: status
 		Response:random: 0
 		Response:single: 0
 		Response:consume: 0
-		Response:playlist: 20831
+		Response:playlist: 26564
 		Response:playlistlength: 0
 		Response:xfade: 0
 		Response:mixrampdb: 0.000000

@@ -1,7 +1,9 @@
 package org.bff.javampd;
 
 import org.bff.javampd.exception.MPDConnectionException;
+import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDPlaylistException;
+import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.*;
 
@@ -54,7 +56,7 @@ public class MPDPlaylistTest extends BaseTest {
         Assert.assertEquals(getPlaylist().getSongList().size(), 2);
     }
 
-    @Test(expected = MPDPlaylistException.class)
+    @Test(expected = MPDResponseException.class)
     public void testAddingNonexistentPlaylist() throws Exception {
         getPlaylist().loadPlaylist("DOESNTEXIST");
     }

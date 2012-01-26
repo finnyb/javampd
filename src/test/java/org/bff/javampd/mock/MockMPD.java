@@ -3,6 +3,7 @@ package org.bff.javampd.mock;
 import org.bff.javampd.MPD;
 import org.bff.javampd.MPDCommand;
 import org.bff.javampd.exception.MPDConnectionException;
+import org.bff.javampd.exception.MPDResponseException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -26,7 +27,7 @@ public class MockMPD extends MPD {
     }
 
     @Override
-    public Collection<String> sendMPDCommand(MPDCommand command) {
+    public Collection<String> sendMPDCommand(MPDCommand command) throws MPDResponseException {
         return lookupResponse(command);
     }
 
@@ -56,8 +57,8 @@ public class MockMPD extends MPD {
 
         int i = 0;
         while (i < array.length) {
-            if(array[i].startsWith("connect:")) {
-                version = array[i].replaceAll("connect:","").trim();
+            if (array[i].startsWith("connect:")) {
+                version = array[i].replaceAll("connect:", "").trim();
             }
 
             if (array[i].startsWith("Command:")) {
@@ -67,6 +68,10 @@ public class MockMPD extends MPD {
                 while (array[i].trim().startsWith("Param:")) {
                     String param = array[i++].replaceAll("Param:", "").trim();
                     testData.getParams().add(param.equals("null") ? null : param);
+                }
+                while (array[i].trim().startsWith("ResponseException:")) {
+                    String message = array[i++].replaceAll("ResponseException:", "").trim();
+                    testData.setException(message);
                 }
                 while (array[i].trim().startsWith("Response:")) {
                     String response = array[i++].replaceAll("Response:", "").trim();
@@ -89,30 +94,14 @@ public class MockMPD extends MPD {
      * @param command
      * @return
      */
-    private String[] lookupResponse(String command) {
-        for (TestData data : testDataList) {
-            if (data.command.equals(command)) {
-                if (data.getParams().size() == 0) {
-                    testDataList.remove(data);
-                    return (String[]) data.getResult().toArray(new String[0]);
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * This may look inefficient but it's not as the first in the list should always
-     * get hit :)
-     *
-     * @param command
-     * @return
-     */
-    private Collection<String> lookupResponse(MPDCommand command) {
+    private Collection<String> lookupResponse(MPDCommand command) throws MPDResponseException {
         for (TestData data : testDataList) {
             if (data.getCommand().equals(command.getCommand().trim())) {
                 if (data.getParams().containsAll(command.getParams())) {
                     testDataList.remove(data);
+                    if (data.getException() != null) {
+                        throw new MPDResponseException(data.getException(), data.getCommand());
+                    }
                     return data.getResult();
                 }
             }
@@ -123,10 +112,12 @@ public class MockMPD extends MPD {
     public String getVersion() {
         return version;
     }
+
     private class TestData {
         private String command;
         private List<String> params;
         private List<String> result;
+        private String exception;
 
         public TestData() {
             params = new ArrayList<String>();
@@ -155,6 +146,14 @@ public class MockMPD extends MPD {
 
         public void setResult(List<String> result) {
             this.result = result;
+        }
+
+        public String getException() {
+            return exception;
+        }
+
+        public void setException(String exception) {
+            this.exception = exception;
         }
     }
 }
