@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="902cf731-e22e-4261-bef9-099762fee65c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDPlaylistTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/MPDPlaylistTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/capture/CaptureMPD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/mock/MockMPD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/bff/javampd/monitor/MPDStandAloneMonitorTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/bff/javampd/monitor/MPDStandAloneMonitorTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/testdata.txt" afterPath="$PROJECT_DIR$/src/test/resources/testdata.txt" />
-    </list>
+    <list default="true" id="902cf731-e22e-4261-bef9-099762fee65c" name="Default" comment="" />
     <ignored path="javampd.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
