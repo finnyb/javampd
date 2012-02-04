@@ -2,6 +2,7 @@ package org.bff.javampd.capture;
 
 import org.bff.javampd.MPD;
 import org.bff.javampd.MPDCommand;
+import org.bff.javampd.MockUtils;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDPlaylistException;
@@ -30,9 +31,10 @@ public class CaptureMPD extends MPD {
     }
 
     public List<String> sendMPDCommand(MPDCommand command) throws MPDResponseException, MPDConnectionException {
-        writeToFile("Command: " + command.getCommand());
+        writeToFile("Class: " + MockUtils.getClassName());
+        writeToFile("\tCommand: " + command.getCommand());
         for (String s : command.getParams()) {
-            writeToFile("\tParam:" + s);
+            writeToFile("\t\tParam:" + s);
         }
 
         List<String> response = null;
@@ -44,10 +46,10 @@ public class CaptureMPD extends MPD {
         }
 
         if (response == null) {
-            writeToFile("\t\tResponse:null");
+            writeToFile("\t\t\tResponse:null");
         } else {
             for (String r : response) {
-                writeToFile("\t\tResponse:" + r);
+                writeToFile("\t\t\tResponse:" + r);
             }
         }
         return response;
@@ -67,7 +69,6 @@ public class CaptureMPD extends MPD {
         try {
             fw = new FileWriter(file.getPath(), true);
             BufferedWriter bw = new BufferedWriter(fw);
-            System.out.println("Writing:" + str);
             bw.write(str);
             bw.newLine();
             bw.close();

@@ -2,6 +2,7 @@ package org.bff.javampd.mock;
 
 import org.bff.javampd.MPD;
 import org.bff.javampd.MPDCommand;
+import org.bff.javampd.MockUtils;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
 
@@ -60,11 +61,15 @@ public class MockMPD extends MPD {
             if (array[i].startsWith("connect:")) {
                 version = array[i].replaceAll("connect:", "").trim();
             }
-
-            if (array[i].startsWith("Command:")) {
+            if (array[i].startsWith("Class:")) {
                 TestData testData = new TestData();
-                testData.setCommand(array[i].replaceAll("Command:", "").trim());
+                testData.setClassName(array[i].replaceAll("Class:", "").trim());
                 ++i;
+
+                while (array[i].trim().startsWith("Command:")) {
+                    String command = array[i++].replaceAll("Command:", "").trim();
+                    testData.setCommand(command);
+                }
                 while (array[i].trim().startsWith("Param:")) {
                     String param = array[i++].replaceAll("Param:", "").trim();
                     testData.getParams().add(param.equals("null") ? null : param);
@@ -72,6 +77,12 @@ public class MockMPD extends MPD {
                 while (array[i].trim().startsWith("ResponseException:")) {
                     String message = array[i++].replaceAll("ResponseException:", "").trim();
                     testData.setException(message);
+                    if (i > array.length - 1) {
+                        break;
+                    }
+                }
+                if (i > array.length - 1) {
+                    break;
                 }
                 while (array[i].trim().startsWith("Response:")) {
                     String response = array[i++].replaceAll("Response:", "").trim();
@@ -95,14 +106,18 @@ public class MockMPD extends MPD {
      * @return
      */
     private Collection<String> lookupResponse(MPDCommand command) throws MPDResponseException {
+        String className = MockUtils.getClassName();
+
         for (TestData data : testDataList) {
-            if (data.getCommand().equals(command.getCommand().trim())) {
-                if (data.getParams().containsAll(command.getParams())) {
-                    testDataList.remove(data);
-                    if (data.getException() != null) {
-                        throw new MPDResponseException(data.getException(), data.getCommand());
+            if (className.equals(data.getClassName())) {
+                if (data.getCommand().equals(command.getCommand().trim())) {
+                    if (data.getParams().containsAll(command.getParams())) {
+                        testDataList.remove(data);
+                        if (data.getException() != null) {
+                            throw new MPDResponseException(data.getException(), data.getCommand());
+                        }
+                        return data.getResult();
                     }
-                    return data.getResult();
                 }
             }
         }
@@ -118,6 +133,7 @@ public class MockMPD extends MPD {
         private List<String> params;
         private List<String> result;
         private String exception;
+        private String className;
 
         public TestData() {
             params = new ArrayList<String>();
@@ -154,6 +170,14 @@ public class MockMPD extends MPD {
 
         public void setException(String exception) {
             this.exception = exception;
+        }
+
+        public String getClassName() {
+            return className;
+        }
+
+        public void setClassName(String className) {
+            this.className = className;
         }
     }
 }
