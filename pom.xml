@@ -26,9 +26,9 @@
         <url>http://code.google.com/p/javampd/issues/list</url>
     </issueManagement>
     <scm>
-        <developerConnection>scm:svn:https://javampd.googlecode.com/svn/trunk</developerConnection>
-        <connection>scm:svn:http://javampd.googlecode.com/svn/trunk</connection>
-        <url>http://javampd.googlecode.com/svn/trunk</url>
+        <developerConnection>scm:git:https://bjj%40thejavashop.net@code.google.com/p/javampd</developerConnection>
+        <connection>scm:git:http://code.google.com/p/javampd</connection>
+        <url>http://http://code.google.com/p/javampd/source/browse/</url>
     </scm>
     <ciManagement>
         <system>hudson</system>
