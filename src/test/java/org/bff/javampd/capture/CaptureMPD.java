@@ -22,6 +22,19 @@ public class CaptureMPD extends MPD {
 
     public CaptureMPD(String server, int port, String password) throws UnknownHostException, MPDConnectionException {
         super(server, port, password);
+        createTestFile();
+    }
+
+    private void createTestFile() {
+        File file = new File(TEST_FILE);
+        if (!file.exists()) {
+            try {
+                file.delete();
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     protected synchronized String connect(int timeout) throws IOException, MPDConnectionException {
@@ -56,18 +69,9 @@ public class CaptureMPD extends MPD {
     }
 
     private void writeToFile(String str) {
-        File file = new File(TEST_FILE);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         FileWriter fw = null;
         try {
-            fw = new FileWriter(file.getPath(), true);
+            fw = new FileWriter(TEST_FILE, true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(str);
             bw.newLine();
