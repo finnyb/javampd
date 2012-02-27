@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="902cf731-e22e-4261-bef9-099762fee65c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
     </list>
     <ignored path="javampd.iws" />
@@ -92,7 +91,7 @@
       <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="92" selection-start="1201" selection-end="1201" vertical-scroll-proportion="0.6287425">
+            <state line="30" column="13" selection-start="1311" selection-end="1311" vertical-scroll-proportion="0.6736527">
               <folding />
             </state>
           </provider>
@@ -720,7 +719,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="92" selection-start="1201" selection-end="1201" vertical-scroll-proportion="0.6287425">
+        <state line="30" column="13" selection-start="1311" selection-end="1311" vertical-scroll-proportion="0.6736527">
           <folding />
         </state>
       </provider>

@@ -28,7 +28,7 @@
     <scm>
         <developerConnection>scm:git:https://bjj%40thejavashop.net@code.google.com/p/javampd</developerConnection>
         <connection>scm:git:http://code.google.com/p/javampd</connection>
-        <url>http://http://code.google.com/p/javampd/source/browse/</url>
+        <url>http://code.google.com/p/javampd/source/browse/</url>
     </scm>
     <ciManagement>
         <system>hudson</system>
