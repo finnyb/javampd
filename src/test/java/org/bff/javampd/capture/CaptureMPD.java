@@ -4,11 +4,8 @@ import org.bff.javampd.MPD;
 import org.bff.javampd.MPDCommand;
 import org.bff.javampd.MockUtils;
 import org.bff.javampd.exception.MPDConnectionException;
-import org.bff.javampd.exception.MPDException;
-import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.mock.MockMPD;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

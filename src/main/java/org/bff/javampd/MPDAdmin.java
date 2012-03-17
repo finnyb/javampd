@@ -109,12 +109,12 @@ public class MPDAdmin {
 
     private Collection<MPDOutput> parseOutputs(Collection<String> response) {
         List<MPDOutput> outputs = new ArrayList<MPDOutput>();
-        Iterator iter = response.iterator();
+        Iterator<String> iter = response.iterator();
         String line = null;
 
         while (iter.hasNext()) {
             if (line == null || (!line.startsWith(OUTPUT_PREFIX_ID))) {
-                line = (String) iter.next();
+                line = iter.next();
             }
 
             if (line.startsWith(OUTPUT_PREFIX_ID)) {

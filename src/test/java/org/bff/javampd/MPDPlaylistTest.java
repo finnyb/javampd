@@ -1,7 +1,6 @@
 package org.bff.javampd;
 
 import org.bff.javampd.exception.MPDConnectionException;
-import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDSong;

@@ -758,18 +758,18 @@ public class MPD {
      */
     protected Collection<MPDSong> convertResponseToSong(List<String> list) {
         List<MPDSong> songList = new ArrayList<MPDSong>();
-        Iterator iter = list.iterator();
+        Iterator<String> iter = list.iterator();
         String line = null;
 
         while (iter.hasNext()) {
             if (line == null || (!line.startsWith(SONGPREFIXFILE))) {
-                line = (String) iter.next();
+                line = iter.next();
             }
 
             if (line.startsWith(SONGPREFIXFILE)) {
                 MPDSong song = new MPDSong();
                 song.setFile(line.substring(SONGPREFIXFILE.length()).trim());
-                while (!(line = (String) iter.next()).startsWith(SONGPREFIXFILE)) {
+                while (!(line = iter.next()).startsWith(SONGPREFIXFILE)) {
                     if (line.startsWith(SONGPREFIXALBUM)) {
                         song.setAlbum(new MPDAlbum(line.substring(SONGPREFIXALBUM.length()).trim()));
                     } else if (line.startsWith(SONGPREFIXARTIST)) {

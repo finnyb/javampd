@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * MPDCommand represents a command along with optional command paramaters to be
+ * MPDCommand represents a command along with optional command parameters to be
  * sent to a MPD server.
  *
  * @author Bill
@@ -42,11 +42,10 @@ public class MPDCommand {
      */
     public MPDCommand(String command, String param) {
         this(command, new String[]{param});
-
     }
 
     /**
-     * Constructor for MPD command for a command requiring more than 1 paramaeter.
+     * Constructor for MPD command for a command requiring more than 1 parameter.
      *
      * @param command the command to send
      * @param params  the parameters to send

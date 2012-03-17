@@ -27,8 +27,8 @@
         <url>http://code.google.com/p/javampd/issues/list</url>
     </issueManagement>
     <scm>
-        <developerConnection>scm:git:https://bjj%40thejavashop.net@code.google.com/p/javampd</developerConnection>
-        <connection>scm:git:http://code.google.com/p/javampd</connection>
+        <connection>scm:git:https://code.google.com/p/javampd</connection>
+        <developerConnection>scm:git:https://code.google.com/p/javampd</developerConnection>
         <url>http://code.google.com/p/javampd/source/browse/</url>
     </scm>
     <ciManagement>
@@ -117,6 +117,11 @@
                         </plugin>
                     </reportPlugins>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.6</version>
             </plugin>
         </plugins>
         <extensions>
