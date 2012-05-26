@@ -37,9 +37,7 @@ public class MPDTest extends BaseTest {
     public void testPassword() throws IOException, MPDConnectionException {
         MPD mpd = null;
         try {
-            mpd = new MPD(Controller.getInstance().getServer(),
-                    Controller.getInstance().getPort(),
-                    Controller.getInstance().getPassword());
+            mpd = Controller.getInstance().getNewMPD();
         } finally {
             if (mpd != null) {
                 try {
@@ -56,7 +54,7 @@ public class MPDTest extends BaseTest {
     public void testWrongPassword() throws IOException, MPDConnectionException {
         MPD mpd = null;
         try {
-            mpd = new MPD(Controller.getInstance().getServer(),
+            mpd = Controller.getInstance().getNewMPD(Controller.getInstance().getServer(),
                     Controller.getInstance().getPort(),
                     Controller.getInstance().getPassword() + "WRONG");
         } finally {
@@ -73,9 +71,11 @@ public class MPDTest extends BaseTest {
     @Test(expected = MPDTimeoutException.class)
     public void testTimeout() throws MPDException, IOException {
         MPD mpd = null;
+        Controller controller = Controller.getInstance();
         try {
-            mpd = new MPD("10.255.255.1",
-                    Controller.getInstance().getPort(), 500);
+            mpd = controller.getNewMPD("10.255.255.1",
+                    controller.getPort(),
+                    500);
         } finally {
             if (mpd != null) {
                 try {

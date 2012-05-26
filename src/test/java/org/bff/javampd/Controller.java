@@ -8,6 +8,7 @@ import org.bff.javampd.capture.CaptureMPD;
 import org.bff.javampd.data.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.exception.MPDTimeoutException;
 import org.bff.javampd.mock.MockMPD;
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -77,18 +79,111 @@ public class Controller {
 
     private Controller() throws IOException, MPDConnectionException {
         loadProperties();
+        this.mpd = getNewMPD();
+        this.database = mpd.getMPDDatabase();
+    }
 
-        if(isMock()) {
-                 this.mpd = new MockMPD(this.server, this.port, this.password);
+    /**
+     * Returns a new mpd instance using the server, port, and password that has been set.
+     *
+     * @return a {@link MPD} instance
+     */
+    public MPD getNewMPD() throws MPDConnectionException, UnknownHostException {
+        MPD newMPD;
+        if (isMock()) {
+            newMPD = new MockMPD(this.server, this.port, this.password);
         } else {
-            if(isCapture()) {
-                this.mpd = new CaptureMPD(this.server, this.port, this.password);
-            }  else {
-                this.mpd = new MPD(this.server, this.port, this.password);
+            if (isCapture()) {
+                newMPD = createCaptureMpd(this.server, this.port, this.password);
+            } else {
+                newMPD = new MPD(this.server, this.port, this.password);
             }
         }
 
-        this.database = mpd.getMPDDatabase();
+        return newMPD;
+    }
+
+    private MPD createCaptureMpd(String server, int port, String password) throws UnknownHostException, MPDConnectionException {
+        MPD mpd;
+        try {
+            mpd = new CaptureMPD(server, port, password);
+        } catch (UnknownHostException e) {
+            CaptureMPD.writeToFile("Class: Controller");
+            CaptureMPD.writeToFile("\tCommand: constructor");
+            CaptureMPD.writeToFile("\t\tParam:" + server);
+            CaptureMPD.writeToFile("\t\tParam:" + port);
+            CaptureMPD.writeToFile("\t\tParam:" + password);
+            CaptureMPD.writeToFile("\t\t\tUnknownHostException: " + e.getMessage());
+            throw e;
+        } catch (MPDConnectionException e) {
+            CaptureMPD.writeToFile("Class: Controller");
+            CaptureMPD.writeToFile("\tCommand: constructor");
+            CaptureMPD.writeToFile("\t\tParam:" + server);
+            CaptureMPD.writeToFile("\t\tParam:" + port);
+            CaptureMPD.writeToFile("\t\tParam:" + password);
+            CaptureMPD.writeToFile("\t\t\tConnectionException: " + e.getMessage());
+            throw e;
+        }
+
+        return mpd;
+    }
+
+    /**
+     * Returns a new mpd instance using the passed server, port, and password.
+     *
+     * @param server   the server to connect to
+     * @param port     the port to connect on
+     * @param password the password to use
+     * @return a new instance of a MPD
+     * @throws IOException
+     * @throws MPDConnectionException
+     */
+    public MPD getNewMPD(String server, int port, String password) throws IOException, MPDConnectionException {
+        MPD newMPD;
+        if (isMock()) {
+            newMPD = new MockMPD(server, port, password);
+        } else {
+            if (isCapture()) {
+                newMPD = createCaptureMpd(server, port, password);
+            } else {
+                newMPD = new MPD(server, port, password);
+            }
+        }
+
+        return newMPD;
+    }
+
+    public MPD getNewMPD(String server, int port, int timeout) throws IOException, MPDConnectionException {
+        MPD newMPD;
+        if (isMock()) {
+            newMPD = new MockMPD(server, port, timeout);
+        } else {
+            if (isCapture()) {
+                try {
+                    newMPD = new CaptureMPD(server, port, timeout);
+                } catch (UnknownHostException e) {
+                    CaptureMPD.writeToFile("Class: Controller");
+                    CaptureMPD.writeToFile("\tCommand: constructor");
+                    CaptureMPD.writeToFile("\t\tParam:" + server);
+                    CaptureMPD.writeToFile("\t\tParam:" + port);
+                    CaptureMPD.writeToFile("\t\tParam:" + timeout);
+                    CaptureMPD.writeToFile("\t\t\tUnknownHostException: " + e.getMessage());
+                    throw e;
+                } catch (MPDTimeoutException e) {
+                    CaptureMPD.writeToFile("Class: Controller");
+                    CaptureMPD.writeToFile("\tCommand: constructor");
+                    CaptureMPD.writeToFile("\t\tParam:" + server);
+                    CaptureMPD.writeToFile("\t\tParam:" + port);
+                    CaptureMPD.writeToFile("\t\tParam:" + timeout);
+                    CaptureMPD.writeToFile("\t\t\tConnectionException: " + e.getMessage());
+                    throw e;
+                }
+            } else {
+                newMPD = new MPD(server, port, timeout);
+            }
+        }
+
+        return newMPD;
     }
 
     public static Controller getInstance() throws IOException, MPDConnectionException {

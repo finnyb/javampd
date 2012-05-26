@@ -51,7 +51,8 @@ public class MPDPlaylistTest extends BaseTest {
         Assert.assertEquals(getPlaylist().getSongList().size(), 1);
 
         Controller controller = Controller.getInstance();
-        new MPD(controller.getServer(), controller.getPort(), controller.getPassword()).getMPDPlaylist().addSong(songs.get(1));
+        controller.getNewMPD().getMPDPlaylist().addSong(songs.get(1));
+
         Assert.assertEquals(getPlaylist().getSongList().size(), 2);
     }
 

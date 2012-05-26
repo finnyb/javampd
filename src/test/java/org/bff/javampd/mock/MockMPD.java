@@ -23,12 +23,16 @@ public class MockMPD extends MPD {
         loadTestFile();
     }
 
+    public MockMPD(String server, int port, int timeout) {
+        loadTestFile();
+    }
+
     protected synchronized String connect(int timeout) throws IOException, MPDConnectionException {
         return version;
     }
 
     @Override
-    public Collection<String> sendMPDCommand(MPDCommand command) throws MPDResponseException {
+    public Collection<String> sendMPDCommand(MPDCommand command) throws MPDResponseException, MPDConnectionException {
         return lookupResponse(command);
     }
 

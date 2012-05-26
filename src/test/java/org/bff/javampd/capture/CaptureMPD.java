@@ -6,6 +6,7 @@ import org.bff.javampd.MockUtils;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.mock.MockMPD;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,16 +18,18 @@ import java.util.List;
 public class CaptureMPD extends MPD {
     private static final String TEST_FILE = MockMPD.TEST_FILE;
 
-    public CaptureMPD(String server, int port, String password) throws UnknownHostException, MPDConnectionException {
+    public CaptureMPD(String server, int port, String password) throws MPDConnectionException, UnknownHostException {
         super(server, port, password);
-        createTestFile();
     }
 
-    private void createTestFile() {
+    public CaptureMPD(String server, int port, int timeout) throws UnknownHostException, MPDConnectionException {
+        super(server, port, timeout);
+    }
+
+    private static void createTestFile() {
         File file = new File(TEST_FILE);
         if (!file.exists()) {
             try {
-                file.delete();
                 file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -51,7 +54,7 @@ public class CaptureMPD extends MPD {
         try {
             response = new ArrayList<String>(super.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            writeToFile("ResponseException: " + re.getMessage());
+            writeToFile("\t\tResponseException: " + re.getMessage());
             throw new MPDResponseException(re.getMessage(), re.getCommand());
         }
 
@@ -65,7 +68,8 @@ public class CaptureMPD extends MPD {
         return response;
     }
 
-    private void writeToFile(String str) {
+    public static void writeToFile(String str) {
+        createTestFile();
         FileWriter fw = null;
         try {
             fw = new FileWriter(TEST_FILE, true);

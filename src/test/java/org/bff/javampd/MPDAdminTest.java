@@ -7,7 +7,6 @@ import org.junit.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Ignore
 public class MPDAdminTest extends BaseTest {
 
     @BeforeClass
