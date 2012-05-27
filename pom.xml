@@ -3,7 +3,7 @@
     <groupId>org.bff.javampd</groupId>
     <artifactId>javampd</artifactId>
     <packaging>jar</packaging>
-    <version>4.1</version>
+    <version>4.2-SNAPSHOT</version>
     <name>JavaMPD</name>
     <description>A Java API for controlling the Music Player Daemon (MPD)</description>
     <url>http://www.thejavashop.net/javampd/index.shtml</url>
