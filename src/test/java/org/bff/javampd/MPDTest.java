@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Ignore
 public class MPDTest extends BaseTest {
 
     @BeforeClass

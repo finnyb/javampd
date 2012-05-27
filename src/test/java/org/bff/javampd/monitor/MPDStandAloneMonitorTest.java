@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Ignore
 public class MPDStandAloneMonitorTest extends BaseTest {
 
     private static MPDStandAloneMonitor monitor = new MPDStandAloneMonitor(getMpd());
