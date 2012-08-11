@@ -36,6 +36,10 @@
     </ciManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
+        <sonar.jacoco.reportPath>${coverage.reports.dir}/jacoco-unit.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>${coverage.reports.dir}/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     </properties>
     <build>
         <plugins>
@@ -100,7 +104,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <groups>org.bff.javampd.IntegrationTest</groups>
+                    <groups>com.hmstn.IntegrationTest</groups>
                 </configuration>
                 <executions>
                     <execution>
@@ -108,6 +112,7 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
+                            <argLine>${sonar.jacoco.itArgs}</argLine>
                             <includes>
                                 <include>**/*.class</include>
                             </includes>
@@ -170,18 +175,30 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.5.9.201207300726</version>
+                <configuration>
+                    <includes>
+                        <include>com/**</include>
+                    </includes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <propertyName>sonar.jacoco.args</propertyName>
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
+                        </configuration>
                     </execution>
                     <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
+                        <id>its</id>
                         <goals>
-                            <goal>report</goal>
+                            <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <propertyName>sonar.jacoco.itArgs</propertyName>
+                            <destFile>${sonar.jacoco.itReportPath}</destFile>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
