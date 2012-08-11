@@ -54,6 +54,7 @@ public class MPDPlayerTest extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void testSetVolume() throws MPDException, IOException {
         getPlayer().setVolume(0);
 
