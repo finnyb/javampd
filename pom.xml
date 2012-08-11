@@ -87,6 +87,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
+                    <argLine>${sonar.jacoco.args}</argLine>
                     <includes>
                         <include>**/*.class</include>
                     </includes>
@@ -177,7 +178,7 @@
                 <version>0.5.9.201207300726</version>
                 <configuration>
                     <includes>
-                        <include>com/**</include>
+                        <include>org/**</include>
                     </includes>
                 </configuration>
                 <executions>
