@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.bff.javampd.data;
+package org.bff.javampd.integrationdata;
 
 import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDSong;

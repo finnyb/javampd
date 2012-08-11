@@ -2,18 +2,20 @@ package org.bff.javampd.monitor;
 
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.Controller;
+import org.bff.javampd.IntegrationTest;
 import org.bff.javampd.MPDOutput;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.*;
+import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Ignore
+@Category(IntegrationTest.class)
 public class MPDStandAloneMonitorTest extends BaseTest {
 
     private static MPDStandAloneMonitor monitor = new MPDStandAloneMonitor(getMpd());

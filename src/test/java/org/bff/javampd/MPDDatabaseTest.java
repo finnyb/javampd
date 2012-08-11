@@ -1,6 +1,6 @@
 package org.bff.javampd;
 
-import org.bff.javampd.data.*;
+import org.bff.javampd.integrationdata.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDException;
@@ -9,12 +9,14 @@ import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDGenre;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.*;
+import org.junit.experimental.categories.Category;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Category(IntegrationTest.class)
 public class MPDDatabaseTest extends BaseTest {
     private static List<MPDArtist> artistList;
     private static List<MPDAlbum> albumList;

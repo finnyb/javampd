@@ -1,6 +1,6 @@
 package org.bff.javampd;
 
-import org.bff.javampd.data.Songs;
+import org.bff.javampd.integrationdata.Songs;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDPlayerException;
@@ -11,11 +11,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Category(IntegrationTest.class)
 public class MPDPlayerTest extends BaseTest {
     @Before
     public void setUp() throws Exception {

@@ -5,11 +5,13 @@ import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.*;
+import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Category(IntegrationTest.class)
 public class MPDPlaylistTest extends BaseTest {
 
     @BeforeClass

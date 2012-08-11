@@ -5,12 +5,13 @@ import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.exception.MPDTimeoutException;
 import org.junit.*;
+import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Ignore
+@Category(IntegrationTest.class)
 public class MPDTest extends BaseTest {
 
     @BeforeClass
