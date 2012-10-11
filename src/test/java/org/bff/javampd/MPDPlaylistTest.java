@@ -1,6 +1,7 @@
 package org.bff.javampd;
 
 import org.bff.javampd.exception.MPDConnectionException;
+import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDSong;
@@ -23,8 +24,11 @@ public class MPDPlaylistTest extends BaseTest {
     }
 
     @Before
-    public void setUp() throws MPDPlaylistException, MPDConnectionException {
+    public void setUp() throws MPDPlaylistException, MPDConnectionException, MPDDatabaseException {
         getPlaylist().clearPlaylist();
+        for (String playlist : getDatabase().listPlaylists()) {
+            getPlaylist().deletePlaylist(playlist);
+        }
     }
 
     @After
@@ -56,6 +60,50 @@ public class MPDPlaylistTest extends BaseTest {
         controller.getNewMPD().getMPDPlaylist().addSong(songs.get(1));
 
         Assert.assertEquals(getPlaylist().getSongList().size(), 2);
+    }
+
+    @Test
+    public void testSavePlaylist() throws MPDPlaylistException, MPDConnectionException, IOException, MPDDatabaseException {
+        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        getPlaylist().addSong(songs.get(0));
+        String playlistName = "testPlaylist";
+
+        getPlaylist().savePlaylist(playlistName);
+
+        Assert.assertTrue(getDatabase().listPlaylists().contains(playlistName));
+    }
+
+    @Test
+    public void testSavePlaylistWithSpace() throws MPDPlaylistException, MPDConnectionException, IOException, MPDDatabaseException {
+        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        getPlaylist().addSong(songs.get(0));
+        String playlistName = "Test Playlist";
+
+        getPlaylist().savePlaylist(playlistName);
+
+        Assert.assertTrue(getDatabase().listPlaylists().contains(playlistName));
+    }
+
+    @Test
+    public void testSavePlaylistSongsWithSpace() throws MPDPlaylistException, MPDConnectionException, IOException, MPDDatabaseException {
+        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        getPlaylist().addSong(songs.get(0));
+        String playlistName = "Test Playlist";
+
+        getPlaylist().savePlaylist(playlistName);
+
+        Assert.assertTrue(getDatabase().listPlaylistSongs(playlistName).contains(songs.get(0)));
+    }
+
+    @Test
+    public void testSavePlaylistSongs() throws MPDPlaylistException, MPDConnectionException, IOException, MPDDatabaseException {
+        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        getPlaylist().addSong(songs.get(0));
+        String playlistName = "testPlaylist";
+
+        getPlaylist().savePlaylist(playlistName);
+
+        Assert.assertTrue(getDatabase().listPlaylistSongs(playlistName).contains(songs.get(0)));
     }
 
     @Test(expected = MPDResponseException.class)
