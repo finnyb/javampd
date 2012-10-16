@@ -1,9 +1,9 @@
 package org.bff.javampd;
 
-import org.bff.javampd.integrationdata.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.integrationdata.*;
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDGenre;
@@ -22,7 +22,7 @@ public class MPDDatabaseTest extends BaseTest {
     private static List<MPDAlbum> albumList;
     private static List<MPDGenre> genreList;
     private static List<MPDSong> songList;
-    private static final String SEARCH_ANY = "5";
+    private static final String SEARCH_ANY = "2";
     private static final String SEARCH_ARTIST = "Artist";
     private static final String SEARCH_ALBUM = "Album";
     private static final String SEARCH_TITLE = "Title";

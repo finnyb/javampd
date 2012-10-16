@@ -4,9 +4,9 @@
  */
 package org.bff.javampd;
 
-import org.bff.javampd.integrationdata.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.integrationdata.*;
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDSong;
@@ -51,7 +51,7 @@ public class Controller {
     private static final int INDEX_GENRE = 5;
     private static final int INDEX_COMMENT = 6;
     private static final int INDEX_DISC = 7;
-    private static final String NULL_TITLE = "";
+    private static final String NULL_TITLE = null;
     private static final String NULL_ALBUM = "";
     private static final String NULL_ARTIST = "";
     private static final String NULL_DISC = "";
@@ -182,11 +182,15 @@ public class Controller {
                                 break;
 
                             case INDEX_ALBUM:
-                                album = new MPDAlbum("null".equalsIgnoreCase(s[INDEX_ALBUM]) ? NULL_ALBUM : s[INDEX_ALBUM]);
+                                if (!"null".equalsIgnoreCase(s[INDEX_ALBUM])) {
+                                    album = new MPDAlbum(s[INDEX_ALBUM]);
+                                }
                                 break;
 
                             case INDEX_ARTIST:
-                                artist = new MPDArtist("null".equalsIgnoreCase(s[INDEX_ARTIST]) ? NULL_ARTIST : s[INDEX_ARTIST]);
+                                if (!"null".equalsIgnoreCase(s[INDEX_ARTIST])) {
+                                    artist = new MPDArtist(s[INDEX_ARTIST]);
+                                }
                                 break;
 
                             case INDEX_COMMENT:
@@ -212,36 +216,41 @@ public class Controller {
                     }
 
                     boolean found = false;
-                    for (MPDArtist a : artists) {
-                        if (a.getName().equals(artist.getName())) {
-                            found = true;
-                            break;
+                    if (artist != null) {
+                        found = false;
+                        for (MPDArtist a : artists) {
+                            if (a.getName().equals(artist.getName())) {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found) {
+                            artists.add(artist);
                         }
                     }
 
-                    if (!found) {
-                        artists.add(artist);
-                    }
-
-                    found = false;
-                    for (MPDAlbum a : albums) {
-                        if (a.getName().equals(album.getName())) {
-                            found = true;
+                    if (album != null) {
+                        found = false;
+                        for (MPDAlbum a : albums) {
+                            if (a.getName().equals(album.getName())) {
+                                found = true;
+                            }
                         }
-                    }
 
-                    if (!found) {
-                        albums.add(album);
-                    }
-
-                    for (MPDAlbum a : albums) {
-                        if (a.getName().equals(album.getName())) {
-                            album = a;
+                        if (!found) {
+                            albums.add(album);
                         }
-                    }
-                    for (MPDArtist a : artists) {
-                        if (a.getName().equals(album.getName())) {
-                            artist = a;
+
+                        for (MPDAlbum a : albums) {
+                            if (a.getName().equals(album.getName())) {
+                                album = a;
+                            }
+                        }
+                        for (MPDArtist a : artists) {
+                            if (a.getName().equals(album.getName())) {
+                                artist = a;
+                            }
                         }
                     }
                     song.setAlbum(album);
@@ -403,8 +412,7 @@ public class Controller {
             testRootFiles = new ArrayList<File>();
             File[] files = new File(getPath()).listFiles();
             for (File file : files) {
-                if (!file.getName().startsWith(".svn")
-                        && !file.getName().startsWith("ReadMe")
+                if (!file.getName().startsWith("ReadMe")
                         && !file.getName().startsWith("TestWaveFile")) {
                     testRootFiles.add(file);
                 }
@@ -417,9 +425,7 @@ public class Controller {
         List<File> testFiles = new ArrayList<File>();
         File[] files = directory.listFiles();
         for (File file : files) {
-            if (!file.getName().startsWith(".svn")) {
-                testFiles.add(file);
-            }
+            testFiles.add(file);
         }
 
         return testFiles;
