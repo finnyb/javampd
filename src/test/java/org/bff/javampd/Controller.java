@@ -183,7 +183,7 @@ public class Controller {
 
                             case INDEX_ALBUM:
                                 if (!"null".equalsIgnoreCase(s[INDEX_ALBUM])) {
-                                    album = new MPDAlbum(s[INDEX_ALBUM]);
+                                    album = new MPDAlbum(s[INDEX_ALBUM].replace("[colon]", ":"));
                                 }
                                 break;
 

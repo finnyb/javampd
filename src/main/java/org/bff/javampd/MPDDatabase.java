@@ -931,7 +931,7 @@ public class MPDDatabase {
         List<String> retList = new ArrayList<String>();
         for (String s : responseList) {
             try {
-                retList.add((s.split(":")[1]).trim());
+                retList.add(s.substring(s.split(":")[0].length() + 1).trim());
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("String with array problem:" + s);
                 retList.add("");
