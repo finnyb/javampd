@@ -134,9 +134,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         updatePlaylist();
@@ -170,9 +170,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         updatePlaylist();
@@ -216,9 +216,9 @@ public class MPDPlaylist {
             mpd.sendMPDCommands(commandList);
 
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         int oldCount = songList.size();
@@ -249,9 +249,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         updatePlaylist();
@@ -281,9 +281,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         updatePlaylist();
@@ -305,9 +305,9 @@ public class MPDPlaylist {
         try {
             response = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         List<MPDSong> sl = new ArrayList<MPDSong>(mpd.convertResponseToSong(response));
@@ -331,9 +331,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPCLEAR)));
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         updatePlaylist();
@@ -367,9 +367,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
         firePlaylistChangeEvent(PlaylistChangeEvent.PLAYLIST_DELETED);
     }
@@ -399,9 +399,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         updatePlaylist();
@@ -419,9 +419,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPSHUFFLE)));
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         updatePlaylist();
@@ -454,9 +454,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
         updatePlaylist();
     }
@@ -478,9 +478,9 @@ public class MPDPlaylist {
                 mpd.sendMPDCommand(command);
                 firePlaylistChangeEvent(PlaylistChangeEvent.PLAYLIST_SAVED);
             } catch (MPDResponseException re) {
-                throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+                throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
             } catch (Exception e) {
-                throw new MPDPlaylistException(e.getMessage());
+                throw new MPDPlaylistException(e);
             }
             return (true);
         } else {
@@ -502,9 +502,9 @@ public class MPDPlaylist {
         try {
             return (Integer.parseInt(mpd.getStatus(MPD.StatusList.PLAYLIST)));
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
     }
 
@@ -524,9 +524,9 @@ public class MPDPlaylist {
         try {
             response = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
 
         List<MPDSong> list = new ArrayList<MPDSong>(mpd.convertResponseToSong(response));
@@ -753,9 +753,9 @@ public class MPDPlaylist {
         try {
             mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand());
+            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlaylistException(e.getMessage());
+            throw new MPDPlaylistException(e);
         }
         updatePlaylist();
     }

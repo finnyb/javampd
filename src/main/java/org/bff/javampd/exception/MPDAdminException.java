@@ -25,23 +25,15 @@ public class MPDAdminException extends MPDResponseException {
     }
 
     /**
-     * Class constructor specifying the message.
-     *
-     * @param message the exception message
-     */
-    public MPDAdminException(String message) {
-        super(message);
-    }
-
-    /**
      * Class constructor specifying the message and command generating the
      * error.
      *
      * @param message the exception message
      * @param command the command generating the exception
+     * @param cause   the cause of the exception
      */
-    public MPDAdminException(String message, String command) {
-        super(message, command);
+    public MPDAdminException(String message, String command, Throwable cause) {
+        super(message, command, cause);
     }
 
     /**

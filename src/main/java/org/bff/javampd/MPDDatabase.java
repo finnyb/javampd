@@ -345,9 +345,9 @@ public class MPDDatabase {
         try {
             return (mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
     }
 
@@ -368,9 +368,9 @@ public class MPDDatabase {
         try {
             return (mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
     }
 
@@ -391,9 +391,9 @@ public class MPDDatabase {
         try {
             fileList = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         List<String> retList = new ArrayList<String>();
@@ -425,9 +425,9 @@ public class MPDDatabase {
         try {
             fileList = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         List<String> retList = new ArrayList<String>();
@@ -457,9 +457,9 @@ public class MPDDatabase {
         try {
             songList = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         return (new ArrayList<MPDSong>(mpd.convertResponseToSong(songList)));
@@ -483,9 +483,9 @@ public class MPDDatabase {
         try {
             songList = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         return (new ArrayList<MPDSong>(mpd.convertResponseToSong(songList)));
@@ -811,9 +811,9 @@ public class MPDDatabase {
         try {
             list = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         for (String s : list) {
@@ -867,9 +867,9 @@ public class MPDDatabase {
         try {
             list = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         for (String s : list) {
@@ -923,9 +923,9 @@ public class MPDDatabase {
         try {
             responseList = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         List<String> retList = new ArrayList<String>();
@@ -968,9 +968,9 @@ public class MPDDatabase {
         try {
             titleList = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         return (mpd.convertResponseToSong(titleList));
@@ -1003,9 +1003,9 @@ public class MPDDatabase {
         try {
             titleList = new ArrayList<String>(mpd.sendMPDCommand(command));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         return (mpd.convertResponseToSong(titleList));
@@ -1024,9 +1024,9 @@ public class MPDDatabase {
         try {
             return (Integer.parseInt(mpd.getServerStat(MPD.StatList.ARTISTS)));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
     }
 
@@ -1043,9 +1043,9 @@ public class MPDDatabase {
         try {
             return (Integer.parseInt(mpd.getServerStat(MPD.StatList.ALBUMS)));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
     }
 
@@ -1062,9 +1062,9 @@ public class MPDDatabase {
         try {
             return (Integer.parseInt(mpd.getServerStat(MPD.StatList.SONGS)));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
     }
 
@@ -1081,9 +1081,9 @@ public class MPDDatabase {
         try {
             return (Long.parseLong(mpd.getServerStat(MPD.StatList.DBPLAYTIME)));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
     }
 
@@ -1100,9 +1100,9 @@ public class MPDDatabase {
         try {
             return (Long.parseLong(mpd.getServerStat(MPD.StatList.DBUPDATE)));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
     }
 
@@ -1158,9 +1158,9 @@ public class MPDDatabase {
         try {
             return (listInfo(ListInfoType.PLAYLIST));
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
     }
 
@@ -1185,9 +1185,9 @@ public class MPDDatabase {
                 songList.add(new ArrayList<MPDSong>(searchFileName(s.substring(MPD.SONGPREFIXFILE.length()).trim())).get(0));
             }
         } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand());
+            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDDatabaseException(e.getMessage());
+            throw new MPDDatabaseException(e);
         }
 
         return (songList);

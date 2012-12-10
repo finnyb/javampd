@@ -182,9 +182,9 @@ public class MPDAdmin {
             mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPKILL)));
             fireMPDChangeEvent(MPDChangeEvent.MPD_KILLED);
         } catch (MPDResponseException re) {
-            throw new MPDAdminException(re.getMessage(), re.getCommand());
+            throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDAdminException(e.getMessage());
+            throw new MPDAdminException(e);
         }
     }
 
@@ -202,9 +202,9 @@ public class MPDAdmin {
             mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPREFRESH)));
             fireMPDChangeEvent(MPDChangeEvent.MPD_REFRESHED);
         } catch (MPDResponseException re) {
-            throw new MPDAdminException(re.getMessage(), re.getCommand());
+            throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDAdminException(e.getMessage());
+            throw new MPDAdminException(e);
         }
     }
 
@@ -221,9 +221,9 @@ public class MPDAdmin {
         try {
             return (Integer.parseInt(mpd.getServerStat(MPD.StatList.UPTIME)));
         } catch (MPDResponseException re) {
-            throw new MPDAdminException(re.getMessage(), re.getCommand());
+            throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDAdminException(e.getMessage());
+            throw new MPDAdminException(e);
         }
     }
 

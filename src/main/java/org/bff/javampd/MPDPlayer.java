@@ -110,9 +110,9 @@ public class MPDPlayer {
                 return (songList.get(0));
             }
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlayerException(e.getMessage());
+            throw new MPDPlayerException(e);
         }
     }
 
@@ -211,9 +211,9 @@ public class MPDPlayer {
                 mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPPLAYID), new String[]{Integer.toString(song.getId())}));
             }
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
-            throw new MPDPlayerException(e.getMessage());
+            throw new MPDPlayerException(e);
         }
 
         if (status == PlayerStatus.STATUS_STOPPED || status == PlayerStatus.STATUS_PAUSED) {
@@ -263,7 +263,7 @@ public class MPDPlayer {
                     response =
                             new ArrayList<String>(mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSEEKID), params)));
                 } catch (MPDResponseException re) {
-                    throw new MPDPlayerException(re.getMessage(), re.getCommand());
+                    throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
                 }
             }
         } else {
@@ -276,7 +276,7 @@ public class MPDPlayer {
                     response =
                             new ArrayList<String>(mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSEEKID), params)));
                 } catch (MPDResponseException re) {
-                    throw new MPDPlayerException(re.getMessage(), re.getCommand());
+                    throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
                 }
             }
         }
@@ -298,7 +298,7 @@ public class MPDPlayer {
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSTOP), null));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         status = PlayerStatus.STATUS_STOPPED;
@@ -317,7 +317,7 @@ public class MPDPlayer {
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPPAUSE), null));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         status = PlayerStatus.STATUS_PAUSED;
@@ -337,7 +337,7 @@ public class MPDPlayer {
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPNEXT), null));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         firePlayerChangeEvent(PlayerChangeEvent.PLAYER_NEXT);
@@ -355,7 +355,7 @@ public class MPDPlayer {
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPPREV), null));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         firePlayerChangeEvent(PlayerChangeEvent.PLAYER_PREVIOUS);
@@ -402,7 +402,7 @@ public class MPDPlayer {
         try {
             return (Integer.parseInt(mpd.getStatus(MPD.StatusList.BITRATE)));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
@@ -419,7 +419,7 @@ public class MPDPlayer {
         try {
             return (Integer.parseInt(mpd.getStatus(MPD.StatusList.VOLUME)));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
@@ -444,7 +444,7 @@ public class MPDPlayer {
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSETVOL), new String[]{Integer.toString(volume)}));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         fireVolumeChangeEvent(volume);
@@ -464,7 +464,7 @@ public class MPDPlayer {
         try {
             repeat = mpd.getStatus(MPD.StatusList.REPEAT);
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         if ("1".equals(repeat)) {
@@ -492,7 +492,7 @@ public class MPDPlayer {
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPREPEAT), new String[]{repeat}));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
@@ -510,7 +510,7 @@ public class MPDPlayer {
         try {
             random = mpd.getStatus(MPD.StatusList.RANDOM);
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         if (random.equals("1")) {
@@ -538,7 +538,7 @@ public class MPDPlayer {
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPRANDOM), new String[]{random}));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
@@ -579,7 +579,7 @@ public class MPDPlayer {
         try {
             return (Integer.parseInt(mpd.getStatus(MPD.StatusList.XFADE)));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
@@ -596,7 +596,7 @@ public class MPDPlayer {
         try {
             mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPXFADE), new String[]{Integer.toString(xFade)}));
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
@@ -615,7 +615,7 @@ public class MPDPlayer {
         try {
             time = mpd.getStatus(MPD.StatusList.TIME);
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         try {
@@ -660,7 +660,7 @@ public class MPDPlayer {
                 }
             }
         } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand());
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         return info;

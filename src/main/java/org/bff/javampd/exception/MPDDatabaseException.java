@@ -25,7 +25,8 @@ public class MPDDatabaseException extends MPDResponseException {
     }
 
     /**
-     * Class constructor specifying the message.
+     * Class constructor specifying the message and command generating the
+     * error.
      *
      * @param message the exception message
      */
@@ -39,9 +40,10 @@ public class MPDDatabaseException extends MPDResponseException {
      *
      * @param message the exception message
      * @param command the command generating the exception
+     * @param cause   the cause of the exception
      */
-    public MPDDatabaseException(String message, String command) {
-        super(message, command);
+    public MPDDatabaseException(String message, String command, Throwable cause) {
+        super(message, command, cause);
     }
 
     /**

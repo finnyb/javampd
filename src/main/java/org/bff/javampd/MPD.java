@@ -375,7 +375,7 @@ public class MPD {
         } catch (MPDTimeoutException mte) {
             throw mte;
         } catch (Exception e) {
-            throw new MPDConnectionException(e.getMessage());
+            throw new MPDConnectionException(e);
         }
     }
 
@@ -559,7 +559,7 @@ public class MPD {
             try {
                 connect();
             } catch (Exception e) {
-                throw new MPDConnectionException("Connection to server lost: " + e.getMessage());
+                throw new MPDConnectionException("Connection to server lost: " + e.getMessage(), e);
             }
         }
 
@@ -608,7 +608,7 @@ public class MPD {
                     excReturn = e;
                     System.out.println("Retrying command " + count);
                 } else {
-                    throw new MPDResponseException(e.getMessage());
+                    throw new MPDResponseException(e);
                 }
             } finally {
                 try {
@@ -619,7 +619,7 @@ public class MPD {
             }
         }
 
-        throw new MPDConnectionException(excReturn.getMessage());
+        throw new MPDConnectionException(excReturn);
     }
 
     /**
@@ -656,7 +656,7 @@ public class MPD {
             try {
                 connect();
             } catch (Exception e) {
-                throw new MPDConnectionException("Connection to server lost: " + e.getMessage());
+                throw new MPDConnectionException("Connection to server lost: " + e.getMessage(), e);
             }
         }
 
@@ -682,7 +682,7 @@ public class MPD {
                 }
             }
         } catch (Exception e) {
-            throw new MPDConnectionException(e.getMessage());
+            throw new MPDConnectionException(e.getMessage(), e);
         }
 
         return (isOk);

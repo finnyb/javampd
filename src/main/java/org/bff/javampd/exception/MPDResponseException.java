@@ -47,6 +47,19 @@ public class MPDResponseException extends MPDException {
     }
 
     /**
+     * Class constructor specifying the message and command generating the
+     * error.
+     *
+     * @param message the exception message
+     * @param command the command generating the exception
+     * @param cause   the cause of the exception
+     */
+    public MPDResponseException(String message, String command, Throwable cause) {
+        super(message, cause);
+        this.command = command;
+    }
+
+    /**
      * Class constructor specifying the cause.
      *
      * @param cause the cause of this exception
