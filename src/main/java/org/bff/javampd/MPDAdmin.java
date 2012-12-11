@@ -209,6 +209,24 @@ public class MPDAdmin {
     }
 
     /**
+     * Updates the MPD database by searching a specific mp3 directory for new music and removing the old music.
+     *
+     * @param path the path
+     * @throws MPDConnectionException the mPD connection exception
+     * @throws MPDAdminException      the mPD admin exception
+     */
+    public void updateDatabase(String path) throws MPDConnectionException, MPDAdminException {
+        try {
+            mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPREFRESH), path));
+            fireMPDChangeEvent(MPDChangeEvent.MPD_REFRESHED);
+        } catch (MPDResponseException re) {
+            throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
+        } catch (Exception e) {
+            throw new MPDAdminException(e);
+        }
+    }
+
+    /**
      * Returns the daemon uptime in seconds.
      *
      * @return the daemon uptime in seconds
