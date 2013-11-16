@@ -30,25 +30,25 @@ public class MPDAdminTest extends BaseTest {
     @Test
     public void disableOutput() throws MPDConnectionException, MPDResponseException {
         MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
-        junit.framework.Assert.assertTrue(getAdmin().disableOutput(output));
+        Assert.assertTrue(getAdmin().disableOutput(output));
         output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
-        junit.framework.Assert.assertFalse(output.isEnabled());
+        Assert.assertFalse(output.isEnabled());
     }
 
     @Test
     public void enableOutput() throws MPDConnectionException, MPDResponseException {
         MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
-        junit.framework.Assert.assertTrue(getAdmin().enableOutput(output));
+        Assert.assertTrue(getAdmin().enableOutput(output));
         output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
-        junit.framework.Assert.assertTrue(output.isEnabled());
+        Assert.assertTrue(output.isEnabled());
     }
 
     @Test
     public void testOutputs() throws MPDConnectionException, MPDResponseException {
         List<MPDOutput> outputs = new ArrayList<MPDOutput>(getAdmin().getOutputs());
-        junit.framework.Assert.assertTrue(outputs.size() == 1);
+        Assert.assertTrue(outputs.size() == 1);
         MPDOutput output = outputs.get(0);
-        junit.framework.Assert.assertTrue(0 == output.getId());
-        junit.framework.Assert.assertTrue("Default ALSA Device".equals(output.getName()));
+        Assert.assertTrue(0 == output.getId());
+        Assert.assertTrue(!"".equals(output.getName()));
     }
 }

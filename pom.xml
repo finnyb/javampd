@@ -31,8 +31,8 @@
         <url>http://code.google.com/p/javampd/source/browse/</url>
     </scm>
     <ciManagement>
-        <system>hudson</system>
-        <url>http://hudson.thejavashop.net:8080/hudson</url>
+        <system>jenkins</system>
+        <url>http://billf.is-a-geek.com:8080</url>
     </ciManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

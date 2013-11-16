@@ -443,7 +443,6 @@ public class MPDDatabaseTest extends BaseTest {
         Assert.assertEquals(item1.getGenre(), item2.getGenre());
         Assert.assertEquals(item1.getYear(), item2.getYear());
         Assert.assertEquals(item1.getTrack(), item2.getTrack());
-        Assert.assertEquals(item1.getComment(), item2.getComment());
         Assert.assertEquals(item1.getDiscNumber(), item2.getDiscNumber());
     }
 

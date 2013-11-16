@@ -73,7 +73,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -105,7 +105,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -139,7 +139,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -210,7 +210,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -250,7 +250,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -290,7 +290,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -327,7 +327,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -369,7 +369,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     @Test
@@ -396,7 +396,7 @@ public class MPDStandAloneMonitorTest extends BaseTest {
             }
         }
 
-        junit.framework.Assert.assertTrue(success);
+        Assert.assertTrue(success);
     }
 
     /**
