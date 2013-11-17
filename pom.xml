@@ -13,7 +13,7 @@
             <id>bill</id>
             <name>Bill</name>
             <email>bjj@thejavashop.net</email>
-            <url>http://www.billfindeisen.com</url>
+            <url>http://www.thejavashop.net</url>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -32,7 +32,7 @@
     </scm>
     <ciManagement>
         <system>jenkins</system>
-        <url>http://billf.is-a-geek.com:8080</url>
+        <url>http://bjj.is-a-player.com:8080</url>
     </ciManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
