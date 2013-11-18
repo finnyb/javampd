@@ -26,10 +26,7 @@ public class MPDFile {
      * @param name the name to set
      */
     public void setName(String name) {
-        if (name.contains("/")) {
-            name = name.replaceAll("^.*/", "");
-        }
-        this.name = name;
+        this.name = name.replaceAll("^.*/", "");
     }
 
     /**

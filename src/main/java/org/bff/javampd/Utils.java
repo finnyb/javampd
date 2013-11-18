@@ -17,6 +17,9 @@ package org.bff.javampd;
  */
 public class Utils {
 
+    private Utils() {
+    }
+
     /**
      * Removes leading or trailing slashes from a string.
      *

@@ -435,10 +435,8 @@ public class MPDPlayer {
      *          if there is a problem sending the command
      */
     public void setVolume(int volume) throws MPDConnectionException, MPDPlayerException {
-        if (volume > 100) {
-            volume = 100;
-        } else if (volume < 0) {
-            volume = 0;
+        if (volume < 0 || volume > 100) {
+            throw new MPDPlayerException("Volume not in allowable range");
         }
 
         try {
@@ -618,12 +616,11 @@ public class MPDPlayer {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
-        try {
+        if (time == null || !time.contains(":")) {
+            return 0;
+        } else {
             return (Integer.parseInt(time.trim().split(":")[0]));
-        } catch (NullPointerException npe) {
-            return (0);
         }
-
     }
 
     /**
@@ -688,10 +685,10 @@ public class MPDPlayer {
      *          if there is a problem sending the command
      */
     public PlayerStatus getStatus() throws MPDResponseException, MPDConnectionException {
-        String status = mpd.getStatus(MPD.StatusList.STATE);
-        if (status.equalsIgnoreCase(MPD.STATUS_PLAYING)) {
+        String currentStatus = mpd.getStatus(MPD.StatusList.STATE);
+        if (currentStatus.equalsIgnoreCase(MPD.STATUS_PLAYING)) {
             return (PlayerStatus.STATUS_PLAYING);
-        } else if (status.equalsIgnoreCase(MPD.STATUS_PLAYING)) {
+        } else if (currentStatus.equalsIgnoreCase(MPD.STATUS_PAUSED)) {
             return (PlayerStatus.STATUS_PAUSED);
         } else {
             return (PlayerStatus.STATUS_STOPPED);

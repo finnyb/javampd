@@ -20,8 +20,8 @@ public class MPDPlayerException extends MPDResponseException {
     /**
      * Constructor.
      */
-    public MPDPlayerException() {
-        super();
+    public MPDPlayerException(String message) {
+        super(message);
     }
 
     /**

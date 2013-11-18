@@ -11,6 +11,7 @@
 package org.bff.javampd;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class MPDCommand {
     public MPDCommand(String command, String[] params) {
         this.command = command;
         this.params = new ArrayList<String>();
-        Collections.addAll(this.params, params);
+        Collections.addAll(this.params, Arrays.copyOf(params, params.length));
     }
 
     /**

@@ -648,8 +648,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> searchFileName(String fileName) throws MPDConnectionException, MPDDatabaseException {
-        fileName = Utils.removeSlashes(fileName);
-        return (search(ScopeType.FILENAME, fileName));
+        return (search(ScopeType.FILENAME, Utils.removeSlashes(fileName)));
     }
 
     /**

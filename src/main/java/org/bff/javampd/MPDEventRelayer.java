@@ -7,12 +7,8 @@
  * the Source Creation and Management node. Right-click the template and choose
  * Open. You can then make changes to the template in the Source Editor.
  */
-package org.bff.javampd.monitor;
+package org.bff.javampd;
 
-import org.bff.javampd.MPD;
-import org.bff.javampd.MPDAdmin;
-import org.bff.javampd.MPDPlayer;
-import org.bff.javampd.MPDPlaylist;
 import org.bff.javampd.events.*;
 
 import java.util.ArrayList;

@@ -125,11 +125,12 @@ public class MPDPlaylist {
      *          if there is a problem sending the command
      */
     public void loadPlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
-        if (playlistName.endsWith(".m3u")) {
-            playlistName = playlistName.substring(playlistName.length() - 4);
+        String name = playlistName;
+        if (name.endsWith(".m3u")) {
+            name = name.substring(name.length() - 4);
         }
 
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLOAD), playlistName);
+        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLOAD), name);
 
         try {
             mpd.sendMPDCommand(command);

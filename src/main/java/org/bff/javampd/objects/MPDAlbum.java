@@ -75,25 +75,16 @@ public class MPDAlbum extends MPDItem {
             // we already know the album names are equal
             return true;
         } else {
-            try {
-                return artist.equals(albumToCompare.artist);
-            } catch (NullPointerException nex) {
-                return false;
-            }
+            return artist.equals(albumToCompare.artist);
         }
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
     public String toString() {
-        try {
-            return super.toString() + " - " + artist.getName();
-        } catch (NullPointerException nex) {
+        if (artist == null) {
             return super.toString();
+        } else {
+            return super.toString() + " - " + artist.getName();
         }
     }
 }

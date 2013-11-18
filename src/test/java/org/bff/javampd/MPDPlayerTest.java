@@ -1,10 +1,10 @@
 package org.bff.javampd;
 
-import org.bff.javampd.integrationdata.Songs;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.exception.MPDPlaylistException;
+import org.bff.javampd.integrationdata.Songs;
 import org.bff.javampd.objects.MPDAudioInfo;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.*;
@@ -65,4 +65,15 @@ public class MPDPlayerTest extends BaseTest {
 
         Assert.assertTrue(5 == getPlayer().getVolume());
     }
+
+    @Test(expected = MPDPlayerException.class)
+    public void testVolumeTooLow() throws MPDPlayerException, MPDConnectionException {
+        getPlayer().setVolume(-1);
+    }
+
+    @Test(expected = MPDPlayerException.class)
+    public void testVolumeTooHigh() throws MPDPlayerException, MPDConnectionException {
+        getPlayer().setVolume(101);
+    }
+
 }

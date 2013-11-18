@@ -13,7 +13,6 @@ import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.exception.MPDTimeoutException;
-import org.bff.javampd.monitor.MPDEventRelayer;
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDSong;
@@ -370,10 +369,6 @@ public class MPD {
             if (password != null) {
                 authenticate(password);
             }
-        } catch (UnknownHostException ex) {
-            throw ex;
-        } catch (MPDTimeoutException mte) {
-            throw mte;
         } catch (Exception e) {
             throw new MPDConnectionException(e);
         }
@@ -550,6 +545,10 @@ public class MPD {
      *          if there is a problem sending the command to the server
      */
     protected synchronized Collection<String> sendMPDCommand(MPDCommand command) throws MPDConnectionException, MPDResponseException {
+        return sendCommand(command);
+    }
+
+    private synchronized Collection<String> sendCommand(MPDCommand command) throws MPDConnectionException, MPDResponseException {
         byte[] bytesToSend;
         List<String> responseList = new ArrayList<String>();
         OutputStream outStream = null;
@@ -842,7 +841,7 @@ public class MPD {
      * @throws org.bff.javampd.exception.MPDConnectionException
      *                             if there are connection issues
      */
-    protected synchronized String connect(int timeout) throws IOException, MPDConnectionException {
+    private synchronized String connect(int timeout) throws IOException, MPDConnectionException {
         BufferedReader in;
 
         this.socket = new Socket();

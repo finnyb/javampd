@@ -7,10 +7,8 @@
  * the Source Creation and Management node. Right-click the template and choose
  * Open. You can then make changes to the template in the Source Editor.
  */
-package org.bff.javampd.monitor;
+package org.bff.javampd;
 
-import org.bff.javampd.MPD;
-import org.bff.javampd.MPDOutput;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
@@ -29,7 +27,7 @@ import java.util.logging.Logger;
  * statistics of the MPD server at given delay intervals.  As statistics change
  * appropriate events are fired indicating these changes.  If more detailed
  * events are desired attach listeners to the different controllers of a
- * connection or use the {@link MPDEventRelayer} class.
+ * connection or use the {@link org.bff.javampd.MPDEventRelayer} class.
  *
  * @author Bill Findeisen
  * @version 1.0
@@ -473,7 +471,7 @@ public class MPDStandAloneMonitor
             newStatus = PlayerStatus.STATUS_STOPPED;
         }
 
-        if (status != newStatus) {
+        if (!status.equals(newStatus)) {
             switch (newStatus) {
                 case STATUS_PLAYING:
                     switch (status) {
