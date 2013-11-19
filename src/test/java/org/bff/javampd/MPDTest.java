@@ -3,7 +3,6 @@ package org.bff.javampd;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
-import org.bff.javampd.exception.MPDTimeoutException;
 import org.junit.*;
 import org.junit.experimental.categories.Category;
 
@@ -70,7 +69,7 @@ public class MPDTest extends BaseTest {
         }
     }
 
-    @Test(expected = MPDTimeoutException.class)
+    @Test(expected = MPDConnectionException.class)
     public void testTimeout() throws MPDException, IOException {
         MPD mpd = null;
         Controller controller = Controller.getInstance();
