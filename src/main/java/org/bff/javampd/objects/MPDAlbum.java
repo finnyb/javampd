@@ -40,6 +40,14 @@ public class MPDAlbum extends MPDItem {
         this.artist = artist;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + getName().length();
+        hash = 31 * hash + (null == getName() ? 0 : getName().hashCode());
+        return (hash);
+    }
+
     /**
      * We consider two albums to be equal if the {@link MPDAlbum}
      * names match and if the {@link MPDArtist} names match

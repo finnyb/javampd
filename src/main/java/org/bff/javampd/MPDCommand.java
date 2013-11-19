@@ -48,13 +48,13 @@ public class MPDCommand {
     /**
      * Constructor for MPD command for a command requiring more than 1 parameter.
      *
-     * @param command the command to send
-     * @param params  the parameters to send
+     * @param command    the command to send
+     * @param parameters the parameters to send
      */
-    public MPDCommand(String command, String[] params) {
+    public MPDCommand(String command, String[] parameters) {
         this.command = command;
         this.params = new ArrayList<String>();
-        Collections.addAll(this.params, Arrays.copyOf(params, params.length));
+        Collections.addAll(this.params, Arrays.copyOf(parameters, parameters.length));
     }
 
     /**
