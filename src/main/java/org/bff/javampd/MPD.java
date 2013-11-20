@@ -125,6 +125,7 @@ public class MPD {
      * Default MPD port
      */
     private static final int MPD_DEFAULT_PORT = 6600;
+    private static final String DEFAULT_MPD_SERVER = "localhost";
 
     private enum Response {
 
@@ -284,9 +285,15 @@ public class MPD {
     }
 
     /**
-     * Default no argument constructor
+     * Establishes a new mpd instance using default server values
+     * of localhost, port 6600 with no user or password
+     *
+     * @throws org.bff.javampd.exception.MPDConnectionException
+     *                                       if there is a problem sending the command to the server
+     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
      */
-    public MPD() {
+    public MPD() throws MPDConnectionException, UnknownHostException {
+        this(DEFAULT_MPD_SERVER);
     }
 
     /**
