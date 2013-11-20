@@ -112,7 +112,7 @@ public class PlaylistChangeEvent extends EventObject {
      * @return the specific id
      */
     public int getId() {
-        return (id);
+        return id;
     }
 
     /**

@@ -60,7 +60,7 @@ public class MPDChangeEvent
      * @return the specific id
      */
     public int getId() {
-        return (id);
+        return id;
     }
 
     /**

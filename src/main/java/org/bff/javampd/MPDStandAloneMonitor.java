@@ -164,7 +164,7 @@ public class MPDStandAloneMonitor
          * @return the prefix of the response
          */
         public String getStatusPrefix() {
-            return (prefix);
+            return prefix;
         }
     }
 

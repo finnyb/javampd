@@ -79,6 +79,6 @@ public class MPDResponseException extends MPDException {
     }
 
     public String getCommand() {
-        return (command);
+        return command;
     }
 }

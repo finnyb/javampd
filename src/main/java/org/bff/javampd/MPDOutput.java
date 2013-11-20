@@ -81,7 +81,7 @@ public class MPDOutput {
     @Override
     public boolean equals(Object object) {
         if (this == object) {
-            return (true);
+            return true;
         }
 
         if ((object == null) || (object.getClass() != this.getClass())) {
@@ -90,9 +90,9 @@ public class MPDOutput {
 
         MPDOutput output = (MPDOutput) object;
         if (this.getId() == output.getId()) {
-            return (true);
+            return true;
         } else {
-            return (false);
+            return false;
         }
     }
 
@@ -106,6 +106,6 @@ public class MPDOutput {
         int hash = 7;
         hash = 31 * hash + getName().length();
         hash = 31 * hash + (null == getName() ? 0 : getName().hashCode());
-        return (hash);
+        return hash;
     }
 }

@@ -138,7 +138,7 @@ public class MPD {
         }
 
         public String getProp() {
-            return (prop);
+            return prop;
         }
     }
 
@@ -193,7 +193,7 @@ public class MPD {
          * @return the prefix of the response
          */
         public String getStatPrefix() {
-            return (prefix);
+            return prefix;
         }
     }
 
@@ -276,7 +276,7 @@ public class MPD {
          * @return the prefix of the response
          */
         public String getStatusPrefix() {
-            return (prefix);
+            return prefix;
         }
     }
 
@@ -415,7 +415,7 @@ public class MPD {
      *          if there is a problem sending the command to the server
      */
     public long getPlaytime() throws MPDConnectionException, MPDResponseException {
-        return (Long.parseLong(getServerStat(StatList.PLAYTIME)));
+        return Long.parseLong(getServerStat(StatList.PLAYTIME));
     }
 
     /**
@@ -428,7 +428,7 @@ public class MPD {
      *          if there is a problem sending the command to the server
      */
     public long getUptime() throws MPDConnectionException, MPDResponseException {
-        return (Long.parseLong(getServerStat(StatList.UPTIME)));
+        return Long.parseLong(getServerStat(StatList.UPTIME));
     }
 
     /**
@@ -451,7 +451,7 @@ public class MPD {
         if (mpdPlayer == null) {
             mpdPlayer = new MPDPlayer(this);
         }
-        return (mpdPlayer);
+        return mpdPlayer;
     }
 
     /**
@@ -465,7 +465,7 @@ public class MPD {
         if (mpdPlaylist == null) {
             mpdPlaylist = new MPDPlaylist(this);
         }
-        return (mpdPlaylist);
+        return mpdPlaylist;
     }
 
     /**
@@ -479,7 +479,7 @@ public class MPD {
         if (mpdDatabase == null) {
             mpdDatabase = new MPDDatabase(this);
         }
-        return (mpdDatabase);
+        return mpdDatabase;
     }
 
     /**
@@ -493,7 +493,7 @@ public class MPD {
         if (mpdAdmin == null) {
             mpdAdmin = new MPDAdmin(this);
         }
-        return (mpdAdmin);
+        return mpdAdmin;
     }
 
     /**
@@ -507,7 +507,7 @@ public class MPD {
         if (mpdEventRelayer == null) {
             mpdEventRelayer = new MPDEventRelayer(this);
         }
-        return (mpdEventRelayer);
+        return mpdEventRelayer;
     }
 
     /**
@@ -517,9 +517,9 @@ public class MPD {
      */
     public boolean isConnected() {
         if (ping()) {
-            return (true);
+            return true;
         } else {
-            return (false);
+            return false;
         }
     }
 
@@ -536,7 +536,7 @@ public class MPD {
     public Collection<String> getStatus() throws MPDConnectionException, MPDResponseException {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPSTATUS));
         List<String> respList = new ArrayList<String>(sendMPDCommand(command));
-        return (respList);
+        return respList;
     }
 
     /**
@@ -595,7 +595,7 @@ public class MPD {
                     responseList.add(inLine);
                 }
                 count = TRIES + 1;
-                return (responseList);
+                return responseList;
             } catch (Exception e) {
                 System.out.println("Got Error from:" + command.getCommand());
                 for (String str : command.getParams()) {
@@ -691,7 +691,7 @@ public class MPD {
             throw new MPDConnectionException(e.getMessage(), e);
         }
 
-        return (isOk);
+        return isOk;
     }
 
     /**
@@ -700,7 +700,7 @@ public class MPD {
      * @return the command list properties file
      */
     Properties getMPDProperties() {
-        return (prop);
+        return prop;
     }
 
     private void authenticate(String password) throws MPDConnectionException, MPDResponseException {
@@ -726,10 +726,10 @@ public class MPD {
 
         for (String line : respList) {
             if (line.startsWith(status.getStatusPrefix())) {
-                return (line.substring(status.getStatusPrefix().length()).trim());
+                return line.substring(status.getStatusPrefix().length()).trim();
             }
         }
-        return (null);
+        return null;
     }
 
     /**
@@ -750,10 +750,10 @@ public class MPD {
 
         for (String line : respList) {
             if (line.startsWith(stat.getStatPrefix())) {
-                return (line.substring(stat.getStatPrefix().length()).trim());
+                return line.substring(stat.getStatPrefix().length()).trim();
             }
         }
-        return (null);
+        return null;
     }
 
     /**
@@ -810,30 +810,30 @@ public class MPD {
                 songList.add(song);
             }
         }
-        return (songList);
+        return songList;
     }
 
     private boolean isResponseOK(final String line) {
         try {
             if (line.startsWith(prop.getProperty(MPDPROPRESPONSEOK))) {
-                return (true);
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return (false);
+        return false;
     }
 
     private boolean isResponseError(final String line) {
         try {
             if (line.startsWith(prop.getProperty(MPDPROPRESPONSEERR))) {
                 this.lastError = line.substring(prop.getProperty(MPDPROPRESPONSEERR).length()).trim();
-                return (true);
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return (false);
+        return false;
     }
 
     /**
@@ -861,7 +861,7 @@ public class MPD {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String line = in.readLine();
         if (isResponseOK(line)) {
-            return (stripResponse(Response.OK, line).trim());
+            return stripResponse(Response.OK, line).trim();
         } else {
             throw new MPDConnectionException("Response from server: " + stripResponse(Response.ERR, line));
         }
@@ -885,9 +885,9 @@ public class MPD {
         try {
             sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPPING)));
         } catch (MPDException e) {
-            return (false);
+            return false;
         }
-        return (true);
+        return true;
     }
 
     private String convertCommand(String command, List<String> params) {
@@ -903,11 +903,11 @@ public class MPD {
             sb.append("\n");
         }
 
-        return (sb.toString());
+        return sb.toString();
     }
 
     private String stripResponse(Response response, String line) {
-        return (line.substring(prop.getProperty(response.getProp()).length()));
+        return line.substring(prop.getProperty(response.getProp()).length());
     }
 
     private static void loadMpdPropValues() {

@@ -36,6 +36,6 @@ public class Utils {
         retString = retString.replaceFirst("^/", "");
         retString = retString.replaceFirst("/$", "");
 
-        return (retString);
+        return retString;
     }
 }

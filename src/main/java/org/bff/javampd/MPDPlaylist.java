@@ -230,9 +230,9 @@ public class MPDPlaylist {
         }
 
         if (oldCount < songList.size()) {
-            return (true);
+            return true;
         } else {
-            return (false);
+            return false;
         }
     }
 
@@ -314,9 +314,9 @@ public class MPDPlaylist {
         List<MPDSong> sl = new ArrayList<MPDSong>(mpd.convertResponseToSong(response));
 
         if (sl.isEmpty()) {
-            return (null);
+            return null;
         } else {
-            return (sl.get(0));
+            return sl.get(0);
         }
     }
 
@@ -483,7 +483,7 @@ public class MPDPlaylist {
             } catch (Exception e) {
                 throw new MPDPlaylistException(e);
             }
-            return (true);
+            return true;
         } else {
             throw new MPDPlaylistException("Playlist name hasn't been set!");
         }
@@ -501,7 +501,7 @@ public class MPDPlaylist {
     private int getPlaylistVersion() throws MPDConnectionException, MPDPlaylistException {
         //TODO playlist returning null
         try {
-            return (Integer.parseInt(mpd.getStatus(MPD.StatusList.PLAYLIST)));
+            return Integer.parseInt(mpd.getStatus(MPD.StatusList.PLAYLIST));
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -531,7 +531,7 @@ public class MPDPlaylist {
         }
 
         List<MPDSong> list = new ArrayList<MPDSong>(mpd.convertResponseToSong(response));
-        return (list);
+        return list;
     }
 
     /**
@@ -740,7 +740,7 @@ public class MPDPlaylist {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Version:").append(getVersion()).append("\n");
-        return (sb.toString());
+        return sb.toString();
     }
 
     public void swap(MPDSong song, int i) throws MPDConnectionException, MPDPlaylistException {

@@ -55,7 +55,7 @@ public abstract class MPDItem implements Comparable<MPDItem> {
     public boolean equals(Object object) {
 
         if (this == object) {
-            return (true);
+            return true;
         }
 
         if ((object == null) || (object.getClass() != this.getClass())) {
@@ -64,9 +64,9 @@ public abstract class MPDItem implements Comparable<MPDItem> {
 
         MPDItem item = (MPDItem) object;
         if (this.getName().equals(item.getName())) {
-            return (true);
+            return true;
         } else {
-            return (false);
+            return false;
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class MPDItem implements Comparable<MPDItem> {
         int hash = 7;
         hash = 31 * hash + getName().length();
         hash = 31 * hash + (null == getName() ? 0 : getName().hashCode());
-        return (hash);
+        return hash;
     }
 
     @Override

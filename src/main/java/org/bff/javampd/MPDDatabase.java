@@ -29,7 +29,7 @@ public class MPDDatabase {
 
     private MPD mpd;
     private Properties prop;
-    //database properties contants
+
     private static final String MPDPROPFIND = "MPD_DB_FIND";
     private static final String MPDPROPLIST = "MPD_DB_LIST_TAG";
     private static final String MPDPROPLISTALL = "MPD_DB_LIST_ALL";
@@ -51,7 +51,7 @@ public class MPDDatabase {
         }
 
         public String getType() {
-            return (type);
+            return type;
         }
     }
 
@@ -80,7 +80,7 @@ public class MPDDatabase {
         }
 
         public String getType() {
-            return (type);
+            return type;
         }
     }
 
@@ -96,7 +96,7 @@ public class MPDDatabase {
         }
 
         public String getPrefix() {
-            return (prefix);
+            return prefix;
         }
     }
 
@@ -123,7 +123,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> findArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
-        return (findArtist(artist.getName()));
+        return findArtist(artist.getName());
     }
 
     /**
@@ -139,7 +139,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> findArtist(String artist) throws MPDConnectionException, MPDDatabaseException {
-        return (find(ScopeType.ARTIST, artist));
+        return find(ScopeType.ARTIST, artist);
     }
 
     /**
@@ -153,7 +153,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> findGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
-        return (findGenre(genre.getName()));
+        return findGenre(genre.getName());
     }
 
     /**
@@ -167,7 +167,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> findGenre(String genre) throws MPDConnectionException, MPDDatabaseException {
-        return (find(ScopeType.GENRE, genre));
+        return find(ScopeType.GENRE, genre);
     }
 
     /**
@@ -181,7 +181,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> findYear(String year) throws MPDConnectionException, MPDDatabaseException {
-        return (find(ScopeType.DATE, year));
+        return find(ScopeType.DATE, year);
     }
 
     /**
@@ -197,7 +197,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> findAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
-        return (findAlbum(album.getName()));
+        return findAlbum(album.getName());
     }
 
     /**
@@ -213,7 +213,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> findAlbum(String album) throws MPDConnectionException, MPDDatabaseException {
-        return (find(ScopeType.ALBUM, album));
+        return find(ScopeType.ALBUM, album);
     }
 
     /**
@@ -240,7 +240,7 @@ public class MPDDatabase {
             }
         }
 
-        return (retList);
+        return retList;
     }
 
     /**
@@ -267,7 +267,7 @@ public class MPDDatabase {
             }
         }
 
-        return (retList);
+        return retList;
     }
 
     /**
@@ -294,7 +294,7 @@ public class MPDDatabase {
             }
         }
 
-        return (retList);
+        return retList;
     }
 
     /**
@@ -310,7 +310,7 @@ public class MPDDatabase {
      *          if the MPD responded with an error
      */
     public Collection<MPDSong> findTitle(String title) throws MPDConnectionException, MPDDatabaseException {
-        return (find(ScopeType.TITLE, title));
+        return find(ScopeType.TITLE, title);
     }
 
     /**
@@ -326,7 +326,7 @@ public class MPDDatabase {
      *          if the MPD responded with an error
      */
     public Collection<MPDSong> findAny(String criteria) throws MPDConnectionException, MPDDatabaseException {
-        return (find(ScopeType.ANY, criteria));
+        return find(ScopeType.ANY, criteria);
     }
 
     /**
@@ -343,7 +343,7 @@ public class MPDDatabase {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTALL));
 
         try {
-            return (mpd.sendMPDCommand(command));
+            return mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -366,7 +366,7 @@ public class MPDDatabase {
         MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLISTALL), path);
 
         try {
-            return (mpd.sendMPDCommand(command));
+            return mpd.sendMPDCommand(command);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -404,7 +404,7 @@ public class MPDDatabase {
             }
         }
 
-        return (retList);
+        return retList;
     }
 
     /**
@@ -437,7 +437,7 @@ public class MPDDatabase {
                 retList.add((s.substring(MPD.SONGPREFIXFILE.length())).trim());
             }
         }
-        return (retList);
+        return retList;
     }
 
     /**
@@ -462,7 +462,7 @@ public class MPDDatabase {
             throw new MPDDatabaseException(e);
         }
 
-        return (new ArrayList<MPDSong>(mpd.convertResponseToSong(songList)));
+        return new ArrayList<MPDSong>(mpd.convertResponseToSong(songList));
     }
 
     /**
@@ -488,7 +488,7 @@ public class MPDDatabase {
             throw new MPDDatabaseException(e);
         }
 
-        return (new ArrayList<MPDSong>(mpd.convertResponseToSong(songList)));
+        return new ArrayList<MPDSong>(mpd.convertResponseToSong(songList));
     }
 
     /**
@@ -505,7 +505,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> searchArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
-        return (searchArtist(artist.getName()));
+        return searchArtist(artist.getName());
     }
 
     /**
@@ -522,7 +522,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> searchArtist(String artist) throws MPDConnectionException, MPDDatabaseException {
-        return (search(ScopeType.ARTIST, artist));
+        return search(ScopeType.ARTIST, artist);
     }
 
     /**
@@ -539,7 +539,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> searchAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
-        return (searchAlbum(album.getName()));
+        return searchAlbum(album.getName());
     }
 
     /**
@@ -556,7 +556,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> searchAlbum(String album) throws MPDConnectionException, MPDDatabaseException {
-        return (search(ScopeType.ALBUM, album));
+        return search(ScopeType.ALBUM, album);
     }
 
     /**
@@ -573,7 +573,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> searchTitle(String title) throws MPDConnectionException, MPDDatabaseException {
-        return (search(ScopeType.TITLE, title));
+        return search(ScopeType.TITLE, title);
     }
 
     /**
@@ -589,7 +589,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> searchAny(String criteria) throws MPDConnectionException, MPDDatabaseException {
-        return (search(ScopeType.ANY, criteria));
+        return search(ScopeType.ANY, criteria);
     }
 
     /**
@@ -648,7 +648,7 @@ public class MPDDatabase {
      *          if there is a problem sending the command
      */
     public Collection<MPDSong> searchFileName(String fileName) throws MPDConnectionException, MPDDatabaseException {
-        return (search(ScopeType.FILENAME, Utils.removeSlashes(fileName)));
+        return search(ScopeType.FILENAME, Utils.removeSlashes(fileName));
     }
 
     /**
@@ -666,7 +666,7 @@ public class MPDDatabase {
         for (String str : list(ListType.ALBUM)) {
             albums.add(new MPDAlbum(str));
         }
-        return (albums);
+        return albums;
     }
 
     /**
@@ -684,7 +684,7 @@ public class MPDDatabase {
         for (String str : list(ListType.ARTIST)) {
             artists.add(new MPDArtist(str));
         }
-        return (artists);
+        return artists;
     }
 
     /**
@@ -702,7 +702,7 @@ public class MPDDatabase {
         for (String str : list(ListType.GENRE)) {
             genres.add(new MPDGenre(str));
         }
-        return (genres);
+        return genres;
     }
 
     /**
@@ -727,7 +727,7 @@ public class MPDDatabase {
             album.setArtist(artist);
             albums.add(album);
         }
-        return (albums);
+        return albums;
     }
 
     /**
@@ -751,7 +751,7 @@ public class MPDDatabase {
         for (String str : list(ListType.ALBUM, list)) {
             albums.add(new MPDAlbum(str));
         }
-        return (albums);
+        return albums;
     }
 
     /**
@@ -775,7 +775,7 @@ public class MPDDatabase {
         for (String str : list(ListType.ARTIST, list)) {
             artists.add(new MPDArtist(str));
         }
-        return (artists);
+        return artists;
     }
 
     /**
@@ -799,7 +799,7 @@ public class MPDDatabase {
         for (String str : list(ListType.ALBUM, list)) {
             albums.add(new MPDAlbum(str));
         }
-        return (albums);
+        return albums;
     }
 
     private Collection<String> listInfo(ListInfoType... types) throws MPDConnectionException, MPDDatabaseException {
@@ -823,7 +823,7 @@ public class MPDDatabase {
             }
         }
 
-        return (returnList);
+        return returnList;
     }
 
     /**
@@ -891,7 +891,7 @@ public class MPDDatabase {
                 returnList.add(f);
             }
         }
-        return (returnList);
+        return returnList;
     }
 
     private Collection<String> list(ListType listType) throws MPDConnectionException, MPDDatabaseException {
@@ -936,7 +936,7 @@ public class MPDDatabase {
                 retList.add("");
             }
         }
-        return (retList);
+        return retList;
     }
 
     /**
@@ -972,7 +972,7 @@ public class MPDDatabase {
             throw new MPDDatabaseException(e);
         }
 
-        return (mpd.convertResponseToSong(titleList));
+        return mpd.convertResponseToSong(titleList);
     }
 
     /**
@@ -1007,7 +1007,7 @@ public class MPDDatabase {
             throw new MPDDatabaseException(e);
         }
 
-        return (mpd.convertResponseToSong(titleList));
+        return mpd.convertResponseToSong(titleList);
     }
 
     /**
@@ -1021,7 +1021,7 @@ public class MPDDatabase {
      */
     public int getArtistCount() throws MPDConnectionException, MPDDatabaseException {
         try {
-            return (Integer.parseInt(mpd.getServerStat(MPD.StatList.ARTISTS)));
+            return Integer.parseInt(mpd.getServerStat(MPD.StatList.ARTISTS));
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -1040,7 +1040,7 @@ public class MPDDatabase {
      */
     public int getAlbumCount() throws MPDConnectionException, MPDDatabaseException {
         try {
-            return (Integer.parseInt(mpd.getServerStat(MPD.StatList.ALBUMS)));
+            return Integer.parseInt(mpd.getServerStat(MPD.StatList.ALBUMS));
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -1059,7 +1059,7 @@ public class MPDDatabase {
      */
     public int getSongCount() throws MPDConnectionException, MPDDatabaseException {
         try {
-            return (Integer.parseInt(mpd.getServerStat(MPD.StatList.SONGS)));
+            return Integer.parseInt(mpd.getServerStat(MPD.StatList.SONGS));
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -1078,7 +1078,7 @@ public class MPDDatabase {
      */
     public long getDbPlayTime() throws MPDConnectionException, MPDDatabaseException {
         try {
-            return (Long.parseLong(mpd.getServerStat(MPD.StatList.DBPLAYTIME)));
+            return Long.parseLong(mpd.getServerStat(MPD.StatList.DBPLAYTIME));
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -1097,7 +1097,7 @@ public class MPDDatabase {
      */
     public long getLastUpdateTime() throws MPDConnectionException, MPDDatabaseException {
         try {
-            return (Long.parseLong(mpd.getServerStat(MPD.StatList.DBUPDATE)));
+            return Long.parseLong(mpd.getServerStat(MPD.StatList.DBUPDATE));
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -1155,7 +1155,7 @@ public class MPDDatabase {
      */
     public Collection<String> listPlaylists() throws MPDConnectionException, MPDDatabaseException {
         try {
-            return (listInfo(ListInfoType.PLAYLIST));
+            return listInfo(ListInfoType.PLAYLIST);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -1189,7 +1189,7 @@ public class MPDDatabase {
             throw new MPDDatabaseException(e);
         }
 
-        return (songList);
+        return songList;
     }
 
     /**
@@ -1214,6 +1214,6 @@ public class MPDDatabase {
             }
         }
         Collections.sort(retList);
-        return (retList);
+        return retList;
     }
 }

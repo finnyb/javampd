@@ -53,7 +53,7 @@ public class ConnectionChangeEvent extends EventObject {
      * @return true if connected; false otherwise
      */
     public boolean isConnected() {
-        return (connected);
+        return connected;
     }
 
     /**

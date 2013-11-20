@@ -237,7 +237,7 @@ public class MPDAdmin {
      */
     public int getDaemonUpTime() throws MPDConnectionException, MPDAdminException {
         try {
-            return (Integer.parseInt(mpd.getServerStat(MPD.StatList.UPTIME)));
+            return Integer.parseInt(mpd.getServerStat(MPD.StatList.UPTIME));
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {

@@ -45,7 +45,7 @@ public class MPDAlbum extends MPDItem {
         int hash = 7;
         hash = 31 * hash + getName().length();
         hash = 31 * hash + (null == getName() ? 0 : getName().hashCode());
-        return (hash);
+        return hash;
     }
 
     /**
@@ -58,7 +58,7 @@ public class MPDAlbum extends MPDItem {
     @Override
     public boolean equals(Object object) {
         if (this == object) {
-            return (true);
+            return true;
         }
 
         if ((object == null) || (object.getClass() != this.getClass())) {

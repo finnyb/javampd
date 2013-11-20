@@ -220,7 +220,7 @@ public class MPDSong extends MPDItem {
         sb.append("Pos:").append(getPosition()).append("\n");
         sb.append("SongId:").append(getId()).append("\n");
 
-        return (sb.toString());
+        return sb.toString();
     }
 
     /**
@@ -285,7 +285,7 @@ public class MPDSong extends MPDItem {
     @Override
     public boolean equals(Object object) {
         if (this == object) {
-            return (true);
+            return true;
         }
 
         if ((object == null) || (object.getClass() != this.getClass())) {
@@ -294,9 +294,9 @@ public class MPDSong extends MPDItem {
 
         MPDSong song = (MPDSong) object;
         if (this.getFile().equals(song.getFile())) {
-            return (true);
+            return true;
         } else {
-            return (false);
+            return false;
         }
     }
 
@@ -315,7 +315,7 @@ public class MPDSong extends MPDItem {
         int hash = 7;
         hash = 31 * hash + getLength();
         hash = 31 * hash + (null == getTitle() ? 0 : getTitle().hashCode());
-        return (hash);
+        return hash;
     }
 
     @Override
