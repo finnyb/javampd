@@ -89,10 +89,10 @@ public class MPDPlaylist {
      * Sends the appropriate {@link PlaylistChangeEvent} to all registered
      * {@link PlaylistChangeListener}.
      *
-     * @param id the event id to send
+     * @param event the {@link PlaylistChangeEvent.Event} to send
      */
-    protected synchronized void firePlaylistChangeEvent(int id) {
-        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, id);
+    protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event) {
+        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, event);
 
         for (PlaylistChangeListener pcl : listeners) {
             pcl.playlistChanged(pce);
@@ -103,11 +103,11 @@ public class MPDPlaylist {
      * Sends the appropriate {@link PlaylistChangeEvent} to all registered
      * {@link PlaylistChangeListener}.
      *
-     * @param id  the event id to send
-     * @param msg the message for the event
+     * @param event the {@link PlaylistChangeEvent.Event} to send
+     * @param msg   the message for the event
      */
-    protected synchronized void firePlaylistChangeEvent(int id, String msg) {
-        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, id, msg);
+    protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event, String msg) {
+        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, event, msg);
 
         for (PlaylistChangeListener pcl : listeners) {
             pcl.playlistChanged(pce);
@@ -179,7 +179,7 @@ public class MPDPlaylist {
         updatePlaylist();
 
         if (fireEvent) {
-            firePlaylistChangeEvent(PlaylistChangeEvent.SONG_ADDED, song.getName());
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_ADDED, song.getName());
         }
     }
 
@@ -226,7 +226,7 @@ public class MPDPlaylist {
         updatePlaylist();
 
         if (fireEvent) {
-            firePlaylistChangeEvent(PlaylistChangeEvent.MULTIPLE_SONGS_ADDED, Integer.toString(songList.size()));
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.MULTIPLE_SONGS_ADDED, Integer.toString(songList.size()));
         }
 
         if (oldCount < songList.size()) {
@@ -257,7 +257,7 @@ public class MPDPlaylist {
 
         updatePlaylist();
 
-        firePlaylistChangeEvent(PlaylistChangeEvent.FILE_ADDED, file.getName());
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.FILE_ADDED, file.getName());
 
     }
 
@@ -372,7 +372,7 @@ public class MPDPlaylist {
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
-        firePlaylistChangeEvent(PlaylistChangeEvent.PLAYLIST_DELETED);
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_DELETED);
     }
 
     /**
@@ -477,7 +477,7 @@ public class MPDPlaylist {
             MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPSAVE), playlistName);
             try {
                 mpd.sendMPDCommand(command);
-                firePlaylistChangeEvent(PlaylistChangeEvent.PLAYLIST_SAVED);
+                firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_SAVED);
             } catch (MPDResponseException re) {
                 throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
             } catch (Exception e) {
@@ -494,7 +494,7 @@ public class MPDPlaylist {
 
         if (getPlaylistVersion() != oldVersion) {
             oldVersion = getVersion();
-            firePlaylistChangeEvent(PlaylistChangeEvent.PLAYLIST_CHANGED);
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_CHANGED);
         }
     }
 
@@ -549,7 +549,7 @@ public class MPDPlaylist {
             for (MPDSong song : getDatabase().findAlbumByArtist(artist, album)) {
                 addSong(song, false);
             }
-            firePlaylistChangeEvent(PlaylistChangeEvent.ALBUM_ADDED, album.getName());
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album.getName());
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
@@ -569,7 +569,7 @@ public class MPDPlaylist {
             for (MPDSong song : getDatabase().findAlbum(album)) {
                 addSong(song, false);
             }
-            firePlaylistChangeEvent(PlaylistChangeEvent.ALBUM_ADDED, album.getName());
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album.getName());
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
@@ -614,7 +614,7 @@ public class MPDPlaylist {
                 addSong(song, false);
             }
 
-            firePlaylistChangeEvent(PlaylistChangeEvent.ARTIST_ADDED, artist.getName());
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ARTIST_ADDED, artist.getName());
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
@@ -634,7 +634,7 @@ public class MPDPlaylist {
             for (MPDSong song : getDatabase().findGenre(genre)) {
                 addSong(song, false);
             }
-            firePlaylistChangeEvent(PlaylistChangeEvent.GENRE_ADDED, genre.getName());
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.GENRE_ADDED, genre.getName());
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
@@ -655,7 +655,7 @@ public class MPDPlaylist {
                 addSong(song, false);
             }
 
-            firePlaylistChangeEvent(PlaylistChangeEvent.YEAR_ADDED, year);
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.YEAR_ADDED, year);
 
         } catch (Exception e) {
             throw new MPDPlaylistException(e);

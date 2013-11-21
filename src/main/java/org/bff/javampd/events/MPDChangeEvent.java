@@ -18,49 +18,44 @@ package org.bff.javampd.events;
  */
 public class MPDChangeEvent
         extends java.util.EventObject {
-    private int id;
+    private Event event;
     private String msg;
 
-    /**
-     * administrator killed the connection
-     */
-    public static final int MPD_KILLED = 0;
-    /**
-     * administrator refreshed the database
-     */
-    public static final int MPD_REFRESHED = 1;
-
-    /**
-     * Creates a new instance of MusicPlayerStatusChangedEvent
-     *
-     * @param source the object on which the Event initially occurred
-     * @param id     the specific event that occurred
-     */
-    public MPDChangeEvent(Object source, int id) {
-        this(source, id, null);
+    public enum Event {
+        MPD_KILLED,
+        MPD_REFRESHED
     }
 
     /**
      * Creates a new instance of MusicPlayerStatusChangedEvent
      *
      * @param source the object on which the Event initially occurred
-     * @param id     the specific event that occurred
+     * @param event  the specific {@link Event} that occurred
+     */
+    public MPDChangeEvent(Object source, Event event) {
+        this(source, event, null);
+    }
+
+    /**
+     * Creates a new instance of MusicPlayerStatusChangedEvent
+     *
+     * @param source the object on which the Event initially occurred
+     * @param event  the specific {@link Event} that occurred
      * @param msg    an optional message
      */
-    public MPDChangeEvent(Object source, int id, String msg) {
+    public MPDChangeEvent(Object source, Event event, String msg) {
         super(source);
-        this.id = id;
+        this.event = event;
         this.msg = msg;
     }
 
     /**
-     * Returns specific id of the event that occurred.  The ids are public static
-     * fields in the class.
+     * Returns the specific {@link Event} that occurred.
      *
-     * @return the specific id
+     * @return the specific {@link Event}
      */
-    public int getId() {
-        return id;
+    public Event getEvent() {
+        return this.event;
     }
 
     /**
@@ -70,6 +65,6 @@ public class MPDChangeEvent
      * @return the optional message
      */
     public String getMsg() {
-        return msg;
+        return this.msg;
     }
 }

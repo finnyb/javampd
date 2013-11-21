@@ -159,10 +159,10 @@ public class MPDAdmin {
      * Sends the appropriate {@link MPDChangeEvent} to all registered
      * {@link MPDChangeListener}s.
      *
-     * @param id the event id to send
+     * @param event the {@link MPDChangeEvent.Event} to send
      */
-    protected synchronized void fireMPDChangeEvent(int id) {
-        MPDChangeEvent mce = new MPDChangeEvent(this, id);
+    protected synchronized void fireMPDChangeEvent(MPDChangeEvent.Event event) {
+        MPDChangeEvent mce = new MPDChangeEvent(this, event);
 
         for (MPDChangeListener mcl : listeners) {
             mcl.mpdChanged(mce);
@@ -180,7 +180,7 @@ public class MPDAdmin {
     public void killMPD() throws MPDConnectionException, MPDAdminException {
         try {
             mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPKILL)));
-            fireMPDChangeEvent(MPDChangeEvent.MPD_KILLED);
+            fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -200,7 +200,7 @@ public class MPDAdmin {
     public void updateDatabase() throws MPDConnectionException, MPDAdminException {
         try {
             mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPREFRESH)));
-            fireMPDChangeEvent(MPDChangeEvent.MPD_REFRESHED);
+            fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -218,7 +218,7 @@ public class MPDAdmin {
     public void updateDatabase(String path) throws MPDConnectionException, MPDAdminException {
         try {
             mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPREFRESH), path));
-            fireMPDChangeEvent(MPDChangeEvent.MPD_REFRESHED);
+            fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {

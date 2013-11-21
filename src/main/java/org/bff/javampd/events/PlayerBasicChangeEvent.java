@@ -15,63 +15,48 @@ package org.bff.javampd.events;
  *
  * @author Bill Findeisen
  */
-public class PlayerBasicChangeEvent
-        extends java.util.EventObject {
-    private int id;
+public class PlayerBasicChangeEvent extends java.util.EventObject {
+    private Status status;
     private String msg;
 
-    /**
-     * the player was stopped
-     */
-    public static final int PLAYER_STOPPED = 0;
-    /**
-     * the player was started
-     */
-    public static final int PLAYER_STARTED = 1;
-    /**
-     * the player was paused
-     */
-    public static final int PLAYER_PAUSED = 2;
-    /**
-     * the player was taken off pause
-     */
-    public static final int PLAYER_UNPAUSED = 3;
-    /**
-     * the players instantaneous bitrate changed
-     */
-    public static final int PLAYER_BITRATE_CHANGE = 4;
-
-    /**
-     * Creates a new instance of PlayerBasicChangeEvent
-     *
-     * @param source the object on which the Event initially occurred
-     * @param id     the specific event that occurred
-     */
-    public PlayerBasicChangeEvent(Object source, int id) {
-        this(source, id, null);
+    public enum Status {
+        PLAYER_STOPPED,
+        PLAYER_STARTED,
+        PLAYER_PAUSED,
+        PLAYER_UNPAUSED,
+        PLAYER_BITRATE_CHANGE;
     }
 
     /**
      * Creates a new instance of PlayerBasicChangeEvent
      *
      * @param source the object on which the Event initially occurred
-     * @param id     the specific event that occurred
+     * @param status the {@link Status}
+     */
+    public PlayerBasicChangeEvent(Object source, Status status) {
+        this(source, status, null);
+    }
+
+    /**
+     * Creates a new instance of PlayerBasicChangeEvent
+     *
+     * @param source the object on which the Event initially occurred
+     * @param status the {@link Status}
      * @param msg    an optional message
      */
-    public PlayerBasicChangeEvent(Object source, int id, String msg) {
+    public PlayerBasicChangeEvent(Object source, Status status, String msg) {
         super(source);
-        this.id = id;
+        this.status = status;
         this.msg = msg;
     }
 
     /**
-     * Returns specific id of the event that occurred.  The ids are public static
-     * fields in the class.
+     * Returns the {@link Status} that occurred.
      *
-     * @return the specific id
+     * @return the {@link Status}
      */
-    public int getId() {
-        return id;
+    public Status getStatus() {
+        return this.status;
     }
 
     /**

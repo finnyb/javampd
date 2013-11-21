@@ -75,11 +75,25 @@ public class MPDStandAloneMonitor
         STATUS_PAUSED,
     }
 
+    public enum PlayerResponse {
+        PLAY("play"),
+        STOP("stop"),
+        PAUSE("pause");
+
+        private String prefix;
+
+        PlayerResponse(String prefix) {
+            this.prefix = prefix;
+        }
+
+        public String getPrefix() {
+            return this.prefix;
+        }
+    }
+
     private PlayerStatus status = PlayerStatus.STATUS_STOPPED;
+
     private static final int DEFAULT_DELAY = 1000;
-    private static final String RESPONSE_PLAY = "play";
-    private static final String RESPONSE_STOP = "stop";
-    private static final String RESPONSE_PAUSE = "pause";
     private List<PlayerBasicChangeListener> playerListeners;
     private List<PlaylistBasicChangeListener> playlistListeners;
     private List<VolumeChangeListener> volListeners;
@@ -225,13 +239,13 @@ public class MPDStandAloneMonitor
     }
 
     /**
-     * Sends the appropriate {@link PlayerBasicChangeEvent} to all registered
+     * Sends the appropriate {@link PlayerBasicChangeEvent.Status} to all registered
      * {@link PlayerBasicChangeListener}s.
      *
-     * @param id the event id to send
+     * @param status the {@link PlayerBasicChangeEvent.Status}
      */
-    protected synchronized void firePlayerChangeEvent(int id) {
-        PlayerBasicChangeEvent pce = new PlayerBasicChangeEvent(this, id);
+    protected synchronized void firePlayerChangeEvent(PlayerBasicChangeEvent.Status status) {
+        PlayerBasicChangeEvent pce = new PlayerBasicChangeEvent(this, status);
 
         for (PlayerBasicChangeListener pcl : playerListeners) {
             pcl.playerBasicChange(pce);
@@ -325,10 +339,10 @@ public class MPDStandAloneMonitor
      * Sends the appropriate {@link PlaylistChangeEvent} to all registered
      * {@link PlaylistChangeListener}.
      *
-     * @param id the event id to send
+     * @param event the {@link org.bff.javampd.events.PlaylistBasicChangeEvent.Event}
      */
-    protected synchronized void firePlaylistChangeEvent(int id) {
-        PlaylistBasicChangeEvent pce = new PlaylistBasicChangeEvent(this, id);
+    protected synchronized void firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event event) {
+        PlaylistBasicChangeEvent pce = new PlaylistBasicChangeEvent(this, event);
 
         for (PlaylistBasicChangeListener pcl : playlistListeners) {
             pcl.playlistBasicChange(pce);
@@ -463,11 +477,11 @@ public class MPDStandAloneMonitor
 
     private void checkPlayer() {
         PlayerStatus newStatus = PlayerStatus.STATUS_STOPPED;
-        if (state.startsWith(RESPONSE_PLAY)) {
+        if (state.startsWith(PlayerResponse.PLAY.getPrefix())) {
             newStatus = PlayerStatus.STATUS_PLAYING;
-        } else if (state.startsWith(RESPONSE_PAUSE)) {
+        } else if (state.startsWith(PlayerResponse.PAUSE.getPrefix())) {
             newStatus = PlayerStatus.STATUS_PAUSED;
-        } else if (state.startsWith(RESPONSE_STOP)) {
+        } else if (state.startsWith(PlayerResponse.STOP.getPrefix())) {
             newStatus = PlayerStatus.STATUS_STOPPED;
         }
 
@@ -476,28 +490,28 @@ public class MPDStandAloneMonitor
                 case STATUS_PLAYING:
                     switch (status) {
                         case STATUS_PAUSED:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_UNPAUSED);
+                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
                             break;
                         case STATUS_STOPPED:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_STARTED);
+                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
                             break;
                     }
                     break;
                 case STATUS_STOPPED:
                     elapsedTime = 0; //when stopped no time in response reading 0
-                    firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_STOPPED);
+                    firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
                     if (newSongId == -1) {
-                        firePlaylistChangeEvent(PlaylistBasicChangeEvent.PLAYLIST_ENDED);
+                        firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.PLAYLIST_ENDED);
                     }
 
                     break;
                 case STATUS_PAUSED:
                     switch (status) {
                         case STATUS_PAUSED:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_UNPAUSED);
+                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
                             break;
                         case STATUS_PLAYING:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_PAUSED);
+                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
                             break;
                     }
             }
@@ -511,7 +525,7 @@ public class MPDStandAloneMonitor
         if (checkBitrateCount == 7) {
             checkBitrateCount = 0;
             if (oldBitrate != newBitrate) {
-                firePlayerChangeEvent(PlayerBasicChangeEvent.PLAYER_BITRATE_CHANGE);
+                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_BITRATE_CHANGE);
                 oldBitrate = newBitrate;
             }
         } else {
@@ -577,15 +591,15 @@ public class MPDStandAloneMonitor
 
             checkPlaylistCount = 0;
             if (oldPlaylistVersion != newPlaylistVersion) {
-                firePlaylistChangeEvent(PlaylistBasicChangeEvent.PLAYLIST_CHANGED);
+                firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.PLAYLIST_CHANGED);
                 oldPlaylistVersion = newPlaylistVersion;
             }
 
             if (oldPlaylistLength != newPlaylistLength) {
                 if (oldPlaylistLength < newPlaylistLength) {
-                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_ADDED);
+                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.SONG_ADDED);
                 } else if (oldPlaylistLength > newPlaylistLength) {
-                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_DELETED);
+                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.SONG_DELETED);
                 }
 
                 oldPlaylistLength = newPlaylistLength;
@@ -593,10 +607,10 @@ public class MPDStandAloneMonitor
 
             if (status == PlayerStatus.STATUS_PLAYING) {
                 if (oldSong != newSong) {
-                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_CHANGED);
+                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.SONG_CHANGED);
                     oldSong = newSong;
                 } else if (oldSongId != newSongId) {
-                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.SONG_CHANGED);
+                    firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.SONG_CHANGED);
                     oldSongId = newSongId;
                 }
             }

@@ -23,7 +23,7 @@ public interface MPDChangeListener {
     /**
      * Invoked when a mpd administrative change event occurs.
      *
-     * @param event the event received
+     * @param event the {@link MPDChangeEvent} received
      */
     public void mpdChanged(MPDChangeEvent event);
 }

@@ -87,11 +87,11 @@ public class MPDEventRelayer
     /**
      * Invoked when a player change event occurs.
      *
-     * @param event the event fired
+     * @param event the {@link PlayerChangeEvent.Event} fired
      */
     @Override
     public void playerChanged(PlayerChangeEvent event) {
-        firePlayerChangeEvent(event.getId());
+        firePlayerChangeEvent(event.getEvent());
     }
 
     /**
@@ -101,7 +101,7 @@ public class MPDEventRelayer
      */
     @Override
     public void mpdChanged(MPDChangeEvent event) {
-        fireMPDChangeEvent(event.getId());
+        fireMPDChangeEvent(event.getEvent());
     }
 
     /**
@@ -111,7 +111,7 @@ public class MPDEventRelayer
      */
     @Override
     public void playlistChanged(PlaylistChangeEvent event) {
-        firePlaylistChangeEvent(event.getId());
+        firePlaylistChangeEvent(event.getEvent());
     }
 
     /**
@@ -175,10 +175,10 @@ public class MPDEventRelayer
      * Sends the appropriate {@link MPDChangeEvent} to all registered
      * {@link MPDChangeListener}s.
      *
-     * @param id the event id to send
+     * @param event the {@link MPDChangeEvent.Event} to send
      */
-    protected synchronized void fireMPDChangeEvent(int id) {
-        MPDChangeEvent mce = new MPDChangeEvent(this, id);
+    protected synchronized void fireMPDChangeEvent(MPDChangeEvent.Event event) {
+        MPDChangeEvent mce = new MPDChangeEvent(this, event);
 
         for (MPDChangeListener mcl : mpdListeners) {
             mcl.mpdChanged(mce);
@@ -208,7 +208,7 @@ public class MPDEventRelayer
      * Sends the appropriate {@link OutputChangeEvent} to all registered
      * {@link OutputChangeListener}s.
      *
-     * @param event the event id to send
+     * @param event the {@link OutputChangeEvent} to send
      */
     protected synchronized void fireOutputChangeEvent(OutputChangeEvent event) {
         for (OutputChangeListener ocl : outputListeners) {
@@ -220,10 +220,10 @@ public class MPDEventRelayer
      * Sends the appropriate {@link PlayerChangeEvent} to all registered
      * {@link PlayerChangeListener}s.
      *
-     * @param id the event id to send
+     * @param event the {@link PlayerChangeEvent.Event} to send
      */
-    protected synchronized void firePlayerChangeEvent(int id) {
-        PlayerChangeEvent pce = new PlayerChangeEvent(this, id);
+    protected synchronized void firePlayerChangeEvent(PlayerChangeEvent.Event event) {
+        PlayerChangeEvent pce = new PlayerChangeEvent(this, event);
 
         for (PlayerChangeListener pcl : playerListeners) {
             pcl.playerChanged(pce);
@@ -234,10 +234,10 @@ public class MPDEventRelayer
      * Sends the appropriate {@link PlaylistChangeEvent} to all registered
      * {@link PlaylistChangeListener}.
      *
-     * @param id the event id to send
+     * @param event the {@link PlaylistChangeEvent.Event} to send
      */
-    protected synchronized void firePlaylistChangeEvent(int id) {
-        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, id);
+    protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event) {
+        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, event);
 
         for (PlaylistChangeListener pcl : playlistListeners) {
             pcl.playlistChanged(pce);

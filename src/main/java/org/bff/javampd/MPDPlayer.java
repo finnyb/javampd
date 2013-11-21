@@ -39,7 +39,7 @@ public class MPDPlayer {
     private int oldVolume;
     private List<PlayerChangeListener> listeners = new ArrayList<PlayerChangeListener>();
     private List<VolumeChangeListener> volListeners = new ArrayList<VolumeChangeListener>();
-    //properties value constants
+
     private static final String MPDPROPXFADE = "MPD_PLAYER_CROSSFADE";
     private static final String MPDPROPCURRSONG = "MPD_PLAYER_CURRENTSONG";
     private static final String MPDPROPNEXT = "MPD_PLAYER_NEXT";
@@ -139,10 +139,10 @@ public class MPDPlayer {
      * Sends the appropriate {@link PlayerChangeEvent} to all registered
      * {@link PlayerChangeListener}s.
      *
-     * @param id the event id to send
+     * @param event the {@link PlayerChangeEvent.Event} to send
      */
-    protected synchronized void firePlayerChangeEvent(int id) {
-        PlayerChangeEvent pce = new PlayerChangeEvent(this, id);
+    protected synchronized void firePlayerChangeEvent(PlayerChangeEvent.Event event) {
+        PlayerChangeEvent pce = new PlayerChangeEvent(this, event);
 
         for (PlayerChangeListener pcl : listeners) {
             pcl.playerChanged(pce);
@@ -218,9 +218,9 @@ public class MPDPlayer {
 
         if (status == PlayerStatus.STATUS_STOPPED || status == PlayerStatus.STATUS_PAUSED) {
             status = PlayerStatus.STATUS_PLAYING;
-            firePlayerChangeEvent(PlayerChangeEvent.PLAYER_STARTED);
+            firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_STARTED);
         } else {
-            firePlayerChangeEvent(PlayerChangeEvent.PLAYER_SONG_SET);
+            firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_SONG_SET);
         }
     }
 
@@ -282,7 +282,7 @@ public class MPDPlayer {
         }
 
         if (response != null) {
-            firePlayerChangeEvent(PlayerChangeEvent.PLAYER_SEEKING);
+            firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_SEEKING);
         }
     }
 
@@ -302,7 +302,7 @@ public class MPDPlayer {
         }
 
         status = PlayerStatus.STATUS_STOPPED;
-        firePlayerChangeEvent(PlayerChangeEvent.PLAYER_STOPPED);
+        firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_STOPPED);
     }
 
     /**
@@ -321,7 +321,7 @@ public class MPDPlayer {
         }
 
         status = PlayerStatus.STATUS_PAUSED;
-        firePlayerChangeEvent(PlayerChangeEvent.PLAYER_PAUSED);
+        firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_PAUSED);
 
     }
 
@@ -340,7 +340,7 @@ public class MPDPlayer {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
-        firePlayerChangeEvent(PlayerChangeEvent.PLAYER_NEXT);
+        firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_NEXT);
     }
 
     /**
@@ -358,7 +358,7 @@ public class MPDPlayer {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
-        firePlayerChangeEvent(PlayerChangeEvent.PLAYER_PREVIOUS);
+        firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_PREVIOUS);
 
     }
 
@@ -373,7 +373,7 @@ public class MPDPlayer {
     public void mute() throws MPDConnectionException, MPDPlayerException {
         oldVolume = getVolume();
         setVolume(0);
-        firePlayerChangeEvent(PlayerChangeEvent.PLAYER_MUTED);
+        firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_MUTED);
     }
 
     /**
@@ -386,7 +386,7 @@ public class MPDPlayer {
      */
     public void unMute() throws MPDConnectionException, MPDPlayerException {
         setVolume(oldVolume);
-        firePlayerChangeEvent(PlayerChangeEvent.PLAYER_UNMUTED);
+        firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_UNMUTED);
     }
 
     /**

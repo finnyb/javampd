@@ -25,7 +25,7 @@ public interface PlayerChangeListener {
     /**
      * Invoked when a player change event occurs.
      *
-     * @param event the event fired
+     * @param event the {@link PlayerChangeEvent} fired
      */
     public void playerChanged(PlayerChangeEvent event);
 }

@@ -18,101 +18,58 @@ import java.util.EventObject;
  */
 public class PlaylistChangeEvent extends EventObject {
 
-    private int id;
+    private Event event;
     private String msg;
-    /**
-     * a song was added
-     */
-    public static final int SONG_ADDED = 1;
-    /**
-     * a song was deleted
-     */
-    public static final int SONG_DELETED = 2;
-    /**
-     * a specific song was selected
-     */
-    public static final int SONG_SELECTED = 3;
-    /**
-     * a playlist was appended to this playlist
-     */
-    public static final int PLAYLIST_ADDED = 4;
-    /**
-     * the playlist version was changed
-     */
-    public static final int PLAYLIST_CHANGED = 5;
-    /**
-     * the playlist was deleted
-     */
-    public static final int PLAYLIST_DELETED = 6;
-    /**
-     * the playlist was loaded
-     */
-    public static final int PLAYLIST_LOADED = 7;
-    /**
-     * the playlist was changed
-     */
-    public static final int PLAYLIST_SAVED = 8;
-    /**
-     * the playlist was cleared
-     */
-    public static final int PLAYLIST_CLEARED = 9;
-    /*
-     * an artist was added
-     */
-    public static final int ARTIST_ADDED = 10;
-    /*
-     * an album was added
-     */
-    public static final int ALBUM_ADDED = 11;
-    /**
-     * a genre was added
-     */
-    public static final int GENRE_ADDED = 12;
-    /**
-     * a year was added
-     */
-    public static final int YEAR_ADDED = 13;
-    /**
-     * a year was added
-     */
-    public static final int FILE_ADDED = 14;
-    /**
-     * multiple songs added
-     */
-    public static final int MULTIPLE_SONGS_ADDED = 15;
 
-    /**
-     * Creates a new instance of PlayListChangeEvent
-     *
-     * @param source the object on which the Event initially occurred
-     * @param id     the specific event that occurred
-     */
-    public PlaylistChangeEvent(Object source, int id) {
-        super(source);
-        this.id = id;
+    public enum Event {
+        SONG_ADDED,
+        SONG_DELETED,
+        SONG_SELECTED,
+        PLAYLIST_ADDED,
+        PLAYLIST_CHANGED,
+        PLAYLIST_DELETED,
+        PLAYLIST_LOADED,
+        PLAYLIST_SAVED,
+        PLAYLIST_CLEARED,
+        ARTIST_ADDED,
+        ALBUM_ADDED,
+        GENRE_ADDED,
+        YEAR_ADDED,
+        FILE_ADDED,
+        MULTIPLE_SONGS_ADDED
     }
 
     /**
      * Creates a new instance of PlayListChangeEvent
      *
      * @param source the object on which the Event initially occurred
-     * @param id     the specific event that occurred
+     * @param event  the specific {@link Event} that occurred
+     */
+    public PlaylistChangeEvent(Object source, Event event) {
+        super(source);
+        this.event = event;
+    }
+
+    /**
+     * Creates a new instance of PlayListChangeEvent
+     *
+     * @param source the object on which the Event initially occurred
+     * @param event  the specific {@link Event} that occurred
      * @param msg    an optional message
      */
-    public PlaylistChangeEvent(Object source, int id, String msg) {
+    public PlaylistChangeEvent(Object source, Event event, String msg) {
         super(source);
-        this.id = id;
+        this.event = event;
         this.msg = msg;
     }
 
     /**
-     * Returns specific id of the event that occurred.  The ids are public static
-     * fields in the class.
+     * Returns the {@link Event} that occurred.
      *
      * @return the specific id
      */
-    public int getId() {
-        return id;
+    public Event getEvent() {
+        return this.event;
     }
 
     /**

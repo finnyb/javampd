@@ -49,8 +49,8 @@ public class MPDStandAloneMonitorTest extends BaseTest {
 
             @Override
             public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getId()) {
-                    case PlaylistBasicChangeEvent.SONG_ADDED:
+                switch (event.getEvent()) {
+                    case SONG_ADDED:
                         success = true;
                         break;
                 }
@@ -81,8 +81,8 @@ public class MPDStandAloneMonitorTest extends BaseTest {
 
             @Override
             public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getId()) {
-                    case PlaylistBasicChangeEvent.PLAYLIST_CHANGED:
+                switch (event.getEvent()) {
+                    case PLAYLIST_CHANGED:
                         success = true;
                         break;
                 }
@@ -113,8 +113,8 @@ public class MPDStandAloneMonitorTest extends BaseTest {
 
             @Override
             public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getId()) {
-                    case PlaylistBasicChangeEvent.SONG_DELETED:
+                switch (event.getEvent()) {
+                    case SONG_DELETED:
                         success = true;
                         break;
                 }
@@ -147,8 +147,8 @@ public class MPDStandAloneMonitorTest extends BaseTest {
 
             @Override
             public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getId()) {
-                    case PlaylistBasicChangeEvent.SONG_CHANGED:
+                switch (event.getEvent()) {
+                    case SONG_CHANGED:
                         success = true;
                         break;
                 }
@@ -179,8 +179,8 @@ public class MPDStandAloneMonitorTest extends BaseTest {
 
             @Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getId()) {
-                    case PlayerBasicChangeEvent.PLAYER_STARTED:
+                switch (event.getStatus()) {
+                    case PLAYER_STARTED:
                         success = true;
                         break;
                 }
@@ -218,8 +218,8 @@ public class MPDStandAloneMonitorTest extends BaseTest {
 
             @Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getId()) {
-                    case PlayerBasicChangeEvent.PLAYER_STOPPED:
+                switch (event.getStatus()) {
+                    case PLAYER_STOPPED:
                         success = true;
                         break;
                 }
@@ -258,8 +258,8 @@ public class MPDStandAloneMonitorTest extends BaseTest {
 
             @Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getId()) {
-                    case PlayerBasicChangeEvent.PLAYER_PAUSED:
+                switch (event.getStatus()) {
+                    case PLAYER_PAUSED:
                         success = true;
                         break;
                 }
@@ -335,8 +335,8 @@ public class MPDStandAloneMonitorTest extends BaseTest {
 
             @Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getId()) {
-                    case PlayerBasicChangeEvent.PLAYER_UNPAUSED:
+                switch (event.getStatus()) {
+                    case PLAYER_UNPAUSED:
                         success = true;
                         break;
                 }

@@ -18,63 +18,48 @@ import java.util.EventObject;
  * @author Bill Findeisen
  */
 public class PlaylistBasicChangeEvent extends EventObject {
-    private int id;
+    private Event event;
     private String msg;
 
-    /**
-     * a song was added
-     */
-    public static final int SONG_ADDED = 1;
-    /**
-     * a song was deleted
-     */
-    public static final int SONG_DELETED = 2;
-    /**
-     * a song was changed
-     */
-    public static final int SONG_CHANGED = 3;
-    /**
-     * the playlist version was changed
-     */
-    public static final int PLAYLIST_CHANGED = 4;
-    /**
-     * the end of the playlist is reached and
-     * the player has stopped
-     */
-    public static final int PLAYLIST_ENDED = 5;
-
-    /**
-     * Creates a new instance of PlayListBasicChangeEvent
-     *
-     * @param source the object on which the Event initially occurred
-     * @param id     the specific event that occurred
-     */
-    public PlaylistBasicChangeEvent(Object source, int id) {
-        super(source);
-        this.id = id;
+    public enum Event {
+        SONG_ADDED,
+        SONG_DELETED,
+        SONG_CHANGED,
+        PLAYLIST_CHANGED,
+        PLAYLIST_ENDED
     }
 
     /**
      * Creates a new instance of PlayListBasicChangeEvent
      *
      * @param source the object on which the Event initially occurred
-     * @param id     the specific event that occurred
+     * @param event  the specific {@link org.bff.javampd.events.PlaylistBasicChangeEvent.Event} that occurred
+     */
+    public PlaylistBasicChangeEvent(Object source, Event event) {
+        super(source);
+        this.event = event;
+    }
+
+    /**
+     * Creates a new instance of PlayListBasicChangeEvent
+     *
+     * @param source the object on which the Event initially occurred
+     * @param event  the specific event that occurred
      * @param msg    an optional message
      */
-    public PlaylistBasicChangeEvent(Object source, int id, String msg) {
+    public PlaylistBasicChangeEvent(Object source, Event event, String msg) {
         super(source);
-        this.id = id;
+        this.event = event;
         this.msg = msg;
     }
 
     /**
-     * Returns specific id of the event that occurred.  The ids are public static
-     * fields in the class.
+     * Returns the {@link org.bff.javampd.events.PlaylistBasicChangeEvent.Event} that occurred.
      *
-     * @return the specific id
+     * @return the specific {@link org.bff.javampd.events.PlaylistBasicChangeEvent.Event}
      */
-    public int getId() {
-        return id;
+    public Event getEvent() {
+        return event;
     }
 
     /**
