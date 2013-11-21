@@ -22,13 +22,13 @@
         </developer>
     </developers>
     <issueManagement>
-        <system>GoogleCode</system>
-        <url>http://code.google.com/p/javampd/issues/list</url>
+        <system>GitHub</system>
+        <url>https://github.com/billf5293/JavaMPD/issues</url>
     </issueManagement>
     <scm>
-        <connection>scm:git:https://code.google.com/p/javampd</connection>
-        <developerConnection>scm:git:https://code.google.com/p/javampd</developerConnection>
-        <url>http://code.google.com/p/javampd/source/browse/</url>
+        <connection>scm:git:https://github.com/billf5293/JavaMPD.git</connection>
+        <developerConnection>scm:git:https://github.com/billf5293/JavaMPD.git</developerConnection>
+        <url>https://github.com/billf5293/JavaMPD</url>
     </scm>
     <ciManagement>
         <system>jenkins</system>
