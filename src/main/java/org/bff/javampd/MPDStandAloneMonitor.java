@@ -13,14 +13,14 @@ import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * MPDStandAloneMonitor monitors a MPD connection by querying the status and
@@ -35,6 +35,8 @@ import java.util.logging.Logger;
 public class MPDStandAloneMonitor
         extends MPDEventMonitor
         implements Runnable {
+
+    private Logger logger = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
 
     private final MPD mpd;
     private final int delay;
@@ -215,7 +217,7 @@ public class MPDStandAloneMonitor
             processResponse(response);
             loadOutputs(mpd.getMPDAdmin().getOutputs());
         } catch (MPDException ex) {
-            ex.printStackTrace();
+            logger.error("Problem with initialization", ex);
         }
     }
 
@@ -418,7 +420,7 @@ public class MPDStandAloneMonitor
                         try {
                             Thread.sleep(5000);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(MPDStandAloneMonitor.class.getName()).log(Level.SEVERE, null, ex);
+                            logger.error("StandAloneMonitor interrupted", ex);
                         }
 
 

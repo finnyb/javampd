@@ -13,6 +13,8 @@ import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -26,6 +28,8 @@ import java.util.*;
  * @version 1.0
  */
 public class MPDDatabase {
+
+    private final Logger logger = LoggerFactory.getLogger(MPDDatabase.class);
 
     private MPD mpd;
     private Properties prop;
@@ -629,7 +633,7 @@ public class MPDDatabase {
                     retList.add(song);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Problem searching for title", e);
             }
         }
 
@@ -932,7 +936,7 @@ public class MPDDatabase {
             try {
                 retList.add(s.substring(s.split(":")[0].length() + 1).trim());
             } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("String with array problem:" + s);
+                logger.error("Problem with response array {}", s, e);
                 retList.add("");
             }
         }

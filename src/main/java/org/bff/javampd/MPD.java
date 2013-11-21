@@ -16,12 +16,12 @@ import org.bff.javampd.exception.MPDTimeoutException;
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDSong;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * MPD represents a connection to a MPD server.  The commands
@@ -31,6 +31,8 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class MPD {
+
+    private final Logger logger = LoggerFactory.getLogger(MPD.class);
 
     private int port;
     private InetAddress serverAddress;
@@ -280,7 +282,7 @@ public class MPD {
         }
     }
 
-    static {
+    {
         loadMpdPropValues();
     }
 
@@ -597,22 +599,21 @@ public class MPD {
                 count = TRIES + 1;
                 return responseList;
             } catch (Exception e) {
-                System.out.println("Got Error from:" + command.getCommand());
+                logger.error("Got Error from: {}", command.getCommand(), e);
                 for (String str : command.getParams()) {
-                    System.out.println("\tparam:" + str);
+                    logger.error("\tparam: {}", str);
                 }
-                e.printStackTrace();
 
                 if (e instanceof SocketException) {
                     try {
                         connect();
                     } catch (Exception ex) {
-                        Logger.getLogger(MPD.class.getName()).log(Level.SEVERE, null, ex);
+                        logger.error("Unable to connect to {} on port {}", new Object[]{serverAddress, port, ex});
                     }
                     responseList = new ArrayList<String>();
                     ++count;
                     excReturn = e;
-                    System.out.println("Retrying command " + count);
+                    logger.error("Retrying command {}", count);
                 } else {
                     throw new MPDResponseException(e);
                 }
@@ -620,7 +621,7 @@ public class MPD {
                 try {
                     outStream.flush();
                 } catch (IOException ex) {
-                    Logger.getLogger(MPD.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error("Unable to flush output stream", ex);
                 }
             }
         }
@@ -819,7 +820,7 @@ public class MPD {
                 return true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Could not determine if response is ok", e);
         }
         return false;
     }
@@ -831,7 +832,7 @@ public class MPD {
                 return true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Could not determine if response is error", e);
         }
         return false;
     }
@@ -910,7 +911,7 @@ public class MPD {
         return line.substring(prop.getProperty(response.getProp()).length());
     }
 
-    private static void loadMpdPropValues() {
+    private void loadMpdPropValues() {
         prop = new Properties();
 
         InputStream is = MPD.class.getResourceAsStream(PROPFILE);
@@ -918,13 +919,12 @@ public class MPD {
         try {
             prop.load(is);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Problem with properties file, make sure exists and in path.");
+            logger.error("Could not load properties values", e);
         } finally {
             try {
                 is.close();
             } catch (IOException ex) {
-                Logger.getLogger(MPD.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error("Could not close properties file stream", ex);
             }
         }
     }

@@ -10,6 +10,8 @@
 package org.bff.javampd;
 
 import org.bff.javampd.events.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ public class MPDEventRelayer
         PlaylistChangeListener,
         MPDChangeListener,
         OutputChangeListener {
+
+    private final Logger logger = LoggerFactory.getLogger(MPDEventRelayer.class);
 
     private final int delay;
     private final MPDPlayer mpdPlayer;
@@ -270,10 +274,10 @@ public class MPDEventRelayer
                 try {
                     this.wait(delay);
                 } catch (InterruptedException ie) {
-                    ie.printStackTrace();
+                    logger.error("Thread interrupted", ie);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Problem in relayer thread", e);
             }
         }
     }
