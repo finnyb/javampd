@@ -864,7 +864,8 @@ public class MPD {
         if (isResponseOK(line)) {
             return stripResponse(Response.OK, line).trim();
         } else {
-            throw new MPDConnectionException("Response from server: " + stripResponse(Response.ERR, line));
+            throw new MPDConnectionException("Response from server: " +
+                    ((line == null) ? "null" : stripResponse(Response.ERR, line)));
         }
     }
 
