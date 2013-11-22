@@ -1,20 +1,15 @@
-/*
- * MPDAdmin.java
- *
- * Created on September 30, 2005, 5:57 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
 package org.bff.javampd;
 
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDAdminException;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.properties.AdminProperties;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * MPDAdmin represents a administrative controller to a MPD server.  To obtain
@@ -25,31 +20,18 @@ import java.util.*;
  * @author Bill Findeisen
  * @version 1.0
  */
-public class MPDAdmin {
-
-    private MPD mpd;
-    private Properties prop;
+public class MPDAdmin extends CommandExecutor {
     private List<MPDChangeListener> listeners =
             new ArrayList<MPDChangeListener>();
     private List<OutputChangeListener> outputListeners =
             new ArrayList<OutputChangeListener>();
-    private static final String MPDPROPKILL = "MPD_ADMIN_KILL";
-    private static final String MPDPROPREFRESH = "MPD_ADMIN_REFRESH";
-    private static final String MPDPROPOUTPUTS = "MPD_ADMIN_OUTPUTS";
-    private static final String MPDPROPOUTPUTENABLE = "MPD_ADMIN_ENABLE_OUT";
-    private static final String MPDPROPOUTPUTDISABLE = "MPD_ADMIN_DISABLE_OUT";
-    /**
-     * output id prefix
-     */
+
     protected static final String OUTPUT_PREFIX_ID = "outputid:";
-    /**
-     * output name prefix
-     */
     protected static final String OUTPUT_PREFIX_NAME = "outputname:";
-    /**
-     * output enabled prefix
-     */
     protected static final String OUTPUT_PREFIX_ENABLED = "outputenabled:";
+
+    private AdminProperties adminProperties;
+    private MPDServerStatistics serverStatistics;
 
     /**
      * Constructor for MPDAdmin
@@ -57,22 +39,20 @@ public class MPDAdmin {
      * @param mpd the MPD Connection
      */
     MPDAdmin(MPD mpd) {
-        this.mpd = mpd;
-        this.prop = mpd.getMPDProperties();
+        super(mpd);
+        this.serverStatistics = mpd.getMPDServerStatistics();
+        this.adminProperties = new AdminProperties();
     }
 
     /**
      * Returns the information about all outputs
      *
      * @return a {@link Collection} of {@link MPDOutput}
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * @throws MPDResponseException   if the MPD response generates an error
+     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
     public Collection<MPDOutput> getOutputs() throws MPDConnectionException, MPDResponseException {
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPOUTPUTS));
-        return new ArrayList<MPDOutput>(parseOutputs(mpd.sendMPDCommand(command)));
+        return new ArrayList<MPDOutput>(parseOutputs(sendMPDCommand(adminProperties.getOutputs())));
     }
 
     /**
@@ -80,15 +60,12 @@ public class MPDAdmin {
      *
      * @param output the output to disable
      * @return true if the output is disabled
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * @throws MPDResponseException   if the MPD response generates an error
+     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
     public boolean disableOutput(MPDOutput output) throws MPDConnectionException, MPDResponseException {
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPOUTPUTDISABLE), Integer.toString(output.getId()));
         fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
-        return mpd.sendMPDCommand(command).isEmpty();
+        return sendMPDCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
     }
 
     /**
@@ -96,15 +73,12 @@ public class MPDAdmin {
      *
      * @param output the output to enable
      * @return true if the output is enabled
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if the MPD response generates an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command to the server
+     * @throws MPDResponseException   if the MPD response generates an error
+     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
     public boolean enableOutput(MPDOutput output) throws MPDConnectionException, MPDResponseException {
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPOUTPUTENABLE), Integer.toString(output.getId()));
         fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
-        return mpd.sendMPDCommand(command).isEmpty();
+        return sendMPDCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
     }
 
     private Collection<MPDOutput> parseOutputs(Collection<String> response) {
@@ -172,14 +146,12 @@ public class MPDAdmin {
     /**
      * Kills the mpd connection.
      *
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
-     * @throws org.bff.javampd.exception.MPDAdminException
-     *          if the MPD response contains an error
+     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDAdminException      if the MPD response contains an error
      */
     public void killMPD() throws MPDConnectionException, MPDAdminException {
         try {
-            mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPKILL)));
+            sendMPDCommand(adminProperties.getKill());
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
@@ -192,14 +164,12 @@ public class MPDAdmin {
      * Updates the MPD database by searching the mp3 directory for new music and
      * removing the old music.
      *
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
-     * @throws org.bff.javampd.exception.MPDAdminException
-     *          if the MPD response contains an error
+     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDAdminException      if the MPD response contains an error
      */
     public void updateDatabase() throws MPDConnectionException, MPDAdminException {
         try {
-            mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPREFRESH)));
+            sendMPDCommand(adminProperties.getRefresh());
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
@@ -217,7 +187,7 @@ public class MPDAdmin {
      */
     public void updateDatabase(String path) throws MPDConnectionException, MPDAdminException {
         try {
-            mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPREFRESH), path));
+            sendMPDCommand(adminProperties.getRefresh(), path);
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
@@ -230,14 +200,12 @@ public class MPDAdmin {
      * Returns the daemon uptime in seconds.
      *
      * @return the daemon uptime in seconds
-     * @throws org.bff.javampd.exception.MPDAdminException
-     *          if the MPD response contains an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDAdminException      if the MPD response contains an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
-    public int getDaemonUpTime() throws MPDConnectionException, MPDAdminException {
+    public long getDaemonUpTime() throws MPDConnectionException, MPDAdminException {
         try {
-            return Integer.parseInt(mpd.getServerStat(MPD.StatList.UPTIME));
+            return serverStatistics.getUptime();
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {

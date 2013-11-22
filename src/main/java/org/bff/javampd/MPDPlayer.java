@@ -18,10 +18,10 @@ import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDAudioInfo;
 import org.bff.javampd.objects.MPDSong;
+import org.bff.javampd.properties.PlayerProperties;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * MPDPlayer represents a player controller to a MPD server.  To obtain
@@ -32,48 +32,35 @@ import java.util.Properties;
  * @author Bill Findeisen
  * @version 1.0
  */
-public class MPDPlayer {
+public class MPDPlayer extends CommandExecutor {
 
-    private MPD mpd;
-    private Properties prop;
     private int oldVolume;
     private List<PlayerChangeListener> listeners = new ArrayList<PlayerChangeListener>();
     private List<VolumeChangeListener> volListeners = new ArrayList<VolumeChangeListener>();
-
-    private static final String MPDPROPXFADE = "MPD_PLAYER_CROSSFADE";
-    private static final String MPDPROPCURRSONG = "MPD_PLAYER_CURRENTSONG";
-    private static final String MPDPROPNEXT = "MPD_PLAYER_NEXT";
-    private static final String MPDPROPPAUSE = "MPD_PLAYER_PAUSE";
-    private static final String MPDPROPPLAY = "MPD_PLAYER_PLAY";
-    private static final String MPDPROPPLAYID = "MPD_PLAYER_PLAY_ID";
-    private static final String MPDPROPPREV = "MPD_PLAYER_PREV";
-    private static final String MPDPROPREPEAT = "MPD_PLAYER_REPEAT";
-    private static final String MPDPROPRANDOM = "MPD_PLAYER_RANDOM";
-    private static final String MPDPROPSEEK = "MPD_PLAYER_SEEK";
-    private static final String MPDPROPSEEKID = "MPD_PLAYER_SEEK_ID";
-    private static final String MPDPROPSTOP = "MPD_PLAYER_STOP";
-    private static final String MPDPROPSETVOL = "MPD_PLAYER_SET_VOLUME";
+    private PlayerProperties playerProperties;
 
     /**
      * The status of the player.
      */
-    public enum PlayerStatus {
+    public enum Status {
 
-        /**
-         * player stopped status
-         */
-        STATUS_STOPPED,
-        /**
-         * player playing status
-         */
-        STATUS_PLAYING,
-        /**
-         * player paused status
-         */
-        STATUS_PAUSED,
+        STATUS_STOPPED("stop"),
+        STATUS_PLAYING("play"),
+        STATUS_PAUSED("pause");
+
+        private String prefix;
+
+        Status(String prefix) {
+            this.prefix = prefix;
+        }
+
+        public String getPrefix() {
+            return this.prefix;
+        }
     }
 
-    private PlayerStatus status = PlayerStatus.STATUS_STOPPED;
+    private Status status = Status.STATUS_STOPPED;
+    private MPDServerStatus serverStatus;
 
     /**
      * Creates a new instance of MPDPlayer
@@ -81,28 +68,22 @@ public class MPDPlayer {
      * @param mpd the MPD connection
      */
     MPDPlayer(MPD mpd) {
-        this.mpd = mpd;
-        this.prop = mpd.getMPDProperties();
+        super(mpd);
+        this.serverStatus = mpd.getMPDServerStatus();
+        this.playerProperties = new PlayerProperties();
     }
 
     /**
      * Returns the current song either playing or queued for playing.
      *
      * @return the current song
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public MPDSong getCurrentSong() throws MPDConnectionException, MPDPlayerException {
-        MPDCommand command =
-                new MPDCommand(prop.getProperty(MPDPROPCURRSONG));
-
         try {
-            List<String> response =
-                    new ArrayList<String>(mpd.sendMPDCommand(command));
-
-            List<MPDSong> songList = new ArrayList<MPDSong>(mpd.convertResponseToSong(response));
+            List<MPDSong> songList =
+                    MPDSongConverter.convertResponseToSong(sendMPDCommand(playerProperties.getCurrentSong()));
 
             if (songList.size() == 0) {
                 return null;
@@ -185,10 +166,8 @@ public class MPDPlayer {
     /**
      * Starts the player.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void play() throws MPDConnectionException, MPDPlayerException {
         playId(null);
@@ -198,17 +177,15 @@ public class MPDPlayer {
      * Starts the player with the specified song.
      *
      * @param song the song to start the player with
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void playId(MPDSong song) throws MPDConnectionException, MPDPlayerException {
         try {
             if (song == null) {
-                mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPPLAY), null));
+                sendMPDCommand(playerProperties.getPlay());
             } else {
-                mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPPLAYID), new String[]{Integer.toString(song.getId())}));
+                sendMPDCommand(playerProperties.getPlayId(), song.getId());
             }
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
@@ -216,8 +193,8 @@ public class MPDPlayer {
             throw new MPDPlayerException(e);
         }
 
-        if (status == PlayerStatus.STATUS_STOPPED || status == PlayerStatus.STATUS_PAUSED) {
-            status = PlayerStatus.STATUS_PLAYING;
+        if (status == Status.STATUS_STOPPED || status == Status.STATUS_PAUSED) {
+            status = Status.STATUS_PLAYING;
             firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_STARTED);
         } else {
             firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_SONG_SET);
@@ -229,10 +206,8 @@ public class MPDPlayer {
      * than the length of the song or is less than 0 then the parameter is ignored.
      *
      * @param secs the location to seek to
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void seek(long secs) throws MPDConnectionException, MPDPlayerException {
         seekId(null, secs);
@@ -244,37 +219,27 @@ public class MPDPlayer {
      *
      * @param song the song to seek in
      * @param secs the location to seek to
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void seekId(MPDSong song, long secs) throws MPDConnectionException, MPDPlayerException {
         List<String> response = null;
-        String params[];
-
+        String params[] = new String[2];
+        params[2] = Long.toString(secs);
         if (song == null) {
             if (getCurrentSong().getLength() > secs) {
-                params = new String[]{
-                        Integer.toString(getCurrentSong().getId()),
-                        Long.toString(secs)
-                };
+                params[1] = Integer.toString(getCurrentSong().getId());
                 try {
-                    response =
-                            new ArrayList<String>(mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSEEKID), params)));
+                    response = sendMPDCommand(playerProperties.getSeekId(), params);
                 } catch (MPDResponseException re) {
                     throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
                 }
             }
         } else {
             if (song.getLength() >= secs) {
-                params = new String[]{
-                        Integer.toString(song.getId()),
-                        Long.toString(secs)
-                };
+                params[1] = Integer.toString(song.getId());
                 try {
-                    response =
-                            new ArrayList<String>(mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSEEKID), params)));
+                    response = sendMPDCommand(playerProperties.getSeekId(), params);
                 } catch (MPDResponseException re) {
                     throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
                 }
@@ -289,38 +254,34 @@ public class MPDPlayer {
     /**
      * Stops the player.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void stop() throws MPDConnectionException, MPDPlayerException {
         try {
-            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSTOP), null));
+            sendMPDCommand(playerProperties.getStop());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
-        status = PlayerStatus.STATUS_STOPPED;
+        status = Status.STATUS_STOPPED;
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_STOPPED);
     }
 
     /**
      * Pauses the player.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void pause() throws MPDConnectionException, MPDPlayerException {
         try {
-            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPPAUSE), null));
+            sendMPDCommand(playerProperties.getPause());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
-        status = PlayerStatus.STATUS_PAUSED;
+        status = Status.STATUS_PAUSED;
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_PAUSED);
 
     }
@@ -328,14 +289,12 @@ public class MPDPlayer {
     /**
      * Plays the next song in the playlist.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void playNext() throws MPDConnectionException, MPDPlayerException {
         try {
-            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPNEXT), null));
+            sendMPDCommand(playerProperties.getNext());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -346,14 +305,12 @@ public class MPDPlayer {
     /**
      * Plays the previous song in the playlist.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void playPrev() throws MPDConnectionException, MPDPlayerException {
         try {
-            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPPREV), null));
+            sendMPDCommand(playerProperties.getPrevious());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -365,10 +322,8 @@ public class MPDPlayer {
     /**
      * Mutes the volume of the player.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void mute() throws MPDConnectionException, MPDPlayerException {
         oldVolume = getVolume();
@@ -379,10 +334,8 @@ public class MPDPlayer {
     /**
      * Unmutes the volume of the player.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void unMute() throws MPDConnectionException, MPDPlayerException {
         setVolume(oldVolume);
@@ -393,14 +346,12 @@ public class MPDPlayer {
      * Returns the instantaneous bitrate of the currently playing song.
      *
      * @return the instantaneous bitrate in kbps
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public int getBitrate() throws MPDConnectionException, MPDPlayerException {
         try {
-            return Integer.parseInt(mpd.getStatus(MPD.StatusList.BITRATE));
+            return serverStatus.getBitrate();
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -410,14 +361,12 @@ public class MPDPlayer {
      * Returns the current volume of the player.
      *
      * @return the volume of the player (0-100)
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public int getVolume() throws MPDConnectionException, MPDPlayerException {
         try {
-            return Integer.parseInt(mpd.getStatus(MPD.StatusList.VOLUME));
+            return serverStatus.getVolume();
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -429,10 +378,8 @@ public class MPDPlayer {
      * volume of 100.
      *
      * @param volume the volume level (0-100)
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void setVolume(int volume) throws MPDConnectionException, MPDPlayerException {
         if (volume < 0 || volume > 100) {
@@ -440,7 +387,7 @@ public class MPDPlayer {
         }
 
         try {
-            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPSETVOL), new String[]{Integer.toString(volume)}));
+            sendMPDCommand(playerProperties.getSetVolume(), volume);
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -452,33 +399,23 @@ public class MPDPlayer {
      * Returns if the player is repeating.
      *
      * @return is the player repeating
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public boolean isRepeat() throws MPDConnectionException, MPDPlayerException {
-        String repeat;
         try {
-            repeat = mpd.getStatus(MPD.StatusList.REPEAT);
+            return serverStatus.isRepeat();
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
-
-        if ("1".equals(repeat)) {
-            return true;
-        }
-        return false;
     }
 
     /**
      * Sets the repeating status of the player.
      *
      * @param shouldRepeat should the player repeat the current song
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void setRepeat(boolean shouldRepeat) throws MPDConnectionException, MPDPlayerException {
         String repeat;
@@ -488,7 +425,7 @@ public class MPDPlayer {
             repeat = "0";
         }
         try {
-            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPREPEAT), new String[]{repeat}));
+            sendMPDCommand(playerProperties.getRepeat(), repeat);
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -498,33 +435,23 @@ public class MPDPlayer {
      * Returns if the player is in random play mode.
      *
      * @return true if the player is in random mode false otherwise
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public boolean isRandom() throws MPDConnectionException, MPDPlayerException {
-        String random;
         try {
-            random = mpd.getStatus(MPD.StatusList.RANDOM);
+            return serverStatus.isRandom();
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
-
-        if (random.equals("1")) {
-            return true;
-        }
-        return false;
     }
 
     /**
      * Sets the random status of the player. So the songs will be played in random order
      *
      * @param shouldRandom should the player play in random mode
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void setRandom(boolean shouldRandom) throws MPDConnectionException, MPDPlayerException {
         String random;
@@ -534,7 +461,7 @@ public class MPDPlayer {
             random = "0";
         }
         try {
-            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPRANDOM), new String[]{random}));
+            sendMPDCommand(playerProperties.getRandom(), random);
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -543,10 +470,8 @@ public class MPDPlayer {
     /**
      * Plays the playlist in a random order.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void randomizePlay() throws MPDConnectionException, MPDPlayerException {
         setRandom(true);
@@ -555,10 +480,8 @@ public class MPDPlayer {
     /**
      * Plays the playlist in order.
      *
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void unRandomizePlay() throws MPDConnectionException, MPDPlayerException {
         setRandom(false);
@@ -568,14 +491,12 @@ public class MPDPlayer {
      * Returns the cross fade of the player in seconds.
      *
      * @return the cross fade of the player in seconds
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public int getXFade() throws MPDConnectionException, MPDPlayerException {
         try {
-            return Integer.parseInt(mpd.getStatus(MPD.StatusList.XFADE));
+            return Integer.parseInt(serverStatus.getXFade());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -585,14 +506,12 @@ public class MPDPlayer {
      * Sets the cross fade of the player in seconds.
      *
      * @param xFade the amount of cross fade to set in seconds
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void setXFade(int xFade) throws MPDConnectionException, MPDPlayerException {
         try {
-            mpd.sendMPDCommand(makeCommand(prop.getProperty(MPDPROPXFADE), new String[]{Integer.toString(xFade)}));
+            sendMPDCommand(playerProperties.getXFade(), xFade);
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -602,25 +521,16 @@ public class MPDPlayer {
      * Returns the elapsed time of the current song in seconds.
      *
      * @return the elapsed time of the song in seconds
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public long getElapsedTime() throws MPDConnectionException, MPDPlayerException {
-        String time;
-
         try {
-            time = mpd.getStatus(MPD.StatusList.TIME);
+            return serverStatus.getTime();
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
-        if (time == null || !time.contains(":")) {
-            return 0;
-        } else {
-            return Integer.parseInt(time.trim().split(":")[0]);
-        }
     }
 
     /**
@@ -628,15 +538,13 @@ public class MPDPlayer {
      * {@code null} will be returned.  Any individual parameter that is not known will be a -1
      *
      * @return the sample rate
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public MPDAudioInfo getAudioDetails() throws MPDConnectionException, MPDPlayerException {
         MPDAudioInfo info = null;
         try {
-            String response = mpd.getStatus(MPD.StatusList.AUDIO);
+            String response = serverStatus.getAudio();
             if (response != null) {
                 info = new MPDAudioInfo();
                 String[] split = response.split(":");
@@ -663,35 +571,21 @@ public class MPDPlayer {
         return info;
     }
 
-    private MPDCommand makeCommand(String command, String[] params) {
-        MPDCommand mpdCommand;
-
-        if (params == null) {
-            mpdCommand = new MPDCommand(command);
-        } else {
-            mpdCommand = new MPDCommand(command, params);
-        }
-
-        return mpdCommand;
-    }
-
     /**
      * Returns the current status of the player.
      *
      * @return the status of the player
-     * @throws org.bff.javampd.exception.MPDPlayerException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlayerException     if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
-    public PlayerStatus getStatus() throws MPDResponseException, MPDConnectionException {
-        String currentStatus = mpd.getStatus(MPD.StatusList.STATE);
-        if (currentStatus.equalsIgnoreCase(MPD.STATUS_PLAYING)) {
-            return PlayerStatus.STATUS_PLAYING;
-        } else if (currentStatus.equalsIgnoreCase(MPD.STATUS_PAUSED)) {
-            return PlayerStatus.STATUS_PAUSED;
+    public Status getStatus() throws MPDResponseException, MPDConnectionException {
+        String currentStatus = serverStatus.getState();
+        if (currentStatus.equalsIgnoreCase(Status.STATUS_PLAYING.getPrefix())) {
+            return Status.STATUS_PLAYING;
+        } else if (currentStatus.equalsIgnoreCase(Status.STATUS_PAUSED.getPrefix())) {
+            return Status.STATUS_PAUSED;
         } else {
-            return PlayerStatus.STATUS_STOPPED;
+            return Status.STATUS_STOPPED;
         }
     }
 }

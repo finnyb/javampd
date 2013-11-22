@@ -38,7 +38,6 @@ public class MPDStandAloneMonitor
 
     private Logger logger = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
 
-    private final MPD mpd;
     private final int delay;
     private int newVolume;
     private int oldVolume;
@@ -57,10 +56,9 @@ public class MPDStandAloneMonitor
     private String error;
     private boolean stopped;
     private HashMap<Integer, MPDOutput> outputMap;
+    private MPDServerStatus serverStatus;
+    private MPDAdmin mpdAdmin;
 
-    /**
-     * The status of the player.
-     */
     public enum PlayerStatus {
 
         /**
@@ -203,7 +201,6 @@ public class MPDStandAloneMonitor
      */
     public MPDStandAloneMonitor(MPD mpd, int delay) {
         super(mpd);
-        this.mpd = mpd;
         this.delay = delay;
         this.playerListeners = new ArrayList<PlayerBasicChangeListener>();
         this.playlistListeners = new ArrayList<PlaylistBasicChangeListener>();
@@ -211,9 +208,12 @@ public class MPDStandAloneMonitor
         this.errorListeners = new ArrayList<MPDErrorListener>();
         this.outputListeners = new ArrayList<OutputChangeListener>();
         this.outputMap = new HashMap<Integer, MPDOutput>();
+        this.serverStatus = mpd.getMPDServerStatus();
+        this.mpdAdmin = mpd.getMPDAdmin();
+
         try {
             //initial load so no events fired
-            List<String> response = new ArrayList<String>(mpd.getStatus());
+            List<String> response = new ArrayList<String>(serverStatus.getStatus());
             processResponse(response);
             loadOutputs(mpd.getMPDAdmin().getOutputs());
         } catch (MPDException ex) {
@@ -395,7 +395,7 @@ public class MPDStandAloneMonitor
             try {
                 try {
                     synchronized (this) {
-                        response = new ArrayList<String>(mpd.getStatus());
+                        response = new ArrayList<String>(serverStatus.getStatus());
                         processResponse(response);
 
                         checkError();
@@ -541,16 +541,14 @@ public class MPDStandAloneMonitor
      * Checks the connection status of the MPD.  Fires a {@link ConnectionChangeEvent}
      * if the connection status changes.
      *
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem with the connection
-     * @throws org.bff.javampd.exception.MPDResponseException
-     *          if response is an error
+     * @throws MPDConnectionException if there is a problem with the connection
+     * @throws MPDResponseException   if response is an error
      */
     protected final void checkOutputs() throws MPDConnectionException, MPDResponseException {
         if (checkOutputCount == 3) {
             checkOutputCount = 0;
 
-            List<MPDOutput> outputs = new ArrayList<MPDOutput>(mpd.getMPDAdmin().getOutputs());
+            List<MPDOutput> outputs = new ArrayList<MPDOutput>(mpdAdmin.getOutputs());
             if (outputs.size() > outputMap.size()) {
                 fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));
                 loadOutputs(outputs);

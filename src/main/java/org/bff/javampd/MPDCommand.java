@@ -51,7 +51,7 @@ public class MPDCommand {
      * @param command    the command to send
      * @param parameters the parameters to send
      */
-    public MPDCommand(String command, String[] parameters) {
+    public MPDCommand(String command, String... parameters) {
         this.command = command;
         this.params = new ArrayList<String>();
         Collections.addAll(this.params, Arrays.copyOf(parameters, parameters.length));

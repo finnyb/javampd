@@ -1,12 +1,3 @@
-/*
- * MPDPlaylist.java
- *
- * Created on September 30, 2005, 5:51 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
 package org.bff.javampd;
 
 import org.bff.javampd.events.PlaylistChangeEvent;
@@ -15,10 +6,10 @@ import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.*;
+import org.bff.javampd.properties.PlaylistProperties;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * MPDPlaylist represents a playlist controller to a MPD server.  To obtain
@@ -29,30 +20,14 @@ import java.util.Properties;
  * @author Bill Findeisen
  * @version 1.0
  */
-public class MPDPlaylist {
+public class MPDPlaylist extends CommandExecutor {
 
-    private MPD mpd;
-    private Properties prop;
     private int oldVersion = -1;
     private int version = -1;
     private MPDDatabase database;
+    private MPDServerStatus serverStatus;
     private List<PlaylistChangeListener> listeners;
-    private static final String MPDPROPADD = "MPD_PLAYLIST_ADD";
-    private static final String MPDPROPCLEAR = "MPD_PLAYLIST_CLEAR";
-    private static final String MPDPROPCURRSONG = "MPD_PLAYLIST_CURRSONG";
-    private static final String MPDPROPDELETE = "MPD_PLAYLIST_DELETE";
-    private static final String MPDPROPCHANGES = "MPD_PLAYLIST_CHANGES";
-    private static final String MPDPROPID = "MPD_PLAYLIST_LIST_ID";
-    private static final String MPDPROPINFO = "MPD_PLAYLIST_LIST";
-    private static final String MPDPROPLOAD = "MPD_PLAYLIST_LOAD";
-    private static final String MPDPROPMOVE = "MPD_PLAYLIST_MOVE";
-    private static final String MPDPROPMOVEID = "MPD_PLAYLIST_MOVE_ID";
-    private static final String MPDPROPREMOVE = "MPD_PLAYLIST_REMOVE";
-    private static final String MPDPROPREMOVEID = "MPD_PLAYLIST_REMOVE_ID";
-    private static final String MPDPROPSAVE = "MPD_PLAYLIST_SAVE";
-    private static final String MPDPROPSHUFFLE = "MPD_PLAYLIST_SHUFFLE";
-    private static final String MPDPROPSWAP = "MPD_PLAYLIST_SWAP";
-    private static final String MPDPROPSWAPID = "MPD_PLAYLIST_SWAP_ID";
+    private PlaylistProperties playlistProperties;
 
     /**
      * Creates a new instance of MPDPlaylist
@@ -60,10 +35,11 @@ public class MPDPlaylist {
      * @param mpd the MPD connection
      */
     MPDPlaylist(MPD mpd) {
-        this.mpd = mpd;
-        this.prop = mpd.getMPDProperties();
+        super(mpd);
         this.listeners = new ArrayList<PlaylistChangeListener>();
         this.database = mpd.getMPDDatabase();
+        this.serverStatus = mpd.getMPDServerStatus();
+        this.playlistProperties = new PlaylistProperties();
     }
 
     /**
@@ -119,10 +95,8 @@ public class MPDPlaylist {
      * name can be givin with or without the .m3u extension.
      *
      * @param playlistName the playlist name
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void loadPlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
         String name = playlistName;
@@ -130,10 +104,8 @@ public class MPDPlaylist {
             name = name.substring(name.length() - 4);
         }
 
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPLOAD), name);
-
         try {
-            mpd.sendMPDCommand(command);
+            sendMPDCommand(playlistProperties.getLoad(), name);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -147,10 +119,8 @@ public class MPDPlaylist {
      * Adds a {@link MPDSong} to the playlist and fires a {@link PlaylistChangeEvent} for event listeners
      *
      * @param song the song to add
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void addSong(MPDSong song) throws MPDConnectionException, MPDPlaylistException {
         addSong(song, true);
@@ -161,15 +131,12 @@ public class MPDPlaylist {
      *
      * @param song      the song to add
      * @param fireEvent whether to fire song added event for the event listeners
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void addSong(MPDSong song, boolean fireEvent) throws MPDConnectionException, MPDPlaylistException {
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPADD), song.getFile());
         try {
-            mpd.sendMPDCommand(command);
+            sendMPDCommand(playlistProperties.getAdd(), song.getFile());
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -188,10 +155,8 @@ public class MPDPlaylist {
      *
      * @param songList the list of songs to add
      * @return true if the songs are added successfully; false otherwise
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public boolean addSongs(List<MPDSong> songList) throws MPDConnectionException, MPDPlaylistException {
         return addSongs(songList, true);
@@ -203,19 +168,17 @@ public class MPDPlaylist {
      * @param songList  the list of songs to add
      * @param fireEvent true if a playlist event should be fired after adding
      * @return true if the songs are added successfully; false otherwise
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDConnectionException, MPDPlaylistException {
         List<MPDCommand> commandList = new ArrayList<MPDCommand>();
         for (MPDSong song : songList) {
-            commandList.add(new MPDCommand(prop.getProperty(MPDPROPADD), song.getFile()));
+            commandList.add(new MPDCommand(playlistProperties.getAdd(), song.getFile()));
         }
-        try {
-            mpd.sendMPDCommands(commandList);
 
+        try {
+            sendMPDCommands(commandList);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -240,15 +203,12 @@ public class MPDPlaylist {
      * Adds a directory of songs to the playlist.
      *
      * @param file the directory to add
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void addFileOrDirectory(MPDFile file) throws MPDConnectionException, MPDPlaylistException {
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPADD), file.getPath());
         try {
-            mpd.sendMPDCommand(command);
+            sendMPDCommand(playlistProperties.getAdd(), file.getPath());
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -265,22 +225,17 @@ public class MPDPlaylist {
      * Removes a {@link MPDSong} from the playlist.
      *
      * @param song the song to remove
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void removeSong(MPDSong song) throws MPDConnectionException, MPDPlaylistException {
-        MPDCommand command = null;
-
-        if (song.getId() > -1) {
-            command = new MPDCommand(prop.getProperty(MPDPROPREMOVEID), Integer.toString(song.getId()));
-
-        } else if (song.getPosition() > -1) {
-            command = new MPDCommand(prop.getProperty(MPDPROPREMOVE), Integer.toString(song.getPosition()));
-        }
         try {
-            mpd.sendMPDCommand(command);
+            if (song.getId() > -1) {
+                sendMPDCommand(playlistProperties.getRemoveId(), song.getId());
+
+            } else if (song.getPosition() > -1) {
+                sendMPDCommand(playlistProperties.getRemove(), song.getPosition());
+            }
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -294,43 +249,33 @@ public class MPDPlaylist {
      * Returns the current song.
      *
      * @return the current song
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public MPDSong getCurrentSong() throws MPDConnectionException, MPDPlaylistException {
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPCURRSONG));
-        List<String> response;
-
         try {
-            response = new ArrayList<String>(mpd.sendMPDCommand(command));
+            List<MPDSong> songs = convertResponseToSong(sendMPDCommand(playlistProperties.getCurrentSong()));
+            return songs.isEmpty() ? null : songs.get(0);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
+    }
 
-        List<MPDSong> sl = new ArrayList<MPDSong>(mpd.convertResponseToSong(response));
-
-        if (sl.isEmpty()) {
-            return null;
-        } else {
-            return sl.get(0);
-        }
+    private List<MPDSong> convertResponseToSong(List<String> response) {
+        return MPDSongConverter.convertResponseToSong(response);
     }
 
     /**
      * Removes all songs from the playlist.
      *
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void clearPlaylist() throws MPDConnectionException, MPDPlaylistException {
         try {
-            mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPCLEAR)));
+            sendMPDCommand(playlistProperties.getClear());
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -344,10 +289,8 @@ public class MPDPlaylist {
      * Deletes a {@link MPDSavedPlaylist}
      *
      * @param playlist the {@link MPDSavedPlaylist}
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void deletePlaylist(MPDSavedPlaylist playlist) throws MPDConnectionException, MPDPlaylistException {
         deletePlaylist(playlist.getName());
@@ -357,16 +300,12 @@ public class MPDPlaylist {
      * Deletes the playlist from the MPD server.
      *
      * @param playlistName the playlist to delete
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void deletePlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
-        MPDCommand command =
-                new MPDCommand(prop.getProperty(MPDPROPDELETE), playlistName);
         try {
-            mpd.sendMPDCommand(command);
+            sendMPDCommand(playlistProperties.getDelete(), playlistName);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -380,25 +319,18 @@ public class MPDPlaylist {
      *
      * @param song the song to move
      * @param to   the position to move the song to
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void move(MPDSong song, int to) throws MPDConnectionException, MPDPlaylistException {
         String[] paramList = new String[2];
-        MPDCommand command = null;
-
-        paramList[1] = Integer.toString(to);
-        if (song.getId() > -1) {
-            paramList[0] = Integer.toString(song.getId());
-            command = new MPDCommand(prop.getProperty(MPDPROPMOVEID), paramList);
-        } else if (song.getPosition() > -1) {
-            paramList[0] = Integer.toString(song.getPosition());
-            command = new MPDCommand(prop.getProperty(MPDPROPMOVEID), paramList);
-        }
         try {
-            mpd.sendMPDCommand(command);
+            paramList[1] = Integer.toString(to);
+            if (song.getId() > -1) {
+                sendMPDCommand(playlistProperties.getMoveId(), song.getId());
+            } else if (song.getPosition() > -1) {
+                sendMPDCommand(playlistProperties.getMoveId(), song.getPosition());
+            }
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -411,14 +343,12 @@ public class MPDPlaylist {
     /**
      * Shuffles the songs in the playlist.
      *
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void shuffle() throws MPDConnectionException, MPDPlaylistException {
         try {
-            mpd.sendMPDCommand(new MPDCommand(prop.getProperty(MPDPROPSHUFFLE)));
+            sendMPDCommand(playlistProperties.getShuffle());
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -433,27 +363,16 @@ public class MPDPlaylist {
      *
      * @param song1 first song to swap
      * @param song2 second song to swap
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void swap(MPDSong song1, MPDSong song2) throws MPDConnectionException, MPDPlaylistException {
-        String[] paramList = new String[2];
-        MPDCommand command = null;
-
-        if (song1.getId() > -1 && song2.getId() > -1) {
-            paramList[0] = Integer.toString(song1.getId());
-            paramList[1] = Integer.toString(song2.getId());
-            command = new MPDCommand(prop.getProperty(MPDPROPSWAPID), paramList);
-        } else if (song1.getPosition() > -1 && song2.getPosition() > -1) {
-            paramList[0] = Integer.toString(song1.getPosition());
-            paramList[1] = Integer.toString(song2.getPosition());
-            command = new MPDCommand(prop.getProperty(MPDPROPSWAP), paramList);
-        }
-
         try {
-            mpd.sendMPDCommand(command);
+            if (song1.getId() > -1 && song2.getId() > -1) {
+                sendMPDCommand(playlistProperties.getSwapId(), song1.getId(), song2.getId());
+            } else if (song1.getPosition() > -1 && song2.getPosition() > -1) {
+                sendMPDCommand(playlistProperties.getSwap(), song1.getPosition(), song2.getPosition());
+            }
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -467,16 +386,13 @@ public class MPDPlaylist {
      *
      * @param playlistName the playlist name for the playlist
      * @return true if the playlist is saved; otherwise false
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public boolean savePlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
         if (playlistName != null) {
-            MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPSAVE), playlistName);
             try {
-                mpd.sendMPDCommand(command);
+                sendMPDCommand(playlistProperties.getSave(), playlistName);
                 firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_SAVED);
             } catch (MPDResponseException re) {
                 throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
@@ -501,7 +417,7 @@ public class MPDPlaylist {
     private int getPlaylistVersion() throws MPDConnectionException, MPDPlaylistException {
         //TODO playlist returning null
         try {
-            return Integer.parseInt(mpd.getStatus(MPD.StatusList.PLAYLIST));
+            return serverStatus.getPlaylistVersion();
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -513,25 +429,17 @@ public class MPDPlaylist {
      * Returns the list of songs in the playlist.
      *
      * @return the list of songs
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     private List<MPDSong> listSongs() throws MPDConnectionException, MPDPlaylistException {
-        MPDCommand command = new MPDCommand(prop.getProperty(MPDPROPINFO));
-        List<String> response;
-
         try {
-            response = new ArrayList<String>(mpd.sendMPDCommand(command));
+            return convertResponseToSong(sendMPDCommand(playlistProperties.getInfo()));
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
-
-        List<MPDSong> list = new ArrayList<MPDSong>(mpd.convertResponseToSong(response));
-        return list;
     }
 
     /**
@@ -539,10 +447,8 @@ public class MPDPlaylist {
      *
      * @param artist the {@link MPDArtist} for the album to add
      * @param album  the {@link MPDAlbum} to add
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
         try {
@@ -559,10 +465,8 @@ public class MPDPlaylist {
      * Adds a {@link MPDAlbum} to the playlist.
      *
      * @param album the {@link MPDAlbum} to add
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void insertAlbum(MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
         try {
@@ -580,10 +484,8 @@ public class MPDPlaylist {
      *
      * @param artist the {@link MPDArtist} for the album to remove
      * @param album  the {@link MPDAlbum} to remove
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<MPDSong>();
@@ -603,10 +505,8 @@ public class MPDPlaylist {
      * Adds a {@link MPDArtist} to the playlist.
      *
      * @param artist the {@link MPDArtist} to add
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void insertArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException {
         try {
@@ -624,10 +524,8 @@ public class MPDPlaylist {
      * Adds a {@link MPDGenre} to the playlist.
      *
      * @param genre the {@link MPDGenre} to add
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void insertGenre(MPDGenre genre) throws MPDConnectionException, MPDPlaylistException {
         try {
@@ -644,10 +542,8 @@ public class MPDPlaylist {
      * Adds a year to the playlist.
      *
      * @param year the {@link MPDGenre} to add
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void insertYear(String year) throws MPDConnectionException, MPDPlaylistException {
         try {
@@ -666,10 +562,8 @@ public class MPDPlaylist {
      * Removes a {@link MPDArtist} to the playlist.
      *
      * @param artist the {@link MPDArtist} to remove
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public void removeArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<MPDSong>();
@@ -722,10 +616,8 @@ public class MPDPlaylist {
      * care should be taken not to call it excessively.
      *
      * @return the song list
-     * @throws org.bff.javampd.exception.MPDPlaylistException
-     *          if the MPD responded with an error
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *          if there is a problem sending the command
+     * @throws MPDPlaylistException   if the MPD responded with an error
+     * @throws MPDConnectionException if there is a problem sending the command
      */
     public List<MPDSong> getSongList() throws MPDPlaylistException, MPDConnectionException {
         return listSongs();
@@ -746,13 +638,8 @@ public class MPDPlaylist {
     public void swap(MPDSong song, int i) throws MPDConnectionException, MPDPlaylistException {
         String[] paramList = new String[2];
 
-        MPDCommand command;
-        paramList[0] = Integer.toString(song.getId());
-        paramList[1] = Integer.toString(i);
-        command = new MPDCommand(prop.getProperty(MPDPROPSWAPID), paramList);
-
         try {
-            mpd.sendMPDCommand(command);
+            sendMPDCommand(playlistProperties.getSwapId(), song.getId(), i);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
