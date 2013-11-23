@@ -3,13 +3,11 @@ package org.bff.javampd;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.junit.*;
-import org.junit.experimental.categories.Category;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Category(IntegrationTest.class)
-public class MPDAdminTest extends BaseTest {
+public class MPDAdminIT extends BaseTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {

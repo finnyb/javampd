@@ -1,0 +1,1252 @@
+Apache Maven 3.1.1 (0728685237757ffbf44136acec0402957f723d9a; 2013-09-17 10:22:22-0500)
+Maven home: /Users/Shared/Development/maven
+Java version: 1.6.0_65, vendor: Apple Inc.
+Java home: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+Default locale: en_US, platform encoding: MacRoman
+OS name: "mac os x", version: "10.9", arch: "x86_64", family: "mac"
+[INFO] Error stacktraces are turned on.
+[DEBUG] Reading global settings from /Users/Shared/Development/maven/conf/settings.xml
+[DEBUG] Reading user settings from /Users/bill/.m2/settings.xml
+[DEBUG] Using local repository at /Users/bill/.m2/repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10.0 for /Users/bill/.m2/repository
+[INFO] Scanning for projects...
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=1, ConflictMarker.markTime=0, ConflictMarker.nodeCount=4, ConflictIdSorter.graphTime=0, ConflictIdSorter.topsortTime=0, ConflictIdSorter.conflictIdCount=4, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=3, ConflictResolver.conflictItemCount=4, DefaultDependencyCollector.collectTime=70, DefaultDependencyCollector.transformTime=6}
+[DEBUG] org.apache.maven.wagon:wagon-ftp:jar:1.0-beta-7:
+[DEBUG]    commons-net:commons-net:jar:2.0:compile
+[DEBUG]    org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-7:compile
+[DEBUG]       org.codehaus.plexus:plexus-utils:jar:1.4.2:compile
+[DEBUG] Created new class realm maven.api
+[DEBUG] Importing foreign packages into class realm maven.api
+[DEBUG]   Imported: org.apache.maven.wagon.events < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.impl < plexus.core
+[DEBUG]   Imported: org.apache.maven.exception < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.version < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.metadata < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.collection < plexus.core
+[DEBUG]   Imported: org.apache.maven.monitor < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.resource < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.logging < plexus.core
+[DEBUG]   Imported: org.apache.maven.profiles < plexus.core
+[DEBUG]   Imported: org.apache.maven.classrealm < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution < plexus.core
+[DEBUG]   Imported: org.apache.maven.reporting < plexus.core
+[DEBUG]   Imported: org.apache.maven.usability < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.container < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.component < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.transfer < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[DEBUG]   Imported: org.apache.maven.lifecycle < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.* < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.graph < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.internal.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.repository < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.resolution < plexus.core
+[DEBUG]   Imported: javax.inject.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.settings < plexus.core
+[DEBUG]   Imported: org.codehaus.classworlds < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.toolchain < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.spi < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.observers < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[DEBUG]   Imported: org.apache.maven.configuration < plexus.core
+[DEBUG]   Imported: org.apache.maven.cli < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.context < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[DEBUG]   Imported: org.apache.maven.project < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.installation < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.deployment < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.rtinfo < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.configuration < plexus.core
+[DEBUG]   Imported: org.apache.maven.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.model < plexus.core
+[DEBUG]   Imported: org.slf4j.* < plexus.core
+[DEBUG]   Imported: javax.enterprise.inject.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[DEBUG]   Imported: org.apache.maven.plugin < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.* < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.personality < plexus.core
+[DEBUG] Populating class realm maven.api
+[DEBUG] Created new class realm extension>org.apache.maven.wagon:wagon-ftp:1.0-beta-7
+[DEBUG] Importing foreign packages into class realm extension>org.apache.maven.wagon:wagon-ftp:1.0-beta-7
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm extension>org.apache.maven.wagon:wagon-ftp:1.0-beta-7
+[DEBUG]   Included: org.apache.maven.wagon:wagon-ftp:jar:1.0-beta-7
+[DEBUG]   Included: commons-net:commons-net:jar:2.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:1.4.2
+[DEBUG] Extension realms for project org.bff.javampd:javampd:jar:5.0-SNAPSHOT: [ClassRealm[extension>org.apache.maven.wagon:wagon-ftp:1.0-beta-7, parent: sun.misc.Launcher$AppClassLoader@7987aeca]]
+[DEBUG] Created new class realm project>org.bff.javampd:javampd:5.0-SNAPSHOT
+[DEBUG] Populating class realm project>org.bff.javampd:javampd:5.0-SNAPSHOT
+[DEBUG] Looking up lifecyle mappings for packaging jar from ClassRealm[project>org.bff.javampd:javampd:5.0-SNAPSHOT, parent: ClassRealm[maven.api, parent: null]]
+[DEBUG] === REACTOR BUILD PLAN ================================================
+[DEBUG] Project: org.bff.javampd:javampd:jar:5.0-SNAPSHOT
+[DEBUG] Tasks:   [clean, pre-integration-test]
+[DEBUG] Style:   Regular
+[DEBUG] =======================================================================
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building JavaMPD 5.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       org.bff.javampd:javampd:5.0-SNAPSHOT
+[DEBUG] Dependencies (collect): []
+[DEBUG] Dependencies (resolve): [compile, runtime, test]
+[DEBUG] Repositories (dependencies): [central (http://repo.maven.apache.org/maven2, releases)]
+[DEBUG] Repositories (plugins)     : [central (http://repo.maven.apache.org/maven2, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-clean-plugin:2.5:clean (default-clean)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <directory default-value="${project.build.directory}"/>
+  <excludeDefaultDirectories default-value="false">${clean.excludeDefaultDirectories}</excludeDefaultDirectories>
+  <failOnError default-value="true">${maven.clean.failOnError}</failOnError>
+  <followSymLinks default-value="false">${clean.followSymLinks}</followSymLinks>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <reportDirectory default-value="${project.reporting.outputDirectory}"/>
+  <retryOnError default-value="true">${maven.clean.retryOnError}</retryOnError>
+  <skip default-value="false">${clean.skip}</skip>
+  <testOutputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <verbose>${clean.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:2.5:resources (default-resources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <escapeString>${maven.resources.escapeString}</escapeString>
+  <escapeWindowsPaths default-value="true">${maven.resources.escapeWindowsPaths}</escapeWindowsPaths>
+  <includeEmptyDirs default-value="false">${maven.resources.includeEmptyDirs}</includeEmptyDirs>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <overwrite default-value="false">${maven.resources.overwrite}</overwrite>
+  <project default-value="${project}"/>
+  <resources default-value="${project.resources}"/>
+  <session default-value="${session}"/>
+  <supportMultiLineFiltering default-value="false">${maven.resources.supportMultiLineFiltering}</supportMultiLineFiltering>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <classpathElements default-value="${project.compileClasspathElements}"/>
+  <compileSourceRoots default-value="${project.compileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedSourcesDirectory default-value="${project.build.directory}/generated-sources/annotations"/>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution>${mojoExecution}</mojoExecution>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <projectArtifact default-value="${project.artifact}"/>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="false">${maven.compiler.showWarnings}</showWarnings>
+  <skipMain>${maven.main.skip}</skipMain>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.5">1.6</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.5">1.6</target>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+  <mavenSession default-value="${session}"/>
+  <session default-value="${session}"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:2.5:testResources (default-testResources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <escapeString>${maven.resources.escapeString}</escapeString>
+  <escapeWindowsPaths default-value="true">${maven.resources.escapeWindowsPaths}</escapeWindowsPaths>
+  <includeEmptyDirs default-value="false">${maven.resources.includeEmptyDirs}</includeEmptyDirs>
+  <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+  <overwrite default-value="false">${maven.resources.overwrite}</overwrite>
+  <project default-value="${project}"/>
+  <resources>${project.testResources}</resources>
+  <session default-value="${session}"/>
+  <supportMultiLineFiltering default-value="false">${maven.resources.supportMultiLineFiltering}</supportMultiLineFiltering>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.codehaus.mojo:build-helper-maven-plugin:1.7:add-test-source (add-it-source)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <project>${project}</project>
+  <sources>
+    <source>src/it/java</source>
+  </sources>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile (default-testCompile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <classpathElements default-value="${project.testClasspathElements}"/>
+  <compileSourceRoots default-value="${project.testCompileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedTestSourcesDirectory default-value="${project.build.directory}/generated-test-sources/test-annotations"/>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution>${mojoExecution}</mojoExecution>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="false">${maven.compiler.showWarnings}</showWarnings>
+  <skip>${maven.test.skip}</skip>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.5">1.6</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.5">1.6</target>
+  <testSource>${maven.compiler.testSource}</testSource>
+  <testTarget>${maven.compiler.testTarget}</testTarget>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+  <mavenSession default-value="${session}"/>
+  <session default-value="${session}"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-surefire-plugin:2.11:test (default-test)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <argLine>${argLine}</argLine>
+  <basedir default-value="${basedir}"/>
+  <childDelegation default-value="false">${childDelegation}</childDelegation>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <debugForkedProcess>${maven.surefire.debug}</debugForkedProcess>
+  <disableXmlReport default-value="false">${disableXmlReport}</disableXmlReport>
+  <enableAssertions default-value="true">${enableAssertions}</enableAssertions>
+  <excludedGroups>${excludedGroups}</excludedGroups>
+  <excludes>
+    <exclude>**/IT*.java</exclude>
+  </excludes>
+  <failIfNoTests>${failIfNoTests}</failIfNoTests>
+  <forkMode default-value="once">${forkMode}</forkMode>
+  <forkedProcessTimeoutInSeconds>${surefire.timeout}</forkedProcessTimeoutInSeconds>
+  <groups>${groups}</groups>
+  <includes>
+    <include>**/*.java</include>
+  </includes>
+  <junitArtifactName default-value="junit:junit">${junitArtifactName}</junitArtifactName>
+  <jvm>${jvm}</jvm>
+  <localRepository>${localRepository}</localRepository>
+  <objectFactory>${objectFactory}</objectFactory>
+  <parallel>${parallel}</parallel>
+  <parallelMavenExecution default-value="${session.parallel}"/>
+  <perCoreThreadCount default-value="true">${perCoreThreadCount}</perCoreThreadCount>
+  <pluginArtifactMap>${plugin.artifactMap}</pluginArtifactMap>
+  <printSummary default-value="true">${surefire.printSummary}</printSummary>
+  <project default-value="${project}"/>
+  <projectArtifactMap>${project.artifactMap}</projectArtifactMap>
+  <redirectTestOutputToFile default-value="false">${maven.test.redirectTestOutputToFile}</redirectTestOutputToFile>
+  <remoteRepositories>${project.pluginArtifactRepositories}</remoteRepositories>
+  <reportFormat default-value="brief">${surefire.reportFormat}</reportFormat>
+  <reportNameSuffix default-value="">${surefire.reportNameSuffix}</reportNameSuffix>
+  <reportsDirectory default-value="${project.build.directory}/surefire-reports"/>
+  <runOrder default-value="filesystem"/>
+  <session>${session}</session>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <skipExec>${maven.test.skip.exec}</skipExec>
+  <skipTests default-value="false">${skipTests}</skipTests>
+  <test>${test}</test>
+  <testClassesDirectory default-value="${project.build.testOutputDirectory}"/>
+  <testFailureIgnore default-value="false">${maven.test.failure.ignore}</testFailureIgnore>
+  <testNGArtifactName default-value="org.testng:testng">${testNGArtifactName}</testNGArtifactName>
+  <testSourceDirectory default-value="${project.build.testSourceDirectory}"/>
+  <threadCount>${threadCount}</threadCount>
+  <trimStackTrace default-value="true">${trimStackTrace}</trimStackTrace>
+  <useFile default-value="true">${surefire.useFile}</useFile>
+  <useManifestOnlyJar default-value="true">${surefire.useManifestOnlyJar}</useManifestOnlyJar>
+  <useSystemClassLoader default-value="true">${surefire.useSystemClassLoader}</useSystemClassLoader>
+  <useUnlimitedThreads default-value="false">${useUnlimitedThreads}</useUnlimitedThreads>
+  <workingDirectory>${basedir}</workingDirectory>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-jar-plugin:2.2:jar (default-jar)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <archive>
+    <manifest>
+      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+    </manifest>
+  </archive>
+  <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+  <defaultManifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</defaultManifestFile>
+  <finalName default-value="${project.build.finalName}">${jar.finalName}</finalName>
+  <forceCreation default-value="false">${jar.forceCreation}</forceCreation>
+  <outputDirectory>${project.build.directory}</outputDirectory>
+  <project>${project}</project>
+  <useDefaultManifestFile default-value="false">${jar.useDefaultManifestFile}</useDefaultManifestFile>
+</configuration>
+[DEBUG] --- init fork of org.bff.javampd:javampd:5.0-SNAPSHOT for org.apache.maven.plugins:maven-source-plugin:2.2.1:jar (default) ---
+[DEBUG] Dependencies (collect): []
+[DEBUG] Dependencies (resolve): []
+[DEBUG] --- exit fork of org.bff.javampd:javampd:5.0-SNAPSHOT for org.apache.maven.plugins:maven-source-plugin:2.2.1:jar (default) ---
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-source-plugin:2.2.1:jar (default)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <attach default-value="true">${attach}</attach>
+  <classifier default-value="sources">${maven.source.classifier}</classifier>
+  <defaultManifestFile default-value="${project.build.outputDirectory}/META-INF/MANIFEST.MF"/>
+  <excludeResources default-value="false">${source.excludeResources}</excludeResources>
+  <finalName default-value="${project.build.finalName}"/>
+  <forceCreation default-value="false">${source.forceCreation}</forceCreation>
+  <includePom default-value="false">${source.includePom}</includePom>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <project default-value="${project}"/>
+  <reactorProjects default-value="${reactorProjects}"/>
+  <skipSource default-value="false">${source.skip}</skipSource>
+  <useDefaultExcludes default-value="true"/>
+  <useDefaultManifestFile default-value="false"/>
+</configuration>
+[DEBUG] =======================================================================
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=0, ConflictMarker.markTime=0, ConflictMarker.nodeCount=5, ConflictIdSorter.graphTime=0, ConflictIdSorter.topsortTime=0, ConflictIdSorter.conflictIdCount=4, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=1, ConflictResolver.conflictItemCount=4, DefaultDependencyCollector.collectTime=25, DefaultDependencyCollector.transformTime=1}
+[DEBUG] org.bff.javampd:javampd:jar:5.0-SNAPSHOT
+[DEBUG]    org.slf4j:slf4j-log4j12:jar:1.6.4:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.6.4:compile
+[DEBUG]       log4j:log4j:jar:1.2.16:compile
+[DEBUG]    junit:junit:jar:4.8.2:test
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ javampd ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=0, ConflictMarker.markTime=0, ConflictMarker.nodeCount=3, ConflictIdSorter.graphTime=0, ConflictIdSorter.topsortTime=0, ConflictIdSorter.conflictIdCount=3, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=0, ConflictResolver.conflictItemCount=3, DefaultDependencyCollector.collectTime=18, DefaultDependencyCollector.transformTime=0}
+[DEBUG] org.apache.maven.plugins:maven-clean-plugin:jar:2.5:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.6:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-clean-plugin:2.5
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-clean-plugin:2.5
+[DEBUG]   Imported:  < project>org.bff.javampd:javampd:5.0-SNAPSHOT
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-clean-plugin:2.5
+[DEBUG]   Included: org.apache.maven.plugins:maven-clean-plugin:jar:2.5
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.0
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-api:jar:2.0.6
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-clean-plugin:2.5:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:2.5, parent: sun.misc.Launcher$AppClassLoader@7987aeca]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-clean-plugin:2.5:clean' with basic configurator -->
+[DEBUG]   (f) directory = /Users/bill/Development/javampd/target
+[DEBUG]   (f) excludeDefaultDirectories = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) followSymLinks = false
+[DEBUG]   (f) outputDirectory = /Users/bill/Development/javampd/target/classes
+[DEBUG]   (f) reportDirectory = /Users/bill/Development/javampd/target/site
+[DEBUG]   (f) retryOnError = true
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) testOutputDirectory = /Users/bill/Development/javampd/target/test-classes
+[DEBUG] -- end configuration --
+[INFO] Deleting /Users/bill/Development/javampd/target
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/UtilsTest.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/objects/MPDAlbumTest.class
+[INFO] Deleting directory /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/objects
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/MPDPlaylistIT.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/MPDPlayerIT.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/MPDIT.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/MPDDatabaseIT.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/MPDAdminIT.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$9.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$8.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$7.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$6.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$5.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$4.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$3.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$2.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$11.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$10.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor/MPDStandAloneMonitorIT$1.class
+[INFO] Deleting directory /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/monitor
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/integrationdata/Years.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/integrationdata/Songs.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/integrationdata/Genres.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/integrationdata/Artists.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/integrationdata/Albums.class
+[INFO] Deleting directory /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/integrationdata
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/Controller.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/test-classes/org/bff/javampd/BaseTest.class
+[INFO] Deleting directory /Users/bill/Development/javampd/target/test-classes/org/bff/javampd
+[INFO] Deleting directory /Users/bill/Development/javampd/target/test-classes/org/bff
+[INFO] Deleting directory /Users/bill/Development/javampd/target/test-classes/org
+[INFO] Deleting directory /Users/bill/Development/javampd/target/test-classes
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/TEST-org.bff.javampd.UtilsTest.xml
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/TEST-org.bff.javampd.objects.MPDAlbumTest.xml
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/TEST-org.bff.javampd.MPDPlaylistIT.xml
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/TEST-org.bff.javampd.MPDPlayerIT.xml
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/TEST-org.bff.javampd.MPDIT.xml
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/TEST-org.bff.javampd.MPDDatabaseIT.xml
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/TEST-org.bff.javampd.MPDAdminIT.xml
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/TEST-org.bff.javampd.monitor.MPDStandAloneMonitorIT.xml
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/org.bff.javampd.UtilsTest.txt
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/org.bff.javampd.objects.MPDAlbumTest.txt
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/org.bff.javampd.MPDPlaylistIT.txt
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/org.bff.javampd.MPDPlayerIT.txt
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/org.bff.javampd.MPDIT.txt
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/org.bff.javampd.MPDDatabaseIT.txt
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/org.bff.javampd.MPDAdminIT.txt
+[INFO] Deleting file /Users/bill/Development/javampd/target/surefire-reports/org.bff.javampd.monitor.MPDStandAloneMonitorIT.txt
+[INFO] Deleting directory /Users/bill/Development/javampd/target/surefire-reports
+[INFO] Deleting directory /Users/bill/Development/javampd/target/surefire
+[INFO] Deleting file /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+[INFO] Deleting file /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+[INFO] Deleting directory /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile
+[INFO] Deleting directory /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin/testCompile
+[INFO] Deleting file /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+[INFO] Deleting file /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+[INFO] Deleting directory /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin/compile/default-compile
+[INFO] Deleting directory /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin/compile
+[INFO] Deleting directory /Users/bill/Development/javampd/target/maven-status/maven-compiler-plugin
+[INFO] Deleting directory /Users/bill/Development/javampd/target/maven-status
+[INFO] Deleting directory /Users/bill/Development/javampd/target/generated-test-sources/test-annotations
+[INFO] Deleting directory /Users/bill/Development/javampd/target/generated-test-sources
+[INFO] Deleting directory /Users/bill/Development/javampd/target/generated-sources/annotations
+[INFO] Deleting directory /Users/bill/Development/javampd/target/generated-sources
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/Utils.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/objects/MPDSong.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/objects/MPDSavedPlaylist.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/objects/MPDItem.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/objects/MPDGenre.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/objects/MPDAudioInfo.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/objects/MPDArtist.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/objects/MPDAlbum.class
+[INFO] Deleting directory /Users/bill/Development/javampd/target/classes/org/bff/javampd/objects
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDStandAloneMonitor.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDStandAloneMonitor$StatusList.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDStandAloneMonitor$PlayerStatus.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDStandAloneMonitor$PlayerResponse.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDStandAloneMonitor$1.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDPlaylist.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDPlayer.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDPlayer$PlayerStatus.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDOutput.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDFile.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDEventRelayer.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDEventMonitor.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDDatabase.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDDatabase$ScopeType.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDDatabase$ListType.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDDatabase$ListInfoType.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDCommand.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPDAdmin.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/mpd.properties
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPD.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPD$StatusList.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPD$StatList.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/MPD$Response.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception/MPDTimeoutException.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception/MPDResponseException.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception/MPDPlaylistException.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception/MPDPlayerException.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception/MPDException.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception/MPDDatabaseException.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception/MPDConnectionException.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception/MPDAdminException.class
+[INFO] Deleting directory /Users/bill/Development/javampd/target/classes/org/bff/javampd/exception
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/VolumeChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/VolumeChangeEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/TrackPositionChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/TrackPositionChangeEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlaylistChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlaylistChangeEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlaylistChangeEvent$Event.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlaylistBasicChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlaylistBasicChangeEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlaylistBasicChangeEvent$Event.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlayerChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlayerChangeEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlayerChangeEvent$Event.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlayerBasicChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlayerBasicChangeEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/PlayerBasicChangeEvent$Status.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/OutputChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/OutputChangeEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/OutputChangeEvent$OUTPUT_EVENT.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/MPDErrorListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/MPDErrorEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/MPDChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/MPDChangeEvent.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/MPDChangeEvent$Event.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/ConnectionChangeListener.class
+[INFO] Deleting file /Users/bill/Development/javampd/target/classes/org/bff/javampd/events/ConnectionChangeEvent.class
+[INFO] Deleting directory /Users/bill/Development/javampd/target/classes/org/bff/javampd/events
+[INFO] Deleting directory /Users/bill/Development/javampd/target/classes/org/bff/javampd
+[INFO] Deleting directory /Users/bill/Development/javampd/target/classes/org/bff
+[INFO] Deleting directory /Users/bill/Development/javampd/target/classes/org
+[INFO] Deleting directory /Users/bill/Development/javampd/target/classes
+[INFO] Deleting directory /Users/bill/Development/javampd/target
+[DEBUG] Skipping non-existing directory /Users/bill/Development/javampd/target/classes
+[DEBUG] Skipping non-existing directory /Users/bill/Development/javampd/target/test-classes
+[DEBUG] Skipping non-existing directory /Users/bill/Development/javampd/target/site
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ javampd ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=1, ConflictMarker.markTime=0, ConflictMarker.nodeCount=78, ConflictIdSorter.graphTime=0, ConflictIdSorter.topsortTime=0, ConflictIdSorter.conflictIdCount=26, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=5, ConflictResolver.conflictItemCount=75, DefaultDependencyCollector.collectTime=118, DefaultDependencyCollector.transformTime=6}
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:jar:2.5:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-core:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.6:compile
+[DEBUG]       org.apache.maven.reporting:maven-reporting-api:jar:2.0.6:compile
+[DEBUG]          org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7:compile
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-error-diagnostics:jar:2.0.6:compile
+[DEBUG]       commons-cli:commons-cli:jar:1.0:compile
+[DEBUG]       org.apache.maven:maven-plugin-descriptor:jar:2.0.6:compile
+[DEBUG]       org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4:compile
+[DEBUG]       classworlds:classworlds:jar:1.1:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-settings:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-model:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-monitor:jar:2.0.6:compile
+[DEBUG]    org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]       junit:junit:jar:3.8.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:2.0.5:compile
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:1.0:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.4:compile
+[DEBUG]    org.codehaus.plexus:plexus-interpolation:jar:1.13:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:2.5
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:2.5
+[DEBUG]   Imported:  < project>org.bff.javampd:javampd:5.0-SNAPSHOT
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:2.5
+[DEBUG]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:2.5
+[DEBUG]   Included: org.apache.maven.reporting:maven-reporting-api:jar:2.0.6
+[DEBUG]   Included: org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7
+[DEBUG]   Included: commons-cli:commons-cli:jar:1.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4
+[DEBUG]   Included: junit:junit:jar:3.8.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:2.0.5
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:1.0
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.4
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.13
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-api:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-project:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-profile:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-artifact-manager:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-registry:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-core:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-repository-metadata:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-error-diagnostics:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-descriptor:jar:2.0.6
+[DEBUG]   Excluded: classworlds:classworlds:jar:1.1
+[DEBUG]   Excluded: org.apache.maven:maven-artifact:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-settings:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-model:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-monitor:jar:2.0.6
+[DEBUG]   Excluded: org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-resources-plugin:2.5:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:2.5, parent: sun.misc.Launcher$AppClassLoader@7987aeca]
+[debug] execute contextualize
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-resources-plugin:2.5:resources' with basic configurator -->
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = /Users/bill/Development/javampd/target/classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: org.bff.javampd:javampd:5.0-SNAPSHOT @ /Users/bill/Development/javampd/pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: /Users/bill/Development/javampd/src/main/resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@11eea7f0
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used {java.vendor=Apple Inc., env.__CHECKFIX1436934=1, sun.java.launcher=SUN_STANDARD, coverage.reports.dir=/Users/bill/Development/javampd/target/coverage-reports, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, env.GREP_OPTIONS=--color=auto, os.name=Mac OS X, sun.boot.class.path=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar, env.TMPDIR=/var/folders/fl/pv5gv2cj3ms7_7tq45f7b0zr0000gn/T/, env.PWD=/Users/bill/Development/javampD, env.LANG=en_US.UTF-8, env.LESS=-R, java.vm.specification.vendor=Sun Microsystems Inc., java.runtime.version=1.6.0_65-b14-462-11M4609, env.Apple_PubSub_Socket_Render=/tmp/launch-ME62Ki/Render, project.build.sourceEncoding=UTF-8, user.name=bill, maven.build.version=Apache Maven 3.1.1 (0728685237757ffbf44136acec0402957f723d9a; 2013-09-17 10:22:22-0500), env.USER=bill, env.SHELL=/bin/zsh, env.__CF_USER_TEXT_ENCODING=0x1F5:0:0, awt.nativeDoubleBuffering=true, env.PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin, user.language=en, sun.boot.library.path=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries, classworlds.conf=/Users/Shared/Development/maven/bin/m2.conf, env.LC_CTYPE=en_US.UTF-8, java.version=1.6.0_65, user.timezone=America/Chicago, sun.arch.data.model=64, http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, java.endorsed.dirs=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed, sun.cpu.isalist=, sun.jnu.encoding=MacRoman, file.encoding.pkg=sun.io, env.SHLVL=1, file.separator=/, java.specification.name=Java Platform API Specification, java.class.version=50.0, org.slf4j.simpleLogger.defaultLogLevel=debug, user.country=US, java.home=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home, java.vm.info=mixed mode, env.LOGNAME=bill, os.version=10.9, env.TERM_PROGRAM_VERSION=326, path.separator=:, java.vm.version=20.65-b04-462, env.JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home, java.awt.printerjob=apple.awt.CPrinterJob, env.TERM=xterm-256color, sun.io.unicode.encoding=UnicodeLittle, awt.toolkit=apple.awt.CToolkit, socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16, ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, env.LSCOLORS=Gxfxcxdxbxegedabagacad, env.GREP_COLOR=1;32, user.home=/Users/bill, java.specification.vendor=Sun Microsystems Inc., env.TERM_PROGRAM=Apple_Terminal, env.M2_HOME=/Users/Shared/Development/maven, env.PAGER=less, java.library.path=.:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java, java.vendor.url=http://www.apple.com/, java.vm.vendor=Apple Inc., gopherProxySet=false, maven.home=/Users/Shared/Development/maven, java.runtime.name=Java(TM) SE Runtime Environment, sun.java.command=org.codehaus.plexus.classworlds.launcher.Launcher -X clean pre-integration-test, java.class.path=/Users/Shared/Development/maven/boot/plexus-classworlds-2.5.1.jar, env.TERM_SESSION_ID=FF0C0387-0951-44F5-B313-C2C28AFC4C62, env.com.apple.java.jvmMode=client, maven.version=3.1.1, java.vm.specification.name=Java Virtual Machine Specification, java.vm.specification.version=1.0, sun.cpu.endian=little, sun.os.patch.level=unknown, env.HOME=/Users/bill, java.io.tmpdir=/var/folders/fl/pv5gv2cj3ms7_7tq45f7b0zr0000gn/T/, java.vendor.url.bug=http://bugreport.apple.com/, env.SSH_AUTH_SOCK=/tmp/launch-BSeBJI/Listeners, mrj.build=11M4609, os.arch=x86_64, java.awt.graphicsenv=apple.awt.CGraphicsEnvironment, java.ext.dirs=/Library/Java/Extensions:/System/Library/Java/Extensions:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext, mrj.version=1070.1.6.0_65-462, env.com.apple.java.jvmTask=CommandLine_Manual.java, user.dir=/Users/bill/Development/javampd, line.separator=
+, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, env.JAVA_MAIN_CLASS_32985=org.codehaus.plexus.classworlds.launcher.Launcher, file.encoding=MacRoman, java.specification.version=1.6}
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] resource with targetPath null
+directory /Users/bill/Development/javampd/src/main/resources
+excludes []
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 1 resource
+[DEBUG] file mpd.properties has a filtered file extension
+[DEBUG] copy /Users/bill/Development/javampd/src/main/resources/org/bff/javampd/mpd.properties to /Users/bill/Development/javampd/target/classes/org/bff/javampd/mpd.properties
+[DEBUG] no use filter components
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ javampd ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=2, ConflictMarker.markTime=0, ConflictMarker.nodeCount=160, ConflictIdSorter.graphTime=1, ConflictIdSorter.topsortTime=0, ConflictIdSorter.conflictIdCount=43, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=10, ConflictResolver.conflictItemCount=63, DefaultDependencyCollector.collectTime=460, DefaultDependencyCollector.transformTime=13}
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:jar:3.1:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.9:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.9:compile
+[DEBUG]       org.codehaus.plexus:plexus-utils:jar:1.5.1:compile
+[DEBUG]    org.apache.maven:maven-core:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-model:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-error-diagnostics:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-project:jar:2.0.9:compile
+[DEBUG]          org.apache.maven:maven-plugin-registry:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-descriptor:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-monitor:jar:2.0.9:compile
+[DEBUG]    org.apache.maven:maven-toolchain:jar:1.0:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:0.1:compile
+[DEBUG]       com.google.code.findbugs:jsr305:jar:2.0.1:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[DEBUG]       org.codehaus.plexus:plexus-component-annotations:jar:1.5.5:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-api:jar:2.2:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-manager:jar:2.2:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-javac:jar:2.2:runtime
+[DEBUG]    org.codehaus.plexus:plexus-container-default:jar:1.5.5:compile
+[DEBUG]       org.codehaus.plexus:plexus-classworlds:jar:2.2.2:compile
+[DEBUG]       org.apache.xbean:xbean-reflect:jar:3.4:compile
+[DEBUG]          log4j:log4j:jar:1.2.12:compile
+[DEBUG]          commons-logging:commons-logging-api:jar:1.1:compile
+[DEBUG]       com.google.collections:google-collections:jar:1.0:compile
+[DEBUG]       junit:junit:jar:3.8.2:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1
+[DEBUG]   Imported:  < project>org.bff.javampd:javampd:5.0-SNAPSHOT
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1
+[DEBUG]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:1.5.1
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:0.1
+[DEBUG]   Included: com.google.code.findbugs:jsr305:jar:2.0.1
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-component-annotations:jar:1.5.5
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.2
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.2
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.2
+[DEBUG]   Included: org.apache.xbean:xbean-reflect:jar:3.4
+[DEBUG]   Included: log4j:log4j:jar:1.2.12
+[DEBUG]   Included: commons-logging:commons-logging-api:jar:1.1
+[DEBUG]   Included: com.google.collections:google-collections:jar:1.0
+[DEBUG]   Included: junit:junit:jar:3.8.2
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-api:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-artifact:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-core:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-settings:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-profile:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-model:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-repository-metadata:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-error-diagnostics:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-project:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-registry:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-descriptor:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-artifact-manager:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-monitor:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-toolchain:jar:1.0
+[DEBUG]   Excluded: org.codehaus.plexus:plexus-container-default:jar:1.5.5
+[DEBUG]   Excluded: org.codehaus.plexus:plexus-classworlds:jar:2.2.2
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-compiler-plugin:3.1:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1, parent: sun.misc.Launcher$AppClassLoader@7987aeca]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-compiler-plugin:3.1:compile' with basic configurator -->
+[DEBUG]   (f) basedir = /Users/bill/Development/javampd
+[DEBUG]   (f) buildDirectory = /Users/bill/Development/javampd/target
+[DEBUG]   (f) classpathElements = [/Users/bill/Development/javampd/target/classes, /Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar, /Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar, /Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar]
+[DEBUG]   (f) compileSourceRoots = [/Users/bill/Development/javampd/src/main/java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedSourcesDirectory = /Users/bill/Development/javampd/target/generated-sources/annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.1:compile {execution: default-compile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = /Users/bill/Development/javampd/target/classes
+[DEBUG]   (f) projectArtifact = org.bff.javampd:javampd:jar:5.0-SNAPSHOT
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = false
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 1.6
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (f) target = 1.6
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG]   (f) mavenSession = org.apache.maven.execution.MavenSession@11eea7f0
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@11eea7f0
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Source directories: [/Users/bill/Development/javampd/src/main/java]
+[DEBUG] Classpath: [/Users/bill/Development/javampd/target/classes
+ /Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar
+ /Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar
+ /Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar]
+[DEBUG] Output directory: /Users/bill/Development/javampd/target/classes
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/PlaylistBasicChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/exception/MPDPlayerException.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/PlayerBasicChangeEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDEventMonitor.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDPlaylist.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/OutputChangeEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDAdmin.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/ConnectionChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/PlayerChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDEventRelayer.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDFile.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/VolumeChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDPlayer.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/PlaylistChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/Utils.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDOutput.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPD.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/exception/MPDAdminException.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDStandAloneMonitor.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/MPDChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/OutputChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/TrackPositionChangeEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/objects/MPDItem.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/MPDChangeEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/objects/MPDArtist.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/TrackPositionChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/ConnectionChangeEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/objects/MPDGenre.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/MPDErrorEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/exception/MPDPlaylistException.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/PlaylistBasicChangeEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/MPDErrorListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/exception/MPDTimeoutException.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/objects/MPDAudioInfo.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/exception/MPDException.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/exception/MPDDatabaseException.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/PlayerChangeEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/objects/MPDSavedPlaylist.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/objects/MPDSong.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/objects/MPDAlbum.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/exception/MPDConnectionException.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/PlayerBasicChangeListener.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDDatabase.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/VolumeChangeEvent.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/exception/MPDResponseException.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/MPDCommand.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/main/java/org/bff/javampd/events/PlaylistChangeEvent.java
+[INFO] Changes detected - recompiling the module!
+[DEBUG] Classpath:
+[DEBUG]  /Users/bill/Development/javampd/target/classes
+[DEBUG]  /Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar
+[DEBUG]  /Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar
+[DEBUG]  /Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar
+[DEBUG] Source roots:
+[DEBUG]  /Users/bill/Development/javampd/src/main/java
+[DEBUG] Command line options:
+[DEBUG] -d /Users/bill/Development/javampd/target/classes -classpath /Users/bill/Development/javampd/target/classes:/Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar:/Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:/Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar: -sourcepath /Users/bill/Development/javampd/src/main/java: -s /Users/bill/Development/javampd/target/generated-sources/annotations -g -nowarn -target 1.6 -source 1.6 -encoding UTF-8
+[DEBUG] incrementalBuildHelper#beforeRebuildExecution
+[INFO] Compiling 47 source files to /Users/bill/Development/javampd/target/classes
+[DEBUG] incrementalBuildHelper#afterRebuildExecution
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:testResources (default-testResources) @ javampd ---
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-resources-plugin:2.5:testResources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:2.5, parent: sun.misc.Launcher$AppClassLoader@7987aeca]
+[debug] execute contextualize
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-resources-plugin:2.5:testResources' with basic configurator -->
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = /Users/bill/Development/javampd/target/test-classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: org.bff.javampd:javampd:5.0-SNAPSHOT @ /Users/bill/Development/javampd/pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: /Users/bill/Development/javampd/src/test/resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@11eea7f0
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used {java.vendor=Apple Inc., env.__CHECKFIX1436934=1, sun.java.launcher=SUN_STANDARD, coverage.reports.dir=/Users/bill/Development/javampd/target/coverage-reports, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, env.GREP_OPTIONS=--color=auto, os.name=Mac OS X, sun.boot.class.path=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsfd.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/laf.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/sunrsasign.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar, env.TMPDIR=/var/folders/fl/pv5gv2cj3ms7_7tq45f7b0zr0000gn/T/, env.PWD=/Users/bill/Development/javampD, env.LANG=en_US.UTF-8, env.LESS=-R, java.vm.specification.vendor=Sun Microsystems Inc., java.runtime.version=1.6.0_65-b14-462-11M4609, env.Apple_PubSub_Socket_Render=/tmp/launch-ME62Ki/Render, project.build.sourceEncoding=UTF-8, user.name=bill, maven.build.version=Apache Maven 3.1.1 (0728685237757ffbf44136acec0402957f723d9a; 2013-09-17 10:22:22-0500), env.USER=bill, env.SHELL=/bin/zsh, env.__CF_USER_TEXT_ENCODING=0x1F5:0:0, awt.nativeDoubleBuffering=true, env.PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin, user.language=en, sun.boot.library.path=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries, classworlds.conf=/Users/Shared/Development/maven/bin/m2.conf, env.LC_CTYPE=en_US.UTF-8, java.version=1.6.0_65, user.timezone=America/Chicago, sun.arch.data.model=64, http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, java.endorsed.dirs=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed, sun.cpu.isalist=, sun.jnu.encoding=MacRoman, file.encoding.pkg=sun.io, env.SHLVL=1, file.separator=/, java.specification.name=Java Platform API Specification, java.class.version=50.0, org.slf4j.simpleLogger.defaultLogLevel=debug, user.country=US, java.home=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home, java.vm.info=mixed mode, env.LOGNAME=bill, os.version=10.9, env.TERM_PROGRAM_VERSION=326, path.separator=:, java.vm.version=20.65-b04-462, env.JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home, java.awt.printerjob=apple.awt.CPrinterJob, env.TERM=xterm-256color, sun.io.unicode.encoding=UnicodeLittle, awt.toolkit=apple.awt.CToolkit, socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16, ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, env.LSCOLORS=Gxfxcxdxbxegedabagacad, env.GREP_COLOR=1;32, user.home=/Users/bill, java.specification.vendor=Sun Microsystems Inc., env.TERM_PROGRAM=Apple_Terminal, env.M2_HOME=/Users/Shared/Development/maven, env.PAGER=less, java.library.path=.:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java, java.vendor.url=http://www.apple.com/, java.vm.vendor=Apple Inc., gopherProxySet=false, maven.home=/Users/Shared/Development/maven, java.runtime.name=Java(TM) SE Runtime Environment, sun.java.command=org.codehaus.plexus.classworlds.launcher.Launcher -X clean pre-integration-test, java.class.path=/Users/Shared/Development/maven/boot/plexus-classworlds-2.5.1.jar, env.TERM_SESSION_ID=FF0C0387-0951-44F5-B313-C2C28AFC4C62, env.com.apple.java.jvmMode=client, maven.version=3.1.1, java.vm.specification.name=Java Virtual Machine Specification, java.vm.specification.version=1.0, sun.cpu.endian=little, sun.os.patch.level=unknown, env.HOME=/Users/bill, java.io.tmpdir=/var/folders/fl/pv5gv2cj3ms7_7tq45f7b0zr0000gn/T/, java.vendor.url.bug=http://bugreport.apple.com/, env.SSH_AUTH_SOCK=/tmp/launch-BSeBJI/Listeners, mrj.build=11M4609, os.arch=x86_64, java.awt.graphicsenv=apple.awt.CGraphicsEnvironment, java.ext.dirs=/Library/Java/Extensions:/System/Library/Java/Extensions:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext, mrj.version=1070.1.6.0_65-462, env.com.apple.java.jvmTask=CommandLine_Manual.java, user.dir=/Users/bill/Development/javampd, line.separator=
+, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, env.JAVA_MAIN_CLASS_32985=org.codehaus.plexus.classworlds.launcher.Launcher, file.encoding=MacRoman, java.specification.version=1.6}
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] resource with targetPath null
+directory /Users/bill/Development/javampd/src/test/resources
+excludes []
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 0 resource
+[DEBUG] no use filter components
+[INFO] 
+[INFO] --- build-helper-maven-plugin:1.7:add-test-source (add-it-source) @ javampd ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=0, ConflictMarker.markTime=0, ConflictMarker.nodeCount=59, ConflictIdSorter.graphTime=0, ConflictIdSorter.topsortTime=0, ConflictIdSorter.conflictIdCount=23, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=2, ConflictResolver.conflictItemCount=59, DefaultDependencyCollector.collectTime=11, DefaultDependencyCollector.transformTime=2}
+[DEBUG] org.codehaus.mojo:build-helper-maven-plugin:jar:1.7:
+[DEBUG]    org.apache.maven:maven-model:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.0.6:compile
+[DEBUG]       org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]          junit:junit:jar:3.8.2:test
+[DEBUG]    org.apache.maven:maven-core:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.6:compile
+[DEBUG]       org.apache.maven.reporting:maven-reporting-api:jar:2.0.6:compile
+[DEBUG]          org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7:compile
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-error-diagnostics:jar:2.0.6:compile
+[DEBUG]       commons-cli:commons-cli:jar:1.0:compile
+[DEBUG]       org.apache.maven:maven-plugin-descriptor:jar:2.0.6:compile
+[DEBUG]       org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4:compile
+[DEBUG]       org.apache.maven:maven-monitor:jar:2.0.6:compile
+[DEBUG]       classworlds:classworlds:jar:1.1:compile
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.6:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:1.5.8:compile
+[DEBUG] Created new class realm plugin>org.codehaus.mojo:build-helper-maven-plugin:1.7
+[DEBUG] Importing foreign packages into class realm plugin>org.codehaus.mojo:build-helper-maven-plugin:1.7
+[DEBUG]   Imported:  < project>org.bff.javampd:javampd:5.0-SNAPSHOT
+[DEBUG] Populating class realm plugin>org.codehaus.mojo:build-helper-maven-plugin:1.7
+[DEBUG]   Included: org.codehaus.mojo:build-helper-maven-plugin:jar:1.7
+[DEBUG]   Included: org.apache.maven.reporting:maven-reporting-api:jar:2.0.6
+[DEBUG]   Included: org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7
+[DEBUG]   Included: commons-cli:commons-cli:jar:1.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:1.5.8
+[DEBUG]   Excluded: org.apache.maven:maven-model:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-project:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-settings:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-profile:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-artifact-manager:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-registry:jar:2.0.6
+[DEBUG]   Excluded: org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1
+[DEBUG]   Excluded: junit:junit:jar:3.8.2
+[DEBUG]   Excluded: org.apache.maven:maven-core:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-repository-metadata:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-error-diagnostics:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-descriptor:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-monitor:jar:2.0.6
+[DEBUG]   Excluded: classworlds:classworlds:jar:1.1
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-api:jar:2.0.6
+[DEBUG]   Excluded: org.apache.maven:maven-artifact:jar:2.0.6
+[DEBUG] Configuring mojo org.codehaus.mojo:build-helper-maven-plugin:1.7:add-test-source from plugin realm ClassRealm[plugin>org.codehaus.mojo:build-helper-maven-plugin:1.7, parent: sun.misc.Launcher$AppClassLoader@7987aeca]
+[DEBUG] Configuring mojo 'org.codehaus.mojo:build-helper-maven-plugin:1.7:add-test-source' with basic configurator -->
+[DEBUG]   (f) project = MavenProject: org.bff.javampd:javampd:5.0-SNAPSHOT @ /Users/bill/Development/javampd/pom.xml
+[DEBUG]   (f) sources = [/Users/bill/Development/javampd/src/it/java]
+[DEBUG] -- end configuration --
+[INFO] Test Source directory: /Users/bill/Development/javampd/src/it/java added.
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ javampd ---
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1, parent: sun.misc.Launcher$AppClassLoader@7987aeca]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile' with basic configurator -->
+[DEBUG]   (f) basedir = /Users/bill/Development/javampd
+[DEBUG]   (f) buildDirectory = /Users/bill/Development/javampd/target
+[DEBUG]   (f) classpathElements = [/Users/bill/Development/javampd/target/test-classes, /Users/bill/Development/javampd/target/classes, /Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar, /Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar, /Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar, /Users/bill/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar]
+[DEBUG]   (f) compileSourceRoots = [/Users/bill/Development/javampd/src/test/java, /Users/bill/Development/javampd/src/it/java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedTestSourcesDirectory = /Users/bill/Development/javampd/target/generated-test-sources/test-annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile {execution: default-testCompile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = /Users/bill/Development/javampd/target/test-classes
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = false
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 1.6
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (f) target = 1.6
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG]   (f) mavenSession = org.apache.maven.execution.MavenSession@11eea7f0
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@11eea7f0
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Source directories: [/Users/bill/Development/javampd/src/test/java
+ /Users/bill/Development/javampd/src/it/java]
+[DEBUG] Classpath: [/Users/bill/Development/javampd/target/test-classes
+ /Users/bill/Development/javampd/target/classes
+ /Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar
+ /Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar
+ /Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar
+ /Users/bill/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar]
+[DEBUG] Output directory: /Users/bill/Development/javampd/target/test-classes
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/integrationdata/Artists.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/integrationdata/Genres.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/MPDIT.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/BaseTest.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/MPDPlayerIT.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/monitor/MPDStandAloneMonitorIT.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/MPDPlaylistIT.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/integrationdata/Albums.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/integrationdata/Years.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/Controller.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/integrationdata/Songs.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/test/java/org/bff/javampd/objects/MPDAlbumTest.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/MPDAdminIT.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/it/java/org/bff/javampd/MPDDatabaseIT.java
+[DEBUG] Stale source detected: /Users/bill/Development/javampd/src/test/java/org/bff/javampd/UtilsTest.java
+[INFO] Changes detected - recompiling the module!
+[DEBUG] Classpath:
+[DEBUG]  /Users/bill/Development/javampd/target/test-classes
+[DEBUG]  /Users/bill/Development/javampd/target/classes
+[DEBUG]  /Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar
+[DEBUG]  /Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar
+[DEBUG]  /Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar
+[DEBUG]  /Users/bill/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar
+[DEBUG] Source roots:
+[DEBUG]  /Users/bill/Development/javampd/src/test/java
+[DEBUG]  /Users/bill/Development/javampd/src/it/java
+[DEBUG] Command line options:
+[DEBUG] -d /Users/bill/Development/javampd/target/test-classes -classpath /Users/bill/Development/javampd/target/test-classes:/Users/bill/Development/javampd/target/classes:/Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar:/Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:/Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar:/Users/bill/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar: -sourcepath /Users/bill/Development/javampd/src/test/java:/Users/bill/Development/javampd/src/it/java: -s /Users/bill/Development/javampd/target/generated-test-sources/test-annotations -g -nowarn -target 1.6 -source 1.6 -encoding UTF-8
+[DEBUG] incrementalBuildHelper#beforeRebuildExecution
+[INFO] Compiling 15 source files to /Users/bill/Development/javampd/target/test-classes
+[DEBUG] incrementalBuildHelper#afterRebuildExecution
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.11:test (default-test) @ javampd ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=1, ConflictMarker.markTime=0, ConflictMarker.nodeCount=129, ConflictIdSorter.graphTime=0, ConflictIdSorter.topsortTime=0, ConflictIdSorter.conflictIdCount=25, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=3, ConflictResolver.conflictItemCount=74, DefaultDependencyCollector.collectTime=45, DefaultDependencyCollector.transformTime=4}
+[DEBUG] org.apache.maven.plugins:maven-surefire-plugin:jar:2.11:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.9:compile
+[DEBUG]    org.apache.maven.surefire:surefire-booter:jar:2.11:compile
+[DEBUG]       org.apache.maven.surefire:surefire-api:jar:2.11:compile
+[DEBUG]    org.apache.maven.surefire:maven-surefire-common:jar:2.11:compile
+[DEBUG]       org.apache.maven.shared:maven-common-artifact-filters:jar:1.3:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:2.1:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.9:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-model:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.0.9:compile
+[DEBUG]       org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]          junit:junit:jar:3.8.1:test
+[DEBUG]    org.apache.maven:maven-core:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.9:compile
+[DEBUG]       org.apache.maven.reporting:maven-reporting-api:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-error-diagnostics:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-descriptor:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-monitor:jar:2.0.9:compile
+[DEBUG]       classworlds:classworlds:jar:1.1:compile
+[DEBUG]    org.apache.maven:maven-toolchain:jar:2.0.9:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:2.11
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:2.11
+[DEBUG]   Imported:  < project>org.bff.javampd:javampd:5.0-SNAPSHOT
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:2.11
+[DEBUG]   Included: org.apache.maven.plugins:maven-surefire-plugin:jar:2.11
+[DEBUG]   Included: org.apache.maven.surefire:surefire-booter:jar:2.11
+[DEBUG]   Included: org.apache.maven.surefire:surefire-api:jar:2.11
+[DEBUG]   Included: org.apache.maven.surefire:maven-surefire-common:jar:2.11
+[DEBUG]   Included: org.apache.maven.shared:maven-common-artifact-filters:jar:1.3
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:2.1
+[DEBUG]   Included: org.apache.maven.reporting:maven-reporting-api:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-api:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-artifact:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-project:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-settings:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-profile:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-model:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-artifact-manager:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-registry:jar:2.0.9
+[DEBUG]   Excluded: org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1
+[DEBUG]   Excluded: junit:junit:jar:3.8.1
+[DEBUG]   Excluded: org.apache.maven:maven-core:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-repository-metadata:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-error-diagnostics:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-plugin-descriptor:jar:2.0.9
+[DEBUG]   Excluded: org.apache.maven:maven-monitor:jar:2.0.9
+[DEBUG]   Excluded: classworlds:classworlds:jar:1.1
+[DEBUG]   Excluded: org.apache.maven:maven-toolchain:jar:2.0.9
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-surefire-plugin:2.11:test from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-surefire-plugin:2.11, parent: sun.misc.Launcher$AppClassLoader@7987aeca]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-surefire-plugin:2.11:test' with basic configurator -->
+[DEBUG]   (s) basedir = /Users/bill/Development/javampd
+[DEBUG]   (s) childDelegation = false
+[DEBUG]   (s) classesDirectory = /Users/bill/Development/javampd/target/classes
+[DEBUG]   (s) disableXmlReport = false
+[DEBUG]   (s) enableAssertions = true
+[DEBUG]   (s) excludes = [**/IT*.java]
+[DEBUG]   (s) forkMode = once
+[DEBUG]   (s) includes = [**/*.java]
+[DEBUG]   (s) junitArtifactName = junit:junit
+[DEBUG]   (s) localRepository =        id: local
+      url: file:///Users/bill/.m2/repository/
+   layout: none
+
+[DEBUG]   (f) parallelMavenExecution = false
+[DEBUG]   (s) perCoreThreadCount = true
+[DEBUG]   (s) pluginArtifactMap = {org.apache.maven.plugins:maven-surefire-plugin=org.apache.maven.plugins:maven-surefire-plugin:maven-plugin:2.11:, org.apache.maven.surefire:surefire-booter=org.apache.maven.surefire:surefire-booter:jar:2.11:compile, org.apache.maven.surefire:surefire-api=org.apache.maven.surefire:surefire-api:jar:2.11:compile, org.apache.maven.surefire:maven-surefire-common=org.apache.maven.surefire:maven-surefire-common:jar:2.11:compile, org.apache.maven.shared:maven-common-artifact-filters=org.apache.maven.shared:maven-common-artifact-filters:jar:1.3:compile, org.codehaus.plexus:plexus-utils=org.codehaus.plexus:plexus-utils:jar:2.1:compile, org.apache.maven.reporting:maven-reporting-api=org.apache.maven.reporting:maven-reporting-api:jar:2.0.9:compile}
+[DEBUG]   (s) printSummary = true
+[DEBUG]   (s) project = MavenProject: org.bff.javampd:javampd:5.0-SNAPSHOT @ /Users/bill/Development/javampd/pom.xml
+[DEBUG]   (s) projectArtifactMap = {org.slf4j:slf4j-log4j12=org.slf4j:slf4j-log4j12:jar:1.6.4:compile, org.slf4j:slf4j-api=org.slf4j:slf4j-api:jar:1.6.4:compile, log4j:log4j=log4j:log4j:jar:1.2.16:compile, junit:junit=junit:junit:jar:4.8.2:test}
+[DEBUG]   (s) redirectTestOutputToFile = false
+[DEBUG]   (s) remoteRepositories = [       id: central
+      url: http://repo.maven.apache.org/maven2
+   layout: default
+snapshots: [enabled => false, update => daily]
+ releases: [enabled => true, update => never]
+]
+[DEBUG]   (s) reportFormat = brief
+[DEBUG]   (s) reportsDirectory = /Users/bill/Development/javampd/target/surefire-reports
+[DEBUG]   (s) runOrder = filesystem
+[DEBUG]   (s) session = org.apache.maven.execution.MavenSession@11eea7f0
+[DEBUG]   (s) skip = false
+[DEBUG]   (s) skipTests = false
+[DEBUG]   (s) testClassesDirectory = /Users/bill/Development/javampd/target/test-classes
+[DEBUG]   (s) testFailureIgnore = false
+[DEBUG]   (s) testNGArtifactName = org.testng:testng
+[DEBUG]   (s) testSourceDirectory = /Users/bill/Development/javampd/src/test/java
+[DEBUG]   (s) trimStackTrace = true
+[DEBUG]   (s) useFile = true
+[DEBUG]   (s) useManifestOnlyJar = true
+[DEBUG]   (s) useSystemClassLoader = true
+[DEBUG]   (s) useUnlimitedThreads = false
+[DEBUG]   (s) workingDirectory = /Users/bill/Development/javampd
+[DEBUG] -- end configuration --
+[INFO] Surefire report directory: /Users/bill/Development/javampd/target/surefire-reports
+[DEBUG] dummy:dummy:jar:1.0 (selected for null)
+[DEBUG]   org.apache.maven.surefire:surefire-booter:jar:2.11:compile (selected for compile)
+[DEBUG]     org.apache.maven.surefire:surefire-api:jar:2.11:compile (selected for compile)
+[DEBUG] Adding to surefire booter test classpath: /Users/bill/.m2/repository/org/apache/maven/surefire/surefire-booter/2.11/surefire-booter-2.11.jar Scope: compile
+[DEBUG] Adding to surefire booter test classpath: /Users/bill/.m2/repository/org/apache/maven/surefire/surefire-api/2.11/surefire-api-2.11.jar Scope: compile
+[DEBUG] Setting system property [user.dir]=[/Users/bill/Development/javampd]
+[DEBUG] Setting system property [localRepository]=[/Users/bill/.m2/repository]
+[DEBUG] Setting system property [basedir]=[/Users/bill/Development/javampd]
+[DEBUG] Using JVM: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/bin/java
+[DEBUG] dummy:dummy:jar:1.0 (selected for null)
+[DEBUG]   org.apache.maven.surefire:surefire-junit4:jar:2.11:test (selected for test)
+[DEBUG]     org.apache.maven.surefire:surefire-api:jar:2.11:test (selected for test)
+[DEBUG] Adding to surefire test classpath: /Users/bill/.m2/repository/org/apache/maven/surefire/surefire-junit4/2.11/surefire-junit4-2.11.jar Scope: test
+[DEBUG] Adding to surefire test classpath: /Users/bill/.m2/repository/org/apache/maven/surefire/surefire-api/2.11/surefire-api-2.11.jar Scope: test
+[DEBUG] test classpath classpath:
+[DEBUG]   /Users/bill/Development/javampd/target/test-classes
+[DEBUG]   /Users/bill/Development/javampd/target/classes
+[DEBUG]   /Users/bill/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar
+[DEBUG]   /Users/bill/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar
+[DEBUG]   /Users/bill/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar
+[DEBUG]   /Users/bill/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar
+[DEBUG] provider classpath classpath:
+[DEBUG]   /Users/bill/.m2/repository/org/apache/maven/surefire/surefire-junit4/2.11/surefire-junit4-2.11.jar
+[DEBUG]   /Users/bill/.m2/repository/org/apache/maven/surefire/surefire-api/2.11/surefire-api-2.11.jar
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Forking command line: /bin/sh -c cd /Users/bill/Development/javampd && /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/bin/java -jar /Users/bill/Development/javampd/target/surefire/surefirebooter4053929586542410023.jar /Users/bill/Development/javampd/target/surefire/surefire1079073636119160537tmp /Users/bill/Development/javampd/target/surefire/surefire4673404314129973702tmp
+Running org.bff.javampd.monitor.MPDStandAloneMonitorIT
+Nov 23, 2013 7:09:43 AM org.bff.javampd.BaseTest <clinit>
+SEVERE: null
+org.bff.javampd.exception.MPDConnectionException: java.net.ConnectException: Connection refused
+	at org.bff.javampd.MPD.<init>(MPD.java:382)
+	at org.bff.javampd.MPD.<init>(MPD.java:340)
+	at org.bff.javampd.Controller.getNewMPD(Controller.java:87)
+	at org.bff.javampd.Controller.<init>(Controller.java:77)
+	at org.bff.javampd.Controller.getInstance(Controller.java:110)
+	at org.bff.javampd.BaseTest.<clinit>(BaseTest.java:26)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:27)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:31)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:234)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:133)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:114)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:188)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:166)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:86)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:101)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:74)
+Caused by: java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:382)
+	at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:241)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:228)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:431)
+	at java.net.Socket.connect(Socket.java:527)
+	at org.bff.javampd.MPD.connect(MPD.java:858)
+	at org.bff.javampd.MPD.<init>(MPD.java:376)
+	... 27 more
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.133 sec <<< FAILURE!
+Running org.bff.javampd.MPDAdminIT
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.004 sec <<< FAILURE!
+Running org.bff.javampd.MPDDatabaseIT
+Tests run: 24, Failures: 0, Errors: 24, Skipped: 0, Time elapsed: 0.031 sec <<< FAILURE!
+Running org.bff.javampd.MPDIT
+Tests run: 4, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.003 sec <<< FAILURE!
+Running org.bff.javampd.MPDPlayerIT
+Tests run: 9, Failures: 0, Errors: 8, Skipped: 1, Time elapsed: 0.008 sec <<< FAILURE!
+Running org.bff.javampd.MPDPlaylistIT
+Tests run: 8, Failures: 0, Errors: 8, Skipped: 0, Time elapsed: 0.011 sec <<< FAILURE!
+Running org.bff.javampd.objects.MPDAlbumTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+Running org.bff.javampd.UtilsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+
+Results :
+
+Tests in error: 
+  org.bff.javampd.monitor.MPDStandAloneMonitorIT
+  org.bff.javampd.monitor.MPDStandAloneMonitorIT: Could not initialize class org.bff.javampd.monitor.MPDStandAloneMonitorIT
+  enableOutput(org.bff.javampd.MPDAdminIT)
+  disableOutput(org.bff.javampd.MPDAdminIT)
+  testOutputs(org.bff.javampd.MPDAdminIT)
+  testSongs(org.bff.javampd.MPDDatabaseIT)
+  testListRootDirectory(org.bff.javampd.MPDDatabaseIT)
+  testListDirectories(org.bff.javampd.MPDDatabaseIT)
+  testArtistCount(org.bff.javampd.MPDDatabaseIT)
+  testAlbumCount(org.bff.javampd.MPDDatabaseIT)
+  testSongCount(org.bff.javampd.MPDDatabaseIT)
+  testGenreCount(org.bff.javampd.MPDDatabaseIT)
+  testAlbumList(org.bff.javampd.MPDDatabaseIT)
+  testGetYears(org.bff.javampd.MPDDatabaseIT)
+  testFindArtist(org.bff.javampd.MPDDatabaseIT)
+  testFindArtistString(org.bff.javampd.MPDDatabaseIT)
+  testFindAlbum(org.bff.javampd.MPDDatabaseIT)
+  testFindAlbumString(org.bff.javampd.MPDDatabaseIT)
+  testFindGenre(org.bff.javampd.MPDDatabaseIT)
+  testFindGenreString(org.bff.javampd.MPDDatabaseIT)
+  testFindYear(org.bff.javampd.MPDDatabaseIT)
+  testSearchArtist(org.bff.javampd.MPDDatabaseIT)
+  testSearchArtistString(org.bff.javampd.MPDDatabaseIT)
+  testSearchAlbum(org.bff.javampd.MPDDatabaseIT)
+  testSearchAlbumString(org.bff.javampd.MPDDatabaseIT)
+  testSearchTitleString(org.bff.javampd.MPDDatabaseIT)
+  testSearchTitleStringSpace(org.bff.javampd.MPDDatabaseIT)
+  testSearchAny(org.bff.javampd.MPDDatabaseIT)
+  testFindAny(org.bff.javampd.MPDDatabaseIT)
+  testVersion(org.bff.javampd.MPDIT)
+  testPassword(org.bff.javampd.MPDIT): java.net.ConnectException: Connection refused
+  testAudioDetailsStopped(org.bff.javampd.MPDPlayerIT)
+  testAudioDetailsStopped(org.bff.javampd.MPDPlayerIT)
+  testAudioDetails(org.bff.javampd.MPDPlayerIT)
+  testAudioDetails(org.bff.javampd.MPDPlayerIT)
+  testVolumeTooLow(org.bff.javampd.MPDPlayerIT)
+  testVolumeTooLow(org.bff.javampd.MPDPlayerIT)
+  testVolumeTooHigh(org.bff.javampd.MPDPlayerIT)
+  testVolumeTooHigh(org.bff.javampd.MPDPlayerIT)
+  testGetVersion(org.bff.javampd.MPDPlaylistIT)
+  testGetSongList(org.bff.javampd.MPDPlaylistIT)
+  testGetSongListRemoteAdded(org.bff.javampd.MPDPlaylistIT)
+  testSavePlaylist(org.bff.javampd.MPDPlaylistIT)
+  testSavePlaylistWithSpace(org.bff.javampd.MPDPlaylistIT)
+  testSavePlaylistSongsWithSpace(org.bff.javampd.MPDPlaylistIT)
+  testSavePlaylistSongs(org.bff.javampd.MPDPlaylistIT)
+  testAddingNonexistentPlaylist(org.bff.javampd.MPDPlaylistIT)
+
+Tests run: 55, Failures: 0, Errors: 47, Skipped: 1
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3.888s
+[INFO] Finished at: Sat Nov 23 07:09:44 CST 2013
+[INFO] Final Memory: 11M/81M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.11:test (default-test) on project javampd: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/bill/Development/javampd/target/surefire-reports for the individual test results.
+[ERROR] -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.11:test (default-test) on project javampd: There are test failures.
+
+Please refer to /Users/bill/Development/javampd/target/surefire-reports for the individual test results.
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:212)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:84)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:59)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.singleThreadedBuild(LifecycleStarter.java:183)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:161)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:317)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:152)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:555)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:214)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:158)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+Caused by: org.apache.maven.plugin.MojoFailureException: There are test failures.
+
+Please refer to /Users/bill/Development/javampd/target/surefire-reports for the individual test results.
+	at org.apache.maven.plugin.surefire.SurefireHelper.reportExecution(SurefireHelper.java:87)
+	at org.apache.maven.plugin.surefire.SurefirePlugin.writeSummary(SurefirePlugin.java:651)
+	at org.apache.maven.plugin.surefire.SurefirePlugin.handleSummary(SurefirePlugin.java:625)
+	at org.apache.maven.plugin.surefire.AbstractSurefireMojo.executeAfterPreconditionsChecked(AbstractSurefireMojo.java:136)
+	at org.apache.maven.plugin.surefire.AbstractSurefireMojo.execute(AbstractSurefireMojo.java:97)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:106)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:208)
+	... 19 more
+[ERROR] 
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
