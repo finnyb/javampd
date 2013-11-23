@@ -5,13 +5,12 @@
 
 package org.bff.javampd.objects;
 
-import org.bff.javampd.BaseTest;
 import org.junit.*;
 
 /**
  * @author Bill
  */
-public class MPDAlbumTest extends BaseTest {
+public class MPDAlbumTest {
 
     public MPDAlbumTest() {
     }
