@@ -8,14 +8,12 @@ import org.bff.javampd.integrationdata.Songs;
 import org.bff.javampd.objects.MPDAudioInfo;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.*;
-import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Category(IntegrationTest.class)
-public class MPDPlayerTest extends BaseTest {
+public class MPDPlayerIT extends BaseTest {
     @Before
     public void setUp() throws Exception {
         List<MPDSong> songs = new ArrayList<MPDSong>(Songs.getTestSongs());

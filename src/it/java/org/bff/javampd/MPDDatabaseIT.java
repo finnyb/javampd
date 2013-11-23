@@ -9,15 +9,13 @@ import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDGenre;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.*;
-import org.junit.experimental.categories.Category;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Category(IntegrationTest.class)
-public class MPDDatabaseTest extends BaseTest {
+public class MPDDatabaseIT extends BaseTest {
     private static List<MPDArtist> artistList;
     private static List<MPDAlbum> albumList;
     private static List<MPDGenre> genreList;

@@ -4,14 +4,12 @@ import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.junit.*;
-import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Category(IntegrationTest.class)
-public class MPDTest extends BaseTest {
+public class MPDIT extends BaseTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -44,7 +42,7 @@ public class MPDTest extends BaseTest {
                 try {
                     mpd.close();
                 } catch (MPDResponseException ex) {
-                    Logger.getLogger(MPDTest.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MPDIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -63,7 +61,7 @@ public class MPDTest extends BaseTest {
                 try {
                     mpd.close();
                 } catch (MPDResponseException ex) {
-                    Logger.getLogger(MPDTest.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MPDIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -82,7 +80,7 @@ public class MPDTest extends BaseTest {
                 try {
                     mpd.close();
                 } catch (MPDResponseException ex) {
-                    Logger.getLogger(MPDTest.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MPDIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

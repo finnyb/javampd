@@ -32,7 +32,7 @@ public class Controller {
     public static final String PROP_PATH = "path.testmp3";
     private static final String PROP_SERVER_PATH = "path.server.mp3";
     public static final String EXTENSION = ".mp3";
-    public static final String FILE_PROPS = System.getProperty("user.dir") + "/src/test/resources/TestProperties.properties";
+    public static final String FILE_PROPS = System.getProperty("user.dir") + "/src/it/resources/TestProperties.properties";
     private static final String PROP_VERSION = "mpd.version";
     private static final String PROP_PASSWORD = "password";
     private String path;
