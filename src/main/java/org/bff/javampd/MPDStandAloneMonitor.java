@@ -102,7 +102,7 @@ public class MPDStandAloneMonitor
         }
     }
 
-    private void createListeners() {
+    private synchronized void createListeners() {
         this.playerListeners = new ArrayList<PlayerBasicChangeListener>();
         this.playlistListeners = new ArrayList<PlaylistBasicChangeListener>();
         this.volListeners = new ArrayList<VolumeChangeListener>();
