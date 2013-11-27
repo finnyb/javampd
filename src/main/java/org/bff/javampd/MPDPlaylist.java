@@ -469,8 +469,6 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void swap(MPDSong song, int i) throws MPDConnectionException, MPDPlaylistException {
-        String[] paramList = new String[2];
-
         try {
             commandExecutor.sendCommand(playlistProperties.getSwapId(), song.getId(), i);
         } catch (MPDResponseException re) {
