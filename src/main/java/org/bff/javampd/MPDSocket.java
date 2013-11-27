@@ -204,7 +204,7 @@ public class MPDSocket {
         return sb.toString();
     }
 
-    public boolean sendCommands(List<MPDCommand> commandList) throws MPDConnectionException {
+    public synchronized boolean sendCommands(List<MPDCommand> commandList) throws MPDConnectionException {
         boolean isOk = true;
         StringBuffer sb;
 
