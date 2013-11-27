@@ -3,11 +3,13 @@ package org.bff.javampd.monitor;
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.Controller;
 import org.bff.javampd.MPDOutput;
-import org.bff.javampd.StandAloneMonitor;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.objects.MPDSong;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,29 +18,35 @@ import java.util.logging.Logger;
 
 public class MPDStandAloneMonitorIT extends BaseTest {
 
-    private StandAloneMonitor monitor;
-
-    @BeforeClass
-    public static void setUpClass() {
-        getMonitor().start();
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-        getMonitor().stop();
-    }
+    /**
+     * Delay for various monitor actions
+     */
+    private static final int MONITOR_DELAY = 3000;
 
     @Before
     public void setUp() throws MPDException {
-        monitor = getMonitor();
         getPlaylist().clearPlaylist();
         getPlayer().stop();
         MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
         getAdmin().enableOutput(output);
+        getMonitor().start();
+        delay();
     }
 
     @After
     public void tearDown() {
+        getMonitor().stop();
+        getMonitor().clearListeners();
+        delay();
+    }
+
+    private void delay() {
+        try {
+            Thread.sleep(MONITOR_DELAY);
+        } catch (InterruptedException e) {
+            //don't care
+            e.printStackTrace();
+        }
     }
 
     private boolean success;
@@ -59,18 +67,9 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        MPDSong song = Controller.getInstance().getDatabaseSongs().get(0);
+        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(0));
 
-        getPlaylist().addSong(song);
-
-        int count = 0;
-        while (!success && count++ < 100) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        waitForSuccess();
 
         Assert.assertTrue(success);
     }
@@ -91,18 +90,9 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        MPDSong song = Controller.getInstance().getDatabaseSongs().get(0);
+        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(0));
 
-        getPlaylist().addSong(song);
-
-        int count = 0;
-        while (!success && count++ < 100) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        waitForSuccess();
 
         Assert.assertTrue(success);
     }
@@ -126,17 +116,10 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         MPDSong song = Controller.getInstance().getDatabaseSongs().get(0);
 
         getPlaylist().addSong(song);
-
+        delay();
         getPlaylist().removeSong(getPlaylist().getSongList().get(0));
 
-        int count = 0;
-        while (!success && count++ < 100) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        waitForSuccess();
 
         Assert.assertTrue(success);
     }
@@ -161,6 +144,12 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
         getPlayer().play();
 
+        waitForSuccess();
+
+        Assert.assertTrue(success);
+    }
+
+    private void waitForSuccess() {
         int count = 0;
         while (!success && count++ < 100) {
             try {
@@ -169,8 +158,6 @@ public class MPDStandAloneMonitorIT extends BaseTest {
                 Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        Assert.assertTrue(success);
     }
 
     @Test
@@ -190,24 +177,13 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         });
 
         getPlayer().stop();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        delay();
 
         success = false;
         loadSeveralSongs();
         getPlayer().play();
 
-        int count = 0;
-        while (!success && count++ < 100) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        waitForSuccess();
 
         Assert.assertTrue(success);
     }
@@ -228,26 +204,13 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-
         success = false;
         loadSeveralSongs();
         getPlayer().play();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        delay();
         getPlayer().stop();
 
-        int count = 0;
-        while (!success && count++ < 100) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        waitForSuccess();
 
         Assert.assertTrue(success);
     }
@@ -272,22 +235,10 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         success = false;
         loadSeveralSongs();
         getPlayer().play();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        delay();
         getPlayer().pause();
 
-        int count = 0;
-        while (!success && count++ < 100) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        waitForSuccess();
 
         Assert.assertTrue(success);
     }
@@ -298,11 +249,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
         getPlayer().setVolume(0);
 
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        delay();
 
         getMonitor().addVolumeChangeListener(new VolumeChangeListener() {
 
@@ -316,16 +263,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         getPlayer().play();
 
         getPlayer().setVolume(5);
-
-        int count = 0;
-        while (!success && count++ < 200) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
+        waitForSuccess();
         Assert.assertTrue(success);
     }
 
@@ -350,23 +288,10 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         loadSeveralSongs();
         getPlayer().play();
         getPlayer().pause();
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        delay();
         getPlayer().pause();
 
-        int count = 0;
-        while (!success && count++ < 100) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        waitForSuccess();
 
         Assert.assertTrue(success);
     }
@@ -385,15 +310,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
         MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
         getAdmin().disableOutput(output);
-
-        int count = 0;
-        while (!success && count++ < 1000) {
-            try {
-                Thread.sleep(6000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        waitForSuccess();
         Assert.assertTrue(success);
     }
 

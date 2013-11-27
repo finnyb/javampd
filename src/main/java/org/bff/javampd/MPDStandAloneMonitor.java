@@ -88,11 +88,7 @@ public class MPDStandAloneMonitor
      */
     MPDStandAloneMonitor(ServerStatus serverStatus, int delay) {
         this.delay = delay;
-        this.playerListeners = new ArrayList<PlayerBasicChangeListener>();
-        this.playlistListeners = new ArrayList<PlaylistBasicChangeListener>();
-        this.volListeners = new ArrayList<VolumeChangeListener>();
-        this.errorListeners = new ArrayList<MPDErrorListener>();
-        this.outputListeners = new ArrayList<OutputChangeListener>();
+        createListeners();
         this.outputMap = new HashMap<Integer, MPDOutput>();
         this.serverStatus = serverStatus;
 
@@ -104,6 +100,14 @@ public class MPDStandAloneMonitor
         } catch (MPDException ex) {
             logger.error("Problem with initialization", ex);
         }
+    }
+
+    private void createListeners() {
+        this.playerListeners = new ArrayList<PlayerBasicChangeListener>();
+        this.playlistListeners = new ArrayList<PlaylistBasicChangeListener>();
+        this.volListeners = new ArrayList<VolumeChangeListener>();
+        this.errorListeners = new ArrayList<MPDErrorListener>();
+        this.outputListeners = new ArrayList<OutputChangeListener>();
     }
 
     @Override
@@ -273,6 +277,7 @@ public class MPDStandAloneMonitor
 
     @Override
     public void start() {
+        setStopped(false);
         Executors.newSingleThreadExecutor().execute(this);
     }
 
@@ -289,6 +294,11 @@ public class MPDStandAloneMonitor
     @Override
     public PlayerStatus getStatus() {
         return status;
+    }
+
+    @Override
+    public void clearListeners() {
+        createListeners();
     }
 
     private void setStopped(boolean stopped) {

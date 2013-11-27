@@ -113,7 +113,17 @@ public interface StandAloneMonitor extends Runnable {
      */
     PlayerStatus getStatus();
 
+    /**
+     * Sets the {@link Server} for the monitor
+     *
+     * @param server
+     */
     void setServer(Server server);
+
+    /**
+     * Clears all listeners attached to this monitor
+     */
+    void clearListeners();
 
     public enum PlayerStatus {
 
