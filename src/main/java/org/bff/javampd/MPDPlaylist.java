@@ -1,5 +1,6 @@
 package org.bff.javampd;
 
+import com.google.inject.Inject;
 import org.bff.javampd.events.PlaylistChangeEvent;
 import org.bff.javampd.events.PlaylistChangeListener;
 import org.bff.javampd.exception.MPDConnectionException;
@@ -17,46 +18,37 @@ import java.util.List;
  * the {@link MPD} connection class.  This class does not have a public constructor
  * (singleton model) so the object must be obtained from the connection object.
  *
- * @author Bill Findeisen
- * @version 1.0
+ * @author Bill
  */
-public class MPDPlaylist extends CommandExecutor {
+public class MPDPlaylist implements Playlist {
 
     private int oldVersion = -1;
     private int version = -1;
-    private MPDDatabase database;
-    private MPDServerStatus serverStatus;
+
     private List<PlaylistChangeListener> listeners;
+    @Inject
+    private Database database;
+    @Inject
+    private ServerStatus serverStatus;
+    @Inject
     private PlaylistProperties playlistProperties;
+    @Inject
+    private CommandExecutor commandExecutor;
 
     /**
      * Creates a new instance of MPDPlaylist
-     *
-     * @param mpd the MPD connection
      */
-    MPDPlaylist(MPD mpd) {
-        super(mpd);
+    MPDPlaylist() {
         this.listeners = new ArrayList<PlaylistChangeListener>();
-        this.database = mpd.getMPDDatabase();
-        this.serverStatus = mpd.getMPDServerStatus();
         this.playlistProperties = new PlaylistProperties();
     }
 
-    /**
-     * Adds a {@link PlaylistChangeListener} to this object to receive
-     * {@link PlaylistChangeEvent}s.
-     *
-     * @param pcl the PlaylistChangeListener to add
-     */
+    @Override
     public synchronized void addPlaylistChangeListener(PlaylistChangeListener pcl) {
         listeners.add(pcl);
     }
 
-    /**
-     * Removes a {@link PlaylistChangeListener} from this object.
-     *
-     * @param pcl the PlaylistChangeListener to remove
-     */
+    @Override
     public synchronized void removePlaylistStatusChangedListener(PlaylistChangeListener pcl) {
         listeners.remove(pcl);
     }
@@ -90,14 +82,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Loads the songs in the given playlist to the current playlist.  The playlist
-     * name can be givin with or without the .m3u extension.
-     *
-     * @param playlistName the playlist name
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void loadPlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
         String name = playlistName;
         if (name.endsWith(".m3u")) {
@@ -105,7 +90,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
 
         try {
-            sendMPDCommand(playlistProperties.getLoad(), name);
+            commandExecutor.sendCommand(playlistProperties.getLoad(), name);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -115,28 +100,15 @@ public class MPDPlaylist extends CommandExecutor {
         updatePlaylist();
     }
 
-    /**
-     * Adds a {@link MPDSong} to the playlist and fires a {@link PlaylistChangeEvent} for event listeners
-     *
-     * @param song the song to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void addSong(MPDSong song) throws MPDConnectionException, MPDPlaylistException {
         addSong(song, true);
     }
 
-    /**
-     * Adds a {@link MPDSong} to the playlist.
-     *
-     * @param song      the song to add
-     * @param fireEvent whether to fire song added event for the event listeners
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void addSong(MPDSong song, boolean fireEvent) throws MPDConnectionException, MPDPlaylistException {
         try {
-            sendMPDCommand(playlistProperties.getAdd(), song.getFile());
+            commandExecutor.sendCommand(playlistProperties.getAdd(), song.getFile());
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -150,27 +122,12 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a <CODE>List</CODE> of {@link MPDSong}s to the playlist.
-     *
-     * @param songList the list of songs to add
-     * @return true if the songs are added successfully; false otherwise
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public boolean addSongs(List<MPDSong> songList) throws MPDConnectionException, MPDPlaylistException {
         return addSongs(songList, true);
     }
 
-    /**
-     * Adds a <CODE>List</CODE> of {@link MPDSong}s to the playlist.
-     *
-     * @param songList  the list of songs to add
-     * @param fireEvent true if a playlist event should be fired after adding
-     * @return true if the songs are added successfully; false otherwise
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDConnectionException, MPDPlaylistException {
         List<MPDCommand> commandList = new ArrayList<MPDCommand>();
         for (MPDSong song : songList) {
@@ -178,7 +135,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
 
         try {
-            sendMPDCommands(commandList);
+            commandExecutor.sendCommands(commandList);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -199,16 +156,10 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a directory of songs to the playlist.
-     *
-     * @param file the directory to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void addFileOrDirectory(MPDFile file) throws MPDConnectionException, MPDPlaylistException {
         try {
-            sendMPDCommand(playlistProperties.getAdd(), file.getPath());
+            commandExecutor.sendCommand(playlistProperties.getAdd(), file.getPath());
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -221,20 +172,14 @@ public class MPDPlaylist extends CommandExecutor {
 
     }
 
-    /**
-     * Removes a {@link MPDSong} from the playlist.
-     *
-     * @param song the song to remove
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void removeSong(MPDSong song) throws MPDConnectionException, MPDPlaylistException {
         try {
             if (song.getId() > -1) {
-                sendMPDCommand(playlistProperties.getRemoveId(), song.getId());
+                commandExecutor.sendCommand(playlistProperties.getRemoveId(), song.getId());
 
             } else if (song.getPosition() > -1) {
-                sendMPDCommand(playlistProperties.getRemove(), song.getPosition());
+                commandExecutor.sendCommand(playlistProperties.getRemove(), song.getPosition());
             }
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
@@ -245,16 +190,10 @@ public class MPDPlaylist extends CommandExecutor {
         updatePlaylist();
     }
 
-    /**
-     * Returns the current song.
-     *
-     * @return the current song
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public MPDSong getCurrentSong() throws MPDConnectionException, MPDPlaylistException {
         try {
-            List<MPDSong> songs = convertResponseToSong(sendMPDCommand(playlistProperties.getCurrentSong()));
+            List<MPDSong> songs = convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getCurrentSong()));
             return songs.isEmpty() ? null : songs.get(0);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
@@ -267,15 +206,10 @@ public class MPDPlaylist extends CommandExecutor {
         return MPDSongConverter.convertResponseToSong(response);
     }
 
-    /**
-     * Removes all songs from the playlist.
-     *
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void clearPlaylist() throws MPDConnectionException, MPDPlaylistException {
         try {
-            sendMPDCommand(playlistProperties.getClear());
+            commandExecutor.sendCommand(playlistProperties.getClear());
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -285,27 +219,15 @@ public class MPDPlaylist extends CommandExecutor {
         updatePlaylist();
     }
 
-    /**
-     * Deletes a {@link MPDSavedPlaylist}
-     *
-     * @param playlist the {@link MPDSavedPlaylist}
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void deletePlaylist(MPDSavedPlaylist playlist) throws MPDConnectionException, MPDPlaylistException {
         deletePlaylist(playlist.getName());
     }
 
-    /**
-     * Deletes the playlist from the MPD server.
-     *
-     * @param playlistName the playlist to delete
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void deletePlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
         try {
-            sendMPDCommand(playlistProperties.getDelete(), playlistName);
+            commandExecutor.sendCommand(playlistProperties.getDelete(), playlistName);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -314,22 +236,15 @@ public class MPDPlaylist extends CommandExecutor {
         firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_DELETED);
     }
 
-    /**
-     * Moves the desired song to the given position in the playlist.
-     *
-     * @param song the song to move
-     * @param to   the position to move the song to
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void move(MPDSong song, int to) throws MPDConnectionException, MPDPlaylistException {
         String[] paramList = new String[2];
         try {
             paramList[1] = Integer.toString(to);
             if (song.getId() > -1) {
-                sendMPDCommand(playlistProperties.getMoveId(), song.getId());
+                commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getId());
             } else if (song.getPosition() > -1) {
-                sendMPDCommand(playlistProperties.getMoveId(), song.getPosition());
+                commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getPosition());
             }
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
@@ -340,15 +255,10 @@ public class MPDPlaylist extends CommandExecutor {
         updatePlaylist();
     }
 
-    /**
-     * Shuffles the songs in the playlist.
-     *
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void shuffle() throws MPDConnectionException, MPDPlaylistException {
         try {
-            sendMPDCommand(playlistProperties.getShuffle());
+            commandExecutor.sendCommand(playlistProperties.getShuffle());
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -358,20 +268,13 @@ public class MPDPlaylist extends CommandExecutor {
         updatePlaylist();
     }
 
-    /**
-     * Swaps the given two songs in the playlist.
-     *
-     * @param song1 first song to swap
-     * @param song2 second song to swap
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void swap(MPDSong song1, MPDSong song2) throws MPDConnectionException, MPDPlaylistException {
         try {
             if (song1.getId() > -1 && song2.getId() > -1) {
-                sendMPDCommand(playlistProperties.getSwapId(), song1.getId(), song2.getId());
+                commandExecutor.sendCommand(playlistProperties.getSwapId(), song1.getId(), song2.getId());
             } else if (song1.getPosition() > -1 && song2.getPosition() > -1) {
-                sendMPDCommand(playlistProperties.getSwap(), song1.getPosition(), song2.getPosition());
+                commandExecutor.sendCommand(playlistProperties.getSwap(), song1.getPosition(), song2.getPosition());
             }
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
@@ -381,18 +284,11 @@ public class MPDPlaylist extends CommandExecutor {
         updatePlaylist();
     }
 
-    /**
-     * Saves the current playlist as the passed playlist name.
-     *
-     * @param playlistName the playlist name for the playlist
-     * @return true if the playlist is saved; otherwise false
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public boolean savePlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
         if (playlistName != null) {
             try {
-                sendMPDCommand(playlistProperties.getSave(), playlistName);
+                commandExecutor.sendCommand(playlistProperties.getSave(), playlistName);
                 firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_SAVED);
             } catch (MPDResponseException re) {
                 throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
@@ -434,7 +330,7 @@ public class MPDPlaylist extends CommandExecutor {
      */
     private List<MPDSong> listSongs() throws MPDConnectionException, MPDPlaylistException {
         try {
-            return convertResponseToSong(sendMPDCommand(playlistProperties.getInfo()));
+            return convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getInfo()));
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -442,14 +338,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a {@link MPDAlbum} by a {@link MPDArtist} to the playlist.
-     *
-     * @param artist the {@link MPDArtist} for the album to add
-     * @param album  the {@link MPDAlbum} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findAlbumByArtist(artist, album)) {
@@ -461,13 +350,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a {@link MPDAlbum} to the playlist.
-     *
-     * @param album the {@link MPDAlbum} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void insertAlbum(MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findAlbum(album)) {
@@ -479,14 +362,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Removes a {@link MPDAlbum} by a {@link MPDArtist} to the playlist.
-     *
-     * @param artist the {@link MPDArtist} for the album to remove
-     * @param album  the {@link MPDAlbum} to remove
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<MPDSong>();
 
@@ -501,13 +377,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a {@link MPDArtist} to the playlist.
-     *
-     * @param artist the {@link MPDArtist} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void insertArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findArtist(artist)) {
@@ -520,13 +390,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a {@link MPDGenre} to the playlist.
-     *
-     * @param genre the {@link MPDGenre} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void insertGenre(MPDGenre genre) throws MPDConnectionException, MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findGenre(genre)) {
@@ -538,13 +402,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a year to the playlist.
-     *
-     * @param year the {@link MPDGenre} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void insertYear(String year) throws MPDConnectionException, MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findYear(year)) {
@@ -558,13 +416,7 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * Removes a {@link MPDArtist} to the playlist.
-     *
-     * @param artist the {@link MPDArtist} to remove
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void removeArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<MPDSong>();
         for (MPDSong song : getSongList()) {
@@ -579,25 +431,17 @@ public class MPDPlaylist extends CommandExecutor {
         }
     }
 
-    /**
-     * @return the database
-     */
-    public MPDDatabase getDatabase() {
+    @Override
+    public Database getDatabase() {
         return database;
     }
 
-    /**
-     * @param database the database to set
-     */
-    public void setDatabase(MPDDatabase database) {
+    @Override
+    public void setDatabase(Database database) {
         this.database = database;
     }
 
-    /**
-     * Returns the playlist version.
-     *
-     * @return the playlist version
-     */
+    @Override
     public int getVersion() {
         return version;
     }
@@ -611,23 +455,11 @@ public class MPDPlaylist extends CommandExecutor {
         this.version = version;
     }
 
-    /**
-     * Returns the list of songs in the playlist.  This does query the MPD server for the list so
-     * care should be taken not to call it excessively.
-     *
-     * @return the song list
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public List<MPDSong> getSongList() throws MPDPlaylistException, MPDConnectionException {
         return listSongs();
     }
 
-    /**
-     * Returns the string representation of this playlist.
-     *
-     * @return the string representation
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -635,11 +467,12 @@ public class MPDPlaylist extends CommandExecutor {
         return sb.toString();
     }
 
+    @Override
     public void swap(MPDSong song, int i) throws MPDConnectionException, MPDPlaylistException {
         String[] paramList = new String[2];
 
         try {
-            sendMPDCommand(playlistProperties.getSwapId(), song.getId(), i);
+            commandExecutor.sendCommand(playlistProperties.getSwapId(), song.getId(), i);
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {

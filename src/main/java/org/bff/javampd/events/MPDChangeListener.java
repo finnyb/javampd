@@ -17,7 +17,7 @@ package org.bff.javampd.events;
  * using the component's <CODE>addMPDChangeListener</CODE> method. When the change
  * event occurs, that object's connectionChangeEventReceived method is invoked.
  *
- * @author Bill Findeisen
+ * @author Bill
  */
 public interface MPDChangeListener {
     /**

@@ -17,7 +17,7 @@ package org.bff.javampd.events;
  * error event occurs, that object's <CODE> errorEventReceived</CODE>
  * method is invoked.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public interface MPDErrorListener {

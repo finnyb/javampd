@@ -1,10 +1,13 @@
 package org.bff.javampd.properties;
 
+import com.google.inject.Singleton;
+
 /**
  * @author bill
- * @since: 11/21/13 7:25 PM
  */
+@Singleton
 public class ServerProperties extends MPDProperties {
+
     private enum Command {
         SERVERENCODING("MPD_SERVER_ENCODING"),
         CLEARERROR("MPD_CMD_CLEAR_ERROR"),

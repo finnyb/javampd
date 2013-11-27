@@ -12,7 +12,7 @@ package org.bff.javampd;
 /**
  * Utils contains only public static utility methods.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public class Utils {

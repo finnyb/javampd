@@ -1,10 +1,13 @@
 package org.bff.javampd.properties;
 
+import com.google.inject.Singleton;
+
 /**
  * @author bill
- * @since: 11/22/13 11:57 AM
  */
+@Singleton
 public class PlayerProperties extends MPDProperties {
+
     private enum Command {
         XFADE("MPD_PLAYER_CROSSFADE"),
         CURRSONG("MPD_PLAYER_CURRENTSONG"),

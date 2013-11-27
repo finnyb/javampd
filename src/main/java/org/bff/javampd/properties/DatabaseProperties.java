@@ -1,12 +1,13 @@
 package org.bff.javampd.properties;
 
+import com.google.inject.Singleton;
+
 /**
  * @author bill
- * @since: 11/21/13 7:09 PM
  */
+@Singleton
 public class DatabaseProperties extends MPDProperties {
     private enum Command {
-
         FIND("MPD_DB_FIND"),
         LIST("MPD_DB_LIST_TAG"),
         LISTALL("MPD_DB_LIST_ALL"),

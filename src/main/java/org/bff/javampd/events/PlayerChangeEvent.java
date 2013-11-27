@@ -13,7 +13,7 @@ package org.bff.javampd.events;
 /**
  * Represents a change in the status of a MPD music player.
  *
- * @author Bill Findeisen
+ * @author Bill
  */
 public class PlayerChangeEvent extends java.util.EventObject {
     private Event event;

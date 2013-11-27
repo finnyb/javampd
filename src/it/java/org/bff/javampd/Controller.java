@@ -68,14 +68,14 @@ public class Controller {
     private boolean songsLoaded;
     private String serverPath;
     private String password;
-    private final MPDDatabase database;
+    private final Database database;
     private boolean mock;
     private boolean capture;
 
     private Controller() throws IOException, MPDConnectionException {
         loadProperties();
         this.mpd = getNewMPD();
-        this.database = mpd.getMPDDatabase();
+        this.database = mpd.getDatabase();
     }
 
     /**
@@ -532,7 +532,7 @@ public class Controller {
     /**
      * @return the database
      */
-    public MPDDatabase getDatabase() {
+    public Database getDatabase() {
         return database;
     }
 

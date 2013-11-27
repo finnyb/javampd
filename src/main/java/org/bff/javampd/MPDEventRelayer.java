@@ -9,6 +9,7 @@
  */
 package org.bff.javampd;
 
+import com.google.inject.Inject;
 import org.bff.javampd.events.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,18 +31,11 @@ import java.util.List;
  */
 public class MPDEventRelayer
         extends MPDEventMonitor
-        implements Runnable,
-        PlayerChangeListener,
-        PlaylistChangeListener,
-        MPDChangeListener,
-        OutputChangeListener {
+        implements EventRelayer {
 
     private final Logger logger = LoggerFactory.getLogger(MPDEventRelayer.class);
 
     private final int delay;
-    private final MPDPlayer mpdPlayer;
-    private final MPDPlaylist mpdPlaylist;
-    private final MPDAdmin mpdAdmin;
     private boolean stopped;
     private static final int DEFAULT_DELAY = 1000;
     private List<PlayerChangeListener> playerListeners;
@@ -50,30 +44,30 @@ public class MPDEventRelayer
     private List<VolumeChangeListener> volListeners;
     private List<OutputChangeListener> outputListeners;
 
+    private Player player;
+    private Playlist playlist;
+    private Admin admin;
+
     /**
      * Creates a new instance of MPDEventMonitor using the default delay of 1 second
      * for {@link TrackPositionChangeEvent}s
-     *
-     * @param mpd the MPD Connection
      */
-    public MPDEventRelayer(MPD mpd) {
-        this(mpd, DEFAULT_DELAY);
+    @Inject
+    MPDEventRelayer(Player player, Playlist playlist, Admin admin) {
+        this(player, playlist, admin, DEFAULT_DELAY);
     }
 
     /**
      * Creates a new instance of MPDEventMonitor using the given delay
      * for {@link TrackPositionChangeEvent}s
      *
-     * @param mpd   the MPD Connection
      * @param delay the amount of delay in seconds
      */
-    public MPDEventRelayer(MPD mpd, int delay) {
-        super(mpd);
+    MPDEventRelayer(Player player, Playlist playlist, Admin admin, int delay) {
+        this.player = player;
+        this.playlist = playlist;
+        this.admin = admin;
         this.delay = delay;
-        this.mpdPlayer = mpd.getMPDPlayer();
-        this.mpdPlaylist = mpd.getMPDPlaylist();
-        this.mpdAdmin = mpd.getMPDAdmin();
-
         this.playerListeners = new ArrayList<PlayerChangeListener>();
         this.playlistListeners = new ArrayList<PlaylistChangeListener>();
         this.mpdListeners = new ArrayList<MPDChangeListener>();
@@ -83,94 +77,52 @@ public class MPDEventRelayer
     }
 
     private void addListeners() {
-        this.mpdPlayer.addPlayerChangeListener(this);
-        this.mpdPlaylist.addPlaylistChangeListener(this);
-        this.mpdAdmin.addOutputChangeListener(this);
+        this.player.addPlayerChangeListener(this);
+        this.playlist.addPlaylistChangeListener(this);
+        this.admin.addOutputChangeListener(this);
     }
 
-    /**
-     * Invoked when a player change event occurs.
-     *
-     * @param event the {@link PlayerChangeEvent.Event} fired
-     */
     @Override
     public void playerChanged(PlayerChangeEvent event) {
         firePlayerChangeEvent(event.getEvent());
     }
 
-    /**
-     * Invoked when a mpd administrative change action occurs.
-     *
-     * @param event the event received
-     */
     @Override
     public void mpdChanged(MPDChangeEvent event) {
         fireMPDChangeEvent(event.getEvent());
     }
 
-    /**
-     * Invoked when a mpd playlist change event occurs.
-     *
-     * @param event the event received
-     */
     @Override
     public void playlistChanged(PlaylistChangeEvent event) {
         firePlaylistChangeEvent(event.getEvent());
     }
 
-    /**
-     * Adds a {@link PlayerChangeListener} to this object to receive
-     * {@link PlayerChangeEvent}s.
-     *
-     * @param pcl the PlayerChangeListener to add
-     */
+    @Override
     public synchronized void addPlayerChangeListener(PlayerChangeListener pcl) {
         playerListeners.add(pcl);
     }
 
-    /**
-     * Removes a {@link PlayerChangeListener} from this object.
-     *
-     * @param pcl the PlayerChangeListener to remove
-     */
+    @Override
     public synchronized void removePlayerChangedListener(PlayerChangeListener pcl) {
         playerListeners.remove(pcl);
     }
 
-    /**
-     * Adds a {@link MPDChangeListener} to this object to receive
-     * {@link MPDChangeEvent}s.
-     *
-     * @param mcl the MPDChangeListener to add
-     */
+    @Override
     public synchronized void addMPDChangeListener(MPDChangeListener mcl) {
         mpdListeners.add(mcl);
     }
 
-    /**
-     * Removes a {@link MPDChangeListener} from this object.
-     *
-     * @param mcl the MPDChangeListener to remove
-     */
+    @Override
     public synchronized void removeMPDChangedListener(MPDChangeListener mcl) {
         mpdListeners.remove(mcl);
     }
 
-    /**
-     * Adds a {@link VolumeChangeListener} to this object to receive
-     * {@link VolumeChangeEvent}s.
-     *
-     * @param vcl the VolumeChangeListener to add
-     */
+    @Override
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
         volListeners.add(vcl);
     }
 
-    /**
-     * Removes a {@link VolumeChangeListener} from this object.
-     *
-     * @param vcl the VolumeChangeListener to remove
-     */
+    @Override
     public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
         volListeners.remove(vcl);
     }
@@ -189,21 +141,12 @@ public class MPDEventRelayer
         }
     }
 
-    /**
-     * Adds a {@link OutputChangeListener} to this object to receive
-     * {@link OutputChangeEvent}s.
-     *
-     * @param vcl the OutputChangeListener to add
-     */
+    @Override
     public synchronized void addOutputChangeListener(OutputChangeListener vcl) {
         outputListeners.add(vcl);
     }
 
-    /**
-     * Removes a {@link OutputChangeListener} from this object.
-     *
-     * @param vcl the OutputChangeListener to remove
-     */
+    @Override
     public synchronized void removeOutputChangedListener(OutputChangeListener vcl) {
         outputListeners.remove(vcl);
     }
@@ -262,14 +205,11 @@ public class MPDEventRelayer
         }
     }
 
-    /**
-     * Implements the Runnable run method to monitor the MPD connection.
-     */
     @Override
     public void run() {
         while (!isStopped()) {
             try {
-                checkTrackPosition(mpdPlayer.getElapsedTime());
+                checkTrackPosition(player.getElapsedTime());
                 checkConnection();
                 try {
                     this.wait(delay);
@@ -282,27 +222,18 @@ public class MPDEventRelayer
         }
     }
 
-    /**
-     * Starts the monitor by creating and starting a thread using this instance
-     * as the Runnable interface.
-     */
+    @Override
     public void start() {
         Thread th = new Thread(this);
         th.start();
     }
 
-    /**
-     * Stops the thread.
-     */
+    @Override
     public void stop() {
         this.stopped = true;
     }
 
-    /**
-     * Returns true if the monitor is stopped, false if the monitor is still running.
-     *
-     * @return true if monitor is running, false otherwise false
-     */
+    @Override
     public boolean isStopped() {
         return stopped;
     }

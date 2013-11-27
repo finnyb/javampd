@@ -12,9 +12,8 @@ import java.util.Properties;
  * I handle loading the properties from the properties file
  *
  * @author bill
- * @since: 11/21/13 6:22 PM
  */
-public abstract class MPDProperties {
+public abstract class MPDProperties implements PropertyLoader {
     private Logger logger = LoggerFactory.getLogger(MPDProperties.class);
 
     private Properties prop;
@@ -25,7 +24,8 @@ public abstract class MPDProperties {
         loadValues();
     }
 
-    protected String getPropertyString(String property) {
+    @Override
+    public String getPropertyString(String property) {
         return prop.getProperty(property);
     }
 

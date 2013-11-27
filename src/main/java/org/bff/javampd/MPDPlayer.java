@@ -9,6 +9,7 @@
  */
 package org.bff.javampd;
 
+import com.google.inject.Inject;
 import org.bff.javampd.events.PlayerChangeEvent;
 import org.bff.javampd.events.PlayerChangeListener;
 import org.bff.javampd.events.VolumeChangeEvent;
@@ -29,61 +30,27 @@ import java.util.List;
  * the {@link MPD} connection class.  This class does not have a public constructor
  * (singleton model) so the object must be obtained from the connection object.
  *
- * @author Bill Findeisen
- * @version 1.0
+ * @author Bill
  */
-public class MPDPlayer extends CommandExecutor {
+public class MPDPlayer implements Player {
 
     private int oldVolume;
     private List<PlayerChangeListener> listeners = new ArrayList<PlayerChangeListener>();
     private List<VolumeChangeListener> volListeners = new ArrayList<VolumeChangeListener>();
-    private PlayerProperties playerProperties;
-
-    /**
-     * The status of the player.
-     */
-    public enum Status {
-
-        STATUS_STOPPED("stop"),
-        STATUS_PLAYING("play"),
-        STATUS_PAUSED("pause");
-
-        private String prefix;
-
-        Status(String prefix) {
-            this.prefix = prefix;
-        }
-
-        public String getPrefix() {
-            return this.prefix;
-        }
-    }
 
     private Status status = Status.STATUS_STOPPED;
-    private MPDServerStatus serverStatus;
+    @Inject
+    private ServerStatus serverStatus;
+    @Inject
+    private PlayerProperties playerProperties;
+    @Inject
+    private CommandExecutor commandExecutor;
 
-    /**
-     * Creates a new instance of MPDPlayer
-     *
-     * @param mpd the MPD connection
-     */
-    MPDPlayer(MPD mpd) {
-        super(mpd);
-        this.serverStatus = mpd.getMPDServerStatus();
-        this.playerProperties = new PlayerProperties();
-    }
-
-    /**
-     * Returns the current song either playing or queued for playing.
-     *
-     * @return the current song
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public MPDSong getCurrentSong() throws MPDConnectionException, MPDPlayerException {
         try {
             List<MPDSong> songList =
-                    MPDSongConverter.convertResponseToSong(sendMPDCommand(playerProperties.getCurrentSong()));
+                    MPDSongConverter.convertResponseToSong(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
 
             if (songList.size() == 0) {
                 return null;
@@ -97,21 +64,12 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a {@link PlayerChangeListener} to this object to receive
-     * {@link PlayerChangeEvent}s.
-     *
-     * @param pcl the PlayerChangeListener to add
-     */
+    @Override
     public synchronized void addPlayerChangeListener(PlayerChangeListener pcl) {
         listeners.add(pcl);
     }
 
-    /**
-     * Removes a {@link PlayerChangeListener} from this object.
-     *
-     * @param pcl the PlayerChangeListener to remove
-     */
+    @Override
     public synchronized void removePlayerChangedListener(PlayerChangeListener pcl) {
         listeners.remove(pcl);
     }
@@ -130,21 +88,12 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a {@link VolumeChangeListener} to this object to receive
-     * {@link VolumeChangeEvent}s.
-     *
-     * @param vcl the VolumeChangeListener to add
-     */
+    @Override
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
         volListeners.add(vcl);
     }
 
-    /**
-     * Removes a {@link VolumeChangeListener} from this object.
-     *
-     * @param vcl the VolumeChangeListener to remove
-     */
+    @Override
     public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
         volListeners.remove(vcl);
     }
@@ -163,29 +112,18 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Starts the player.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void play() throws MPDConnectionException, MPDPlayerException {
         playId(null);
     }
 
-    /**
-     * Starts the player with the specified song.
-     *
-     * @param song the song to start the player with
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void playId(MPDSong song) throws MPDConnectionException, MPDPlayerException {
         try {
             if (song == null) {
-                sendMPDCommand(playerProperties.getPlay());
+                commandExecutor.sendCommand(playerProperties.getPlay());
             } else {
-                sendMPDCommand(playerProperties.getPlayId(), song.getId());
+                commandExecutor.sendCommand(playerProperties.getPlayId(), song.getId());
             }
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
@@ -201,27 +139,12 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Seeks to the desired location in the current song.  If the location is larger
-     * than the length of the song or is less than 0 then the parameter is ignored.
-     *
-     * @param secs the location to seek to
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void seek(long secs) throws MPDConnectionException, MPDPlayerException {
         seekId(null, secs);
     }
 
-    /**
-     * Seeks to the desired location in the specified song.  If the location is larger
-     * than the length of the song or is less than 0 then the parameter is ignored.
-     *
-     * @param song the song to seek in
-     * @param secs the location to seek to
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void seekId(MPDSong song, long secs) throws MPDConnectionException, MPDPlayerException {
         List<String> response = null;
         String params[] = new String[2];
@@ -230,7 +153,7 @@ public class MPDPlayer extends CommandExecutor {
             if (getCurrentSong().getLength() > secs) {
                 params[1] = Integer.toString(getCurrentSong().getId());
                 try {
-                    response = sendMPDCommand(playerProperties.getSeekId(), params);
+                    response = commandExecutor.sendCommand(playerProperties.getSeekId(), params);
                 } catch (MPDResponseException re) {
                     throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
                 }
@@ -239,7 +162,7 @@ public class MPDPlayer extends CommandExecutor {
             if (song.getLength() >= secs) {
                 params[1] = Integer.toString(song.getId());
                 try {
-                    response = sendMPDCommand(playerProperties.getSeekId(), params);
+                    response = commandExecutor.sendCommand(playerProperties.getSeekId(), params);
                 } catch (MPDResponseException re) {
                     throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
                 }
@@ -251,15 +174,10 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Stops the player.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void stop() throws MPDConnectionException, MPDPlayerException {
         try {
-            sendMPDCommand(playerProperties.getStop());
+            commandExecutor.sendCommand(playerProperties.getStop());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -268,15 +186,10 @@ public class MPDPlayer extends CommandExecutor {
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_STOPPED);
     }
 
-    /**
-     * Pauses the player.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void pause() throws MPDConnectionException, MPDPlayerException {
         try {
-            sendMPDCommand(playerProperties.getPause());
+            commandExecutor.sendCommand(playerProperties.getPause());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -286,15 +199,10 @@ public class MPDPlayer extends CommandExecutor {
 
     }
 
-    /**
-     * Plays the next song in the playlist.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void playNext() throws MPDConnectionException, MPDPlayerException {
         try {
-            sendMPDCommand(playerProperties.getNext());
+            commandExecutor.sendCommand(playerProperties.getNext());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -302,15 +210,10 @@ public class MPDPlayer extends CommandExecutor {
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_NEXT);
     }
 
-    /**
-     * Plays the previous song in the playlist.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void playPrev() throws MPDConnectionException, MPDPlayerException {
         try {
-            sendMPDCommand(playerProperties.getPrevious());
+            commandExecutor.sendCommand(playerProperties.getPrevious());
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -319,36 +222,20 @@ public class MPDPlayer extends CommandExecutor {
 
     }
 
-    /**
-     * Mutes the volume of the player.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void mute() throws MPDConnectionException, MPDPlayerException {
         oldVolume = getVolume();
         setVolume(0);
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_MUTED);
     }
 
-    /**
-     * Unmutes the volume of the player.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void unMute() throws MPDConnectionException, MPDPlayerException {
         setVolume(oldVolume);
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_UNMUTED);
     }
 
-    /**
-     * Returns the instantaneous bitrate of the currently playing song.
-     *
-     * @return the instantaneous bitrate in kbps
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public int getBitrate() throws MPDConnectionException, MPDPlayerException {
         try {
             return serverStatus.getBitrate();
@@ -357,13 +244,7 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns the current volume of the player.
-     *
-     * @return the volume of the player (0-100)
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public int getVolume() throws MPDConnectionException, MPDPlayerException {
         try {
             return serverStatus.getVolume();
@@ -372,22 +253,14 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Sets the volume of the player.  The volume is between 0 and 100, any volume less
-     * that 0 results in a volume of 0 while any volume greater than 100 results in a
-     * volume of 100.
-     *
-     * @param volume the volume level (0-100)
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void setVolume(int volume) throws MPDConnectionException, MPDPlayerException {
         if (volume < 0 || volume > 100) {
             throw new MPDPlayerException("Volume not in allowable range");
         }
 
         try {
-            sendMPDCommand(playerProperties.getSetVolume(), volume);
+            commandExecutor.sendCommand(playerProperties.getSetVolume(), volume);
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
@@ -395,13 +268,7 @@ public class MPDPlayer extends CommandExecutor {
         fireVolumeChangeEvent(volume);
     }
 
-    /**
-     * Returns if the player is repeating.
-     *
-     * @return is the player repeating
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public boolean isRepeat() throws MPDConnectionException, MPDPlayerException {
         try {
             return serverStatus.isRepeat();
@@ -410,13 +277,7 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Sets the repeating status of the player.
-     *
-     * @param shouldRepeat should the player repeat the current song
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void setRepeat(boolean shouldRepeat) throws MPDConnectionException, MPDPlayerException {
         String repeat;
         if (shouldRepeat) {
@@ -425,19 +286,13 @@ public class MPDPlayer extends CommandExecutor {
             repeat = "0";
         }
         try {
-            sendMPDCommand(playerProperties.getRepeat(), repeat);
+            commandExecutor.sendCommand(playerProperties.getRepeat(), repeat);
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
-    /**
-     * Returns if the player is in random play mode.
-     *
-     * @return true if the player is in random mode false otherwise
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public boolean isRandom() throws MPDConnectionException, MPDPlayerException {
         try {
             return serverStatus.isRandom();
@@ -446,13 +301,7 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Sets the random status of the player. So the songs will be played in random order
-     *
-     * @param shouldRandom should the player play in random mode
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void setRandom(boolean shouldRandom) throws MPDConnectionException, MPDPlayerException {
         String random;
         if (shouldRandom) {
@@ -461,39 +310,23 @@ public class MPDPlayer extends CommandExecutor {
             random = "0";
         }
         try {
-            sendMPDCommand(playerProperties.getRandom(), random);
+            commandExecutor.sendCommand(playerProperties.getRandom(), random);
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
-    /**
-     * Plays the playlist in a random order.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void randomizePlay() throws MPDConnectionException, MPDPlayerException {
         setRandom(true);
     }
 
-    /**
-     * Plays the playlist in order.
-     *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void unRandomizePlay() throws MPDConnectionException, MPDPlayerException {
         setRandom(false);
     }
 
-    /**
-     * Returns the cross fade of the player in seconds.
-     *
-     * @return the cross fade of the player in seconds
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public int getXFade() throws MPDConnectionException, MPDPlayerException {
         try {
             return Integer.parseInt(serverStatus.getXFade());
@@ -502,28 +335,16 @@ public class MPDPlayer extends CommandExecutor {
         }
     }
 
-    /**
-     * Sets the cross fade of the player in seconds.
-     *
-     * @param xFade the amount of cross fade to set in seconds
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public void setXFade(int xFade) throws MPDConnectionException, MPDPlayerException {
         try {
-            sendMPDCommand(playerProperties.getXFade(), xFade);
+            commandExecutor.sendCommand(playerProperties.getXFade(), xFade);
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
     }
 
-    /**
-     * Returns the elapsed time of the current song in seconds.
-     *
-     * @return the elapsed time of the song in seconds
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public long getElapsedTime() throws MPDConnectionException, MPDPlayerException {
         try {
             return serverStatus.getTime();
@@ -533,14 +354,7 @@ public class MPDPlayer extends CommandExecutor {
 
     }
 
-    /**
-     * Returns the {@link MPDAudioInfo} about the current status of the player.  If the status is unknown
-     * {@code null} will be returned.  Any individual parameter that is not known will be a -1
-     *
-     * @return the sample rate
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public MPDAudioInfo getAudioDetails() throws MPDConnectionException, MPDPlayerException {
         MPDAudioInfo info = null;
         try {
@@ -571,13 +385,7 @@ public class MPDPlayer extends CommandExecutor {
         return info;
     }
 
-    /**
-     * Returns the current status of the player.
-     *
-     * @return the status of the player
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Status getStatus() throws MPDResponseException, MPDConnectionException {
         String currentStatus = serverStatus.getState();
         if (currentStatus.equalsIgnoreCase(Status.STATUS_PLAYING.getPrefix())) {

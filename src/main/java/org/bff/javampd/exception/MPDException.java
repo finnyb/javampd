@@ -12,7 +12,7 @@ package org.bff.javampd.exception;
 /**
  * Abstract base class for MPD Exceptions.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public abstract class MPDException extends Exception {

@@ -1,9 +1,11 @@
 package org.bff.javampd.properties;
 
+import com.google.inject.Singleton;
+
 /**
  * @author bill
- * @since: 11/22/13 8:57 AM
  */
+@Singleton
 public class PlaylistProperties extends MPDProperties {
 
     private enum Command {

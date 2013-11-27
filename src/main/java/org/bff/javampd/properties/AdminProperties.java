@@ -1,13 +1,14 @@
 package org.bff.javampd.properties;
 
+import com.google.inject.Singleton;
+
 /**
  * @author bill
- * @since: 11/22/13 6:31 AM
  */
+@Singleton
 public class AdminProperties extends MPDProperties {
 
     private enum Command {
-
         KILL("MPD_ADMIN_KILL"),
         REFRESH("MPD_ADMIN_REFRESH"),
         OUTPUTS("MPD_ADMIN_OUTPUTS"),

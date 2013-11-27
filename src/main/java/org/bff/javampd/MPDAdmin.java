@@ -1,5 +1,6 @@
 package org.bff.javampd;
 
+import com.google.inject.Inject;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDAdminException;
 import org.bff.javampd.exception.MPDConnectionException;
@@ -17,10 +18,9 @@ import java.util.List;
  * {@link MPD} connection class.  This class does not have a public constructor
  * (singleton model) so the object must be obtained from the connection object.
  *
- * @author Bill Findeisen
- * @version 1.0
+ * @author Bill
  */
-public class MPDAdmin extends CommandExecutor {
+public class MPDAdmin implements Admin {
     private List<MPDChangeListener> listeners =
             new ArrayList<MPDChangeListener>();
     private List<OutputChangeListener> outputListeners =
@@ -30,55 +30,28 @@ public class MPDAdmin extends CommandExecutor {
     protected static final String OUTPUT_PREFIX_NAME = "outputname:";
     protected static final String OUTPUT_PREFIX_ENABLED = "outputenabled:";
 
+    @Inject
     private AdminProperties adminProperties;
-    private MPDServerStatistics serverStatistics;
+    @Inject
+    private ServerStatistics serverStatistics;
+    @Inject
+    private CommandExecutor commandExecutor;
 
-    /**
-     * Constructor for MPDAdmin
-     *
-     * @param mpd the MPD Connection
-     */
-    MPDAdmin(MPD mpd) {
-        super(mpd);
-        this.serverStatistics = mpd.getMPDServerStatistics();
-        this.adminProperties = new AdminProperties();
-    }
-
-    /**
-     * Returns the information about all outputs
-     *
-     * @return a {@link Collection} of {@link MPDOutput}
-     * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
-     */
+    @Override
     public Collection<MPDOutput> getOutputs() throws MPDConnectionException, MPDResponseException {
-        return new ArrayList<MPDOutput>(parseOutputs(sendMPDCommand(adminProperties.getOutputs())));
+        return new ArrayList<MPDOutput>(parseOutputs(commandExecutor.sendCommand(adminProperties.getOutputs())));
     }
 
-    /**
-     * Disables the passed {@link MPDOutput}
-     *
-     * @param output the output to disable
-     * @return true if the output is disabled
-     * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
-     */
+    @Override
     public boolean disableOutput(MPDOutput output) throws MPDConnectionException, MPDResponseException {
         fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
-        return sendMPDCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
+        return commandExecutor.sendCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
     }
 
-    /**
-     * Enables the passed {@link MPDOutput}
-     *
-     * @param output the output to enable
-     * @return true if the output is enabled
-     * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
-     */
+    @Override
     public boolean enableOutput(MPDOutput output) throws MPDConnectionException, MPDResponseException {
         fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
-        return sendMPDCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
+        return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
     }
 
     private Collection<MPDOutput> parseOutputs(Collection<String> response) {
@@ -110,21 +83,12 @@ public class MPDAdmin extends CommandExecutor {
         return outputs;
     }
 
-    /**
-     * Adds a {@link MPDChangeListener} to this object to receive
-     * {@link MPDChangeEvent}s.
-     *
-     * @param mcl the MPDChangeListener to add
-     */
+    @Override
     public synchronized void addMPDChangeListener(MPDChangeListener mcl) {
         listeners.add(mcl);
     }
 
-    /**
-     * Removes a {@link MPDChangeListener} from this object.
-     *
-     * @param mcl the MPDChangeListener to remove
-     */
+    @Override
     public synchronized void removePlayerChangedListener(MPDChangeListener mcl) {
         listeners.remove(mcl);
     }
@@ -143,15 +107,10 @@ public class MPDAdmin extends CommandExecutor {
         }
     }
 
-    /**
-     * Kills the mpd connection.
-     *
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDAdminException      if the MPD response contains an error
-     */
+    @Override
     public void killMPD() throws MPDConnectionException, MPDAdminException {
         try {
-            sendMPDCommand(adminProperties.getKill());
+            commandExecutor.sendCommand(adminProperties.getKill());
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
@@ -160,16 +119,10 @@ public class MPDAdmin extends CommandExecutor {
         }
     }
 
-    /**
-     * Updates the MPD database by searching the mp3 directory for new music and
-     * removing the old music.
-     *
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDAdminException      if the MPD response contains an error
-     */
+    @Override
     public void updateDatabase() throws MPDConnectionException, MPDAdminException {
         try {
-            sendMPDCommand(adminProperties.getRefresh());
+            commandExecutor.sendCommand(adminProperties.getRefresh());
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
@@ -178,16 +131,10 @@ public class MPDAdmin extends CommandExecutor {
         }
     }
 
-    /**
-     * Updates the MPD database by searching a specific mp3 directory for new music and removing the old music.
-     *
-     * @param path the path
-     * @throws MPDConnectionException the mPD connection exception
-     * @throws MPDAdminException      the mPD admin exception
-     */
+    @Override
     public void updateDatabase(String path) throws MPDConnectionException, MPDAdminException {
         try {
-            sendMPDCommand(adminProperties.getRefresh(), path);
+            commandExecutor.sendCommand(adminProperties.getRefresh(), path);
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
         } catch (MPDResponseException re) {
             throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
@@ -196,13 +143,7 @@ public class MPDAdmin extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns the daemon uptime in seconds.
-     *
-     * @return the daemon uptime in seconds
-     * @throws MPDAdminException      if the MPD response contains an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public long getDaemonUpTime() throws MPDConnectionException, MPDAdminException {
         try {
             return serverStatistics.getUptime();
@@ -213,21 +154,12 @@ public class MPDAdmin extends CommandExecutor {
         }
     }
 
-    /**
-     * Adds a {@link PlaylistChangeListener} to this object to receive
-     * {@link PlaylistChangeEvent}s.
-     *
-     * @param pcl the PlaylistChangeListener to add
-     */
+    @Override
     public synchronized void addOutputChangeListener(OutputChangeListener pcl) {
         outputListeners.add(pcl);
     }
 
-    /**
-     * Removes a {@link PlaylistChangeListener} from this object.
-     *
-     * @param pcl the PlaylistChangeListener to remove
-     */
+    @Override
     public synchronized void removePlaylistStatusChangedListener(OutputChangeListener pcl) {
         outputListeners.remove(pcl);
     }

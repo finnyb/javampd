@@ -18,7 +18,7 @@ package org.bff.javampd.events;
  * connection event occurs, that object's <CODE>connectionChangeEventReceived</CODE>
  * method is invoked.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public interface ConnectionChangeListener {

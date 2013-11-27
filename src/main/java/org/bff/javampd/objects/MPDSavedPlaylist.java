@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * MPDSavedPlaylist represents a saved playlist.
  *
- * @author Bill Findeisen
+ * @author Bill
  */
 public class MPDSavedPlaylist extends MPDItem {
     private Collection<MPDSong> songs;

@@ -1,5 +1,6 @@
 package org.bff.javampd;
 
+import com.google.inject.Inject;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDResponseException;
@@ -14,196 +15,62 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * MPDDatabase represents a database controller to a MPD server.  To obtain
- * an instance of the class you must use the {@link MPD#getMPDDatabase()} method from
+ * MPDDatabase represents a database controller to a {@link MPD}.  To obtain
+ * an instance of the class you must use the {@link MPD#getDatabase()} method from
  * the {@link MPD} connection class.  This class does not have a public constructor
  * (singleton model) so the object must be obtained from the connection object.
  *
- * @author Bill Findeisen
- * @version 1.0
+ * @author Bill
  */
-public class MPDDatabase extends CommandExecutor {
+public class MPDDatabase implements Database {
 
     private final Logger logger = LoggerFactory.getLogger(MPDDatabase.class);
+    @Inject
     private DatabaseProperties databaseProperties;
-    private MPDServerStatistics serverStatistics;
+    @Inject
+    private ServerStatistics serverStatistics;
+    @Inject
+    private CommandExecutor commandExecutor;
 
-    private enum ListType {
-
-        ALBUM("album"),
-        ARTIST("artist"),
-        GENRE("genre"),
-        DATE("date");
-        private String type;
-
-        ListType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
+    protected MPDDatabase() {
     }
 
-    /**
-     * Defines the scope of items such as find, search.
-     */
-    public enum ScopeType {
-
-        ALBUM("album"),
-        ARTIST("artist"),
-        TITLE("title"),
-        TRACK("track"),
-        NAME("name"),
-        GENRE("genre"),
-        DATE("date"),
-        COMPOSER("composer"),
-        PERFORMER("performer"),
-        COMMENT("comment"),
-        DISC("disc"),
-        FILENAME("filename"),
-        ANY("any");
-        private String type;
-
-        ScopeType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
-    }
-
-    private enum ListInfoType {
-
-        PLAYLIST("playlist:"),
-        DIRECTORY("directory:"),
-        FILE("file:");
-        private String prefix;
-
-        ListInfoType(String prefix) {
-            this.prefix = prefix;
-        }
-
-        public String getPrefix() {
-            return prefix;
-        }
-    }
-
-    /**
-     * Class constructor
-     *
-     * @param mpd a connection to a MPD
-     */
-    MPDDatabase(MPD mpd) {
-        super(mpd);
-        this.databaseProperties = new DatabaseProperties();
-        this.serverStatistics = mpd.getMPDServerStatistics();
-    }
-
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an artist.
-     * Please note this only returns an exact match of artist.  To find a partial
-     * match use {@link #searchArtist(MPDArtist artist)}.
-     *
-     * @param artist the artist to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
         return findArtist(artist.getName());
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an artist.
-     * Please note this only returns an exact match of artist.  To find a partial
-     * match use {@link #searchArtist(java.lang.String)}.
-     *
-     * @param artist the artist to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findArtist(String artist) throws MPDConnectionException, MPDDatabaseException {
         return find(ScopeType.ARTIST, artist);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for a genre.
-     *
-     * @param genre the genre to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
         return findGenre(genre.getName());
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for a genre.
-     *
-     * @param genre the genre to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findGenre(String genre) throws MPDConnectionException, MPDDatabaseException {
         return find(ScopeType.GENRE, genre);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for a year.
-     *
-     * @param year the year to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findYear(String year) throws MPDConnectionException, MPDDatabaseException {
         return find(ScopeType.DATE, year);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an album.
-     * Please note this only returns an exact match of album.  To find a partial
-     * match use {@link #searchAlbum(MPDAlbum album)}.
-     *
-     * @param album the album to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         return findAlbum(album.getName());
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an album.
-     * Please note this only returns an exact match of album.  To find a partial
-     * match use {@link #searchAlbum(String)}.
-     *
-     * @param album the album to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findAlbum(String album) throws MPDConnectionException, MPDDatabaseException {
         return find(ScopeType.ALBUM, album);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an album by
-     * a particular artist. Please note this only returns an exact match of album
-     * and artist.
-     *
-     * @param artist the artist album belongs to
-     * @param album  the album to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<MPDSong>();
 
@@ -218,17 +85,7 @@ public class MPDDatabase extends CommandExecutor {
         return retList;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an album by
-     * a particular artist. Please note this only returns an exact match of album
-     * and artist.
-     *
-     * @param album the album to find
-     * @param genre the genre to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<MPDSong>();
 
@@ -243,17 +100,7 @@ public class MPDDatabase extends CommandExecutor {
         return retList;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an album by
-     * a particular artist. Please note this only returns an exact match of album
-     * and artist.
-     *
-     * @param album the album to find
-     * @param year  the year to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<MPDSong>();
 
@@ -268,45 +115,20 @@ public class MPDDatabase extends CommandExecutor {
         return retList;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for a title.
-     * Please note this only returns an exact match of title.  To find a partial
-     * match use {@link #searchTitle(String title)}.
-     *
-     * @param title the title to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public Collection<MPDSong> findTitle(String title) throws MPDConnectionException, MPDDatabaseException {
         return find(ScopeType.TITLE, title);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for any criteria.
-     * Please note this only returns an exact match of title.  To find a partial
-     * match use {@link #searchAny(String criteria)}.
-     *
-     * @param criteria the criteria to find
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public Collection<MPDSong> findAny(String criteria) throws MPDConnectionException, MPDDatabaseException {
         return find(ScopeType.ANY, criteria);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link String}s of all
-     * songs and directories from the mpd root.
-     *
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<String> listAllFiles() throws MPDConnectionException, MPDDatabaseException {
         try {
-            return sendMPDCommand(databaseProperties.getListAll());
+            return commandExecutor.sendCommand(databaseProperties.getListAll());
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -314,18 +136,10 @@ public class MPDDatabase extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns a {@link Collection} of {@link String}s of all
-     * songs and directories from the given path.
-     *
-     * @param path the root of the list
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<String> listAllFiles(String path) throws MPDConnectionException, MPDDatabaseException {
         try {
-            return sendMPDCommand(databaseProperties.getListAll());
+            return commandExecutor.sendCommand(databaseProperties.getListAll());
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -333,18 +147,12 @@ public class MPDDatabase extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns a {@link Collection} of {@link String}s of all songs from the mpd root.
-     *
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<String> listAllSongFiles() throws MPDConnectionException, MPDDatabaseException {
         List<String> fileList;
 
         try {
-            fileList = sendMPDCommand(databaseProperties.getListAll());
+            fileList = commandExecutor.sendCommand(databaseProperties.getListAll());
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -354,19 +162,11 @@ public class MPDDatabase extends CommandExecutor {
         return MPDSongConverter.getSongNameList(fileList);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link String}s of all
-     * songs from the given path.
-     *
-     * @param path the root of the list
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<String> listAllSongFiles(String path) throws MPDConnectionException, MPDDatabaseException {
         List<String> fileList;
         try {
-            fileList = sendMPDCommand(databaseProperties.getListAll(), path);
+            fileList = commandExecutor.sendCommand(databaseProperties.getListAll(), path);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -376,19 +176,12 @@ public class MPDDatabase extends CommandExecutor {
         return MPDSongConverter.getSongNameList(fileList);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s of all
-     * songs from the mpd root.
-     *
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> listAllSongs() throws MPDConnectionException, MPDDatabaseException {
         List<String> songList;
 
         try {
-            songList = sendMPDCommand(databaseProperties.getListAllInfo());
+            songList = commandExecutor.sendCommand(databaseProperties.getListAllInfo());
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -398,20 +191,12 @@ public class MPDDatabase extends CommandExecutor {
         return new ArrayList<MPDSong>(convertResponseToSong(songList));
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s of all
-     * songs from the given path.
-     *
-     * @param path the root of the list
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> listAllSongs(String path) throws MPDConnectionException, MPDDatabaseException {
         List<String> songList;
 
         try {
-            songList = sendMPDCommand(databaseProperties.getListAllInfo(), path);
+            songList = commandExecutor.sendCommand(databaseProperties.getListAllInfo(), path);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -425,108 +210,37 @@ public class MPDDatabase extends CommandExecutor {
         return MPDSongConverter.convertResponseToSong(songList);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an any
-     * artist containing the parameter artist.
-     * Please note this returns a partial match of an artist.  To find an
-     * exact match use {@link #findArtist(org.bff.javampd.objects.MPDArtist)}.
-     *
-     * @param artist the artist to match
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> searchArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
         return searchArtist(artist.getName());
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an any
-     * artist containing the parameter artist.
-     * Please note this returns a partial match of an artist.  To find an
-     * exact match use {@link #findArtist(java.lang.String)}.
-     *
-     * @param artist the artist to match
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> searchArtist(String artist) throws MPDConnectionException, MPDDatabaseException {
         return search(ScopeType.ARTIST, artist);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an any
-     * album containing the parameter album.
-     * Please note this returns a partial match of an album.  To find an
-     * exact match use {@link #findAlbum(MPDAlbum album)}.
-     *
-     * @param album the album to match
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> searchAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException {
         return searchAlbum(album.getName());
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an any
-     * album containing the parameter album.
-     * Please note this returns a partial match of an album.  To find an
-     * exact match use {@link #findAlbum(java.lang.String)}.
-     *
-     * @param album the album to match
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> searchAlbum(String album) throws MPDConnectionException, MPDDatabaseException {
         return search(ScopeType.ALBUM, album);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an any
-     * title containing the parameter title.
-     * Please note this returns a partial match of a title.  To find an
-     * exact match use {@link #findTitle(String title)}.
-     *
-     * @param title the title to match
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> searchTitle(String title) throws MPDConnectionException, MPDDatabaseException {
         return search(ScopeType.TITLE, title);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an any criteria.
-     * Please note this returns a partial match of a title.  To find an
-     * exact match use {@link #findAny(java.lang.String)}
-     *
-     * @param criteria the criteria to match
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> searchAny(String criteria) throws MPDConnectionException, MPDDatabaseException {
         return search(ScopeType.ANY, criteria);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an any
-     * title containing the parameter title.
-     * Please note this returns a partial match of a title.  To find an
-     * exact match use {@link #searchTitle(String title)}.
-     *
-     * @param title     the title to match
-     * @param startYear the starting year
-     * @param endYear   the ending year
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> searchTitle(String title, int startYear, int endYear) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<MPDSong>();
 
@@ -556,27 +270,12 @@ public class MPDDatabase extends CommandExecutor {
         return retList;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for an any
-     * file name containing the parameter filename.
-     *
-     * @param fileName the file name to match
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDSong> searchFileName(String fileName) throws MPDConnectionException, MPDDatabaseException {
         return search(ScopeType.FILENAME, Utils.removeSlashes(fileName));
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDAlbum}s of all
-     * albums in the database.
-     *
-     * @return a {@link Collection} of {@link MPDAlbum}s containing the album names
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDAlbum> listAllAlbums() throws MPDConnectionException, MPDDatabaseException {
         List<MPDAlbum> albums = new ArrayList<MPDAlbum>();
         for (String str : list(ListType.ALBUM)) {
@@ -585,14 +284,7 @@ public class MPDDatabase extends CommandExecutor {
         return albums;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDArtist}s of all
-     * artists in the database.
-     *
-     * @return a {@link Collection} of {@link MPDArtist}s containing the album names
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDArtist> listAllArtists() throws MPDConnectionException, MPDDatabaseException {
         List<MPDArtist> artists = new ArrayList<MPDArtist>();
         for (String str : list(ListType.ARTIST)) {
@@ -601,14 +293,7 @@ public class MPDDatabase extends CommandExecutor {
         return artists;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDGenre}s of all
-     * genres in the database.
-     *
-     * @return a {@link Collection} of {@link MPDGenre}s containing the genre names
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDGenre> listAllGenres() throws MPDConnectionException, MPDDatabaseException {
         List<MPDGenre> genres = new ArrayList<MPDGenre>();
         for (String str : list(ListType.GENRE)) {
@@ -617,16 +302,7 @@ public class MPDDatabase extends CommandExecutor {
         return genres;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDAlbum}s of all
-     * albums by a particular artist.
-     *
-     * @param artist the artist to find albums
-     * @return a {@link Collection} of {@link MPDAlbum}s of all
-     *         albums
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException {
         List<String> list = new ArrayList<String>();
         list.add(artist.getName());
@@ -640,16 +316,7 @@ public class MPDDatabase extends CommandExecutor {
         return albums;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDAlbum}s of all
-     * albums by a particular genre.
-     *
-     * @param genre the genre to find albums
-     * @return a {@link Collection} of {@link MPDAlbum}s of all
-     *         albums
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
         List<String> list = new ArrayList<String>();
         list.add(ListType.GENRE.getType());
@@ -662,16 +329,7 @@ public class MPDDatabase extends CommandExecutor {
         return albums;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDArtist}s of all
-     * artists by a particular genre.
-     *
-     * @param genre the genre to find artists
-     * @return a {@link Collection} of {@link MPDArtist}s of all
-     *         artists
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException {
         List<String> list = new ArrayList<String>();
         list.add(ListType.GENRE.getType());
@@ -684,16 +342,7 @@ public class MPDDatabase extends CommandExecutor {
         return artists;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDAlbum}s of all
-     * albums for a particular year.
-     *
-     * @param year the year to find albums
-     * @return a {@link Collection} of {@link MPDAlbum}s of all
-     *         years
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<MPDAlbum> listAlbumsByYear(String year) throws MPDConnectionException, MPDDatabaseException {
         List<String> list = new ArrayList<String>();
         list.add(ListType.DATE.getType());
@@ -711,7 +360,7 @@ public class MPDDatabase extends CommandExecutor {
         List<String> list;
 
         try {
-            list = sendMPDCommand(databaseProperties.getListInfo());
+            list = commandExecutor.sendCommand(databaseProperties.getListInfo());
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -729,26 +378,12 @@ public class MPDDatabase extends CommandExecutor {
         return returnList;
     }
 
-    /**
-     * Lists all {@link MPDFile}s for the root directory of the file system.
-     *
-     * @return a {@code Collection} of {@link MPDFile}
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public Collection<MPDFile> listRootDirectory() throws MPDConnectionException, MPDDatabaseException {
         return listDirectory("");
     }
 
-    /**
-     * Lists all {@link MPDFile}s for the given directory of the file system.
-     *
-     * @param directory the directory to list
-     * @return a {@code Collection} of {@link MPDFile}
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDDatabaseException   if the MPD responded with an error or the {@link MPDFile}
-     *                                is not a directory.
-     */
+    @Override
     public Collection<MPDFile> listDirectory(MPDFile directory) throws MPDConnectionException, MPDDatabaseException {
         if (directory.isDirectory()) {
             return listDirectory(directory.getPath());
@@ -766,7 +401,7 @@ public class MPDDatabase extends CommandExecutor {
         List<String> list;
 
         try {
-            list = sendMPDCommand(databaseProperties.getListInfo(), directory);
+            list = commandExecutor.sendCommand(databaseProperties.getListInfo(), directory);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -821,7 +456,7 @@ public class MPDDatabase extends CommandExecutor {
         List<String> responseList;
 
         try {
-            responseList = sendMPDCommand(databaseProperties.getList(), paramList);
+            responseList = commandExecutor.sendCommand(databaseProperties.getList(), paramList);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -840,17 +475,7 @@ public class MPDDatabase extends CommandExecutor {
         return retList;
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for a searches matching the scope type any.
-     * Please note this returns a partial match of a title.  To find an
-     * exact match use {@link #find(org.bff.javampd.MPDDatabase.ScopeType, java.lang.String)}.
-     *
-     * @param searchType the {@link ScopeType}
-     * @param param      the search criteria
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDDatabaseException   if the database throws an exception during the search
-     */
+    @Override
     public Collection<MPDSong> search(ScopeType searchType, String param) throws MPDConnectionException, MPDDatabaseException {
         String[] paramList;
 
@@ -865,7 +490,7 @@ public class MPDDatabase extends CommandExecutor {
         List<String> titleList;
 
         try {
-            titleList = sendMPDCommand(databaseProperties.getSearch(), paramList);
+            titleList = commandExecutor.sendCommand(databaseProperties.getSearch(), paramList);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -875,17 +500,7 @@ public class MPDDatabase extends CommandExecutor {
         return convertResponseToSong(titleList);
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSong}s for a searches matching the scope type any.
-     * Please note this only returns an exact match of artist.  To find a partial
-     * match use {@link #search(org.bff.javampd.MPDDatabase.ScopeType, java.lang.String)}.
-     *
-     * @param scopeType the {@link ScopeType}
-     * @param param     the search criteria
-     * @return a {@link Collection} of {@link MPDSong}s
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDDatabaseException   if the database throws an exception during the search
-     */
+    @Override
     public Collection<MPDSong> find(ScopeType scopeType, String param) throws MPDConnectionException, MPDDatabaseException {
         String[] paramList;
 
@@ -899,7 +514,7 @@ public class MPDDatabase extends CommandExecutor {
         List<String> titleList;
 
         try {
-            titleList = sendMPDCommand(databaseProperties.getFind(), paramList);
+            titleList = commandExecutor.sendCommand(databaseProperties.getFind(), paramList);
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -909,13 +524,7 @@ public class MPDDatabase extends CommandExecutor {
         return convertResponseToSong(titleList);
     }
 
-    /**
-     * Returns the total number of artists in the database.
-     *
-     * @return the total number of artists
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public int getArtistCount() throws MPDConnectionException, MPDDatabaseException {
         try {
             return serverStatistics.getArtists();
@@ -926,13 +535,7 @@ public class MPDDatabase extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns the total number of albums in the database.
-     *
-     * @return the total number of albums
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public int getAlbumCount() throws MPDConnectionException, MPDDatabaseException {
         try {
             return serverStatistics.getAlbums();
@@ -943,13 +546,7 @@ public class MPDDatabase extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns the total number of songs in the database.
-     *
-     * @return the total number of songs
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public int getSongCount() throws MPDConnectionException, MPDDatabaseException {
         try {
             return serverStatistics.getSongs();
@@ -960,13 +557,7 @@ public class MPDDatabase extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns the sum of all song times in database.
-     *
-     * @return the sum of all song times
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public long getDbPlayTime() throws MPDConnectionException, MPDDatabaseException {
         try {
             return serverStatistics.getDatabasePlaytime();
@@ -977,13 +568,7 @@ public class MPDDatabase extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns the last database update in UNIX time.
-     *
-     * @return the last database update in UNIX time
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public long getLastUpdateTime() throws MPDConnectionException, MPDDatabaseException {
         try {
             return serverStatistics.getDatabaseUpdateTime();
@@ -994,14 +579,7 @@ public class MPDDatabase extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns a {@link Collection} of {@link MPDSavedPlaylist}s of all saved playlists.  This is an expensive
-     * call so use it cautiously.
-     *
-     * @return a {@link Collection} of all {@link MPDSavedPlaylist}s
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public Collection<MPDSavedPlaylist> listSavedPlaylists() throws MPDConnectionException, MPDDatabaseException {
         List<MPDSavedPlaylist> playlists = new ArrayList<MPDSavedPlaylist>();
 
@@ -1013,13 +591,7 @@ public class MPDDatabase extends CommandExecutor {
         return playlists;
     }
 
-    /**
-     * Returns a {@link Collection} of all available playlist names on the server.
-     *
-     * @return a list of playlist names
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<String> listPlaylists() throws MPDConnectionException, MPDDatabaseException {
         try {
             return listInfo(ListInfoType.PLAYLIST);
@@ -1030,18 +602,11 @@ public class MPDDatabase extends CommandExecutor {
         }
     }
 
-    /**
-     * Returns a {@link Collection} of all {@link MPDSong}s for a {@link MPDSavedPlaylist}
-     *
-     * @param playlistName the name of the {@link MPDSavedPlaylist}
-     * @return a {@link Collection} of all {@link MPDSong}s for the playlist
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     */
+    @Override
     public Collection<MPDSong> listPlaylistSongs(String playlistName) throws MPDConnectionException, MPDDatabaseException {
         List<MPDSong> songList = new ArrayList<MPDSong>();
         try {
-            List<String> response = sendMPDCommand(databaseProperties.getListSongs(), playlistName);
+            List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
             for (String song : MPDSongConverter.getSongNameList(response)) {
                 songList.add(new ArrayList<MPDSong>(searchFileName(song)).get(0));
             }
@@ -1054,14 +619,7 @@ public class MPDDatabase extends CommandExecutor {
         return songList;
     }
 
-    /**
-     * Returns a {@code Collection} of years for songs in the database.  The years are sorted from least to
-     * greatest.
-     *
-     * @return a {@link Collection} of years
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
-     */
+    @Override
     public Collection<String> listAllYears() throws MPDConnectionException, MPDDatabaseException {
         List<String> retList = new ArrayList<String>();
         for (String str : list(ListType.DATE)) {

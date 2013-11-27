@@ -15,20 +15,22 @@ import java.util.logging.Logger;
  */
 public abstract class BaseTest {
 
-    private static MPDDatabase database;
+    private static Database database;
     private static MPD mpd;
-    private static MPDPlaylist playlist;
-    private static MPDPlayer player;
-    private static MPDAdmin admin;
+    private static Playlist playlist;
+    private static Player player;
+    private static Admin admin;
+    private static StandAloneMonitor monitor;
 
     static {
         try {
             mpd = Controller.getInstance().getMpd();
             Controller.getInstance().loadSongs();
-            database = getMpd().getMPDDatabase();
-            playlist = getMpd().getMPDPlaylist();
-            player = getMpd().getMPDPlayer();
-            admin = getMpd().getMPDAdmin();
+            database = getMpd().getDatabase();
+            playlist = getMpd().getPlaylist();
+            player = getMpd().getPlayer();
+            admin = getMpd().getAdmin();
+            monitor = getMpd().getMonitor();
         } catch (IOException ex) {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MPDException ex) {
@@ -42,7 +44,7 @@ public abstract class BaseTest {
     /**
      * @return the database
      */
-    public static MPDDatabase getDatabase() {
+    public static Database getDatabase() {
         return database;
     }
 
@@ -56,18 +58,22 @@ public abstract class BaseTest {
     /**
      * @return the playlist
      */
-    public static MPDPlaylist getPlaylist() {
+    public static Playlist getPlaylist() {
         return playlist;
     }
 
     /**
      * @return the player
      */
-    public static MPDPlayer getPlayer() {
+    public static Player getPlayer() {
         return player;
     }
 
-    public static MPDAdmin getAdmin() {
+    public static Admin getAdmin() {
         return admin;
+    }
+
+    public static StandAloneMonitor getMonitor() {
+        return monitor;
     }
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * @author bill
- * @since: 11/22/13 9:44 AM
  */
 public class MPDSongConverter {
 

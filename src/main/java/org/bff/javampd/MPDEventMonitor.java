@@ -23,19 +23,16 @@ import java.util.List;
  * @author Bill
  */
 public abstract class MPDEventMonitor {
-    private MPD mpd;
+    private Server server;
     private long oldPos;
     private boolean connectedState = true;
     private List<TrackPositionChangeListener> trackListeners;
     private List<ConnectionChangeListener> connectionListeners;
 
     /**
-     * Only contructor for this abstract base class.
-     *
-     * @param mpd a connection to a MPD
+     * Only constructor for this abstract base class.
      */
-    public MPDEventMonitor(MPD mpd) {
-        this.mpd = mpd;
+    public MPDEventMonitor() {
         trackListeners = new ArrayList<TrackPositionChangeListener>();
         connectionListeners = new ArrayList<ConnectionChangeListener>();
     }
@@ -77,7 +74,7 @@ public abstract class MPDEventMonitor {
      * Adds a {@link ConnectionChangeListener} to this object to receive
      * {@link ConnectionChangeEvent}s.
      *
-     * @param ccl the ConnectionChangeListerner to add
+     * @param ccl the ConnectionChangeListener to add
      */
     public synchronized void addConnectionChangeListener(ConnectionChangeListener ccl) {
         connectionListeners.add(ccl);
@@ -110,14 +107,14 @@ public abstract class MPDEventMonitor {
     private int checkConnCount;
 
     /**
-     * Checks the connection status of the MPD.  Fires a {@link ConnectionChangeEvent}
+     * Checks the connection status of the {@link MPD}.  Fires a {@link ConnectionChangeEvent}
      * if the connection status changes.
      */
     protected final void checkConnection() {
         if (checkConnCount == 3) {
             checkConnCount = 0;
 
-            boolean conn = mpd.isConnected();
+            boolean conn = getServer().isConnected();
             if (connectedState != conn) {
                 connectedState = conn;
                 fireConnectionChangeEvent(conn, "Connection Changed");
@@ -141,11 +138,19 @@ public abstract class MPDEventMonitor {
     }
 
     /**
-     * Returns the connected state of the connection to the MPD server.
+     * Returns the connected state of the connection to the {@link MPD} server.
      *
      * @return the connected state
      */
     protected boolean isConnectedState() {
         return this.connectedState;
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 }

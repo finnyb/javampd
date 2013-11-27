@@ -9,6 +9,7 @@
  */
 package org.bff.javampd;
 
+import com.google.inject.Inject;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
@@ -29,15 +30,19 @@ import java.util.concurrent.Executors;
  * events are desired attach listeners to the different controllers of a
  * connection or use the {@link org.bff.javampd.MPDEventRelayer} class.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public class MPDStandAloneMonitor
         extends MPDEventMonitor
-        implements Runnable {
+        implements StandAloneMonitor {
 
     private Logger logger = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
 
+    @Inject
+    private Admin admin;
+
+    private ServerStatus serverStatus;
     private final int delay;
     private int newVolume;
     private int oldVolume;
@@ -56,40 +61,6 @@ public class MPDStandAloneMonitor
     private String error;
     private boolean stopped;
     private HashMap<Integer, MPDOutput> outputMap;
-    private MPDServerStatus serverStatus;
-    private MPDAdmin mpdAdmin;
-
-    public enum PlayerStatus {
-
-        /**
-         * player stopped status
-         */
-        STATUS_STOPPED,
-        /**
-         * player playing status
-         */
-        STATUS_PLAYING,
-        /**
-         * player paused status
-         */
-        STATUS_PAUSED,
-    }
-
-    public enum PlayerResponse {
-        PLAY("play"),
-        STOP("stop"),
-        PAUSE("pause");
-
-        private String prefix;
-
-        PlayerResponse(String prefix) {
-            this.prefix = prefix;
-        }
-
-        public String getPrefix() {
-            return this.prefix;
-        }
-    }
 
     private PlayerStatus status = PlayerStatus.STATUS_STOPPED;
 
@@ -101,106 +72,21 @@ public class MPDStandAloneMonitor
     private List<OutputChangeListener> outputListeners;
 
     /**
-     * Enumeration of the available information from the MPD
-     * server status.
-     */
-    private enum StatusList {
-
-        /**
-         * The current volume (0-100)
-         */
-        VOLUME("volume:"),
-        /**
-         * is the song repeating (0 or 1)
-         */
-        REPEAT("repeat:"),
-        /**
-         * the playlist version number (31-bit unsigned integer)
-         */
-        PLAYLIST("playlist:"),
-        /**
-         * the length of the playlist
-         */
-        PLAYLISTLENGTH("playlistlength:"),
-        /**
-         * the current state (play, stop, or pause)
-         */
-        STATE("state:"),
-        /**
-         * playlist song number of the current song stopped on or playing
-         */
-        CURRENTSONG("song:"),
-        /**
-         * playlist song id of the current song stopped on or playing
-         */
-        CURRENTSONGID("songid:"),
-        /**
-         * the time of the current playing/paused song
-         */
-        TIME("time:"),
-        /**
-         * instantaneous bitrate in kbps
-         */
-        BITRATE("bitrate:"),
-        /**
-         * crossfade in seconds
-         */
-        XFADE("xfade:"),
-        /**
-         * the cuurent samplerate, bits, and channels
-         */
-        AUDIO("audio:"),
-        /**
-         * job id
-         */
-        UPDATINGSDB("updatings_db:"), //<int job id>
-        /**
-         * if there is an error, returns message here
-         */
-        ERROR("error:");
-        /**
-         * the prefix associated with the status
-         */
-        private String prefix;
-
-        /**
-         * Enum constructor
-         *
-         * @param prefix the prefix of the line in the response
-         */
-        StatusList(String prefix) {
-            this.prefix = prefix;
-        }
-
-        /**
-         * Returns the <CODE>String</CODE> prefix of the response.
-         *
-         * @return the prefix of the response
-         */
-        public String getStatusPrefix() {
-            return prefix;
-        }
-    }
-
-    /**
      * Creates a new instance of MPDStandAloneMonitor using the default delay
      * of 1 second.
-     *
-     * @param mpd a connection to a MPD server
      */
-    public MPDStandAloneMonitor(MPD mpd) {
-        this(mpd, DEFAULT_DELAY);
+    @Inject
+    MPDStandAloneMonitor(ServerStatus serverStatus) {
+        this(serverStatus, DEFAULT_DELAY);
     }
 
     /**
      * Creates a new instance of MPDStandAloneMonitor using the given delay interval
      * for queries.
      *
-     * @param mpd   a connection to a MPD server
      * @param delay the delay interval
      */
-    public MPDStandAloneMonitor(MPD mpd, int delay) {
-        super(mpd);
+    MPDStandAloneMonitor(ServerStatus serverStatus, int delay) {
         this.delay = delay;
         this.playerListeners = new ArrayList<PlayerBasicChangeListener>();
         this.playlistListeners = new ArrayList<PlaylistBasicChangeListener>();
@@ -208,34 +94,24 @@ public class MPDStandAloneMonitor
         this.errorListeners = new ArrayList<MPDErrorListener>();
         this.outputListeners = new ArrayList<OutputChangeListener>();
         this.outputMap = new HashMap<Integer, MPDOutput>();
-        this.serverStatus = mpd.getMPDServerStatus();
-        this.mpdAdmin = mpd.getMPDAdmin();
+        this.serverStatus = serverStatus;
 
         try {
             //initial load so no events fired
             List<String> response = new ArrayList<String>(serverStatus.getStatus());
             processResponse(response);
-            loadOutputs(mpd.getMPDAdmin().getOutputs());
+            loadOutputs(admin.getOutputs());
         } catch (MPDException ex) {
             logger.error("Problem with initialization", ex);
         }
     }
 
-    /**
-     * Adds a {@link PlayerBasicChangeListener} to this object to receive
-     * {@link PlayerChangeEvent}s.
-     *
-     * @param pcl the PlayerBasicChangeListener to add
-     */
+    @Override
     public synchronized void addPlayerChangeListener(PlayerBasicChangeListener pcl) {
         playerListeners.add(pcl);
     }
 
-    /**
-     * Removes a {@link PlayerBasicChangeListener} from this object.
-     *
-     * @param pcl the PlayerBasicChangeListener to remove
-     */
+    @Override
     public synchronized void removePlayerChangeListener(PlayerBasicChangeListener pcl) {
         playerListeners.remove(pcl);
     }
@@ -254,21 +130,12 @@ public class MPDStandAloneMonitor
         }
     }
 
-    /**
-     * Adds a {@link VolumeChangeListener} to this object to receive
-     * {@link VolumeChangeEvent}s.
-     *
-     * @param vcl the VolumeChangeListener to add
-     */
+    @Override
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
         volListeners.add(vcl);
     }
 
-    /**
-     * Removes a {@link VolumeChangeListener} from this object.
-     *
-     * @param vcl the VolumeChangeListener to remove
-     */
+    @Override
     public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
         volListeners.remove(vcl);
     }
@@ -287,21 +154,12 @@ public class MPDStandAloneMonitor
         }
     }
 
-    /**
-     * Adds a {@link OutputChangeListener} to this object to receive
-     * {@link OutputChangeEvent}s.
-     *
-     * @param vcl the OutputChangeListener to add
-     */
+    @Override
     public synchronized void addOutputChangeListener(OutputChangeListener vcl) {
         outputListeners.add(vcl);
     }
 
-    /**
-     * Removes a {@link OutputChangeListener} from this object.
-     *
-     * @param vcl the OutputChangeListener to remove
-     */
+    @Override
     public synchronized void removeOutputChangedListener(OutputChangeListener vcl) {
         outputListeners.remove(vcl);
     }
@@ -318,21 +176,12 @@ public class MPDStandAloneMonitor
         }
     }
 
-    /**
-     * Adds a {@link PlaylistBasicChangeListener} to this object to receive
-     * {@link PlaylistChangeEvent}s.
-     *
-     * @param pcl the PlaylistChangeListener to add
-     */
+    @Override
     public synchronized void addPlaylistChangeListener(PlaylistBasicChangeListener pcl) {
         playlistListeners.add(pcl);
     }
 
-    /**
-     * Removes a {@link PlaylistBasicChangeListener} from this object.
-     *
-     * @param pcl the PlaylistBasicChangeListener to remove
-     */
+    @Override
     public synchronized void removePlaylistStatusChangedListener(PlaylistBasicChangeListener pcl) {
         playlistListeners.remove(pcl);
     }
@@ -351,21 +200,12 @@ public class MPDStandAloneMonitor
         }
     }
 
-    /**
-     * Adds a {@link MPDErrorListener} to this object to receive
-     * {@link MPDErrorEvent}s.
-     *
-     * @param el the MPDErrorListener to add
-     */
+    @Override
     public synchronized void addMPDErrorListener(MPDErrorListener el) {
         errorListeners.add(el);
     }
 
-    /**
-     * Removes a {@link MPDErrorListener} from this object.
-     *
-     * @param el the MPDErrorListener to remove
-     */
+    @Override
     public synchronized void removeMPDErrorListener(MPDErrorListener el) {
         errorListeners.remove(el);
     }
@@ -384,9 +224,6 @@ public class MPDStandAloneMonitor
         }
     }
 
-    /**
-     * Implements the Runnable run method to monitor the MPD connection.
-     */
     @Override
     public void run() {
         List<String> response;
@@ -434,35 +271,22 @@ public class MPDStandAloneMonitor
         }
     }
 
-    /**
-     * Starts the monitor by creating and starting a thread using this instance
-     * as the Runnable interface.
-     */
+    @Override
     public void start() {
         Executors.newSingleThreadExecutor().execute(this);
     }
 
-    /**
-     * Stops the thread.
-     */
+    @Override
     public void stop() {
         setStopped(true);
     }
 
-    /**
-     * Returns true if the monitor is stopped, false if the monitor is still running.
-     *
-     * @return true if monitor is running, false otherwise false
-     */
+    @Override
     public boolean isStopped() {
         return stopped;
     }
 
-    /**
-     * Returns the current status of the player.
-     *
-     * @return the status of the player
-     */
+    @Override
     public PlayerStatus getStatus() {
         return status;
     }
@@ -548,7 +372,7 @@ public class MPDStandAloneMonitor
         if (checkOutputCount == 3) {
             checkOutputCount = 0;
 
-            List<MPDOutput> outputs = new ArrayList<MPDOutput>(mpdAdmin.getOutputs());
+            List<MPDOutput> outputs = new ArrayList<MPDOutput>(admin.getOutputs());
             if (outputs.size() > outputMap.size()) {
                 fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));
                 loadOutputs(outputs);

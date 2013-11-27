@@ -8,7 +8,7 @@ package org.bff.javampd.objects;
 /**
  * MPDArtist represents an artist.
  *
- * @author Bill Findeisen
+ * @author Bill
  */
 public class MPDArtist extends MPDItem {
 

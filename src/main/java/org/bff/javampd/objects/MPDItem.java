@@ -7,7 +7,7 @@ package org.bff.javampd.objects;
 /**
  * Abstract base class for all MPD related objects.
  *
- * @author Bill Findeisen
+ * @author Bill
  */
 public abstract class MPDItem implements Comparable<MPDItem> {
 

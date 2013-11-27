@@ -15,7 +15,7 @@ import java.util.EventObject;
 /**
  * Represents a change in the status of a MPD music playlist.
  *
- * @author Bill Findeisen
+ * @author Bill
  */
 public class PlaylistBasicChangeEvent extends EventObject {
     private Event event;

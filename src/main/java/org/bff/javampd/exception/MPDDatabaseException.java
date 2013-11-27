@@ -12,7 +12,7 @@ package org.bff.javampd.exception;
 /**
  * Represents an error with the MPDDatabase.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public class MPDDatabaseException extends MPDResponseException {

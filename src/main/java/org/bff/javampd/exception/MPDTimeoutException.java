@@ -13,7 +13,7 @@ package org.bff.javampd.exception;
 /**
  * Represents an error with the MPD connection.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public class MPDTimeoutException extends MPDConnectionException {

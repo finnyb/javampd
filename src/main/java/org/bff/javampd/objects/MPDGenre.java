@@ -7,7 +7,7 @@ package org.bff.javampd.objects;
 /**
  * MPDGenre represents a genre
  *
- * @author Bill Findeisen
+ * @author Bill
  */
 public class MPDGenre extends MPDItem {
 

@@ -18,7 +18,7 @@ package org.bff.javampd.events;
  * When the event occurs, that object's <CODE>outputChanged</CODE> method
  * is invoked.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public interface OutputChangeListener {

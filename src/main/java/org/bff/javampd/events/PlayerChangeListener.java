@@ -18,7 +18,7 @@ package org.bff.javampd.events;
  * player event occurs, that object's <CODE>playerChanged</CODE> method is
  * invoked.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public interface PlayerChangeListener {

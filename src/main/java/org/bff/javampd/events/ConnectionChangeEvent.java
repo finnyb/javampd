@@ -15,7 +15,7 @@ import java.util.EventObject;
 /**
  * An event used to identify a change in connection status.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public class ConnectionChangeEvent extends EventObject {

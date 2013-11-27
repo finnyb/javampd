@@ -13,7 +13,7 @@ package org.bff.javampd.objects;
  * MPDSong represents a song in the MPD database that can be inserted into
  * a playlist.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public class MPDSong extends MPDItem {

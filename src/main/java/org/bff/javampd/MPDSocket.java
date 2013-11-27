@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author bill
@@ -22,42 +24,25 @@ import java.util.*;
 public class MPDSocket {
     private static Logger logger = LoggerFactory.getLogger(MPDSocket.class);
 
-    private static MPDSocket instance;
-    private static Map<MPD, MPDSocket> socketMap = new HashMap<MPD, MPDSocket>();
-
     private Socket socket;
-    private MPD mpd;
     private ResponseProperties responseProperties;
     private ServerProperties commandProperties;
     private String encoding;
     private String lastError;
     private String version;
 
+    private String server;
+    private int port;
+
     private static final int TRIES = 3;
 
-
-    public static final MPDSocket getInstance(MPD mpd) {
-        if (socketMap.get(mpd) == null) {
-            try {
-                instance = new MPDSocket(mpd);
-                socketMap.put(mpd, instance);
-                return socketMap.get(mpd);
-            } catch (Exception e) {
-                logger.error("Could not establish socket connection to {} on port {}",
-                        mpd.getServerAddress().getHostName(),
-                        mpd.getPort());
-            }
-
-        }
-        return socketMap.get(mpd);
-    }
-
-    private MPDSocket(MPD mpd) throws IOException, MPDConnectionException {
-        this.mpd = mpd;
+    MPDSocket(InetAddress server, int port, int timeout) throws IOException, MPDConnectionException {
+        this.server = server.getHostAddress();
+        this.port = port;
         this.responseProperties = new ResponseProperties();
         this.commandProperties = new ServerProperties();
         this.encoding = commandProperties.getEncoding();
-        this.version = connect(mpd.getTimeout());
+        this.version = connect(timeout);
     }
 
     /**
@@ -68,15 +53,14 @@ public class MPDSocket {
      *
      * @param timeout socket timeout, 0 for infinite wait
      * @return the version of MPD
-     * @throws java.io.IOException if there is a socked io problem
-     * @throws org.bff.javampd.exception.MPDConnectionException
-     *                             if there are connection issues
+     * @throws java.io.IOException    if there is a socked io problem
+     * @throws MPDConnectionException if there are connection issues
      */
     protected synchronized String connect(int timeout) throws IOException, MPDConnectionException {
         BufferedReader in;
 
         this.socket = new Socket();
-        SocketAddress sockaddr = new InetSocketAddress(mpd.getServerAddress(), mpd.getPort());
+        SocketAddress sockaddr = new InetSocketAddress(server, port);
         try {
             this.socket.connect(sockaddr, timeout);
         } catch (SocketTimeoutException ste) {
@@ -143,8 +127,7 @@ public class MPDSocket {
                     try {
                         connect();
                     } catch (Exception ex) {
-                        logger.error("Unable to connect to {} on port {}",
-                                new Object[]{mpd.getServerAddress(), mpd.getPort(), ex});
+                        logger.error("Unable to connect to {} on port {}", new Object[]{server, port, ex});
                     }
                     responseList = new ArrayList<String>();
                     ++count;
@@ -221,7 +204,7 @@ public class MPDSocket {
         return sb.toString();
     }
 
-    public boolean sendMPDCommands(List<MPDCommand> commandList) throws MPDConnectionException {
+    public boolean sendCommands(List<MPDCommand> commandList) throws MPDConnectionException {
         boolean isOk = true;
         StringBuffer sb;
 

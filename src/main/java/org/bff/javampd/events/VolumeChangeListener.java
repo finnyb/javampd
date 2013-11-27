@@ -18,7 +18,7 @@ package org.bff.javampd.events;
  * When the position event occurs, that object's <CODE>volumeChanged</CODE> method
  * is invoked.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public interface VolumeChangeListener {

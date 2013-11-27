@@ -12,7 +12,7 @@ package org.bff.javampd.events;
 /**
  * An event used to identify a MPD error.
  *
- * @author Bill Findeisen
+ * @author Bill
  * @version 1.0
  */
 public class MPDErrorEvent extends java.util.EventObject {

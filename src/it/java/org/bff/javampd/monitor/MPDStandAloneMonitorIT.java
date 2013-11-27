@@ -3,7 +3,7 @@ package org.bff.javampd.monitor;
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.Controller;
 import org.bff.javampd.MPDOutput;
-import org.bff.javampd.MPDStandAloneMonitor;
+import org.bff.javampd.StandAloneMonitor;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.objects.MPDSong;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class MPDStandAloneMonitorIT extends BaseTest {
 
-    private static MPDStandAloneMonitor monitor = new MPDStandAloneMonitor(getMpd());
+    private StandAloneMonitor monitor;
 
     @BeforeClass
     public static void setUpClass() {
@@ -30,6 +30,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
     @Before
     public void setUp() throws MPDException {
+        monitor = getMonitor();
         getPlaylist().clearPlaylist();
         getPlayer().stop();
         MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
@@ -394,13 +395,6 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         }
         Assert.assertTrue(success);
-    }
-
-    /**
-     * @return the monitor
-     */
-    public static MPDStandAloneMonitor getMonitor() {
-        return monitor;
     }
 
     private void loadSeveralSongs() throws MPDException, IOException {
