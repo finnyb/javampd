@@ -41,8 +41,12 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     private void delay() {
+        delay(1);
+    }
+
+    private void delay(int multiplier) {
         try {
-            Thread.sleep(MONITOR_DELAY);
+            Thread.sleep(MONITOR_DELAY * multiplier);
         } catch (InterruptedException e) {
             //don't care
             e.printStackTrace();
@@ -249,7 +253,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
         getPlayer().setVolume(0);
 
-        delay();
+        delay(2);
 
         getMonitor().addVolumeChangeListener(new VolumeChangeListener() {
 
