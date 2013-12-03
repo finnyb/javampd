@@ -157,7 +157,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         int count = 0;
         while (!success && count++ < 100) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(100);
             } catch (InterruptedException ex) {
                 Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
             }
