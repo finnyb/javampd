@@ -193,6 +193,7 @@ public class MPDSocket {
         if (params != null) {
             for (String param : params) {
                 if (param != null) {
+                    param = param.replaceAll("\"", "\\\\\"");
                     sb.append(param.contains(" ") ? " \"" : " ");
                     sb.append(param);
                     sb.append(param.contains(" ") ? "\"" : "");
@@ -201,14 +202,13 @@ public class MPDSocket {
             sb.append("\n");
         }
 
+        System.out.println(sb.toString());
         return sb.toString();
     }
 
     public synchronized boolean sendCommands(List<MPDCommand> commandList) throws MPDConnectionException {
         boolean isOk = true;
-        StringBuffer sb;
-
-        sb = new StringBuffer(convertCommand(commandProperties.getStartBulk(), new ArrayList<String>()));
+        StringBuffer sb = new StringBuffer(convertCommand(commandProperties.getStartBulk(), new ArrayList<String>()));
 
         for (MPDCommand command : commandList) {
             sb.append(convertCommand(command.getCommand(), command.getParams()));
