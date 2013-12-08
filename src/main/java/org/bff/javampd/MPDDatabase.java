@@ -9,10 +9,7 @@ import org.bff.javampd.properties.DatabaseProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * MPDDatabase represents a database controller to a {@link MPD}.  To obtain
@@ -278,9 +275,16 @@ public class MPDDatabase implements Database {
     @Override
     public Collection<MPDAlbum> listAllAlbums() throws MPDConnectionException, MPDDatabaseException {
         List<MPDAlbum> albums = new ArrayList<MPDAlbum>();
-        for (String str : list(ListType.ALBUM)) {
-            albums.add(new MPDAlbum(str));
+        for (MPDArtist artist : listAllArtists()) {
+            albums.addAll(listAlbumsByArtist(artist));
         }
+
+        Collections.sort(albums, new Comparator<MPDAlbum>() {
+            public int compare(MPDAlbum one, MPDAlbum other) {
+                return one.getName().compareTo(other.getName());
+            }
+        });
+
         return albums;
     }
 
