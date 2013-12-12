@@ -367,7 +367,7 @@ public class MPDPlaylist implements Playlist {
         List<MPDSong> removeList = new ArrayList<MPDSong>();
 
         for (MPDSong song : getSongList()) {
-            if (song.getArtist().equals(artist) && song.getAlbum().equals(album)) {
+            if (song.getArtistName().equals(artist.getName()) && song.getAlbumName().equals(album.getName())) {
                 removeList.add(song);
             }
         }
@@ -420,7 +420,7 @@ public class MPDPlaylist implements Playlist {
     public void removeArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<MPDSong>();
         for (MPDSong song : getSongList()) {
-            if (song.getArtist().equals(artist)) {
+            if (song.getArtistName().equals(artist.getName())) {
                 removeList.add(song);
             }
             removeList.add(song);

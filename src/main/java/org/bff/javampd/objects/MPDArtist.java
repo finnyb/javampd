@@ -6,14 +6,14 @@
 package org.bff.javampd.objects;
 
 /**
- * MPDArtist represents an artist.
+ * String represents an artist.
  *
  * @author Bill
  */
 public class MPDArtist extends MPDItem {
 
     /**
-     * Creates a MPDArtist object
+     * Creates a String object
      *
      * @param name the name of the artist
      */
