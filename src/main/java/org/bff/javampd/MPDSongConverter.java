@@ -1,7 +1,6 @@
 package org.bff.javampd;
 
-import org.bff.javampd.objects.MPDAlbum;
-import org.bff.javampd.objects.MPDArtist;
+
 import org.bff.javampd.objects.MPDSong;
 
 import java.util.ArrayList;
@@ -47,9 +46,9 @@ public class MPDSongConverter {
                 song.setFile(line.substring(PREFIX_FILE.length()).trim());
                 while (!(line = iter.next()).startsWith(PREFIX_FILE)) {
                     if (line.startsWith(PREFIX_ALBUM)) {
-                        song.setAlbum(new MPDAlbum(line.substring(PREFIX_ALBUM.length()).trim()));
+                        song.setAlbumName(line.substring(PREFIX_ALBUM.length()).trim());
                     } else if (line.startsWith(PREFIX_ARTIST)) {
-                        song.setArtist(new MPDArtist(line.substring(PREFIX_ARTIST.length()).trim()));
+                        song.setArtistName(line.substring(PREFIX_ARTIST.length()).trim());
                     } else if (line.startsWith(PREFIX_TIME)) {
                         song.setLength(Integer.parseInt(line.substring(PREFIX_TIME.length()).trim()));
                     } else if (line.startsWith(PREFIX_TITLE)) {

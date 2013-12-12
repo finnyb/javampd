@@ -19,8 +19,8 @@ package org.bff.javampd.objects;
 public class MPDSong extends MPDItem {
 
     private String title;
-    private MPDArtist artist;
-    private MPDAlbum album;
+    private String artistName;
+    private String albumName;
     private String file;
     private String genre;
     private String comment;
@@ -60,17 +60,17 @@ public class MPDSong extends MPDItem {
      *
      * @return the name of the artist
      */
-    public MPDArtist getArtist() {
-        return artist;
+    public String getArtistName() {
+        return artistName;
     }
 
     /**
      * Sets the name of the artist.
      *
-     * @param artist the name of the artist
+     * @param artistName the name of the artist
      */
-    public void setArtist(MPDArtist artist) {
-        this.artist = artist;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 
     /**
@@ -78,17 +78,17 @@ public class MPDSong extends MPDItem {
      *
      * @return the name of the album
      */
-    public MPDAlbum getAlbum() {
-        return album;
+    public String getAlbumName() {
+        return albumName;
     }
 
     /**
      * Sets the name of the album.
      *
-     * @param album the name of the album
+     * @param albumName the name of the album
      */
-    public void setAlbum(MPDAlbum album) {
-        this.album = album;
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
     }
 
     /**
@@ -210,8 +210,8 @@ public class MPDSong extends MPDItem {
         StringBuilder sb = new StringBuilder();
         sb.append("File:").append(getFile()).append("\n");
         sb.append("Title:").append(getTitle()).append("\n");
-        sb.append("Artist:").append(getArtist()).append("\n");
-        sb.append("Album:").append(getAlbum()).append("\n");
+        sb.append("Artist:").append(getArtistName()).append("\n");
+        sb.append("Album:").append(getAlbumName()).append("\n");
         sb.append("Track:").append(getTrack()).append("\n");
         sb.append("Year:").append(getYear()).append("\n");
         sb.append("Genre:").append(getGenre()).append("\n");
@@ -324,12 +324,12 @@ public class MPDSong extends MPDItem {
         StringBuffer sb;
 
         sb = new StringBuffer();
-        sb.append(getAlbum());
+        sb.append(getAlbumName());
         sb.append(formatToComparableString(getTrack()));
         String thisSong = sb.toString();
 
         sb = new StringBuffer();
-        sb.append(song.getAlbum());
+        sb.append(song.getAlbumName());
         sb.append(formatToComparableString(song.getTrack()));
         String songToCompare = sb.toString();
 

@@ -44,8 +44,8 @@ public class MPDAlbumTest {
         MPDAlbum alb1 = new MPDAlbum("Album1");
         MPDAlbum alb2 = new MPDAlbum("Album1");
 
-        alb1.setArtist(new MPDArtist("Artist1"));
-        alb2.setArtist(new MPDArtist("Artist2"));
+        alb1.setArtistName(new String("Artist1"));
+        alb2.setArtistName(new String("Artist2"));
 
         Assert.assertFalse(alb1.equals(alb2));
     }
@@ -63,8 +63,8 @@ public class MPDAlbumTest {
         MPDAlbum alb1 = new MPDAlbum("Album1");
         MPDAlbum alb2 = new MPDAlbum("Album1");
 
-        alb1.setArtist(new MPDArtist("Artist1"));
-        alb2.setArtist(new MPDArtist("Artist1"));
+        alb1.setArtistName(new String("Artist1"));
+        alb2.setArtistName(new String("Artist1"));
 
         Assert.assertTrue(alb1.equals(alb2));
     }

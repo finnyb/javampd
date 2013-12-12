@@ -11,7 +11,7 @@ package org.bff.javampd.objects;
  */
 public class MPDAlbum extends MPDItem {
 
-    private MPDArtist artist;
+    private String artistName;
 
     /**
      * Creates a album object
@@ -23,34 +23,26 @@ public class MPDAlbum extends MPDItem {
     }
 
     /**
-     * Returns the {@link MPDArtist} for the album.
+     * Returns the {@link String} for the album.
      *
-     * @return the {@link MPDArtist} for the album
+     * @return the {@link String} for the album
      */
-    public MPDArtist getArtist() {
-        return artist;
+    public String getArtistName() {
+        return artistName;
     }
 
     /**
-     * Sets the {@link MPDArtist} for the album
+     * Sets the {@link String} for the album
      *
-     * @param artist the {@link MPDArtist} for the album
+     * @param artistName the {@link String} for the album
      */
-    public void setArtist(MPDArtist artist) {
-        this.artist = artist;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + getName().length();
-        hash = 31 * hash + (null == getName() ? 0 : getName().hashCode());
-        return hash;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 
     /**
      * We consider two albums to be equal if the {@link MPDAlbum}
-     * names match and if the {@link MPDArtist} names match
+     * names match and if the {@link String} names match
      *
      * @param object the {@link MPDAlbum} to compare
      * @return true or false
@@ -79,20 +71,11 @@ public class MPDAlbum extends MPDItem {
         // is of type MDPAlbum because otherwise super.equals(object)
         // would have returned false
 
-        if (artist == null || albumToCompare.artist == null) {
+        if (artistName == null || albumToCompare.artistName == null) {
             // we already know the album names are equal
             return true;
         } else {
-            return artist.equals(albumToCompare.artist);
-        }
-    }
-
-    @Override
-    public String toString() {
-        if (artist == null) {
-            return super.toString();
-        } else {
-            return super.toString() + " - " + artist.getName();
+            return artistName.equals(albumToCompare.artistName);
         }
     }
 }

@@ -74,7 +74,7 @@ public class MPDDatabase implements Database {
         List<MPDSong> songList = new ArrayList<MPDSong>(find(ScopeType.ALBUM, album.getName()));
 
         for (MPDSong song : songList) {
-            if (song.getArtist() != null && song.getArtist().equals(artist)) {
+            if (song.getArtistName() != null && song.getArtistName().equals(artist.getName())) {
                 retList.add(song);
             }
         }
@@ -314,7 +314,7 @@ public class MPDDatabase implements Database {
         List<MPDAlbum> albums = new ArrayList<MPDAlbum>();
         for (String str : list(ListType.ALBUM, list)) {
             MPDAlbum album = new MPDAlbum(str);
-            album.setArtist(artist);
+            album.setArtistName(artist.getName());
             albums.add(album);
         }
         return albums;

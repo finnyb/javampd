@@ -253,8 +253,8 @@ public class Controller {
                             }
                         }
                     }
-                    song.setAlbum(album);
-                    song.setArtist(artist);
+                    song.setAlbumName(album != null ? album.getName() : null);
+                    song.setArtistName(artist != null ? artist.getName() : null);
                     song.setYear(year);
                     song.setGenre(genre);
 

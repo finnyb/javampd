@@ -436,7 +436,7 @@ public class MPDDatabaseIT extends BaseTest {
         Assert.assertEquals(item1.getId(), item2.getId());
         Assert.assertEquals(item1.getName(), item2.getName());
         Assert.assertEquals(item1.getFile(), item2.getFile());
-        Assert.assertEquals(item1.getAlbum(), item2.getAlbum());
+        Assert.assertEquals(item1.getAlbumName(), item2.getAlbumName());
         Assert.assertEquals(item1.getGenre(), item2.getGenre());
         Assert.assertEquals(item1.getGenre(), item2.getGenre());
         Assert.assertEquals(item1.getYear(), item2.getYear());
