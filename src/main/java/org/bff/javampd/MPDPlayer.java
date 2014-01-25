@@ -20,6 +20,8 @@ import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDAudioInfo;
 import org.bff.javampd.objects.MPDSong;
 import org.bff.javampd.properties.PlayerProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,8 @@ public class MPDPlayer implements Player {
     private PlayerProperties playerProperties;
     @Inject
     private CommandExecutor commandExecutor;
+
+    private final Logger logger = LoggerFactory.getLogger(MPDPlayer.class);
 
     @Override
     public MPDSong getCurrentSong() throws MPDConnectionException, MPDPlayerException {
@@ -365,16 +369,19 @@ public class MPDPlayer implements Player {
                 try {
                     info.setSampleRate(Integer.parseInt(split[0]));
                 } catch (NumberFormatException nfe) {
+                    logger.error("Could not format sample rate", nfe);
                     info.setSampleRate(-1);
                 }
                 try {
                     info.setBits(Integer.parseInt(split[1]));
                 } catch (NumberFormatException nfe) {
+                    logger.error("Could not format bits", nfe);
                     info.setBits(-1);
                 }
                 try {
                     info.setChannels(Integer.parseInt(split[2]));
                 } catch (NumberFormatException nfe) {
+                    logger.error("Could not format channels", nfe);
                     info.setChannels(-1);
                 }
             }

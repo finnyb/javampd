@@ -15,6 +15,8 @@ import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.properties.ServerProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -46,6 +48,8 @@ public class MPD implements Server {
     private ServerStatus serverStatus;
     private StandAloneMonitor standAloneMonitor;
     private EventRelayer eventRelayer;
+
+    private final Logger logger = LoggerFactory.getLogger(MPD.class);
 
     /**
      * Establishes a new mpd instance using default server values
@@ -199,6 +203,7 @@ public class MPD implements Server {
         try {
             commandExecutor.sendCommand(serverProperties.getPing());
         } catch (MPDException e) {
+            logger.error("Could not ping MPD", e);
             return false;
         }
         return true;
