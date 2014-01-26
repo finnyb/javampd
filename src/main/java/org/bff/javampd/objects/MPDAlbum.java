@@ -78,4 +78,9 @@ public class MPDAlbum extends MPDItem {
             return artistName.equals(albumToCompare.artistName);
         }
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

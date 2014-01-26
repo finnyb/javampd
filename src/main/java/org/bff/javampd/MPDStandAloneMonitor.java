@@ -250,11 +250,13 @@ public class MPDStandAloneMonitor
                         this.wait(delay);
                     }
                 } catch (InterruptedException ie) {
+                    logger.error("Thread interrupted", ie);
                     setStopped(true);
                 }
-            } catch (MPDException mce) {
-                if (mce instanceof MPDConnectionException) {
-                    fireConnectionChangeEvent(false, mce.getMessage());
+            } catch (MPDException mpdException) {
+                logger.error("Error while checking statuses", mpdException);
+                if (mpdException instanceof MPDConnectionException) {
+                    fireConnectionChangeEvent(false, mpdException.getMessage());
                     boolean retry = true;
 
                     while (retry) {
@@ -350,6 +352,7 @@ public class MPDStandAloneMonitor
                             firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
                             break;
                     }
+                    break;
             }
             status = newStatus;
         }

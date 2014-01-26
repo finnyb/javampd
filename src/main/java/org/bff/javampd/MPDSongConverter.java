@@ -2,6 +2,8 @@ package org.bff.javampd;
 
 
 import org.bff.javampd.objects.MPDSong;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,6 +13,7 @@ import java.util.List;
  * @author bill
  */
 public class MPDSongConverter {
+    private static Logger logger = LoggerFactory.getLogger(MPDSongConverter.class);
 
     private static final String PREFIX_FILE = "file:";
     private static final String PREFIX_ARTIST = "Artist:";
@@ -63,6 +66,7 @@ public class MPDSongConverter {
                         try {
                             song.setTrack(Integer.parseInt(line.substring(PREFIX_TRACK.length()).trim().split("/")[0]));
                         } catch (NumberFormatException nfe) {
+                            logger.error("Unable to format track", nfe);
                             song.setTrack(0);
                         }
                     } else if (line.startsWith(PREFIX_POS)) {

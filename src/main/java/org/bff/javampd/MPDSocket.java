@@ -127,7 +127,7 @@ public class MPDSocket {
                     try {
                         connect();
                     } catch (Exception ex) {
-                        logger.error("Unable to connect to {} on port {}", new Object[]{server, port, ex});
+                        logger.error("Unable to connect to {} on port {}", server, port, ex);
                     }
                     responseList = new ArrayList<String>();
                     ++count;
