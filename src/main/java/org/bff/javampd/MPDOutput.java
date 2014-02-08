@@ -89,11 +89,7 @@ public class MPDOutput {
         }
 
         MPDOutput output = (MPDOutput) object;
-        if (this.getId() == output.getId()) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.getId() == output.getId();
     }
 
     /**

@@ -293,11 +293,8 @@ public class MPDSong extends MPDItem {
         }
 
         MPDSong song = (MPDSong) object;
-        if (this.getFile().equals(song.getFile())) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return this.getFile().equals(song.getFile());
     }
 
     @Override

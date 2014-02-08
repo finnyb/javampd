@@ -177,11 +177,7 @@ public class MPD implements Server {
 
     @Override
     public boolean isConnected() {
-        if (ping()) {
-            return true;
-        } else {
-            return false;
-        }
+        return ping();
     }
 
     private void authenticate(String password) throws MPDResponseException {

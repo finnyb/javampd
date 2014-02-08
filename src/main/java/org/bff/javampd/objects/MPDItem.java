@@ -59,11 +59,8 @@ public abstract class MPDItem implements Comparable<MPDItem> {
         }
 
         MPDItem item = (MPDItem) object;
-        if (this.getName().equals(item.getName())) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return this.getName().equals(item.getName());
     }
 
     @Override

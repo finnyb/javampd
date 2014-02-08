@@ -148,11 +148,7 @@ public class MPDPlaylist implements Playlist {
             firePlaylistChangeEvent(PlaylistChangeEvent.Event.MULTIPLE_SONGS_ADDED, Integer.toString(songList.size()));
         }
 
-        if (oldCount < songList.size()) {
-            return true;
-        } else {
-            return false;
-        }
+        return oldCount < songList.size();
     }
 
     @Override
