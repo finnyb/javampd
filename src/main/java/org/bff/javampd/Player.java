@@ -2,9 +2,7 @@ package org.bff.javampd;
 
 import org.bff.javampd.events.PlayerChangeListener;
 import org.bff.javampd.events.VolumeChangeListener;
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlayerException;
-import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDAudioInfo;
 import org.bff.javampd.objects.MPDSong;
 
@@ -37,10 +35,9 @@ public interface Player {
      * Returns the current song either playing or queued for playing.
      *
      * @return the current song
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    MPDSong getCurrentSong() throws MPDConnectionException, MPDPlayerException;
+    MPDSong getCurrentSong() throws MPDPlayerException;
 
     /**
      * Adds a {@link org.bff.javampd.events.PlayerChangeListener} to this object to receive
@@ -75,29 +72,26 @@ public interface Player {
     /**
      * Starts the player.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void play() throws MPDConnectionException, MPDPlayerException;
+    void play() throws MPDPlayerException;
 
     /**
      * Starts the player with the specified song.
      *
      * @param song the song to start the player with
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void playId(MPDSong song) throws MPDConnectionException, MPDPlayerException;
+    void playId(MPDSong song) throws MPDPlayerException;
 
     /**
      * Seeks to the desired location in the current song.  If the location is larger
      * than the length of the song or is less than 0 then the parameter is ignored.
      *
      * @param secs the location to seek to
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void seek(long secs) throws MPDConnectionException, MPDPlayerException;
+    void seek(long secs) throws MPDPlayerException;
 
     /**
      * Seeks to the desired location in the specified song.  If the location is larger
@@ -105,76 +99,67 @@ public interface Player {
      *
      * @param song the song to seek in
      * @param secs the location to seek to
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void seekId(MPDSong song, long secs) throws MPDConnectionException, MPDPlayerException;
+    void seekId(MPDSong song, long secs) throws MPDPlayerException;
 
     /**
      * Stops the player.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void stop() throws MPDConnectionException, MPDPlayerException;
+    void stop() throws MPDPlayerException;
 
     /**
      * Pauses the player.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void pause() throws MPDConnectionException, MPDPlayerException;
+    void pause() throws MPDPlayerException;
 
     /**
      * Plays the next song in the playlist.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void playNext() throws MPDConnectionException, MPDPlayerException;
+    void playNext() throws MPDPlayerException;
 
     /**
      * Plays the previous song in the playlist.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void playPrev() throws MPDConnectionException, MPDPlayerException;
+    void playPrev() throws MPDPlayerException;
 
     /**
      * Mutes the volume of the player.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void mute() throws MPDConnectionException, MPDPlayerException;
+    void mute() throws MPDPlayerException;
 
     /**
      * Unmutes the volume of the player.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void unMute() throws MPDConnectionException, MPDPlayerException;
+    void unMute() throws MPDPlayerException;
 
     /**
      * Returns the instantaneous bitrate of the currently playing song.
      *
      * @return the instantaneous bitrate in kbps
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    int getBitrate() throws MPDConnectionException, MPDPlayerException;
+    int getBitrate() throws MPDPlayerException;
 
     /**
      * Returns the current volume of the player.
      *
      * @return the volume of the player (0-100)
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    int getVolume() throws MPDConnectionException, MPDPlayerException;
+    int getVolume() throws MPDPlayerException;
 
     /**
      * Sets the volume of the player.  The volume is between 0 and 100, any volume less
@@ -182,106 +167,94 @@ public interface Player {
      * volume of 100.
      *
      * @param volume the volume level (0-100)
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void setVolume(int volume) throws MPDConnectionException, MPDPlayerException;
+    void setVolume(int volume) throws MPDPlayerException;
 
     /**
      * Returns if the player is repeating.
      *
      * @return is the player repeating
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    boolean isRepeat() throws MPDConnectionException, MPDPlayerException;
+    boolean isRepeat() throws MPDPlayerException;
 
     /**
      * Sets the repeating status of the player.
      *
      * @param shouldRepeat should the player repeat the current song
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void setRepeat(boolean shouldRepeat) throws MPDConnectionException, MPDPlayerException;
+    void setRepeat(boolean shouldRepeat) throws MPDPlayerException;
 
     /**
      * Returns if the player is in random play mode.
      *
      * @return true if the player is in random mode false otherwise
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    boolean isRandom() throws MPDConnectionException, MPDPlayerException;
+    boolean isRandom() throws MPDPlayerException;
 
     /**
      * Sets the random status of the player. So the songs will be played in random order
      *
      * @param shouldRandom should the player play in random mode
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void setRandom(boolean shouldRandom) throws MPDConnectionException, MPDPlayerException;
+    void setRandom(boolean shouldRandom) throws MPDPlayerException;
 
     /**
      * Plays the playlist in a random order.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void randomizePlay() throws MPDConnectionException, MPDPlayerException;
+    void randomizePlay() throws MPDPlayerException;
 
     /**
      * Plays the playlist in order.
      *
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void unRandomizePlay() throws MPDConnectionException, MPDPlayerException;
+    void unRandomizePlay() throws MPDPlayerException;
 
     /**
      * Returns the cross fade of the player in seconds.
      *
      * @return the cross fade of the player in seconds
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    int getXFade() throws MPDConnectionException, MPDPlayerException;
+    int getXFade() throws MPDPlayerException;
 
     /**
      * Sets the cross fade of the player in seconds.
      *
      * @param xFade the amount of cross fade to set in seconds
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    void setXFade(int xFade) throws MPDConnectionException, MPDPlayerException;
+    void setXFade(int xFade) throws MPDPlayerException;
 
     /**
      * Returns the elapsed time of the current song in seconds.
      *
      * @return the elapsed time of the song in seconds
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    long getElapsedTime() throws MPDConnectionException, MPDPlayerException;
+    long getElapsedTime() throws MPDPlayerException;
 
     /**
      * Returns the {@link org.bff.javampd.objects.MPDAudioInfo} about the current status of the player.  If the status is unknown
      * {@code null} will be returned.  Any individual parameter that is not known will be a -1
      *
      * @return the sample rate
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    MPDAudioInfo getAudioDetails() throws MPDConnectionException, MPDPlayerException;
+    MPDAudioInfo getAudioDetails() throws MPDPlayerException;
 
     /**
      * Returns the current status of the player.
      *
      * @return the status of the player
-     * @throws MPDPlayerException     if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlayerException if the MPD responded with an error
      */
-    Status getStatus() throws MPDResponseException, MPDConnectionException;
+    Status getStatus() throws MPDPlayerException;
 }

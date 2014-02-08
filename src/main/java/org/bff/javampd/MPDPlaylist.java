@@ -3,7 +3,6 @@ package org.bff.javampd;
 import com.google.inject.Inject;
 import org.bff.javampd.events.PlaylistChangeEvent;
 import org.bff.javampd.events.PlaylistChangeListener;
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.*;
@@ -83,7 +82,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void loadPlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
+    public void loadPlaylist(String playlistName) throws MPDPlaylistException {
         String name = playlistName;
         if (name.endsWith(".m3u")) {
             name = name.substring(name.length() - 4);
@@ -101,12 +100,12 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void addSong(MPDSong song) throws MPDConnectionException, MPDPlaylistException {
+    public void addSong(MPDSong song) throws MPDPlaylistException {
         addSong(song, true);
     }
 
     @Override
-    public void addSong(MPDSong song, boolean fireEvent) throws MPDConnectionException, MPDPlaylistException {
+    public void addSong(MPDSong song, boolean fireEvent) throws MPDPlaylistException {
         try {
             commandExecutor.sendCommand(playlistProperties.getAdd(), song.getFile());
         } catch (MPDResponseException re) {
@@ -123,12 +122,12 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public boolean addSongs(List<MPDSong> songList) throws MPDConnectionException, MPDPlaylistException {
+    public boolean addSongs(List<MPDSong> songList) throws MPDPlaylistException {
         return addSongs(songList, true);
     }
 
     @Override
-    public boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDConnectionException, MPDPlaylistException {
+    public boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDPlaylistException {
         List<MPDCommand> commandList = new ArrayList<MPDCommand>();
         for (MPDSong song : songList) {
             commandList.add(new MPDCommand(playlistProperties.getAdd(), song.getFile()));
@@ -157,7 +156,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void addFileOrDirectory(MPDFile file) throws MPDConnectionException, MPDPlaylistException {
+    public void addFileOrDirectory(MPDFile file) throws MPDPlaylistException {
         try {
             commandExecutor.sendCommand(playlistProperties.getAdd(), file.getPath());
         } catch (MPDResponseException re) {
@@ -173,7 +172,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void removeSong(MPDSong song) throws MPDConnectionException, MPDPlaylistException {
+    public void removeSong(MPDSong song) throws MPDPlaylistException {
         try {
             if (song.getId() > -1) {
                 commandExecutor.sendCommand(playlistProperties.getRemoveId(), song.getId());
@@ -191,7 +190,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public MPDSong getCurrentSong() throws MPDConnectionException, MPDPlaylistException {
+    public MPDSong getCurrentSong() throws MPDPlaylistException {
         try {
             List<MPDSong> songs = convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getCurrentSong()));
             return songs.isEmpty() ? null : songs.get(0);
@@ -207,7 +206,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void clearPlaylist() throws MPDConnectionException, MPDPlaylistException {
+    public void clearPlaylist() throws MPDPlaylistException {
         try {
             commandExecutor.sendCommand(playlistProperties.getClear());
         } catch (MPDResponseException re) {
@@ -220,12 +219,12 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void deletePlaylist(MPDSavedPlaylist playlist) throws MPDConnectionException, MPDPlaylistException {
+    public void deletePlaylist(MPDSavedPlaylist playlist) throws MPDPlaylistException {
         deletePlaylist(playlist.getName());
     }
 
     @Override
-    public void deletePlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
+    public void deletePlaylist(String playlistName) throws MPDPlaylistException {
         try {
             commandExecutor.sendCommand(playlistProperties.getDelete(), playlistName);
         } catch (MPDResponseException re) {
@@ -237,7 +236,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void move(MPDSong song, int to) throws MPDConnectionException, MPDPlaylistException {
+    public void move(MPDSong song, int to) throws MPDPlaylistException {
         String[] paramList = new String[2];
         try {
             paramList[1] = Integer.toString(to);
@@ -256,7 +255,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void shuffle() throws MPDConnectionException, MPDPlaylistException {
+    public void shuffle() throws MPDPlaylistException {
         try {
             commandExecutor.sendCommand(playlistProperties.getShuffle());
         } catch (MPDResponseException re) {
@@ -269,7 +268,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void swap(MPDSong song1, MPDSong song2) throws MPDConnectionException, MPDPlaylistException {
+    public void swap(MPDSong song1, MPDSong song2) throws MPDPlaylistException {
         try {
             if (song1.getId() > -1 && song2.getId() > -1) {
                 commandExecutor.sendCommand(playlistProperties.getSwapId(), song1.getId(), song2.getId());
@@ -285,7 +284,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public boolean savePlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException {
+    public boolean savePlaylist(String playlistName) throws MPDPlaylistException {
         if (playlistName != null) {
             try {
                 commandExecutor.sendCommand(playlistProperties.getSave(), playlistName);
@@ -301,7 +300,7 @@ public class MPDPlaylist implements Playlist {
         }
     }
 
-    private void updatePlaylist() throws MPDConnectionException, MPDPlaylistException {
+    private void updatePlaylist() throws MPDPlaylistException {
         setVersion(getPlaylistVersion());
 
         if (getPlaylistVersion() != oldVersion) {
@@ -310,7 +309,7 @@ public class MPDPlaylist implements Playlist {
         }
     }
 
-    private int getPlaylistVersion() throws MPDConnectionException, MPDPlaylistException {
+    private int getPlaylistVersion() throws MPDPlaylistException {
         //TODO playlist returning null
         try {
             return serverStatus.getPlaylistVersion();
@@ -325,10 +324,9 @@ public class MPDPlaylist implements Playlist {
      * Returns the list of songs in the playlist.
      *
      * @return the list of songs
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    private List<MPDSong> listSongs() throws MPDConnectionException, MPDPlaylistException {
+    private List<MPDSong> listSongs() throws MPDPlaylistException {
         try {
             return convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getInfo()));
         } catch (MPDResponseException re) {
@@ -339,7 +337,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
+    public void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findAlbumByArtist(artist, album)) {
                 addSong(song, false);
@@ -351,7 +349,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void insertAlbum(MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
+    public void insertAlbum(MPDAlbum album) throws MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findAlbum(album)) {
                 addSong(song, false);
@@ -363,7 +361,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDPlaylistException {
+    public void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<MPDSong>();
 
         for (MPDSong song : getSongList()) {
@@ -378,7 +376,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void insertArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException {
+    public void insertArtist(MPDArtist artist) throws MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findArtist(artist)) {
                 addSong(song, false);
@@ -391,7 +389,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void insertGenre(MPDGenre genre) throws MPDConnectionException, MPDPlaylistException {
+    public void insertGenre(MPDGenre genre) throws MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findGenre(genre)) {
                 addSong(song, false);
@@ -403,7 +401,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void insertYear(String year) throws MPDConnectionException, MPDPlaylistException {
+    public void insertYear(String year) throws MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findYear(year)) {
                 addSong(song, false);
@@ -417,7 +415,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void removeArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException {
+    public void removeArtist(MPDArtist artist) throws MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<MPDSong>();
         for (MPDSong song : getSongList()) {
             if (song.getArtistName().equals(artist.getName())) {
@@ -456,7 +454,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public List<MPDSong> getSongList() throws MPDPlaylistException, MPDConnectionException {
+    public List<MPDSong> getSongList() throws MPDPlaylistException {
         return listSongs();
     }
 
@@ -468,7 +466,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void swap(MPDSong song, int i) throws MPDConnectionException, MPDPlaylistException {
+    public void swap(MPDSong song, int i) throws MPDPlaylistException {
         try {
             commandExecutor.sendCommand(playlistProperties.getSwapId(), song.getId(), i);
         } catch (MPDResponseException re) {

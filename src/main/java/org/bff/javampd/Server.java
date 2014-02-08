@@ -13,18 +13,16 @@ public interface Server {
     /**
      * Clears the current error message in the MPD status
      *
-     * @throws MPDResponseException   if the MPD response generates an error
      * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    void clearerror() throws MPDConnectionException, MPDResponseException;
+    void clearerror() throws MPDResponseException;
 
     /**
      * Closes the connection to the MPD server.
      *
-     * @throws MPDResponseException   if the MPD response generates an error
      * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    void close() throws MPDConnectionException, MPDResponseException;
+    void close() throws MPDResponseException;
 
     /**
      * Returns the MPD version running on the server.

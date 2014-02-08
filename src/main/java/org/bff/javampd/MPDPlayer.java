@@ -14,7 +14,6 @@ import org.bff.javampd.events.PlayerChangeEvent;
 import org.bff.javampd.events.PlayerChangeListener;
 import org.bff.javampd.events.VolumeChangeEvent;
 import org.bff.javampd.events.VolumeChangeListener;
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDAudioInfo;
@@ -51,7 +50,7 @@ public class MPDPlayer implements Player {
     private final Logger logger = LoggerFactory.getLogger(MPDPlayer.class);
 
     @Override
-    public MPDSong getCurrentSong() throws MPDConnectionException, MPDPlayerException {
+    public MPDSong getCurrentSong() throws MPDPlayerException {
         try {
             List<MPDSong> songList =
                     MPDSongConverter.convertResponseToSong(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
@@ -117,12 +116,12 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void play() throws MPDConnectionException, MPDPlayerException {
+    public void play() throws MPDPlayerException {
         playId(null);
     }
 
     @Override
-    public void playId(MPDSong song) throws MPDConnectionException, MPDPlayerException {
+    public void playId(MPDSong song) throws MPDPlayerException {
         try {
             if (song == null) {
                 commandExecutor.sendCommand(playerProperties.getPlay());
@@ -144,12 +143,12 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void seek(long secs) throws MPDConnectionException, MPDPlayerException {
+    public void seek(long secs) throws MPDPlayerException {
         seekId(null, secs);
     }
 
     @Override
-    public void seekId(MPDSong song, long secs) throws MPDConnectionException, MPDPlayerException {
+    public void seekId(MPDSong song, long secs) throws MPDPlayerException {
         List<String> response = null;
         String params[] = new String[2];
         params[2] = Long.toString(secs);
@@ -179,7 +178,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void stop() throws MPDConnectionException, MPDPlayerException {
+    public void stop() throws MPDPlayerException {
         try {
             commandExecutor.sendCommand(playerProperties.getStop());
         } catch (MPDResponseException re) {
@@ -191,7 +190,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void pause() throws MPDConnectionException, MPDPlayerException {
+    public void pause() throws MPDPlayerException {
         try {
             commandExecutor.sendCommand(playerProperties.getPause());
         } catch (MPDResponseException re) {
@@ -204,7 +203,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void playNext() throws MPDConnectionException, MPDPlayerException {
+    public void playNext() throws MPDPlayerException {
         try {
             commandExecutor.sendCommand(playerProperties.getNext());
         } catch (MPDResponseException re) {
@@ -215,7 +214,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void playPrev() throws MPDConnectionException, MPDPlayerException {
+    public void playPrev() throws MPDPlayerException {
         try {
             commandExecutor.sendCommand(playerProperties.getPrevious());
         } catch (MPDResponseException re) {
@@ -227,20 +226,20 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void mute() throws MPDConnectionException, MPDPlayerException {
+    public void mute() throws MPDPlayerException {
         oldVolume = getVolume();
         setVolume(0);
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_MUTED);
     }
 
     @Override
-    public void unMute() throws MPDConnectionException, MPDPlayerException {
+    public void unMute() throws MPDPlayerException {
         setVolume(oldVolume);
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_UNMUTED);
     }
 
     @Override
-    public int getBitrate() throws MPDConnectionException, MPDPlayerException {
+    public int getBitrate() throws MPDPlayerException {
         try {
             return serverStatus.getBitrate();
         } catch (MPDResponseException re) {
@@ -249,7 +248,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public int getVolume() throws MPDConnectionException, MPDPlayerException {
+    public int getVolume() throws MPDPlayerException {
         try {
             return serverStatus.getVolume();
         } catch (MPDResponseException re) {
@@ -258,7 +257,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void setVolume(int volume) throws MPDConnectionException, MPDPlayerException {
+    public void setVolume(int volume) throws MPDPlayerException {
         if (volume < 0 || volume > 100) {
             throw new MPDPlayerException("Volume not in allowable range");
         }
@@ -273,7 +272,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public boolean isRepeat() throws MPDConnectionException, MPDPlayerException {
+    public boolean isRepeat() throws MPDPlayerException {
         try {
             return serverStatus.isRepeat();
         } catch (MPDResponseException re) {
@@ -282,7 +281,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void setRepeat(boolean shouldRepeat) throws MPDConnectionException, MPDPlayerException {
+    public void setRepeat(boolean shouldRepeat) throws MPDPlayerException {
         String repeat;
         if (shouldRepeat) {
             repeat = "1";
@@ -297,7 +296,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public boolean isRandom() throws MPDConnectionException, MPDPlayerException {
+    public boolean isRandom() throws MPDPlayerException {
         try {
             return serverStatus.isRandom();
         } catch (MPDResponseException re) {
@@ -306,7 +305,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void setRandom(boolean shouldRandom) throws MPDConnectionException, MPDPlayerException {
+    public void setRandom(boolean shouldRandom) throws MPDPlayerException {
         String random;
         if (shouldRandom) {
             random = "1";
@@ -321,17 +320,17 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void randomizePlay() throws MPDConnectionException, MPDPlayerException {
+    public void randomizePlay() throws MPDPlayerException {
         setRandom(true);
     }
 
     @Override
-    public void unRandomizePlay() throws MPDConnectionException, MPDPlayerException {
+    public void unRandomizePlay() throws MPDPlayerException {
         setRandom(false);
     }
 
     @Override
-    public int getXFade() throws MPDConnectionException, MPDPlayerException {
+    public int getXFade() throws MPDPlayerException {
         try {
             return Integer.parseInt(serverStatus.getXFade());
         } catch (MPDResponseException re) {
@@ -340,7 +339,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void setXFade(int xFade) throws MPDConnectionException, MPDPlayerException {
+    public void setXFade(int xFade) throws MPDPlayerException {
         try {
             commandExecutor.sendCommand(playerProperties.getXFade(), xFade);
         } catch (MPDResponseException re) {
@@ -349,7 +348,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public long getElapsedTime() throws MPDConnectionException, MPDPlayerException {
+    public long getElapsedTime() throws MPDPlayerException {
         try {
             return serverStatus.getTime();
         } catch (MPDResponseException re) {
@@ -359,7 +358,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public MPDAudioInfo getAudioDetails() throws MPDConnectionException, MPDPlayerException {
+    public MPDAudioInfo getAudioDetails() throws MPDPlayerException {
         MPDAudioInfo info = null;
         try {
             String response = serverStatus.getAudio();
@@ -393,8 +392,14 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public Status getStatus() throws MPDResponseException, MPDConnectionException {
-        String currentStatus = serverStatus.getState();
+    public Status getStatus() throws MPDPlayerException {
+        String currentStatus = null;
+        try {
+            currentStatus = serverStatus.getState();
+        } catch (MPDResponseException re) {
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+        }
+
         if (currentStatus.equalsIgnoreCase(Status.STATUS_PLAYING.getPrefix())) {
             return Status.STATUS_PLAYING;
         } else if (currentStatus.equalsIgnoreCase(Status.STATUS_PAUSED.getPrefix())) {

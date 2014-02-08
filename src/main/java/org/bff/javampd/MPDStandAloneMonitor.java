@@ -11,6 +11,7 @@ package org.bff.javampd;
 
 import com.google.inject.Inject;
 import org.bff.javampd.events.*;
+import org.bff.javampd.exception.MPDAdminException;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
@@ -381,7 +382,7 @@ public class MPDStandAloneMonitor
      * @throws MPDConnectionException if there is a problem with the connection
      * @throws MPDResponseException   if response is an error
      */
-    protected final void checkOutputs() throws MPDConnectionException, MPDResponseException {
+    protected final void checkOutputs() throws MPDAdminException {
         if (checkOutputCount == 3) {
             checkOutputCount = 0;
 

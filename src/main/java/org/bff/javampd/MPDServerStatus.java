@@ -1,7 +1,6 @@
 package org.bff.javampd;
 
 import com.google.inject.Inject;
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.properties.ServerProperties;
 
@@ -25,9 +24,8 @@ public class MPDServerStatus implements ServerStatus {
      * @param status the status desired
      * @return the desired status information
      * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    protected String getStatus(StatusList status) throws MPDConnectionException, MPDResponseException {
+    protected String getStatus(StatusList status) throws MPDResponseException {
         List<String> respList = commandExecutor.sendCommand(serverProperties.getStatus());
 
         for (String line : respList) {
@@ -39,33 +37,33 @@ public class MPDServerStatus implements ServerStatus {
     }
 
     @Override
-    public Collection<String> getStatus() throws MPDConnectionException, MPDResponseException {
+    public Collection<String> getStatus() throws MPDResponseException {
         List<String> respList = commandExecutor.sendCommand(serverProperties.getStatus());
         return respList;
     }
 
     @Override
-    public int getPlaylistVersion() throws MPDResponseException, MPDConnectionException {
+    public int getPlaylistVersion() throws MPDResponseException {
         return Integer.parseInt(getStatus(StatusList.PLAYLIST));
     }
 
     @Override
-    public String getState() throws MPDResponseException, MPDConnectionException {
+    public String getState() throws MPDResponseException {
         return getStatus(StatusList.STATE);
     }
 
     @Override
-    public String getXFade() throws MPDResponseException, MPDConnectionException {
+    public String getXFade() throws MPDResponseException {
         return getStatus(StatusList.XFADE);
     }
 
     @Override
-    public String getAudio() throws MPDResponseException, MPDConnectionException {
+    public String getAudio() throws MPDResponseException {
         return getStatus(StatusList.AUDIO);
     }
 
     @Override
-    public long getTime() throws MPDResponseException, MPDConnectionException {
+    public long getTime() throws MPDResponseException {
         String time = getStatus(StatusList.TIME);
 
         if (time == null || !time.contains(":")) {
@@ -76,22 +74,22 @@ public class MPDServerStatus implements ServerStatus {
     }
 
     @Override
-    public int getBitrate() throws MPDResponseException, MPDConnectionException {
+    public int getBitrate() throws MPDResponseException {
         return Integer.parseInt(getStatus(StatusList.BITRATE));
     }
 
     @Override
-    public int getVolume() throws MPDResponseException, MPDConnectionException {
+    public int getVolume() throws MPDResponseException {
         return Integer.parseInt(getStatus(StatusList.VOLUME));
     }
 
     @Override
-    public boolean isRepeat() throws MPDResponseException, MPDConnectionException {
+    public boolean isRepeat() throws MPDResponseException {
         return "1".equals(getStatus(StatusList.REPEAT));
     }
 
     @Override
-    public boolean isRandom() throws MPDResponseException, MPDConnectionException {
+    public boolean isRandom() throws MPDResponseException {
         return "1".equals(getStatus(StatusList.RANDOM));
     }
 }

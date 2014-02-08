@@ -1,6 +1,5 @@
 package org.bff.javampd;
 
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
 
 import java.util.Collection;
@@ -12,31 +11,30 @@ import java.util.Collection;
 public interface ServerStatus {
     /**
      * Returns the full status of the MPD server as a <CODE>Collection</CODE>
-     * of Strings.  To query specific statuses use {@link #getStatus(org.bff.javampd.ServerStatus.StatusList status)}.
+     * of Strings.
      *
      * @return the desired status information
      * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    Collection<String> getStatus() throws MPDConnectionException, MPDResponseException;
+    Collection<String> getStatus() throws MPDResponseException;
 
-    int getPlaylistVersion() throws MPDResponseException, MPDConnectionException;
+    int getPlaylistVersion() throws MPDResponseException;
 
-    String getState() throws MPDResponseException, MPDConnectionException;
+    String getState() throws MPDResponseException;
 
-    String getXFade() throws MPDResponseException, MPDConnectionException;
+    String getXFade() throws MPDResponseException;
 
-    String getAudio() throws MPDResponseException, MPDConnectionException;
+    String getAudio() throws MPDResponseException;
 
-    long getTime() throws MPDResponseException, MPDConnectionException;
+    long getTime() throws MPDResponseException;
 
-    int getBitrate() throws MPDResponseException, MPDConnectionException;
+    int getBitrate() throws MPDResponseException;
 
-    int getVolume() throws MPDResponseException, MPDConnectionException;
+    int getVolume() throws MPDResponseException;
 
-    boolean isRepeat() throws MPDResponseException, MPDConnectionException;
+    boolean isRepeat() throws MPDResponseException;
 
-    boolean isRandom() throws MPDResponseException, MPDConnectionException;
+    boolean isRandom() throws MPDResponseException;
 
     /**
      * Enumeration of the available information from the MPD

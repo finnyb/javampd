@@ -1,7 +1,6 @@
 package org.bff.javampd;
 
 import com.google.inject.Inject;
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.properties.ServerProperties;
 
@@ -24,10 +23,9 @@ public class MPDServerStatistics implements ServerStatistics {
      *
      * @param stat the statistic desired
      * @return the requested statistic
-     * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
+     * @throws MPDResponseException if the MPD response generates an error
      */
-    private String getStat(StatList stat) throws MPDConnectionException, MPDResponseException {
+    private String getStat(StatList stat) throws MPDResponseException {
         List<String> respList = sendMPDCommand(serverProperties.getStats());
 
         for (String line : respList) {
@@ -38,42 +36,42 @@ public class MPDServerStatistics implements ServerStatistics {
         return null;
     }
 
-    private List<String> sendMPDCommand(String stats) throws MPDResponseException, MPDConnectionException {
+    private List<String> sendMPDCommand(String stats) throws MPDResponseException {
         return commandExecutor.sendCommand(stats);
     }
 
     @Override
-    public long getPlaytime() throws MPDConnectionException, MPDResponseException {
+    public long getPlaytime() throws MPDResponseException {
         return Long.parseLong(getStat(StatList.PLAYTIME));
     }
 
     @Override
-    public long getUptime() throws MPDConnectionException, MPDResponseException {
+    public long getUptime() throws MPDResponseException {
         return Long.parseLong(getStat(StatList.UPTIME));
     }
 
     @Override
-    public int getAlbums() throws MPDConnectionException, MPDResponseException {
+    public int getAlbums() throws MPDResponseException {
         return Integer.parseInt(getStat(StatList.ALBUMS));
     }
 
     @Override
-    public int getArtists() throws MPDConnectionException, MPDResponseException {
+    public int getArtists() throws MPDResponseException {
         return Integer.parseInt(getStat(StatList.ARTISTS));
     }
 
     @Override
-    public int getSongs() throws MPDConnectionException, MPDResponseException {
+    public int getSongs() throws MPDResponseException {
         return Integer.parseInt(getStat(StatList.SONGS));
     }
 
     @Override
-    public long getDatabasePlaytime() throws MPDConnectionException, MPDResponseException {
+    public long getDatabasePlaytime() throws MPDResponseException {
         return Integer.parseInt(getStat(StatList.DBPLAYTIME));
     }
 
     @Override
-    public long getDatabaseUpdateTime() throws MPDConnectionException, MPDResponseException {
+    public long getDatabaseUpdateTime() throws MPDResponseException {
         return Long.parseLong(getStat(StatList.DBUPDATE));
     }
 }

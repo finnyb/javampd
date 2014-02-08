@@ -36,7 +36,7 @@ public class MPDSocket {
 
     private static final int TRIES = 3;
 
-    MPDSocket(InetAddress server, int port, int timeout) throws IOException, MPDConnectionException {
+    MPDSocket(InetAddress server, int port, int timeout) throws MPDConnectionException {
         this.server = server.getHostAddress();
         this.port = port;
         this.responseProperties = new ResponseProperties();
@@ -56,7 +56,7 @@ public class MPDSocket {
      * @throws java.io.IOException    if there is a socked io problem
      * @throws MPDConnectionException if there are connection issues
      */
-    protected synchronized String connect(int timeout) throws IOException, MPDConnectionException {
+    protected synchronized String connect(int timeout) throws MPDConnectionException {
         BufferedReader in;
 
         this.socket = new Socket();
@@ -65,9 +65,17 @@ public class MPDSocket {
             this.socket.connect(sockaddr, timeout);
         } catch (SocketTimeoutException ste) {
             throw new MPDTimeoutException(ste);
+        } catch (IOException e) {
+            throw new MPDConnectionException(e);
         }
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String line = in.readLine();
+        String line;
+        try {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            line = in.readLine();
+        } catch (IOException e) {
+            throw new MPDConnectionException(e);
+        }
+
         if (isResponseOK(line)) {
             return stripResponse(responseProperties.getOk(), line).trim();
         } else {
@@ -76,7 +84,7 @@ public class MPDSocket {
         }
     }
 
-    public synchronized Collection<String> sendCommand(MPDCommand command) throws MPDConnectionException, MPDResponseException {
+    public synchronized Collection<String> sendCommand(MPDCommand command) throws MPDResponseException {
         byte[] bytesToSend;
         List<String> responseList = new ArrayList<String>();
         OutputStream outStream = null;
@@ -86,7 +94,7 @@ public class MPDSocket {
             try {
                 connect();
             } catch (Exception e) {
-                throw new MPDConnectionException("Connection to server lost: " + e.getMessage(), e);
+                throw new MPDResponseException("Connection to server lost: " + e.getMessage(), e);
             }
         }
 
@@ -145,7 +153,7 @@ public class MPDSocket {
             }
         }
 
-        throw new MPDConnectionException(excReturn);
+        throw new MPDResponseException(excReturn);
     }
 
     /**
@@ -157,7 +165,7 @@ public class MPDSocket {
      * @throws IOException            if there is a socked io problem
      * @throws MPDConnectionException if there are connection issues
      */
-    private synchronized String connect() throws IOException, MPDConnectionException {
+    private synchronized String connect() throws MPDConnectionException {
         return connect(0);
     }
 
@@ -205,7 +213,7 @@ public class MPDSocket {
         return sb.toString();
     }
 
-    public synchronized boolean sendCommands(List<MPDCommand> commandList) throws MPDConnectionException {
+    public synchronized boolean sendCommands(List<MPDCommand> commandList) throws MPDResponseException {
         boolean isOk = true;
         StringBuffer sb = new StringBuffer(convertCommand(commandProperties.getStartBulk(), new ArrayList<String>()));
 
@@ -225,7 +233,7 @@ public class MPDSocket {
             try {
                 connect();
             } catch (Exception e) {
-                throw new MPDConnectionException("Connection to server lost: " + e.getMessage(), e);
+                throw new MPDResponseException("Connection to server lost: " + e.getMessage(), e);
             }
         }
 
@@ -251,7 +259,7 @@ public class MPDSocket {
                 }
             }
         } catch (Exception e) {
-            throw new MPDConnectionException(e.getMessage(), e);
+            throw new MPDResponseException(e.getMessage(), e);
         }
 
         return isOk;

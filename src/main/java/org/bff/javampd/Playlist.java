@@ -1,7 +1,6 @@
 package org.bff.javampd;
 
 import org.bff.javampd.events.PlaylistChangeListener;
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.objects.*;
 
@@ -32,39 +31,35 @@ public interface Playlist {
      * name can be givin with or without the .m3u extension.
      *
      * @param playlistName the playlist name
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void loadPlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException;
+    void loadPlaylist(String playlistName) throws MPDPlaylistException;
 
     /**
      * Adds a {@link org.bff.javampd.objects.MPDSong} to the playlist and fires a {@link org.bff.javampd.events.PlaylistChangeEvent} for event listeners
      *
      * @param song the song to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void addSong(MPDSong song) throws MPDConnectionException, MPDPlaylistException;
+    void addSong(MPDSong song) throws MPDPlaylistException;
 
     /**
      * Adds a {@link org.bff.javampd.objects.MPDSong} to the playlist.
      *
      * @param song      the song to add
      * @param fireEvent whether to fire song added event for the event listeners
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void addSong(MPDSong song, boolean fireEvent) throws MPDConnectionException, MPDPlaylistException;
+    void addSong(MPDSong song, boolean fireEvent) throws MPDPlaylistException;
 
     /**
      * Adds a <CODE>List</CODE> of {@link org.bff.javampd.objects.MPDSong}s to the playlist.
      *
      * @param songList the list of songs to add
      * @return true if the songs are added successfully; false otherwise
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    boolean addSongs(List<MPDSong> songList) throws MPDConnectionException, MPDPlaylistException;
+    boolean addSongs(List<MPDSong> songList) throws MPDPlaylistException;
 
     /**
      * Adds a <CODE>List</CODE> of {@link org.bff.javampd.objects.MPDSong}s to the playlist.
@@ -72,166 +67,148 @@ public interface Playlist {
      * @param songList  the list of songs to add
      * @param fireEvent true if a playlist event should be fired after adding
      * @return true if the songs are added successfully; false otherwise
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDConnectionException, MPDPlaylistException;
+    boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDPlaylistException;
 
     /**
      * Adds a directory of songs to the playlist.
      *
      * @param file the directory to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void addFileOrDirectory(MPDFile file) throws MPDConnectionException, MPDPlaylistException;
+    void addFileOrDirectory(MPDFile file) throws MPDPlaylistException;
 
     /**
      * Removes a {@link org.bff.javampd.objects.MPDSong} from the playlist.
      *
      * @param song the song to remove
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void removeSong(MPDSong song) throws MPDConnectionException, MPDPlaylistException;
+    void removeSong(MPDSong song) throws MPDPlaylistException;
 
     /**
      * Returns the current song.
      *
      * @return the current song
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    MPDSong getCurrentSong() throws MPDConnectionException, MPDPlaylistException;
+    MPDSong getCurrentSong() throws MPDPlaylistException;
 
     /**
      * Removes all songs from the playlist.
      *
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void clearPlaylist() throws MPDConnectionException, MPDPlaylistException;
+    void clearPlaylist() throws MPDPlaylistException;
 
     /**
      * Deletes a {@link org.bff.javampd.objects.MPDSavedPlaylist}
      *
      * @param playlist the {@link org.bff.javampd.objects.MPDSavedPlaylist}
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void deletePlaylist(MPDSavedPlaylist playlist) throws MPDConnectionException, MPDPlaylistException;
+    void deletePlaylist(MPDSavedPlaylist playlist) throws MPDPlaylistException;
 
     /**
      * Deletes the playlist from the MPD server.
      *
      * @param playlistName the playlist to delete
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void deletePlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException;
+    void deletePlaylist(String playlistName) throws MPDPlaylistException;
 
     /**
      * Moves the desired song to the given position in the playlist.
      *
      * @param song the song to move
      * @param to   the position to move the song to
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void move(MPDSong song, int to) throws MPDConnectionException, MPDPlaylistException;
+    void move(MPDSong song, int to) throws MPDPlaylistException;
 
     /**
      * Shuffles the songs in the playlist.
      *
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void shuffle() throws MPDConnectionException, MPDPlaylistException;
+    void shuffle() throws MPDPlaylistException;
 
     /**
      * Swaps the given two songs in the playlist.
      *
      * @param song1 first song to swap
      * @param song2 second song to swap
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void swap(MPDSong song1, MPDSong song2) throws MPDConnectionException, MPDPlaylistException;
+    void swap(MPDSong song1, MPDSong song2) throws MPDPlaylistException;
 
     /**
      * Saves the current playlist as the passed playlist name.
      *
      * @param playlistName the playlist name for the playlist
      * @return true if the playlist is saved; otherwise false
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    boolean savePlaylist(String playlistName) throws MPDConnectionException, MPDPlaylistException;
+    boolean savePlaylist(String playlistName) throws MPDPlaylistException;
 
     /**
      * Adds a {@link org.bff.javampd.objects.MPDAlbum} by a {@link org.bff.javampd.objects.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.objects.MPDArtist} for the album to add
      * @param album  the {@link org.bff.javampd.objects.MPDAlbum} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDPlaylistException;
+    void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException;
 
     /**
      * Adds a {@link org.bff.javampd.objects.MPDAlbum} to the playlist.
      *
      * @param album the {@link org.bff.javampd.objects.MPDAlbum} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertAlbum(MPDAlbum album) throws MPDConnectionException, MPDPlaylistException;
+    void insertAlbum(MPDAlbum album) throws MPDPlaylistException;
 
     /**
      * Removes a {@link org.bff.javampd.objects.MPDAlbum} by a {@link org.bff.javampd.objects.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.objects.MPDArtist} for the album to remove
      * @param album  the {@link org.bff.javampd.objects.MPDAlbum} to remove
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDPlaylistException;
+    void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException;
 
     /**
      * Adds a {@link org.bff.javampd.objects.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.objects.MPDArtist} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException;
+    void insertArtist(MPDArtist artist) throws MPDPlaylistException;
 
     /**
      * Adds a {@link org.bff.javampd.objects.MPDGenre} to the playlist.
      *
      * @param genre the {@link org.bff.javampd.objects.MPDGenre} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertGenre(MPDGenre genre) throws MPDConnectionException, MPDPlaylistException;
+    void insertGenre(MPDGenre genre) throws MPDPlaylistException;
 
     /**
      * Adds a year to the playlist.
      *
      * @param year the {@link org.bff.javampd.objects.MPDGenre} to add
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertYear(String year) throws MPDConnectionException, MPDPlaylistException;
+    void insertYear(String year) throws MPDPlaylistException;
 
     /**
      * Removes a {@link org.bff.javampd.objects.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.objects.MPDArtist} to remove
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void removeArtist(MPDArtist artist) throws MPDConnectionException, MPDPlaylistException;
+    void removeArtist(MPDArtist artist) throws MPDPlaylistException;
 
     /**
      * @return the database
@@ -255,10 +232,9 @@ public interface Playlist {
      * care should be taken not to call it excessively.
      *
      * @return the song list
-     * @throws MPDPlaylistException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    List<MPDSong> getSongList() throws MPDPlaylistException, MPDConnectionException;
+    List<MPDSong> getSongList() throws MPDPlaylistException;
 
     /**
      * Returns the string representation of this playlist.
@@ -268,5 +244,5 @@ public interface Playlist {
     @Override
     String toString();
 
-    void swap(MPDSong song, int i) throws MPDConnectionException, MPDPlaylistException;
+    void swap(MPDSong song, int i) throws MPDPlaylistException;
 }

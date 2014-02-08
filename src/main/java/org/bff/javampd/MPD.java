@@ -2,10 +2,6 @@
  * MPD.java
  *
  * Created on September 27, 2005, 1:34 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
  */
 package org.bff.javampd;
 
@@ -20,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * MPD represents a connection to a MPD server.  The commands
@@ -55,10 +50,9 @@ public class MPD implements Server {
      * Establishes a new mpd instance using default server values
      * of localhost, port 6600 with no user or password
      *
-     * @throws MPDConnectionException        if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    public MPD() throws MPDConnectionException, UnknownHostException {
+    public MPD() throws MPDConnectionException {
         this(DEFAULT_MPD_SERVER);
     }
 
@@ -67,10 +61,9 @@ public class MPD implements Server {
      * default MPD port of 6600
      *
      * @param server the MPD Server
-     * @throws MPDConnectionException        if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    public MPD(String server) throws UnknownHostException, MPDConnectionException {
+    public MPD(String server) throws MPDConnectionException {
         this(server, MPD_DEFAULT_PORT);
     }
 
@@ -79,10 +72,9 @@ public class MPD implements Server {
      *
      * @param server the MPD Server
      * @param port   the port MPD is listening on
-     * @throws MPDConnectionException        if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    public MPD(String server, int port) throws UnknownHostException, MPDConnectionException {
+    public MPD(String server, int port) throws MPDConnectionException {
         this(server, port, null);
     }
 
@@ -94,10 +86,9 @@ public class MPD implements Server {
      * @param server   the MPD server
      * @param port     the port MPD is listening on
      * @param password the password to authenticate with
-     * @throws MPDConnectionException        if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    public MPD(String server, int port, String password) throws UnknownHostException, MPDConnectionException {
+    public MPD(String server, int port, String password) throws MPDConnectionException {
         this(server, port, password, 0);
     }
 
@@ -109,10 +100,9 @@ public class MPD implements Server {
      * @param server  the MPD server
      * @param port    the port MPD is listening on
      * @param timeout the amount of time in milliseconds to wait for the MPD connection
-     * @throws MPDConnectionException        if there is a problem sending the command to the server
-     * @throws java.net.UnknownHostException If the host name used for the server is unknown to dns
+     * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    public MPD(String server, int port, int timeout) throws UnknownHostException, MPDConnectionException {
+    public MPD(String server, int port, int timeout) throws MPDConnectionException {
         this(server, port, null, timeout);
     }
 
@@ -126,9 +116,8 @@ public class MPD implements Server {
      * @param password the password to authenticate with
      * @param timeout  the amount of time in milliseconds to wait for the MPD connection
      * @throws MPDConnectionException if there is a problem sending the command to the server
-     * @throws UnknownHostException   If the host name used for the server is unknown to dns
      */
-    public MPD(String server, int port, String password, int timeout) throws UnknownHostException, MPDConnectionException {
+    public MPD(String server, int port, String password, int timeout) throws MPDConnectionException {
         try {
             this.address = InetAddress.getByName(server);
             this.port = port;
@@ -153,7 +142,7 @@ public class MPD implements Server {
      * @throws IOException            if there is a problem connecting to the server
      * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    protected void bind() throws IOException, MPDConnectionException {
+    protected void bind() throws MPDConnectionException {
         Injector injector = Guice.createInjector(new MPDModule());
         this.serverProperties = injector.getInstance(ServerProperties.class);
         this.database = injector.getInstance(Database.class);
@@ -172,12 +161,12 @@ public class MPD implements Server {
     }
 
     @Override
-    public void clearerror() throws MPDConnectionException, MPDResponseException {
+    public void clearerror() throws MPDResponseException {
         commandExecutor.sendCommand(serverProperties.getClearError());
     }
 
     @Override
-    public void close() throws MPDConnectionException, MPDResponseException {
+    public void close() throws MPDResponseException {
         commandExecutor.sendCommand(serverProperties.getClose());
     }
 
@@ -195,7 +184,7 @@ public class MPD implements Server {
         }
     }
 
-    private void authenticate(String password) throws MPDConnectionException, MPDResponseException {
+    private void authenticate(String password) throws MPDResponseException {
         commandExecutor.sendCommand(serverProperties.getPassword(), password);
     }
 

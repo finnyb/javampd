@@ -1,6 +1,5 @@
 package org.bff.javampd;
 
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.objects.*;
 
@@ -79,10 +78,9 @@ public interface Database {
      *
      * @param artist the artist to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findArtist(MPDArtist artist) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an artist.
@@ -91,40 +89,36 @@ public interface Database {
      *
      * @param artist the artist to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findArtist(String artist) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findArtist(String artist) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for a genre.
      *
      * @param genre the genre to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findGenre(MPDGenre genre) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for a genre.
      *
      * @param genre the genre to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findGenre(String genre) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findGenre(String genre) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for a year.
      *
      * @param year the year to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findYear(String year) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findYear(String year) throws MPDDatabaseException;
 
     /**
      * Returns a <code>Collection</code> of {@link org.bff.javampd.objects.MPDSong}s for an album.
@@ -133,10 +127,9 @@ public interface Database {
      *
      * @param album the album to find
      * @return a {@link java.util.Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findAlbum(MPDAlbum album) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an album.
@@ -145,10 +138,9 @@ public interface Database {
      *
      * @param album the album to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbum(String album) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findAlbum(String album) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an album by
@@ -158,10 +150,9 @@ public interface Database {
      * @param artist the artist album belongs to
      * @param album  the album to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an album by
@@ -171,10 +162,9 @@ public interface Database {
      * @param album the album to find
      * @param genre the genre to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an album by
@@ -184,10 +174,9 @@ public interface Database {
      * @param album the album to find
      * @param year  the year to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for a title.
@@ -196,10 +185,9 @@ public interface Database {
      *
      * @param title the title to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findTitle(String title) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findTitle(String title) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for any criteria.
@@ -208,20 +196,18 @@ public interface Database {
      *
      * @param criteria the criteria to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAny(String criteria) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> findAny(String criteria) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link String}s of all
      * songs and directories from the mpd root.
      *
      * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<String> listAllFiles() throws MPDConnectionException, MPDDatabaseException;
+    Collection<String> listAllFiles() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link String}s of all
@@ -229,19 +215,17 @@ public interface Database {
      *
      * @param path the root of the list
      * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<String> listAllFiles(String path) throws MPDConnectionException, MPDDatabaseException;
+    Collection<String> listAllFiles(String path) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link String}s of all songs from the mpd root.
      *
      * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<String> listAllSongFiles() throws MPDConnectionException, MPDDatabaseException;
+    Collection<String> listAllSongFiles() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link String}s of all
@@ -249,20 +233,18 @@ public interface Database {
      *
      * @param path the root of the list
      * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<String> listAllSongFiles(String path) throws MPDConnectionException, MPDDatabaseException;
+    Collection<String> listAllSongFiles(String path) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s of all
      * songs from the mpd root.
      *
      * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> listAllSongs() throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> listAllSongs() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s of all
@@ -270,10 +252,9 @@ public interface Database {
      *
      * @param path the root of the list
      * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> listAllSongs(String path) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> listAllSongs(String path) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an any
@@ -283,10 +264,9 @@ public interface Database {
      *
      * @param artist the artist to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> searchArtist(MPDArtist artist) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an any
@@ -296,10 +276,9 @@ public interface Database {
      *
      * @param artist the artist to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchArtist(String artist) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> searchArtist(String artist) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an any
@@ -309,10 +288,9 @@ public interface Database {
      *
      * @param album the album to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchAlbum(MPDAlbum album) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> searchAlbum(MPDAlbum album) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an any
@@ -322,10 +300,9 @@ public interface Database {
      *
      * @param album the album to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchAlbum(String album) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> searchAlbum(String album) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an any
@@ -335,10 +312,9 @@ public interface Database {
      *
      * @param title the title to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchTitle(String title) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> searchTitle(String title) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an any criteria.
@@ -347,10 +323,9 @@ public interface Database {
      *
      * @param criteria the criteria to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchAny(String criteria) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> searchAny(String criteria) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an any
@@ -362,10 +337,9 @@ public interface Database {
      * @param startYear the starting year
      * @param endYear   the ending year
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchTitle(String title, int startYear, int endYear) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> searchTitle(String title, int startYear, int endYear) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an any
@@ -373,40 +347,36 @@ public interface Database {
      *
      * @param fileName the file name to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchFileName(String fileName) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> searchFileName(String fileName) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDAlbum}s of all
      * albums in the database.
      *
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDAlbum}s containing the album names
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDAlbum> listAllAlbums() throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDAlbum> listAllAlbums() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDArtist}s of all
      * artists in the database.
      *
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDArtist}s containing the album names
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDArtist> listAllArtists() throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDArtist> listAllArtists() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDGenre}s of all
      * genres in the database.
      *
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDGenre}s containing the genre names
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDGenre> listAllGenres() throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDGenre> listAllGenres() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDAlbum}s of all
@@ -414,11 +384,10 @@ public interface Database {
      *
      * @param artist the artist to find albums
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDAlbum}s of all
-     *         albums
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * albums
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDAlbum}s of all
@@ -426,11 +395,10 @@ public interface Database {
      *
      * @param genre the genre to find albums
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDAlbum}s of all
-     *         albums
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * albums
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDArtist}s of all
@@ -438,11 +406,10 @@ public interface Database {
      *
      * @param genre the genre to find artists
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDArtist}s of all
-     *         artists
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * artists
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDAlbum}s of all
@@ -450,31 +417,28 @@ public interface Database {
      *
      * @param year the year to find albums
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDAlbum}s of all
-     *         years
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * years
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDAlbum> listAlbumsByYear(String year) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDAlbum> listAlbumsByYear(String year) throws MPDDatabaseException;
 
     /**
      * Lists all {@link org.bff.javampd.MPDFile}s for the root directory of the file system.
      *
      * @return a {@code Collection} of {@link org.bff.javampd.MPDFile}
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDFile> listRootDirectory() throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDFile> listRootDirectory() throws MPDDatabaseException;
 
     /**
      * Lists all {@link org.bff.javampd.MPDFile}s for the given directory of the file system.
      *
      * @param directory the directory to list
      * @return a {@code Collection} of {@link org.bff.javampd.MPDFile}
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDDatabaseException   if the MPD responded with an error or the {@link org.bff.javampd.MPDFile}
-     *                                is not a directory.
+     * @throws MPDDatabaseException if the MPD responded with an error or the {@link org.bff.javampd.MPDFile}
+     *                              is not a directory.
      */
-    Collection<MPDFile> listDirectory(MPDFile directory) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDFile> listDirectory(MPDFile directory) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for a searches matching the scope type any.
@@ -484,10 +448,9 @@ public interface Database {
      * @param searchType the {@link ScopeType}
      * @param param      the search criteria
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDDatabaseException   if the database throws an exception during the search
+     * @throws MPDDatabaseException if the database throws an exception during the search
      */
-    Collection<MPDSong> search(ScopeType searchType, String param) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> search(ScopeType searchType, String param) throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for a searches matching the scope type any.
@@ -497,92 +460,82 @@ public interface Database {
      * @param scopeType the {@link ScopeType}
      * @param param     the search criteria
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDDatabaseException   if the database throws an exception during the search
+     * @throws MPDDatabaseException if the database throws an exception during the search
      */
-    Collection<MPDSong> find(ScopeType scopeType, String param) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> find(ScopeType scopeType, String param) throws MPDDatabaseException;
 
     /**
      * Returns the total number of artists in the database.
      *
      * @return the total number of artists
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    int getArtistCount() throws MPDConnectionException, MPDDatabaseException;
+    int getArtistCount() throws MPDDatabaseException;
 
     /**
      * Returns the total number of albums in the database.
      *
      * @return the total number of albums
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    int getAlbumCount() throws MPDConnectionException, MPDDatabaseException;
+    int getAlbumCount() throws MPDDatabaseException;
 
     /**
      * Returns the total number of songs in the database.
      *
      * @return the total number of songs
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    int getSongCount() throws MPDConnectionException, MPDDatabaseException;
+    int getSongCount() throws MPDDatabaseException;
 
     /**
      * Returns the sum of all song times in database.
      *
      * @return the sum of all song times
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    long getDbPlayTime() throws MPDConnectionException, MPDDatabaseException;
+    long getDbPlayTime() throws MPDDatabaseException;
 
     /**
      * Returns the last database update in UNIX time.
      *
      * @return the last database update in UNIX time
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    long getLastUpdateTime() throws MPDConnectionException, MPDDatabaseException;
+    long getLastUpdateTime() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSavedPlaylist}s of all saved playlists.  This is an expensive
      * call so use it cautiously.
      *
      * @return a {@link java.util.Collection} of all {@link org.bff.javampd.objects.MPDSavedPlaylist}s
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSavedPlaylist> listSavedPlaylists() throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSavedPlaylist> listSavedPlaylists() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of all available playlist names on the server.
      *
      * @return a list of playlist names
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<String> listPlaylists() throws MPDConnectionException, MPDDatabaseException;
+    Collection<String> listPlaylists() throws MPDDatabaseException;
 
     /**
      * Returns a {@link java.util.Collection} of all {@link org.bff.javampd.objects.MPDSong}s for a {@link org.bff.javampd.objects.MPDSavedPlaylist}
      *
      * @param playlistName the name of the {@link org.bff.javampd.objects.MPDSavedPlaylist}
      * @return a {@link java.util.Collection} of all {@link org.bff.javampd.objects.MPDSong}s for the playlist
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDDatabaseException   if the MPD responded with an error
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> listPlaylistSongs(String playlistName) throws MPDConnectionException, MPDDatabaseException;
+    Collection<MPDSong> listPlaylistSongs(String playlistName) throws MPDDatabaseException;
 
     /**
      * Returns a {@code Collection} of years for songs in the database.  The years are sorted from least to
      * greatest.
      *
      * @return a {@link java.util.Collection} of years
-     * @throws MPDDatabaseException   if the MPD responded with an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<String> listAllYears() throws MPDConnectionException, MPDDatabaseException;
+    Collection<String> listAllYears() throws MPDDatabaseException;
 }

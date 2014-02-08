@@ -3,9 +3,11 @@ package org.bff.javampd;
 import com.google.inject.Inject;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDAdminException;
-import org.bff.javampd.exception.MPDConnectionException;
+import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.properties.AdminProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +23,8 @@ import java.util.List;
  * @author Bill
  */
 public class MPDAdmin implements Admin {
+    private final Logger logger = LoggerFactory.getLogger(MPDAdmin.class);
+
     private List<MPDChangeListener> listeners =
             new ArrayList<MPDChangeListener>();
     private List<OutputChangeListener> outputListeners =
@@ -38,20 +42,35 @@ public class MPDAdmin implements Admin {
     private CommandExecutor commandExecutor;
 
     @Override
-    public Collection<MPDOutput> getOutputs() throws MPDConnectionException, MPDResponseException {
-        return new ArrayList<MPDOutput>(parseOutputs(commandExecutor.sendCommand(adminProperties.getOutputs())));
+    public Collection<MPDOutput> getOutputs() throws MPDAdminException {
+        try {
+            return new ArrayList<MPDOutput>(parseOutputs(commandExecutor.sendCommand(adminProperties.getOutputs())));
+        } catch (MPDException e) {
+            logger.error("Could not get outputs", e);
+            throw new MPDAdminException(e);
+        }
     }
 
     @Override
-    public boolean disableOutput(MPDOutput output) throws MPDConnectionException, MPDResponseException {
+    public boolean disableOutput(MPDOutput output) throws MPDAdminException {
         fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
-        return commandExecutor.sendCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
+        try {
+            return commandExecutor.sendCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
+        } catch (MPDException e) {
+            logger.error("Could not disable output {}", output, e);
+            throw new MPDAdminException(e);
+        }
     }
 
     @Override
-    public boolean enableOutput(MPDOutput output) throws MPDConnectionException, MPDResponseException {
+    public boolean enableOutput(MPDOutput output) throws MPDAdminException {
         fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
-        return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
+        try {
+            return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
+        } catch (MPDException e) {
+            logger.error("Could not enable output {}", output, e);
+            throw new MPDAdminException(e);
+        }
     }
 
     private Collection<MPDOutput> parseOutputs(Collection<String> response) {
@@ -108,7 +127,7 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public void killMPD() throws MPDConnectionException, MPDAdminException {
+    public void killMPD() throws MPDAdminException {
         try {
             commandExecutor.sendCommand(adminProperties.getKill());
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
@@ -120,7 +139,7 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public void updateDatabase() throws MPDConnectionException, MPDAdminException {
+    public void updateDatabase() throws MPDAdminException {
         try {
             commandExecutor.sendCommand(adminProperties.getRefresh());
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
@@ -132,7 +151,7 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public void updateDatabase(String path) throws MPDConnectionException, MPDAdminException {
+    public void updateDatabase(String path) throws MPDAdminException {
         try {
             commandExecutor.sendCommand(adminProperties.getRefresh(), path);
             fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
@@ -144,7 +163,7 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public long getDaemonUpTime() throws MPDConnectionException, MPDAdminException {
+    public long getDaemonUpTime() throws MPDAdminException {
         try {
             return serverStatistics.getUptime();
         } catch (MPDResponseException re) {

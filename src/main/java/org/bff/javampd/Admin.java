@@ -3,8 +3,6 @@ package org.bff.javampd;
 import org.bff.javampd.events.MPDChangeListener;
 import org.bff.javampd.events.OutputChangeListener;
 import org.bff.javampd.exception.MPDAdminException;
-import org.bff.javampd.exception.MPDConnectionException;
-import org.bff.javampd.exception.MPDResponseException;
 
 import java.util.Collection;
 
@@ -19,30 +17,27 @@ public interface Admin {
      * Returns the information about all outputs
      *
      * @return a <code>Collection</code> of {@link MPDOutput}
-     * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
+     * @throws MPDAdminException if there is a problem sending the command to the server
      */
-    Collection<MPDOutput> getOutputs() throws MPDConnectionException, MPDResponseException;
+    Collection<MPDOutput> getOutputs() throws MPDAdminException;
 
     /**
      * Disables the passed {@link MPDOutput}
      *
      * @param output the output to disable
      * @return true if the output is disabled
-     * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
+     * @throws MPDAdminException if there is a problem sending the command to the server
      */
-    boolean disableOutput(MPDOutput output) throws MPDConnectionException, MPDResponseException;
+    boolean disableOutput(MPDOutput output) throws MPDAdminException;
 
     /**
      * Enables the passed {@link MPDOutput}
      *
      * @param output the output to enable
      * @return true if the output is enabled
-     * @throws MPDResponseException   if the MPD response generates an error
-     * @throws MPDConnectionException if there is a problem sending the command to the server
+     * @throws MPDAdminException if there is a problem sending the command to the server
      */
-    boolean enableOutput(MPDOutput output) throws MPDConnectionException, MPDResponseException;
+    boolean enableOutput(MPDOutput output) throws MPDAdminException;
 
     /**
      * Adds a {@link MPDChangeListener} to this object to receive
@@ -62,37 +57,33 @@ public interface Admin {
     /**
      * Kills the mpd connection.
      *
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDAdminException      if the MPD response contains an error
+     * @throws MPDAdminException if there is a problem sending the command
      */
-    void killMPD() throws MPDConnectionException, MPDAdminException;
+    void killMPD() throws MPDAdminException;
 
     /**
      * Updates the MPD database by searching the mp3 directory for new music and
      * removing the old music.
      *
-     * @throws MPDConnectionException if there is a problem sending the command
-     * @throws MPDAdminException      if the MPD response contains an error
+     * @throws MPDAdminException if there is a problem sending the command
      */
-    void updateDatabase() throws MPDConnectionException, MPDAdminException;
+    void updateDatabase() throws MPDAdminException;
 
     /**
      * Updates the MPD database by searching a specific mp3 directory for new music and removing the old music.
      *
      * @param path the path
-     * @throws MPDConnectionException the MPD connection exception
-     * @throws MPDAdminException      the MPD admin exception
+     * @throws MPDAdminException the MPD connection exception
      */
-    void updateDatabase(String path) throws MPDConnectionException, MPDAdminException;
+    void updateDatabase(String path) throws MPDAdminException;
 
     /**
      * Returns the daemon uptime in seconds.
      *
      * @return the daemon uptime in seconds
-     * @throws MPDAdminException      if the MPD response contains an error
-     * @throws MPDConnectionException if there is a problem sending the command
+     * @throws MPDAdminException if the MPD response contains an error
      */
-    long getDaemonUpTime() throws MPDConnectionException, MPDAdminException;
+    long getDaemonUpTime() throws MPDAdminException;
 
     /**
      * Adds a {@link OutputChangeListener} to this object to receive
