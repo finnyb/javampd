@@ -142,7 +142,7 @@ public class MPD implements Server {
      * @throws IOException            if there is a problem connecting to the server
      * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    protected void bind() throws MPDConnectionException {
+    private void bind() throws MPDConnectionException {
         Injector injector = Guice.createInjector(new MPDModule());
         this.serverProperties = injector.getInstance(ServerProperties.class);
         this.database = injector.getInstance(Database.class);
