@@ -109,9 +109,9 @@ public class MPDSocket {
                 outStream.write(bytesToSend);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
 
-                String inLine;
+                String inLine = in.readLine();
 
-                while ((inLine = in.readLine()) != null) {
+                while (inLine != null) {
                     if (isResponseOK(inLine)) {
                         //end of command is ok so break
                         break;
@@ -122,6 +122,8 @@ public class MPDSocket {
                     }
 
                     responseList.add(inLine);
+
+                    inLine = in.readLine();
                 }
                 count = TRIES + 1;
                 return responseList;
@@ -244,8 +246,8 @@ public class MPDSocket {
 
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            String inLine;
-            while ((inLine = in.readLine()) != null) {
+            String inLine = in.readLine();
+            while (inLine != null) {
                 if (!inLine.startsWith("list_OK")) {
                     isOk = false;
                 }
@@ -257,6 +259,7 @@ public class MPDSocket {
                 if (isResponseError(inLine)) {
                     throw new MPDResponseException(lastError);
                 }
+                inLine = in.readLine();
             }
         } catch (Exception e) {
             throw new MPDResponseException(e.getMessage(), e);

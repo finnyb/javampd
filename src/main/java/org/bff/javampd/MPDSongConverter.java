@@ -47,7 +47,8 @@ public class MPDSongConverter {
             if (line.startsWith(PREFIX_FILE)) {
                 MPDSong song = new MPDSong();
                 song.setFile(line.substring(PREFIX_FILE.length()).trim());
-                while (!(line = iter.next()).startsWith(PREFIX_FILE)) {
+                line = iter.next();
+                while (!line.startsWith(PREFIX_FILE)) {
                     if (line.startsWith(PREFIX_ALBUM)) {
                         song.setAlbumName(line.substring(PREFIX_ALBUM.length()).trim());
                     } else if (line.startsWith(PREFIX_ARTIST)) {
@@ -79,6 +80,7 @@ public class MPDSongConverter {
                     if (!iter.hasNext()) {
                         break;
                     }
+                    line = iter.next();
                 }
                 songList.add(song);
             }

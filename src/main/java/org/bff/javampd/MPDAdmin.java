@@ -86,7 +86,10 @@ public class MPDAdmin implements Admin {
             if (line.startsWith(OUTPUT_PREFIX_ID)) {
                 MPDOutput output = new MPDOutput(Integer.parseInt(line.substring(OUTPUT_PREFIX_ID.length()).trim()));
 
-                while (!(line = (String) iter.next()).startsWith(OUTPUT_PREFIX_ID)) {
+                line = iter.next();
+
+                while (!line.startsWith(OUTPUT_PREFIX_ID)) {
+
                     if (line.startsWith(OUTPUT_PREFIX_NAME)) {
                         output.setName(line.replace(OUTPUT_PREFIX_NAME, "").trim());
                     } else if (line.startsWith(OUTPUT_PREFIX_ENABLED)) {
@@ -95,6 +98,7 @@ public class MPDAdmin implements Admin {
                     if (!iter.hasNext()) {
                         break;
                     }
+                    line = iter.next();
                 }
                 outputs.add(output);
             }
