@@ -332,12 +332,12 @@ public class MPDStandAloneMonitor
                             firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
                             break;
                         default:
-                            assert false : "Invalid player status";
+                            assert false : "Invalid player status --> " + status;
                             break;
                     }
                     break;
                 case STATUS_STOPPED:
-                    elapsedTime = 0; //when stopped no time in response reading 0
+                    elapsedTime = 0;
                     firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
                     if (newSongId == -1) {
                         firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.PLAYLIST_ENDED);
@@ -352,13 +352,16 @@ public class MPDStandAloneMonitor
                         case STATUS_PLAYING:
                             firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
                             break;
+                        case STATUS_STOPPED:
+                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
+                            break;
                         default:
-                            assert false : "Invalid player status";
+                            assert false : "Invalid player status --> " + status;
                             break;
                     }
                     break;
                 default:
-                    assert false : "Invalid player status";
+                    assert false : "Invalid player status --> " + status;
                     break;
 
             }
