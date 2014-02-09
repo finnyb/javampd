@@ -365,30 +365,24 @@ public class MPDPlayer implements Player {
             if (response != null) {
                 info = new MPDAudioInfo();
                 String[] split = response.split(":");
-                try {
-                    info.setSampleRate(Integer.parseInt(split[0]));
-                } catch (NumberFormatException nfe) {
-                    logger.error("Could not format sample rate", nfe);
-                    info.setSampleRate(-1);
-                }
-                try {
-                    info.setBits(Integer.parseInt(split[1]));
-                } catch (NumberFormatException nfe) {
-                    logger.error("Could not format bits", nfe);
-                    info.setBits(-1);
-                }
-                try {
-                    info.setChannels(Integer.parseInt(split[2]));
-                } catch (NumberFormatException nfe) {
-                    logger.error("Could not format channels", nfe);
-                    info.setChannels(-1);
-                }
+                parseSampleRate(info, split[0]);
+                parseBitRate(info, split[1]);
+                parseChannels(info, split[1]);
             }
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
 
         return info;
+    }
+
+    private void parseSampleRate(MPDAudioInfo info, String sampleRate) {
+        try {
+            info.setSampleRate(Integer.parseInt(sampleRate));
+        } catch (NumberFormatException nfe) {
+            logger.error("Could not format sample rate", nfe);
+            info.setSampleRate(-1);
+        }
     }
 
     @Override
@@ -406,6 +400,24 @@ public class MPDPlayer implements Player {
             return Status.STATUS_PAUSED;
         } else {
             return Status.STATUS_STOPPED;
+        }
+    }
+
+    private void parseChannels(MPDAudioInfo info, String channels) {
+        try {
+            info.setChannels(Integer.parseInt(channels));
+        } catch (NumberFormatException nfe) {
+            logger.error("Could not format channels", nfe);
+            info.setChannels(-1);
+        }
+    }
+
+    private void parseBitRate(MPDAudioInfo info, String bitRate) {
+        try {
+            info.setBits(Integer.parseInt(bitRate));
+        } catch (NumberFormatException nfe) {
+            logger.error("Could not format bits", nfe);
+            info.setBits(-1);
         }
     }
 }

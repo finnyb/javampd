@@ -211,11 +211,7 @@ public class MPDEventRelayer
             try {
                 checkTrackPosition(player.getElapsedTime());
                 checkConnection();
-                try {
-                    this.wait(delay);
-                } catch (InterruptedException ie) {
-                    logger.error("Thread interrupted", ie);
-                }
+                this.wait(delay);
             } catch (Exception e) {
                 logger.error("Problem in relayer thread", e);
             }

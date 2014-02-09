@@ -235,25 +235,23 @@ public class MPDStandAloneMonitor
         while (!isStopped()) {
 
             try {
-                try {
-                    synchronized (this) {
-                        response = new ArrayList<String>(serverStatus.getStatus());
-                        processResponse(response);
+                synchronized (this) {
+                    response = new ArrayList<String>(serverStatus.getStatus());
+                    processResponse(response);
 
-                        checkError();
-                        checkPlayer();
-                        checkPlaylist();
-                        checkTrackPosition(elapsedTime);
-                        checkVolume();
-                        checkBitrate();
-                        checkConnection();
-                        checkOutputs();
-                        this.wait(delay);
-                    }
-                } catch (InterruptedException ie) {
-                    logger.error("Thread interrupted", ie);
-                    setStopped(true);
+                    checkError();
+                    checkPlayer();
+                    checkPlaylist();
+                    checkTrackPosition(elapsedTime);
+                    checkVolume();
+                    checkBitrate();
+                    checkConnection();
+                    checkOutputs();
+                    this.wait(delay);
                 }
+            } catch (InterruptedException ie) {
+                logger.error("Thread interrupted", ie);
+                setStopped(true);
             } catch (MPDException mpdException) {
                 logger.error("Error while checking statuses", mpdException);
                 if (mpdException instanceof MPDConnectionException) {
@@ -266,7 +264,6 @@ public class MPDStandAloneMonitor
                         } catch (InterruptedException ex) {
                             logger.error("StandAloneMonitor interrupted", ex);
                         }
-
 
                         checkConnection();
                         if (isConnectedState()) {
