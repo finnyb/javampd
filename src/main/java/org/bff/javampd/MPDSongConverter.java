@@ -28,6 +28,9 @@ public class MPDSongConverter {
     private static final String PREFIX_ID = "Id:";
     private static final String PREFIX_DISC = "Disc:";
 
+    private MPDSongConverter() {
+    }
+
     /**
      * Converts the response from the MPD server into a {@link org.bff.javampd.objects.MPDSong} object.
      *
