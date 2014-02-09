@@ -367,7 +367,7 @@ public class MPDPlayer implements Player {
                 String[] split = response.split(":");
                 parseSampleRate(info, split[0]);
                 parseBitRate(info, split[1]);
-                parseChannels(info, split[1]);
+                parseChannels(info, split[2]);
             }
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
