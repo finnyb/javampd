@@ -337,12 +337,7 @@ public class MPDStandAloneMonitor
                     }
                     break;
                 case STATUS_STOPPED:
-                    elapsedTime = 0;
-                    firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
-                    if (newSongId == -1) {
-                        firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.PLAYLIST_ENDED);
-                    }
-
+                    processStoppedStatus(newSongId);
                     break;
                 case STATUS_PAUSED:
                     switch (status) {
@@ -363,9 +358,16 @@ public class MPDStandAloneMonitor
                 default:
                     assert false : "Invalid player status --> " + status;
                     break;
-
             }
             status = newStatus;
+        }
+    }
+
+    private void processStoppedStatus(int newSongId) {
+        elapsedTime = 0;
+        firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
+        if (newSongId == -1) {
+            firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.PLAYLIST_ENDED);
         }
     }
 
