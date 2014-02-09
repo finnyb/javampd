@@ -331,6 +331,9 @@ public class MPDStandAloneMonitor
                         case STATUS_STOPPED:
                             firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
                             break;
+                        default:
+                            assert false : "Invalid player status";
+                            break;
                     }
                     break;
                 case STATUS_STOPPED:
@@ -349,8 +352,15 @@ public class MPDStandAloneMonitor
                         case STATUS_PLAYING:
                             firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
                             break;
+                        default:
+                            assert false : "Invalid player status";
+                            break;
                     }
                     break;
+                default:
+                    assert false : "Invalid player status";
+                    break;
+
             }
             status = newStatus;
         }
