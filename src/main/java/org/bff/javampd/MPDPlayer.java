@@ -55,7 +55,7 @@ public class MPDPlayer implements Player {
             List<MPDSong> songList =
                     MPDSongConverter.convertResponseToSong(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
 
-            if (songList.size() == 0) {
+            if (songList.isEmpty()) {
                 return null;
             } else {
                 return songList.get(0);
