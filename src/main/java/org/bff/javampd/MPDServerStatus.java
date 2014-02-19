@@ -38,8 +38,7 @@ public class MPDServerStatus implements ServerStatus {
 
     @Override
     public Collection<String> getStatus() throws MPDResponseException {
-        List<String> respList = commandExecutor.sendCommand(serverProperties.getStatus());
-        return respList;
+        return commandExecutor.sendCommand(serverProperties.getStatus());
     }
 
     @Override
