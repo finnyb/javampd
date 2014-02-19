@@ -18,10 +18,7 @@ import org.bff.javampd.exception.MPDResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 
 /**
@@ -61,7 +58,7 @@ public class MPDStandAloneMonitor
     private String state;
     private String error;
     private boolean stopped;
-    private HashMap<Integer, MPDOutput> outputMap;
+    private Map<Integer, MPDOutput> outputMap;
 
     private PlayerStatus status = PlayerStatus.STATUS_STOPPED;
 
