@@ -56,7 +56,7 @@ public class MPDSocket {
      * @throws java.io.IOException    if there is a socked io problem
      * @throws MPDConnectionException if there are connection issues
      */
-    protected synchronized String connect(int timeout) throws MPDConnectionException {
+    private synchronized String connect(int timeout) throws MPDConnectionException {
         BufferedReader in;
 
         this.socket = new Socket();
