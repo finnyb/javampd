@@ -3,8 +3,6 @@ package org.bff.javampd;
 import com.google.inject.Singleton;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +15,6 @@ import java.util.List;
  */
 @Singleton
 public class MPDCommandExecutor implements CommandExecutor {
-    private final Logger logger = LoggerFactory.getLogger(MPDCommandExecutor.class);
 
     private MPDSocket mpdSocket;
 
