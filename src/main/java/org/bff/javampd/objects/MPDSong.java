@@ -318,14 +318,14 @@ public class MPDSong extends MPDItem {
     @Override
     public int compareTo(MPDItem item) {
         MPDSong song = (MPDSong) item;
-        StringBuffer sb;
+        StringBuilder sb;
 
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         sb.append(getAlbumName());
         sb.append(formatToComparableString(getTrack()));
         String thisSong = sb.toString();
 
-        sb = new StringBuffer();
+        sb = new StringBuilder();
         sb.append(song.getAlbumName());
         sb.append(formatToComparableString(song.getTrack()));
         String songToCompare = sb.toString();

@@ -217,7 +217,7 @@ public class MPDSocket {
 
     public synchronized boolean sendCommands(List<MPDCommand> commandList) throws MPDResponseException {
         boolean isOk = true;
-        StringBuffer sb = new StringBuffer(convertCommand(commandProperties.getStartBulk(), new ArrayList<String>()));
+        StringBuilder sb = new StringBuilder(convertCommand(commandProperties.getStartBulk(), new ArrayList<String>()));
 
         for (MPDCommand command : commandList) {
             sb.append(convertCommand(command.getCommand(), command.getParams()));
