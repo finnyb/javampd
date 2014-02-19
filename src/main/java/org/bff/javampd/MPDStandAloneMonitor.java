@@ -251,21 +251,19 @@ public class MPDStandAloneMonitor
                 setStopped(true);
             } catch (MPDException mpdException) {
                 logger.error("Error while checking statuses", mpdException);
-                if (mpdException instanceof MPDConnectionException) {
-                    fireConnectionChangeEvent(false, mpdException.getMessage());
-                    boolean retry = true;
+                fireConnectionChangeEvent(false, mpdException.getMessage());
+                boolean retry = true;
 
-                    while (retry) {
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException ex) {
-                            logger.error("StandAloneMonitor interrupted", ex);
-                        }
+                while (retry) {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ex) {
+                        logger.error("StandAloneMonitor interrupted", ex);
+                    }
 
-                        checkConnection();
-                        if (isConnectedState()) {
-                            retry = false;
-                        }
+                    checkConnection();
+                    if (isConnectedState()) {
+                        retry = false;
                     }
                 }
             }

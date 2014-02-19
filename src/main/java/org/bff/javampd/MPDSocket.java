@@ -127,25 +127,23 @@ public class MPDSocket {
                 }
                 count = TRIES + 1;
                 return responseList;
+            } catch (SocketException se) {
+                try {
+                    connect();
+                } catch (Exception ex) {
+                    logger.error("Unable to connect to {} on port {}", server, port, ex);
+                }
+                responseList = new ArrayList<String>();
+                ++count;
+                excReturn = se;
+                logger.error("Retrying command {}", count);
             } catch (Exception e) {
                 logger.error("Got Error from: {}", command.getCommand(), e);
                 for (String str : command.getParams()) {
                     logger.error("\tparam: {}", str);
                 }
 
-                if (e instanceof SocketException) {
-                    try {
-                        connect();
-                    } catch (Exception ex) {
-                        logger.error("Unable to connect to {} on port {}", server, port, ex);
-                    }
-                    responseList = new ArrayList<String>();
-                    ++count;
-                    excReturn = e;
-                    logger.error("Retrying command {}", count);
-                } else {
-                    throw new MPDResponseException(e);
-                }
+                throw new MPDResponseException(e);
             } finally {
                 try {
                     outStream.flush();
