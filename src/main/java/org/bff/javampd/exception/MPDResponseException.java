@@ -16,13 +16,14 @@ package org.bff.javampd.exception;
  * @version 1.0
  */
 public class MPDResponseException extends MPDException {
-    private String command = null;
+    private final String command;
 
     /**
      * Constructor.
      */
     public MPDResponseException() {
         super();
+        this.command = null;
     }
 
     /**
@@ -32,6 +33,7 @@ public class MPDResponseException extends MPDException {
      */
     public MPDResponseException(String message) {
         super(message);
+        this.command = null;
     }
 
     /**
@@ -66,6 +68,7 @@ public class MPDResponseException extends MPDException {
      */
     public MPDResponseException(Throwable cause) {
         super(cause);
+        this.command = null;
     }
 
     /**
@@ -76,6 +79,7 @@ public class MPDResponseException extends MPDException {
      */
     public MPDResponseException(String message, Throwable cause) {
         super(message, cause);
+        this.command = null;
     }
 
     public String getCommand() {
