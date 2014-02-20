@@ -315,42 +315,50 @@ public class MPDStandAloneMonitor
         if (!status.equals(newStatus)) {
             switch (newStatus) {
                 case STATUS_PLAYING:
-                    switch (status) {
-                        case STATUS_PAUSED:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
-                            break;
-                        case STATUS_STOPPED:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
-                            break;
-                        default:
-                            assert false : "Invalid player status --> " + status;
-                            break;
-                    }
+                    processPlayingStatus(status);
                     break;
                 case STATUS_STOPPED:
                     processStoppedStatus(newSongId);
                     break;
                 case STATUS_PAUSED:
-                    switch (status) {
-                        case STATUS_PAUSED:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
-                            break;
-                        case STATUS_PLAYING:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
-                            break;
-                        case STATUS_STOPPED:
-                            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
-                            break;
-                        default:
-                            assert false : "Invalid player status --> " + status;
-                            break;
-                    }
+                    processPausedStatus(status);
                     break;
                 default:
                     assert false : "Invalid player status --> " + status;
                     break;
             }
             status = newStatus;
+        }
+    }
+
+    private void processPlayingStatus(PlayerStatus status) {
+        switch (status) {
+            case STATUS_PAUSED:
+                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
+                break;
+            case STATUS_STOPPED:
+                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
+                break;
+            default:
+                assert false : "Invalid player status --> " + status;
+                break;
+        }
+    }
+
+    private void processPausedStatus(PlayerStatus status) {
+        switch (status) {
+            case STATUS_PAUSED:
+                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
+                break;
+            case STATUS_PLAYING:
+                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
+                break;
+            case STATUS_STOPPED:
+                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
+                break;
+            default:
+                assert false : "Invalid player status --> " + status;
+                break;
         }
     }
 
