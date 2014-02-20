@@ -65,9 +65,9 @@ public class MPDStandAloneMonitor
     private static final int DEFAULT_DELAY = 1000;
     private List<PlayerBasicChangeListener> playerListeners;
     private List<PlaylistBasicChangeListener> playlistListeners;
-    private List<VolumeChangeListener> volListeners;
     private List<MPDErrorListener> errorListeners;
     private List<OutputChangeListener> outputListeners;
+    private VolumeChangeDelegate volumeChangeDelegate;
 
     /**
      * Creates a new instance of MPDStandAloneMonitor using the default delay
@@ -103,9 +103,9 @@ public class MPDStandAloneMonitor
     private synchronized void createListeners() {
         this.playerListeners = new ArrayList<PlayerBasicChangeListener>();
         this.playlistListeners = new ArrayList<PlaylistBasicChangeListener>();
-        this.volListeners = new ArrayList<VolumeChangeListener>();
         this.errorListeners = new ArrayList<MPDErrorListener>();
         this.outputListeners = new ArrayList<OutputChangeListener>();
+        this.volumeChangeDelegate = new VolumeChangeDelegate();
     }
 
     @Override
@@ -134,12 +134,12 @@ public class MPDStandAloneMonitor
 
     @Override
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
-        volListeners.add(vcl);
+        volumeChangeDelegate.addVolumeChangeListener(vcl);
     }
 
     @Override
     public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
-        volListeners.remove(vcl);
+        volumeChangeDelegate.removeVolumeChangedListener(vcl);
     }
 
     /**
@@ -149,11 +149,7 @@ public class MPDStandAloneMonitor
      * @param volume the new volume
      */
     protected synchronized void fireVolumeChangeEvent(int volume) {
-        VolumeChangeEvent vce = new VolumeChangeEvent(this, volume);
-
-        for (VolumeChangeListener vcl : volListeners) {
-            vcl.volumeChanged(vce);
-        }
+        volumeChangeDelegate.fireVolumeChangeEvent(this, volume);
     }
 
     @Override
@@ -470,7 +466,7 @@ public class MPDStandAloneMonitor
         if (checkVolumeCount == 5) {
             checkVolumeCount = 0;
             if (oldVolume != newVolume) {
-                fireVolumeChangeEvent(newVolume);
+                volumeChangeDelegate.fireVolumeChangeEvent(this, newVolume);
                 oldVolume = newVolume;
             }
         } else {

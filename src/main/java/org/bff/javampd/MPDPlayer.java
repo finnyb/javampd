@@ -10,10 +10,7 @@
 package org.bff.javampd;
 
 import com.google.inject.Inject;
-import org.bff.javampd.events.PlayerChangeEvent;
-import org.bff.javampd.events.PlayerChangeListener;
-import org.bff.javampd.events.VolumeChangeEvent;
-import org.bff.javampd.events.VolumeChangeListener;
+import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.objects.MPDAudioInfo;
@@ -37,7 +34,7 @@ public class MPDPlayer implements Player {
 
     private int oldVolume;
     private List<PlayerChangeListener> listeners = new ArrayList<PlayerChangeListener>();
-    private List<VolumeChangeListener> volListeners = new ArrayList<VolumeChangeListener>();
+    private VolumeChangeDelegate volumeChangeDelegate;
 
     private Status status = Status.STATUS_STOPPED;
     @Inject
@@ -48,6 +45,10 @@ public class MPDPlayer implements Player {
     private CommandExecutor commandExecutor;
 
     private final Logger logger = LoggerFactory.getLogger(MPDPlayer.class);
+
+    public MPDPlayer() {
+        this.volumeChangeDelegate = new VolumeChangeDelegate();
+    }
 
     @Override
     public MPDSong getCurrentSong() throws MPDPlayerException {
@@ -93,12 +94,12 @@ public class MPDPlayer implements Player {
 
     @Override
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
-        volListeners.add(vcl);
+        volumeChangeDelegate.addVolumeChangeListener(vcl);
     }
 
     @Override
     public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
-        volListeners.remove(vcl);
+        volumeChangeDelegate.removeVolumeChangedListener(vcl);
     }
 
     /**
@@ -108,11 +109,7 @@ public class MPDPlayer implements Player {
      * @param volume the new volume
      */
     protected synchronized void fireVolumeChangeEvent(int volume) {
-        VolumeChangeEvent vce = new VolumeChangeEvent(this, volume);
-
-        for (VolumeChangeListener vcl : volListeners) {
-            vcl.volumeChanged(vce);
-        }
+        volumeChangeDelegate.fireVolumeChangeEvent(this, volume);
     }
 
     @Override
