@@ -136,7 +136,7 @@ public class MPDSocket {
                 responseList = new ArrayList<String>();
                 ++count;
                 excReturn = se;
-                logger.error("Retrying command {}", count);
+                logger.error("Retrying command {}", count, se);
             } catch (Exception e) {
                 logger.error("Got Error from: {}", command.getCommand(), e);
                 for (String str : command.getParams()) {
