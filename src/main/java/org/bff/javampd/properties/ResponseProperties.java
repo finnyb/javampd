@@ -12,6 +12,7 @@ public class ResponseProperties extends MPDProperties {
 
     private enum Command {
         OK("MPD_CMD_RESPONSE_OK"),
+        LIST_OK("MPD_CMD_RESPONSE_LIST_OK"),
         ERR("MPD_CMD_RESPONSE_ERR");
 
         private final String key;
@@ -31,6 +32,10 @@ public class ResponseProperties extends MPDProperties {
 
     public String getOk() {
         return getPropertyString(Command.OK.getKey());
+    }
+
+    public String getListOk() {
+        return getPropertyString(Command.LIST_OK.getKey());
     }
 
     public String getError() {

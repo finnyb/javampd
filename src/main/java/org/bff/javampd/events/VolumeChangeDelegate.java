@@ -1,5 +1,6 @@
 package org.bff.javampd.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,9 @@ import java.util.List;
 public class VolumeChangeDelegate {
     private List<VolumeChangeListener> volListeners;
 
+    public VolumeChangeDelegate() {
+        volListeners = new ArrayList<VolumeChangeListener>();
+    }
 
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
         volListeners.add(vcl);
