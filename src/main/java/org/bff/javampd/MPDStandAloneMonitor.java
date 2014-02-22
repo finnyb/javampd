@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.concurrent.Executors;
 
+import static org.bff.javampd.StandAloneMonitor.StatusList.*;
+
 /**
  * MPDStandAloneMonitor monitors a MPD connection by querying the status and
  * statistics of the MPD server at given delay intervals.  As statistics change
@@ -488,33 +490,57 @@ public class MPDStandAloneMonitor
         error = null;
 
         for (String line : response) {
-            if (line.startsWith(StatusList.VOLUME.getStatusPrefix())) {
-                newVolume = Integer.parseInt(line.substring(StatusList.VOLUME.getStatusPrefix().length()).trim());
-            }
-            if (line.startsWith(StatusList.PLAYLIST.getStatusPrefix())) {
-                newPlaylistVersion = Integer.parseInt(line.substring(StatusList.PLAYLIST.getStatusPrefix().length()).trim());
-            }
-            if (line.startsWith(StatusList.PLAYLISTLENGTH.getStatusPrefix())) {
-                newPlaylistLength = Integer.parseInt(line.substring(StatusList.PLAYLISTLENGTH.getStatusPrefix().length()).trim());
-            }
-            if (line.startsWith(StatusList.STATE.getStatusPrefix())) {
-                state = line.substring(StatusList.STATE.getStatusPrefix().length()).trim();
-            }
-            if (line.startsWith(StatusList.CURRENTSONG.getStatusPrefix())) {
-                newSong = Integer.parseInt(line.substring(StatusList.CURRENTSONG.getStatusPrefix().length()).trim());
-            }
-            if (line.startsWith(StatusList.CURRENTSONGID.getStatusPrefix())) {
-                newSongId = Integer.parseInt(line.substring(StatusList.CURRENTSONGID.getStatusPrefix().length()).trim());
-            }
-            if (line.startsWith(StatusList.TIME.getStatusPrefix())) {
-                elapsedTime = Long.parseLong(line.substring(StatusList.TIME.getStatusPrefix().length()).trim().split(":")[0]);
-            }
-            if (line.startsWith(StatusList.BITRATE.getStatusPrefix())) {
-                newBitrate = Integer.parseInt(line.substring(StatusList.BITRATE.getStatusPrefix().length()).trim());
-            }
-            if (line.startsWith(StatusList.ERROR.getStatusPrefix())) {
-                error = line.substring(StatusList.ERROR.getStatusPrefix().length()).trim();
+            processResponseLine(line);
+        }
+    }
+
+    private void processResponseLine(String line) {
+        StatusList status = lookupStatus(line.replaceFirst(":.*$", ":"));
+        if (status == null) {
+            return;
+        }
+
+        switch (status) {
+            case VOLUME:
+                newVolume = Integer.parseInt(line.substring(VOLUME.getStatusPrefix().length()).trim());
+                break;
+            case PLAYLIST:
+                newPlaylistVersion = Integer.parseInt(line.substring(PLAYLIST.getStatusPrefix().length()).trim());
+                break;
+            case PLAYLISTLENGTH:
+                newPlaylistLength = Integer.parseInt(line.substring(PLAYLISTLENGTH.getStatusPrefix().length()).trim());
+                break;
+            case STATE:
+                state = line.substring(STATE.getStatusPrefix().length()).trim();
+                break;
+            case CURRENTSONG:
+                newSong = Integer.parseInt(line.substring(CURRENTSONG.getStatusPrefix().length()).trim());
+                break;
+            case CURRENTSONGID:
+                newSongId = Integer.parseInt(line.substring(CURRENTSONGID.getStatusPrefix().length()).trim());
+                break;
+            case TIME:
+                elapsedTime = Long.parseLong(line.substring(TIME.getStatusPrefix().length()).trim().split(":")[0]);
+                break;
+            case BITRATE:
+                newBitrate = Integer.parseInt(line.substring(BITRATE.getStatusPrefix().length()).trim());
+                break;
+            case ERROR:
+                error = line.substring(ERROR.getStatusPrefix().length()).trim();
+                break;
+            default:
+                logger.debug("Could not find status response {}", line);
+                break;
+        }
+    }
+
+    private StatusList lookupStatus(String status) {
+        for (StatusList statusList : StatusList.values()) {
+            if (status.equals(statusList.getStatusPrefix())) {
+                return statusList;
             }
         }
+        logger.debug("Could not find status response {}", status);
+        return null;
     }
 }

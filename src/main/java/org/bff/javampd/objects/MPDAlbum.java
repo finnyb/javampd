@@ -42,7 +42,8 @@ public class MPDAlbum extends MPDItem {
 
     /**
      * We consider two albums to be equal if the {@link MPDAlbum}
-     * names match and if the {@link String} names match
+     * names match and if the {@link org.bff.javampd.objects.MPDArtist}
+     * name matches
      *
      * @param object the {@link MPDAlbum} to compare
      * @return true or false
@@ -61,18 +62,9 @@ public class MPDAlbum extends MPDItem {
             return false;
         }
 
-        // Now we know the two albums have the same name but
-        // if super.equals(object) returns true it could
-        // still be the case that two albums have different artists.
-        // So we have to check the artists:
-
         MPDAlbum albumToCompare = (MPDAlbum) object;
-        // we know object
-        // is of type MDPAlbum because otherwise super.equals(object)
-        // would have returned false
 
         if (artistName == null || albumToCompare.artistName == null) {
-            // we already know the album names are equal
             return true;
         } else {
             return artistName.equals(albumToCompare.artistName);
