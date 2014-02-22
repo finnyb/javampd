@@ -57,15 +57,11 @@ public class MPDSocket {
      * @throws MPDConnectionException if there are connection issues
      */
     private synchronized String connect(int timeout) throws MPDConnectionException {
-        this.socket = new Socket();
-        SocketAddress sockaddr = new InetSocketAddress(server, port);
-        try {
-            this.socket.connect(sockaddr, timeout);
-        } catch (SocketTimeoutException ste) {
-            throw new MPDTimeoutException(ste);
-        } catch (IOException e) {
-            throw new MPDConnectionException(e);
-        }
+        connectSocket(timeout);
+        return readVersion();
+    }
+
+    private String readVersion() throws MPDConnectionException {
         String line;
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
@@ -79,6 +75,17 @@ public class MPDSocket {
         } else {
             throw new MPDConnectionException("Command from server: " +
                     ((line == null) ? "null" : stripResponse(responseProperties.getError(), line)));
+        }
+    }
+
+    private void connectSocket(int timeout) throws MPDTimeoutException {
+        this.socket = new Socket();
+
+        SocketAddress socketAddress = new InetSocketAddress(server, port);
+        try {
+            this.socket.connect(socketAddress, timeout);
+        } catch (IOException ioe) {
+            throw new MPDTimeoutException(ioe);
         }
     }
 
