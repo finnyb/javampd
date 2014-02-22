@@ -68,7 +68,7 @@ public class MPDSocket {
         }
         String line;
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
             line = in.readLine();
         } catch (IOException e) {
             throw new MPDConnectionException(e);
@@ -196,7 +196,7 @@ public class MPDSocket {
     private List<String> sendBytes(String command) throws IOException, MPDResponseException {
         byte[] bytesToSend = command.getBytes(commandProperties.getEncoding());
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
 
         OutputStream outStream = socket.getOutputStream();
         outStream.write(bytesToSend);
