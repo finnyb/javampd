@@ -500,6 +500,10 @@ public class MPDStandAloneMonitor
             return;
         }
 
+        processResponseStatus(statusList, line);
+    }
+
+    private void processResponseStatus(StatusList statusList, String line) {
         switch (statusList) {
             case VOLUME:
                 newVolume = Integer.parseInt(line.substring(VOLUME.getStatusPrefix().length()).trim());
