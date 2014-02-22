@@ -495,12 +495,12 @@ public class MPDStandAloneMonitor
     }
 
     private void processResponseLine(String line) {
-        StatusList status = lookupStatus(line.replaceFirst(":.*$", ":"));
-        if (status == null) {
+        StatusList statusList = lookupStatus(line.replaceFirst(":.*$", ":"));
+        if (statusList == null) {
             return;
         }
 
-        switch (status) {
+        switch (statusList) {
             case VOLUME:
                 newVolume = Integer.parseInt(line.substring(VOLUME.getStatusPrefix().length()).trim());
                 break;
