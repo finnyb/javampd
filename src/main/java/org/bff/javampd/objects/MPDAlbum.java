@@ -62,12 +62,15 @@ public class MPDAlbum extends MPDItem {
             return false;
         }
 
-        MPDAlbum albumToCompare = (MPDAlbum) object;
+        return compareArtists((MPDAlbum) object);
 
-        if (artistName == null || albumToCompare.artistName == null) {
+    }
+
+    private boolean compareArtists(MPDAlbum album) {
+        if (artistName == null || album.artistName == null) {
             return true;
         } else {
-            return artistName.equals(albumToCompare.artistName);
+            return artistName.equals(album.artistName);
         }
     }
 
