@@ -23,8 +23,4 @@ public enum SongProcessor {
     public SongResponseProcessor getPrefix() {
         return songResponseProcessor;
     }
-
-    public void setPrefix(SongResponseProcessor songResponseProcessor) {
-        this.songResponseProcessor = songResponseProcessor;
-    }
 }
