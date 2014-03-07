@@ -201,6 +201,7 @@ public class MPDSocket {
     }
 
     private List<String> sendBytes(String command) throws IOException, MPDResponseException {
+        logger.debug("start command: " + command.trim());
         byte[] bytesToSend = command.getBytes(commandProperties.getEncoding());
 
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
@@ -222,6 +223,10 @@ public class MPDSocket {
             response.add(inLine);
             inLine = in.readLine();
         }
+        for (String s : response) {
+            logger.debug(s);
+        }
+        logger.debug("end command: " + command.trim());
 
         return response;
     }

@@ -2,28 +2,13 @@ package org.bff.javampd;
 
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MPDAdminIT extends BaseTest {
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
 
     @Test
     public void disableOutput() throws MPDConnectionException, MPDResponseException {

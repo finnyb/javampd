@@ -1,30 +1,33 @@
 package org.bff.javampd;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import mockeddata.*;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDException;
-import org.bff.javampd.integrationdata.*;
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDGenre;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class MPDDatabaseIT extends BaseTest {
+public class MPDDatabaseTest {
     private static List<MPDArtist> artistList;
     private static List<MPDAlbum> albumList;
     private static List<MPDGenre> genreList;
-    private static List<MPDSong> songList;
     private static final String SEARCH_ANY = "2";
     private static final String SEARCH_ARTIST = "Artist";
     private static final String SEARCH_ALBUM = "Album";
@@ -37,54 +40,61 @@ public class MPDDatabaseIT extends BaseTest {
     private static final String FIND_ANY = "Artist0";
     private static final String FIND_YEAR = "1990";
 
-    private TestProperties testProperties;
+    private MPDDatabase mpdDatabase;
+
+    private TestMPDCommandExecutor mpdCommandExecutor;
+
+    @BeforeClass
+    public static void beforeClass() {
+        DataLoader.loadData();
+    }
 
     @Before
     public void setUp() throws MPDException, IOException {
-        testProperties = TestProperties.getInstance();
+
+        Injector injector = Guice.createInjector(new MPDTestDatabaseModule());
+        this.mpdCommandExecutor = injector.getInstance(TestMPDCommandExecutor.class);
+        URL url = this.getClass().getResource("/mockedDatabaseData.txt");
+        this.mpdCommandExecutor.setDataFile(new File(url.getFile()));
+        this.mpdDatabase = injector.getInstance(MPDDatabase.class);
+
 
         if (getArtistList() == null) {
-            setArtistList(new ArrayList<MPDArtist>(getDatabase().listAllArtists()));
+            setArtistList(new ArrayList<>(getDatabase().listAllArtists()));
         }
 
         if (getAlbumList() == null) {
-            setAlbumList(new ArrayList<MPDAlbum>(getDatabase().listAllAlbums()));
+            setAlbumList(new ArrayList<>(getDatabase().listAllAlbums()));
         }
 
         if (getGenreList() == null) {
-            setGenreList(new ArrayList<MPDGenre>(getDatabase().listAllGenres()));
-        }
-
-        if (getSongList() == null) {
-            setSongList(new ArrayList<>(Songs.databaseSongs));
+            setGenreList(new ArrayList<>(getDatabase().listAllGenres()));
         }
     }
 
     @Test
     public void testListRootDirectory() throws IOException, MPDConnectionException, MPDDatabaseException {
-        List<File> testFiles = new ArrayList<>(Files.getRootTestFiles(testProperties.getPath()));
-        List<MPDFile> files = new ArrayList<>(getDatabase().listRootDirectory());
+        List<File> testFiles = new ArrayList<File>(DataLoader.getRootTestFiles());
+        List<MPDFile> files = new ArrayList<MPDFile>(getDatabase().listRootDirectory());
 
-        Assert.assertEquals(testFiles.size(), files.size());
+        assertEquals(testFiles.size(), files.size());
 
         for (File f : testFiles) {
             boolean found = false;
             for (MPDFile mpdF : getDatabase().listRootDirectory()) {
                 if (f.getName().equals(mpdF.getName())) {
                     found = true;
-                    Assert.assertEquals(f.isDirectory(), mpdF.isDirectory());
+                    assertEquals(f.isDirectory(), mpdF.isDirectory());
                 }
             }
-            if (!found) {
-                System.out.println("didnt find:" + f.getName());
-            }
+
             Assert.assertTrue(found);
         }
     }
 
     @Test
     public void testListDirectories() throws Exception {
-        List<File> testFiles = new ArrayList<>(Files.getRootTestFiles(testProperties.getPath()));
+        List<File> testFiles = new ArrayList<File>(DataLoader.getRootTestFiles());
 
         for (File f : testFiles) {
             for (MPDFile mpdF : getDatabase().listRootDirectory()) {
@@ -97,28 +107,28 @@ public class MPDDatabaseIT extends BaseTest {
 
     @Test
     public void testArtistCount() throws MPDException {
-        Assert.assertEquals(Artists.artists.size(), getDatabase().getArtistCount());
+        assertEquals(Artists.artists.size(), getDatabase().getArtistCount());
     }
 
     @Test
     public void testAlbumCount() throws MPDException {
-        Assert.assertEquals(Albums.albums.size(), getDatabase().getAlbumCount());
+        assertEquals(Albums.albums.size(), getDatabase().getAlbumCount());
     }
 
     @Test
     public void testSongCount() throws MPDException {
-        Assert.assertEquals(Songs.songs.size(), getDatabase().getSongCount());
+        assertEquals(Songs.songs.size(), getDatabase().getSongCount());
     }
 
     @Test
     public void testGenreCount() throws MPDException {
-        Assert.assertEquals(Genres.genres.size(), getDatabase().listAllGenres().size());
+        assertEquals(Genres.genres.size(), getDatabase().listAllGenres().size());
     }
 
     @Test
     public void testSongs() throws Exception {
 
-        for (MPDSong song : getSongList()) {
+        for (MPDSong song : Songs.songs) {
             boolean exists = false;
             for (MPDSong s : Songs.songs) {
                 if (song.getFile().equals(s.getFile())) {
@@ -143,7 +153,7 @@ public class MPDDatabaseIT extends BaseTest {
             for (MPDAlbum album : getAlbumList()) {
                 if (album.getName().equals(albumName)) {
                     exists = true;
-                    Assert.assertEquals(album.getName(), a.getName());
+                    assertEquals(album.getName(), a.getName());
                     break;
                 }
             }
@@ -158,9 +168,9 @@ public class MPDDatabaseIT extends BaseTest {
     public void testGetYears() throws MPDException {
         List<String> resultYears = new ArrayList<String>(getDatabase().listAllYears());
 
-        List<String> foundYears = new ArrayList<String>(Years.years);
+        List<String> foundYears = new ArrayList<>(Years.years);
 
-        Assert.assertEquals(resultYears.size(), foundYears.size());
+        assertEquals(resultYears.size(), foundYears.size());
 
         for (String year : resultYears) {
             boolean exists = false;
@@ -374,7 +384,7 @@ public class MPDDatabaseIT extends BaseTest {
 
         List<MPDSong> foundSongs = new ArrayList<>(getDatabase().searchTitle(SEARCH_TITLE_SPACE));
 
-        Assert.assertEquals(testResults.size(), foundSongs.size());
+        assertEquals(testResults.size(), foundSongs.size());
     }
 
     @Test
@@ -408,17 +418,17 @@ public class MPDDatabaseIT extends BaseTest {
     }
 
     private void compareDirs(File testFile, MPDFile file) throws Exception {
-        List<File> testFiles = new ArrayList<>(Files.getTestFiles(testFile));
+        List<File> testFiles = new ArrayList<>(DataLoader.getTestFiles(testFile));
         List<MPDFile> files = new ArrayList<>(getDatabase().listDirectory(file));
 
-        Assert.assertEquals(testFiles.size(), files.size());
+        assertEquals(testFiles.size(), files.size());
 
         for (File f : testFiles) {
             boolean found = false;
             for (MPDFile mpdF : files) {
                 if (f.getName().equals(mpdF.getName().replaceFirst(file.getName() + "/", ""))) {
                     found = true;
-                    Assert.assertEquals(f.isDirectory(), mpdF.isDirectory());
+                    assertEquals(f.isDirectory(), mpdF.isDirectory());
                     if (f.isDirectory()) {
                         compareDirs(f, mpdF);
                     }
@@ -430,15 +440,15 @@ public class MPDDatabaseIT extends BaseTest {
     }
 
     private void compareSongs(MPDSong item1, MPDSong item2) {
-        Assert.assertEquals(item1.getId(), item2.getId());
-        Assert.assertEquals(item1.getName(), item2.getName());
-        Assert.assertEquals(item1.getFile(), item2.getFile());
-        Assert.assertEquals(item1.getAlbumName(), item2.getAlbumName());
-        Assert.assertEquals(item1.getGenre(), item2.getGenre());
-        Assert.assertEquals(item1.getGenre(), item2.getGenre());
-        Assert.assertEquals(item1.getYear(), item2.getYear());
-        Assert.assertEquals(item1.getTrack(), item2.getTrack());
-        Assert.assertEquals(item1.getDiscNumber(), item2.getDiscNumber());
+        assertEquals(item1.getId(), item2.getId());
+        assertEquals(item1.getName(), item2.getName());
+        assertEquals(item1.getFile(), item2.getFile());
+        assertEquals(item1.getAlbumName(), item2.getAlbumName());
+        assertEquals(item1.getGenre(), item2.getGenre());
+        assertEquals(item1.getGenre(), item2.getGenre());
+        assertEquals(item1.getYear(), item2.getYear());
+        assertEquals(item1.getTrack(), item2.getTrack());
+        assertEquals(item1.getDiscNumber(), item2.getDiscNumber());
     }
 
     /**
@@ -483,20 +493,6 @@ public class MPDDatabaseIT extends BaseTest {
         genreList = aGenreList;
     }
 
-    /**
-     * @return the songList
-     */
-    public static List<MPDSong> getSongList() {
-        return songList;
-    }
-
-    /**
-     * @param aSongList the songList to set
-     */
-    public static void setSongList(List<MPDSong> aSongList) {
-        songList = aSongList;
-    }
-
     private void compareSongLists(List<MPDSong> testResults, List<MPDSong> foundSongs) {
 
         if (testResults.isEmpty()) {
@@ -516,5 +512,9 @@ public class MPDDatabaseIT extends BaseTest {
 
             assertTrue(found);
         }
+    }
+
+    private MPDDatabase getDatabase() {
+        return this.mpdDatabase;
     }
 }

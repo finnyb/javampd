@@ -16,7 +16,7 @@ import java.util.List;
 public class MPDPlayerIT extends BaseTest {
     @Before
     public void setUp() throws Exception {
-        List<MPDSong> songs = new ArrayList<MPDSong>(Songs.getTestSongs());
+        List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSongs(songs);
     }
 

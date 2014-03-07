@@ -3,7 +3,8 @@ package org.bff.javampd;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -11,32 +12,16 @@ import java.util.logging.Logger;
 
 public class MPDIT extends BaseTest {
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     @Test
     public void testVersion() {
-        Assert.assertEquals(Controller.getVersion(), getMpd().getVersion());
+        Assert.assertEquals(TestProperties.getVersion(), getMpd().getVersion());
     }
 
     @Test
     public void testPassword() throws IOException, MPDConnectionException {
         MPD mpd = null;
         try {
-            mpd = Controller.getInstance().getNewMPD();
+            mpd = getNewMpd();
         } finally {
             if (mpd != null) {
                 try {
@@ -53,9 +38,7 @@ public class MPDIT extends BaseTest {
     public void testWrongPassword() throws IOException, MPDConnectionException {
         MPD mpd = null;
         try {
-            mpd = Controller.getInstance().getNewMPD(Controller.getInstance().getServer(),
-                    Controller.getInstance().getPort(),
-                    Controller.getInstance().getPassword() + "WRONG");
+            mpd = getNewMpd(TestProperties.getInstance().getPassword() + "WRONG");
         } finally {
             if (mpd != null) {
                 try {
@@ -70,10 +53,10 @@ public class MPDIT extends BaseTest {
     @Test(expected = MPDConnectionException.class)
     public void testTimeout() throws MPDException, IOException {
         MPD mpd = null;
-        Controller controller = Controller.getInstance();
+        TestProperties testProperties = TestProperties.getInstance();
         try {
-            mpd = controller.getNewMPD("10.255.255.1",
-                    controller.getPort(),
+            mpd = new MPD("10.255.255.1",
+                    testProperties.getPort(),
                     500);
         } finally {
             if (mpd != null) {

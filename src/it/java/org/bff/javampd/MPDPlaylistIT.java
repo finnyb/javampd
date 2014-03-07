@@ -4,22 +4,18 @@ import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.integrationdata.Songs;
 import org.bff.javampd.objects.MPDSong;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MPDPlaylistIT extends BaseTest {
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
 
     @Before
     public void setUp() throws MPDPlaylistException, MPDConnectionException, MPDDatabaseException {
@@ -40,7 +36,7 @@ public class MPDPlaylistIT extends BaseTest {
 
     @Test
     public void testGetSongList() throws MPDPlaylistException, MPDConnectionException, IOException {
-        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSong(songs.get(0));
         Assert.assertEquals(getPlaylist().getSongList().size(), 1);
         getPlaylist().addSong(songs.get(1));
@@ -50,19 +46,18 @@ public class MPDPlaylistIT extends BaseTest {
 
     @Test
     public void testGetSongListRemoteAdded() throws MPDPlaylistException, MPDConnectionException, IOException {
-        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSong(songs.get(0));
         Assert.assertEquals(getPlaylist().getSongList().size(), 1);
 
-        Controller controller = Controller.getInstance();
-        controller.getNewMPD().getPlaylist().addSong(songs.get(1));
+        getNewMpd().getPlaylist().addSong(songs.get(1));
 
         Assert.assertEquals(getPlaylist().getSongList().size(), 2);
     }
 
     @Test
     public void testSavePlaylist() throws MPDPlaylistException, MPDConnectionException, IOException, MPDDatabaseException {
-        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSong(songs.get(0));
         String playlistName = "testPlaylist";
 
@@ -73,7 +68,7 @@ public class MPDPlaylistIT extends BaseTest {
 
     @Test
     public void testSavePlaylistWithSpace() throws MPDPlaylistException, MPDConnectionException, IOException, MPDDatabaseException {
-        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSong(songs.get(0));
         String playlistName = "Test Playlist";
 
@@ -84,7 +79,7 @@ public class MPDPlaylistIT extends BaseTest {
 
     @Test
     public void testSavePlaylistSongsWithSpace() throws MPDPlaylistException, MPDConnectionException, IOException, MPDDatabaseException {
-        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSong(songs.get(0));
         String playlistName = "Test Playlist";
 
@@ -95,7 +90,7 @@ public class MPDPlaylistIT extends BaseTest {
 
     @Test
     public void testSavePlaylistSongs() throws MPDPlaylistException, MPDConnectionException, IOException, MPDDatabaseException {
-        List<MPDSong> songs = new ArrayList<MPDSong>(Controller.getInstance().getSongs());
+        List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSong(songs.get(0));
         String playlistName = "testPlaylist";
 
