@@ -9,13 +9,4 @@ public class TestCommandExecutor extends MPDCommandExecutor {
 
     public TestCommandExecutor() {
     }
-
-
-    public MPDSocket getMpdSocket() {
-        return mpdSocket;
-    }
-
-    public void setMPDSocket(MPDSocket mpdSocket) {
-        this.mpdSocket = mpdSocket;
-    }
 }

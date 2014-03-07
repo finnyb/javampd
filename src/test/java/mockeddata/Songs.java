@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.bff.javampd.integrationdata;
+package mockeddata;
 
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Song ids must be filled since not reliable
@@ -35,16 +34,13 @@ public class Songs {
     private static final String NULL_ALBUM = "";
     private static final String NULL_ARTIST = "";
     private static final String NULL_DISC = "";
-    private static final String NULL_GENRE = "No Genre";
     private static final String NULL_COMMENT = null;
     private static final String NULL_TRACK = "0";
 
     public static Collection<MPDSong> songs = new ArrayList<>();
 
     public static final HashMap<MPDArtist, Collection<MPDSong>> SONG_ARTIST_MAP =
-            new HashMap<>();
-
-    public static List<MPDSong> databaseSongs = new ArrayList<>();
+            new HashMap<MPDArtist, Collection<MPDSong>>();
 
     public static void loadSong(File file, File f) {
         String[] s = file.getName().replace(EXTENSION, "").split("-");
@@ -131,7 +127,7 @@ public class Songs {
     }
 
     private static MPDGenre processGenre(MPDSong song, String genreName) {
-        song.setGenre("null".equalsIgnoreCase(genreName) ? NULL_GENRE : genreName);
+        song.setGenre("null".equalsIgnoreCase(genreName) ? Genres.NULL_GENRE : genreName);
         return Genres.addGenre(song.getGenre());
     }
 }

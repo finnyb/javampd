@@ -2,7 +2,6 @@ package org.bff.javampd;
 
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,10 +26,6 @@ public class CommandExecutorTest {
 
     @InjectMocks
     private TestCommandExecutor testCommandExecutor;
-
-    @Before
-    public void before() {
-    }
 
     @Test
     public void testGetVersion() throws MPDResponseException, UnknownHostException {

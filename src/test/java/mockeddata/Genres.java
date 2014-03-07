@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.bff.javampd.integrationdata;
+package mockeddata;
 
 import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDGenre;
@@ -17,8 +17,9 @@ import java.util.List;
  */
 public class Genres {
     public static List<MPDGenre> genres = new ArrayList<>();
-
+    public static final String NULL_GENRE = "No Genre";
     public static final HashMap<MPDGenre, Collection<MPDAlbum>> GENRE_ALBUM_MAP = new HashMap<>();
+
 
     public static MPDGenre addGenre(String genreName) {
         MPDGenre genre = new MPDGenre(genreName);

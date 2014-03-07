@@ -4,9 +4,15 @@
  */
 package org.bff.javampd;
 
+import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.integrationdata.DataLoader;
+import org.bff.javampd.integrationdata.Songs;
+import org.bff.javampd.objects.MPDSong;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,13 +30,18 @@ public abstract class BaseTest {
 
     static {
         try {
-            mpd = Controller.getInstance().getMpd();
-            Controller.getInstance().loadSongs();
+            mpd = new MPD(TestProperties.getInstance().getServer(),
+                    TestProperties.getInstance().getPort(),
+                    TestProperties.getInstance().getPassword());
             database = getMpd().getDatabase();
             playlist = getMpd().getPlaylist();
             player = getMpd().getPlayer();
             admin = getMpd().getAdmin();
             monitor = getMpd().getMonitor();
+            DataLoader.loadData(new File(TestProperties.getInstance().getPath()));
+            for (MPDSong song : Songs.songs) {
+                fillSongId(song);
+            }
         } catch (IOException ex) {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MPDException ex) {
@@ -39,6 +50,28 @@ public abstract class BaseTest {
     }
 
     public BaseTest() {
+    }
+
+    public static void fillSongId(MPDSong song) throws MPDException {
+        MPDSong s = new ArrayList<>(getDatabase().searchFileName(song.getFile())).get(0);
+        try {
+            Songs.databaseSongs.add(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        song.setId(s.getId());
+    }
+
+    public MPD getNewMpd() throws IOException, MPDConnectionException {
+        return new MPD(TestProperties.getInstance().getServer(),
+                TestProperties.getInstance().getPort(),
+                TestProperties.getInstance().getPassword());
+    }
+
+    public MPD getNewMpd(String password) throws IOException, MPDConnectionException {
+        return new MPD(TestProperties.getInstance().getServer(),
+                TestProperties.getInstance().getPort(),
+                password);
     }
 
     /**

@@ -1,10 +1,10 @@
 package org.bff.javampd.monitor;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.Controller;
 import org.bff.javampd.MPDOutput;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.integrationdata.Songs;
 import org.bff.javampd.objects.MPDSong;
 import org.junit.After;
 import org.junit.Assert;
@@ -27,7 +27,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void setUp() throws MPDException {
         getPlaylist().clearPlaylist();
         getPlayer().stop();
-        MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
+        MPDOutput output = new ArrayList<>(getAdmin().getOutputs()).get(0);
         getAdmin().enableOutput(output);
         getMonitor().start();
         delay();
@@ -71,7 +71,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(0));
+        getPlaylist().addSong(Songs.databaseSongs.get(0));
 
         waitForSuccess();
 
@@ -94,7 +94,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(0));
+        getPlaylist().addSong(Songs.databaseSongs.get(0));
 
         waitForSuccess();
 
@@ -117,7 +117,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        MPDSong song = Controller.getInstance().getDatabaseSongs().get(0);
+        MPDSong song = Songs.databaseSongs.get(0);
 
         getPlaylist().addSong(song);
         delay();
@@ -143,8 +143,8 @@ public class MPDStandAloneMonitorIT extends BaseTest {
                 }
             }
         });
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(0));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(1));
+        getPlaylist().addSong(Songs.databaseSongs.get(0));
+        getPlaylist().addSong(Songs.databaseSongs.get(1));
 
         getPlayer().play();
 
@@ -319,15 +319,15 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     private void loadSeveralSongs() throws MPDException, IOException {
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(0));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(1));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(2));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(3));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(4));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(5));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(6));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(7));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(8));
-        getPlaylist().addSong(Controller.getInstance().getDatabaseSongs().get(9));
+        getPlaylist().addSong(Songs.databaseSongs.get(0));
+        getPlaylist().addSong(Songs.databaseSongs.get(1));
+        getPlaylist().addSong(Songs.databaseSongs.get(2));
+        getPlaylist().addSong(Songs.databaseSongs.get(3));
+        getPlaylist().addSong(Songs.databaseSongs.get(4));
+        getPlaylist().addSong(Songs.databaseSongs.get(5));
+        getPlaylist().addSong(Songs.databaseSongs.get(6));
+        getPlaylist().addSong(Songs.databaseSongs.get(7));
+        getPlaylist().addSong(Songs.databaseSongs.get(8));
+        getPlaylist().addSong(Songs.databaseSongs.get(9));
     }
 }

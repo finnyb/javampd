@@ -46,6 +46,7 @@
         <url>http://bjj.is-a-player.com:8080</url>
     </ciManagement>
     <properties>
+        <logback.version>1.1.1</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <coverage.reports.dir>${basedir}/target/coverage-reports</coverage.reports.dir>
@@ -246,8 +247,18 @@
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <artifactId>slf4j-api</artifactId>
             <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
