@@ -51,13 +51,11 @@ public class MPDDatabaseTest {
 
     @Before
     public void setUp() throws MPDException, IOException {
-
         Injector injector = Guice.createInjector(new MPDTestDatabaseModule());
         this.mpdCommandExecutor = injector.getInstance(TestMPDCommandExecutor.class);
         URL url = this.getClass().getResource("/mockedDatabaseData.txt");
         this.mpdCommandExecutor.setDataFile(new File(url.getFile()));
         this.mpdDatabase = injector.getInstance(MPDDatabase.class);
-
 
         if (getArtistList() == null) {
             setArtistList(new ArrayList<>(getDatabase().listAllArtists()));

@@ -25,7 +25,7 @@ public class CommandExecutorTest {
     private MPD mpd;
 
     @InjectMocks
-    private TestCommandExecutor testCommandExecutor;
+    private MPDCommandExecutor testCommandExecutor;
 
     @Test
     public void testGetVersion() throws MPDResponseException, UnknownHostException {
@@ -38,38 +38,38 @@ public class CommandExecutorTest {
 
     @Test(expected = MPDResponseException.class)
     public void testCommandNoMPDSet() throws MPDException {
-        testCommandExecutor = new TestCommandExecutor();
+        testCommandExecutor = new MPDCommandExecutor();
         testCommandExecutor.sendCommand("command");
     }
 
     @Test(expected = MPDResponseException.class)
     public void testCommandObjectNoMPDSet() throws MPDException {
-        testCommandExecutor = new TestCommandExecutor();
+        testCommandExecutor = new MPDCommandExecutor();
         MPDCommand command = new MPDCommand("command");
         testCommandExecutor.sendCommand(command);
     }
 
     @Test(expected = MPDResponseException.class)
     public void testCommandStringParamsNoMPDSet() throws MPDException {
-        testCommandExecutor = new TestCommandExecutor();
+        testCommandExecutor = new MPDCommandExecutor();
         testCommandExecutor.sendCommand("command", "param1", "param2");
     }
 
     @Test(expected = MPDResponseException.class)
     public void testCommandStringIntegerParamsNoMPDSet() throws MPDException {
-        testCommandExecutor = new TestCommandExecutor();
+        testCommandExecutor = new MPDCommandExecutor();
         testCommandExecutor.sendCommand("command", 1, 2, 3);
     }
 
     @Test(expected = MPDResponseException.class)
     public void testGetVersionNoMPDSet() throws MPDResponseException {
-        testCommandExecutor = new TestCommandExecutor();
+        testCommandExecutor = new MPDCommandExecutor();
         testCommandExecutor.getMPDVersion();
     }
 
     @Test(expected = MPDResponseException.class)
     public void testSendCommandsNoMPDSet() throws MPDException {
-        testCommandExecutor = new TestCommandExecutor();
+        testCommandExecutor = new MPDCommandExecutor();
         List<MPDCommand> commands = new ArrayList<MPDCommand>();
         commands.add(new MPDCommand("command1"));
         commands.add(new MPDCommand("command2"));
