@@ -1,7 +1,7 @@
-start command: password password
-end command: password password
+start command: password "password"
+end command: password "password"
 
-start command: search filename id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3"
 file: id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -10,9 +10,9 @@ Album: Album0
 Track: 1
 Date: 1990
 Genre: Rock
-end command: search filename id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
+start command: search "filename" "id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3"
 file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -21,9 +21,9 @@ Title: Title0
 Album: Album0
 Track: 2
 Date: 1990
-end command: search filename id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
+end command: search "filename" "id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3"
 
-start command: search filename id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -33,9 +33,9 @@ Album: Album0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: search filename id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -44,9 +44,9 @@ Title: Title0
 Album: Album0
 Date: 1990
 Genre: Rock
-end command: search filename id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
+start command: search "filename" "id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3"
 file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -56,9 +56,9 @@ Album: Album1
 Track: 1
 Date: 1990
 Genre: Rock
-end command: search filename id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
+end command: search "filename" "id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3"
 
-start command: search filename id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
+start command: search "filename" "id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3"
 file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -67,9 +67,9 @@ Title: Title0
 Album: Album1
 Track: 2
 Genre: Rock
-end command: search filename id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
+end command: search "filename" "id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3"
 
-start command: search filename id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -78,9 +78,9 @@ Title: Title0
 Track: 8
 Date: 1990
 Genre: Rock
-end command: search filename id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -89,9 +89,9 @@ Album: Album0
 Track: 9
 Date: 1990
 Genre: Rock
-end command: search filename id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3"
 file: id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -100,9 +100,9 @@ Album: Album0
 Track: 1
 Date: 1990
 Genre: Rock
-end command: search filename id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
+start command: search "filename" "id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3"
 file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -111,9 +111,9 @@ Title: Title0
 Album: Album0
 Track: 2
 Date: 1990
-end command: search filename id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
+end command: search "filename" "id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3"
 
-start command: search filename id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -123,9 +123,9 @@ Album: Album0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: search filename id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -134,9 +134,9 @@ Title: Title0
 Album: Album0
 Date: 1990
 Genre: Rock
-end command: search filename id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
+start command: search "filename" "id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3"
 file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -146,9 +146,9 @@ Album: Album1
 Track: 1
 Date: 1990
 Genre: Rock
-end command: search filename id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
+end command: search "filename" "id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3"
 
-start command: search filename id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
+start command: search "filename" "id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3"
 file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -157,9 +157,9 @@ Title: Title0
 Album: Album1
 Track: 2
 Genre: Rock
-end command: search filename id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
+end command: search "filename" "id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3"
 
-start command: search filename id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+start command: search "filename" "id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3"
 file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -170,9 +170,9 @@ Track: 1
 Date: 1990
 Genre: Rock
 Disc: 1
-end command: search filename id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+end command: search "filename" "id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3"
 
-start command: search filename id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+start command: search "filename" "id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3"
 file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -183,9 +183,9 @@ Track: 1
 Date: 1990
 Genre: Rock
 Disc: 2
-end command: search filename id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+end command: search "filename" "id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3"
 
-start command: search filename id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -194,9 +194,9 @@ Title: Title0
 Track: 8
 Date: 1990
 Genre: Rock
-end command: search filename id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -205,9 +205,9 @@ Album: Album0
 Track: 9
 Date: 1990
 Genre: Rock
-end command: search filename id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3"
 file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -216,9 +216,9 @@ Album: Album0
 Track: 1
 Date: 1990
 Genre: Rock
-end command: search filename id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
+start command: search "filename" "id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3"
 file: id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -227,9 +227,9 @@ Title: Title0
 Album: Album0
 Track: 2
 Date: 1990
-end command: search filename id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
+end command: search "filename" "id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3"
 
-start command: search filename id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -239,9 +239,9 @@ Album: Album0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: search filename id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -250,9 +250,9 @@ Title: Title0
 Album: Album0
 Date: 1990
 Genre: Rock
-end command: search filename id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
+start command: search "filename" "id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3"
 file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -262,9 +262,9 @@ Album: Album1
 Track: 1
 Date: 1990
 Genre: Rock
-end command: search filename id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
+end command: search "filename" "id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3"
 
-start command: search filename id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
+start command: search "filename" "id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3"
 file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -273,9 +273,9 @@ Title: Title0
 Album: Album1
 Track: 2
 Genre: Rock
-end command: search filename id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
+end command: search "filename" "id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3"
 
-start command: search filename id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+start command: search "filename" "id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3"
 file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -286,9 +286,9 @@ Track: 1
 Date: 1990
 Genre: Rock
 Disc: 1
-end command: search filename id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+end command: search "filename" "id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3"
 
-start command: search filename id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+start command: search "filename" "id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3"
 file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -299,9 +299,9 @@ Track: 1
 Date: 1990
 Genre: Rock
 Disc: 2
-end command: search filename id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+end command: search "filename" "id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3"
 
-start command: search filename id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -310,9 +310,9 @@ Title: Title0
 Track: 8
 Date: 1990
 Genre: Rock
-end command: search filename id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3"
 file: id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -321,9 +321,9 @@ Album: Album0
 Track: 9
 Date: 1990
 Genre: Rock
-end command: search filename id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3"
 file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -333,9 +333,9 @@ Album: Album:0
 Track: 1
 Date: 1990
 Genre: Rock
-end command: search filename specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3"
 file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -345,9 +345,9 @@ Album: Album:0
 Track: 2
 Date: 1990
 Genre: Rock
-end command: search filename specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: search filename specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
+start command: search "filename" "specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3"
 file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -357,57 +357,57 @@ Album: Album:0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: search filename specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
+end command: search "filename" "specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3"
 
-start command: list artist
+start command: list "artist"
 Artist: Artist0
 Artist: Artist1
 Artist: Artist2
 Artist:
-end command: list artist
+end command: list "artist"
 
-start command: list artist
+start command: list "artist"
 Artist: Artist0
 Artist: Artist1
 Artist: Artist2
 Artist:
-end command: list artist
+end command: list "artist"
 
-start command: list album Artist0
+start command: list "album" "Artist0"
 Album:
 Album: Album0
 Album: Album1
-end command: list album Artist0
+end command: list "album" "Artist0"
 
-start command: list album Artist1
+start command: list "album" "Artist1"
 Album: Album:0
 Album:
 Album: Album0
 Album: Album1
 Album: Album3
-end command: list album Artist1
+end command: list "album" "Artist1"
 
-start command: list album Artist2
+start command: list "album" "Artist2"
 Album:
 Album: Album0
 Album: Album1
 Album: Album3
-end command: list album Artist2
+end command: list "album" "Artist2"
 
-start command: list album
+start command: list "album"
 Album: Album:0
 Album:
 Album: Album0
 Album: Album1
 Album: Album3
-end command: list album
+end command: list "album"
 
-start command: list genre
+start command: list "genre"
 Genre:
 Genre: Rock
-end command: list genre
+end command: list "genre"
 
-start command: search any 2
+start command: search "any" "2"
 file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -605,12 +605,12 @@ Album: Album:0
 Track: 2
 Date: 1990
 Genre: Rock
-end command: search any 2
+end command: search "any" "2"
 
-start command: list date
+start command: list "date"
 Date:
 Date: 1990
-end command: list date
+end command: list "date"
 
 start command: stats
 artists: 3
@@ -622,7 +622,7 @@ db_playtime: 155
 db_update: 1385665150
 end command: stats
 
-start command: find artist Artist1
+start command: find "artist" "Artist1"
 file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -728,9 +728,9 @@ Album: Album:0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: find artist Artist1
+end command: find "artist" "Artist1"
 
-start command: find any Artist0
+start command: find "any" "Artist0"
 file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -789,9 +789,9 @@ Title: Title0
 Album: Album1
 Track: 2
 Genre: Rock
-end command: find any Artist0
+end command: find "any" "Artist0"
 
-start command: search album Album
+start command: search "album" "Album"
 file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -1033,9 +1033,9 @@ Album: Album:0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: search album Album
+end command: search "album" "Album"
 
-start command: find artist Artist1
+start command: find "artist" "Artist1"
 file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -1141,9 +1141,9 @@ Album: Album:0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: find artist Artist1
+end command: find "artist" "Artist1"
 
-start command: search album Album
+start command: search "album" "Album"
 file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -1385,7 +1385,7 @@ Album: Album:0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: search album Album
+end command: search "album" "Album"
 
 start command: lsinfo
 directory: id3v1
@@ -1422,7 +1422,7 @@ directory: id3v24
 directory: specialchars
 end command: lsinfo
 
-start command: find genre Rock
+start command: find "genre" "Rock"
 file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -1505,1097 +1505,6 @@ Album: Album0
 Track: 1
 Date: 1990
 Genre: Rock
-file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 1
-file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 2
-file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 1
-file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 2
-file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 1
-Date: 1990
-Genre: Rock
-file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 2
-Date: 1990
-Genre: Rock
-file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 3
-Date: 1990
-Genre: Rock
-end command: find genre Rock
-
-start command: find date 1990
-file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 1
-file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 2
-file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 1
-file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 2
-file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 1
-Date: 1990
-Genre: Rock
-file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 2
-Date: 1990
-Genre: Rock
-file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 3
-Date: 1990
-Genre: Rock
-end command: find date 1990
-
-start command: find album Album1
-file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-end command: find album Album1
-
-start command: search artist Artist
-file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 1
-file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 2
-file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 1
-file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 2
-file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 1
-Date: 1990
-Genre: Rock
-file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 2
-Date: 1990
-Genre: Rock
-file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 3
-Date: 1990
-Genre: Rock
-end command: search artist Artist
-
-start command: lsinfo
-directory: id3v1
-directory: id3v23
-directory: id3v24
-directory: specialchars
-end command: lsinfo
-
-start command: lsinfo id3v1
-file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-end command: lsinfo id3v1
-
-start command: lsinfo
-directory: id3v1
-directory: id3v23
-directory: id3v24
-directory: specialchars
-end command: lsinfo
-
-start command: lsinfo id3v23
-file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 1
-file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 2
-end command: lsinfo id3v23
-
-start command: lsinfo
-directory: id3v1
-directory: id3v23
-directory: id3v24
-directory: specialchars
-end command: lsinfo
-
-start command: lsinfo id3v24
-file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Album: Album0
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 1
-file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist2
-Title: Title0
-Album: Album3
-Track: 1
-Date: 1990
-Genre: Rock
-Disc: 2
-end command: lsinfo id3v24
-
-start command: lsinfo
-directory: id3v1
-directory: id3v23
-directory: id3v24
-directory: specialchars
-end command: lsinfo
-
-start command: lsinfo specialchars
-file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 1
-Date: 1990
-Genre: Rock
-file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 2
-Date: 1990
-Genre: Rock
-file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album:0
-Track: 3
-Date: 1990
-Genre: Rock
-end command: lsinfo specialchars
-
-start command: search title Title
-file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
-file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album0
-Track: 3
-Date: 1990
-Genre: Rock
-file: id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Title: Title0
-Album: Album0
-Track: 9
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 1
-Date: 1990
-Genre: Rock
-file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist0
-Title: Title0
-Album: Album1
-Track: 2
-Genre: Rock
-file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Track: 8
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Date: 1990
-Genre: Rock
-file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
-Last-Modified: 2013-11-28T17:34:16Z
-Time: 5
-Artist: Artist1
-Title: Title0
-Album: Album0
-Track: 2
-Date: 1990
 file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -2666,6 +1575,1097 @@ Title: Title0
 Album: Album0
 Date: 1990
 Genre: Rock
+file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 1
+file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 2
+file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 1
+Date: 1990
+Genre: Rock
+file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 2
+Date: 1990
+Genre: Rock
+file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 3
+Date: 1990
+Genre: Rock
+end command: find "genre" "Rock"
+
+start command: find "date" "1990"
+file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 1
+file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 2
+file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 1
+file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 2
+file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 1
+Date: 1990
+Genre: Rock
+file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 2
+Date: 1990
+Genre: Rock
+file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 3
+Date: 1990
+Genre: Rock
+end command: find "date" "1990"
+
+start command: find "album" "Album1"
+file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+end command: find "album" "Album1"
+
+start command: search "artist" "Artist"
+file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 1
+file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 2
+file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 1
+file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 2
+file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 1
+Date: 1990
+Genre: Rock
+file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 2
+Date: 1990
+Genre: Rock
+file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 3
+Date: 1990
+Genre: Rock
+end command: search "artist" "Artist"
+
+start command: lsinfo
+directory: id3v1
+directory: id3v23
+directory: id3v24
+directory: specialchars
+end command: lsinfo
+
+start command: lsinfo "id3v1"
+file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+end command: lsinfo "id3v1"
+
+start command: lsinfo
+directory: id3v1
+directory: id3v23
+directory: id3v24
+directory: specialchars
+end command: lsinfo
+
+start command: lsinfo "id3v23"
+file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 1
+file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 2
+end command: lsinfo "id3v23"
+
+start command: lsinfo
+directory: id3v1
+directory: id3v23
+directory: id3v24
+directory: specialchars
+end command: lsinfo
+
+start command: lsinfo "id3v24"
+file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-1-null-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Album: Album0
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v24/Artist2-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v24/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 1
+file: id3v24/Artist2-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 2
+end command: lsinfo "id3v24"
+
+start command: lsinfo
+directory: id3v1
+directory: id3v23
+directory: id3v24
+directory: specialchars
+end command: lsinfo
+
+start command: lsinfo "specialchars"
+file: specialchars/Artist1-Album[colon]0-1-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 1
+Date: 1990
+Genre: Rock
+file: specialchars/Artist1-Album[colon]0-2-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 2
+Date: 1990
+Genre: Rock
+file: specialchars/Artist1-Album[colon]0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album:0
+Track: 3
+Date: 1990
+Genre: Rock
+end command: lsinfo "specialchars"
+
+start command: search "title" "Title"
+file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v1/Artist0-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v1/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v1/Artist0-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist0
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v23/Artist1-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album0-2-Title0-1990-null-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Track: 2
+Date: 1990
+file: id3v23/Artist1-Album0-3-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album0
+Track: 3
+Date: 1990
+Genre: Rock
+file: id3v23/null-Album0-9-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Title: Title0
+Album: Album0
+Track: 9
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album1-1-Title0-1990-Rock-null-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 1
+Date: 1990
+Genre: Rock
+file: id3v23/Artist1-Album1-2-Title0-null-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album1
+Track: 2
+Genre: Rock
+file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-1.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 1
+file: id3v23/Artist1-Album3-1-Title0-1990-Rock-Comment0-2.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist1
+Title: Title0
+Album: Album3
+Track: 1
+Date: 1990
+Genre: Rock
+Disc: 2
+file: id3v24/Artist2-null-8-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Track: 8
+Date: 1990
+Genre: Rock
+file: id3v24/Artist2-Album0-null-Title0-1990-Rock-Comment0-null.mp3
+Last-Modified: 2013-11-28T17:34:16Z
+Time: 5
+Artist: Artist2
+Title: Title0
+Album: Album0
+Date: 1990
+Genre: Rock
 file: id3v24/Artist2-Album0-2-Title0-1990-null-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -2755,7 +2755,7 @@ Album: Album:0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: search title Title
+end command: search "title" "Title"
 
 start command: stats
 artists: 3
@@ -2767,7 +2767,7 @@ db_playtime: 155
 db_update: 1385665150
 end command: stats
 
-start command: find album Album1
+start command: find "album" "Album1"
 file: id3v1/Artist0-Album1-1-Title0-1990-Rock-null-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -2819,9 +2819,9 @@ Title: Title0
 Album: Album1
 Track: 2
 Genre: Rock
-end command: find album Album1
+end command: find "album" "Album1"
 
-start command: find genre Rock
+start command: find "genre" "Rock"
 file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -3063,7 +3063,7 @@ Album: Album:0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: find genre Rock
+end command: find "genre" "Rock"
 
 start command: stats
 artists: 3
@@ -3075,7 +3075,7 @@ db_playtime: 155
 db_update: 1385665150
 end command: stats
 
-start command: search artist Artist
+start command: search "artist" "Artist"
 file: id3v1/Artist0-null-8-Title0-1990-Rock-Comment0-null.mp3
 Last-Modified: 2013-11-28T17:34:16Z
 Time: 5
@@ -3317,12 +3317,12 @@ Album: Album:0
 Track: 3
 Date: 1990
 Genre: Rock
-end command: search artist Artist
+end command: search "artist" "Artist"
 
-start command: search title "Title 1"
-end command: search title "Title 1"
+start command: search "title" "Title 1"
+end command: search "title" "Title 1"
 
-start command: list genre
+start command: list "genre"
 Genre:
 Genre: Rock
-end command: list genre
+end command: list "genre"
