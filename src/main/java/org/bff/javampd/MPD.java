@@ -123,14 +123,15 @@ public class MPD implements Server {
             this.port = port;
             this.timeout = timeout;
 
-            bind();
-
-            this.commandExecutor.setMpd(this);
-            this.version = commandExecutor.getMPDVersion();
+            Injector injector = Guice.createInjector(new MPDModule());
+            bind(injector);
 
             if (password != null) {
                 authenticate(password);
             }
+
+            bindMonitorAndRelay(injector);
+            this.version = commandExecutor.getMPDVersion();
         } catch (Exception e) {
             throw new MPDConnectionException(e);
         }
@@ -142,8 +143,7 @@ public class MPD implements Server {
      * @throws IOException            if there is a problem connecting to the server
      * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    private void bind() throws MPDConnectionException {
-        Injector injector = Guice.createInjector(new MPDModule());
+    private void bind(Injector injector) throws MPDConnectionException {
         this.serverProperties = injector.getInstance(ServerProperties.class);
         this.database = injector.getInstance(Database.class);
         this.player = injector.getInstance(Player.class);
@@ -151,12 +151,15 @@ public class MPD implements Server {
         this.admin = injector.getInstance(Admin.class);
         this.serverStatistics = injector.getInstance(ServerStatistics.class);
         this.serverStatus = injector.getInstance(ServerStatus.class);
-        this.commandExecutor = injector.getInstance(CommandExecutor.class);
-        this.standAloneMonitor = injector.getInstance(StandAloneMonitor.class);
-        this.eventRelayer = injector.getInstance(EventRelayer.class);
 
+        this.commandExecutor = injector.getInstance(CommandExecutor.class);
         this.commandExecutor.setMpd(this);
+    }
+
+    private void bindMonitorAndRelay(Injector injector) {
+        this.standAloneMonitor = injector.getInstance(StandAloneMonitor.class);
         this.standAloneMonitor.setServer(this);
+        this.eventRelayer = injector.getInstance(EventRelayer.class);
         this.eventRelayer.setServer(this);
     }
 
