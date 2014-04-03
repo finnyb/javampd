@@ -34,11 +34,9 @@ public class TestMPDCommandExecutor extends MPDCommandExecutor {
         StringBuilder sb = new StringBuilder(command);
         if (params != null) {
             for (String param : params) {
-                if (param != null) {
+                if (param != null && !param.isEmpty()) {
                     param = param.replaceAll("\"", "\\\\\"");
-                    sb.append(param.contains(" ") ? " \"" : " ");
-                    sb.append(param);
-                    sb.append(param.contains(" ") ? "\"" : "");
+                    sb.append(" \"").append(param).append("\"");
                 }
             }
             sb.append("\n");
