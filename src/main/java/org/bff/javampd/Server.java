@@ -29,7 +29,7 @@ public interface Server {
      *
      * @return the version of the MPD
      */
-    String getVersion();
+    String getVersion() throws MPDResponseException;
 
     /**
      * Determines if there is a connection to the MPD server.

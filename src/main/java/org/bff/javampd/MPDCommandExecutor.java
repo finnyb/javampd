@@ -17,6 +17,7 @@ import java.util.List;
 public class MPDCommandExecutor implements CommandExecutor {
 
     private MPDSocket mpdSocket;
+    private MPD mpd;
 
     /**
      * You <b>MUST</b> call {@link #setMpd} before
@@ -65,8 +66,12 @@ public class MPDCommandExecutor implements CommandExecutor {
     }
 
     private void checkSocket() throws MPDConnectionException {
+        if (mpd == null) {
+            throw new MPDConnectionException("Socket could not be established.  Was mpd set?");
+        }
+
         if (mpdSocket == null) {
-            throw new MPDConnectionException("Socket not established.  Was mpd set?");
+            mpdSocket = new MPDSocket(mpd.getAddress(), mpd.getPort(), mpd.getTimeout());
         }
     }
 
@@ -82,6 +87,6 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     @Override
     public void setMpd(MPD mpd) throws MPDConnectionException {
-        mpdSocket = new MPDSocket(mpd.getAddress(), mpd.getPort(), mpd.getTimeout());
+        this.mpd = mpd;
     }
 }

@@ -125,13 +125,13 @@ public class MPD implements Server {
 
             Injector injector = Guice.createInjector(new MPDModule());
             bind(injector);
+            this.commandExecutor.setMpd(this);
 
             if (password != null) {
                 authenticate(password);
             }
 
             bindMonitorAndRelay(injector);
-            this.version = commandExecutor.getMPDVersion();
         } catch (Exception e) {
             throw new MPDConnectionException(e);
         }
@@ -153,7 +153,6 @@ public class MPD implements Server {
         this.serverStatus = injector.getInstance(ServerStatus.class);
 
         this.commandExecutor = injector.getInstance(CommandExecutor.class);
-        this.commandExecutor.setMpd(this);
     }
 
     private void bindMonitorAndRelay(Injector injector) {
@@ -174,8 +173,8 @@ public class MPD implements Server {
     }
 
     @Override
-    public String getVersion() {
-        return version;
+    public String getVersion() throws MPDResponseException {
+        return commandExecutor.getMPDVersion();
     }
 
     @Override

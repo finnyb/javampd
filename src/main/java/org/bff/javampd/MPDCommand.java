@@ -32,7 +32,7 @@ public class MPDCommand {
      * @param command the parameterless command to send.
      */
     public MPDCommand(String command) {
-        this(command, new String[]{null});
+        this(command, new String[]{});
     }
 
     /**
@@ -54,7 +54,9 @@ public class MPDCommand {
     public MPDCommand(String command, String... parameters) {
         this.command = command;
         this.params = new ArrayList<String>();
-        Collections.addAll(this.params, Arrays.copyOf(parameters, parameters.length));
+        if (parameters.length > 0) {
+            Collections.addAll(this.params, Arrays.copyOf(parameters, parameters.length));
+        }
     }
 
     /**
