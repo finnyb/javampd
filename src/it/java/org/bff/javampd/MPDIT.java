@@ -13,8 +13,25 @@ import java.util.logging.Logger;
 public class MPDIT extends BaseTest {
 
     @Test
-    public void testVersion() {
+    public void testVersion() throws MPDResponseException {
         Assert.assertEquals(TestProperties.getVersion(), getMpd().getVersion());
+    }
+
+    @Test
+    public void testClearError() throws IOException, MPDException {
+        MPD mpd = null;
+        try {
+            mpd = getNewMpd();
+            mpd.clearerror();
+        } finally {
+            if (mpd != null) {
+                try {
+                    mpd.close();
+                } catch (MPDResponseException ex) {
+                    Logger.getLogger(MPDIT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 
     @Test
@@ -31,7 +48,6 @@ public class MPDIT extends BaseTest {
                 }
             }
         }
-
     }
 
     @Test(expected = MPDConnectionException.class)
@@ -50,7 +66,7 @@ public class MPDIT extends BaseTest {
         }
     }
 
-    @Test(expected = MPDConnectionException.class)
+    @Test(expected = MPDResponseException.class)
     public void testTimeout() throws MPDException, IOException {
         MPD mpd = null;
         TestProperties testProperties = TestProperties.getInstance();
@@ -58,6 +74,7 @@ public class MPDIT extends BaseTest {
             mpd = new MPD("10.255.255.1",
                     testProperties.getPort(),
                     500);
+            mpd.getVersion();
         } finally {
             if (mpd != null) {
                 try {

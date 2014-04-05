@@ -60,7 +60,7 @@ public class MPDAdminTest {
         MPDOutput output = new ArrayList<>(mpdAdmin.getOutputs()).get(0);
         mpdAdmin.disableOutput(output);
         verify(mpdCommandExecutor).sendCommand(commandArgumentCaptor.capture(), integerParamArgumentCaptor.capture());
-        assertEquals("disableoutput", commandArgumentCaptor.getValue());
+        assertEquals(adminProperties.getOutputDisable(), commandArgumentCaptor.getValue());
         assertEquals(0, integerParamArgumentCaptor.getValue());
     }
 
@@ -69,7 +69,7 @@ public class MPDAdminTest {
         MPDOutput output = new ArrayList<>(mpdAdmin.getOutputs()).get(0);
         mpdAdmin.enableOutput(output);
         verify(mpdCommandExecutor).sendCommand(commandArgumentCaptor.capture(), integerParamArgumentCaptor.capture());
-        assertEquals("enableoutput", commandArgumentCaptor.getValue());
+        assertEquals(adminProperties.getOutputEnable(), commandArgumentCaptor.getValue());
         assertEquals(0, integerParamArgumentCaptor.getValue());
     }
 
@@ -77,21 +77,21 @@ public class MPDAdminTest {
     public void killMPD() throws MPDException {
         mpdAdmin.killMPD();
         verify(mpdCommandExecutor).sendCommand(commandArgumentCaptor.capture());
-        assertEquals("kill", commandArgumentCaptor.getValue());
+        assertEquals(adminProperties.getKill(), commandArgumentCaptor.getValue());
     }
 
     @Test
     public void updateDatabase() throws MPDException {
         mpdAdmin.updateDatabase();
         verify(mpdCommandExecutor).sendCommand(commandArgumentCaptor.capture());
-        assertEquals("update", commandArgumentCaptor.getValue());
+        assertEquals(adminProperties.getRefresh(), commandArgumentCaptor.getValue());
     }
 
     @Test
     public void updateDatabaseWithPath() throws MPDException {
         mpdAdmin.updateDatabase("testPath");
         verify(mpdCommandExecutor).sendCommand(commandArgumentCaptor.capture(), stringParamArgumentCaptor.capture());
-        assertEquals("update", commandArgumentCaptor.getValue());
+        assertEquals(adminProperties.getRefresh(), commandArgumentCaptor.getValue());
         assertEquals("testPath", stringParamArgumentCaptor.getValue());
     }
 
@@ -113,10 +113,12 @@ public class MPDAdminTest {
     private void setUpMocks() throws MPDResponseException {
         when(mpdCommandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
 
-        when(adminProperties.getOutputs()).thenReturn(new AdminProperties().getOutputs());
-        when(adminProperties.getKill()).thenReturn(new AdminProperties().getKill());
-        when(adminProperties.getOutputDisable()).thenReturn(new AdminProperties().getOutputDisable());
-        when(adminProperties.getOutputEnable()).thenReturn(new AdminProperties().getOutputEnable());
-        when(adminProperties.getRefresh()).thenReturn(new AdminProperties().getRefresh());
+        AdminProperties realAdminProperties = new AdminProperties();
+
+        when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
+        when(adminProperties.getKill()).thenReturn(realAdminProperties.getKill());
+        when(adminProperties.getOutputDisable()).thenReturn(realAdminProperties.getOutputDisable());
+        when(adminProperties.getOutputEnable()).thenReturn(realAdminProperties.getOutputEnable());
+        when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
     }
 }
