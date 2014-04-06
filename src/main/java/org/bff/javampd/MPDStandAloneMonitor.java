@@ -238,10 +238,10 @@ public class MPDStandAloneMonitor
                     this.wait(delay);
                 }
             } catch (InterruptedException ie) {
-                logger.error("Thread interrupted", ie);
+                LOGGER.error("Thread interrupted", ie);
                 setStopped(true);
             } catch (MPDException mpdException) {
-                logger.error("Error while checking statuses", mpdException);
+                LOGGER.error("Error while checking statuses", mpdException);
                 fireConnectionChangeEvent(false, mpdException.getMessage());
                 boolean retry = true;
 
@@ -249,7 +249,7 @@ public class MPDStandAloneMonitor
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException ex) {
-                        logger.error("StandAloneMonitor interrupted", ex);
+                        LOGGER.error("StandAloneMonitor interrupted", ex);
                     }
 
                     checkConnection();
@@ -536,7 +536,7 @@ public class MPDStandAloneMonitor
                 error = line.substring(ERROR.getStatusPrefix().length()).trim();
                 break;
             default:
-                logger.debug("Could not find status response {}", line);
+                LOGGER.debug("Could not find status response {}", line);
                 break;
         }
     }
@@ -547,7 +547,7 @@ public class MPDStandAloneMonitor
                 return statusList;
             }
         }
-        logger.debug("Could not find status response {}", status);
+        LOGGER.debug("Could not find status response {}", status);
         return null;
     }
 }
