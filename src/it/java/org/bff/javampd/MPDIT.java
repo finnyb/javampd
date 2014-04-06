@@ -71,10 +71,11 @@ public class MPDIT extends BaseTest {
         MPD mpd = null;
         TestProperties testProperties = TestProperties.getInstance();
         try {
-            mpd = new MPD("10.255.255.1",
-                    testProperties.getPort(),
-                    500);
-            mpd.getVersion();
+            mpd = new MPD.Builder()
+                    .server("10.255.255.1")
+                    .port(testProperties.getPort())
+                    .timeout(500)
+                    .build();
         } finally {
             if (mpd != null) {
                 try {
