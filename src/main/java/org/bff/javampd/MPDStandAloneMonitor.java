@@ -37,7 +37,7 @@ public class MPDStandAloneMonitor
         extends MPDEventMonitor
         implements StandAloneMonitor {
 
-    private Logger logger = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
 
     @Inject
     private Admin admin;
@@ -267,7 +267,7 @@ public class MPDStandAloneMonitor
             List<String> response = new ArrayList<String>(serverStatus.getStatus());
             processResponse(response);
         } catch (MPDException ex) {
-            logger.error("Problem with initialization", ex);
+            LOGGER.error("Problem with initialization", ex);
         }
     }
 

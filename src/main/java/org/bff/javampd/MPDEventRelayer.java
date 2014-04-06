@@ -33,7 +33,7 @@ public class MPDEventRelayer
         extends MPDEventMonitor
         implements EventRelayer {
 
-    private final Logger logger = LoggerFactory.getLogger(MPDEventRelayer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDEventRelayer.class);
 
     private final int delay;
     private boolean stopped;
@@ -213,7 +213,7 @@ public class MPDEventRelayer
                 checkConnection();
                 this.wait(delay);
             } catch (Exception e) {
-                logger.error("Problem in relayer thread", e);
+                LOGGER.error("Problem in relayer thread", e);
             }
         }
     }

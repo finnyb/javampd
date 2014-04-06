@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class MPDDatabase implements Database {
 
-    private final Logger logger = LoggerFactory.getLogger(MPDDatabase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDDatabase.class);
     @Inject
     private DatabaseProperties databaseProperties;
     @Inject
@@ -259,7 +259,7 @@ public class MPDDatabase implements Database {
                     retList.add(song);
                 }
             } catch (Exception e) {
-                logger.error("Problem searching for title", e);
+                LOGGER.error("Problem searching for title", e);
             }
         }
 
@@ -471,7 +471,7 @@ public class MPDDatabase implements Database {
             try {
                 retList.add(s.substring(s.split(":")[0].length() + 1).trim());
             } catch (ArrayIndexOutOfBoundsException e) {
-                logger.error("Problem with response array {}", s, e);
+                LOGGER.error("Problem with response array {}", s, e);
                 retList.add("");
             }
         }

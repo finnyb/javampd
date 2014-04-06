@@ -44,7 +44,7 @@ public class MPD implements Server {
     private StandAloneMonitor standAloneMonitor;
     private EventRelayer eventRelayer;
 
-    private final Logger logger = LoggerFactory.getLogger(MPD.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
 
     /**
      * Establishes a new mpd instance using default server values
@@ -190,7 +190,7 @@ public class MPD implements Server {
         try {
             commandExecutor.sendCommand(serverProperties.getPing());
         } catch (MPDException e) {
-            logger.error("Could not ping MPD", e);
+            LOGGER.error("Could not ping MPD", e);
             return false;
         }
         return true;
