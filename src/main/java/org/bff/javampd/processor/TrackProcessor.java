@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TrackProcessor extends SongResponseProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(TrackProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrackProcessor.class);
 
     public TrackProcessor() {
         super("Track:");
@@ -22,7 +22,7 @@ public class TrackProcessor extends SongResponseProcessor {
         try {
             return Integer.parseInt(track.split("/")[0]);
         } catch (NumberFormatException nfe) {
-            logger.error("Unable to format track", nfe);
+            LOGGER.error("Unable to format track", nfe);
         }
 
         return 0;

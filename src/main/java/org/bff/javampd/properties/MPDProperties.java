@@ -14,7 +14,7 @@ import java.util.Properties;
  * @author bill
  */
 public abstract class MPDProperties implements PropertyLoader {
-    private static final Logger logger = LoggerFactory.getLogger(MPDProperties.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDProperties.class);
 
     private Properties prop;
 
@@ -37,12 +37,12 @@ public abstract class MPDProperties implements PropertyLoader {
         try {
             prop.load(is);
         } catch (Exception e) {
-            logger.error("Could not load properties values", e);
+            LOGGER.error("Could not load properties values", e);
         } finally {
             try {
                 is.close();
             } catch (IOException ex) {
-                logger.error("Could not close properties file stream", ex);
+                LOGGER.error("Could not close properties file stream", ex);
             }
         }
     }

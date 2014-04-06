@@ -44,7 +44,7 @@ public class MPDPlayer implements Player {
     @Inject
     private CommandExecutor commandExecutor;
 
-    private static final Logger logger = LoggerFactory.getLogger(MPDPlayer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlayer.class);
 
     public MPDPlayer() {
         this.volumeChangeDelegate = new VolumeChangeDelegate();
@@ -377,7 +377,7 @@ public class MPDPlayer implements Player {
         try {
             info.setSampleRate(Integer.parseInt(sampleRate));
         } catch (NumberFormatException nfe) {
-            logger.error("Could not format sample rate", nfe);
+            LOGGER.error("Could not format sample rate", nfe);
             info.setSampleRate(-1);
         }
     }
@@ -404,7 +404,7 @@ public class MPDPlayer implements Player {
         try {
             info.setChannels(Integer.parseInt(channels));
         } catch (NumberFormatException nfe) {
-            logger.error("Could not format channels", nfe);
+            LOGGER.error("Could not format channels", nfe);
             info.setChannels(-1);
         }
     }
@@ -413,7 +413,7 @@ public class MPDPlayer implements Player {
         try {
             info.setBits(Integer.parseInt(bitRate));
         } catch (NumberFormatException nfe) {
-            logger.error("Could not format bits", nfe);
+            LOGGER.error("Could not format bits", nfe);
             info.setBits(-1);
         }
     }
