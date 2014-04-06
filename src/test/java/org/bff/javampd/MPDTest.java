@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -114,5 +116,20 @@ public class MPDTest {
     @Test
     public void testGetStandaloneMonitor() throws Exception {
         assertNotNull(mpd.getMonitor());
+    }
+
+    @Test
+    public void testPort() {
+        assertEquals(6600, mpd.getPort());
+    }
+
+    @Test
+    public void testAddress() throws UnknownHostException {
+        assertEquals(InetAddress.getByName("localhost"), mpd.getAddress());
+    }
+
+    @Test
+    public void testTimeout() {
+        assertEquals(0, mpd.getTimeout());
     }
 }

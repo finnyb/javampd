@@ -27,7 +27,6 @@ public class MPD implements Server {
 
     private int port;
     private InetAddress address;
-    private String version;
     private int timeout;
 
     private static final int MPD_DEFAULT_PORT = 6600;
@@ -201,26 +200,14 @@ public class MPD implements Server {
         return port;
     }
 
-    public void setPort(int port) {
-        this.port = port;
-    }
-
     @Override
     public InetAddress getAddress() {
         return address;
     }
 
-    public void setAddress(InetAddress address) {
-        this.address = address;
-    }
-
     @Override
     public int getTimeout() {
         return timeout;
-    }
-
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
     }
 
     @Override
