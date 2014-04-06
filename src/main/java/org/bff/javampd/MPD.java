@@ -44,7 +44,7 @@ public class MPD implements Server {
     private StandAloneMonitor standAloneMonitor;
     private EventRelayer eventRelayer;
 
-    private final Logger logger = LoggerFactory.getLogger(MPD.class);
+    private static final Logger logger = LoggerFactory.getLogger(MPD.class);
 
     /**
      * Establishes a new mpd instance using default server values

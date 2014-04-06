@@ -33,7 +33,7 @@ public class MPDEventRelayer
         extends MPDEventMonitor
         implements EventRelayer {
 
-    private final Logger logger = LoggerFactory.getLogger(MPDEventRelayer.class);
+    private static final Logger logger = LoggerFactory.getLogger(MPDEventRelayer.class);
 
     private final int delay;
     private boolean stopped;

@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TrackProcessor extends SongResponseProcessor {
-    private static Logger logger = LoggerFactory.getLogger(TrackProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(TrackProcessor.class);
 
     public TrackProcessor() {
         super("Track:");

@@ -44,7 +44,7 @@ public class MPDPlayer implements Player {
     @Inject
     private CommandExecutor commandExecutor;
 
-    private final Logger logger = LoggerFactory.getLogger(MPDPlayer.class);
+    private static final Logger logger = LoggerFactory.getLogger(MPDPlayer.class);
 
     public MPDPlayer() {
         this.volumeChangeDelegate = new VolumeChangeDelegate();

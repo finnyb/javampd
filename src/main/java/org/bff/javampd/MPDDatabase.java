@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class MPDDatabase implements Database {
 
-    private final Logger logger = LoggerFactory.getLogger(MPDDatabase.class);
+    private static final Logger logger = LoggerFactory.getLogger(MPDDatabase.class);
     @Inject
     private DatabaseProperties databaseProperties;
     @Inject

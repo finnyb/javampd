@@ -37,7 +37,7 @@ public class MPDStandAloneMonitor
         extends MPDEventMonitor
         implements StandAloneMonitor {
 
-    private Logger logger = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
+    private static final Logger logger = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
 
     @Inject
     private Admin admin;
@@ -91,14 +91,6 @@ public class MPDStandAloneMonitor
         createListeners();
         this.outputMap = new HashMap<Integer, MPDOutput>();
         this.serverStatus = serverStatus;
-
-        try {
-            //initial load so no events fired
-            List<String> response = new ArrayList<String>(serverStatus.getStatus());
-            processResponse(response);
-        } catch (MPDException ex) {
-            logger.error("Problem with initialization", ex);
-        }
     }
 
     private synchronized void createListeners() {
@@ -225,6 +217,8 @@ public class MPDStandAloneMonitor
 
     @Override
     public void run() {
+        loadInitialStatus();
+
         List<String> response;
         while (!isStopped()) {
 
@@ -264,6 +258,16 @@ public class MPDStandAloneMonitor
                     }
                 }
             }
+        }
+    }
+
+    private void loadInitialStatus() {
+        try {
+            //initial load so no events fired
+            List<String> response = new ArrayList<String>(serverStatus.getStatus());
+            processResponse(response);
+        } catch (MPDException ex) {
+            logger.error("Problem with initialization", ex);
         }
     }
 

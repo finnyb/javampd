@@ -14,7 +14,7 @@ import java.util.Properties;
  * @author bill
  */
 public abstract class MPDProperties implements PropertyLoader {
-    private Logger logger = LoggerFactory.getLogger(MPDProperties.class);
+    private static final Logger logger = LoggerFactory.getLogger(MPDProperties.class);
 
     private Properties prop;
 

@@ -23,7 +23,7 @@ import java.util.List;
  * @author Bill
  */
 public class MPDAdmin implements Admin {
-    private final Logger logger = LoggerFactory.getLogger(MPDAdmin.class);
+    private static final Logger logger = LoggerFactory.getLogger(MPDAdmin.class);
 
     private List<MPDChangeListener> listeners =
             new ArrayList<MPDChangeListener>();
