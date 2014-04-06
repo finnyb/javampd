@@ -182,7 +182,7 @@ public class MPD implements Server {
         return ping();
     }
 
-    private void authenticate(String password) throws MPDResponseException {
+    public void authenticate(String password) throws MPDResponseException {
         commandExecutor.sendCommand(serverProperties.getPassword(), password);
     }
 

@@ -1,6 +1,7 @@
 package org.bff.javampd;
 
 import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.properties.ServerProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -20,6 +21,9 @@ public class MPDTest {
     @Mock
     private MPDCommandExecutor mpdCommandExecutor;
 
+    @Mock
+    private ServerProperties serverProperties;
+
     @Captor
     private ArgumentCaptor<String> commandArgumentCaptor;
 
@@ -28,20 +32,22 @@ public class MPDTest {
 
     @Test
     public void testClearError() throws Exception {
-        when(mpdCommandExecutor.sendCommand("clearerror")).thenReturn(new ArrayList<String>());
+        when(serverProperties.getClearError()).thenReturn(new ServerProperties().getClearError());
+        when(mpdCommandExecutor.sendCommand(serverProperties.getClearError())).thenReturn(new ArrayList<String>());
 
         mpd.clearerror();
         verify(mpdCommandExecutor).sendCommand(commandArgumentCaptor.capture());
-        assertEquals("clearerror", commandArgumentCaptor.getValue());
+        assertEquals(serverProperties.getClearError(), commandArgumentCaptor.getValue());
     }
 
     @Test
     public void testClose() throws Exception {
-        when(mpdCommandExecutor.sendCommand("close")).thenReturn(new ArrayList<String>());
+        when(serverProperties.getClose()).thenReturn(new ServerProperties().getClose());
+        when(mpdCommandExecutor.sendCommand(serverProperties.getClose())).thenReturn(new ArrayList<String>());
 
         mpd.close();
         verify(mpdCommandExecutor).sendCommand(commandArgumentCaptor.capture());
-        assertEquals("close", commandArgumentCaptor.getValue());
+        assertEquals(serverProperties.getClose(), commandArgumentCaptor.getValue());
     }
 
     @Test
@@ -52,14 +58,27 @@ public class MPDTest {
 
     @Test
     public void testIsConnected() throws Exception {
-        when(mpdCommandExecutor.sendCommand("ping")).thenReturn(new ArrayList<String>());
+        when(serverProperties.getPing()).thenReturn(new ServerProperties().getPing());
+        when(mpdCommandExecutor.sendCommand(serverProperties.getPing())).thenReturn(new ArrayList<String>());
         assertTrue(mpd.isConnected());
     }
 
     @Test
     public void testNotConnected() throws Exception {
-        when(mpdCommandExecutor.sendCommand("ping")).thenThrow(new MPDResponseException());
+        when(serverProperties.getPing()).thenReturn(new ServerProperties().getPing());
+        when(mpdCommandExecutor.sendCommand(serverProperties.getPing())).thenThrow(new MPDResponseException());
         assertFalse(mpd.isConnected());
+    }
+
+    @Test
+    public void testAuthenticate() throws Exception {
+        when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
+        when(mpdCommandExecutor.sendCommand(serverProperties.getPassword())).thenReturn(new ArrayList<String>());
+        mpd.authenticate("thepassword");
+        verify(mpdCommandExecutor).sendCommand(commandArgumentCaptor.capture(), commandArgumentCaptor.capture());
+
+        assertEquals(serverProperties.getPassword(), commandArgumentCaptor.getAllValues().get(0));
+        assertEquals("thepassword", commandArgumentCaptor.getAllValues().get(1));
     }
 
     @Test
@@ -70,5 +89,30 @@ public class MPDTest {
     @Test
     public void testGetServerStatus() throws Exception {
         assertNotNull(mpd.getServerStatus());
+    }
+
+    @Test
+    public void testGetPlayer() throws Exception {
+        assertNotNull(mpd.getPlayer());
+    }
+
+    @Test
+    public void testGetPlaylist() throws Exception {
+        assertNotNull(mpd.getPlaylist());
+    }
+
+    @Test
+    public void testGetAdmin() throws Exception {
+        assertNotNull(mpd.getAdmin());
+    }
+
+    @Test
+    public void testGetDatabase() throws Exception {
+        assertNotNull(mpd.getDatabase());
+    }
+
+    @Test
+    public void testGetStandaloneMonitor() throws Exception {
+        assertNotNull(mpd.getMonitor());
     }
 }
