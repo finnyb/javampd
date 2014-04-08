@@ -1,7 +1,9 @@
 package org.bff.javampd;
 
+import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.properties.ServerProperties;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -30,7 +32,14 @@ public class MPDTest {
     private ArgumentCaptor<String> commandArgumentCaptor;
 
     @InjectMocks
+    private MPD.Builder mpdBuilder;
+
     private MPD mpd;
+
+    @Before
+    public void before() throws MPDConnectionException {
+        this.mpd = mpdBuilder.build();
+    }
 
     @Test
     public void testClearError() throws Exception {

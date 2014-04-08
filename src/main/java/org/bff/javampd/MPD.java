@@ -62,45 +62,27 @@ public class MPD implements Server {
             this.address = InetAddress.getByName(builder.server);
             this.port = builder.port;
             this.timeout = builder.timeout;
+            this.serverProperties = builder.serverProperties;
+            this.commandExecutor = builder.commandExecutor;
+            this.database = builder.database;
+            this.player = builder.player;
+            this.playlist = builder.playlist;
+            this.admin = builder.admin;
+            this.serverStatistics = builder.serverStatistics;
+            this.serverStatus = builder.serverStatus;
+            this.standAloneMonitor = builder.standAloneMonitor;
+            this.eventRelayer = builder.eventRelayer;
 
-            Injector injector = Guice.createInjector(new MPDModule());
-            bind(injector);
             this.commandExecutor.setMpd(this);
+            this.standAloneMonitor.setServer(this);
+            this.eventRelayer.setServer(this);
 
             if (builder.password != null) {
                 authenticate(builder.password);
             }
-
-            bindMonitorAndRelay(injector);
         } catch (Exception e) {
             throw new MPDConnectionException(e);
         }
-    }
-
-
-    /**
-     * Performs dependency injection
-     *
-     * @throws IOException            if there is a problem connecting to the server
-     * @throws MPDConnectionException if there is a problem sending the command to the server
-     */
-    private void bind(Injector injector) throws MPDConnectionException {
-        this.serverProperties = injector.getInstance(ServerProperties.class);
-        this.database = injector.getInstance(Database.class);
-        this.player = injector.getInstance(Player.class);
-        this.playlist = injector.getInstance(Playlist.class);
-        this.admin = injector.getInstance(Admin.class);
-        this.serverStatistics = injector.getInstance(ServerStatistics.class);
-        this.serverStatus = injector.getInstance(ServerStatus.class);
-
-        this.commandExecutor = injector.getInstance(CommandExecutor.class);
-    }
-
-    private void bindMonitorAndRelay(Injector injector) {
-        this.standAloneMonitor = injector.getInstance(StandAloneMonitor.class);
-        this.standAloneMonitor.setServer(this);
-        this.eventRelayer = injector.getInstance(EventRelayer.class);
-        this.eventRelayer.setServer(this);
     }
 
     @Override
@@ -192,7 +174,23 @@ public class MPD implements Server {
         private String server = DEFAULT_SERVER;
         private int timeout = DEFAULT_TIMEOUT;
         private String password;
+        private ServerProperties serverProperties;
+        private CommandExecutor commandExecutor;
+        private Database database;
+        private Player player;
+        private Playlist playlist;
+        private Admin admin;
+        private ServerStatistics serverStatistics;
+        private ServerStatus serverStatus;
+        private StandAloneMonitor standAloneMonitor;
+        private EventRelayer eventRelayer;
 
+        public Builder() {
+            Injector injector = Guice.createInjector(new MPDModule());
+            bind(injector);
+            bindMonitorAndRelay(injector);
+
+        }
         public Builder server(String server) throws UnknownHostException {
             this.server = server;
             return this;
@@ -215,6 +213,29 @@ public class MPD implements Server {
 
         public MPD build() throws MPDConnectionException {
             return new MPD(this);
+        }
+
+        /**
+         * Performs dependency injection
+         *
+         * @throws IOException            if there is a problem connecting to the server
+         * @throws MPDConnectionException if there is a problem sending the command to the server
+         */
+        private void bind(Injector injector) {
+            this.serverProperties = injector.getInstance(ServerProperties.class);
+            this.database = injector.getInstance(Database.class);
+            this.player = injector.getInstance(Player.class);
+            this.playlist = injector.getInstance(Playlist.class);
+            this.admin = injector.getInstance(Admin.class);
+            this.serverStatistics = injector.getInstance(ServerStatistics.class);
+            this.serverStatus = injector.getInstance(ServerStatus.class);
+
+            this.commandExecutor = injector.getInstance(CommandExecutor.class);
+        }
+
+        private void bindMonitorAndRelay(Injector injector) {
+            this.standAloneMonitor = injector.getInstance(StandAloneMonitor.class);
+            this.eventRelayer = injector.getInstance(EventRelayer.class);
         }
     }
 }

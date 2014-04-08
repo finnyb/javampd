@@ -11,7 +11,6 @@ import org.bff.javampd.properties.*;
 public class MPDModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind(Server.class).to(MPD.class);
         bind(Admin.class).to(MPDAdmin.class);
         bind(Database.class).to(MPDDatabase.class);
         bind(Player.class).to(MPDPlayer.class);
