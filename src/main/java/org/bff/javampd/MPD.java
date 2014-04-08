@@ -36,24 +36,23 @@ import java.net.UnknownHostException;
  */
 public class MPD implements Server {
 
-    private int port;
-    private InetAddress address;
-    private int timeout;
-
     private static final int DEFAULT_PORT = 6600;
     private static final int DEFAULT_TIMEOUT = 0;
     private static final String DEFAULT_SERVER = "localhost";
 
-    private ServerProperties serverProperties;
-    private CommandExecutor commandExecutor;
-    private Database database;
-    private Player player;
-    private Playlist playlist;
-    private Admin admin;
-    private ServerStatistics serverStatistics;
-    private ServerStatus serverStatus;
-    private StandAloneMonitor standAloneMonitor;
-    private EventRelayer eventRelayer;
+    private final int port;
+    private final InetAddress address;
+    private final int timeout;
+    private final ServerProperties serverProperties;
+    private final CommandExecutor commandExecutor;
+    private final Database database;
+    private final Player player;
+    private final Playlist playlist;
+    private final Admin admin;
+    private final ServerStatistics serverStatistics;
+    private final ServerStatus serverStatus;
+    private final StandAloneMonitor standAloneMonitor;
+    private final EventRelayer eventRelayer;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
 
