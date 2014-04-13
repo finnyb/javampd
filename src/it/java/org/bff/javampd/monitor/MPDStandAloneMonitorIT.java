@@ -36,7 +36,6 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     @After
     public void tearDown() {
         getMonitor().stop();
-        getMonitor().clearListeners();
         delay();
     }
 

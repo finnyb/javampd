@@ -21,16 +21,16 @@ import java.net.UnknownHostException;
 /**
  * MPD represents a connection to a MPD server.  The commands
  * are maintained in a properties file called mpd.properties.
- *
+ * <p/>
  * Uses the builder pattern for construction.  Use {@link org.bff.javampd.MPD.Builder#build()}
  * to construct.
- *
+ * <p/>
  * Defaults are:
- *
- *  server --> localhost
- *  port --> 6600
- *  no timeout
- *  no password
+ * <p/>
+ * server --> localhost
+ * port --> 6600
+ * no timeout
+ * no password
  *
  * @author Bill
  */
@@ -54,7 +54,6 @@ public class MPD implements Server {
     private ServerStatistics serverStatistics;
     private ServerStatus serverStatus;
     private StandAloneMonitor standAloneMonitor;
-    private EventRelayer eventRelayer;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
 
@@ -100,9 +99,6 @@ public class MPD implements Server {
 
     private void bindMonitorAndRelay(Injector injector) {
         this.standAloneMonitor = injector.getInstance(StandAloneMonitor.class);
-        this.standAloneMonitor.setServer(this);
-        this.eventRelayer = injector.getInstance(EventRelayer.class);
-        this.eventRelayer.setServer(this);
     }
 
     @Override
