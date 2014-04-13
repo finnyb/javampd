@@ -166,15 +166,12 @@ public class MPDSocket {
 
     private String convertCommand(String command, List<String> params) {
         StringBuilder sb = new StringBuilder(command);
-        if (params != null) {
-            for (String param : params) {
-                param = param.replaceAll("\"", "\\\\\"");
-                sb.append(" \"").append(param).append("\"");
-            }
-            sb.append("\n");
+        for (String param : params) {
+            param = param.replaceAll("\"", "\\\\\"");
+            sb.append(" \"").append(param).append("\"");
         }
 
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 
     public synchronized boolean sendCommands(List<MPDCommand> commandList) throws MPDResponseException {
