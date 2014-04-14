@@ -1,11 +1,13 @@
 package org.bff.javampd;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Enumeration of the available information from the MPD
  * server status.
  */
 public enum Status {
-
     /**
      * The current volume (0-100)
      */
@@ -57,16 +59,21 @@ public enum Status {
     /**
      * job id
      */
-    UPDATINGSDB("updatings_db:"), //<int job id>
+    UPDATINGSDB("updatings_db:"),
     /**
      * if there is an error, returns message here
      */
-    ERROR("error:");
+    ERROR("error:"),
+    /**
+     * if the status is unknown
+     */
+    UNKNOWN("");
+
     /**
      * the prefix associated with the status
      */
     private String prefix;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(Status.class);
     /**
      * Enum constructor
      *
@@ -86,18 +93,20 @@ public enum Status {
     }
 
     /**
-     * Returns the {@link org.bff.javampd.Status} the status line starts with
+     * Returns the {@link org.bff.javampd.Status} the status line starts with.
+     * If no status is found {@link #UNKNOWN} is returned
      *
      * @param statusLine the line to process
      * @return the {@link org.bff.javampd.Status} the lines starts with.  <code>null</code>
      * if there isn't a match
      */
     public static Status lookupStatus(String statusLine) {
-        for (Status statusList : Status.values()) {
-            if (statusLine.startsWith(statusList.getStatusPrefix())) {
-                return statusList;
+        for (Status status : Status.values()) {
+            if (statusLine.startsWith(status.getStatusPrefix())) {
+                return status;
             }
         }
-        return null;
+        LOGGER.warn("Unknown status {} returned", statusLine);
+        return UNKNOWN;
     }
 }

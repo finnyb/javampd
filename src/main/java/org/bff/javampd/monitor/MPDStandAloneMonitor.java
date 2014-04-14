@@ -165,7 +165,6 @@ public class MPDStandAloneMonitor
 
         List<String> response;
         while (!isStopped()) {
-
             try {
                 synchronized (this) {
                     response = new ArrayList<>(serverStatus.getStatus());
@@ -333,7 +332,6 @@ public class MPDStandAloneMonitor
     }
 
     private void processResponseStatus(String line) {
-        trackMonitor.processResponseStatus(line);
         trackMonitor.processResponseStatus(line);
         volumeMonitor.processResponseStatus(line);
         playerMonitor.processResponseStatus(line);
