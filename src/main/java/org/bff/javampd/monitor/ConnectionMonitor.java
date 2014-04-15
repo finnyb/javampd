@@ -27,5 +27,10 @@ public interface ConnectionMonitor extends Monitor {
      */
     void setServer(Server server);
 
+    /**
+     * Returns whether the server is connected
+     *
+     * @return true if the server is connected
+     */
     boolean isConnected();
 }

@@ -1,5 +1,6 @@
 package org.bff.javampd.monitor;
 
+import com.google.inject.Singleton;
 import org.bff.javampd.Status;
 import org.bff.javampd.events.TrackPositionChangeEvent;
 import org.bff.javampd.events.TrackPositionChangeListener;
@@ -8,6 +9,7 @@ import org.bff.javampd.exception.MPDException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class MPDTrackMonitor implements TrackMonitor {
     private List<TrackPositionChangeListener> trackListeners;
     private long oldPos;
@@ -15,11 +17,6 @@ public class MPDTrackMonitor implements TrackMonitor {
 
     public MPDTrackMonitor() {
         this.trackListeners = new ArrayList<>();
-    }
-
-    @Override
-    public int getDelay() {
-        return 0;
     }
 
     @Override
@@ -31,7 +28,7 @@ public class MPDTrackMonitor implements TrackMonitor {
     public void processResponseStatus(String line) {
         if (Status.lookupStatus(line) == Status.TIME) {
             elapsedTime =
-                    Long.parseLong(line.substring(Status.TIME.getStatusPrefix().length()).trim());
+                    Long.parseLong(line.substring(Status.TIME.getStatusPrefix().length()).trim().split(":")[0]);
         }
     }
 

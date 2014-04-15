@@ -1,10 +1,12 @@
 package org.bff.javampd.monitor;
 
+import com.google.inject.Singleton;
 import org.bff.javampd.Status;
 import org.bff.javampd.events.PlayerBasicChangeEvent;
 import org.bff.javampd.exception.MPDException;
 
 
+@Singleton
 public class MPDBitrateMonitor extends MPDPlayerMonitor implements BitrateMonitor {
     private int oldBitrate;
     private int newBitrate;
@@ -15,11 +17,6 @@ public class MPDBitrateMonitor extends MPDPlayerMonitor implements BitrateMonito
             newBitrate =
                     Integer.parseInt(line.substring(Status.BITRATE.getStatusPrefix().length()).trim());
         }
-    }
-
-    @Override
-    public int getDelay() {
-        return 7;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.bff.javampd.Status;
 import org.bff.javampd.events.PlaylistBasicChangeEvent;
 import org.bff.javampd.events.PlaylistBasicChangeListener;
@@ -9,7 +10,7 @@ import org.bff.javampd.exception.MPDException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Singleton
 public class MPDPlaylistMonitor implements PlaylistMonitor {
     private List<PlaylistBasicChangeListener> playlistListeners;
 
@@ -83,11 +84,6 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
                 newSongId = Integer.parseInt(line.substring(Status.CURRENTSONGID.getStatusPrefix().length()).trim());
                 break;
         }
-    }
-
-    @Override
-    public int getDelay() {
-        return 2;
     }
 
     @Override

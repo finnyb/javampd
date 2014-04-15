@@ -1,10 +1,12 @@
 package org.bff.javampd.monitor;
 
+import com.google.inject.Singleton;
 import org.bff.javampd.Status;
 import org.bff.javampd.events.VolumeChangeDelegate;
 import org.bff.javampd.events.VolumeChangeListener;
 import org.bff.javampd.exception.MPDException;
 
+@Singleton
 public class MPDVolumeMonitor implements VolumeMonitor {
     private int newVolume;
     private int oldVolume;
@@ -20,11 +22,6 @@ public class MPDVolumeMonitor implements VolumeMonitor {
             newVolume =
                     Integer.parseInt(line.substring(Status.VOLUME.getStatusPrefix().length()).trim());
         }
-    }
-
-    @Override
-    public int getDelay() {
-        return 5;
     }
 
     @Override

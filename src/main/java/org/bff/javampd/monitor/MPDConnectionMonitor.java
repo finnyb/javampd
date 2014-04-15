@@ -1,5 +1,6 @@
 package org.bff.javampd.monitor;
 
+import com.google.inject.Singleton;
 import org.bff.javampd.Server;
 import org.bff.javampd.events.ConnectionChangeEvent;
 import org.bff.javampd.events.ConnectionChangeListener;
@@ -8,6 +9,7 @@ import org.bff.javampd.exception.MPDException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class MPDConnectionMonitor implements ConnectionMonitor {
     private List<ConnectionChangeListener> connectionListeners;
     private Server server;
@@ -51,11 +53,6 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
         for (ConnectionChangeListener ccl : connectionListeners) {
             ccl.connectionChangeEventReceived(cce);
         }
-    }
-
-    @Override
-    public int getDelay() {
-        return 5;
     }
 
     @Override

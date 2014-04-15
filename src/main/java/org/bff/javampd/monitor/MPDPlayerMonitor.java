@@ -1,5 +1,6 @@
 package org.bff.javampd.monitor;
 
+import com.google.inject.Singleton;
 import org.bff.javampd.StandAloneMonitor;
 import org.bff.javampd.Status;
 import org.bff.javampd.events.PlayerBasicChangeEvent;
@@ -9,6 +10,7 @@ import org.bff.javampd.exception.MPDException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class MPDPlayerMonitor implements PlayerMonitor {
     private PlayerStatus status = PlayerStatus.STATUS_STOPPED;
     private List<PlayerBasicChangeListener> playerListeners;
@@ -23,11 +25,6 @@ public class MPDPlayerMonitor implements PlayerMonitor {
         if (Status.lookupStatus(line) == Status.STATE) {
             state = line.substring(Status.STATE.getStatusPrefix().length()).trim();
         }
-    }
-
-    @Override
-    public int getDelay() {
-        return 0;
     }
 
     @Override

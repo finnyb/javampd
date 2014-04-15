@@ -1,6 +1,7 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.bff.javampd.Admin;
 import org.bff.javampd.MPDOutput;
 import org.bff.javampd.events.OutputChangeEvent;
@@ -9,6 +10,7 @@ import org.bff.javampd.exception.MPDAdminException;
 
 import java.util.*;
 
+@Singleton
 public class MPDOutputMonitor implements OutputMonitor {
     private Map<Integer, MPDOutput> outputMap;
     private List<OutputChangeListener> outputListeners;
@@ -19,11 +21,6 @@ public class MPDOutputMonitor implements OutputMonitor {
     public MPDOutputMonitor() {
         this.outputMap = new HashMap<>();
         this.outputListeners = new ArrayList<>();
-    }
-
-    @Override
-    public int getDelay() {
-        return 3;
     }
 
     @Override

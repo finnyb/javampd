@@ -11,13 +11,11 @@ package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.bff.javampd.MPD;
 import org.bff.javampd.ServerStatus;
 import org.bff.javampd.StandAloneMonitor;
 import org.bff.javampd.events.*;
-import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
-import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.properties.MonitorProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +57,10 @@ public class MPDStandAloneMonitor
     private PlaylistMonitor playlistMonitor;
     @Inject
     private ErrorMonitor errorMonitor;
+    @Inject
+    private MonitorProperties monitorProperties;
+
+    private List<ThreadedMonitor> monitors;
 
     private final int delay;
     private boolean stopped;
@@ -71,6 +73,18 @@ public class MPDStandAloneMonitor
      */
     MPDStandAloneMonitor() {
         this.delay = DEFAULT_DELAY;
+        this.monitors = new ArrayList<>();
+    }
+
+    private void loadMonitors() {
+        monitors.add(new ThreadedMonitor(trackMonitor, monitorProperties.getTrackDelay()));
+        monitors.add(new ThreadedMonitor(playerMonitor, monitorProperties.getPlayerDelay()));
+        monitors.add(new ThreadedMonitor(errorMonitor, monitorProperties.getErrorDelay()));
+        monitors.add(new ThreadedMonitor(playlistMonitor, monitorProperties.getPlaylistDelay()));
+        monitors.add(new ThreadedMonitor(connectionMonitor, monitorProperties.getConnectionDelay()));
+        monitors.add(new ThreadedMonitor(bitrateMonitor, monitorProperties.getBitrateDelay()));
+        monitors.add(new ThreadedMonitor(volumeMonitor, monitorProperties.getVolumeDelay()));
+        monitors.add(new ThreadedMonitor(outputMonitor, monitorProperties.getOutputDelay()));
     }
 
     /**
@@ -161,6 +175,7 @@ public class MPDStandAloneMonitor
 
     @Override
     public void run() {
+        loadMonitors();
         loadInitialStatus();
 
         List<String> response;
@@ -169,14 +184,9 @@ public class MPDStandAloneMonitor
                 synchronized (this) {
                     response = new ArrayList<>(serverStatus.getStatus());
                     processResponse(response);
-                    checkPlayer();
-                    checkPlaylist();
-                    checkTrackPosition();
-                    checkVolume();
-                    checkBitrate();
-                    checkConnection();
-                    checkOutputs();
-                    errorMonitor.checkStatus();
+                    for (ThreadedMonitor monitor : monitors) {
+                        monitor.checkStatus();
+                    }
                     this.wait(delay);
                 }
             } catch (InterruptedException ie) {
@@ -236,95 +246,6 @@ public class MPDStandAloneMonitor
         this.stopped = stopped;
     }
 
-    private int checkConnectionCount;
-
-    /**
-     * Checks the connection status of the {@link MPD}.  Fires a {@link ConnectionChangeEvent}
-     * if the connection status changes.
-     */
-    protected final void checkConnection() throws MPDException {
-        if (checkConnectionCount == connectionMonitor.getDelay()) {
-            checkConnectionCount = 0;
-            connectionMonitor.checkStatus();
-        } else {
-            ++checkConnectionCount;
-        }
-    }
-
-    private int checkPositionCount;
-
-    private void checkTrackPosition() throws MPDException {
-        if (checkPositionCount == trackMonitor.getDelay()) {
-            checkPositionCount = 0;
-            trackMonitor.checkStatus();
-        } else {
-            ++checkPositionCount;
-        }
-    }
-
-    private int checkPlayerCount;
-
-    private void checkPlayer() throws MPDException {
-        if (checkPlayerCount == playerMonitor.getDelay()) {
-            checkPlayerCount = 0;
-            playerMonitor.checkStatus();
-        } else {
-            ++checkPlayerCount;
-        }
-    }
-
-    private int checkBitrateCount;
-
-    private void checkBitrate() throws MPDException {
-        if (checkBitrateCount == 7) {
-            checkBitrateCount = 0;
-            bitrateMonitor.checkStatus();
-        } else {
-            ++checkBitrateCount;
-        }
-    }
-
-    private int checkOutputCount;
-
-    /**
-     * Checks the connection status of the MPD.  Fires a {@link ConnectionChangeEvent}
-     * if the connection status changes.
-     *
-     * @throws MPDConnectionException if there is a problem with the connection
-     * @throws MPDResponseException   if response is an error
-     */
-    protected final void checkOutputs() throws MPDException {
-        if (checkOutputCount == outputMonitor.getDelay()) {
-            checkOutputCount = 0;
-            outputMonitor.checkStatus();
-        } else {
-            ++checkOutputCount;
-        }
-    }
-
-    private int checkPlaylistCount;
-
-    private void checkPlaylist() throws MPDException {
-        if (checkPlaylistCount == playlistMonitor.getDelay()) {
-            checkPlaylistCount = 0;
-            playlistMonitor.checkStatus();
-        } else {
-            ++checkPlaylistCount;
-        }
-    }
-
-    private int checkVolumeCount;
-
-    private void checkVolume() throws MPDException {
-        if (checkVolumeCount == 5) {
-            checkVolumeCount = 0;
-            volumeMonitor.checkStatus();
-        } else {
-            ++checkVolumeCount;
-        }
-    }
-
-
     private void processResponse(List<String> response) {
         for (String line : response) {
             processResponseStatus(line);
@@ -332,12 +253,9 @@ public class MPDStandAloneMonitor
     }
 
     private void processResponseStatus(String line) {
-        trackMonitor.processResponseStatus(line);
-        volumeMonitor.processResponseStatus(line);
-        playerMonitor.processResponseStatus(line);
-        bitrateMonitor.processResponseStatus(line);
-        playlistMonitor.processResponseStatus(line);
-        errorMonitor.processResponseStatus(line);
+        for (ThreadedMonitor monitor : monitors) {
+            monitor.processResponseLine(line);
+        }
     }
 
     @Override
@@ -350,5 +268,39 @@ public class MPDStandAloneMonitor
     private void processStoppedStatus() {
         trackMonitor.resetElapsedTime();
         playlistMonitor.playerStopped();
+    }
+
+    private class ThreadedMonitor {
+        private Monitor monitor;
+        private int delay;
+        private int count;
+
+        ThreadedMonitor(Monitor monitor, int delay) {
+            this.monitor = monitor;
+            this.delay = delay;
+        }
+
+        public void checkStatus() throws MPDException {
+            if (count++ == delay) {
+                count = 0;
+                monitor.checkStatus();
+            }
+        }
+
+        /**
+         * The number of seconds to delay before performing the check status.  If your
+         * #checkStatus is expensive this should be a larger number.
+         *
+         * @return the number of seconds to delay
+         */
+        public int getDelay() {
+            return this.delay;
+        }
+
+        public void processResponseLine(String line) {
+            if (monitor instanceof StatusMonitor) {
+                ((StatusMonitor) monitor).processResponseStatus(line);
+            }
+        }
     }
 }

@@ -6,5 +6,4 @@ public interface ErrorMonitor extends StatusMonitor {
     void addMPDErrorListener(MPDErrorListener el);
 
     void removeMPDErrorListener(MPDErrorListener el);
-
 }

@@ -21,7 +21,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     /**
      * Delay for various monitor actions
      */
-    private static final int MONITOR_DELAY = 3000;
+    private static final int MONITOR_DELAY = 1500;
 
     @Before
     public void setUp() throws MPDException {

@@ -1,5 +1,6 @@
 package org.bff.javampd.monitor;
 
+import com.google.inject.Singleton;
 import org.bff.javampd.Status;
 import org.bff.javampd.events.MPDErrorEvent;
 import org.bff.javampd.events.MPDErrorListener;
@@ -8,6 +9,7 @@ import org.bff.javampd.exception.MPDException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class MPDErrorMonitor implements ErrorMonitor {
     private String error;
     private List<MPDErrorListener> errorListeners;
@@ -47,11 +49,6 @@ public class MPDErrorMonitor implements ErrorMonitor {
             error = null;
             error = line.substring(Status.ERROR.getStatusPrefix().length()).trim();
         }
-    }
-
-    @Override
-    public int getDelay() {
-        return 0;
     }
 
     @Override

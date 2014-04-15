@@ -10,6 +10,7 @@ import com.google.inject.Injector;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.monitor.ConnectionMonitor;
 import org.bff.javampd.properties.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,6 +100,7 @@ public class MPD implements Server {
 
     private void bindMonitorAndRelay(Injector injector) {
         this.standAloneMonitor = injector.getInstance(StandAloneMonitor.class);
+        injector.getInstance(ConnectionMonitor.class).setServer(this);
     }
 
     @Override

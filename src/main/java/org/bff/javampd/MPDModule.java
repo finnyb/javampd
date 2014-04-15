@@ -36,5 +36,6 @@ public class MPDModule extends AbstractModule {
         bind(PlaylistProperties.class);
         bind(ResponseProperties.class);
         bind(ServerProperties.class);
+        bind(MonitorProperties.class);
     }
 }
