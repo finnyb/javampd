@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class MPDPlayerIT extends BaseTest {
     @Before
     public void setUp() throws Exception {
@@ -43,9 +45,9 @@ public class MPDPlayerIT extends BaseTest {
 
         MPDAudioInfo info = getPlayer().getAudioDetails();
 
-        Assert.assertEquals(info.getSampleRate(), 44100);
-        Assert.assertEquals(info.getBits(), 24);
-        Assert.assertEquals(info.getChannels(), 1);
+        assertEquals(info.getSampleRate(), 44100);
+        assertEquals(info.getBits(), 24);
+        assertEquals(info.getChannels(), 1);
     }
 
     @Test
@@ -72,6 +74,13 @@ public class MPDPlayerIT extends BaseTest {
     @Test(expected = MPDPlayerException.class)
     public void testVolumeTooHigh() throws MPDPlayerException, MPDConnectionException {
         getPlayer().setVolume(101);
+    }
+
+    @Test
+    public void testPaused() throws MPDPlayerException {
+        getPlayer().play();
+        getPlayer().pause();
+        assertEquals(Player.Status.STATUS_PAUSED, getPlayer().getStatus());
     }
 
 }
