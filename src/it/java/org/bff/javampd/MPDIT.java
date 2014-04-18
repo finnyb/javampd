@@ -76,6 +76,7 @@ public class MPDIT extends BaseTest {
                     .port(testProperties.getPort())
                     .timeout(500)
                     .build();
+            mpd.getVersion();
         } finally {
             if (mpd != null) {
                 try {
