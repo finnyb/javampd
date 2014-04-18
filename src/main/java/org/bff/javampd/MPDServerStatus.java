@@ -23,9 +23,9 @@ public class MPDServerStatus implements ServerStatus {
      *
      * @param status the status desired
      * @return the desired status information
-     * @throws MPDResponseException   if the MPD response generates an error
+     * @throws MPDResponseException if the MPD response generates an error
      */
-    protected String getStatus(StatusList status) throws MPDResponseException {
+    protected String getStatus(Status status) throws MPDResponseException {
         List<String> respList = commandExecutor.sendCommand(serverProperties.getStatus());
 
         for (String line : respList) {
@@ -43,27 +43,27 @@ public class MPDServerStatus implements ServerStatus {
 
     @Override
     public int getPlaylistVersion() throws MPDResponseException {
-        return Integer.parseInt(getStatus(StatusList.PLAYLIST));
+        return Integer.parseInt(getStatus(Status.PLAYLIST));
     }
 
     @Override
     public String getState() throws MPDResponseException {
-        return getStatus(StatusList.STATE);
+        return getStatus(Status.STATE);
     }
 
     @Override
     public String getXFade() throws MPDResponseException {
-        return getStatus(StatusList.XFADE);
+        return getStatus(Status.XFADE);
     }
 
     @Override
     public String getAudio() throws MPDResponseException {
-        return getStatus(StatusList.AUDIO);
+        return getStatus(Status.AUDIO);
     }
 
     @Override
     public long getTime() throws MPDResponseException {
-        String time = getStatus(StatusList.TIME);
+        String time = getStatus(Status.TIME);
 
         if (time == null || !time.contains(":")) {
             return 0;
@@ -74,21 +74,21 @@ public class MPDServerStatus implements ServerStatus {
 
     @Override
     public int getBitrate() throws MPDResponseException {
-        return Integer.parseInt(getStatus(StatusList.BITRATE));
+        return Integer.parseInt(getStatus(Status.BITRATE));
     }
 
     @Override
     public int getVolume() throws MPDResponseException {
-        return Integer.parseInt(getStatus(StatusList.VOLUME));
+        return Integer.parseInt(getStatus(Status.VOLUME));
     }
 
     @Override
     public boolean isRepeat() throws MPDResponseException {
-        return "1".equals(getStatus(StatusList.REPEAT));
+        return "1".equals(getStatus(Status.REPEAT));
     }
 
     @Override
     public boolean isRandom() throws MPDResponseException {
-        return "1".equals(getStatus(StatusList.RANDOM));
+        return "1".equals(getStatus(Status.RANDOM));
     }
 }

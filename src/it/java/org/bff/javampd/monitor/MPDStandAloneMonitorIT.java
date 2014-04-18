@@ -13,6 +13,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +23,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     /**
      * Delay for various monitor actions
      */
-    private static final int MONITOR_DELAY = 3000;
+    private static final int MONITOR_DELAY = 1500;
 
     @Before
     public void setUp() throws MPDException {
@@ -36,7 +38,6 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     @After
     public void tearDown() {
         getMonitor().stop();
-        getMonitor().clearListeners();
         delay();
     }
 
@@ -120,7 +121,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         MPDSong song = Songs.databaseSongs.get(0);
 
         getPlaylist().addSong(song);
-        delay();
+        delay(2);
         getPlaylist().removeSong(getPlaylist().getSongList().get(0));
 
         waitForSuccess();
@@ -274,7 +275,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     @Test
     public void testPlayerUnPaused() throws MPDException, IOException {
         success = false;
-
+        Date start = Calendar.getInstance().getTime();
         getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
 
             @Override
@@ -286,8 +287,6 @@ public class MPDStandAloneMonitorIT extends BaseTest {
                 }
             }
         });
-
-
         success = false;
         loadSeveralSongs();
         getPlayer().play();

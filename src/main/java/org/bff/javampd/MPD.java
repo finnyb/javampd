@@ -10,6 +10,7 @@ import com.google.inject.Injector;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.monitor.ConnectionMonitor;
 import org.bff.javampd.properties.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,10 @@ import java.net.UnknownHostException;
 /**
  * MPD represents a connection to a MPD server.  The commands
  * are maintained in a properties file called mpd.properties.
- *
+ * <p/>
  * Uses the builder pattern for construction.  Use {@link org.bff.javampd.MPD.Builder#build()}
  * to construct.
- *
+ * <p/>
  * Defaults are:
  *
  *  server --> localhost
@@ -36,13 +37,14 @@ import java.net.UnknownHostException;
  */
 public class MPD implements Server {
 
+    private int port;
+    private InetAddress address;
+    private int timeout;
+
     private static final int DEFAULT_PORT = 6600;
     private static final int DEFAULT_TIMEOUT = 0;
     private static final String DEFAULT_SERVER = "localhost";
 
-    private final int port;
-    private final InetAddress address;
-    private final int timeout;
     private final ServerProperties serverProperties;
     private final CommandExecutor commandExecutor;
     private final Database database;
@@ -52,7 +54,6 @@ public class MPD implements Server {
     private final ServerStatistics serverStatistics;
     private final ServerStatus serverStatus;
     private final StandAloneMonitor standAloneMonitor;
-    private final EventRelayer eventRelayer;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
 
@@ -70,11 +71,8 @@ public class MPD implements Server {
             this.serverStatistics = builder.serverStatistics;
             this.serverStatus = builder.serverStatus;
             this.standAloneMonitor = builder.standAloneMonitor;
-            this.eventRelayer = builder.eventRelayer;
 
             this.commandExecutor.setMpd(this);
-            this.standAloneMonitor.setServer(this);
-            this.eventRelayer.setServer(this);
 
             if (builder.password != null) {
                 authenticate(builder.password);
@@ -182,10 +180,10 @@ public class MPD implements Server {
         private ServerStatistics serverStatistics;
         private ServerStatus serverStatus;
         private StandAloneMonitor standAloneMonitor;
-        private EventRelayer eventRelayer;
-
+        private Injector injector;
+        
         public Builder() {
-            Injector injector = Guice.createInjector(new MPDModule());
+            injector = Guice.createInjector(new MPDModule());
             bind(injector);
             bindMonitorAndRelay(injector);
 
@@ -211,7 +209,9 @@ public class MPD implements Server {
         }
 
         public MPD build() throws MPDConnectionException {
-            return new MPD(this);
+            MPD mpd = new MPD(this);
+            injector.getInstance(ConnectionMonitor.class).setServer(mpd);
+            return mpd;
         }
 
         /**
@@ -234,7 +234,6 @@ public class MPD implements Server {
 
         private void bindMonitorAndRelay(Injector injector) {
             this.standAloneMonitor = injector.getInstance(StandAloneMonitor.class);
-            this.eventRelayer = injector.getInstance(EventRelayer.class);
         }
     }
 }

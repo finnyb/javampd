@@ -27,25 +27,6 @@ public class MPDCommand {
     private List<String> params;
 
     /**
-     * Constructor for MPD command for a command requiring no parameters.
-     *
-     * @param command the parameterless command to send.
-     */
-    public MPDCommand(String command) {
-        this(command, new String[]{});
-    }
-
-    /**
-     * Constructor for MPD command for a command requiring a single parameter.
-     *
-     * @param command the command to send
-     * @param param   the parameter for the command
-     */
-    public MPDCommand(String command, String param) {
-        this(command, new String[]{param});
-    }
-
-    /**
      * Constructor for MPD command for a command requiring more than 1 parameter.
      *
      * @param command    the command to send
@@ -53,10 +34,8 @@ public class MPDCommand {
      */
     public MPDCommand(String command, String... parameters) {
         this.command = command;
-        this.params = new ArrayList<String>();
-        if (parameters.length > 0) {
-            Collections.addAll(this.params, Arrays.copyOf(parameters, parameters.length));
-        }
+        this.params = new ArrayList<>();
+        Collections.addAll(this.params, Arrays.copyOf(parameters, parameters.length));
     }
 
     /**
