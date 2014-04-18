@@ -2,7 +2,6 @@ package org.bff.javampd;
 
 import com.google.inject.AbstractModule;
 import org.bff.javampd.monitor.*;
-import org.bff.javampd.properties.*;
 
 /**
  * Initializes the DI bindings
@@ -29,13 +28,5 @@ public class MPDModule extends AbstractModule {
         bind(BitrateMonitor.class).to(MPDBitrateMonitor.class);
         bind(PlaylistMonitor.class).to(MPDPlaylistMonitor.class);
         bind(ErrorMonitor.class).to(MPDErrorMonitor.class);
-
-        bind(AdminProperties.class);
-        bind(DatabaseProperties.class);
-        bind(PlayerProperties.class);
-        bind(PlaylistProperties.class);
-        bind(ResponseProperties.class);
-        bind(ServerProperties.class);
-        bind(MonitorProperties.class);
     }
 }
