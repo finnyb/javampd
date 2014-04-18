@@ -15,13 +15,13 @@ import org.bff.javampd.ServerStatus;
 import org.bff.javampd.StandAloneMonitor;
 import org.bff.javampd.events.*;
 import org.bff.javampd.exception.MPDException;
-import org.bff.javampd.properties.MonitorProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * MPDStandAloneMonitor monitors a MPD connection by querying the status and
@@ -62,17 +62,13 @@ public class MPDStandAloneMonitor
 
     private List<ThreadedMonitor> monitors;
 
-    private final int delay;
     private boolean stopped;
-
-    private static final int DEFAULT_DELAY = 1000;
 
     /**
      * Creates a new instance of MPDStandAloneMonitor using the given getDelay interval
      * for queries.
      */
     MPDStandAloneMonitor() {
-        this.delay = DEFAULT_DELAY;
         this.monitors = new ArrayList<>();
     }
 
@@ -178,6 +174,7 @@ public class MPDStandAloneMonitor
         loadMonitors();
         loadInitialStatus();
 
+        int delay = monitorProperties.getMonitorDelay();
         List<String> response;
         while (!isStopped()) {
             try {
@@ -187,8 +184,8 @@ public class MPDStandAloneMonitor
                     for (ThreadedMonitor monitor : monitors) {
                         monitor.checkStatus();
                     }
-                    this.wait(delay);
                 }
+                TimeUnit.SECONDS.sleep(delay);
             } catch (InterruptedException ie) {
                 LOGGER.error("Thread interrupted", ie);
                 setStopped(true);
@@ -198,18 +195,16 @@ public class MPDStandAloneMonitor
 
                 while (retry) {
                     try {
-                        Thread.sleep(5000);
+                        TimeUnit.SECONDS.sleep(monitorProperties.getExceptionDelay());
                     } catch (InterruptedException ex) {
                         LOGGER.error("StandAloneMonitor interrupted", ex);
                     }
 
                     try {
                         connectionMonitor.checkStatus();
+                        retry = !connectionMonitor.isConnected();
                     } catch (MPDException e) {
                         LOGGER.error("Error checking connection status.", e);
-                    }
-                    if (connectionMonitor.isConnected()) {
-                        retry = false;
                     }
                 }
             }
@@ -275,6 +270,13 @@ public class MPDStandAloneMonitor
         private int delay;
         private int count;
 
+        /**
+         * Threaded version of {@link Monitor}
+         *
+         * @param monitor the {@link Monitor}
+         * @param delay   The number of seconds to delay before performing the check status.  If your
+         *                #checkStatus is expensive this should be a larger number.
+         */
         ThreadedMonitor(Monitor monitor, int delay) {
             this.monitor = monitor;
             this.delay = delay;
@@ -285,16 +287,6 @@ public class MPDStandAloneMonitor
                 count = 0;
                 monitor.checkStatus();
             }
-        }
-
-        /**
-         * The number of seconds to delay before performing the check status.  If your
-         * #checkStatus is expensive this should be a larger number.
-         *
-         * @return the number of seconds to delay
-         */
-        public int getDelay() {
-            return this.delay;
         }
 
         public void processResponseLine(String line) {

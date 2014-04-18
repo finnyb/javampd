@@ -25,7 +25,7 @@ public class MPDOutputMonitor implements OutputMonitor {
 
     @Override
     public void checkStatus() throws MPDAdminException {
-        List<MPDOutput> outputs = new ArrayList<MPDOutput>(admin.getOutputs());
+        List<MPDOutput> outputs = new ArrayList<>(admin.getOutputs());
         if (outputs.size() > outputMap.size()) {
             fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));
             loadOutputs(outputs);

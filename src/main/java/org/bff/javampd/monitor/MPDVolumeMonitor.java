@@ -27,7 +27,7 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     @Override
     public void checkStatus() throws MPDException {
         if (oldVolume != newVolume) {
-            volumeChangeDelegate.fireVolumeChangeEvent(this, newVolume);
+            fireVolumeChangeEvent(newVolume);
             oldVolume = newVolume;
         }
     }

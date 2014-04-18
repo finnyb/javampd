@@ -1,8 +1,12 @@
-package org.bff.javampd.properties;
+package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
+import org.bff.javampd.properties.MPDProperties;
 
 /**
+ * Properties for the {@link org.bff.javampd.monitor.MPDStandAloneMonitor}.  All
+ * properties are in seconds
+ *
  * @author bill
  */
 @Singleton
@@ -16,7 +20,9 @@ public class MonitorProperties extends MPDProperties {
         PLAYLIST("MPD_PLAYLIST_DELAY"),
         ERROR("MPD_ERROR_DELAY"),
         PLAYER("MPD_PlAYER_DELAY"),
-        TRACK("MPD_TRACK_DELAY");
+        TRACK("MPD_TRACK_DELAY"),
+        MONITOR("MPD_MONITOR_DELAY"),
+        EXCEPTION("MPD_EXCEPTION_DELAY");
 
         private final String key;
 
@@ -59,5 +65,13 @@ public class MonitorProperties extends MPDProperties {
 
     public int getTrackDelay() {
         return Integer.parseInt(getPropertyString(Delay.TRACK.getKey()));
+    }
+
+    public int getMonitorDelay() {
+        return Integer.parseInt(getPropertyString(Delay.MONITOR.getKey()));
+    }
+
+    public int getExceptionDelay() {
+        return Integer.parseInt(getPropertyString(Delay.EXCEPTION.getKey()));
     }
 }

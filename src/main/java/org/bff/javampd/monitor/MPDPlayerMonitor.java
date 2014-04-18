@@ -18,6 +18,7 @@ public class MPDPlayerMonitor implements PlayerMonitor {
 
     public MPDPlayerMonitor() {
         this.playerListeners = new ArrayList<>();
+        state = "";
     }
 
     @Override

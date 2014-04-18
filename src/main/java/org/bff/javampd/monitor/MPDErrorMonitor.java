@@ -46,7 +46,6 @@ public class MPDErrorMonitor implements ErrorMonitor {
     public void processResponseStatus(String line) {
         Status status = Status.lookupStatus(line);
         if (status == Status.ERROR) {
-            error = null;
             error = line.substring(Status.ERROR.getStatusPrefix().length()).trim();
         }
     }
@@ -55,6 +54,7 @@ public class MPDErrorMonitor implements ErrorMonitor {
     public void checkStatus() throws MPDException {
         if (error != null) {
             fireMPDErrorEvent(error);
+            error = null;
         }
     }
 }
