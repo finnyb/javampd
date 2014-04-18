@@ -201,20 +201,17 @@ public class MPDSong extends MPDItem {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("File:").append(getFile()).append("\n");
-        sb.append("Title:").append(getTitle()).append("\n");
-        sb.append("Artist:").append(getArtistName()).append("\n");
-        sb.append("Album:").append(getAlbumName()).append("\n");
-        sb.append("Track:").append(getTrack()).append("\n");
-        sb.append("Year:").append(getYear()).append("\n");
-        sb.append("Genre:").append(getGenre()).append("\n");
-        sb.append("Comment:").append(getComment()).append("\n");
-        sb.append("Length:").append(getLength()).append("\n");
-        sb.append("Pos:").append(getPosition()).append("\n");
-        sb.append("SongId:").append(getId()).append("\n");
-
-        return sb.toString();
+        return "File:" + getFile() + "\n"
+                + "Title:" + getTitle() + "\n"
+                + "Artist:" + getArtistName() + "\n"
+                + "Album:" + getAlbumName() + "\n"
+                + "Track:" + getTrack() + "\n"
+                + "Year:" + getYear() + "\n"
+                + "Genre:" + getGenre() + "\n"
+                + "Comment:" + getComment() + "\n"
+                + "Length:" + getLength() + "\n"
+                + "Pos:" + getPosition() + "\n"
+                + "SongId:" + getId() + "\n";
     }
 
     /**

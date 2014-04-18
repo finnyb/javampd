@@ -456,9 +456,7 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Version:").append(getVersion()).append("\n");
-        return sb.toString();
+        return "Version:" + getVersion() + "\n";
     }
 
     @Override
