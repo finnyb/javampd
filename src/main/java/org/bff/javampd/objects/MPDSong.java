@@ -32,12 +32,6 @@ public class MPDSong extends MPDItem {
     private int id = -1;
 
     /**
-     * Creates a new instance of MPDSong
-     */
-    public MPDSong() {
-    }
-
-    /**
      * Returns the name of the song.
      *
      * @return the name of the song.
