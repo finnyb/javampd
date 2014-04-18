@@ -214,7 +214,7 @@ public class MPDStandAloneMonitor
     private void loadInitialStatus() {
         try {
             //initial load so no events fired
-            List<String> response = new ArrayList<String>(serverStatus.getStatus());
+            List<String> response = new ArrayList<>(serverStatus.getStatus());
             processResponse(response);
         } catch (MPDException ex) {
             LOGGER.error("Problem with initialization", ex);

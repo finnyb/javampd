@@ -38,7 +38,7 @@ public class MPDPlaylist implements Playlist {
      * Creates a new instance of MPDPlaylist
      */
     MPDPlaylist() {
-        this.listeners = new ArrayList<PlaylistChangeListener>();
+        this.listeners = new ArrayList<>();
         this.playlistProperties = new PlaylistProperties();
     }
 
@@ -128,7 +128,7 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDPlaylistException {
-        List<MPDCommand> commandList = new ArrayList<MPDCommand>();
+        List<MPDCommand> commandList = new ArrayList<>();
         for (MPDSong song : songList) {
             commandList.add(new MPDCommand(playlistProperties.getAdd(), song.getFile()));
         }
@@ -358,7 +358,7 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException {
-        List<MPDSong> removeList = new ArrayList<MPDSong>();
+        List<MPDSong> removeList = new ArrayList<>();
 
         for (MPDSong song : getSongList()) {
             if (song.getArtistName().equals(artist.getName()) && song.getAlbumName().equals(album.getName())) {
@@ -412,7 +412,7 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeArtist(MPDArtist artist) throws MPDPlaylistException {
-        List<MPDSong> removeList = new ArrayList<MPDSong>();
+        List<MPDSong> removeList = new ArrayList<>();
         for (MPDSong song : getSongList()) {
             if (song.getArtistName().equals(artist.getName())) {
                 removeList.add(song);

@@ -13,7 +13,7 @@ public class VolumeChangeDelegate {
     private List<VolumeChangeListener> volListeners;
 
     public VolumeChangeDelegate() {
-        volListeners = new ArrayList<VolumeChangeListener>();
+        volListeners = new ArrayList<>();
     }
 
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {

@@ -68,9 +68,9 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDDatabaseException {
-        List<MPDSong> retList = new ArrayList<MPDSong>();
+        List<MPDSong> retList = new ArrayList<>();
 
-        List<MPDSong> songList = new ArrayList<MPDSong>(find(ScopeType.ALBUM, album.getName()));
+        List<MPDSong> songList = new ArrayList<>(find(ScopeType.ALBUM, album.getName()));
 
         for (MPDSong song : songList) {
             if (song.getArtistName() != null && song.getArtistName().equals(artist.getName())) {
@@ -83,9 +83,9 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDDatabaseException {
-        List<MPDSong> retList = new ArrayList<MPDSong>();
+        List<MPDSong> retList = new ArrayList<>();
 
-        List<MPDSong> songList = new ArrayList<MPDSong>(find(ScopeType.ALBUM, album.getName()));
+        List<MPDSong> songList = new ArrayList<>(find(ScopeType.ALBUM, album.getName()));
 
         for (MPDSong song : songList) {
             if (song.getGenre() != null && song.getGenre().equals(genre.getName())) {
@@ -98,9 +98,9 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDDatabaseException {
-        List<MPDSong> retList = new ArrayList<MPDSong>();
+        List<MPDSong> retList = new ArrayList<>();
 
-        List<MPDSong> songList = new ArrayList<MPDSong>(find(ScopeType.ALBUM, album.getName()));
+        List<MPDSong> songList = new ArrayList<>(find(ScopeType.ALBUM, album.getName()));
 
         for (MPDSong song : songList) {
             if (song.getYear() != null && song.getYear().equals(year)) {
@@ -184,7 +184,7 @@ public class MPDDatabase implements Database {
             throw new MPDDatabaseException(e);
         }
 
-        return new ArrayList<MPDSong>(convertResponseToSong(songList));
+        return new ArrayList<>(convertResponseToSong(songList));
     }
 
     @Override
@@ -199,7 +199,7 @@ public class MPDDatabase implements Database {
             throw new MPDDatabaseException(e);
         }
 
-        return new ArrayList<MPDSong>(convertResponseToSong(songList));
+        return new ArrayList<>(convertResponseToSong(songList));
     }
 
     private List<MPDSong> convertResponseToSong(List<String> songList) {
@@ -238,7 +238,7 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDSong> searchTitle(String title, int startYear, int endYear) throws MPDDatabaseException {
-        List<MPDSong> retList = new ArrayList<MPDSong>();
+        List<MPDSong> retList = new ArrayList<>();
 
         for (MPDSong song : search(ScopeType.TITLE, title)) {
             int year;
@@ -273,7 +273,7 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDAlbum> listAllAlbums() throws MPDDatabaseException {
-        List<MPDAlbum> albums = new ArrayList<MPDAlbum>();
+        List<MPDAlbum> albums = new ArrayList<>();
         for (MPDArtist artist : listAllArtists()) {
             albums.addAll(listAlbumsByArtist(artist));
         }
@@ -289,7 +289,7 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDArtist> listAllArtists() throws MPDDatabaseException {
-        List<MPDArtist> artists = new ArrayList<MPDArtist>();
+        List<MPDArtist> artists = new ArrayList<>();
         for (String str : list(ListType.ARTIST)) {
             artists.add(new MPDArtist(str));
         }
@@ -298,7 +298,7 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDGenre> listAllGenres() throws MPDDatabaseException {
-        List<MPDGenre> genres = new ArrayList<MPDGenre>();
+        List<MPDGenre> genres = new ArrayList<>();
         for (String str : list(ListType.GENRE)) {
             genres.add(new MPDGenre(str));
         }
@@ -307,10 +307,10 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDDatabaseException {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(artist.getName());
 
-        List<MPDAlbum> albums = new ArrayList<MPDAlbum>();
+        List<MPDAlbum> albums = new ArrayList<>();
         for (String str : list(ListType.ALBUM, list)) {
             MPDAlbum album = new MPDAlbum(str);
             album.setArtistName(artist.getName());
@@ -321,11 +321,11 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) throws MPDDatabaseException {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(ListType.GENRE.getType());
         list.add(genre.getName());
 
-        List<MPDAlbum> albums = new ArrayList<MPDAlbum>();
+        List<MPDAlbum> albums = new ArrayList<>();
         for (String str : list(ListType.ALBUM, list)) {
             albums.add(new MPDAlbum(str));
         }
@@ -334,11 +334,11 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDDatabaseException {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(ListType.GENRE.getType());
         list.add(genre.getName());
 
-        List<MPDArtist> artists = new ArrayList<MPDArtist>();
+        List<MPDArtist> artists = new ArrayList<>();
         for (String str : list(ListType.ARTIST, list)) {
             artists.add(new MPDArtist(str));
         }
@@ -347,11 +347,11 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDAlbum> listAlbumsByYear(String year) throws MPDDatabaseException {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(ListType.DATE.getType());
         list.add(year);
 
-        List<MPDAlbum> albums = new ArrayList<MPDAlbum>();
+        List<MPDAlbum> albums = new ArrayList<>();
         for (String str : list(ListType.ALBUM, list)) {
             albums.add(new MPDAlbum(str));
         }
@@ -359,7 +359,7 @@ public class MPDDatabase implements Database {
     }
 
     private Collection<String> listInfo(ListInfoType... types) throws MPDDatabaseException {
-        List<String> returnList = new ArrayList<String>();
+        List<String> returnList = new ArrayList<>();
         List<String> list;
 
         try {
@@ -400,7 +400,7 @@ public class MPDDatabase implements Database {
     }
 
     private Collection<MPDFile> listDirectoryInfo(String directory) throws MPDDatabaseException {
-        List<MPDFile> returnList = new ArrayList<MPDFile>();
+        List<MPDFile> returnList = new ArrayList<>();
         List<String> list;
 
         try {
@@ -466,7 +466,7 @@ public class MPDDatabase implements Database {
             throw new MPDDatabaseException(e);
         }
 
-        List<String> retList = new ArrayList<String>();
+        List<String> retList = new ArrayList<>();
         for (String s : responseList) {
             try {
                 retList.add(s.substring(s.split(":")[0].length() + 1).trim());
@@ -584,7 +584,7 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDSavedPlaylist> listSavedPlaylists() throws MPDDatabaseException {
-        List<MPDSavedPlaylist> playlists = new ArrayList<MPDSavedPlaylist>();
+        List<MPDSavedPlaylist> playlists = new ArrayList<>();
 
         for (String s : listPlaylists()) {
             MPDSavedPlaylist playlist = new MPDSavedPlaylist(s);
@@ -607,11 +607,11 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDSong> listPlaylistSongs(String playlistName) throws MPDDatabaseException {
-        List<MPDSong> songList = new ArrayList<MPDSong>();
+        List<MPDSong> songList = new ArrayList<>();
         try {
             List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
             for (String song : MPDSongConverter.getSongNameList(response)) {
-                songList.add(new ArrayList<MPDSong>(searchFileName(song)).get(0));
+                songList.add(new ArrayList<>(searchFileName(song)).get(0));
             }
         } catch (MPDResponseException re) {
             throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
@@ -624,7 +624,7 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<String> listAllYears() throws MPDDatabaseException {
-        List<String> retList = new ArrayList<String>();
+        List<String> retList = new ArrayList<>();
         for (String str : list(ListType.DATE)) {
             if (str.contains("-")) {
                 str = str.split("-")[0];

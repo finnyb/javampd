@@ -113,7 +113,7 @@ public class MPDSocket {
                 throw new MPDResponseException(e);
             }
         }
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     /**
@@ -202,7 +202,7 @@ public class MPDSocket {
         OutputStream outStream = socket.getOutputStream();
         outStream.write(bytesToSend);
 
-        List<String> response = new ArrayList<String>();
+        List<String> response = new ArrayList<>();
 
         String inLine = in.readLine();
         while (inLine != null) {

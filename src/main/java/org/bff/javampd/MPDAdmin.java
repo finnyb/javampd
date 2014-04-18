@@ -26,9 +26,9 @@ public class MPDAdmin implements Admin {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDAdmin.class);
 
     private List<MPDChangeListener> listeners =
-            new ArrayList<MPDChangeListener>();
+            new ArrayList<>();
     private List<OutputChangeListener> outputListeners =
-            new ArrayList<OutputChangeListener>();
+            new ArrayList<>();
 
     protected static final String OUTPUT_PREFIX_ID = "outputid:";
     protected static final String OUTPUT_PREFIX_NAME = "outputname:";
@@ -44,7 +44,7 @@ public class MPDAdmin implements Admin {
     @Override
     public Collection<MPDOutput> getOutputs() throws MPDAdminException {
         try {
-            return new ArrayList<MPDOutput>(parseOutputs(commandExecutor.sendCommand(adminProperties.getOutputs())));
+            return new ArrayList<>(parseOutputs(commandExecutor.sendCommand(adminProperties.getOutputs())));
         } catch (MPDException e) {
             LOGGER.error("Could not get outputs", e);
             throw new MPDAdminException(e);
@@ -74,7 +74,7 @@ public class MPDAdmin implements Admin {
     }
 
     private Collection<MPDOutput> parseOutputs(Collection<String> response) {
-        List<MPDOutput> outputs = new ArrayList<MPDOutput>();
+        List<MPDOutput> outputs = new ArrayList<>();
         Iterator<String> iter = response.iterator();
         String line = null;
 

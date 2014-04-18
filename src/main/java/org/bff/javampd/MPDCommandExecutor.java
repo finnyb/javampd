@@ -28,12 +28,12 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     @Override
     public synchronized List<String> sendCommand(String command) throws MPDResponseException {
-        return new ArrayList<String>(sendCommand(new MPDCommand(command)));
+        return new ArrayList<>(sendCommand(new MPDCommand(command)));
     }
 
     @Override
     public synchronized List<String> sendCommand(String command, String... params) throws MPDResponseException {
-        return new ArrayList<String>(sendCommand(new MPDCommand(command, params)));
+        return new ArrayList<>(sendCommand(new MPDCommand(command, params)));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class MPDCommandExecutor implements CommandExecutor {
         for (int i = 0; i < params.length; ++i) {
             intParms[i] = Integer.toString(params[i]);
         }
-        return new ArrayList<String>(sendCommand(new MPDCommand(command, intParms)));
+        return new ArrayList<>(sendCommand(new MPDCommand(command, intParms)));
     }
 
     @Override

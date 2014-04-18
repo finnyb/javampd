@@ -33,7 +33,7 @@ import java.util.List;
 public class MPDPlayer implements Player {
 
     private int oldVolume;
-    private List<PlayerChangeListener> listeners = new ArrayList<PlayerChangeListener>();
+    private List<PlayerChangeListener> listeners = new ArrayList<>();
     private VolumeChangeDelegate volumeChangeDelegate;
 
     private Status status = Status.STATUS_STOPPED;

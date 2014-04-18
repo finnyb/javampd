@@ -25,7 +25,7 @@ public class MPDSongConverter {
      * @return a MPDSong object
      */
     public static List<MPDSong> convertResponseToSong(List<String> list) {
-        List<MPDSong> songList = new ArrayList<MPDSong>();
+        List<MPDSong> songList = new ArrayList<>();
         Iterator<String> iterator = list.iterator();
 
         String line = null;
@@ -58,7 +58,7 @@ public class MPDSongConverter {
     }
 
     public static List<String> getSongNameList(List<String> fileList) {
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         for (String s : fileList) {
             if (s.startsWith(PREFIX_FILE)) {
                 names.add((s.substring(PREFIX_FILE.length())).trim());
