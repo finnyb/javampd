@@ -24,7 +24,7 @@ public class PlayerBasicChangeEvent extends java.util.EventObject {
         PLAYER_STARTED,
         PLAYER_PAUSED,
         PLAYER_UNPAUSED,
-        PLAYER_BITRATE_CHANGE;
+        PLAYER_BITRATE_CHANGE
     }
 
     /**
