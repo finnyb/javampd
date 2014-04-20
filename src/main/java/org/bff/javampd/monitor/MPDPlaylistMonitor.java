@@ -6,16 +6,12 @@ import org.bff.javampd.Status;
 import org.bff.javampd.events.PlaylistBasicChangeEvent;
 import org.bff.javampd.events.PlaylistBasicChangeListener;
 import org.bff.javampd.exception.MPDException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
 public class MPDPlaylistMonitor implements PlaylistMonitor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlaylistMonitor.class);
-
     private List<PlaylistBasicChangeListener> playlistListeners;
 
     private int newPlaylistVersion;
@@ -88,7 +84,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
                 newSongId = Integer.parseInt(line.substring(Status.CURRENTSONGID.getStatusPrefix().length()).trim());
                 break;
             default:
-                LOGGER.info("Unknown status {}", status);
+                //Do nothing
                 break;
         }
     }
