@@ -148,10 +148,10 @@ public class MPDPlayer implements Player {
     public void seekId(MPDSong song, long secs) throws MPDPlayerException {
         List<String> response = null;
         String params[] = new String[2];
-        params[2] = Long.toString(secs);
+        params[1] = Long.toString(secs);
         if (song == null) {
             if (getCurrentSong().getLength() > secs) {
-                params[1] = Integer.toString(getCurrentSong().getId());
+                params[0] = Integer.toString(getCurrentSong().getId());
                 try {
                     response = commandExecutor.sendCommand(playerProperties.getSeekId(), params);
                 } catch (MPDResponseException re) {
@@ -160,7 +160,7 @@ public class MPDPlayer implements Player {
             }
         } else {
             if (song.getLength() >= secs) {
-                params[1] = Integer.toString(song.getId());
+                params[0] = Integer.toString(song.getId());
                 try {
                     response = commandExecutor.sendCommand(playerProperties.getSeekId(), params);
                 } catch (MPDResponseException re) {
