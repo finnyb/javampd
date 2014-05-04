@@ -89,6 +89,7 @@ public class MPDStandAloneMonitor
      *
      * @param tpcl the TrackPositionChangeListener to add
      */
+    @Override
     public synchronized void addTrackPositionChangeListener(TrackPositionChangeListener tpcl) {
         trackMonitor.addTrackPositionChangeListener(tpcl);
     }
@@ -98,6 +99,7 @@ public class MPDStandAloneMonitor
      *
      * @param tpcl the TrackPositionChangeListener to remove
      */
+    @Override
     public synchronized void removeTrackPositionChangeListener(TrackPositionChangeListener tpcl) {
         trackMonitor.removeTrackPositionChangeListener(tpcl);
     }
@@ -108,6 +110,7 @@ public class MPDStandAloneMonitor
      *
      * @param ccl the ConnectionChangeListener to add
      */
+    @Override
     public synchronized void addConnectionChangeListener(ConnectionChangeListener ccl) {
         connectionMonitor.addConnectionChangeListener(ccl);
     }
@@ -117,6 +120,7 @@ public class MPDStandAloneMonitor
      *
      * @param ccl the ConnectionChangeListener to remove
      */
+    @Override
     public synchronized void removeConnectionChangeListener(ConnectionChangeListener ccl) {
         connectionMonitor.removeConnectionChangeListener(ccl);
     }

@@ -162,12 +162,29 @@ public interface Playlist {
     void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException;
 
     /**
+     * Adds a album by a artist to the playlist.
+     *
+     * @param artistName the album's artist
+     * @param albumName  the album name
+     * @throws MPDPlaylistException if the MPD responded with an error
+     */
+    void insertAlbum(String artistName, String albumName) throws MPDPlaylistException;
+
+    /**
      * Adds a {@link org.bff.javampd.objects.MPDAlbum} to the playlist.
      *
      * @param album the {@link org.bff.javampd.objects.MPDAlbum} to add
      * @throws MPDPlaylistException if the MPD responded with an error
      */
     void insertAlbum(MPDAlbum album) throws MPDPlaylistException;
+
+    /**
+     * Adds a album to the playlist.
+     *
+     * @param albumName the album to add
+     * @throws MPDPlaylistException if the MPD responded with an error
+     */
+    void insertAlbum(String albumName) throws MPDPlaylistException;
 
     /**
      * Removes a {@link org.bff.javampd.objects.MPDAlbum} by a {@link org.bff.javampd.objects.MPDArtist} to the playlist.
@@ -179,6 +196,15 @@ public interface Playlist {
     void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException;
 
     /**
+     * Removes a album by a artist to the playlist.
+     *
+     * @param artistName the artist for the album to remove
+     * @param albumName  the album to remove
+     * @throws MPDPlaylistException if the MPD responded with an error
+     */
+    void removeAlbum(String artistName, String albumName) throws MPDPlaylistException;
+
+    /**
      * Adds a {@link org.bff.javampd.objects.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.objects.MPDArtist} to add
@@ -187,12 +213,28 @@ public interface Playlist {
     void insertArtist(MPDArtist artist) throws MPDPlaylistException;
 
     /**
+     * Adds a artist to the playlist.
+     *
+     * @param artistName the artist to add
+     * @throws MPDPlaylistException if the MPD responded with an error
+     */
+    void insertArtist(String artistName) throws MPDPlaylistException;
+
+    /**
      * Adds a {@link org.bff.javampd.objects.MPDGenre} to the playlist.
      *
      * @param genre the {@link org.bff.javampd.objects.MPDGenre} to add
      * @throws MPDPlaylistException if the MPD responded with an error
      */
     void insertGenre(MPDGenre genre) throws MPDPlaylistException;
+
+    /**
+     * Adds a genre to the playlist.
+     *
+     * @param genreName the genre to add
+     * @throws MPDPlaylistException if the MPD responded with an error
+     */
+    void insertGenre(String genreName) throws MPDPlaylistException;
 
     /**
      * Adds a year to the playlist.
@@ -209,6 +251,14 @@ public interface Playlist {
      * @throws MPDPlaylistException if the MPD responded with an error
      */
     void removeArtist(MPDArtist artist) throws MPDPlaylistException;
+
+    /**
+     * Removes a artist to the playlist.
+     *
+     * @param artistName the artist to remove
+     * @throws MPDPlaylistException if the MPD responded with an error
+     */
+    void removeArtist(String artistName) throws MPDPlaylistException;
 
     /**
      * @return the database

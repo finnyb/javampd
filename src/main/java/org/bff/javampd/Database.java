@@ -159,6 +159,18 @@ public interface Database {
      * a particular artist. Please note this only returns an exact match of album
      * and artist.
      *
+     * @param artistName the artist album belongs to
+     * @param albumName  the album to find
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s
+     * @throws MPDDatabaseException if the MPD responded with an error
+     */
+    Collection<MPDSong> findAlbumByArtist(String artistName, String albumName) throws MPDDatabaseException;
+
+    /**
+     * Returns a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s for an album by
+     * a particular artist. Please note this only returns an exact match of album
+     * and artist.
+     *
      * @param album the album to find
      * @param genre the genre to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.objects.MPDSong}s

@@ -68,12 +68,17 @@ public class MPDDatabase implements Database {
 
     @Override
     public Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDDatabaseException {
+        return findAlbumByArtist(artist.getName(), album.getName());
+    }
+
+    @Override
+    public Collection<MPDSong> findAlbumByArtist(String artistName, String albumNAme) throws MPDDatabaseException {
         List<MPDSong> retList = new ArrayList<>();
 
-        List<MPDSong> songList = new ArrayList<>(find(ScopeType.ALBUM, album.getName()));
+        List<MPDSong> songList = new ArrayList<>(find(ScopeType.ALBUM, albumNAme));
 
         for (MPDSong song : songList) {
-            if (song.getArtistName() != null && song.getArtistName().equals(artist.getName())) {
+            if (song.getArtistName() != null && song.getArtistName().equals(artistName)) {
                 retList.add(song);
             }
         }

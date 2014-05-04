@@ -345,6 +345,18 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
+    public void insertAlbum(String artist, String album) throws MPDPlaylistException {
+        try {
+            for (MPDSong song : getDatabase().findAlbumByArtist(artist, album)) {
+                addSong(song, false);
+            }
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album);
+        } catch (Exception e) {
+            throw new MPDPlaylistException(e);
+        }
+    }
+
+    @Override
     public void insertAlbum(MPDAlbum album) throws MPDPlaylistException {
         try {
             for (MPDSong song : getDatabase().findAlbum(album)) {
@@ -357,11 +369,28 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
+    public void insertAlbum(String album) throws MPDPlaylistException {
+        try {
+            for (MPDSong song : getDatabase().findAlbum(album)) {
+                addSong(song, false);
+            }
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album);
+        } catch (Exception e) {
+            throw new MPDPlaylistException(e);
+        }
+    }
+
+    @Override
     public void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException {
+        removeAlbum(artist.getName(), album.getName());
+    }
+
+    @Override
+    public void removeAlbum(String artistName, String albumName) throws MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<>();
 
         for (MPDSong song : getSongList()) {
-            if (song.getArtistName().equals(artist.getName()) && song.getAlbumName().equals(album.getName())) {
+            if (song.getArtistName().equals(artistName) && song.getAlbumName().equals(albumName)) {
                 removeList.add(song);
             }
         }
@@ -373,12 +402,17 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void insertArtist(MPDArtist artist) throws MPDPlaylistException {
+        insertArtist(artist.getName());
+    }
+
+    @Override
+    public void insertArtist(String artistName) throws MPDPlaylistException {
         try {
-            for (MPDSong song : getDatabase().findArtist(artist)) {
+            for (MPDSong song : getDatabase().findArtist(artistName)) {
                 addSong(song, false);
             }
 
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ARTIST_ADDED, artist.getName());
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ARTIST_ADDED, artistName);
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
@@ -386,11 +420,16 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void insertGenre(MPDGenre genre) throws MPDPlaylistException {
+        insertGenre(genre.getName());
+    }
+
+    @Override
+    public void insertGenre(String genreName) throws MPDPlaylistException {
         try {
-            for (MPDSong song : getDatabase().findGenre(genre)) {
+            for (MPDSong song : getDatabase().findGenre(genreName)) {
                 addSong(song, false);
             }
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.GENRE_ADDED, genre.getName());
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.GENRE_ADDED, genreName);
         } catch (Exception e) {
             throw new MPDPlaylistException(e);
         }
@@ -412,9 +451,14 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeArtist(MPDArtist artist) throws MPDPlaylistException {
+        removeArtist(artist.getName());
+    }
+
+    @Override
+    public void removeArtist(String artistName) throws MPDPlaylistException {
         List<MPDSong> removeList = new ArrayList<>();
         for (MPDSong song : getSongList()) {
-            if (song.getArtistName().equals(artist.getName())) {
+            if (song.getArtistName().equals(artistName)) {
                 removeList.add(song);
             }
             removeList.add(song);
