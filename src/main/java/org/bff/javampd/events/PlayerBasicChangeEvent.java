@@ -16,7 +16,8 @@ package org.bff.javampd.events;
  * @author Bill
  */
 public class PlayerBasicChangeEvent extends java.util.EventObject {
-    private Status status;
+	private static final long serialVersionUID = 1L;
+	private Status status;
     private String msg;
 
     public enum Status {

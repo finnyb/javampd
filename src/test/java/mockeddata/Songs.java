@@ -31,8 +31,10 @@ public class Songs {
     private static final int INDEX_COMMENT = 6;
     private static final int INDEX_DISC = 7;
     private static final String NULL_TITLE = null;
-    private static final String NULL_ALBUM = "";
-    private static final String NULL_ARTIST = "";
+    @SuppressWarnings("unused")
+	private static final String NULL_ALBUM = "";
+    @SuppressWarnings("unused")
+	private static final String NULL_ARTIST = "";
     private static final String NULL_DISC = "";
     private static final String NULL_COMMENT = null;
     private static final String NULL_TRACK = "0";

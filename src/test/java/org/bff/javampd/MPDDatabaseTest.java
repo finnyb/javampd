@@ -36,7 +36,8 @@ public class MPDDatabaseTest {
     private static final String FIND_ARTIST = "Artist1";
     private static final String FIND_GENRE = "Rock";
     private static final String FIND_ALBUM = "Album1";
-    private static final String FIND_TITLE = "Title1";
+    @SuppressWarnings("unused")
+	private static final String FIND_TITLE = "Title1";
     private static final String FIND_ANY = "Artist0";
     private static final String FIND_YEAR = "1990";
 

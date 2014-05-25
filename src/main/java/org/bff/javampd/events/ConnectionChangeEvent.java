@@ -19,7 +19,8 @@ import java.util.EventObject;
  * @version 1.0
  */
 public class ConnectionChangeEvent extends EventObject {
-    private boolean connected;
+	private static final long serialVersionUID = 1L;
+	private boolean connected;
     private String msg;
 
     /**

@@ -16,7 +16,8 @@ package org.bff.javampd.events;
  * @version 1.0
  */
 public class MPDErrorEvent extends java.util.EventObject {
-    private String msg;
+	private static final long serialVersionUID = 1L;
+	private String msg;
 
     /**
      * Creates a new instance of MPDErrorEvent

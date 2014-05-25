@@ -17,7 +17,9 @@ package org.bff.javampd.exception;
  */
 public class MPDPlayerException extends MPDResponseException {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructor.
      */
     public MPDPlayerException(String message) {
