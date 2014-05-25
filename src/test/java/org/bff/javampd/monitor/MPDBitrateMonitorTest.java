@@ -24,7 +24,8 @@ public class MPDBitrateMonitorTest {
     public void testCheckStatus() throws Exception {
         bitrateMonitor.processResponseStatus(RESPONSE + "1");
         bitrateMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-            @Override
+            @SuppressWarnings("incomplete-switch")
+			@Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
                 switch (event.getStatus()) {
                     case PLAYER_BITRATE_CHANGE:
@@ -42,7 +43,8 @@ public class MPDBitrateMonitorTest {
         bitrateMonitor.processResponseStatus(RESPONSE + "1");
         bitrateMonitor.checkStatus();
         bitrateMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-            @Override
+            @SuppressWarnings("incomplete-switch")
+			@Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
                 switch (event.getStatus()) {
                     case PLAYER_BITRATE_CHANGE:

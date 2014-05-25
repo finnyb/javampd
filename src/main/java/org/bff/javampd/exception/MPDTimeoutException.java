@@ -18,7 +18,9 @@ package org.bff.javampd.exception;
  */
 public class MPDTimeoutException extends MPDConnectionException {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructor.
      */
     public MPDTimeoutException() {

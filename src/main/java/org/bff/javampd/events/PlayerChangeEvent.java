@@ -16,7 +16,8 @@ package org.bff.javampd.events;
  * @author Bill
  */
 public class PlayerChangeEvent extends java.util.EventObject {
-    private Event event;
+	private static final long serialVersionUID = 1L;
+	private Event event;
     private String msg;
 
     public enum Event {

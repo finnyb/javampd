@@ -17,7 +17,8 @@ package org.bff.javampd.events;
  * @version 1.0
  */
 public class TrackPositionChangeEvent extends java.util.EventObject {
-    private long newElapsedTime = 0;
+	private static final long serialVersionUID = 1L;
+	private long newElapsedTime = 0;
 
     /**
      * Creates a new instance of TrackPositionEvent.

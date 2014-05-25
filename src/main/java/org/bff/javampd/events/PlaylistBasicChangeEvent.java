@@ -18,7 +18,8 @@ import java.util.EventObject;
  * @author Bill
  */
 public class PlaylistBasicChangeEvent extends EventObject {
-    private Event event;
+	private static final long serialVersionUID = 1L;
+	private Event event;
     private String msg;
 
     public enum Event {

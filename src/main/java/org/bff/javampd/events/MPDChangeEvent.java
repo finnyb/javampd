@@ -18,7 +18,8 @@ package org.bff.javampd.events;
  */
 public class MPDChangeEvent
         extends java.util.EventObject {
-    private Event event;
+	private static final long serialVersionUID = 1L;
+	private Event event;
     private String msg;
 
     public enum Event {

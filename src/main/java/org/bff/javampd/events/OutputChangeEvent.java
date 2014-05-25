@@ -21,7 +21,8 @@ import org.bff.javampd.MPDOutput;
 public class OutputChangeEvent
         extends java.util.EventObject {
 
-    private OUTPUT_EVENT event;
+	private static final long serialVersionUID = 1L;
+	private OUTPUT_EVENT event;
 
     public enum OUTPUT_EVENT {
         OUTPUT_ADDED,

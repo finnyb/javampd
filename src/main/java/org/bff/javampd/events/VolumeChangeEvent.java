@@ -18,7 +18,8 @@ package org.bff.javampd.events;
  */
 public class VolumeChangeEvent
         extends java.util.EventObject {
-    private int volume;
+	private static final long serialVersionUID = 1L;
+	private int volume;
     private String msg;
 
     /**
