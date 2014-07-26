@@ -10,6 +10,7 @@ import com.google.inject.Injector;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.exception.MPDSecurityException;
 import org.bff.javampd.monitor.ConnectionMonitor;
 import org.bff.javampd.properties.ServerProperties;
 import org.slf4j.Logger;
@@ -27,11 +28,11 @@ import java.net.UnknownHostException;
  * to construct.
  * <p/>
  * Defaults are:
- *
- *  server --> localhost
- *  port --> 6600
- *  no timeout
- *  no password
+ * <p/>
+ * server --> localhost
+ * port --> 6600
+ * no timeout
+ * no password
  *
  * @author Bill
  */
@@ -78,6 +79,7 @@ public class MPD implements Server {
                 authenticate(builder.password);
             }
         } catch (Exception e) {
+            LOGGER.error("Error creating mpd instance to server {} on port {}", this.address, this.port, e);
             throw new MPDConnectionException(e);
         }
     }
@@ -102,8 +104,15 @@ public class MPD implements Server {
         return ping();
     }
 
-    public void authenticate(String password) throws MPDResponseException {
-        commandExecutor.sendCommand(serverProperties.getPassword(), password);
+    public void authenticate(String password) throws MPDSecurityException {
+        try {
+            commandExecutor.sendCommand(serverProperties.getPassword(), password);
+        } catch (MPDResponseException e) {
+            LOGGER.error("Error authenticating to mpd", e);
+            if (e.getMessage().contains("incorrect password")) {
+                throw new MPDSecurityException("Incorrect password");
+            }
+        }
     }
 
     private boolean ping() {
@@ -181,13 +190,14 @@ public class MPD implements Server {
         private ServerStatus serverStatus;
         private StandAloneMonitor standAloneMonitor;
         private Injector injector;
-        
+
         public Builder() {
             injector = Guice.createInjector(new MPDModule());
             bind(injector);
             bindMonitorAndRelay(injector);
 
         }
+
         public Builder server(String server) throws UnknownHostException {
             this.server = server;
             return this;

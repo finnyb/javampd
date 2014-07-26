@@ -2,6 +2,7 @@ package org.bff.javampd;
 
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.exception.MPDSecurityException;
 import org.bff.javampd.exception.MPDTimeoutException;
 import org.bff.javampd.properties.ResponseProperties;
 import org.bff.javampd.properties.ServerProperties;
@@ -104,8 +105,11 @@ public class MPDSocket {
                 }
                 ++count;
                 LOGGER.error("Retrying command {} for the {} time", command.getCommand(), count, se);
+            } catch (MPDResponseException re) {
+                LOGGER.error("Response Error from: {}", command.getCommand(), re);
+                throw re;
             } catch (Exception e) {
-                LOGGER.error("Got Error from: {}", command.getCommand(), e);
+                LOGGER.error("Error from: {}", command.getCommand(), e);
                 for (String str : command.getParams()) {
                     LOGGER.error("\tparam: {}", str);
                 }
@@ -186,6 +190,9 @@ public class MPDSocket {
 
         try {
             sendBytes(sb.toString());
+        } catch (MPDResponseException re) {
+            LOGGER.error("Response Error from command list", re);
+            throw re;
         } catch (Exception e) {
             throw new MPDResponseException(e.getMessage(), e);
         }
@@ -211,7 +218,11 @@ public class MPDSocket {
             }
 
             if (isResponseError(inLine)) {
-                throw new MPDResponseException(lastError, command);
+                if (lastError.contains("you don't have permission")) {
+                    throw new MPDSecurityException(lastError, command);
+                } else {
+                    throw new MPDResponseException(lastError, command);
+                }
             }
             response.add(inLine);
             inLine = in.readLine();

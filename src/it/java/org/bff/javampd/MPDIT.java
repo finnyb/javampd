@@ -3,10 +3,13 @@ package org.bff.javampd;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.exception.MPDSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,6 +58,59 @@ public class MPDIT extends BaseTest {
         MPD mpd = null;
         try {
             mpd = getNewMpd(TestProperties.getInstance().getPassword() + "WRONG");
+        } finally {
+            if (mpd != null) {
+                try {
+                    mpd.close();
+                } catch (MPDResponseException ex) {
+                    Logger.getLogger(MPDIT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    @Test(expected = MPDSecurityException.class)
+    public void testNoPassword() throws IOException, MPDConnectionException, MPDResponseException {
+        MPD mpd = null;
+        try {
+            mpd = new MPD.Builder()
+                    .server(TestProperties.getInstance().getServer())
+                    .port(TestProperties.getInstance().getPort())
+                    .build();
+            MPDCommandExecutor mpdCommandExecutor = new MPDCommandExecutor();
+            mpdCommandExecutor.setMpd(mpd);
+            mpdCommandExecutor.sendCommand("list", Database.ListType.ARTIST.getType());
+
+        } finally {
+            if (mpd != null) {
+                try {
+                    mpd.close();
+                } catch (MPDResponseException ex) {
+                    Logger.getLogger(MPDIT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    @Test(expected = MPDSecurityException.class)
+    public void testNoPasswordCommandList() throws IOException, MPDConnectionException, MPDResponseException {
+        MPD mpd = null;
+        try {
+            mpd = new MPD.Builder()
+                    .server(TestProperties.getInstance().getServer())
+                    .port(TestProperties.getInstance().getPort())
+                    .build();
+
+            MPDCommandExecutor mpdCommandExecutor = new MPDCommandExecutor();
+            mpdCommandExecutor.setMpd(mpd);
+            List<MPDCommand> commandList = new ArrayList<>();
+            MPDCommand mpdCommand = new MPDCommand("list", Database.ListType.ARTIST.getType());
+            MPDCommand mpdCommand2 = new MPDCommand("list", Database.ListType.GENRE.getType());
+            commandList.add(mpdCommand);
+            commandList.add(mpdCommand2);
+
+            mpdCommandExecutor.sendCommands(commandList);
+
         } finally {
             if (mpd != null) {
                 try {
