@@ -1,13 +1,13 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.Server;
-import org.bff.javampd.events.ConnectionChangeListener;
+import org.bff.javampd.server.ConnectionChangeListener;
+import org.bff.javampd.server.Server;
 
 public interface ConnectionMonitor extends Monitor {
 
     /**
-     * Adds a {@link org.bff.javampd.events.ConnectionChangeListener} to this object to receive
-     * {@link org.bff.javampd.events.ConnectionChangeEvent}s.
+     * Adds a {@link org.bff.javampd.server.ConnectionChangeListener} to this object to receive
+     * {@link org.bff.javampd.server.ConnectionChangeEvent}s.
      *
      * @param ccl the ConnectionChangeListener to add
      */

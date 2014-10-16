@@ -1,6 +1,8 @@
 package org.bff.javampd;
 
-import org.bff.javampd.properties.ServerProperties;
+import org.bff.javampd.command.MPDCommandExecutor;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.ServerProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;

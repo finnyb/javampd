@@ -1,6 +1,6 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.MPDException;
 
 public interface Monitor {
     /**

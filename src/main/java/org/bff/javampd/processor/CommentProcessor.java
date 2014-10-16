@@ -1,6 +1,6 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.objects.MPDSong;
+import org.bff.javampd.song.MPDSong;
 
 public class CommentProcessor extends SongResponseProcessor {
 

@@ -2,7 +2,10 @@ package org.bff.javampd;
 
 import com.google.inject.Singleton;
 import mockeddata.MockedData;
-import org.bff.javampd.exception.MPDResponseException;
+import org.bff.javampd.command.MPDCommand;
+import org.bff.javampd.command.MPDCommandExecutor;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDResponseException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +14,6 @@ import java.util.List;
 
 /**
  * @author bill
- * @since: 11/23/13 6:22 PM
  */
 @Singleton
 public class TestMPDCommandExecutor extends MPDCommandExecutor {

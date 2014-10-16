@@ -1,6 +1,6 @@
 package org.bff.javampd.integrationdata;
 
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.MPDException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ public class DataLoader {
             if (file.isDirectory()) {
                 loadData(file);
             } else {
-                if (file.getName().endsWith(Songs.EXTENSION)) {
-                    Songs.loadSong(file, f);
+                if (file.getName().endsWith(TestSongs.EXTENSION)) {
+                    TestSongs.loadSong(file, f);
                 }
             }
         }

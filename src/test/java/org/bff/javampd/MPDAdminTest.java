@@ -1,9 +1,12 @@
 package org.bff.javampd;
 
-import org.bff.javampd.exception.MPDConnectionException;
-import org.bff.javampd.exception.MPDException;
-import org.bff.javampd.exception.MPDResponseException;
-import org.bff.javampd.properties.AdminProperties;
+import org.bff.javampd.admin.AdminProperties;
+import org.bff.javampd.admin.MPDAdmin;
+import org.bff.javampd.command.MPDCommandExecutor;
+import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.server.MPDConnectionException;
+import org.bff.javampd.server.MPDResponseException;
+import org.bff.javampd.statistics.ServerStatistics;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
