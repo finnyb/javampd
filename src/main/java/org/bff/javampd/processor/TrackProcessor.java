@@ -1,6 +1,6 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.objects.MPDSong;
+import org.bff.javampd.song.MPDSong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

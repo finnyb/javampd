@@ -1,6 +1,6 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.events.TrackPositionChangeListener;
+import org.bff.javampd.player.TrackPositionChangeListener;
 
 public interface TrackMonitor extends StatusMonitor {
 

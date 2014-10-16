@@ -1,10 +1,10 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.Server;
-import org.bff.javampd.events.ConnectionChangeEvent;
-import org.bff.javampd.events.ConnectionChangeListener;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.server.ConnectionChangeEvent;
+import org.bff.javampd.server.ConnectionChangeListener;
+import org.bff.javampd.server.Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
     }
 
     /**
-     * Adds a {@link org.bff.javampd.events.ConnectionChangeListener} to this object to receive
-     * {@link org.bff.javampd.events.ConnectionChangeEvent}s.
+     * Adds a {@link org.bff.javampd.server.ConnectionChangeListener} to this object to receive
+     * {@link org.bff.javampd.server.ConnectionChangeEvent}s.
      *
      * @param ccl the ConnectionChangeListener to add
      */
@@ -41,7 +41,7 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
     }
 
     /**
-     * Sends the appropriate {@link org.bff.javampd.events.ConnectionChangeEvent} to all registered
+     * Sends the appropriate {@link org.bff.javampd.server.ConnectionChangeEvent} to all registered
      * {@link ConnectionChangeListener}s.
      *
      * @param isConnected the connection status

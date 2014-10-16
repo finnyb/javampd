@@ -1,7 +1,7 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.properties.MPDProperties;
+import org.bff.javampd.server.MPDProperties;
 
 /**
  * Properties for the {@link org.bff.javampd.monitor.MPDStandAloneMonitor}.  All

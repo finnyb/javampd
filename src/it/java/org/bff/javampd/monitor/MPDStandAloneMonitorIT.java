@@ -1,11 +1,17 @@
 package org.bff.javampd.monitor;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDOutput;
-import org.bff.javampd.events.*;
-import org.bff.javampd.exception.MPDException;
-import org.bff.javampd.integrationdata.Songs;
-import org.bff.javampd.objects.MPDSong;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.MPDSongs;
+import org.bff.javampd.admin.Admin;
+import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.output.OutputChangeEvent;
+import org.bff.javampd.output.OutputChangeListener;
+import org.bff.javampd.player.*;
+import org.bff.javampd.playlist.Playlist;
+import org.bff.javampd.playlist.PlaylistBasicChangeEvent;
+import org.bff.javampd.playlist.PlaylistBasicChangeListener;
+import org.bff.javampd.song.MPDSong;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,19 +31,29 @@ public class MPDStandAloneMonitorIT extends BaseTest {
      */
     private static final int MONITOR_DELAY = 1500;
 
+    private Player player;
+    private Playlist playlist;
+    private Admin admin;
+    private StandAloneMonitor monitor;
+
     @Before
     public void setUp() throws MPDException {
-        getPlaylist().clearPlaylist();
-        getPlayer().stop();
-        MPDOutput output = new ArrayList<>(getAdmin().getOutputs()).get(0);
-        getAdmin().enableOutput(output);
-        getMonitor().start();
+        this.player = getMpd().getPlayer();
+        this.playlist = getMpd().getPlaylist();
+        this.admin = getMpd().getAdmin();
+        this.monitor = getMpd().getMonitor();
+
+        playlist.clearPlaylist();
+        player.stop();
+        MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
+        admin.enableOutput(output);
+        monitor.start();
         delay();
     }
 
     @After
     public void tearDown() {
-        getMonitor().stop();
+        monitor.stop();
         delay();
     }
 
@@ -60,7 +76,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testAddSong() throws MPDException, IOException {
         success = false;
 
-        getMonitor().addPlaylistChangeListener(new PlaylistBasicChangeListener() {
+        monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
 
             @Override
             public void playlistBasicChange(PlaylistBasicChangeEvent event) {
@@ -72,7 +88,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        getPlaylist().addSong(Songs.databaseSongs.get(0));
+        playlist.addSong(MPDSongs.getSongs().get(0));
 
         waitForSuccess();
 
@@ -83,7 +99,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlaylistChanged() throws MPDException, IOException {
         success = false;
 
-        getMonitor().addPlaylistChangeListener(new PlaylistBasicChangeListener() {
+        monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
 
             @Override
             public void playlistBasicChange(PlaylistBasicChangeEvent event) {
@@ -95,7 +111,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        getPlaylist().addSong(Songs.databaseSongs.get(0));
+        playlist.addSong(MPDSongs.getSongs().get(0));
 
         waitForSuccess();
 
@@ -106,7 +122,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testRemoveSong() throws MPDException, IOException {
         success = false;
 
-        getMonitor().addPlaylistChangeListener(new PlaylistBasicChangeListener() {
+        monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
 
             @Override
             public void playlistBasicChange(PlaylistBasicChangeEvent event) {
@@ -118,11 +134,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        MPDSong song = Songs.databaseSongs.get(0);
+        MPDSong song = MPDSongs.getSongs().get(0);
 
-        getPlaylist().addSong(song);
+        playlist.addSong(song);
         delay(2);
-        getPlaylist().removeSong(getPlaylist().getSongList().get(0));
+        playlist.removeSong(playlist.getSongList().get(0));
 
         waitForSuccess();
 
@@ -133,7 +149,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testSongChanged() throws MPDException, IOException {
         success = false;
 
-        getMonitor().addPlaylistChangeListener(new PlaylistBasicChangeListener() {
+        monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
 
             @Override
             public void playlistBasicChange(PlaylistBasicChangeEvent event) {
@@ -144,10 +160,10 @@ public class MPDStandAloneMonitorIT extends BaseTest {
                 }
             }
         });
-        getPlaylist().addSong(Songs.databaseSongs.get(0));
-        getPlaylist().addSong(Songs.databaseSongs.get(1));
+        playlist.addSong(MPDSongs.getSongs().get(0));
+        playlist.addSong(MPDSongs.getSongs().get(1));
 
-        getPlayer().play();
+        player.play();
 
         waitForSuccess();
 
@@ -169,7 +185,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlayerStarted() throws MPDException, IOException {
         success = false;
 
-        getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
+        monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
 
             @Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
@@ -181,12 +197,12 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        getPlayer().stop();
+        player.stop();
         delay();
 
         success = false;
         loadSeveralSongs();
-        getPlayer().play();
+        player.play();
 
         waitForSuccess();
 
@@ -197,7 +213,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlayerStopped() throws MPDException, IOException {
         success = false;
 
-        getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
+        monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
 
             @Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
@@ -211,9 +227,9 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
         success = false;
         loadSeveralSongs();
-        getPlayer().play();
+        player.play();
         delay();
-        getPlayer().stop();
+        player.stop();
 
         waitForSuccess();
 
@@ -224,7 +240,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlayerPaused() throws MPDException, IOException {
         success = false;
 
-        getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
+        monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
 
             @Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
@@ -239,9 +255,9 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
         success = false;
         loadSeveralSongs();
-        getPlayer().play();
+        player.play();
         delay();
-        getPlayer().pause();
+        player.pause();
 
         waitForSuccess();
 
@@ -252,11 +268,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testVolumeChanged() throws MPDException, IOException {
         success = false;
 
-        getPlayer().setVolume(0);
+        player.setVolume(0);
 
         delay(2);
 
-        getMonitor().addVolumeChangeListener(new VolumeChangeListener() {
+        monitor.addVolumeChangeListener(new VolumeChangeListener() {
 
             @Override
             public void volumeChanged(VolumeChangeEvent event) {
@@ -265,9 +281,9 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         });
 
         loadSeveralSongs();
-        getPlayer().play();
+        player.play();
 
-        getPlayer().setVolume(5);
+        player.setVolume(5);
         waitForSuccess();
         Assert.assertTrue(success);
     }
@@ -276,7 +292,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlayerUnPaused() throws MPDException, IOException {
         success = false;
         Date start = Calendar.getInstance().getTime();
-        getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
+        monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
 
             @Override
             public void playerBasicChange(PlayerBasicChangeEvent event) {
@@ -289,10 +305,10 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         });
         success = false;
         loadSeveralSongs();
-        getPlayer().play();
-        getPlayer().pause();
+        player.play();
+        player.pause();
         delay();
-        getPlayer().pause();
+        player.pause();
 
         waitForSuccess();
 
@@ -303,7 +319,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testOutputChanged() throws MPDException, IOException {
         success = false;
 
-        getMonitor().addOutputChangeListener(new OutputChangeListener() {
+        monitor.addOutputChangeListener(new OutputChangeListener() {
 
             @Override
             public void outputChanged(OutputChangeEvent event) {
@@ -311,22 +327,22 @@ public class MPDStandAloneMonitorIT extends BaseTest {
             }
         });
 
-        MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
-        getAdmin().disableOutput(output);
+        MPDOutput output = new ArrayList<MPDOutput>(admin.getOutputs()).get(0);
+        admin.disableOutput(output);
         waitForSuccess();
         Assert.assertTrue(success);
     }
 
     private void loadSeveralSongs() throws MPDException, IOException {
-        getPlaylist().addSong(Songs.databaseSongs.get(0));
-        getPlaylist().addSong(Songs.databaseSongs.get(1));
-        getPlaylist().addSong(Songs.databaseSongs.get(2));
-        getPlaylist().addSong(Songs.databaseSongs.get(3));
-        getPlaylist().addSong(Songs.databaseSongs.get(4));
-        getPlaylist().addSong(Songs.databaseSongs.get(5));
-        getPlaylist().addSong(Songs.databaseSongs.get(6));
-        getPlaylist().addSong(Songs.databaseSongs.get(7));
-        getPlaylist().addSong(Songs.databaseSongs.get(8));
-        getPlaylist().addSong(Songs.databaseSongs.get(9));
+        playlist.addSong(MPDSongs.getSongs().get(0));
+        playlist.addSong(MPDSongs.getSongs().get(1));
+        playlist.addSong(MPDSongs.getSongs().get(2));
+        playlist.addSong(MPDSongs.getSongs().get(3));
+        playlist.addSong(MPDSongs.getSongs().get(4));
+        playlist.addSong(MPDSongs.getSongs().get(5));
+        playlist.addSong(MPDSongs.getSongs().get(6));
+        playlist.addSong(MPDSongs.getSongs().get(7));
+        playlist.addSong(MPDSongs.getSongs().get(8));
+        playlist.addSong(MPDSongs.getSongs().get(9));
     }
 }

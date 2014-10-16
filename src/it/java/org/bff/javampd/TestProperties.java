@@ -4,7 +4,7 @@
  */
 package org.bff.javampd;
 
-import org.bff.javampd.exception.MPDConnectionException;
+import org.bff.javampd.server.MPDConnectionException;
 
 import java.io.FileInputStream;
 import java.io.IOException;

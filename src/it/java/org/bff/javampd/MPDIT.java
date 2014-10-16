@@ -1,9 +1,12 @@
 package org.bff.javampd;
 
-import org.bff.javampd.exception.MPDConnectionException;
-import org.bff.javampd.exception.MPDException;
-import org.bff.javampd.exception.MPDResponseException;
-import org.bff.javampd.exception.MPDSecurityException;
+import org.bff.javampd.command.MPDCommand;
+import org.bff.javampd.command.MPDCommandExecutor;
+import org.bff.javampd.database.TagLister;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDConnectionException;
+import org.bff.javampd.server.MPDResponseException;
+import org.bff.javampd.server.MPDSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -79,7 +82,7 @@ public class MPDIT extends BaseTest {
                     .build();
             MPDCommandExecutor mpdCommandExecutor = new MPDCommandExecutor();
             mpdCommandExecutor.setMpd(mpd);
-            mpdCommandExecutor.sendCommand("list", Database.ListType.ARTIST.getType());
+            mpdCommandExecutor.sendCommand("list", TagLister.ListType.ARTIST.getType());
 
         } finally {
             if (mpd != null) {
@@ -104,8 +107,8 @@ public class MPDIT extends BaseTest {
             MPDCommandExecutor mpdCommandExecutor = new MPDCommandExecutor();
             mpdCommandExecutor.setMpd(mpd);
             List<MPDCommand> commandList = new ArrayList<>();
-            MPDCommand mpdCommand = new MPDCommand("list", Database.ListType.ARTIST.getType());
-            MPDCommand mpdCommand2 = new MPDCommand("list", Database.ListType.GENRE.getType());
+            MPDCommand mpdCommand = new MPDCommand("list", TagLister.ListType.ARTIST.getType());
+            MPDCommand mpdCommand2 = new MPDCommand("list", TagLister.ListType.GENRE.getType());
             commandList.add(mpdCommand);
             commandList.add(mpdCommand2);
 

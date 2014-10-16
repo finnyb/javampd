@@ -2,11 +2,11 @@ package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.bff.javampd.Admin;
-import org.bff.javampd.MPDOutput;
-import org.bff.javampd.events.OutputChangeEvent;
-import org.bff.javampd.events.OutputChangeListener;
-import org.bff.javampd.exception.MPDAdminException;
+import org.bff.javampd.admin.Admin;
+import org.bff.javampd.admin.MPDAdminException;
+import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.output.OutputChangeEvent;
+import org.bff.javampd.output.OutputChangeListener;
 
 import java.util.*;
 
@@ -15,10 +15,11 @@ public class MPDOutputMonitor implements OutputMonitor {
     private Map<Integer, MPDOutput> outputMap;
     private List<OutputChangeListener> outputListeners;
 
-    @Inject
     private Admin admin;
 
-    public MPDOutputMonitor() {
+    @Inject
+    public MPDOutputMonitor(Admin admin) {
+        this.admin = admin;
         this.outputMap = new HashMap<>();
         this.outputListeners = new ArrayList<>();
     }
@@ -62,7 +63,7 @@ public class MPDOutputMonitor implements OutputMonitor {
 
     /**
      * Sends the appropriate {@link OutputChangeEvent} to all registered
-     * {@link org.bff.javampd.events.OutputChangeListener}s.
+     * {@link org.bff.javampd.output.OutputChangeListener}s.
      *
      * @param event the event id to send
      */

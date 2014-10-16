@@ -1,6 +1,7 @@
 package org.bff.javampd.properties;
 
 import com.google.inject.Singleton;
+import org.bff.javampd.server.MPDProperties;
 
 /**
  * @author bill

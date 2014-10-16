@@ -1,9 +1,9 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.Status;
-import org.bff.javampd.events.PlayerBasicChangeEvent;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.player.PlayerBasicChangeEvent;
+import org.bff.javampd.server.Status;
 
 
 @Singleton

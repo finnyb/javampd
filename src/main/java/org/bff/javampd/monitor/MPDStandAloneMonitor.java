@@ -11,10 +11,16 @@ package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.bff.javampd.ServerStatus;
-import org.bff.javampd.StandAloneMonitor;
-import org.bff.javampd.events.*;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.output.OutputChangeListener;
+import org.bff.javampd.player.PlayerBasicChangeEvent;
+import org.bff.javampd.player.PlayerBasicChangeListener;
+import org.bff.javampd.player.TrackPositionChangeListener;
+import org.bff.javampd.player.VolumeChangeListener;
+import org.bff.javampd.playlist.PlaylistBasicChangeListener;
+import org.bff.javampd.server.ConnectionChangeListener;
+import org.bff.javampd.server.MPDErrorListener;
+import org.bff.javampd.server.ServerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,25 +45,15 @@ public class MPDStandAloneMonitor
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
 
-    @Inject
     private ServerStatus serverStatus;
-    @Inject
     private OutputMonitor outputMonitor;
-    @Inject
     private TrackMonitor trackMonitor;
-    @Inject
     private ConnectionMonitor connectionMonitor;
-    @Inject
     private VolumeMonitor volumeMonitor;
-    @Inject
     private PlayerMonitor playerMonitor;
-    @Inject
     private BitrateMonitor bitrateMonitor;
-    @Inject
     private PlaylistMonitor playlistMonitor;
-    @Inject
     private ErrorMonitor errorMonitor;
-    @Inject
     private MonitorProperties monitorProperties;
 
     private List<ThreadedMonitor> monitors;
@@ -68,7 +64,27 @@ public class MPDStandAloneMonitor
      * Creates a new instance of MPDStandAloneMonitor using the given getDelay interval
      * for queries.
      */
-    MPDStandAloneMonitor() {
+    @Inject
+    MPDStandAloneMonitor(ServerStatus serverStatus,
+                         OutputMonitor outputMonitor,
+                         TrackMonitor trackMonitor,
+                         ConnectionMonitor connectionMonitor,
+                         VolumeMonitor volumeMonitor,
+                         PlayerMonitor playerMonitor,
+                         BitrateMonitor bitrateMonitor,
+                         PlaylistMonitor playlistMonitor,
+                         ErrorMonitor errorMonitor,
+                         MonitorProperties monitorProperties) {
+        this.serverStatus = serverStatus;
+        this.outputMonitor = outputMonitor;
+        this.trackMonitor = trackMonitor;
+        this.connectionMonitor = connectionMonitor;
+        this.volumeMonitor = volumeMonitor;
+        this.playerMonitor = playerMonitor;
+        this.bitrateMonitor = bitrateMonitor;
+        this.playlistMonitor = playlistMonitor;
+        this.errorMonitor = errorMonitor;
+        this.monitorProperties = monitorProperties;
         this.monitors = new ArrayList<>();
     }
 
@@ -84,8 +100,8 @@ public class MPDStandAloneMonitor
     }
 
     /**
-     * Adds a {@link TrackPositionChangeListener} to this object to receive
-     * {@link TrackPositionChangeEvent}s.
+     * Adds a {@link org.bff.javampd.player.TrackPositionChangeListener} to this object to receive
+     * {@link org.bff.javampd.player.TrackPositionChangeEvent}s.
      *
      * @param tpcl the TrackPositionChangeListener to add
      */
@@ -105,8 +121,8 @@ public class MPDStandAloneMonitor
     }
 
     /**
-     * Adds a {@link org.bff.javampd.events.ConnectionChangeListener} to this object to receive
-     * {@link org.bff.javampd.events.ConnectionChangeEvent}s.
+     * Adds a {@link org.bff.javampd.server.ConnectionChangeListener} to this object to receive
+     * {@link org.bff.javampd.server.ConnectionChangeEvent}s.
      *
      * @param ccl the ConnectionChangeListener to add
      */

@@ -1,10 +1,10 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.Status;
-import org.bff.javampd.events.VolumeChangeDelegate;
-import org.bff.javampd.events.VolumeChangeListener;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.player.VolumeChangeDelegate;
+import org.bff.javampd.player.VolumeChangeListener;
+import org.bff.javampd.server.Status;
 
 @Singleton
 public class MPDVolumeMonitor implements VolumeMonitor {
@@ -43,7 +43,7 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     }
 
     /**
-     * Sends the appropriate {@link org.bff.javampd.events.VolumeChangeEvent} to all registered
+     * Sends the appropriate {@link org.bff.javampd.player.VolumeChangeEvent} to all registered
      * {@link VolumeChangeListener}.
      *
      * @param volume the new volume

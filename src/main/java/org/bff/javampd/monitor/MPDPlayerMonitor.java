@@ -1,11 +1,10 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.StandAloneMonitor;
-import org.bff.javampd.Status;
-import org.bff.javampd.events.PlayerBasicChangeEvent;
-import org.bff.javampd.events.PlayerBasicChangeListener;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.player.PlayerBasicChangeEvent;
+import org.bff.javampd.player.PlayerBasicChangeListener;
+import org.bff.javampd.server.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,10 +73,10 @@ public class MPDPlayerMonitor implements PlayerMonitor {
     }
 
     /**
-     * Sends the appropriate {@link org.bff.javampd.events.PlayerBasicChangeEvent.Status} to all registered
+     * Sends the appropriate {@link org.bff.javampd.player.PlayerBasicChangeEvent.Status} to all registered
      * {@link PlayerBasicChangeListener}s.
      *
-     * @param status the {@link org.bff.javampd.events.PlayerBasicChangeEvent.Status}
+     * @param status the {@link org.bff.javampd.player.PlayerBasicChangeEvent.Status}
      */
     protected synchronized void firePlayerChangeEvent(PlayerBasicChangeEvent.Status status) {
         PlayerBasicChangeEvent pce = new PlayerBasicChangeEvent(this, status);

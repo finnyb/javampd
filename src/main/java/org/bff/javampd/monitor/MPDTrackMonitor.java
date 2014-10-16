@@ -1,10 +1,10 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.Status;
-import org.bff.javampd.events.TrackPositionChangeEvent;
-import org.bff.javampd.events.TrackPositionChangeListener;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.player.TrackPositionChangeEvent;
+import org.bff.javampd.player.TrackPositionChangeListener;
+import org.bff.javampd.server.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class MPDTrackMonitor implements TrackMonitor {
 
     /**
      * Adds a {@link TrackPositionChangeListener} to this object to receive
-     * {@link org.bff.javampd.events.TrackPositionChangeEvent}s.
+     * {@link org.bff.javampd.player.TrackPositionChangeEvent}s.
      *
      * @param tpcl the TrackPositionChangeListener to add
      */
@@ -72,7 +72,7 @@ public class MPDTrackMonitor implements TrackMonitor {
     }
 
     /**
-     * Sends the appropriate {@link org.bff.javampd.events.TrackPositionChangeEvent} to all registered
+     * Sends the appropriate {@link org.bff.javampd.player.TrackPositionChangeEvent} to all registered
      * {@link TrackPositionChangeListener}s.
      *
      * @param newTime the new elapsed time

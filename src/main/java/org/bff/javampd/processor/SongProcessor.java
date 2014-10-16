@@ -20,7 +20,7 @@ public enum SongProcessor {
         this.songResponseProcessor = songResponseProcessor;
     }
 
-    public SongResponseProcessor getPrefix() {
+    public SongResponseProcessor getProcessor() {
         return songResponseProcessor;
     }
 }
