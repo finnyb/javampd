@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MPDGenreDatabaseTest extends BaseTest {
+public class MPDGenreDatabaseIT extends BaseTest {
     private GenreDatabase genreDatabase;
 
     @Before
