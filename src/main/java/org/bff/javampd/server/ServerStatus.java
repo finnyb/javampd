@@ -31,7 +31,7 @@ public interface ServerStatus {
 
     /**
      * Returns the error description.  If there is no error null is returned.  You
-     * might want to first check the error status with {@see #isError}
+     * might want to first check the error status with {@link #isError}
      *
      * @return the error string, null if none
      * @throws MPDResponseException
@@ -45,7 +45,7 @@ public interface ServerStatus {
     int getVolume() throws MPDResponseException;
 
     /**
-     * Returns true if the MPD status contains an error. {@see #getError} to get the
+     * Returns true if the MPD status contains an error. {@link #getError} to get the
      * error description.
      *
      * @return true if there is an error

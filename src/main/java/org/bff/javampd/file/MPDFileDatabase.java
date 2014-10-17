@@ -14,7 +14,8 @@ import java.util.List;
 
 /**
  * MPDFileDatabase represents a file database controller to a {@link org.bff.javampd.server.MPD}.
- * To obtain an instance of the class you must use the {@link org.bff.javampd.server.MPD#getFileDatabase()}
+ * To obtain an instance of the class you must use the
+ * {@link org.bff.javampd.database.DatabaseManager#getFileDatabase()}
  * method from the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill
