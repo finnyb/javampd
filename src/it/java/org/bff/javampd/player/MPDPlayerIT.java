@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MPDPlayerIT extends BaseTest {
     private Playlist playlist;
@@ -57,6 +58,32 @@ public class MPDPlayerIT extends BaseTest {
     }
 
     @Test
+    public void testGetTime() throws MPDConnectionException, MPDPlayerException, MPDPlaylistException {
+        player.play();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        assertTrue(player.getElapsedTime() > 0);
+    }
+
+    @Test
+    public void testGetTotalTime() throws MPDConnectionException, MPDPlayerException, MPDPlaylistException {
+        player.play();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals(5, player.getTotalTime());
+    }
+
+    @Test
     @Ignore
     public void testSetVolume() throws MPDException, IOException {
         player.setVolume(0);
@@ -69,7 +96,7 @@ public class MPDPlayerIT extends BaseTest {
 
         player.setVolume(5);
 
-        Assert.assertTrue(5 == player.getVolume());
+        assertTrue(5 == player.getVolume());
     }
 
     @Test(expected = MPDPlayerException.class)

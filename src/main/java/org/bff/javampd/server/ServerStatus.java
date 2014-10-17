@@ -40,6 +40,14 @@ public interface ServerStatus {
 
     long getTime() throws MPDResponseException;
 
+    /**
+     * Returns the total time of the currently playing song
+     *
+     * @return total time of the song
+     * @throws MPDResponseException
+     */
+    long getTotalTime() throws MPDResponseException;
+
     int getBitrate() throws MPDResponseException;
 
     int getVolume() throws MPDResponseException;

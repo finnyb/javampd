@@ -360,6 +360,15 @@ public class MPDPlayer implements Player {
     }
 
     @Override
+    public long getTotalTime() throws MPDPlayerException {
+        try {
+            return serverStatus.getTotalTime();
+        } catch (MPDResponseException re) {
+            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+        }
+    }
+
+    @Override
     public MPDAudioInfo getAudioDetails() throws MPDPlayerException {
         MPDAudioInfo info = null;
         try {

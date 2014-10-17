@@ -13,6 +13,21 @@ public class MPDServerStatus implements ServerStatus {
     private ServerProperties serverProperties;
     private CommandExecutor commandExecutor;
 
+    private enum TimeType {
+        ELAPSED(0),
+        TOTAL(1);
+
+        private int index;
+
+        TimeType(int index) {
+            this.index = index;
+        }
+
+        public int getIndex() {
+            return this.index;
+        }
+    }
+
     @Inject
     public MPDServerStatus(ServerProperties serverProperties,
                            CommandExecutor commandExecutor) {
@@ -77,13 +92,12 @@ public class MPDServerStatus implements ServerStatus {
 
     @Override
     public long getTime() throws MPDResponseException {
-        String time = getStatus(Status.TIME);
+        return lookupTime(TimeType.ELAPSED);
+    }
 
-        if (time == null || !time.contains(":")) {
-            return 0;
-        } else {
-            return Integer.parseInt(time.trim().split(":")[0]);
-        }
+    @Override
+    public long getTotalTime() throws MPDResponseException {
+        return lookupTime(TimeType.TOTAL);
     }
 
     @Override
@@ -104,5 +118,15 @@ public class MPDServerStatus implements ServerStatus {
     @Override
     public boolean isRandom() throws MPDResponseException {
         return "1".equals(getStatus(Status.RANDOM));
+    }
+
+    private long lookupTime(TimeType type) throws MPDResponseException {
+        String time = getStatus(Status.TIME);
+
+        if (time == null || !time.contains(":")) {
+            return 0;
+        } else {
+            return Integer.parseInt(time.trim().split(":")[type.getIndex()]);
+        }
     }
 }
