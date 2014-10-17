@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * MPDArtistDatabase represents a artist database controller to a {@link org.bff.javampd.server.MPD}.
- * To obtain an instance of the class you must use the {@link org.bff.javampd.server.MPD#getArtistDatabase()} method from
+ * To obtain an instance of the class you must use the
+ * {@link org.bff.javampd.database.DatabaseManager#getArtistDatabase} method from
  * the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill
