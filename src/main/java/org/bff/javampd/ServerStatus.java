@@ -28,6 +28,8 @@ public interface ServerStatus {
 
     long getTime() throws MPDResponseException;
 
+    long getTotalTime() throws MPDResponseException;
+
     int getBitrate() throws MPDResponseException;
 
     int getVolume() throws MPDResponseException;

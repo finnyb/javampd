@@ -242,6 +242,14 @@ public interface Player {
     long getElapsedTime() throws MPDPlayerException;
 
     /**
+     * Returns the total time of the current song in seconds.
+     *
+     * @return the elapsed time of the song in seconds
+     * @throws MPDPlayerException if the MPD responded with an error
+     */
+    long getTotalTime() throws MPDPlayerException;
+
+    /**
      * Returns the {@link org.bff.javampd.objects.MPDAudioInfo} about the current status of the player.  If the status is unknown
      * {@code null} will be returned.  Any individual parameter that is not known will be a -1
      *
