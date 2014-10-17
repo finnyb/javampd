@@ -7,7 +7,7 @@
     <version>6.0.0-SNAPSHOT</version>
     <name>JavaMPD</name>
     <description>A Java API for controlling the Music Player Daemon (MPD)</description>
-    <url>http://www.thejavashop.net/javampd/index.shtml</url>
+    <url>http://www.thejavashop.net/javampd/</url>
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -49,7 +49,7 @@
         <site>
             <id>website</id>
             <name>Maven Site</name>
-            <url>scp://www.thejavashop.net/maven/javampd</url>
+            <url>scp://www.thejavashop.net/javampd</url>
         </site>
     </distributionManagement>
     <prerequisites>
