@@ -1,7 +1,9 @@
 package org.bff.javampd;
 
+import org.bff.javampd.exception.MPDAdminException;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MPDAdminIT extends BaseTest {
+
+    @After
+    public void after() throws MPDAdminException {
+        MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
+        getAdmin().enableOutput(output);
+    }
 
     @Test
     public void disableOutput() throws MPDConnectionException, MPDResponseException {
