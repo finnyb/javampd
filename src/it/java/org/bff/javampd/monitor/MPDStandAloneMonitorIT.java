@@ -228,7 +228,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         success = false;
         loadSeveralSongs();
         player.play();
-        delay();
+        delay(5);
         player.stop();
 
         waitForSuccess();
