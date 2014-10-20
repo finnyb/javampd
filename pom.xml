@@ -4,7 +4,7 @@
     <groupId>net.thejavashop</groupId>
     <artifactId>javampd</artifactId>
     <packaging>jar</packaging>
-    <version>5.0.1</version>
+    <version>5.0.2</version>
     <name>JavaMPD</name>
     <description>A Java API for controlling the Music Player Daemon (MPD)</description>
     <url>http://www.thejavashop.net/javampd/index.shtml</url>
@@ -293,7 +293,6 @@
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <report>index</report>
                             <report>project-team</report>
                             <report>license</report>
                             <report>mailing-list</report>

@@ -8,6 +8,36 @@ import org.bff.javampd.events.*;
  */
 public interface StandAloneMonitor extends Runnable {
     /**
+     * Adds a {@link TrackPositionChangeListener} to this object to receive
+     * {@link TrackPositionChangeEvent}s.
+     *
+     * @param tpcl the TrackPositionChangeListener to add
+     */
+    void addTrackPositionChangeListener(TrackPositionChangeListener tpcl);
+
+    /**
+     * Removes a {@link TrackPositionChangeListener} from this object.
+     *
+     * @param tpcl the TrackPositionChangeListener to remove
+     */
+    void removeTrackPositionChangeListener(TrackPositionChangeListener tpcl);
+
+    /**
+     * Adds a {@link org.bff.javampd.events.ConnectionChangeListener} to this object to receive
+     * {@link org.bff.javampd.events.ConnectionChangeEvent}s.
+     *
+     * @param ccl the ConnectionChangeListener to add
+     */
+    void addConnectionChangeListener(ConnectionChangeListener ccl);
+
+    /**
+     * Removes a {@link ConnectionChangeListener} from this object.
+     *
+     * @param ccl the ConnectionChangeListener to remove
+     */
+    void removeConnectionChangeListener(ConnectionChangeListener ccl);
+
+    /**
      * Adds a {@link org.bff.javampd.events.PlayerBasicChangeListener} to this object to receive
      * {@link org.bff.javampd.events.PlayerChangeEvent}s.
      *

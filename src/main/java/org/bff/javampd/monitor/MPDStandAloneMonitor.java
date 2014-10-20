@@ -83,40 +83,18 @@ public class MPDStandAloneMonitor
         monitors.add(new ThreadedMonitor(outputMonitor, monitorProperties.getOutputDelay()));
     }
 
-    /**
-     * Adds a {@link TrackPositionChangeListener} to this object to receive
-     * {@link TrackPositionChangeEvent}s.
-     *
-     * @param tpcl the TrackPositionChangeListener to add
-     */
     public synchronized void addTrackPositionChangeListener(TrackPositionChangeListener tpcl) {
         trackMonitor.addTrackPositionChangeListener(tpcl);
     }
 
-    /**
-     * Removes a {@link TrackPositionChangeListener} from this object.
-     *
-     * @param tpcl the TrackPositionChangeListener to remove
-     */
     public synchronized void removeTrackPositionChangeListener(TrackPositionChangeListener tpcl) {
         trackMonitor.removeTrackPositionChangeListener(tpcl);
     }
 
-    /**
-     * Adds a {@link org.bff.javampd.events.ConnectionChangeListener} to this object to receive
-     * {@link org.bff.javampd.events.ConnectionChangeEvent}s.
-     *
-     * @param ccl the ConnectionChangeListener to add
-     */
     public synchronized void addConnectionChangeListener(ConnectionChangeListener ccl) {
         connectionMonitor.addConnectionChangeListener(ccl);
     }
 
-    /**
-     * Removes a {@link ConnectionChangeListener} from this object.
-     *
-     * @param ccl the ConnectionChangeListener to remove
-     */
     public synchronized void removeConnectionChangeListener(ConnectionChangeListener ccl) {
         connectionMonitor.removeConnectionChangeListener(ccl);
     }
