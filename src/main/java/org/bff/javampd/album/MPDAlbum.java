@@ -80,9 +80,4 @@ public class MPDAlbum extends MPDItem {
             return artistName.equals(album.artistName);
         }
     }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
