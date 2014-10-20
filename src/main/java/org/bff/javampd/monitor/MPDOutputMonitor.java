@@ -34,18 +34,22 @@ public class MPDOutputMonitor implements OutputMonitor {
             fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_DELETED));
             loadOutputs(outputs);
         } else {
-            for (MPDOutput out : outputs) {
-                MPDOutput output = outputMap.get(out.getId());
-                if (output == null) {
+            compareOutputs(outputs);
+        }
+    }
+
+    private void compareOutputs(List<MPDOutput> outputs) {
+        for (MPDOutput out : outputs) {
+            MPDOutput output = outputMap.get(out.getId());
+            if (output == null) {
+                fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
+                loadOutputs(outputs);
+                return;
+            } else {
+                if (output.isEnabled() != out.isEnabled()) {
                     fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
                     loadOutputs(outputs);
                     return;
-                } else {
-                    if (output.isEnabled() != out.isEnabled()) {
-                        fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
-                        loadOutputs(outputs);
-                        return;
-                    }
                 }
             }
         }
