@@ -152,7 +152,7 @@ public class MPDPlayer implements Player {
     @Override
     public void seekId(MPDSong song, long secs) throws MPDPlayerException {
         List<String> response = null;
-        String params[] = new String[2];
+        String[] params = new String[2];
         params[1] = Long.toString(secs);
         if (song == null) {
             if (getCurrentSong().getLength() > secs) {

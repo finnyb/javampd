@@ -318,7 +318,6 @@ public class MPDPlaylist implements Playlist {
     }
 
     private int getPlaylistVersion() throws MPDPlaylistException {
-        //TODO playlist returning null
         try {
             return serverStatus.getPlaylistVersion();
         } catch (MPDResponseException re) {

@@ -83,35 +83,40 @@ public class MPDAdmin implements Admin {
 
     private Collection<MPDOutput> parseOutputs(Collection<String> response) {
         List<MPDOutput> outputs = new ArrayList<>();
-        Iterator<String> iter = response.iterator();
+        Iterator<String> iterator = response.iterator();
         String line = null;
 
-        while (iter.hasNext()) {
+        while (iterator.hasNext()) {
             if (line == null || (!line.startsWith(OUTPUT_PREFIX_ID))) {
-                line = iter.next();
+                line = iterator.next();
             }
 
             if (line.startsWith(OUTPUT_PREFIX_ID)) {
-                MPDOutput output = new MPDOutput(Integer.parseInt(line.substring(OUTPUT_PREFIX_ID.length()).trim()));
-
-                line = iter.next();
-
-                while (!line.startsWith(OUTPUT_PREFIX_ID)) {
-
-                    if (line.startsWith(OUTPUT_PREFIX_NAME)) {
-                        output.setName(line.replace(OUTPUT_PREFIX_NAME, "").trim());
-                    } else if (line.startsWith(OUTPUT_PREFIX_ENABLED)) {
-                        output.setEnabled("1".equals(line.replace(OUTPUT_PREFIX_ENABLED, "").trim()));
-                    }
-                    if (!iter.hasNext()) {
-                        break;
-                    }
-                    line = iter.next();
-                }
-                outputs.add(output);
+                outputs.add(parseOutput(line, iterator));
             }
         }
         return outputs;
+    }
+
+    private MPDOutput parseOutput(String line, Iterator<String> iterator) {
+        MPDOutput output = new MPDOutput(Integer.parseInt(line.substring(OUTPUT_PREFIX_ID.length()).trim()));
+
+        line = iterator.next();
+
+        while (!line.startsWith(OUTPUT_PREFIX_ID)) {
+
+            if (line.startsWith(OUTPUT_PREFIX_NAME)) {
+                output.setName(line.replace(OUTPUT_PREFIX_NAME, "").trim());
+            } else if (line.startsWith(OUTPUT_PREFIX_ENABLED)) {
+                output.setEnabled("1".equals(line.replace(OUTPUT_PREFIX_ENABLED, "").trim()));
+            }
+            if (!iterator.hasNext()) {
+                break;
+            }
+            line = iterator.next();
+        }
+
+        return output;
     }
 
     @Override
