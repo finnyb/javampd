@@ -59,6 +59,10 @@ public class MPDAdminTest {
         MPDOutput output = new ArrayList<>(mpdAdmin.getOutputs()).get(0);
         assertEquals(output.getName(), "My ALSA Device");
         assertEquals(output.getId(), 0);
+
+        output = new ArrayList<>(mpdAdmin.getOutputs()).get(1);
+        assertEquals(output.getName(), "My ALSA Device 2");
+        assertEquals(output.getId(), 0);
     }
 
     @Test(expected = MPDAdminException.class)
@@ -197,6 +201,10 @@ public class MPDAdminTest {
         List<String> responseList = new ArrayList<>();
         responseList.add("outputid: 0");
         responseList.add("outputname: My ALSA Device");
+        responseList.add("outputenabled: 0");
+
+        responseList.add("outputid: 1");
+        responseList.add("outputname: My ALSA Device 2");
         responseList.add("outputenabled: 0");
 
         return responseList;
