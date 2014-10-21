@@ -26,20 +26,26 @@ public class MPDSongConverter implements SongConverter {
             }
 
             if (line.startsWith(PREFIX_FILE)) {
-                MPDSong song = new MPDSong(line.substring(PREFIX_FILE.length()).trim());
-                initialize(song);
-                line = iterator.next();
-                while (!line.startsWith(PREFIX_FILE)) {
-                    processLine(song, line);
-                    if (!iterator.hasNext()) {
-                        break;
-                    }
-                    line = iterator.next();
-                }
-                songList.add(song);
+                line = processSong(line.substring(PREFIX_FILE.length()).trim(), iterator, songList);
             }
         }
         return songList;
+    }
+
+    private String processSong(String file, Iterator<String> iterator, List<MPDSong> songs) {
+        MPDSong song = new MPDSong(file);
+        initialize(song);
+        String line = iterator.next();
+        while (!line.startsWith(PREFIX_FILE)) {
+            processLine(song, line);
+            if (!iterator.hasNext()) {
+                break;
+            }
+            line = iterator.next();
+        }
+        songs.add(song);
+
+        return line;
     }
 
     private void initialize(MPDSong song) {
