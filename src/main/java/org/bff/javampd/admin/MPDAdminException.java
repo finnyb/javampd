@@ -12,7 +12,7 @@ package org.bff.javampd.admin;
 import org.bff.javampd.server.MPDResponseException;
 
 /**
- * Represents an error with the MPDPlayer.
+ * Represents an error with the MPD administration.
  *
  * @author Bill
  * @version 1.0
