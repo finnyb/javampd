@@ -98,10 +98,10 @@ public class MPDAdmin implements Admin {
         return outputs;
     }
 
-    private MPDOutput parseOutput(String line, Iterator<String> iterator) {
-        MPDOutput output = new MPDOutput(Integer.parseInt(line.substring(OUTPUT_PREFIX_ID.length()).trim()));
+    private MPDOutput parseOutput(String startingLine, Iterator<String> iterator) {
+        MPDOutput output = new MPDOutput(Integer.parseInt(startingLine.substring(OUTPUT_PREFIX_ID.length()).trim()));
 
-        line = iterator.next();
+        String line = iterator.next();
 
         while (!line.startsWith(OUTPUT_PREFIX_ID)) {
 
