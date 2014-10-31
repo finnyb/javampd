@@ -3,7 +3,6 @@ package org.bff.javampd.album;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,11 +22,6 @@ public class MPDAlbumDatabaseTest {
 
     @InjectMocks
     private MPDAlbumDatabase albumDatabase;
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
 
     @Test
     public void testListSingleAlbumsByArtist() throws Exception {

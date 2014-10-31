@@ -14,10 +14,6 @@ public abstract class SongResponseProcessor {
         return prefix;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
     protected boolean startsWith(String line) {
         return line.startsWith(getPrefix());
     }
