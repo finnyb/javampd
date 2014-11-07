@@ -32,6 +32,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
         for (String str : tagLister.list(TagLister.ListType.ARTIST)) {
             artists.add(new MPDArtist(str));
         }
+
         return artists;
     }
 
@@ -45,6 +46,23 @@ public class MPDArtistDatabase implements ArtistDatabase {
         for (String str : tagLister.list(TagLister.ListType.ARTIST, list)) {
             artists.add(new MPDArtist(str));
         }
+
         return artists;
+    }
+
+    @Override
+    public MPDArtist listArtistByName(String name) throws MPDDatabaseException {
+
+        List<String> list = new ArrayList<>();
+        list.add(TagLister.ListType.ARTIST.getType());
+        list.add(name);
+
+        MPDArtist artist = null;
+        List<String> artists = new ArrayList<>(tagLister.list(TagLister.ListType.ARTIST, list));
+        if (artists.size() > 0) {
+            artist = new MPDArtist(artists.get(0));
+        }
+
+        return artist;
     }
 }

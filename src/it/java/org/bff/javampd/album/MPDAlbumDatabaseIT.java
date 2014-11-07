@@ -74,6 +74,40 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
+    public void testListAlbumNames() throws MPDDatabaseException {
+        for (MPDAlbum testAlbum : TestAlbums.getAlbums()) {
+            boolean exists = false;
+            for (String albumName : albumDatabase.listAllAlbumNames()) {
+                if (testAlbum.getName().equals(albumName)) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                Assert.fail("Album " + testAlbum + " does not exist.");
+            }
+        }
+    }
+
+    @Test
+    public void testFindAlbum() throws MPDDatabaseException {
+        for (MPDAlbum testAlbum : TestAlbums.getAlbums()) {
+            boolean exists = false;
+            for (MPDAlbum album : albumDatabase.findAlbum(testAlbum.getName())) {
+                if (testAlbum.equals(album)) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                Assert.fail("Album " + testAlbum + " does not exist.");
+            }
+        }
+    }
+
+    @Test
     public void testAlbumCount() throws MPDException {
         Assert.assertEquals(TestAlbums.getAlbums().size(), getAllAlBums().size());
     }

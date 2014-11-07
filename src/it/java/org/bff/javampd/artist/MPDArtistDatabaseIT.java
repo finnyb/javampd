@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class MPDArtistDatabaseIT extends BaseTest {
     private ArtistDatabase artistDatabase;
 
@@ -49,12 +51,19 @@ public class MPDArtistDatabaseIT extends BaseTest {
                     Assert.fail("Artist " + testArtist + " does not exist.");
                 }
             }
+        }
+    }
 
+    @Test
+    public void testListArtistsByName() throws Exception {
+        for (MPDArtist testArtist : TestArtists.getArtists()) {
+            MPDArtist artist = artistDatabase.listArtistByName(testArtist.getName());
+            assertEquals(testArtist, artist);
         }
     }
 
     @Test
     public void testArtistCount() throws MPDException {
-        Assert.assertEquals(TestArtists.getArtists().size(), artistDatabase.listAllArtists().size());
+        assertEquals(TestArtists.getArtists().size(), artistDatabase.listAllArtists().size());
     }
 }

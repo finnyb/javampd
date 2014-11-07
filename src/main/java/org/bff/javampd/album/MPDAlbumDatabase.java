@@ -41,6 +41,26 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
+    public Collection<String> listAllAlbumNames() throws MPDDatabaseException {
+        List<String> albumNames = new ArrayList<>();
+
+        for (String albumName : tagLister.list(TagLister.ListType.ALBUM)) {
+            albumNames.add(albumName);
+        }
+
+        return albumNames;
+    }
+
+    @Override
+    public Collection<MPDAlbum> findAlbum(String albumName) throws MPDDatabaseException {
+        List<String> list = new ArrayList<>();
+        list.add(TagLister.ListType.ALBUM.getType());
+        list.add(albumName);
+
+        return lookupAlbumByName(albumName, list);
+    }
+
+    @Override
     public Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) throws MPDDatabaseException {
         List<String> list = new ArrayList<>();
         list.add(TagLister.ListType.GENRE.getType());

@@ -27,7 +27,7 @@ public class CommandExecutorTest {
     private MPD mpd;
 
     @InjectMocks
-    private MPDCommandExecutor testCommandExecutor;
+    private MPDCommandExecutor commandExecutor;
 
     @Test
     public void testGetVersion() throws MPDResponseException, UnknownHostException {
@@ -35,47 +35,47 @@ public class CommandExecutorTest {
         Mockito.when(mpd.getPort()).thenReturn(8080);
         Mockito.when(mpd.getTimeout()).thenReturn(0);
         Mockito.when(mpdSocket.getVersion()).thenReturn("version");
-        assertEquals("version", testCommandExecutor.getMPDVersion());
+        assertEquals("version", commandExecutor.getMPDVersion());
     }
 
     @Test(expected = MPDResponseException.class)
     public void testCommandNoMPDSet() throws MPDException {
-        testCommandExecutor = new MPDCommandExecutor();
-        testCommandExecutor.sendCommand("command");
+        commandExecutor = new MPDCommandExecutor();
+        commandExecutor.sendCommand("command");
     }
 
     @Test(expected = MPDResponseException.class)
     public void testCommandObjectNoMPDSet() throws MPDException {
-        testCommandExecutor = new MPDCommandExecutor();
+        commandExecutor = new MPDCommandExecutor();
         MPDCommand command = new MPDCommand("command");
-        testCommandExecutor.sendCommand(command);
+        commandExecutor.sendCommand(command);
     }
 
     @Test(expected = MPDResponseException.class)
     public void testCommandStringParamsNoMPDSet() throws MPDException {
-        testCommandExecutor = new MPDCommandExecutor();
-        testCommandExecutor.sendCommand("command", "param1", "param2");
+        commandExecutor = new MPDCommandExecutor();
+        commandExecutor.sendCommand("command", "param1", "param2");
     }
 
     @Test(expected = MPDResponseException.class)
     public void testCommandStringIntegerParamsNoMPDSet() throws MPDException {
-        testCommandExecutor = new MPDCommandExecutor();
-        testCommandExecutor.sendCommand("command", 1, 2, 3);
+        commandExecutor = new MPDCommandExecutor();
+        commandExecutor.sendCommand("command", 1, 2, 3);
     }
 
     @Test(expected = MPDResponseException.class)
     public void testGetVersionNoMPDSet() throws MPDResponseException {
-        testCommandExecutor = new MPDCommandExecutor();
-        testCommandExecutor.getMPDVersion();
+        commandExecutor = new MPDCommandExecutor();
+        commandExecutor.getMPDVersion();
     }
 
     @Test(expected = MPDResponseException.class)
     public void testSendCommandsNoMPDSet() throws MPDException {
-        testCommandExecutor = new MPDCommandExecutor();
+        commandExecutor = new MPDCommandExecutor();
         List<MPDCommand> commands = new ArrayList<MPDCommand>();
         commands.add(new MPDCommand("command1"));
         commands.add(new MPDCommand("command2"));
         commands.add(new MPDCommand("command3"));
-        testCommandExecutor.sendCommands(commands);
+        commandExecutor.sendCommands(commands);
     }
 }

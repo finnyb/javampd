@@ -41,9 +41,29 @@ public interface AlbumDatabase {
      * albums by a particular artist.
      *
      * @param artist the artist to find albums
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s by the
+     * {@link MPDArtist}
+     * @throws MPDDatabaseException if the MPD responded with an error
+     */
+    Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDDatabaseException;
+
+    /**
+     * Returns a list of album names.  To hydrate the {@link org.bff.javampd.album.MPDAlbum} call
+     * #findAlbum(String).  This method will return an empty string album name if one exists
+     * in your collection.
+     *
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all
      * albums
      * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDDatabaseException;
+    Collection<String> listAllAlbumNames() throws MPDDatabaseException;
+
+    /**
+     * Returns a list of {@link MPDAlbum}s for the album name.
+     *
+     * @param albumName the album's name
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s
+     * @throws MPDDatabaseException if the MPD responded with an error
+     */
+    Collection<MPDAlbum> findAlbum(String albumName) throws MPDDatabaseException;
 }

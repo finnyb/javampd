@@ -30,4 +30,13 @@ public interface ArtistDatabase {
      * @throws MPDDatabaseException if the MPD responded with an error
      */
     Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDDatabaseException;
+
+    /**
+     * Returns a {@link org.bff.javampd.artist.MPDArtist} with the passed name.
+     *
+     * @param name the name of the artist
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s
+     * @throws MPDDatabaseException if the MPD responded with an error
+     */
+    MPDArtist listArtistByName(String name) throws MPDDatabaseException;
 }
