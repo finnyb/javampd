@@ -245,13 +245,11 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void move(MPDSong song, int to) throws MPDPlaylistException {
-        String[] paramList = new String[2];
         try {
-            paramList[1] = Integer.toString(to);
             if (song.getId() > -1) {
-                commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getId());
+                commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getId(), to);
             } else if (song.getPosition() > -1) {
-                commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getPosition());
+                commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getPosition(), to);
             }
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);

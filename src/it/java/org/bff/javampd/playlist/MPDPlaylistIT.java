@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class MPDPlaylistIT extends BaseTest {
     private Playlist playlist;
     private PlaylistDatabase playlistDatabase;
@@ -102,5 +104,21 @@ public class MPDPlaylistIT extends BaseTest {
     @Test(expected = MPDResponseException.class)
     public void testAddingNonexistentPlaylist() throws Exception {
         playlist.loadPlaylist("DOESNTEXIST");
+    }
+
+
+    @Test
+    public void testMove() throws MPDPlaylistException {
+        List<MPDSong> songs = new ArrayList<>(TestSongs.getSongs());
+        playlist.addSong(songs.get(0));
+        playlist.addSong(songs.get(1));
+        playlist.addSong(songs.get(2));
+        playlist.addSong(songs.get(3));
+
+        MPDSong song = playlist.getSongList().get(3);
+
+        assertEquals(song, playlist.getSongList().get(3));
+        playlist.move(song, 1);
+        assertEquals(song, playlist.getSongList().get(1));
     }
 }
