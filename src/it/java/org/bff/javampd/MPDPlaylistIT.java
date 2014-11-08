@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class MPDPlaylistIT extends BaseTest {
 
     @Before
@@ -38,9 +40,9 @@ public class MPDPlaylistIT extends BaseTest {
     public void testGetSongList() throws MPDPlaylistException, MPDConnectionException, IOException {
         List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSong(songs.get(0));
-        Assert.assertEquals(getPlaylist().getSongList().size(), 1);
+        assertEquals(getPlaylist().getSongList().size(), 1);
         getPlaylist().addSong(songs.get(1));
-        Assert.assertEquals(getPlaylist().getSongList().size(), 2);
+        assertEquals(getPlaylist().getSongList().size(), 2);
 
     }
 
@@ -48,11 +50,11 @@ public class MPDPlaylistIT extends BaseTest {
     public void testGetSongListRemoteAdded() throws MPDPlaylistException, MPDConnectionException, IOException {
         List<MPDSong> songs = new ArrayList<>(Songs.songs);
         getPlaylist().addSong(songs.get(0));
-        Assert.assertEquals(getPlaylist().getSongList().size(), 1);
+        assertEquals(getPlaylist().getSongList().size(), 1);
 
         getNewMpd().getPlaylist().addSong(songs.get(1));
 
-        Assert.assertEquals(getPlaylist().getSongList().size(), 2);
+        assertEquals(getPlaylist().getSongList().size(), 2);
     }
 
     @Test
@@ -102,5 +104,20 @@ public class MPDPlaylistIT extends BaseTest {
     @Test(expected = MPDResponseException.class)
     public void testAddingNonexistentPlaylist() throws Exception {
         getPlaylist().loadPlaylist("DOESNTEXIST");
+    }
+
+    @Test
+    public void testMove() throws MPDPlaylistException {
+        List<MPDSong> songs = new ArrayList<>(Songs.songs);
+        getPlaylist().addSong(songs.get(0));
+        getPlaylist().addSong(songs.get(1));
+        getPlaylist().addSong(songs.get(2));
+        getPlaylist().addSong(songs.get(3));
+
+        MPDSong song = getPlaylist().getSongList().get(3);
+
+        assertEquals(song, getPlaylist().getSongList().get(3));
+        getPlaylist().move(song, 1);
+        assertEquals(song, getPlaylist().getSongList().get(1));
     }
 }
