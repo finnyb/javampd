@@ -19,4 +19,13 @@ public interface GenreDatabase {
      * @throws MPDDatabaseException if the MPD responded with an error
      */
     Collection<MPDGenre> listAllGenres() throws MPDDatabaseException;
+
+    /**
+     * Returns a {@link org.bff.javampd.genre.MPDGenre} with the passed name.
+     *
+     * @param name the name of the genre
+     * @return a {@link org.bff.javampd.genre.MPDGenre
+     * @throws MPDDatabaseException if the MPD responded with an error
+     */
+    MPDGenre listGenreByName(String name) throws MPDDatabaseException;
 }

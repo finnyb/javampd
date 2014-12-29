@@ -11,11 +11,9 @@ public class DatabaseProperties extends MPDProperties {
     private enum Command {
         FIND("MPD_DB_FIND"),
         LIST("MPD_DB_LIST_TAG"),
-        LISTALL("MPD_DB_LIST_ALL"),
-        LISTALLINFO("MPD_DB_LIST_ALL_INFO"),
         LISTINFO("MPD_DB_LIST_INFO"),
         SEARCH("MPD_DB_SEARCH"),
-        LISTSONGS("MPD_DP_LIST_SONGS");
+        LISTSONGS("MPD_DB_LIST_SONGS");
 
         private final String key;
 
@@ -34,14 +32,6 @@ public class DatabaseProperties extends MPDProperties {
 
     public String getList() {
         return getPropertyString(Command.LIST.getKey());
-    }
-
-    public String getListAll() {
-        return getPropertyString(Command.LISTALL.getKey());
-    }
-
-    public String getListAllInfo() {
-        return getPropertyString(Command.LISTALLINFO.getKey());
     }
 
     public String getListInfo() {

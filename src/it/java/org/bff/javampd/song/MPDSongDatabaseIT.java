@@ -3,6 +3,7 @@ package org.bff.javampd.song;
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.album.MPDAlbum;
+import org.bff.javampd.artist.ArtistDatabase;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.genre.MPDGenre;
@@ -13,7 +14,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MPDSongDatabaseIT extends BaseTest {
     private static final String FIND_ARTIST = "Artist1";
@@ -29,18 +31,23 @@ public class MPDSongDatabaseIT extends BaseTest {
     private static final String FIND_YEAR = "1990";
 
     private SongDatabase songDatabase;
+    private ArtistDatabase artistDatabase;
 
     private static List<MPDSong> databaseList;
 
     @Before
     public void setUp() throws Exception {
         songDatabase = getMpd().getDatabaseManager().getSongDatabase();
+        artistDatabase = getMpd().getDatabaseManager().getArtistDatabase();
         loadDatabaseSongs();
     }
 
     private void loadDatabaseSongs() throws MPDDatabaseException {
         if (databaseList == null) {
-            databaseList = new ArrayList<>(songDatabase.listAllSongs());
+            databaseList = new ArrayList<>();
+            for (MPDArtist artist : artistDatabase.listAllArtists()) {
+                databaseList.addAll(songDatabase.findArtist(artist));
+            }
         }
     }
 
@@ -303,25 +310,6 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListAllSongs() throws Exception {
-        for (MPDSong testSong : TestSongs.getSongs()) {
-
-            boolean exists = false;
-            for (MPDSong song : songDatabase.listAllSongs()) {
-                if (song.getFile().equals(testSong.getFile())) {
-                    exists = true;
-                    compareSongs(testSong, song);
-                    break;
-                }
-            }
-
-            if (!exists) {
-                fail("Song " + testSong + " does not exist.");
-            }
-        }
-    }
-
-    @Test
     public void testListAllSongsForPath() throws Exception {
 
     }
@@ -331,7 +319,14 @@ public class MPDSongDatabaseIT extends BaseTest {
         List<MPDSong> testResults = new ArrayList<>();
 
         for (MPDSong song : TestSongs.getSongs()) {
-            if (song.getFile().contains(SEARCH_ANY)) {
+            if (song.getArtistName().contains(SEARCH_ANY) ||
+                    song.getAlbumName().contains(SEARCH_ANY) ||
+                    song.getTitle().contains(SEARCH_ANY) ||
+                    song.getGenre().contains(SEARCH_ANY) ||
+                    song.getName().contains(SEARCH_ANY) ||
+                    song.getYear().contains(SEARCH_ANY) ||
+                    song.getDiscNumber().contains(SEARCH_ANY) ||
+                    Integer.toString(song.getTrack()).contains(SEARCH_ANY)) {
                 testResults.add(song);
             }
         }
@@ -398,6 +393,20 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
+    public void testFindSong() throws MPDException {
+        String name = "Title0";
+        String artist = "Artist0";
+        String album = "Album0";
+
+        MPDSong song = songDatabase.findSong(name, album, artist);
+
+        assertNotNull(song);
+        assertEquals(name, song.getName());
+        assertEquals(artist, song.getArtistName());
+        assertEquals(album, song.getAlbumName());
+    }
+
+    @Test
     public void testFindGenreString() throws MPDException {
         List<MPDSong> testResults = new ArrayList<>();
 
@@ -422,26 +431,5 @@ public class MPDSongDatabaseIT extends BaseTest {
         assertEquals(item1.getYear(), item2.getYear());
         assertEquals(item1.getTrack(), item2.getTrack());
         assertEquals(item1.getDiscNumber(), item2.getDiscNumber());
-    }
-
-    private void compareSongLists(List<MPDSong> testResults, List<MPDSong> foundSongs) {
-
-        if (testResults.isEmpty()) {
-            assertTrue("Bad test criteria.  Should have a size of at least 1", false);
-        }
-
-        assertEquals(testResults.size(), foundSongs.size());
-
-        for (MPDSong song : testResults) {
-            boolean found = false;
-            for (MPDSong songDb : foundSongs) {
-                if (song.getFile().equals(songDb.getFile())) {
-                    found = true;
-                    break;
-                }
-            }
-
-            assertTrue(found);
-        }
     }
 }

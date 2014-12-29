@@ -3,9 +3,10 @@ package org.bff.javampd.genre;
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.integrationdata.TestGenres;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class MPDGenreDatabaseIT extends BaseTest {
     private GenreDatabase genreDatabase;
@@ -27,13 +28,22 @@ public class MPDGenreDatabaseIT extends BaseTest {
             }
 
             if (!exists) {
-                Assert.fail("Genre " + testGenre + " does not exist.");
+                fail("Genre " + testGenre + " does not exist.");
             }
         }
     }
 
     @Test
+    public void testListGenreByName() throws Exception {
+        String testGenre = "Rock";
+        MPDGenre genre = genreDatabase.listGenreByName(testGenre);
+
+        assertNotNull(genre);
+        assertEquals(testGenre, genre.getName());
+    }
+
+    @Test
     public void testGenreCount() throws MPDException {
-        Assert.assertEquals(TestGenres.getGenres().size(), genreDatabase.listAllGenres().size());
+        assertEquals(TestGenres.getGenres().size(), genreDatabase.listAllGenres().size());
     }
 }

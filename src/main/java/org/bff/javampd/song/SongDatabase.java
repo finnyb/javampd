@@ -186,25 +186,6 @@ public interface SongDatabase {
     Collection<MPDSong> findAny(String criteria) throws MPDDatabaseException;
 
     /**
-     * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s of all
-     * songs from the mpd root.
-     *
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException if the MPD responded with an error
-     */
-    Collection<MPDSong> listAllSongs() throws MPDDatabaseException;
-
-    /**
-     * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s of all
-     * songs from the given path.
-     *
-     * @param path the root of the list
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException if the MPD responded with an error
-     */
-    Collection<MPDSong> listAllSongs(String path) throws MPDDatabaseException;
-
-    /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any
      * title containing the parameter title.
      * Please note this returns a partial match of a title.  To find an
@@ -268,4 +249,16 @@ public interface SongDatabase {
      * @throws MPDDatabaseException if the MPD responded with an error
      */
     Collection<MPDSong> findGenre(String genre) throws MPDDatabaseException;
+
+
+    /**
+     * Returns a {@link org.bff.javampd.song.MPDSong} for the given album and artist
+     *
+     * @param name   name of the {@link MPDSong}
+     * @param album  name of the album
+     * @param artist name of the artist
+     * @return the {@link MPDSong or null if none found}
+     * @throws MPDDatabaseException if the MPD responded with an error
+     */
+    MPDSong findSong(String name, String album, String artist) throws MPDDatabaseException;
 }

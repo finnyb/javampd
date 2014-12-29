@@ -40,26 +40,54 @@ public interface SongSearcher {
     }
 
     /**
-     * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for a searches matching the scope type any.
-     * Please note this returns a partial match of a title.  To find an
+     * Returns a {@link java.util.Collection} of {@link MPDSong}s for a searches
+     * matching the scope type any.  Please note this returns a partial match of a title.  To find an
      * exact match use {@link #find(ScopeType, String)}.
      *
      * @param searchType the {@link ScopeType}
-     * @param param      the search criteria
+     * @param criteria   the search criteria
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
      * @throws org.bff.javampd.database.MPDDatabaseException if the database throws an exception during the search
      */
-    Collection<MPDSong> search(ScopeType searchType, String param) throws MPDDatabaseException;
+    Collection<MPDSong> search(ScopeType searchType, String criteria) throws MPDDatabaseException;
 
     /**
-     * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for a searches matching the scope type any.
+     * Returns a windowed {@link java.util.Collection} of {@link MPDSong}s for a searches
+     * matching the scope type any.  Please note this returns a partial match of a title.  To find an
+     * exact match use {@link #find(ScopeType, String)}.
+     *
+     * @param searchType the {@link ScopeType}
+     * @param criteria   the search criteria
+     * @param start      the starting index
+     * @param end        the ending index
+     * @return a {@link java.util.Collection} of {@link MPDSong}s
+     * @throws org.bff.javampd.database.MPDDatabaseException if the database throws an exception during the search
+     */
+    Collection<MPDSong> search(ScopeType searchType, String criteria, int start, int end) throws MPDDatabaseException;
+
+    /**
+     * Returns a {@link java.util.Collection} of {@link MPDSong}s for a searches
+     * matching the scope type any.  Please note this only returns an exact match of artist.  To find a partial
+     * match use {@link #search(ScopeType, String)}.
+     *
+     * @param scopeType the {@link ScopeType}
+     * @param criteria  the search criteria
+     * @return a {@link java.util.Collection} of {@link MPDSong}s
+     * @throws MPDDatabaseException if the database throws an exception during the search
+     */
+    Collection<MPDSong> find(ScopeType scopeType, String criteria) throws MPDDatabaseException;
+
+    /**
+     * Returns a windowed {@link java.util.Collection} of {@link MPDSong}s for a searches matching the scope type any.
      * Please note this only returns an exact match of artist.  To find a partial
      * match use {@link #search(ScopeType, String)}.
      *
      * @param scopeType the {@link ScopeType}
-     * @param param     the search criteria
-     * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
+     * @param criteria  the search criteria
+     * @param start     the starting index
+     * @param end       the ending index
+     * @return a {@link java.util.Collection} of {@link MPDSong}s
      * @throws MPDDatabaseException if the database throws an exception during the search
      */
-    Collection<MPDSong> find(ScopeType scopeType, String param) throws MPDDatabaseException;
+    Collection<MPDSong> find(ScopeType scopeType, String criteria, int start, int end) throws MPDDatabaseException;
 }

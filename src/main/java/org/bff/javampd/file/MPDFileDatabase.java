@@ -49,57 +49,6 @@ public class MPDFileDatabase implements FileDatabase {
         }
     }
 
-    @Override
-    public Collection<String> listAllFiles() throws MPDDatabaseException {
-        try {
-            return commandExecutor.sendCommand(databaseProperties.getListAll());
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
-    }
-
-    @Override
-    public Collection<String> listAllFiles(String path) throws MPDDatabaseException {
-        try {
-            return commandExecutor.sendCommand(databaseProperties.getListAll());
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
-    }
-
-    @Override
-    public Collection<String> listAllSongFiles() throws MPDDatabaseException {
-        List<String> fileList;
-
-        try {
-            fileList = commandExecutor.sendCommand(databaseProperties.getListAll());
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
-
-        return songConverter.getSongNameList(fileList);
-    }
-
-    @Override
-    public Collection<String> listAllSongFiles(String path) throws MPDDatabaseException {
-        List<String> fileList;
-        try {
-            fileList = commandExecutor.sendCommand(databaseProperties.getListAll(), path);
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
-
-        return songConverter.getSongNameList(fileList);
-    }
-
     private Collection<MPDFile> listDirectory(String directory) throws MPDDatabaseException {
         return listDirectoryInfo(directory);
     }

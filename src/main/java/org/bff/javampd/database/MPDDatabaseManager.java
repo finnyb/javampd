@@ -7,6 +7,7 @@ import org.bff.javampd.file.FileDatabase;
 import org.bff.javampd.genre.GenreDatabase;
 import org.bff.javampd.playlist.PlaylistDatabase;
 import org.bff.javampd.song.SongDatabase;
+import org.bff.javampd.song.SongSearcher;
 import org.bff.javampd.year.YearDatabase;
 
 import javax.inject.Singleton;
@@ -20,6 +21,7 @@ public class MPDDatabaseManager implements DatabaseManager {
     private final FileDatabase fileDatabase;
     private final YearDatabase yearDatabase;
     private final SongDatabase songDatabase;
+    private final SongSearcher songSearcher;
 
     @Inject
     public MPDDatabaseManager(ArtistDatabase artistDatabase,
@@ -28,7 +30,8 @@ public class MPDDatabaseManager implements DatabaseManager {
                               PlaylistDatabase playlistDatabase,
                               FileDatabase fileDatabase,
                               YearDatabase yearDatabase,
-                              SongDatabase songDatabase) {
+                              SongDatabase songDatabase,
+                              SongSearcher songSearcher) {
         this.artistDatabase = artistDatabase;
         this.albumDatabase = albumDatabase;
         this.genreDatabase = genreDatabase;
@@ -36,6 +39,7 @@ public class MPDDatabaseManager implements DatabaseManager {
         this.fileDatabase = fileDatabase;
         this.yearDatabase = yearDatabase;
         this.songDatabase = songDatabase;
+        this.songSearcher = songSearcher;
     }
 
     @Override
@@ -71,5 +75,10 @@ public class MPDDatabaseManager implements DatabaseManager {
     @Override
     public SongDatabase getSongDatabase() {
         return songDatabase;
+    }
+
+    @Override
+    public SongSearcher getSongSearcher() {
+        return songSearcher;
     }
 }

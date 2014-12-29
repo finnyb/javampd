@@ -13,8 +13,8 @@ import java.util.Collection;
 public interface PlaylistDatabase {
 
     /**
-     * Returns a {@link java.util.Collection} of {@link org.bff.javampd.playlist.MPDSavedPlaylist}s of all saved playlists.  This is an expensive
-     * call so use it cautiously.
+     * Returns a {@link java.util.Collection} of {@link org.bff.javampd.playlist.MPDSavedPlaylist}s of all
+     * saved playlists.  This is an expensive call so use it cautiously.
      *
      * @return a {@link java.util.Collection} of all {@link org.bff.javampd.playlist.MPDSavedPlaylist}s
      * @throws MPDDatabaseException if the MPD responded with an error

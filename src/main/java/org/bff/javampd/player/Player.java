@@ -247,8 +247,9 @@ public interface Player {
     long getTotalTime() throws MPDPlayerException;
 
     /**
-     * Returns the {@link org.bff.javampd.audioinfo.MPDAudioInfo} about the current status of the player.  If the status is unknown
-     * {@code null} will be returned.  Any individual parameter that is not known will be a -1
+     * Returns the {@link org.bff.javampd.audioinfo.MPDAudioInfo} about the current status of the player.
+     * If the status is unknown {@code null} will be returned.  Any individual parameter that is not
+     * known will be a -1
      *
      * @return the sample rate
      * @throws MPDPlayerException if the MPD responded with an error

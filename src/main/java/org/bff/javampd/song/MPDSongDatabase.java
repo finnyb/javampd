@@ -3,11 +3,8 @@ package org.bff.javampd.song;
 import com.google.inject.Inject;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
-import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.genre.MPDGenre;
-import org.bff.javampd.properties.DatabaseProperties;
-import org.bff.javampd.server.MPDResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +15,7 @@ import java.util.List;
 /**
  * MPDSongDatabase represents a song database controller to a {@link org.bff.javampd.server.MPD}.
  * To obtain an instance of the class you must use the
- * {@link org.bff.javampd.database.MPDDatabaseManager#getArtistDatabase} method from
+ * {@link org.bff.javampd.database.MPDDatabaseManager#getSongDatabase()} method from
  * the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill
@@ -26,20 +23,11 @@ import java.util.List;
 public class MPDSongDatabase implements SongDatabase {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDSongDatabase.class);
 
-    private DatabaseProperties databaseProperties;
-    private CommandExecutor commandExecutor;
     private SongSearcher songSearcher;
-    private SongConverter songConverter;
 
     @Inject
-    public MPDSongDatabase(DatabaseProperties databaseProperties,
-                           CommandExecutor commandExecutor,
-                           SongSearcher songSearcher,
-                           SongConverter songConverter) {
-        this.databaseProperties = databaseProperties;
-        this.commandExecutor = commandExecutor;
+    public MPDSongDatabase(SongSearcher songSearcher) {
         this.songSearcher = songSearcher;
-        this.songConverter = songConverter;
     }
 
     @Override
@@ -148,37 +136,6 @@ public class MPDSongDatabase implements SongDatabase {
     }
 
     @Override
-    public Collection<MPDSong> listAllSongs() throws MPDDatabaseException {
-        List<String> songList;
-
-        try {
-            songList = commandExecutor.sendCommand(databaseProperties.getListAllInfo());
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
-
-        return new ArrayList<>(songConverter.convertResponseToSong(songList));
-    }
-
-    @Override
-    public Collection<MPDSong> listAllSongs(String path) throws MPDDatabaseException {
-        List<String> songList;
-
-        try {
-            songList = commandExecutor.sendCommand(databaseProperties.getListAllInfo(), path);
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
-
-        return new ArrayList<>(songConverter.convertResponseToSong(songList));
-    }
-
-
-    @Override
     public Collection<MPDSong> searchTitle(String title) throws MPDDatabaseException {
         return songSearcher.search(SongSearcher.ScopeType.TITLE, title);
     }
@@ -231,6 +188,19 @@ public class MPDSongDatabase implements SongDatabase {
     @Override
     public Collection<MPDSong> findGenre(String genre) throws MPDDatabaseException {
         return songSearcher.find(SongSearcher.ScopeType.GENRE, genre);
+    }
+
+    @Override
+    public MPDSong findSong(String name, String album, String artist) throws MPDDatabaseException {
+        List<MPDSong> songs = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album));
+
+        for (MPDSong song : songs) {
+            if (artist.equals(song.getArtistName())) {
+                return song;
+            }
+        }
+        LOGGER.info("Song not found title --> {}, artist --> {}, album --> {}", name, artist, album);
+        return null;
     }
 
     /**

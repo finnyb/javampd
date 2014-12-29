@@ -13,8 +13,12 @@ import org.bff.javampd.song.MPDSong;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Bill
@@ -73,5 +77,26 @@ public abstract class BaseTest {
      */
     public static MPD getMpd() {
         return mpd;
+    }
+
+    public void compareSongLists(List<MPDSong> testResults, List<MPDSong> foundSongs) {
+
+        if (testResults.isEmpty()) {
+            assertTrue("Bad test criteria.  Should have a size of at least 1", false);
+        }
+
+        assertEquals(testResults.size(), foundSongs.size());
+
+        for (MPDSong song : testResults) {
+            boolean found = false;
+            for (MPDSong songDb : foundSongs) {
+                if (song.getFile().equals(songDb.getFile())) {
+                    found = true;
+                    break;
+                }
+            }
+
+            assertTrue(found);
+        }
     }
 }

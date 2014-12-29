@@ -28,42 +28,4 @@ public interface FileDatabase {
      *                              is not a directory.
      */
     Collection<MPDFile> listDirectory(MPDFile directory) throws MPDDatabaseException;
-
-
-    /**
-     * Returns a {@link java.util.Collection} of {@link String}s of all
-     * songs and directories from the mpd root.
-     *
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException if the MPD responded with an error
-     */
-    Collection<String> listAllFiles() throws MPDDatabaseException;
-
-    /**
-     * Returns a {@link java.util.Collection} of {@link String}s of all
-     * songs and directories from the given path.
-     *
-     * @param path the root of the list
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException if the MPD responded with an error
-     */
-    Collection<String> listAllFiles(String path) throws MPDDatabaseException;
-
-    /**
-     * Returns a {@link java.util.Collection} of {@link String}s of all songs from the mpd root.
-     *
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException if the MPD responded with an error
-     */
-    Collection<String> listAllSongFiles() throws MPDDatabaseException;
-
-    /**
-     * Returns a {@link java.util.Collection} of {@link String}s of all
-     * songs from the given path.
-     *
-     * @param path the root of the list
-     * @return a collection of Strings containing all files and directories
-     * @throws MPDDatabaseException if the MPD responded with an error
-     */
-    Collection<String> listAllSongFiles(String path) throws MPDDatabaseException;
 }

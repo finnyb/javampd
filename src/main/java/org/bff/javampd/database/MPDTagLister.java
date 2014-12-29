@@ -60,22 +60,7 @@ public class MPDTagLister implements TagLister {
 
     @Override
     public Collection<String> list(ListType listType, List<String> params) throws MPDDatabaseException {
-        String[] paramList;
-        int i = 0;
-
-        if (params != null) {
-            paramList = new String[params.size() + 1];
-        } else {
-            paramList = new String[1];
-        }
-
-        paramList[i++] = listType.getType();
-
-        if (params != null) {
-            for (String s : params) {
-                paramList[i++] = s;
-            }
-        }
+        String[] paramList = generateParamList(listType, params);
 
         List<String> responseList;
 
@@ -97,5 +82,27 @@ public class MPDTagLister implements TagLister {
             }
         }
         return retList;
+    }
+
+    private String[] generateParamList(ListType listType, List<String> params) {
+        String[] paramList;
+
+        int i = 0;
+
+        if (params != null) {
+            paramList = new String[params.size() + 1];
+        } else {
+            paramList = new String[1];
+        }
+
+        paramList[i++] = listType.getType();
+
+        if (params != null) {
+            for (String s : params) {
+                paramList[i++] = s;
+            }
+        }
+
+        return paramList;
     }
 }

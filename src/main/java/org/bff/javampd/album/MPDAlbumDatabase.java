@@ -52,12 +52,47 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
+    public Collection<MPDAlbum> listAllAlbums() throws MPDDatabaseException {
+        List<MPDAlbum> albums = new ArrayList<>();
+
+        for (String albumName : listAllAlbumNames()) {
+            albums.addAll(findAlbum(albumName));
+        }
+
+        return albums;
+    }
+
+    @Override
+    public Collection<MPDAlbum> listAllAlbums(int start, int end) throws MPDDatabaseException {
+        List<MPDAlbum> albums = new ArrayList<>();
+
+        List<String> albumNames = new ArrayList<>(listAllAlbumNames());
+
+        for (String albumName : albumNames.subList(start, end)) {
+            albums.addAll(findAlbum(albumName));
+        }
+
+        return albums;
+    }
+
+    @Override
     public Collection<MPDAlbum> findAlbum(String albumName) throws MPDDatabaseException {
         List<String> list = new ArrayList<>();
         list.add(TagLister.ListType.ALBUM.getType());
         list.add(albumName);
 
         return lookupAlbumByName(albumName, list);
+    }
+
+    @Override
+    public MPDAlbum findAlbumByArtist(MPDArtist artist, String albumName) throws MPDDatabaseException {
+        for (MPDAlbum album : listAlbumsByArtist(artist)) {
+            if (albumName.equalsIgnoreCase(album.getName())) {
+                return album;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -87,14 +122,14 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     private Collection<MPDAlbum> lookupAlbumByName(String albumName,
-                                                   List<String> params) throws MPDDatabaseException {
+                                                   List<String> artistParams) throws MPDDatabaseException {
         List<MPDAlbum> albums = new ArrayList<>();
         List<String> tagParams = new ArrayList<>();
         tagParams.add(TagLister.ListType.ALBUM.getType());
         tagParams.add(albumName);
 
         Collection<String> allArtists = tagLister.list(TagLister.ListType.ARTIST, tagParams);
-        Collection<String> artists = tagLister.list(TagLister.ListType.ARTIST, params);
+        Collection<String> artists = tagLister.list(TagLister.ListType.ARTIST, artistParams);
         allArtists.retainAll(artists);
 
         for (String artist : allArtists) {

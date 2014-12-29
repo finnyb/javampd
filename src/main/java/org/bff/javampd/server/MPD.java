@@ -21,7 +21,6 @@ import org.bff.javampd.statistics.ServerStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -230,12 +229,6 @@ public class MPD implements Server {
             return mpd;
         }
 
-        /**
-         * Performs dependency injection
-         *
-         * @throws IOException            if there is a problem connecting to the server
-         * @throws MPDConnectionException if there is a problem sending the command to the server
-         */
         private void bind(Injector injector) {
             this.serverProperties = injector.getInstance(ServerProperties.class);
             this.player = injector.getInstance(Player.class);

@@ -10,7 +10,8 @@ import org.bff.javampd.server.MPDProperties;
 public class SearchProperties extends MPDProperties {
     private enum Command {
         FIND("MPD_DB_FIND"),
-        SEARCH("MPD_DB_SEARCH");
+        SEARCH("MPD_DB_SEARCH"),
+        WINDOW("MPD_DB_WINDOW");
 
         private final String key;
 
@@ -27,6 +28,9 @@ public class SearchProperties extends MPDProperties {
         return getPropertyString(Command.FIND.getKey());
     }
 
+    public String getWindow() {
+        return getPropertyString(Command.WINDOW.getKey());
+    }
 
     public String getSearch() {
         return getPropertyString(Command.SEARCH.getKey());

@@ -81,7 +81,7 @@ public class MPDServerStatusIT extends BaseTest {
         MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         admin.disableOutput(output);
         player.play();
-        assertEquals("problems opening audio device", serverStatus.getError());
+        assertEquals("All audio outputs are disabled", serverStatus.getError());
         admin.enableOutput(output);
     }
 
@@ -108,6 +108,8 @@ public class MPDServerStatusIT extends BaseTest {
 
     @Test
     public void testGetBitrate() throws Exception {
+        player.play();
+        Thread.sleep(2000);
         assertEquals(48, serverStatus.getBitrate());
     }
 

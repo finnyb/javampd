@@ -38,7 +38,8 @@ public class MPDServerStatus implements ServerStatus {
     /**
      * Returns the current status of the requested status element.
      * See {@link Status} for a list of possible items returned
-     * by getStatus.
+     * by getStatus.  If the status isnt part of the response
+     * null is returned.
      *
      * @param status the status desired
      * @return the desired status information
@@ -72,7 +73,8 @@ public class MPDServerStatus implements ServerStatus {
 
     @Override
     public int getXFade() throws MPDResponseException {
-        return Integer.parseInt(getStatus(Status.XFADE));
+        String xFade = getStatus(Status.XFADE);
+        return Integer.parseInt(xFade == null ? "0" : xFade);
     }
 
     @Override

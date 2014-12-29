@@ -6,6 +6,7 @@ import org.bff.javampd.file.FileDatabase;
 import org.bff.javampd.genre.GenreDatabase;
 import org.bff.javampd.playlist.PlaylistDatabase;
 import org.bff.javampd.song.SongDatabase;
+import org.bff.javampd.song.SongSearcher;
 import org.bff.javampd.year.YearDatabase;
 
 /**
@@ -27,4 +28,6 @@ public interface DatabaseManager {
     YearDatabase getYearDatabase();
 
     SongDatabase getSongDatabase();
+
+    SongSearcher getSongSearcher();
 }
