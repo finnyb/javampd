@@ -7,7 +7,7 @@ import org.bff.javampd.genre.GenreDatabase;
 import org.bff.javampd.playlist.PlaylistDatabase;
 import org.bff.javampd.song.SongDatabase;
 import org.bff.javampd.song.SongSearcher;
-import org.bff.javampd.year.YearDatabase;
+import org.bff.javampd.year.DateDatabase;
 
 /**
  * Central location for getting MPD database access paths
@@ -25,7 +25,7 @@ public interface DatabaseManager {
 
     FileDatabase getFileDatabase();
 
-    YearDatabase getYearDatabase();
+    DateDatabase getDateDatabase();
 
     SongDatabase getSongDatabase();
 

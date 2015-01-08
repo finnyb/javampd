@@ -13,17 +13,17 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class MPDYearDatabaseIT extends BaseTest {
-    private YearDatabase yearDatabase;
+public class MPDDateDatabaseIT extends BaseTest {
+    private DateDatabase dateDatabase;
 
     @Before
     public void setUp() throws MPDException, IOException {
-        this.yearDatabase = getMpd().getDatabaseManager().getYearDatabase();
+        this.dateDatabase = getMpd().getDatabaseManager().getDateDatabase();
     }
 
     @Test
     public void testListAllYears() throws MPDException {
-        List<String> resultYears = new ArrayList<String>(yearDatabase.listAllYears());
+        List<String> resultYears = new ArrayList<String>(dateDatabase.listAllDates());
 
         List<String> foundYears = new ArrayList<String>(TestYears.getYears());
 

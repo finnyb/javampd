@@ -9,14 +9,14 @@ import java.util.Collection;
  *
  * @author bill
  */
-public interface YearDatabase {
+public interface DateDatabase {
 
     /**
-     * Returns a {@code Collection} of years for songs in the database.  The years are sorted from least to
+     * Returns a {@code Collection} of dates for songs in the database.  The dates are sorted from least to
      * greatest.
      *
      * @return a {@link java.util.Collection} of years
      * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<String> listAllYears() throws MPDDatabaseException;
+    Collection<String> listAllDates() throws MPDDatabaseException;
 }

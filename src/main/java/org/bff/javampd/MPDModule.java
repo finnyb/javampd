@@ -29,8 +29,8 @@ import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.*;
 import org.bff.javampd.statistics.MPDServerStatistics;
 import org.bff.javampd.statistics.ServerStatistics;
-import org.bff.javampd.year.MPDYearDatabase;
-import org.bff.javampd.year.YearDatabase;
+import org.bff.javampd.year.DateDatabase;
+import org.bff.javampd.year.MPDDateDatabase;
 
 /**
  * Initializes the DI bindings
@@ -47,7 +47,7 @@ public class MPDModule extends AbstractModule {
         bind(GenreDatabase.class).to(MPDGenreDatabase.class);
         bind(PlaylistDatabase.class).to(MPDPlaylistDatabase.class);
         bind(FileDatabase.class).to(MPDFileDatabase.class);
-        bind(YearDatabase.class).to(MPDYearDatabase.class);
+        bind(DateDatabase.class).to(MPDDateDatabase.class);
         bind(DatabaseManager.class).to(MPDDatabaseManager.class);
         bind(Player.class).to(MPDPlayer.class);
         bind(Playlist.class).to(MPDPlaylist.class);
