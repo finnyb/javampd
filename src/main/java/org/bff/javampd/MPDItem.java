@@ -73,6 +73,6 @@ public abstract class MPDItem implements Comparable<MPDItem> {
 
     @Override
     public int compareTo(MPDItem item) {
-        return this.toString().compareTo(item.toString());
+        return this.getName().compareTo(item.getName());
     }
 }

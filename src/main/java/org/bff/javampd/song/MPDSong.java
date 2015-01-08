@@ -312,10 +312,7 @@ public class MPDSong extends MPDItem {
      */
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + getLength();
-        hash = 31 * hash + (null == getTitle() ? 0 : getTitle().hashCode());
-        return hash;
+        return getTitle() != null ? getTitle().hashCode() : 0;
     }
 
     @Override
