@@ -51,8 +51,7 @@ public class MPDGenreDatabase implements GenreDatabase {
             LOGGER.warn("Multiple genres returned for name {}", name);
         }
 
-
-        if (genres.size() > 0) {
+        if (!genres.isEmpty()) {
             genre = new MPDGenre(genres.get(0));
         }
 

@@ -67,7 +67,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
             LOGGER.warn("Multiple artists returned for name {}", name);
         }
 
-        if (artists.size() > 0) {
+        if (!artists.isEmpty()) {
             artist = new MPDArtist(artists.get(0));
         }
 
