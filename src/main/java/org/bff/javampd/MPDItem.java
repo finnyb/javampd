@@ -48,27 +48,27 @@ public abstract class MPDItem implements Comparable<MPDItem> {
     }
 
     @Override
-    public boolean equals(Object object) {
-
-        if (this == object) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
 
-        if ((object == null) || (object.getClass() != this.getClass())) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        MPDItem item = (MPDItem) object;
+        MPDItem mpdItem = (MPDItem) o;
 
-        return this.getName().equals(item.getName());
+        if (name != null ? !name.equals(mpdItem.name) : mpdItem.name != null) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + getName().length();
-        hash = 31 * hash + (null == getName() ? 0 : getName().hashCode());
-        return hash;
+        return name != null ? name.hashCode() : 0;
     }
 
     @Override
