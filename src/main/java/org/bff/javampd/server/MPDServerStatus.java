@@ -93,7 +93,7 @@ public class MPDServerStatus implements ServerStatus {
     }
 
     @Override
-    public long getTime() throws MPDResponseException {
+    public long getElapsedTime() throws MPDResponseException {
         return lookupTime(TimeType.ELAPSED);
     }
 

@@ -352,7 +352,7 @@ public class MPDPlayer implements Player {
     @Override
     public long getElapsedTime() throws MPDPlayerException {
         try {
-            return serverStatus.getTime();
+            return serverStatus.getElapsedTime();
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }

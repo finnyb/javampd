@@ -103,7 +103,7 @@ public class MPDServerStatusIT extends BaseTest {
         player.play();
         Thread.sleep(1000);
 
-        assertTrue(serverStatus.getTime() > 0);
+        assertTrue(serverStatus.getElapsedTime() > 0);
     }
 
     @Test

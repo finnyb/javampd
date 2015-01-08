@@ -38,7 +38,13 @@ public interface ServerStatus {
      */
     String getError() throws MPDResponseException;
 
-    long getTime() throws MPDResponseException;
+    /**
+     * Returns the elapsed time of the currently playing song
+     *
+     * @return elapsed time of the song
+     * @throws MPDResponseException
+     */
+    long getElapsedTime() throws MPDResponseException;
 
     /**
      * Returns the total time of the currently playing song
