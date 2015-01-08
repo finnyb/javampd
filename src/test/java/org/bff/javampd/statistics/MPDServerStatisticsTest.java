@@ -41,7 +41,7 @@ public class MPDServerStatisticsTest {
         statList.add("playtime: " + playTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
 
-        assertEquals(5L, serverStatistics.getPlaytime());
+        assertEquals(Long.parseLong(playTime), serverStatistics.getPlaytime());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class MPDServerStatisticsTest {
         statList.add("uptime: " + uptime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
 
-        assertEquals(5L, serverStatistics.getUptime());
+        assertEquals(Long.parseLong(uptime), serverStatistics.getUptime());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class MPDServerStatisticsTest {
         statList.add("albums: " + albums);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
 
-        assertEquals(5, serverStatistics.getAlbumCount());
+        assertEquals(Integer.parseInt(albums), serverStatistics.getAlbumCount());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class MPDServerStatisticsTest {
         statList.add("artists: " + artists);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
 
-        assertEquals(5, serverStatistics.getArtistCount());
+        assertEquals(Integer.parseInt(artists), serverStatistics.getArtistCount());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class MPDServerStatisticsTest {
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
 
-        assertEquals(5, serverStatistics.getSongCount());
+        assertEquals(Integer.parseInt(songs), serverStatistics.getSongCount());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class MPDServerStatisticsTest {
         statList.add("db_playtime: " + playtime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
 
-        assertEquals(5L, serverStatistics.getDatabasePlaytime());
+        assertEquals(Long.parseLong(playtime), serverStatistics.getDatabasePlaytime());
     }
 
     @Test
@@ -95,6 +95,6 @@ public class MPDServerStatisticsTest {
         statList.add("db_update: " + updateTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
 
-        assertEquals(5L, serverStatistics.getLastUpdateTime());
+        assertEquals(Long.parseLong(updateTime), serverStatistics.getLastUpdateTime());
     }
 }
