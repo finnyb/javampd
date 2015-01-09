@@ -11,7 +11,7 @@ public class TrackProcessorTest {
         String testTrack = "2/10";
 
         TrackProcessor trackProcessor = new TrackProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "title");
 
         String line = "Track:" + testTrack;
         trackProcessor.processSong(song, line);
@@ -24,7 +24,7 @@ public class TrackProcessorTest {
         String testTrack = "2/10";
 
         TrackProcessor trackProcessor = new TrackProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "title");
 
         String line = "BadTrack:" + testTrack;
         trackProcessor.processSong(song, line);
@@ -37,7 +37,7 @@ public class TrackProcessorTest {
         String testTrack = "junk";
 
         TrackProcessor trackProcessor = new TrackProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "title");
 
         String line = "Track:" + testTrack;
         trackProcessor.processSong(song, line);

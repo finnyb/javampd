@@ -13,7 +13,7 @@ public class AlbumProcessorTest {
         String testAlbum = "testAlbum";
 
         AlbumProcessor albumProcessor = new AlbumProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "title");
 
         String line = "Album:" + testAlbum;
         albumProcessor.processSong(song, line);
@@ -26,7 +26,7 @@ public class AlbumProcessorTest {
         String testAlbum = "testAlbum";
 
         AlbumProcessor albumProcessor = new AlbumProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "title");
 
         String line = "BadAlbum:" + testAlbum;
         albumProcessor.processSong(song, line);

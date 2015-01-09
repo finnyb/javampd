@@ -75,10 +75,7 @@ public class MPDAlbum extends MPDItem {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + getName().length();
-        hash = 31 * hash + (null == getName() ? 0 : getName().hashCode());
-        return hash;
+        return getName() != null ? getName().hashCode() : 0;
     }
 
     private boolean compareArtists(MPDAlbum album) {

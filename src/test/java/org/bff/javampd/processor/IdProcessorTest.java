@@ -12,7 +12,7 @@ public class IdProcessorTest {
         int testId = 1;
 
         IdProcessor idProcessor = new IdProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Id:" + testId;
         idProcessor.processSong(song, line);
@@ -25,7 +25,7 @@ public class IdProcessorTest {
         int testId = 1;
 
         IdProcessor idProcessor = new IdProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadId:" + testId;
         idProcessor.processSong(song, line);

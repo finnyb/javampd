@@ -38,7 +38,9 @@ public class MPDSong extends MPDItem {
      *
      * @param file the url of the song
      */
-    public MPDSong(String file) {
+    public MPDSong(String file, String title) {
+        super(title);
+        this.title = title;
         this.file = file;
     }
 
@@ -320,13 +322,13 @@ public class MPDSong extends MPDItem {
         MPDSong song = (MPDSong) item;
         StringBuilder sb;
 
-        sb = new StringBuilder();
-        sb.append(getAlbumName());
+        sb = new StringBuilder(getName());
+        sb.append(getAlbumName() == null ? "" : getAlbumName());
         sb.append(formatToComparableString(getTrack()));
         String thisSong = sb.toString();
 
-        sb = new StringBuilder();
-        sb.append(song.getAlbumName());
+        sb = new StringBuilder(song.getName());
+        sb.append(song.getAlbumName() == null ? "" : song.getAlbumName());
         sb.append(formatToComparableString(song.getTrack()));
         String songToCompare = sb.toString();
 

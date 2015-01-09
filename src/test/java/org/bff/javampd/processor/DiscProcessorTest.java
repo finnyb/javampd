@@ -13,7 +13,7 @@ public class DiscProcessorTest {
         String testDisc = "testDisc";
 
         DiscProcessor discProcessor = new DiscProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Disc:" + testDisc;
         discProcessor.processSong(song, line);
@@ -26,7 +26,7 @@ public class DiscProcessorTest {
         String testDisc = "testDisc";
 
         DiscProcessor discProcessor = new DiscProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadDisc:" + testDisc;
         discProcessor.processSong(song, line);

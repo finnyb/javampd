@@ -13,7 +13,7 @@ public class TitleProcessorTest {
         String testTitle = "testTitle";
 
         TitleProcessor titleProcessor = new TitleProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Title:" + testTitle;
         titleProcessor.processSong(song, line);
@@ -26,7 +26,7 @@ public class TitleProcessorTest {
         String testTitle = "testTitle";
 
         TitleProcessor titleProcessor = new TitleProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", null);
 
         String line = "BadTitle:" + testTitle;
         titleProcessor.processSong(song, line);

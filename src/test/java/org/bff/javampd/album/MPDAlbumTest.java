@@ -5,8 +5,12 @@
 
 package org.bff.javampd.album;
 
+import org.bff.javampd.MPDItem;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Bill
@@ -43,5 +47,37 @@ public class MPDAlbumTest {
         MPDAlbum alb2 = new MPDAlbum("Album1", "Artist1");
 
         Assert.assertTrue(alb1.equals(alb2));
+    }
+
+    @Test
+    public void testHashCode() throws Exception {
+        MPDItem item1 = new MPDAlbum("Album1", "Artist1");
+        MPDItem item2 = new MPDAlbum("Album1", "Artist1");
+
+        assertEquals(item1.hashCode(), item2.hashCode());
+    }
+
+    @Test
+    public void testCompareToLessThanZero() throws Exception {
+        MPDItem item1 = new MPDAlbum("Album1", "Artist1");
+        MPDItem item2 = new MPDAlbum("Album2", "Artist1");
+
+        assertTrue(item1.compareTo(item2) < 0);
+    }
+
+    @Test
+    public void testCompareToGreaterThanZero() throws Exception {
+        MPDItem item1 = new MPDAlbum("Album2", "Artist1");
+        MPDItem item2 = new MPDAlbum("Album1", "Artist1");
+
+        assertTrue(item1.compareTo(item2) > 0);
+    }
+
+    @Test
+    public void testCompareToEquals() throws Exception {
+        MPDItem item1 = new MPDAlbum("Album1", "Artist1");
+        MPDItem item2 = new MPDAlbum("Album1", "Artist1");
+
+        assertTrue(item1.compareTo(item2) == 0);
     }
 }

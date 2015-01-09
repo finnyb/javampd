@@ -13,7 +13,7 @@ public class CommentProcessorTest {
         String testComment = "testComment";
 
         CommentProcessor commentProcessor = new CommentProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Comment:" + testComment;
         commentProcessor.processSong(song, line);
@@ -26,7 +26,7 @@ public class CommentProcessorTest {
         String testComment = "testComment";
 
         CommentProcessor commentProcessor = new CommentProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadComment:" + testComment;
         commentProcessor.processSong(song, line);

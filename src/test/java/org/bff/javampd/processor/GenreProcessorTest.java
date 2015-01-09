@@ -13,7 +13,7 @@ public class GenreProcessorTest {
         String testGenre = "testGenre";
 
         GenreProcessor genreProcessor = new GenreProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Genre:" + testGenre;
         genreProcessor.processSong(song, line);
@@ -26,7 +26,7 @@ public class GenreProcessorTest {
         String testGenre = "testGenre";
 
         GenreProcessor genreProcessor = new GenreProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadGenre:" + testGenre;
         genreProcessor.processSong(song, line);

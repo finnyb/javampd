@@ -33,7 +33,7 @@ public class MPDSongConverter implements SongConverter {
     }
 
     private String processSong(String file, Iterator<String> iterator, List<MPDSong> songs) {
-        MPDSong song = new MPDSong(file);
+        MPDSong song = new MPDSong(file, "");
         initialize(song);
         String line = iterator.next();
         while (!line.startsWith(PREFIX_FILE)) {

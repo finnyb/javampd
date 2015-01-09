@@ -12,7 +12,7 @@ public class PositionProcessorTest {
         int testPosition = 1;
 
         PositionProcessor positionProcessor = new PositionProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "title");
 
         String line = "Pos:" + testPosition;
         positionProcessor.processSong(song, line);
@@ -25,7 +25,7 @@ public class PositionProcessorTest {
         int testPosition = 1;
 
         PositionProcessor positionProcessor = new PositionProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "title");
 
         String line = "BadPos:" + testPosition;
         positionProcessor.processSong(song, line);

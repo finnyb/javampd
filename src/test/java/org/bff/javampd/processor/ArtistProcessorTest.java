@@ -13,7 +13,7 @@ public class ArtistProcessorTest {
         String testArtist = "testArtist";
 
         ArtistProcessor artistProcessor = new ArtistProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Artist:" + testArtist;
         artistProcessor.processSong(song, line);
@@ -26,7 +26,7 @@ public class ArtistProcessorTest {
         String testArtist = "testArtist";
 
         ArtistProcessor artistProcessor = new ArtistProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadArtist:" + testArtist;
         artistProcessor.processSong(song, line);

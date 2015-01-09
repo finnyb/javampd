@@ -42,9 +42,10 @@ public class TestSongs {
 
     public static void loadSong(File file, File f) {
         String[] s = file.getName().replace(EXTENSION, "").split("-");
-        MPDSong song = new MPDSong(file.getName());
+        String title = "null".equalsIgnoreCase(s[INDEX_TITLE]) ? NULL_TITLE : s[INDEX_TITLE];
+
+        MPDSong song = new MPDSong(file.getName(), title);
         song.setFile((f.isDirectory() ? f.getName() : "") + "/" + file.getName());
-        song.setTitle("null".equalsIgnoreCase(s[INDEX_TITLE]) ? NULL_TITLE : s[INDEX_TITLE]);
         song.setComment("null".equalsIgnoreCase(s[INDEX_COMMENT]) ? NULL_COMMENT : s[INDEX_COMMENT]);
         song.setTrack(Integer.parseInt("null".equalsIgnoreCase(s[INDEX_TRACK]) ? NULL_TRACK : s[INDEX_TRACK]));
         song.setDiscNumber("null".equalsIgnoreCase(s[INDEX_DISC]) ? NULL_DISC : s[INDEX_DISC]);

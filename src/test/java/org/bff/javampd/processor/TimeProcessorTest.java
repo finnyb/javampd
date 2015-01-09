@@ -12,7 +12,7 @@ public class TimeProcessorTest {
         int testLength = 1;
 
         TimeProcessor timeProcessor = new TimeProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Time:" + testLength;
         timeProcessor.processSong(song, line);
@@ -25,7 +25,7 @@ public class TimeProcessorTest {
         int testLength = 1;
 
         TimeProcessor timeProcessor = new TimeProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadTime:" + testLength;
         timeProcessor.processSong(song, line);

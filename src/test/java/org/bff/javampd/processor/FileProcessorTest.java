@@ -12,7 +12,7 @@ public class FileProcessorTest {
         String testFile = "testFile";
 
         FileProcessor fileProcessor = new FileProcessor();
-        MPDSong song = new MPDSong("file");
+        MPDSong song = new MPDSong("file", "title");
 
         String line = "file:" + testFile;
         fileProcessor.processSong(song, line);
@@ -26,7 +26,7 @@ public class FileProcessorTest {
         String f = "file";
 
         FileProcessor fileProcessor = new FileProcessor();
-        MPDSong song = new MPDSong(f);
+        MPDSong song = new MPDSong(f, "title");
 
         String line = "BadFile:" + testFile;
         fileProcessor.processSong(song, line);

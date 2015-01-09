@@ -13,7 +13,7 @@ public class DateProcessorTest {
         String testDate = "1990";
 
         DateProcessor dateProcessor = new DateProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Date:" + testDate;
         dateProcessor.processSong(song, line);
@@ -26,7 +26,7 @@ public class DateProcessorTest {
         String testDate = "1990";
 
         DateProcessor dateProcessor = new DateProcessor();
-        MPDSong song = new MPDSong("testFile");
+        MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadDate:" + testDate;
         dateProcessor.processSong(song, line);
