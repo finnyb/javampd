@@ -1,12 +1,3 @@
-/*
- * MPDException.java
- *
- * Created on December 28, 2005, 10:29 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package org.bff.javampd;
 
 /**

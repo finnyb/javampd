@@ -1,12 +1,3 @@
-/*
- * MPDErrorEvent.java
- *
- * Created on February 12, 2006, 9:51 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package org.bff.javampd.server;
 
 /**
