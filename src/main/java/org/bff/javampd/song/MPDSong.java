@@ -215,17 +215,7 @@ public class MPDSong extends MPDItem {
      */
     @Override
     public String toString() {
-        return "File:" + getFile() + "\n"
-                + "Title:" + getTitle() + "\n"
-                + "Artist:" + getArtistName() + "\n"
-                + "Album:" + getAlbumName() + "\n"
-                + "Track:" + getTrack() + "\n"
-                + "Year:" + getYear() + "\n"
-                + "Genre:" + getGenre() + "\n"
-                + "Comment:" + getComment() + "\n"
-                + "Length:" + getLength() + "\n"
-                + "Pos:" + getPosition() + "\n"
-                + "SongId:" + getId() + "\n";
+        return getFile();
     }
 
     /**
