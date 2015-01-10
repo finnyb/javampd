@@ -14,5 +14,5 @@ public interface SongConverter {
      */
     List<MPDSong> convertResponseToSong(List<String> list);
 
-    List<String> getSongNameList(List<String> fileList);
+    List<String> getSongFileNameList(List<String> fileList);
 }

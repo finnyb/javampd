@@ -16,6 +16,20 @@ public class MPDSongTest {
     }
 
     @Test
+    public void testEqualsNull() throws Exception {
+        MPDItem song1 = new MPDSong("file1", "song1");
+
+        assertNotEquals(song1, null);
+    }
+
+    @Test
+    public void testEqualsSameObject() throws Exception {
+        MPDItem song = new MPDSong("file1", "song");
+
+        assertTrue(song.equals(song));
+    }
+
+    @Test
     public void testNotEquals() throws Exception {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file2", "song2");
@@ -53,5 +67,14 @@ public class MPDSongTest {
         MPDItem song2 = new MPDSong("file1", "song1");
 
         assertTrue(song1.compareTo(song2) == 0);
+    }
+
+    @Test
+    public void testToString() {
+        String file = "file1";
+        MPDItem song = new MPDSong("file1", "song1");
+
+        assertEquals(file, song.toString());
+
     }
 }

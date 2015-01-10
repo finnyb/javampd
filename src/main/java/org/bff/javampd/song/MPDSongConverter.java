@@ -60,7 +60,7 @@ public class MPDSongConverter implements SongConverter {
     }
 
     @Override
-    public List<String> getSongNameList(List<String> fileList) {
+    public List<String> getSongFileNameList(List<String> fileList) {
         String prefix = SongProcessor.FILE.getProcessor().getPrefix();
         List<String> names = new ArrayList<>();
         for (String s : fileList) {

@@ -70,7 +70,7 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
         List<MPDSong> songList = new ArrayList<>();
         try {
             List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
-            for (String song : songConverter.getSongNameList(response)) {
+            for (String song : songConverter.getSongFileNameList(response)) {
                 songList.add(new ArrayList<>(songDatabase.searchFileName(song)).get(0));
             }
         } catch (MPDResponseException re) {
