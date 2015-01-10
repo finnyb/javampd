@@ -4,8 +4,7 @@ import org.bff.javampd.MPDItem;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Bill
@@ -42,6 +41,20 @@ public class MPDAlbumTest {
         MPDAlbum alb2 = new MPDAlbum("Album1", "Artist1");
 
         Assert.assertTrue(alb1.equals(alb2));
+    }
+
+    @Test
+    public void testEqualsNull() throws Exception {
+        MPDAlbum album = new MPDAlbum("Album", "Artist");
+
+        assertNotEquals(album, null);
+    }
+
+    @Test
+    public void testEqualsSameObject() throws Exception {
+        MPDAlbum album = new MPDAlbum("Album", "Artist");
+
+        assertTrue(album.equals(album));
     }
 
     @Test

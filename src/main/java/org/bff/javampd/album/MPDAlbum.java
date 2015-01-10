@@ -32,15 +32,6 @@ public class MPDAlbum extends MPDItem {
     }
 
     /**
-     * Sets the {@link String} for the album
-     *
-     * @param artistName the {@link String} for the album
-     */
-    public void setArtistName(String artistName) {
-        this.artistName = artistName;
-    }
-
-    /**
      * We consider two albums to be equal if the {@link MPDAlbum}
      * names match and if the {@link org.bff.javampd.artist.MPDArtist}
      * name matches
