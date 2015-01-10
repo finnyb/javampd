@@ -24,6 +24,20 @@ public class MPDItemTest {
     }
 
     @Test
+    public void testEqualsNull() throws Exception {
+        MPDItem item = new TestItem("item");
+
+        assertNotEquals(item, null);
+    }
+
+    @Test
+    public void testEqualsSameObject() throws Exception {
+        MPDItem item = new TestItem("item");
+
+        assertTrue(item.equals(item));
+    }
+
+    @Test
     public void testHashCode() throws Exception {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item1");
@@ -53,6 +67,14 @@ public class MPDItemTest {
         MPDItem item2 = new TestItem("item1");
 
         assertTrue(item1.compareTo(item2) == 0);
+    }
+
+    @Test
+    public void testToString() {
+        String name = "name";
+        MPDItem item = new TestItem(name);
+
+        assertEquals(name, item.toString());
     }
 
     private class TestItem extends MPDItem {

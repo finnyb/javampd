@@ -75,6 +75,5 @@ public class MPDSongTest {
         MPDItem song = new MPDSong("file1", "song1");
 
         assertEquals(file, song.toString());
-
     }
 }
