@@ -38,11 +38,25 @@ public class MPDItemTest {
     }
 
     @Test
+    public void testEqualsDifferentClass() throws Exception {
+        MPDItem item = new TestItem("item");
+
+        assertFalse(item.equals(new String()));
+    }
+
+    @Test
     public void testHashCode() throws Exception {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item1");
 
         assertEquals(item1.hashCode(), item2.hashCode());
+    }
+
+    @Test
+    public void testHashCodeNull() throws Exception {
+        MPDItem item = new TestItem(null);
+
+        assertEquals(0, item.hashCode());
     }
 
     @Test

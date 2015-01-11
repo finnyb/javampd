@@ -35,8 +35,13 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetStatus() throws Exception {
+    public void testLookupStatus() throws Exception {
+        assertEquals(Status.VOLUME, Status.lookupStatus("volume:"));
+    }
 
+    @Test
+    public void testLookupUnknownStatus() throws Exception {
+        assertEquals(Status.UNKNOWN, Status.lookupStatus("bogus:"));
     }
 
     @Test
