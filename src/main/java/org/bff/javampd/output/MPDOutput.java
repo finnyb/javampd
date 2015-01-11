@@ -29,15 +29,6 @@ public class MPDOutput {
     }
 
     /**
-     * Sets the id of the output
-     *
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
      * Returns the name of the output
      *
      * @return the name
