@@ -2,6 +2,7 @@ package org.bff.javampd;
 
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.server.ServerProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +45,11 @@ public class BuilderTest {
         assertEquals(InetAddress.getByName("localhost"), mpd.getAddress());
     }
 
+    @Test(expected = MPDConnectionException.class)
+    public void testBuilderException() throws Exception {
+        new MPD.Builder().server("bogusServer").build();
+    }
+
     @Test
     public void testPort() throws Exception {
         MPD mpd = mpdBuilder.port(8080).build();
@@ -61,7 +67,7 @@ public class BuilderTest {
         when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
         when(mpdCommandExecutor
                 .sendCommand(serverProperties.getPassword()))
-                .thenReturn(new ArrayList<String>());
+                .thenReturn(new ArrayList<>());
 
         MPD mpd = mpdBuilder.password("thepassword").build();
 
