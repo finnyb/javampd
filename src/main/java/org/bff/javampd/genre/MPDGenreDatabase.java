@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * MPDArtistDatabase represents a artist database controller to a {@link org.bff.javampd.server.MPD}.
@@ -31,10 +32,11 @@ public class MPDGenreDatabase implements GenreDatabase {
     @Override
     public Collection<MPDGenre> listAllGenres() throws MPDDatabaseException {
         List<MPDGenre> genres = new ArrayList<>();
-        for (String str : tagLister.list(TagLister.ListType.GENRE)) {
-            genres.add(new MPDGenre(str));
-        }
-        return genres;
+
+        return tagLister.list(TagLister.ListType.GENRE)
+                .stream()
+                .map(MPDGenre::new)
+                .collect(Collectors.toList());
     }
 
     @Override

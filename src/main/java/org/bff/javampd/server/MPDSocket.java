@@ -159,7 +159,7 @@ public class MPDSocket {
     }
 
     private String convertCommand(String command) {
-        return convertCommand(command, new ArrayList<String>());
+        return convertCommand(command, new ArrayList<>());
     }
 
     private String convertCommand(String command, List<String> params) {
@@ -221,10 +221,8 @@ public class MPDSocket {
             response.add(inLine);
             inLine = in.readLine();
         }
-        for (String s : response) {
-            LOGGER.debug(s);
-        }
-        LOGGER.debug("end command: " + command.trim());
+
+        response.forEach(LOGGER::debug);
 
         return response;
     }

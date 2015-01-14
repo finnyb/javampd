@@ -15,6 +15,7 @@ import org.bff.javampd.song.SongDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * MPDPlaylist represents a playlist controller to a MPD server.  To obtain
@@ -140,13 +141,12 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDPlaylistException {
-        List<MPDCommand> commandList = new ArrayList<>();
-        for (MPDSong song : songList) {
-            commandList.add(new MPDCommand(playlistProperties.getAdd(), song.getFile()));
-        }
 
         try {
-            commandExecutor.sendCommands(commandList);
+            commandExecutor.sendCommands(songList
+                    .stream()
+                    .map(song -> new MPDCommand(playlistProperties.getAdd(), song.getFile()))
+                    .collect(Collectors.toList()));
         } catch (MPDResponseException re) {
             throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
         } catch (Exception e) {
@@ -396,13 +396,9 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeAlbum(String artistName, String albumName) throws MPDPlaylistException {
-        List<MPDSong> removeList = new ArrayList<>();
-
-        for (MPDSong song : getSongList()) {
-            if (song.getArtistName().equals(artistName) && song.getAlbumName().equals(albumName)) {
-                removeList.add(song);
-            }
-        }
+        List<MPDSong> removeList = getSongList().stream()
+                .filter(song -> song.getArtistName().equals(artistName) && song.getAlbumName().equals(albumName))
+                .collect(Collectors.toList());
 
         for (MPDSong song : removeList) {
             removeSong(song);

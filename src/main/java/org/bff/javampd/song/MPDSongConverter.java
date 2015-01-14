@@ -6,6 +6,7 @@ import org.bff.javampd.processor.SongProcessor;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author bill
@@ -62,14 +63,11 @@ public class MPDSongConverter implements SongConverter {
     @Override
     public List<String> getSongFileNameList(List<String> fileList) {
         String prefix = SongProcessor.FILE.getProcessor().getPrefix();
-        List<String> names = new ArrayList<>();
-        for (String s : fileList) {
-            if (s.startsWith(prefix)) {
-                names.add((s.substring(prefix.length())).trim());
-            }
-        }
 
-        return names;
+        return fileList.stream()
+                .filter(s -> s.startsWith(prefix))
+                .map(s -> (s.substring(prefix.length())).trim())
+                .collect(Collectors.toList());
     }
 
     private static void processLine(MPDSong song, String line) {
