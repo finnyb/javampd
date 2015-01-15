@@ -137,31 +137,19 @@ public class MPDPlayer implements Player {
 
     @Override
     public void seek(long secs) throws MPDPlayerException {
-        seekId(null, secs);
+        seekId(getCurrentSong(), secs);
     }
 
     @Override
     public void seekId(MPDSong song, long secs) throws MPDPlayerException {
         List<String> response = null;
-        String[] params = new String[2];
-        params[1] = Long.toString(secs);
-        if (song == null) {
-            if (getCurrentSong().getLength() > secs) {
-                params[0] = Integer.toString(getCurrentSong().getId());
-                try {
-                    response = commandExecutor.sendCommand(playerProperties.getSeekId(), params);
-                } catch (MPDResponseException re) {
-                    throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-                }
-            }
-        } else {
-            if (song.getLength() >= secs) {
-                params[0] = Integer.toString(song.getId());
-                try {
-                    response = commandExecutor.sendCommand(playerProperties.getSeekId(), params);
-                } catch (MPDResponseException re) {
-                    throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-                }
+        if (song.getLength() >= secs) {
+            try {
+                response = commandExecutor.sendCommand(playerProperties.getSeekId(),
+                        Integer.toString(song.getId()),
+                        Long.toString(secs));
+            } catch (MPDResponseException re) {
+                throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
             }
         }
 
@@ -298,7 +286,22 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void setRandom(boolean shouldRandom) throws MPDPlayerException {
+    public void randomizePlay() throws MPDPlayerException {
+        setRandom(true);
+    }
+
+    @Override
+    public void unRandomizePlay() throws MPDPlayerException {
+        setRandom(false);
+    }
+
+    /**
+     * Sets the random status of the player. So the songs will be played in random order
+     *
+     * @param shouldRandom should the player play in random mode
+     * @throws MPDPlayerException if the MPD responded with an error
+     */
+    private void setRandom(boolean shouldRandom) throws MPDPlayerException {
         String random;
         if (shouldRandom) {
             random = "1";
@@ -310,16 +313,6 @@ public class MPDPlayer implements Player {
         } catch (MPDResponseException re) {
             throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
         }
-    }
-
-    @Override
-    public void randomizePlay() throws MPDPlayerException {
-        setRandom(true);
-    }
-
-    @Override
-    public void unRandomizePlay() throws MPDPlayerException {
-        setRandom(false);
     }
 
     @Override

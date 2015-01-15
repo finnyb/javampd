@@ -55,7 +55,7 @@ public class MPDAdminTest {
     @Test
     public void getOutputs() throws MPDException {
         when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-        when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+        when(commandExecutor.sendCommand(adminProperties.getOutputs())).thenReturn(getOutputResponse());
 
         MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         assertEquals(output.getName(), "My ALSA Device");

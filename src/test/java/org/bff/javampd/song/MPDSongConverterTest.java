@@ -1,145 +1,120 @@
 package org.bff.javampd.song;
 
-import org.bff.javampd.processor.*;
+import org.bff.javampd.SongTestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class MPDSongConverterTest {
 
-    private static final String FILE = "file";
-    private static final String ARTIST = "artist";
-    private static final String ALBUM = "album";
-    private static final String TITLE = "title";
-    private static final String DATE = "199";
-    private static final String GENRE = "file";
-    private static final String COMMENT = "comment";
-    private static final String DISC = "disc";
     private static final int COUNT = 3;
 
     private SongConverter converter;
     private List<MPDSong> songs;
+    private SongTestHelper songTestHelper;
 
     @Before
     public void before() {
+        songTestHelper = new SongTestHelper();
         converter = new MPDSongConverter();
-        songs = converter.convertResponseToSong(createResponses());
+        songs = converter.convertResponseToSong(songTestHelper.createResponses(COUNT));
     }
 
     @Test
     public void testArtist() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getArtistName(), ARTIST + i);
+            assertEquals(songTestHelper.ARTIST + i, songs.get(i).getArtistName());
         }
     }
 
     @Test
     public void testAlbum() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getAlbumName(), ALBUM + i);
+            assertEquals(songTestHelper.ALBUM + i, songs.get(i).getAlbumName());
         }
     }
 
     @Test
     public void testTrack() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getTrack(), i);
+            assertEquals(i, songs.get(i).getTrack());
         }
     }
 
     @Test
     public void testTitle() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getTitle(), TITLE + i);
+            assertEquals(songTestHelper.TITLE + i, songs.get(i).getTitle());
         }
     }
 
     @Test
     public void testDate() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getYear(), DATE + i);
+            assertEquals(songTestHelper.DATE + i, songs.get(i).getYear());
         }
     }
 
     @Test
     public void testGenre() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getGenre(), GENRE + i);
+            assertEquals(songTestHelper.GENRE + i, songs.get(i).getGenre());
         }
     }
 
     @Test
     public void testComment() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getComment(), COMMENT + i);
+            assertEquals(songTestHelper.COMMENT + i, songs.get(i).getComment());
         }
     }
 
     @Test
     public void testTime() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getLength(), i);
+            assertEquals(i, songs.get(i).getLength());
         }
     }
 
     @Test
     public void testPosition() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getPosition(), i);
+            assertEquals(i, songs.get(i).getPosition());
         }
     }
 
     @Test
     public void testId() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getId(), i);
+            assertEquals(i, songs.get(i).getId());
         }
     }
 
     @Test
     public void testDisc() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getDiscNumber(), DISC + i);
+            assertEquals(songTestHelper.DISC + i, songs.get(i).getDiscNumber());
         }
     }
 
     @Test
     public void testFile() {
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getFile(), FILE + i);
+            assertEquals(songTestHelper.FILE + i, songs.get(i).getFile());
         }
     }
 
     @Test
     public void testGetSongFileNameList() throws Exception {
-        List<String> names = converter.getSongFileNameList(createResponses());
+        List<String> names = converter
+                .getSongFileNameList(songTestHelper.createResponses(COUNT));
+
         assertEquals(COUNT, names.size());
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(songs.get(i).getFile(), FILE + i);
+            assertEquals(songTestHelper.FILE + i, songs.get(i).getFile());
         }
-    }
-
-    private List<String> createResponses() {
-        List<String> response = new ArrayList<>();
-
-        for (int i = 0; i < COUNT; i++) {
-            response.add(new FileProcessor().getPrefix() + FILE + i);
-            response.add(new ArtistProcessor().getPrefix() + ARTIST + i);
-            response.add(new AlbumProcessor().getPrefix() + ALBUM + i);
-            response.add(new TrackProcessor().getPrefix() + i);
-            response.add(new TitleProcessor().getPrefix() + TITLE + i);
-            response.add(new DateProcessor().getPrefix() + DATE + i);
-            response.add(new GenreProcessor().getPrefix() + GENRE + i);
-            response.add(new CommentProcessor().getPrefix() + COMMENT + i);
-            response.add(new TimeProcessor().getPrefix() + i);
-            response.add(new PositionProcessor().getPrefix() + i);
-            response.add(new IdProcessor().getPrefix() + i);
-            response.add(new DiscProcessor().getPrefix() + DISC + i);
-        }
-        return response;
     }
 }

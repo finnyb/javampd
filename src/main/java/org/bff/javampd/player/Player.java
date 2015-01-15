@@ -193,14 +193,6 @@ public interface Player {
     boolean isRandom() throws MPDPlayerException;
 
     /**
-     * Sets the random status of the player. So the songs will be played in random order
-     *
-     * @param shouldRandom should the player play in random mode
-     * @throws MPDPlayerException if the MPD responded with an error
-     */
-    void setRandom(boolean shouldRandom) throws MPDPlayerException;
-
-    /**
      * Plays the playlist in a random order.
      *
      * @throws MPDPlayerException if the MPD responded with an error
