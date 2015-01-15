@@ -253,9 +253,7 @@ public class MPDStandAloneMonitor
     }
 
     private void processResponse(List<String> response) {
-        for (String line : response) {
-            processResponseStatus(line);
-        }
+        response.forEach(this::processResponseStatus);
     }
 
     private void processResponseStatus(String line) {

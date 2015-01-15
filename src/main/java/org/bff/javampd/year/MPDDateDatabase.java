@@ -4,10 +4,8 @@ import com.google.inject.Inject;
 import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.database.TagLister;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * MPDDateDatabase represents a date database controller to a {@link org.bff.javampd.server.MPD}.
@@ -28,13 +26,11 @@ public class MPDDateDatabase implements DateDatabase {
 
     @Override
     public Collection<String> listAllDates() throws MPDDatabaseException {
-        List<String> retList = new ArrayList<>();
-        for (String str : tagLister.list(TagLister.ListType.DATE)) {
-            if (!retList.contains(str)) {
-                retList.add(str);
-            }
-        }
-        Collections.sort(retList);
-        return retList;
+
+        return tagLister.list(TagLister.ListType.DATE)
+                .stream()
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

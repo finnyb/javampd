@@ -9,6 +9,7 @@ import org.bff.javampd.genre.MPDGenre;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * MPDArtistDatabase represents a artist database controller to a {@link org.bff.javampd.server.MPD}.
@@ -42,13 +43,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
 
     @Override
     public Collection<String> listAllAlbumNames() throws MPDDatabaseException {
-        List<String> albumNames = new ArrayList<>();
-
-        for (String albumName : tagLister.list(TagLister.ListType.ALBUM)) {
-            albumNames.add(albumName);
-        }
-
-        return albumNames;
+        return tagLister.list(TagLister.ListType.ALBUM).stream().collect(Collectors.toList());
     }
 
     @Override

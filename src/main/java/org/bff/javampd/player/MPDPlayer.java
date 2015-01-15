@@ -389,7 +389,7 @@ public class MPDPlayer implements Player {
 
     @Override
     public Status getStatus() throws MPDPlayerException {
-        String currentStatus = null;
+        String currentStatus;
         try {
             currentStatus = serverStatus.getState();
         } catch (MPDResponseException re) {

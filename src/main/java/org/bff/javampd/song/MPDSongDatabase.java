@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * MPDSongDatabase represents a song database controller to a {@link org.bff.javampd.server.MPD}.
@@ -47,47 +48,30 @@ public class MPDSongDatabase implements SongDatabase {
 
     @Override
     public Collection<MPDSong> findAlbumByArtist(String artistName, String albumName) throws MPDDatabaseException {
-        List<MPDSong> retList = new ArrayList<>();
-
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, albumName));
 
-        for (MPDSong song : songList) {
-            if (song.getArtistName() != null && song.getArtistName().equals(artistName)) {
-                retList.add(song);
-            }
-        }
+        return songList.stream()
+                .filter(song -> song.getArtistName() != null && song.getArtistName().equals(artistName))
+                .collect(Collectors.toList());
 
-        return retList;
     }
 
     @Override
     public Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDDatabaseException {
-        List<MPDSong> retList = new ArrayList<>();
-
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));
 
-        for (MPDSong song : songList) {
-            if (song.getGenre() != null && song.getGenre().equals(genre.getName())) {
-                retList.add(song);
-            }
-        }
-
-        return retList;
+        return songList.stream()
+                .filter(song -> song.getGenre() != null && song.getGenre().equals(genre.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDDatabaseException {
-        List<MPDSong> retList = new ArrayList<>();
-
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));
 
-        for (MPDSong song : songList) {
-            if (song.getYear() != null && song.getYear().equals(year)) {
-                retList.add(song);
-            }
-        }
-
-        return retList;
+        return songList.stream()
+                .filter(song -> song.getYear() != null && song.getYear().equals(year))
+                .collect(Collectors.toList());
     }
 
     @Override
