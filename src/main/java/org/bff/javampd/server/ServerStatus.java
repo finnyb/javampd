@@ -11,7 +11,6 @@ public interface ServerStatus {
      * of Strings.
      *
      * @return the desired status information
-     * @throws MPDResponseException if the MPD response generates an error
      */
     Collection<String> getStatus();
 
@@ -21,7 +20,6 @@ public interface ServerStatus {
      * Returns the current player state
      *
      * @return the current state
-     * @throws MPDResponseException
      */
     String getState();
 
@@ -34,7 +32,6 @@ public interface ServerStatus {
      * might want to first check the error status with {@link #isError}
      *
      * @return the error string, null if none
-     * @throws MPDResponseException
      */
     String getError();
 
@@ -42,7 +39,6 @@ public interface ServerStatus {
      * Returns the elapsed time of the currently playing song
      *
      * @return elapsed time of the song
-     * @throws MPDResponseException
      */
     long getElapsedTime();
 
@@ -50,7 +46,6 @@ public interface ServerStatus {
      * Returns the total time of the currently playing song
      *
      * @return total time of the song
-     * @throws MPDResponseException
      */
     long getTotalTime();
 
@@ -63,7 +58,6 @@ public interface ServerStatus {
      * error description.
      *
      * @return true if there is an error
-     * @throws MPDResponseException
      */
     boolean isError();
 

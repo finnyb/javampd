@@ -43,7 +43,6 @@ public class MPDServerStatus implements ServerStatus {
      *
      * @param status the status desired
      * @return the desired status information
-     * @throws MPDResponseException if the MPD response generates an error
      */
     protected String getStatus(Status status) {
         List<String> respList = commandExecutor.sendCommand(serverProperties.getStatus());

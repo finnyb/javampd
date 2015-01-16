@@ -48,7 +48,7 @@ public class MPDSocket {
      *
      * @param timeout socket timeout, 0 for infinite wait
      * @return the version of MPD
-     * @throws java.io.IOException    if there is a socked io problem
+     * @throws MPDConnectionException    if there is a socked io problem
      */
     private synchronized String connect(int timeout) throws MPDConnectionException {
         connectSocket(timeout);
