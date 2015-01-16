@@ -18,21 +18,21 @@ public interface Server {
      *
      * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    void clearerror() throws MPDResponseException;
+    void clearerror();
 
     /**
      * Closes the connection to the MPD server.
      *
      * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    void close() throws MPDResponseException;
+    void close();
 
     /**
      * Returns the MPD version running on the server.
      *
      * @return the version of the MPD
      */
-    String getVersion() throws MPDResponseException;
+    String getVersion();
 
     /**
      * Determines if there is a connection to the MPD server.

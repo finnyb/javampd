@@ -15,27 +15,24 @@ public interface Admin {
      * Returns the information about all outputs
      *
      * @return a <code>Collection</code> of {@link org.bff.javampd.output.MPDOutput}
-     * @throws MPDAdminException if there is a problem sending the command to the server
      */
-    Collection<MPDOutput> getOutputs() throws MPDAdminException;
+    Collection<MPDOutput> getOutputs();
 
     /**
      * Disables the passed {@link MPDOutput}
      *
      * @param output the output to disable
      * @return true if the output is disabled
-     * @throws MPDAdminException if there is a problem sending the command to the server
      */
-    boolean disableOutput(MPDOutput output) throws MPDAdminException;
+    boolean disableOutput(MPDOutput output);
 
     /**
      * Enables the passed {@link MPDOutput}
      *
      * @param output the output to enable
      * @return true if the output is enabled
-     * @throws MPDAdminException if there is a problem sending the command to the server
      */
-    boolean enableOutput(MPDOutput output) throws MPDAdminException;
+    boolean enableOutput(MPDOutput output);
 
     /**
      * Adds a {@link MPDChangeListener} to this object to receive
@@ -54,34 +51,28 @@ public interface Admin {
 
     /**
      * Kills the mpd connection.
-     *
-     * @throws MPDAdminException if there is a problem sending the command
      */
-    void killMPD() throws MPDAdminException;
+    void killMPD();
 
     /**
      * Updates the MPD database by searching the mp3 directory for new music and
      * removing the old music.
-     *
-     * @throws MPDAdminException if there is a problem sending the command
      */
-    void updateDatabase() throws MPDAdminException;
+    void updateDatabase();
 
     /**
      * Updates the MPD database by searching a specific mp3 directory for new music and removing the old music.
      *
      * @param path the path
-     * @throws MPDAdminException the MPD connection exception
      */
-    void updateDatabase(String path) throws MPDAdminException;
+    void updateDatabase(String path);
 
     /**
      * Returns the daemon uptime in seconds.
      *
      * @return the daemon uptime in seconds
-     * @throws MPDAdminException if the MPD response contains an error
      */
-    long getDaemonUpTime() throws MPDAdminException;
+    long getDaemonUpTime();
 
     /**
      * Adds a {@link OutputChangeListener} to this object to receive

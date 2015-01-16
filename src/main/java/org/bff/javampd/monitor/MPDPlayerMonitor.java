@@ -1,7 +1,6 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.player.PlayerBasicChangeEvent;
 import org.bff.javampd.player.PlayerBasicChangeListener;
 import org.bff.javampd.server.Status;
@@ -28,7 +27,7 @@ public class MPDPlayerMonitor implements PlayerMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         PlayerStatus newStatus = PlayerStatus.STATUS_STOPPED;
         if (state.startsWith(StandAloneMonitor.PlayerResponse.PLAY.getPrefix())) {
             newStatus = PlayerStatus.STATUS_PLAYING;

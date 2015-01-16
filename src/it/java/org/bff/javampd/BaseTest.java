@@ -42,7 +42,7 @@ public abstract class BaseTest {
         }
     }
 
-    public static void loadMPDSong(MPDSong song) throws MPDException {
+    public static void loadMPDSong(MPDSong song) {
         MPDSong s = new ArrayList<>(getMpd().getDatabaseManager().getSongDatabase().searchFileName(song.getFile())).get(0);
         try {
             MPDSongs.getSongs().add(s);

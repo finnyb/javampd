@@ -1,6 +1,5 @@
 package org.bff.javampd.artist;
 
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.genre.MPDGenre;
 
 import java.util.Collection;
@@ -16,9 +15,8 @@ public interface ArtistDatabase {
      * artists in the database.
      *
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s containing the album names
-     * @throws org.bff.javampd.database.MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDArtist> listAllArtists() throws MPDDatabaseException;
+    Collection<MPDArtist> listAllArtists();
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s of all
@@ -27,16 +25,14 @@ public interface ArtistDatabase {
      * @param genre the genre to find artists
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s of all
      * artists
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDDatabaseException;
+    Collection<MPDArtist> listArtistsByGenre(MPDGenre genre);
 
     /**
      * Returns a {@link org.bff.javampd.artist.MPDArtist} with the passed name.
      *
      * @param name the name of the artist
      * @return a {@link org.bff.javampd.artist.MPDArtist}
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    MPDArtist listArtistByName(String name) throws MPDDatabaseException;
+    MPDArtist listArtistByName(String name);
 }

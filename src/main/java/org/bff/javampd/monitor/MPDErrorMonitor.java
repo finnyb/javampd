@@ -1,7 +1,6 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.server.MPDErrorEvent;
 import org.bff.javampd.server.MPDErrorListener;
 import org.bff.javampd.server.Status;
@@ -51,7 +50,7 @@ public class MPDErrorMonitor implements ErrorMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         if (error != null) {
             fireMPDErrorEvent(error);
             error = null;

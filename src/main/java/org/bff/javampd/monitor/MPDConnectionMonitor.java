@@ -1,7 +1,6 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.server.ConnectionChangeEvent;
 import org.bff.javampd.server.ConnectionChangeListener;
 import org.bff.javampd.server.Server;
@@ -56,7 +55,7 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         boolean conn = this.server.isConnected();
         if (connected != conn) {
             connected = conn;

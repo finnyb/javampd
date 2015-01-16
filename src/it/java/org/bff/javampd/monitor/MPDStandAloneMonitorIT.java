@@ -1,7 +1,6 @@
 package org.bff.javampd.monitor;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.MPDSongs;
 import org.bff.javampd.admin.Admin;
 import org.bff.javampd.output.MPDOutput;
@@ -17,7 +16,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,7 +35,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     private StandAloneMonitor monitor;
 
     @Before
-    public void setUp() throws MPDException {
+    public void setUp() {
         this.player = getMpd().getPlayer();
         this.playlist = getMpd().getPlaylist();
         this.admin = getMpd().getAdmin();
@@ -73,7 +71,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     private boolean success;
 
     @Test
-    public void testAddSong() throws MPDException, IOException {
+    public void testAddSong() {
         success = false;
 
         monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
@@ -96,7 +94,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testPlaylistChanged() throws MPDException, IOException {
+    public void testPlaylistChanged() {
         success = false;
 
         monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
@@ -119,7 +117,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testRemoveSong() throws MPDException, IOException {
+    public void testRemoveSong() {
         success = false;
 
         monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
@@ -146,7 +144,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testSongChanged() throws MPDException, IOException {
+    public void testSongChanged() {
         success = false;
 
         monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
@@ -182,7 +180,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testPlayerStarted() throws MPDException, IOException {
+    public void testPlayerStarted() {
         success = false;
 
         monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
@@ -210,7 +208,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testPlayerStopped() throws MPDException, IOException {
+    public void testPlayerStopped() {
         success = false;
 
         monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
@@ -237,7 +235,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testPlayerPaused() throws MPDException, IOException {
+    public void testPlayerPaused() {
         success = false;
 
         monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
@@ -256,7 +254,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         success = false;
         loadSeveralSongs();
         player.play();
-        delay();
+        delay(2);
         player.pause();
 
         waitForSuccess();
@@ -265,7 +263,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testVolumeChanged() throws MPDException, IOException {
+    public void testVolumeChanged() {
         success = false;
 
         player.setVolume(0);
@@ -289,7 +287,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testPlayerUnPaused() throws MPDException, IOException {
+    public void testPlayerUnPaused() {
         success = false;
         Date start = Calendar.getInstance().getTime();
         monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
@@ -316,7 +314,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     @Test
-    public void testOutputChanged() throws MPDException, IOException {
+    public void testOutputChanged() {
         success = false;
 
         monitor.addOutputChangeListener(new OutputChangeListener() {
@@ -333,7 +331,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         Assert.assertTrue(success);
     }
 
-    private void loadSeveralSongs() throws MPDException, IOException {
+    private void loadSeveralSongs() {
         playlist.addSong(MPDSongs.getSongs().get(0));
         playlist.addSong(MPDSongs.getSongs().get(1));
         playlist.addSong(MPDSongs.getSongs().get(2));

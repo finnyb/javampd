@@ -1,10 +1,8 @@
 package org.bff.javampd.album;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.artist.ArtistDatabase;
 import org.bff.javampd.artist.MPDArtist;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.genre.MPDGenre;
 import org.bff.javampd.integrationdata.TestAlbums;
 import org.bff.javampd.integrationdata.TestArtists;
@@ -26,7 +24,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     private ArtistDatabase artistDatabase;
 
     @Before
-    public void setUp() throws MPDException {
+    public void setUp() {
         this.albumDatabase = getMpd().getDatabaseManager().getAlbumDatabase();
         this.artistDatabase = getMpd().getDatabaseManager().getArtistDatabase();
     }
@@ -65,7 +63,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testAllAlbums() throws MPDDatabaseException {
+    public void testAllAlbums() {
 
         for (MPDAlbum testAlbum : TestAlbums.getAlbums()) {
             boolean exists = false;
@@ -84,7 +82,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
 
     @Test
     @Ignore
-    public void testAllAlbumsWindowed() throws MPDDatabaseException {
+    public void testAllAlbumsWindowed() {
         int start = 0;
         int end = 1;
 
@@ -99,7 +97,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testAllAlbumsByArtist() throws MPDDatabaseException {
+    public void testAllAlbumsByArtist() {
 
         for (MPDAlbum testAlbum : TestAlbums.getAlbums()) {
             boolean exists = false;
@@ -117,7 +115,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListAlbumNames() throws MPDDatabaseException {
+    public void testListAlbumNames() {
         for (MPDAlbum testAlbum : TestAlbums.getAlbums()) {
             boolean exists = false;
             for (String albumName : albumDatabase.listAllAlbumNames()) {
@@ -134,7 +132,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindAlbum() throws MPDDatabaseException {
+    public void testFindAlbum() {
         for (MPDAlbum testAlbum : TestAlbums.getAlbums()) {
             boolean exists = false;
             for (MPDAlbum album : albumDatabase.findAlbum(testAlbum.getName())) {
@@ -151,12 +149,12 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testAlbumCountByArtist() throws MPDException {
+    public void testAlbumCountByArtist() {
         Assert.assertEquals(TestAlbums.getAlbums().size(), getAllAlBumsByArtist().size());
     }
 
     @Test
-    public void testAlbumCount() throws MPDException {
+    public void testAlbumCount() {
         Assert.assertEquals(TestAlbums.getAlbums().size(), albumDatabase.listAllAlbums().size());
     }
 
@@ -182,7 +180,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
         }
     }
 
-    private Collection<MPDAlbum> getAllAlBumsByArtist() throws MPDDatabaseException {
+    private Collection<MPDAlbum> getAllAlBumsByArtist() {
         List<MPDAlbum> albums = new ArrayList<>();
         for (MPDArtist artist : artistDatabase.listAllArtists()) {
             albums.addAll(albumDatabase.listAlbumsByArtist(artist));

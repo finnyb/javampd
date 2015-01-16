@@ -126,7 +126,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetVolume() throws MPDResponseException {
+    public void testGetVolume() {
         String volume = "5";
         statusList.add("volume: " + volume);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -135,7 +135,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsRepeat() throws MPDResponseException {
+    public void testIsRepeat() {
         String repeat = "1";
         statusList.add("repeat: " + repeat);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -144,7 +144,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsNotRepeat() throws MPDResponseException {
+    public void testIsNotRepeat() {
         String repeat = "0";
         statusList.add("repeat: " + repeat);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -153,7 +153,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsRandom() throws MPDResponseException {
+    public void testIsRandom() {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -162,7 +162,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsNotRandom() throws MPDResponseException {
+    public void testIsNotRandom() {
         String random = "0";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);

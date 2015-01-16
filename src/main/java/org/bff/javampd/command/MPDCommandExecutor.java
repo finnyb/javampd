@@ -3,7 +3,6 @@ package org.bff.javampd.command;
 import com.google.inject.Singleton;
 import org.bff.javampd.server.MPD;
 import org.bff.javampd.server.MPDConnectionException;
-import org.bff.javampd.server.MPDResponseException;
 import org.bff.javampd.server.MPDSocket;
 
 import java.util.ArrayList;
@@ -31,17 +30,17 @@ public class MPDCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public synchronized List<String> sendCommand(String command) throws MPDResponseException {
+    public synchronized List<String> sendCommand(String command) {
         return new ArrayList<>(sendCommand(new MPDCommand(command)));
     }
 
     @Override
-    public synchronized List<String> sendCommand(String command, String... params) throws MPDResponseException {
+    public synchronized List<String> sendCommand(String command, String... params) {
         return new ArrayList<>(sendCommand(new MPDCommand(command, params)));
     }
 
     @Override
-    public synchronized List<String> sendCommand(String command, Integer... params) throws MPDResponseException {
+    public synchronized List<String> sendCommand(String command, Integer... params) {
         String[] intParms = new String[params.length];
         for (int i = 0; i < params.length; ++i) {
             intParms[i] = Integer.toString(params[i]);
@@ -50,26 +49,18 @@ public class MPDCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public synchronized Collection<String> sendCommand(MPDCommand command) throws MPDResponseException {
-        try {
-            checkSocket();
-        } catch (MPDConnectionException e) {
-            throw new MPDResponseException(e);
-        }
+    public synchronized Collection<String> sendCommand(MPDCommand command) {
+        checkSocket();
         return mpdSocket.sendCommand(command);
     }
 
     @Override
-    public synchronized boolean sendCommands(List<MPDCommand> commandList) throws MPDResponseException {
-        try {
-            checkSocket();
-        } catch (MPDConnectionException e) {
-            throw new MPDResponseException(e);
-        }
+    public synchronized boolean sendCommands(List<MPDCommand> commandList) {
+        checkSocket();
         return mpdSocket.sendCommands(commandList);
     }
 
-    private void checkSocket() throws MPDConnectionException {
+    private void checkSocket() {
         if (mpd == null) {
             throw new MPDConnectionException("Socket could not be established.  Was mpd set?");
         }
@@ -80,17 +71,13 @@ public class MPDCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public String getMPDVersion() throws MPDResponseException {
-        try {
-            checkSocket();
-        } catch (MPDConnectionException e) {
-            throw new MPDResponseException(e);
-        }
+    public String getMPDVersion() {
+        checkSocket();
         return mpdSocket.getVersion();
     }
 
     @Override
-    public void setMpd(MPD mpd) throws MPDConnectionException {
+    public void setMpd(MPD mpd) {
         this.mpd = mpd;
     }
 }

@@ -79,7 +79,7 @@ public class MPDTest {
     public void testIsNotConnected() throws Exception {
         when(serverProperties.getPing()).thenReturn(new ServerProperties().getPing());
         when(mpdCommandExecutor.sendCommand(serverProperties.getPing()))
-                .thenThrow(new MPDResponseException());
+                .thenThrow(new MPDConnectionException());
 
         MPD mpd = mpdBuilder.build();
         assertFalse(mpd.isConnected());
@@ -103,7 +103,7 @@ public class MPDTest {
         when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
         when(mpdCommandExecutor
                 .sendCommand(serverProperties.getPassword(), password))
-                .thenThrow(new MPDResponseException("incorrect password"));
+                .thenThrow(new MPDConnectionException("incorrect password"));
 
         MPD mpd = mpdBuilder.build();
         mpd.authenticate(password);

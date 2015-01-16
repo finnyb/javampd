@@ -2,14 +2,11 @@ package org.bff.javampd.file;
 
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.TestProperties;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.integrationdata.TestFiles;
-import org.bff.javampd.server.MPDConnectionException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class MPDFileDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListRootDirectory() throws IOException, MPDConnectionException, MPDDatabaseException {
+    public void testListRootDirectory() throws Exception {
         List<File> testFiles = new ArrayList<>(TestFiles.getRootTestFiles(testProperties.getPath()));
         List<MPDFile> files = new ArrayList<>(fileDatabase.listRootDirectory());
 

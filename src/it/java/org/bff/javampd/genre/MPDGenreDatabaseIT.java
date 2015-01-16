@@ -1,7 +1,6 @@
 package org.bff.javampd.genre;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.integrationdata.TestGenres;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +42,7 @@ public class MPDGenreDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testGenreCount() throws MPDException {
+    public void testGenreCount() {
         assertEquals(TestGenres.getGenres().size(), genreDatabase.listAllGenres().size());
     }
 }

@@ -1,7 +1,5 @@
 package org.bff.javampd.statistics;
 
-import org.bff.javampd.server.MPDResponseException;
-
 /**
  * @author bill
  */
@@ -10,58 +8,51 @@ public interface ServerStatistics {
      * Returns the time length of the music played since the server was started.
      *
      * @return the time length of the music played
-     * @throws MPDResponseException if the MPD response generates an error
      */
-    long getPlaytime() throws MPDResponseException;
+    long getPlaytime();
 
     /**
      * Returns the MPD server daemon uptime in seconds.
      *
      * @return the server uptime in seconds
-     * @throws MPDResponseException if the MPD response generates an error
      */
-    long getUptime() throws MPDResponseException;
+    long getUptime();
 
 
     /**
      * Returns the total number of artists in the database.
      *
      * @return the total number of artists
-     * @throws MPDResponseException if the MPD responded with an error
      */
-    int getArtistCount() throws MPDResponseException;
+    int getArtistCount();
 
     /**
      * Returns the total number of albums in the database.
      *
      * @return the total number of albums
-     * @throws MPDResponseException if the MPD responded with an error
      */
-    int getAlbumCount() throws MPDResponseException;
+    int getAlbumCount();
 
     /**
      * Returns the total number of songs in the database.
      *
      * @return the total number of songs
-     * @throws MPDResponseException if the MPD responded with an error
      */
-    int getSongCount() throws MPDResponseException;
+    int getSongCount();
 
     /**
      * Returns the last database update in UNIX time.
      *
      * @return the last database update in UNIX time
-     * @throws MPDResponseException if the MPD responded with an error
      */
-    long getLastUpdateTime() throws MPDResponseException;
+    long getLastUpdateTime();
 
     /**
      * Returns the sum of all song times in database.
      *
      * @return the sum of all song times
-     * @throws MPDResponseException if the MPD responded with an error
      */
-    long getDatabasePlaytime() throws MPDResponseException;
+    long getDatabasePlaytime();
 
     /**
      * Enumeration of the available information from MPD server

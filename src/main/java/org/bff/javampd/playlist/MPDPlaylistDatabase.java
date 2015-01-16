@@ -2,10 +2,8 @@ package org.bff.javampd.playlist;
 
 import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.properties.DatabaseProperties;
-import org.bff.javampd.server.MPDResponseException;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
@@ -13,6 +11,7 @@ import org.bff.javampd.song.SongDatabase;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * MPDArtistDatabase represents a artist database controller to a {@link org.bff.javampd.server.MPD}.
@@ -43,7 +42,7 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
     }
 
     @Override
-    public Collection<MPDSavedPlaylist> listSavedPlaylists() throws MPDDatabaseException {
+    public Collection<MPDSavedPlaylist> listSavedPlaylists() {
         List<MPDSavedPlaylist> playlists = new ArrayList<>();
 
         for (String s : listPlaylists()) {
@@ -55,29 +54,19 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
     }
 
     @Override
-    public Collection<String> listPlaylists() throws MPDDatabaseException {
-        try {
-            return tagLister.listInfo(TagLister.ListInfoType.PLAYLIST);
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
+    public Collection<String> listPlaylists() {
+        return tagLister.listInfo(TagLister.ListInfoType.PLAYLIST);
     }
 
     @Override
-    public Collection<MPDSong> listPlaylistSongs(String playlistName) throws MPDDatabaseException {
+    public Collection<MPDSong> listPlaylistSongs(String playlistName) {
         List<MPDSong> songList = new ArrayList<>();
-        try {
-            List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
-            for (String song : songConverter.getSongFileNameList(response)) {
-                songList.add(new ArrayList<>(songDatabase.searchFileName(song)).get(0));
-            }
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
+        List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
+        songList.addAll(
+                songConverter.getSongFileNameList(response)
+                        .stream()
+                        .map(song -> new ArrayList<>(songDatabase.searchFileName(song)).get(0))
+                        .collect(Collectors.toList()));
 
         return songList;
     }

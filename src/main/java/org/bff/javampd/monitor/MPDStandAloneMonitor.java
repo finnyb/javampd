@@ -291,7 +291,7 @@ public class MPDStandAloneMonitor
             this.delay = delay;
         }
 
-        public void checkStatus() throws MPDException {
+        public void checkStatus() {
             if (count++ == delay) {
                 count = 0;
                 monitor.checkStatus();

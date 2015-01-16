@@ -5,7 +5,6 @@ import mockeddata.MockedData;
 import org.bff.javampd.command.MPDCommand;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.server.MPD;
-import org.bff.javampd.server.MPDResponseException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +27,7 @@ public class TestMPDCommandExecutor extends MPDCommandExecutor {
     }
 
     @Override
-    public synchronized Collection<String> sendCommand(MPDCommand command) throws MPDResponseException {
+    public synchronized Collection<String> sendCommand(MPDCommand command) {
         return lookupCommand(convertCommand(command.getCommand(), command.getParams()));
     }
 

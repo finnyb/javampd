@@ -6,13 +6,15 @@ package org.bff.javampd;
  * @author Bill
  * @version 1.0
  */
-public abstract class MPDException extends Exception {
+public class MPDException extends RuntimeException {
+    private final String command;
 
     /**
      * Constructor.
      */
     public MPDException() {
         super();
+        this.command = null;
     }
 
     /**
@@ -22,6 +24,7 @@ public abstract class MPDException extends Exception {
      */
     public MPDException(String message) {
         super(message);
+        this.command = null;
     }
 
     /**
@@ -31,6 +34,7 @@ public abstract class MPDException extends Exception {
      */
     public MPDException(Throwable cause) {
         super(cause);
+        this.command = null;
     }
 
     /**
@@ -41,5 +45,35 @@ public abstract class MPDException extends Exception {
      */
     public MPDException(String message, Throwable cause) {
         super(message, cause);
+        this.command = null;
+    }
+
+    /**
+     * Class constructor specifying the message and command generating the
+     * error.
+     *
+     * @param message the exception message
+     * @param command the command generating the exception
+     */
+    public MPDException(String message, String command) {
+        super(message);
+        this.command = command;
+    }
+
+    /**
+     * Class constructor specifying the message and command generating the
+     * error.
+     *
+     * @param message the exception message
+     * @param command the command generating the exception
+     * @param cause   the cause of the exception
+     */
+    public MPDException(String message, String command, Throwable cause) {
+        super(message, cause);
+        this.command = command;
+    }
+
+    public String getCommand() {
+        return command;
     }
 }

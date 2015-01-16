@@ -3,7 +3,6 @@ package org.bff.javampd.player;
 import com.google.inject.Inject;
 import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.command.CommandExecutor;
-import org.bff.javampd.server.MPDResponseException;
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
@@ -47,20 +46,14 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public MPDSong getCurrentSong() throws MPDPlayerException {
-        try {
-            List<MPDSong> songList =
-                    songConverter.convertResponseToSong(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
+    public MPDSong getCurrentSong() {
+        List<MPDSong> songList =
+                songConverter.convertResponseToSong(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
 
-            if (songList.isEmpty()) {
-                return null;
-            } else {
-                return songList.get(0);
-            }
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlayerException(e);
+        if (songList.isEmpty()) {
+            return null;
+        } else {
+            return songList.get(0);
         }
     }
 
@@ -109,22 +102,16 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void play() throws MPDPlayerException {
+    public void play() {
         playId(null);
     }
 
     @Override
-    public void playId(MPDSong song) throws MPDPlayerException {
-        try {
-            if (song == null) {
-                commandExecutor.sendCommand(playerProperties.getPlay());
-            } else {
-                commandExecutor.sendCommand(playerProperties.getPlayId(), song.getId());
-            }
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlayerException(e);
+    public void playId(MPDSong song) {
+        if (song == null) {
+            commandExecutor.sendCommand(playerProperties.getPlay());
+        } else {
+            commandExecutor.sendCommand(playerProperties.getPlayId(), song.getId());
         }
 
         if (status == Status.STATUS_STOPPED || status == Status.STATUS_PAUSED) {
@@ -136,12 +123,12 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void seek(long secs) throws MPDPlayerException {
+    public void seek(long secs) {
         seekId(getCurrentSong(), secs);
     }
 
     @Override
-    public void seekId(MPDSong song, long secs) throws MPDPlayerException {
+    public void seekId(MPDSong song, long secs) {
         List<String> response = null;
         if (song.getLength() >= secs) {
             try {
@@ -159,139 +146,94 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void stop() throws MPDPlayerException {
-        try {
-            commandExecutor.sendCommand(playerProperties.getStop());
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
-
+    public void stop() {
+        commandExecutor.sendCommand(playerProperties.getStop());
         status = Status.STATUS_STOPPED;
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_STOPPED);
     }
 
     @Override
-    public void pause() throws MPDPlayerException {
-        try {
-            commandExecutor.sendCommand(playerProperties.getPause());
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
-
+    public void pause() {
+        commandExecutor.sendCommand(playerProperties.getPause());
         status = Status.STATUS_PAUSED;
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_PAUSED);
 
     }
 
     @Override
-    public void playNext() throws MPDPlayerException {
-        try {
-            commandExecutor.sendCommand(playerProperties.getNext());
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
-
+    public void playNext() {
+        commandExecutor.sendCommand(playerProperties.getNext());
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_NEXT);
     }
 
     @Override
-    public void playPrev() throws MPDPlayerException {
-        try {
-            commandExecutor.sendCommand(playerProperties.getPrevious());
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
-
+    public void playPrev() {
+        commandExecutor.sendCommand(playerProperties.getPrevious());
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_PREVIOUS);
 
     }
 
     @Override
-    public void mute() throws MPDPlayerException {
+    public void mute() {
         oldVolume = getVolume();
         setVolume(0);
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_MUTED);
     }
 
     @Override
-    public void unMute() throws MPDPlayerException {
+    public void unMute() {
         setVolume(oldVolume);
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_UNMUTED);
     }
 
     @Override
-    public int getBitrate() throws MPDPlayerException {
-        try {
-            return serverStatus.getBitrate();
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+    public int getBitrate() {
+        return serverStatus.getBitrate();
     }
 
     @Override
-    public int getVolume() throws MPDPlayerException {
-        try {
-            return serverStatus.getVolume();
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+    public int getVolume() {
+        return serverStatus.getVolume();
     }
 
     @Override
-    public void setVolume(int volume) throws MPDPlayerException {
+    public void setVolume(int volume) {
         if (volume < 0 || volume > 100) {
-            throw new MPDPlayerException("Volume not in allowable range");
-        }
-
-        try {
+            LOGGER.warn("Not changing volume to {}", volume);
+        } else {
             commandExecutor.sendCommand(playerProperties.getSetVolume(), volume);
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
-
-        fireVolumeChangeEvent(volume);
-    }
-
-    @Override
-    public boolean isRepeat() throws MPDPlayerException {
-        try {
-            return serverStatus.isRepeat();
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+            fireVolumeChangeEvent(volume);
         }
     }
 
     @Override
-    public void setRepeat(boolean shouldRepeat) throws MPDPlayerException {
+    public boolean isRepeat() {
+        return serverStatus.isRepeat();
+    }
+
+    @Override
+    public void setRepeat(boolean shouldRepeat) {
         String repeat;
         if (shouldRepeat) {
             repeat = "1";
         } else {
             repeat = "0";
         }
-        try {
-            commandExecutor.sendCommand(playerProperties.getRepeat(), repeat);
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+        commandExecutor.sendCommand(playerProperties.getRepeat(), repeat);
     }
 
     @Override
-    public boolean isRandom() throws MPDPlayerException {
-        try {
-            return serverStatus.isRandom();
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+    public boolean isRandom() {
+        return serverStatus.isRandom();
     }
 
     @Override
-    public void randomizePlay() throws MPDPlayerException {
+    public void randomizePlay() {
         setRandom(true);
     }
 
     @Override
-    public void unRandomizePlay() throws MPDPlayerException {
+    public void unRandomizePlay() {
         setRandom(false);
     }
 
@@ -308,64 +250,51 @@ public class MPDPlayer implements Player {
         } else {
             random = "0";
         }
-        try {
-            commandExecutor.sendCommand(playerProperties.getRandom(), random);
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+        commandExecutor.sendCommand(playerProperties.getRandom(), random);
     }
 
     @Override
-    public int getXFade() throws MPDPlayerException {
-        try {
-            return serverStatus.getXFade();
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+    public void randomizePlay() {
+        setRandom(true);
     }
 
     @Override
-    public void setXFade(int xFade) throws MPDPlayerException {
-        try {
-            commandExecutor.sendCommand(playerProperties.getXFade(), xFade);
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+    public void unRandomizePlay() {
+        setRandom(false);
     }
 
     @Override
-    public long getElapsedTime() throws MPDPlayerException {
-        try {
-            return serverStatus.getElapsedTime();
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+    public int getXFade() {
+        return serverStatus.getXFade();
+    }
+
+    @Override
+    public void setXFade(int xFade) {
+        commandExecutor.sendCommand(playerProperties.getXFade(), xFade);
+    }
+
+    @Override
+    public long getElapsedTime() {
+        return serverStatus.getElapsedTime();
 
     }
 
     @Override
-    public long getTotalTime() throws MPDPlayerException {
-        try {
-            return serverStatus.getTotalTime();
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+    public long getTotalTime() {
+        return serverStatus.getTotalTime();
     }
 
     @Override
-    public MPDAudioInfo getAudioDetails() throws MPDPlayerException {
+    public MPDAudioInfo getAudioDetails() {
         MPDAudioInfo info = null;
-        try {
-            String response = serverStatus.getAudio();
-            if (response != null) {
-                info = new MPDAudioInfo();
-                String[] split = response.split(":");
-                parseSampleRate(info, split[0]);
-                parseBitRate(info, split[1]);
-                parseChannels(info, split[2]);
-            }
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
+
+        String response = serverStatus.getAudio();
+        if (response != null) {
+            info = new MPDAudioInfo();
+            String[] split = response.split(":");
+            parseSampleRate(info, split[0]);
+            parseBitRate(info, split[1]);
+            parseChannels(info, split[2]);
         }
 
         return info;
@@ -381,13 +310,9 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public Status getStatus() throws MPDPlayerException {
+    public Status getStatus() {
         String currentStatus;
-        try {
-            currentStatus = serverStatus.getState();
-        } catch (MPDResponseException re) {
-            throw new MPDPlayerException(re.getMessage(), re.getCommand(), re);
-        }
+        currentStatus = serverStatus.getState();
 
         if (currentStatus.equalsIgnoreCase(Status.STATUS_PLAYING.getPrefix())) {
             return Status.STATUS_PLAYING;

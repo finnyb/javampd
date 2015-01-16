@@ -2,7 +2,6 @@ package org.bff.javampd.album;
 
 import com.google.inject.Inject;
 import org.bff.javampd.artist.MPDArtist;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
 
@@ -29,7 +28,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
-    public Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) throws MPDDatabaseException {
+    public Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) {
         List<String> list = new ArrayList<>();
         list.add(artist.getName());
 
@@ -42,12 +41,12 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
-    public Collection<String> listAllAlbumNames() throws MPDDatabaseException {
+    public Collection<String> listAllAlbumNames() {
         return tagLister.list(TagLister.ListType.ALBUM).stream().collect(Collectors.toList());
     }
 
     @Override
-    public Collection<MPDAlbum> listAllAlbums() throws MPDDatabaseException {
+    public Collection<MPDAlbum> listAllAlbums() {
         List<MPDAlbum> albums = new ArrayList<>();
 
         for (String albumName : listAllAlbumNames()) {
@@ -58,7 +57,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
-    public Collection<MPDAlbum> listAllAlbums(int start, int end) throws MPDDatabaseException {
+    public Collection<MPDAlbum> listAllAlbums(int start, int end) {
         List<MPDAlbum> albums = new ArrayList<>();
 
         List<String> albumNames = new ArrayList<>(listAllAlbumNames());
@@ -71,7 +70,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
-    public Collection<MPDAlbum> findAlbum(String albumName) throws MPDDatabaseException {
+    public Collection<MPDAlbum> findAlbum(String albumName) {
         List<String> list = new ArrayList<>();
         list.add(TagLister.ListType.ALBUM.getType());
         list.add(albumName);
@@ -80,7 +79,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
-    public MPDAlbum findAlbumByArtist(MPDArtist artist, String albumName) throws MPDDatabaseException {
+    public MPDAlbum findAlbumByArtist(MPDArtist artist, String albumName) {
         for (MPDAlbum album : listAlbumsByArtist(artist)) {
             if (albumName.equalsIgnoreCase(album.getName())) {
                 return album;
@@ -91,7 +90,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
-    public Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) throws MPDDatabaseException {
+    public Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) {
         List<String> list = new ArrayList<>();
         list.add(TagLister.ListType.GENRE.getType());
         list.add(genre.getName());
@@ -104,7 +103,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     @Override
-    public Collection<MPDAlbum> listAlbumsByYear(String year) throws MPDDatabaseException {
+    public Collection<MPDAlbum> listAlbumsByYear(String year) {
         List<String> list = new ArrayList<>();
         list.add(TagLister.ListType.DATE.getType());
         list.add(year);
@@ -117,7 +116,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     }
 
     private Collection<MPDAlbum> lookupAlbumByName(String albumName,
-                                                   List<String> artistParams) throws MPDDatabaseException {
+                                                   List<String> artistParams) {
         List<MPDAlbum> albums = new ArrayList<>();
         List<String> tagParams = new ArrayList<>();
         tagParams.add(TagLister.ListType.ALBUM.getType());

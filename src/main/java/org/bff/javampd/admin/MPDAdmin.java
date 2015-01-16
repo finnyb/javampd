@@ -1,15 +1,11 @@
 package org.bff.javampd.admin;
 
 import com.google.inject.Inject;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
-import org.bff.javampd.server.MPDResponseException;
 import org.bff.javampd.statistics.ServerStatistics;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +21,6 @@ import java.util.List;
  * @author Bill
  */
 public class MPDAdmin implements Admin {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MPDAdmin.class);
 
     private List<MPDChangeListener> listeners =
             new ArrayList<>();
@@ -50,35 +45,20 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public Collection<MPDOutput> getOutputs() throws MPDAdminException {
-        try {
-            return new ArrayList<>(parseOutputs(commandExecutor.sendCommand(adminProperties.getOutputs())));
-        } catch (MPDException e) {
-            LOGGER.error("Could not get outputs", e);
-            throw new MPDAdminException(e);
-        }
+    public Collection<MPDOutput> getOutputs() {
+        return new ArrayList<>(parseOutputs(commandExecutor.sendCommand(adminProperties.getOutputs())));
     }
 
     @Override
-    public boolean disableOutput(MPDOutput output) throws MPDAdminException {
+    public boolean disableOutput(MPDOutput output) {
         fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
-        try {
-            return commandExecutor.sendCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
-        } catch (MPDException e) {
-            LOGGER.error("Could not disable output {}", output, e);
-            throw new MPDAdminException(e);
-        }
+        return commandExecutor.sendCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
     }
 
     @Override
-    public boolean enableOutput(MPDOutput output) throws MPDAdminException {
+    public boolean enableOutput(MPDOutput output) {
         fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
-        try {
-            return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
-        } catch (MPDException e) {
-            LOGGER.error("Could not enable output {}", output, e);
-            throw new MPDAdminException(e);
-        }
+        return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
     }
 
     private Collection<MPDOutput> parseOutputs(Collection<String> response) {
@@ -144,50 +124,26 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public void killMPD() throws MPDAdminException {
-        try {
-            commandExecutor.sendCommand(adminProperties.getKill());
-            fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
-        } catch (MPDResponseException re) {
-            throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDAdminException(e);
-        }
+    public void killMPD() {
+        commandExecutor.sendCommand(adminProperties.getKill());
+        fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
     }
 
     @Override
-    public void updateDatabase() throws MPDAdminException {
-        try {
-            commandExecutor.sendCommand(adminProperties.getRefresh());
-            fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
-        } catch (MPDResponseException re) {
-            throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDAdminException(e);
-        }
+    public void updateDatabase() {
+        commandExecutor.sendCommand(adminProperties.getRefresh());
+        fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
     }
 
     @Override
-    public void updateDatabase(String path) throws MPDAdminException {
-        try {
-            commandExecutor.sendCommand(adminProperties.getRefresh(), path);
-            fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
-        } catch (MPDResponseException re) {
-            throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDAdminException(e);
-        }
+    public void updateDatabase(String path) {
+        commandExecutor.sendCommand(adminProperties.getRefresh(), path);
+        fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
     }
 
     @Override
-    public long getDaemonUpTime() throws MPDAdminException {
-        try {
-            return serverStatistics.getUptime();
-        } catch (MPDResponseException re) {
-            throw new MPDAdminException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDAdminException(e);
-        }
+    public long getDaemonUpTime() {
+        return serverStatistics.getUptime();
     }
 
     @Override
