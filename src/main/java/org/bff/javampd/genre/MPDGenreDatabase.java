@@ -31,8 +31,6 @@ public class MPDGenreDatabase implements GenreDatabase {
 
     @Override
     public Collection<MPDGenre> listAllGenres() throws MPDDatabaseException {
-        List<MPDGenre> genres = new ArrayList<>();
-
         return tagLister.list(TagLister.ListType.GENRE)
                 .stream()
                 .map(MPDGenre::new)
