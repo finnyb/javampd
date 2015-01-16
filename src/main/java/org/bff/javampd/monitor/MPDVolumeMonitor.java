@@ -1,7 +1,6 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.player.VolumeChangeDelegate;
 import org.bff.javampd.player.VolumeChangeListener;
 import org.bff.javampd.server.Status;
@@ -25,7 +24,7 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         if (oldVolume != newVolume) {
             fireVolumeChangeEvent(newVolume);
             oldVolume = newVolume;

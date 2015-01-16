@@ -8,5 +8,5 @@ public interface Monitor {
      *
      * @throws MPDException if there are issues that occur during the check
      */
-    void checkStatus() throws MPDException;
+    void checkStatus();
 }

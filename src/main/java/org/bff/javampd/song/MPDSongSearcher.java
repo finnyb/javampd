@@ -2,8 +2,6 @@ package org.bff.javampd.song;
 
 import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
-import org.bff.javampd.database.MPDDatabaseException;
-import org.bff.javampd.server.MPDResponseException;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,12 +28,12 @@ public class MPDSongSearcher implements SongSearcher {
     }
 
     @Override
-    public Collection<MPDSong> search(ScopeType searchType, String criteria) throws MPDDatabaseException {
+    public Collection<MPDSong> search(ScopeType searchType, String criteria) {
         return search(generateParams(searchType, criteria));
     }
 
     @Override
-    public Collection<MPDSong> search(ScopeType searchType, String criteria, int start, int end) throws MPDDatabaseException {
+    public Collection<MPDSong> search(ScopeType searchType, String criteria, int start, int end) {
         return search(
                 addWindowedParams(
                         generateParams(searchType, criteria),
@@ -43,44 +41,27 @@ public class MPDSongSearcher implements SongSearcher {
                         end));
     }
 
-    private Collection<MPDSong> search(String[] params) throws MPDDatabaseException {
-        List<String> titleList;
-
-        try {
-            titleList = commandExecutor.sendCommand(searchProperties.getSearch(), params);
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
-
+    private Collection<MPDSong> search(String[] params) {
+        List<String> titleList = commandExecutor.sendCommand(searchProperties.getSearch(), params);
         return songConverter.convertResponseToSong(titleList);
 
     }
 
     @Override
-    public Collection<MPDSong> find(ScopeType scopeType, String criteria) throws MPDDatabaseException {
+    public Collection<MPDSong> find(ScopeType scopeType, String criteria) {
         return find(generateParams(scopeType, criteria));
     }
 
     @Override
-    public Collection<MPDSong> find(ScopeType scopeType, String criteria, int start, int end) throws MPDDatabaseException {
+    public Collection<MPDSong> find(ScopeType scopeType, String criteria, int start, int end) {
         return find(addWindowedParams(
                 generateParams(scopeType, criteria),
                 start,
                 end));
     }
 
-    private Collection<MPDSong> find(String[] params) throws MPDDatabaseException {
-        List<String> titleList;
-
-        try {
-            titleList = commandExecutor.sendCommand(searchProperties.getFind(), params);
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
+    private Collection<MPDSong> find(String[] params) {
+        List<String> titleList = commandExecutor.sendCommand(searchProperties.getFind(), params);
 
         return songConverter.convertResponseToSong(titleList);
     }

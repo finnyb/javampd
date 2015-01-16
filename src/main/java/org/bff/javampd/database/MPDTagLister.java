@@ -3,7 +3,6 @@ package org.bff.javampd.database;
 import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.properties.DatabaseProperties;
-import org.bff.javampd.server.MPDResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,17 +29,9 @@ public class MPDTagLister implements TagLister {
     }
 
     @Override
-    public Collection<String> listInfo(ListInfoType... types) throws MPDDatabaseException {
+    public Collection<String> listInfo(ListInfoType... types) {
         List<String> returnList = new ArrayList<>();
-        List<String> list;
-
-        try {
-            list = commandExecutor.sendCommand(databaseProperties.getListInfo());
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
+        List<String> list = commandExecutor.sendCommand(databaseProperties.getListInfo());
 
         for (String s : list) {
             for (ListInfoType type : types) {
@@ -54,23 +45,16 @@ public class MPDTagLister implements TagLister {
     }
 
     @Override
-    public Collection<String> list(ListType listType) throws MPDDatabaseException {
+    public Collection<String> list(ListType listType) {
         return list(listType, null);
     }
 
     @Override
-    public Collection<String> list(ListType listType, List<String> params) throws MPDDatabaseException {
+    public Collection<String> list(ListType listType, List<String> params) {
         String[] paramList = generateParamList(listType, params);
 
-        List<String> responseList;
-
-        try {
-            responseList = commandExecutor.sendCommand(databaseProperties.getList(), paramList);
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
+        List<String> responseList =
+                commandExecutor.sendCommand(databaseProperties.getList(), paramList);
 
         List<String> retList = new ArrayList<>();
         for (String s : responseList) {

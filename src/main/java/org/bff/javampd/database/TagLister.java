@@ -42,9 +42,9 @@ public interface TagLister {
         }
     }
 
-    Collection<String> listInfo(ListInfoType... types) throws MPDDatabaseException;
+    Collection<String> listInfo(ListInfoType... types);
 
-    Collection<String> list(ListType listType) throws MPDDatabaseException;
+    Collection<String> list(ListType listType);
 
-    Collection<String> list(ListType listType, List<String> params) throws MPDDatabaseException;
+    Collection<String> list(ListType listType, List<String> params);
 }

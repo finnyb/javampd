@@ -1,7 +1,6 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.player.TrackPositionChangeEvent;
 import org.bff.javampd.player.TrackPositionChangeListener;
 import org.bff.javampd.server.Status;
@@ -20,7 +19,7 @@ public class MPDTrackMonitor implements TrackMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         checkTrackPosition(elapsedTime);
     }
 

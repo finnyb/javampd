@@ -2,7 +2,6 @@ package org.bff.javampd.song;
 
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.genre.MPDGenre;
 
 import java.util.Collection;
@@ -21,9 +20,8 @@ public interface SongDatabase {
      *
      * @param album the album to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws org.bff.javampd.database.MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbum(MPDAlbum album) throws MPDDatabaseException;
+    Collection<MPDSong> findAlbum(MPDAlbum album);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an album.
@@ -32,9 +30,8 @@ public interface SongDatabase {
      *
      * @param album the album to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbum(String album) throws MPDDatabaseException;
+    Collection<MPDSong> findAlbum(String album);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an album by
@@ -44,9 +41,8 @@ public interface SongDatabase {
      * @param artist the artist album belongs to
      * @param album  the album to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDDatabaseException;
+    Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an album by
@@ -56,9 +52,8 @@ public interface SongDatabase {
      * @param artistName the artist album belongs to
      * @param albumName  the album to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbumByArtist(String artistName, String albumName) throws MPDDatabaseException;
+    Collection<MPDSong> findAlbumByArtist(String artistName, String albumName);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an album by
@@ -68,9 +63,8 @@ public interface SongDatabase {
      * @param album the album to find
      * @param genre the genre to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDDatabaseException;
+    Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an album by
@@ -80,9 +74,8 @@ public interface SongDatabase {
      * @param album the album to find
      * @param year  the year to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDDatabaseException;
+    Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any
@@ -92,9 +85,8 @@ public interface SongDatabase {
      *
      * @param album the album to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchAlbum(MPDAlbum album) throws MPDDatabaseException;
+    Collection<MPDSong> searchAlbum(MPDAlbum album);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any
@@ -104,9 +96,8 @@ public interface SongDatabase {
      *
      * @param album the album to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchAlbum(String album) throws MPDDatabaseException;
+    Collection<MPDSong> searchAlbum(String album);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an artist.
@@ -115,9 +106,8 @@ public interface SongDatabase {
      *
      * @param artist the artist to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findArtist(MPDArtist artist) throws MPDDatabaseException;
+    Collection<MPDSong> findArtist(MPDArtist artist);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an artist.
@@ -126,9 +116,8 @@ public interface SongDatabase {
      *
      * @param artist the artist to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findArtist(String artist) throws MPDDatabaseException;
+    Collection<MPDSong> findArtist(String artist);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any
@@ -138,9 +127,8 @@ public interface SongDatabase {
      *
      * @param artist the artist to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchArtist(MPDArtist artist) throws MPDDatabaseException;
+    Collection<MPDSong> searchArtist(MPDArtist artist);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any
@@ -150,18 +138,16 @@ public interface SongDatabase {
      *
      * @param artist the artist to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchArtist(String artist) throws MPDDatabaseException;
+    Collection<MPDSong> searchArtist(String artist);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for a year.
      *
      * @param year the year to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findYear(String year) throws MPDDatabaseException;
+    Collection<MPDSong> findYear(String year);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for a title.
@@ -170,9 +156,8 @@ public interface SongDatabase {
      *
      * @param title the title to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findTitle(String title) throws MPDDatabaseException;
+    Collection<MPDSong> findTitle(String title);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for any criteria.
@@ -181,9 +166,8 @@ public interface SongDatabase {
      *
      * @param criteria the criteria to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findAny(String criteria) throws MPDDatabaseException;
+    Collection<MPDSong> findAny(String criteria);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any
@@ -193,9 +177,8 @@ public interface SongDatabase {
      *
      * @param title the title to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchTitle(String title) throws MPDDatabaseException;
+    Collection<MPDSong> searchTitle(String title);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any
@@ -207,9 +190,8 @@ public interface SongDatabase {
      * @param startYear the starting year
      * @param endYear   the ending year
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchTitle(String title, int startYear, int endYear) throws MPDDatabaseException;
+    Collection<MPDSong> searchTitle(String title, int startYear, int endYear);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any criteria.
@@ -218,9 +200,8 @@ public interface SongDatabase {
      *
      * @param criteria the criteria to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchAny(String criteria) throws MPDDatabaseException;
+    Collection<MPDSong> searchAny(String criteria);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for an any
@@ -228,27 +209,24 @@ public interface SongDatabase {
      *
      * @param fileName the file name to match
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> searchFileName(String fileName) throws MPDDatabaseException;
+    Collection<MPDSong> searchFileName(String fileName);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for a genre.
      *
      * @param genre the genre to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findGenre(MPDGenre genre) throws MPDDatabaseException;
+    Collection<MPDSong> findGenre(MPDGenre genre);
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s for a genre.
      *
      * @param genre the genre to find
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDSong> findGenre(String genre) throws MPDDatabaseException;
+    Collection<MPDSong> findGenre(String genre);
 
 
     /**
@@ -258,7 +236,6 @@ public interface SongDatabase {
      * @param album  name of the album
      * @param artist name of the artist
      * @return the {@link MPDSong or null if none found}
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    MPDSong findSong(String name, String album, String artist) throws MPDDatabaseException;
+    MPDSong findSong(String name, String album, String artist);
 }

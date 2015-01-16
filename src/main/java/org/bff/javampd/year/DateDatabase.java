@@ -1,7 +1,5 @@
 package org.bff.javampd.year;
 
-import org.bff.javampd.database.MPDDatabaseException;
-
 import java.util.Collection;
 
 /**
@@ -16,7 +14,6 @@ public interface DateDatabase {
      * greatest.
      *
      * @return a {@link java.util.Collection} of years
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<String> listAllDates() throws MPDDatabaseException;
+    Collection<String> listAllDates();
 }

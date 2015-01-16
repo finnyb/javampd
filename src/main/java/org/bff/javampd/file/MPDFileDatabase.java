@@ -1,11 +1,10 @@
 package org.bff.javampd.file;
 
 import com.google.inject.Inject;
+import org.bff.javampd.MPDException;
 import org.bff.javampd.command.CommandExecutor;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.properties.DatabaseProperties;
-import org.bff.javampd.server.MPDResponseException;
 import org.bff.javampd.song.SongConverter;
 
 import java.util.ArrayList;
@@ -36,34 +35,27 @@ public class MPDFileDatabase implements FileDatabase {
     }
 
     @Override
-    public Collection<MPDFile> listRootDirectory() throws MPDDatabaseException {
+    public Collection<MPDFile> listRootDirectory() {
         return listDirectory("");
     }
 
     @Override
-    public Collection<MPDFile> listDirectory(MPDFile directory) throws MPDDatabaseException {
+    public Collection<MPDFile> listDirectory(MPDFile directory) {
         if (directory.isDirectory()) {
             return listDirectory(directory.getPath());
         } else {
-            throw new MPDDatabaseException(directory.getName() + " is not a directory.");
+            throw new MPDException(directory.getName() + " is not a directory.");
         }
     }
 
-    private Collection<MPDFile> listDirectory(String directory) throws MPDDatabaseException {
+    private Collection<MPDFile> listDirectory(String directory) {
         return listDirectoryInfo(directory);
     }
 
-    private Collection<MPDFile> listDirectoryInfo(String directory) throws MPDDatabaseException {
+    private Collection<MPDFile> listDirectoryInfo(String directory) {
         List<MPDFile> returnList = new ArrayList<>();
-        List<String> list;
-
-        try {
-            list = commandExecutor.sendCommand(databaseProperties.getListInfo(), directory);
-        } catch (MPDResponseException re) {
-            throw new MPDDatabaseException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDDatabaseException(e);
-        }
+        List<String> list =
+                commandExecutor.sendCommand(databaseProperties.getListInfo(), directory);
 
         for (String s : list) {
 

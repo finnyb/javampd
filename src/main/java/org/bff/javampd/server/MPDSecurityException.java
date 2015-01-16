@@ -1,11 +1,13 @@
 package org.bff.javampd.server;
 
+import org.bff.javampd.MPDException;
+
 /**
  * Represents a security or permission issue when trying to execute commands
  *
  * @author bill
  */
-public class MPDSecurityException extends MPDResponseException {
+public class MPDSecurityException extends MPDException {
 
     /**
      * Class constructor specifying the message.

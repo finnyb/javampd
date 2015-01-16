@@ -45,7 +45,7 @@ public class MPDServerStatus implements ServerStatus {
      * @return the desired status information
      * @throws MPDResponseException if the MPD response generates an error
      */
-    protected String getStatus(Status status) throws MPDResponseException {
+    protected String getStatus(Status status) {
         List<String> respList = commandExecutor.sendCommand(serverProperties.getStatus());
 
         for (String line : respList) {
@@ -57,72 +57,72 @@ public class MPDServerStatus implements ServerStatus {
     }
 
     @Override
-    public Collection<String> getStatus() throws MPDResponseException {
+    public Collection<String> getStatus() {
         return commandExecutor.sendCommand(serverProperties.getStatus());
     }
 
     @Override
-    public int getPlaylistVersion() throws MPDResponseException {
+    public int getPlaylistVersion() {
         return Integer.parseInt(getStatus(Status.PLAYLIST));
     }
 
     @Override
-    public String getState() throws MPDResponseException {
+    public String getState() {
         return getStatus(Status.STATE);
     }
 
     @Override
-    public int getXFade() throws MPDResponseException {
+    public int getXFade() {
         String xFade = getStatus(Status.XFADE);
         return Integer.parseInt(xFade == null ? "0" : xFade);
     }
 
     @Override
-    public String getAudio() throws MPDResponseException {
+    public String getAudio() {
         return getStatus(Status.AUDIO);
     }
 
     @Override
-    public boolean isError() throws MPDResponseException {
+    public boolean isError() {
         return getStatus(Status.ERROR) != null;
     }
 
     @Override
-    public String getError() throws MPDResponseException {
+    public String getError() {
         return getStatus(Status.ERROR);
     }
 
     @Override
-    public long getElapsedTime() throws MPDResponseException {
+    public long getElapsedTime() {
         return lookupTime(TimeType.ELAPSED);
     }
 
     @Override
-    public long getTotalTime() throws MPDResponseException {
+    public long getTotalTime() {
         return lookupTime(TimeType.TOTAL);
     }
 
     @Override
-    public int getBitrate() throws MPDResponseException {
+    public int getBitrate() {
         return Integer.parseInt(getStatus(Status.BITRATE));
     }
 
     @Override
-    public int getVolume() throws MPDResponseException {
+    public int getVolume() {
         return Integer.parseInt(getStatus(Status.VOLUME));
     }
 
     @Override
-    public boolean isRepeat() throws MPDResponseException {
+    public boolean isRepeat() {
         return "1".equals(getStatus(Status.REPEAT));
     }
 
     @Override
-    public boolean isRandom() throws MPDResponseException {
+    public boolean isRandom() {
         return "1".equals(getStatus(Status.RANDOM));
     }
 
-    private long lookupTime(TimeType type) throws MPDResponseException {
+    private long lookupTime(TimeType type) {
         String time = getStatus(Status.TIME);
 
         if (time == null || !time.contains(":")) {

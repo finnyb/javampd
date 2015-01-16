@@ -3,7 +3,6 @@ package org.bff.javampd.song;
 import com.google.inject.Inject;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.genre.MPDGenre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,22 +31,22 @@ public class MPDSongDatabase implements SongDatabase {
     }
 
     @Override
-    public Collection<MPDSong> findAlbum(MPDAlbum album) throws MPDDatabaseException {
+    public Collection<MPDSong> findAlbum(MPDAlbum album) {
         return findAlbum(album.getName());
     }
 
     @Override
-    public Collection<MPDSong> findAlbum(String album) throws MPDDatabaseException {
+    public Collection<MPDSong> findAlbum(String album) {
         return songSearcher.find(SongSearcher.ScopeType.ALBUM, album);
     }
 
     @Override
-    public Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) throws MPDDatabaseException {
+    public Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) {
         return findAlbumByArtist(artist.getName(), album.getName());
     }
 
     @Override
-    public Collection<MPDSong> findAlbumByArtist(String artistName, String albumName) throws MPDDatabaseException {
+    public Collection<MPDSong> findAlbumByArtist(String artistName, String albumName) {
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, albumName));
 
         return songList.stream()
@@ -57,7 +56,7 @@ public class MPDSongDatabase implements SongDatabase {
     }
 
     @Override
-    public Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) throws MPDDatabaseException {
+    public Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) {
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));
 
         return songList.stream()
@@ -66,7 +65,7 @@ public class MPDSongDatabase implements SongDatabase {
     }
 
     @Override
-    public Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) throws MPDDatabaseException {
+    public Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) {
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));
 
         return songList.stream()
@@ -75,62 +74,62 @@ public class MPDSongDatabase implements SongDatabase {
     }
 
     @Override
-    public Collection<MPDSong> searchAlbum(MPDAlbum album) throws MPDDatabaseException {
+    public Collection<MPDSong> searchAlbum(MPDAlbum album) {
         return searchAlbum(album.getName());
     }
 
     @Override
-    public Collection<MPDSong> searchAlbum(String album) throws MPDDatabaseException {
+    public Collection<MPDSong> searchAlbum(String album) {
         return songSearcher.search(SongSearcher.ScopeType.ALBUM, album);
     }
 
     @Override
-    public Collection<MPDSong> findArtist(MPDArtist artist) throws MPDDatabaseException {
+    public Collection<MPDSong> findArtist(MPDArtist artist) {
         return findArtist(artist.getName());
     }
 
     @Override
-    public Collection<MPDSong> findArtist(String artist) throws MPDDatabaseException {
+    public Collection<MPDSong> findArtist(String artist) {
         return songSearcher.find(SongSearcher.ScopeType.ARTIST, artist);
     }
 
     @Override
-    public Collection<MPDSong> searchArtist(MPDArtist artist) throws MPDDatabaseException {
+    public Collection<MPDSong> searchArtist(MPDArtist artist) {
         return searchArtist(artist.getName());
     }
 
     @Override
-    public Collection<MPDSong> searchArtist(String artist) throws MPDDatabaseException {
+    public Collection<MPDSong> searchArtist(String artist) {
         return songSearcher.search(SongSearcher.ScopeType.ARTIST, artist);
     }
 
     @Override
-    public Collection<MPDSong> findYear(String year) throws MPDDatabaseException {
+    public Collection<MPDSong> findYear(String year) {
         return songSearcher.find(SongSearcher.ScopeType.DATE, year);
     }
 
     @Override
-    public Collection<MPDSong> findTitle(String title) throws MPDDatabaseException {
+    public Collection<MPDSong> findTitle(String title) {
         return songSearcher.find(SongSearcher.ScopeType.TITLE, title);
     }
 
     @Override
-    public Collection<MPDSong> findAny(String criteria) throws MPDDatabaseException {
+    public Collection<MPDSong> findAny(String criteria) {
         return songSearcher.find(SongSearcher.ScopeType.ANY, criteria);
     }
 
     @Override
-    public Collection<MPDSong> searchTitle(String title) throws MPDDatabaseException {
+    public Collection<MPDSong> searchTitle(String title) {
         return songSearcher.search(SongSearcher.ScopeType.TITLE, title);
     }
 
     @Override
-    public Collection<MPDSong> searchAny(String criteria) throws MPDDatabaseException {
+    public Collection<MPDSong> searchAny(String criteria) {
         return songSearcher.search(SongSearcher.ScopeType.ANY, criteria);
     }
 
     @Override
-    public Collection<MPDSong> searchTitle(String title, int startYear, int endYear) throws MPDDatabaseException {
+    public Collection<MPDSong> searchTitle(String title, int startYear, int endYear) {
         List<MPDSong> retList = new ArrayList<>();
 
         for (MPDSong song : songSearcher.search(SongSearcher.ScopeType.TITLE, title)) {
@@ -160,22 +159,22 @@ public class MPDSongDatabase implements SongDatabase {
     }
 
     @Override
-    public Collection<MPDSong> searchFileName(String fileName) throws MPDDatabaseException {
+    public Collection<MPDSong> searchFileName(String fileName) {
         return songSearcher.search(SongSearcher.ScopeType.FILENAME, removeSlashes(fileName));
     }
 
     @Override
-    public Collection<MPDSong> findGenre(MPDGenre genre) throws MPDDatabaseException {
+    public Collection<MPDSong> findGenre(MPDGenre genre) {
         return findGenre(genre.getName());
     }
 
     @Override
-    public Collection<MPDSong> findGenre(String genre) throws MPDDatabaseException {
+    public Collection<MPDSong> findGenre(String genre) {
         return songSearcher.find(SongSearcher.ScopeType.GENRE, genre);
     }
 
     @Override
-    public MPDSong findSong(String name, String album, String artist) throws MPDDatabaseException {
+    public MPDSong findSong(String name, String album, String artist) {
         List<MPDSong> songs = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album));
 
         for (MPDSong song : songs) {

@@ -7,11 +7,12 @@ import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.command.MPDCommand;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.genre.MPDGenre;
-import org.bff.javampd.server.MPDResponseException;
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  * @author Bill
  */
 public class MPDPlaylist implements Playlist {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlaylist.class);
 
     private int oldVersion = -1;
     private int version = -1;
@@ -95,38 +97,24 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void loadPlaylist(String playlistName) throws MPDPlaylistException {
+    public void loadPlaylist(String playlistName) {
         String name = playlistName;
         if (name.endsWith(".m3u")) {
             name = name.substring(name.length() - 4);
         }
 
-        try {
-            commandExecutor.sendCommand(playlistProperties.getLoad(), name);
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
-
+        commandExecutor.sendCommand(playlistProperties.getLoad(), name);
         updatePlaylist();
     }
 
     @Override
-    public void addSong(MPDSong song) throws MPDPlaylistException {
+    public void addSong(MPDSong song) {
         addSong(song, true);
     }
 
     @Override
-    public void addSong(MPDSong song, boolean fireEvent) throws MPDPlaylistException {
-        try {
-            commandExecutor.sendCommand(playlistProperties.getAdd(), song.getFile());
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
-
+    public void addSong(MPDSong song, boolean fireEvent) {
+        commandExecutor.sendCommand(playlistProperties.getAdd(), song.getFile());
         updatePlaylist();
 
         if (fireEvent) {
@@ -135,23 +123,16 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public boolean addSongs(List<MPDSong> songList) throws MPDPlaylistException {
+    public boolean addSongs(List<MPDSong> songList) {
         return addSongs(songList, true);
     }
 
     @Override
-    public boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDPlaylistException {
-
-        try {
-            commandExecutor.sendCommands(songList
-                    .stream()
-                    .map(song -> new MPDCommand(playlistProperties.getAdd(), song.getFile()))
-                    .collect(Collectors.toList()));
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
+    public boolean addSongs(List<MPDSong> songList, boolean fireEvent) {
+        commandExecutor.sendCommands(songList
+                .stream()
+                .map(song -> new MPDCommand(playlistProperties.getAdd(), song.getFile()))
+                .collect(Collectors.toList()));
 
         int oldCount = songList.size();
         updatePlaylist();
@@ -164,49 +145,29 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void addFileOrDirectory(MPDFile file) throws MPDPlaylistException {
-        try {
-            commandExecutor.sendCommand(playlistProperties.getAdd(), file.getPath());
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
-
+    public void addFileOrDirectory(MPDFile file) {
+        commandExecutor.sendCommand(playlistProperties.getAdd(), file.getPath());
         updatePlaylist();
-
         firePlaylistChangeEvent(PlaylistChangeEvent.Event.FILE_ADDED, file.getName());
 
     }
 
     @Override
-    public void removeSong(MPDSong song) throws MPDPlaylistException {
-        try {
-            if (song.getId() > -1) {
-                commandExecutor.sendCommand(playlistProperties.getRemoveId(), song.getId());
+    public void removeSong(MPDSong song) {
+        if (song.getId() > -1) {
+            commandExecutor.sendCommand(playlistProperties.getRemoveId(), song.getId());
 
-            } else if (song.getPosition() > -1) {
-                commandExecutor.sendCommand(playlistProperties.getRemove(), song.getPosition());
-            }
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+        } else if (song.getPosition() > -1) {
+            commandExecutor.sendCommand(playlistProperties.getRemove(), song.getPosition());
         }
 
         updatePlaylist();
     }
 
     @Override
-    public MPDSong getCurrentSong() throws MPDPlaylistException {
-        try {
-            List<MPDSong> songs = convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getCurrentSong()));
-            return songs.isEmpty() ? null : songs.get(0);
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
+    public MPDSong getCurrentSong() {
+        List<MPDSong> songs = convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getCurrentSong()));
+        return songs.isEmpty() ? null : songs.get(0);
     }
 
     private List<MPDSong> convertResponseToSong(List<String> response) {
@@ -214,99 +175,63 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void clearPlaylist() throws MPDPlaylistException {
-        try {
-            commandExecutor.sendCommand(playlistProperties.getClear());
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
-
+    public void clearPlaylist() {
+        commandExecutor.sendCommand(playlistProperties.getClear());
         updatePlaylist();
     }
 
     @Override
-    public void deletePlaylist(MPDSavedPlaylist playlist) throws MPDPlaylistException {
+    public void deletePlaylist(MPDSavedPlaylist playlist) {
         deletePlaylist(playlist.getName());
     }
 
     @Override
-    public void deletePlaylist(String playlistName) throws MPDPlaylistException {
-        try {
-            commandExecutor.sendCommand(playlistProperties.getDelete(), playlistName);
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
+    public void deletePlaylist(String playlistName) {
+        commandExecutor.sendCommand(playlistProperties.getDelete(), playlistName);
         firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_DELETED);
     }
 
     @Override
-    public void move(MPDSong song, int to) throws MPDPlaylistException {
-        try {
-            if (song.getId() > -1) {
-                commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getId(), to);
-            } else if (song.getPosition() > -1) {
-                commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getPosition(), to);
-            }
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void move(MPDSong song, int to) {
+        if (song.getId() > -1) {
+            commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getId(), to);
+        } else if (song.getPosition() > -1) {
+            commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getPosition(), to);
         }
 
         updatePlaylist();
     }
 
     @Override
-    public void shuffle() throws MPDPlaylistException {
-        try {
-            commandExecutor.sendCommand(playlistProperties.getShuffle());
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
-
+    public void shuffle() {
+        commandExecutor.sendCommand(playlistProperties.getShuffle());
         updatePlaylist();
     }
 
     @Override
-    public void swap(MPDSong song1, MPDSong song2) throws MPDPlaylistException {
-        try {
-            if (song1.getId() > -1 && song2.getId() > -1) {
-                commandExecutor.sendCommand(playlistProperties.getSwapId(), song1.getId(), song2.getId());
-            } else if (song1.getPosition() > -1 && song2.getPosition() > -1) {
-                commandExecutor.sendCommand(playlistProperties.getSwap(), song1.getPosition(), song2.getPosition());
-            }
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void swap(MPDSong song1, MPDSong song2) {
+        if (song1.getId() > -1 && song2.getId() > -1) {
+            commandExecutor.sendCommand(playlistProperties.getSwapId(), song1.getId(), song2.getId());
+        } else if (song1.getPosition() > -1 && song2.getPosition() > -1) {
+            commandExecutor.sendCommand(playlistProperties.getSwap(), song1.getPosition(), song2.getPosition());
         }
         updatePlaylist();
     }
 
     @Override
-    public boolean savePlaylist(String playlistName) throws MPDPlaylistException {
+    public boolean savePlaylist(String playlistName) {
         if (playlistName != null) {
-            try {
-                commandExecutor.sendCommand(playlistProperties.getSave(), playlistName);
-                firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_SAVED);
-            } catch (MPDResponseException re) {
-                throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-            } catch (Exception e) {
-                throw new MPDPlaylistException(e);
-            }
+            commandExecutor.sendCommand(playlistProperties.getSave(), playlistName);
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_SAVED);
+
             return true;
         } else {
-            throw new MPDPlaylistException("Playlist name hasn't been set!");
+            LOGGER.error("Playlist not saved since name was null");
+            return false;
         }
     }
 
-    private void updatePlaylist() throws MPDPlaylistException {
+    private void updatePlaylist() {
         setVersion(getPlaylistVersion());
 
         if (getPlaylistVersion() != oldVersion) {
@@ -315,87 +240,58 @@ public class MPDPlaylist implements Playlist {
         }
     }
 
-    private int getPlaylistVersion() throws MPDPlaylistException {
-        try {
-            return serverStatus.getPlaylistVersion();
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
+    private int getPlaylistVersion() {
+        return serverStatus.getPlaylistVersion();
     }
 
     /**
      * Returns the list of songs in the playlist.
      *
      * @return the list of songs
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    private List<MPDSong> listSongs() throws MPDPlaylistException {
-        try {
-            return convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getInfo()));
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
+    private List<MPDSong> listSongs() {
+        return convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getInfo()));
     }
 
     @Override
-    public void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException {
-        try {
-            for (MPDSong song : songDatabase.findAlbumByArtist(artist, album)) {
-                addSong(song, false);
-            }
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album.getName());
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void insertAlbum(MPDArtist artist, MPDAlbum album) {
+        for (MPDSong song : songDatabase.findAlbumByArtist(artist, album)) {
+            addSong(song, false);
         }
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album.getName());
     }
 
     @Override
-    public void insertAlbum(String artist, String album) throws MPDPlaylistException {
-        try {
-            for (MPDSong song : songDatabase.findAlbumByArtist(artist, album)) {
-                addSong(song, false);
-            }
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void insertAlbum(String artist, String album) {
+        for (MPDSong song : songDatabase.findAlbumByArtist(artist, album)) {
+            addSong(song, false);
         }
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album);
     }
 
     @Override
-    public void insertAlbum(MPDAlbum album) throws MPDPlaylistException {
-        try {
-            for (MPDSong song : songDatabase.findAlbum(album)) {
-                addSong(song, false);
-            }
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album.getName());
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void insertAlbum(MPDAlbum album) {
+        for (MPDSong song : songDatabase.findAlbum(album)) {
+            addSong(song, false);
         }
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album.getName());
     }
 
     @Override
-    public void insertAlbum(String album) throws MPDPlaylistException {
-        try {
-            for (MPDSong song : songDatabase.findAlbum(album)) {
-                addSong(song, false);
-            }
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void insertAlbum(String album) {
+        for (MPDSong song : songDatabase.findAlbum(album)) {
+            addSong(song, false);
         }
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album);
     }
 
     @Override
-    public void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException {
+    public void removeAlbum(MPDArtist artist, MPDAlbum album) {
         removeAlbum(artist.getName(), album.getName());
     }
 
     @Override
-    public void removeAlbum(String artistName, String albumName) throws MPDPlaylistException {
+    public void removeAlbum(String artistName, String albumName) {
         List<MPDSong> removeList = getSongList().stream()
                 .filter(song -> song.getArtistName().equals(artistName) && song.getAlbumName().equals(albumName))
                 .collect(Collectors.toList());
@@ -406,61 +302,48 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void insertArtist(MPDArtist artist) throws MPDPlaylistException {
+    public void insertArtist(MPDArtist artist) {
         insertArtist(artist.getName());
     }
 
     @Override
-    public void insertArtist(String artistName) throws MPDPlaylistException {
-        try {
-            for (MPDSong song : songDatabase.findArtist(artistName)) {
-                addSong(song, false);
-            }
-
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.ARTIST_ADDED, artistName);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void insertArtist(String artistName) {
+        for (MPDSong song : songDatabase.findArtist(artistName)) {
+            addSong(song, false);
         }
+
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.ARTIST_ADDED, artistName);
     }
 
     @Override
-    public void insertGenre(MPDGenre genre) throws MPDPlaylistException {
+    public void insertGenre(MPDGenre genre) {
         insertGenre(genre.getName());
     }
 
     @Override
-    public void insertGenre(String genreName) throws MPDPlaylistException {
-        try {
-            for (MPDSong song : songDatabase.findGenre(genreName)) {
-                addSong(song, false);
-            }
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.GENRE_ADDED, genreName);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void insertGenre(String genreName) {
+        for (MPDSong song : songDatabase.findGenre(genreName)) {
+            addSong(song, false);
         }
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.GENRE_ADDED, genreName);
     }
 
     @Override
-    public void insertYear(String year) throws MPDPlaylistException {
-        try {
-            for (MPDSong song : songDatabase.findYear(year)) {
-                addSong(song, false);
-            }
-
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.YEAR_ADDED, year);
-
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
+    public void insertYear(String year) {
+        for (MPDSong song : songDatabase.findYear(year)) {
+            addSong(song, false);
         }
+
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.YEAR_ADDED, year);
     }
 
     @Override
-    public void removeArtist(MPDArtist artist) throws MPDPlaylistException {
+    public void removeArtist(MPDArtist artist) {
         removeArtist(artist.getName());
     }
 
     @Override
-    public void removeArtist(String artistName) throws MPDPlaylistException {
+    public void removeArtist(String artistName) {
         List<MPDSong> removeList = new ArrayList<>();
         for (MPDSong song : getSongList()) {
             if (song.getArtistName().equals(artistName)) {
@@ -489,7 +372,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public List<MPDSong> getSongList() throws MPDPlaylistException {
+    public List<MPDSong> getSongList() {
         return listSongs();
     }
 
@@ -499,14 +382,8 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void swap(MPDSong song, int i) throws MPDPlaylistException {
-        try {
-            commandExecutor.sendCommand(playlistProperties.getSwapId(), song.getId(), i);
-        } catch (MPDResponseException re) {
-            throw new MPDPlaylistException(re.getMessage(), re.getCommand(), re);
-        } catch (Exception e) {
-            throw new MPDPlaylistException(e);
-        }
+    public void swap(MPDSong song, int i) {
+        commandExecutor.sendCommand(playlistProperties.getSwapId(), song.getId(), i);
         updatePlaylist();
     }
 }

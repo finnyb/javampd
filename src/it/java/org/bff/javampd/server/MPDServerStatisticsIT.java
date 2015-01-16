@@ -1,7 +1,6 @@
 package org.bff.javampd.server;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.integrationdata.TestAlbums;
@@ -29,7 +28,7 @@ public class MPDServerStatisticsIT extends BaseTest {
     private ServerStatistics serverStatistics;
 
     @Before
-    public void setUp() throws MPDException {
+    public void setUp() {
         this.player = getMpd().getPlayer();
         this.playlist = getMpd().getPlaylist();
         this.serverStatistics = getMpd().getServerStatistics();

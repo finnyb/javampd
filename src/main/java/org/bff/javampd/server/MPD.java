@@ -27,12 +27,12 @@ import java.net.UnknownHostException;
 /**
  * MPD represents a connection to a MPD server.  The commands
  * are maintained in a properties file called mpd.properties.
- * <p/>
+ * <p>
  * Uses the builder pattern for construction.  Use {@link MPD.Builder#build()}
  * to construct.
- * <p/>
+ * <p>
  * Defaults are:
- * <p/>
+ * <p>
  * server --> localhost
  * port --> 6600
  * no timeout
@@ -63,7 +63,7 @@ public class MPD implements Server {
     private final DatabaseManager databaseManager;
     private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
 
-    private MPD(Builder builder) throws MPDConnectionException {
+    private MPD(Builder builder) {
         try {
             this.address = InetAddress.getByName(builder.server);
             this.port = builder.port;
@@ -90,17 +90,17 @@ public class MPD implements Server {
     }
 
     @Override
-    public void clearerror() throws MPDResponseException {
+    public void clearerror() {
         commandExecutor.sendCommand(serverProperties.getClearError());
     }
 
     @Override
-    public void close() throws MPDResponseException {
+    public void close() {
         commandExecutor.sendCommand(serverProperties.getClose());
     }
 
     @Override
-    public String getVersion() throws MPDResponseException {
+    public String getVersion() {
         return commandExecutor.getMPDVersion();
     }
 
@@ -109,10 +109,10 @@ public class MPD implements Server {
         return ping();
     }
 
-    public void authenticate(String password) throws MPDSecurityException {
+    public void authenticate(String password) {
         try {
             commandExecutor.sendCommand(serverProperties.getPassword(), password);
-        } catch (MPDResponseException e) {
+        } catch (Exception e) {
             LOGGER.error("Error authenticating to mpd", e);
             if (e.getMessage().contains("incorrect password")) {
                 throw new MPDSecurityException("Incorrect password");
@@ -223,7 +223,7 @@ public class MPD implements Server {
             return this;
         }
 
-        public MPD build() throws MPDConnectionException {
+        public MPD build() {
             MPD mpd = new MPD(this);
             injector.getInstance(ConnectionMonitor.class).setServer(mpd);
             return mpd;

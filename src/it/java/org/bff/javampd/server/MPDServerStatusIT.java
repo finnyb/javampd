@@ -2,7 +2,6 @@ package org.bff.javampd.server;
 
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.admin.Admin;
-import org.bff.javampd.admin.MPDAdminException;
 import org.bff.javampd.integrationdata.TestSongs;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.player.Player;
@@ -32,7 +31,7 @@ public class MPDServerStatusIT extends BaseTest {
     }
 
     @After
-    public void tearDown() throws MPDAdminException {
+    public void tearDown() {
         MPDOutput output = new ArrayList<>(getMpd().getAdmin().getOutputs()).get(0);
         getMpd().getAdmin().enableOutput(output);
     }

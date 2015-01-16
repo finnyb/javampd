@@ -1,16 +1,12 @@
 package org.bff.javampd.player;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.integrationdata.TestSongs;
-import org.bff.javampd.playlist.MPDPlaylistException;
 import org.bff.javampd.playlist.Playlist;
-import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.song.MPDSong;
 import org.junit.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +31,13 @@ public class MPDPlayerIT extends BaseTest {
     }
 
     @Test
-    public void testAudioDetailsStopped() throws MPDConnectionException, MPDPlayerException {
+    public void testAudioDetailsStopped() {
         player.stop();
         Assert.assertNull(player.getAudioDetails());
     }
 
     @Test
-    public void testAudioDetails() throws MPDConnectionException, MPDPlayerException, MPDPlaylistException {
+    public void testAudioDetails() {
         player.play();
 
         try {
@@ -58,7 +54,7 @@ public class MPDPlayerIT extends BaseTest {
     }
 
     @Test
-    public void testGetTime() throws MPDConnectionException, MPDPlayerException, MPDPlaylistException {
+    public void testGetTime() {
         player.play();
 
         try {
@@ -72,7 +68,7 @@ public class MPDPlayerIT extends BaseTest {
     }
 
     @Test
-    public void testGetTotalTime() throws MPDConnectionException, MPDPlayerException, MPDPlaylistException {
+    public void testGetTotalTime() {
         player.play();
 
         try {
@@ -85,7 +81,7 @@ public class MPDPlayerIT extends BaseTest {
 
     @Test
     @Ignore
-    public void testSetVolume() throws MPDException, IOException {
+    public void testSetVolume() {
         player.setVolume(0);
 
         try {
@@ -99,18 +95,24 @@ public class MPDPlayerIT extends BaseTest {
         assertTrue(5 == player.getVolume());
     }
 
-    @Test(expected = MPDPlayerException.class)
-    public void testVolumeTooLow() throws MPDPlayerException, MPDConnectionException {
+    @Test
+    public void testVolumeTooLow() {
+        int volume = player.getVolume();
         player.setVolume(-1);
-    }
 
-    @Test(expected = MPDPlayerException.class)
-    public void testVolumeTooHigh() throws MPDPlayerException, MPDConnectionException {
-        player.setVolume(101);
+        assertEquals(volume, player.getVolume());
     }
 
     @Test
-    public void testPaused() throws MPDPlayerException {
+    public void testVolumeTooHigh() {
+        int volume = player.getVolume();
+        player.setVolume(101);
+
+        assertEquals(volume, player.getVolume());
+    }
+
+    @Test
+    public void testPaused() {
         player.play();
         player.pause();
         assertEquals(Player.Status.STATUS_PAUSED, player.getStatus());

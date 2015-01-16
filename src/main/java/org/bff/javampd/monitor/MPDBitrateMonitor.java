@@ -1,7 +1,6 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.player.PlayerBasicChangeEvent;
 import org.bff.javampd.server.Status;
 
@@ -20,7 +19,7 @@ public class MPDBitrateMonitor extends MPDPlayerMonitor implements BitrateMonito
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         if (oldBitrate != newBitrate) {
             firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_BITRATE_CHANGE);
             oldBitrate = newBitrate;

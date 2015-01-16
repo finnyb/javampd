@@ -1,7 +1,6 @@
 package org.bff.javampd.artist;
 
 import com.google.inject.Inject;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
     }
 
     @Override
-    public Collection<MPDArtist> listAllArtists() throws MPDDatabaseException {
+    public Collection<MPDArtist> listAllArtists() {
         return tagLister.list(TagLister.ListType.ARTIST)
                 .stream()
                 .map(MPDArtist::new)
@@ -39,7 +38,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
     }
 
     @Override
-    public Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) throws MPDDatabaseException {
+    public Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) {
         List<String> list = new ArrayList<>();
         list.add(TagLister.ListType.GENRE.getType());
         list.add(genre.getName());
@@ -51,7 +50,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
     }
 
     @Override
-    public MPDArtist listArtistByName(String name) throws MPDDatabaseException {
+    public MPDArtist listArtistByName(String name) {
 
         List<String> list = new ArrayList<>();
         list.add(TagLister.ListType.ARTIST.getType());

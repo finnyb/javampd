@@ -43,20 +43,19 @@ public class MPDSocket {
     /**
      * If MPD is already connected no attempt will be made to connect and the
      * mpdVersion is returned.
-     * <p/>
+     * <p>
      * A timeout of 0 means an infinite wait.
      *
      * @param timeout socket timeout, 0 for infinite wait
      * @return the version of MPD
      * @throws java.io.IOException    if there is a socked io problem
-     * @throws MPDConnectionException if there are connection issues
      */
     private synchronized String connect(int timeout) throws MPDConnectionException {
         connectSocket(timeout);
         return readVersion();
     }
 
-    private String readVersion() throws MPDConnectionException {
+    private String readVersion() {
         String line;
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
@@ -73,18 +72,17 @@ public class MPDSocket {
         }
     }
 
-    private void connectSocket(int timeout) throws MPDTimeoutException {
+    private void connectSocket(int timeout) throws MPDConnectionException {
         this.socket = new Socket();
-
         SocketAddress socketAddress = new InetSocketAddress(server, port);
         try {
             this.socket.connect(socketAddress, timeout);
-        } catch (IOException ioe) {
-            throw new MPDTimeoutException(ioe);
+        } catch (Exception ioe) {
+            throw new MPDConnectionException(ioe);
         }
     }
 
-    public synchronized Collection<String> sendCommand(MPDCommand command) throws MPDResponseException {
+    public synchronized Collection<String> sendCommand(MPDCommand command) {
         checkConnection();
 
         int count = 0;
@@ -99,7 +97,7 @@ public class MPDSocket {
                 }
                 ++count;
                 LOGGER.error("Retrying command {} for the {} time", command.getCommand(), count, se);
-            } catch (MPDResponseException re) {
+            } catch (MPDSecurityException re) {
                 LOGGER.error("Response Error from: {}", command.getCommand(), re);
                 throw re;
             } catch (Exception e) {
@@ -108,7 +106,7 @@ public class MPDSocket {
                     LOGGER.error("\tparam: {}", str);
                 }
 
-                throw new MPDResponseException(e);
+                throw new MPDConnectionException(e);
             }
         }
         return new ArrayList<>();
@@ -121,9 +119,8 @@ public class MPDSocket {
      *
      * @return return the version of MPD
      * @throws IOException            if there is a socked io problem
-     * @throws MPDConnectionException if there are connection issues
      */
-    private synchronized String connect() throws MPDConnectionException {
+    private synchronized String connect() throws IOException {
         return connect(0);
     }
 
@@ -172,7 +169,7 @@ public class MPDSocket {
         return sb.append("\n").toString();
     }
 
-    public synchronized boolean sendCommands(List<MPDCommand> commandList) throws MPDResponseException {
+    public synchronized boolean sendCommands(List<MPDCommand> commandList) {
         StringBuilder sb = new StringBuilder(convertCommand(commandProperties.getStartBulk()));
 
         for (MPDCommand command : commandList) {
@@ -184,17 +181,19 @@ public class MPDSocket {
 
         try {
             sendBytes(sb.toString());
-        } catch (MPDResponseException re) {
-            LOGGER.error("Response Error from command list", re);
-            throw re;
+        } catch (MPDSecurityException se) {
+            LOGGER.error("Response Error from command list", se);
+            throw se;
         } catch (Exception e) {
-            throw new MPDResponseException(e.getMessage(), e);
+            LOGGER.error("Response Error from command list", e);
+            commandList.stream().forEach(s -> LOGGER.error(s.getCommand()));
+            throw new MPDConnectionException(e.getMessage(), e);
         }
 
         return true;
     }
 
-    private List<String> sendBytes(String command) throws IOException, MPDResponseException {
+    private List<String> sendBytes(String command) throws IOException {
         LOGGER.debug("start command: " + command.trim());
         byte[] bytesToSend = command.getBytes(commandProperties.getEncoding());
 
@@ -215,7 +214,8 @@ public class MPDSocket {
                 if (lastError.contains("you don't have permission")) {
                     throw new MPDSecurityException(lastError, command);
                 } else {
-                    throw new MPDResponseException(lastError, command);
+                    LOGGER.error("Got error from command {}", command);
+                    throw new MPDConnectionException(lastError);
                 }
             }
             response.add(inLine);
@@ -227,12 +227,12 @@ public class MPDSocket {
         return response;
     }
 
-    private void checkConnection() throws MPDResponseException {
+    private void checkConnection() {
         if (!socket.isConnected()) {
             try {
                 connect();
             } catch (Exception e) {
-                throw new MPDResponseException("Connection to server lost: " + e.getMessage(), e);
+                throw new MPDConnectionException("Connection to server lost: " + e.getMessage(), e);
             }
         }
     }

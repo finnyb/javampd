@@ -1,7 +1,5 @@
 package org.bff.javampd.song;
 
-import org.bff.javampd.database.MPDDatabaseException;
-
 import java.util.Collection;
 
 /**
@@ -47,9 +45,8 @@ public interface SongSearcher {
      * @param searchType the {@link ScopeType}
      * @param criteria   the search criteria
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
-     * @throws org.bff.javampd.database.MPDDatabaseException if the database throws an exception during the search
      */
-    Collection<MPDSong> search(ScopeType searchType, String criteria) throws MPDDatabaseException;
+    Collection<MPDSong> search(ScopeType searchType, String criteria);
 
     /**
      * Returns a windowed {@link java.util.Collection} of {@link MPDSong}s for a searches
@@ -61,9 +58,8 @@ public interface SongSearcher {
      * @param start      the starting index
      * @param end        the ending index
      * @return a {@link java.util.Collection} of {@link MPDSong}s
-     * @throws org.bff.javampd.database.MPDDatabaseException if the database throws an exception during the search
      */
-    Collection<MPDSong> search(ScopeType searchType, String criteria, int start, int end) throws MPDDatabaseException;
+    Collection<MPDSong> search(ScopeType searchType, String criteria, int start, int end);
 
     /**
      * Returns a {@link java.util.Collection} of {@link MPDSong}s for a searches
@@ -73,9 +69,8 @@ public interface SongSearcher {
      * @param scopeType the {@link ScopeType}
      * @param criteria  the search criteria
      * @return a {@link java.util.Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException if the database throws an exception during the search
      */
-    Collection<MPDSong> find(ScopeType scopeType, String criteria) throws MPDDatabaseException;
+    Collection<MPDSong> find(ScopeType scopeType, String criteria);
 
     /**
      * Returns a windowed {@link java.util.Collection} of {@link MPDSong}s for a searches matching the scope type any.
@@ -87,7 +82,6 @@ public interface SongSearcher {
      * @param start     the starting index
      * @param end       the ending index
      * @return a {@link java.util.Collection} of {@link MPDSong}s
-     * @throws MPDDatabaseException if the database throws an exception during the search
      */
-    Collection<MPDSong> find(ScopeType scopeType, String criteria, int start, int end) throws MPDDatabaseException;
+    Collection<MPDSong> find(ScopeType scopeType, String criteria, int start, int end);
 }

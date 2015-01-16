@@ -1,7 +1,6 @@
 package org.bff.javampd.artist;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.genre.MPDGenre;
 import org.bff.javampd.integrationdata.TestArtists;
 import org.bff.javampd.integrationdata.TestGenres;
@@ -63,7 +62,7 @@ public class MPDArtistDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testArtistCount() throws MPDException {
+    public void testArtistCount() {
         assertEquals(TestArtists.getArtists().size(), artistDatabase.listAllArtists().size());
     }
 }

@@ -3,7 +3,6 @@ package org.bff.javampd.monitor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.bff.javampd.admin.Admin;
-import org.bff.javampd.admin.MPDAdminException;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
@@ -25,7 +24,7 @@ public class MPDOutputMonitor implements OutputMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDAdminException {
+    public void checkStatus() {
         List<MPDOutput> outputs = new ArrayList<>(admin.getOutputs());
         if (outputs.size() > outputMap.size()) {
             fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));

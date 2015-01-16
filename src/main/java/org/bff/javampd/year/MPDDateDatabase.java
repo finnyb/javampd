@@ -1,7 +1,6 @@
 package org.bff.javampd.year;
 
 import com.google.inject.Inject;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.database.TagLister;
 
 import java.util.Collection;
@@ -25,7 +24,7 @@ public class MPDDateDatabase implements DateDatabase {
     }
 
     @Override
-    public Collection<String> listAllDates() throws MPDDatabaseException {
+    public Collection<String> listAllDates() {
 
         return tagLister.list(TagLister.ListType.DATE)
                 .stream()

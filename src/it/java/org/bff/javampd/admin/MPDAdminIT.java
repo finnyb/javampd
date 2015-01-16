@@ -2,8 +2,6 @@ package org.bff.javampd.admin;
 
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.output.MPDOutput;
-import org.bff.javampd.server.MPDConnectionException;
-import org.bff.javampd.server.MPDResponseException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,13 +19,13 @@ public class MPDAdminIT extends BaseTest {
     }
 
     @AfterClass
-    public static void after() throws MPDAdminException {
+    public static void after() {
         MPDOutput output = new ArrayList<>(getMpd().getAdmin().getOutputs()).get(0);
         Assert.assertTrue(getMpd().getAdmin().enableOutput(output));
     }
 
     @Test
-    public void disableOutput() throws MPDConnectionException, MPDResponseException {
+    public void disableOutput() {
         MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         Assert.assertTrue(admin.disableOutput(output));
         output = new ArrayList<>(admin.getOutputs()).get(0);
@@ -35,7 +33,7 @@ public class MPDAdminIT extends BaseTest {
     }
 
     @Test
-    public void enableOutput() throws MPDConnectionException, MPDResponseException {
+    public void enableOutput() {
         MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         Assert.assertTrue(admin.enableOutput(output));
         output = new ArrayList<>(admin.getOutputs()).get(0);
@@ -43,7 +41,7 @@ public class MPDAdminIT extends BaseTest {
     }
 
     @Test
-    public void testOutputs() throws MPDConnectionException, MPDResponseException {
+    public void testOutputs() {
         List<MPDOutput> outputs = new ArrayList<MPDOutput>(admin.getOutputs());
         Assert.assertTrue(outputs.size() == 1);
         MPDOutput output = outputs.get(0);

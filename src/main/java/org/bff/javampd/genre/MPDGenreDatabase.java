@@ -1,7 +1,6 @@
 package org.bff.javampd.genre;
 
 import com.google.inject.Inject;
-import org.bff.javampd.database.MPDDatabaseException;
 import org.bff.javampd.database.TagLister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ public class MPDGenreDatabase implements GenreDatabase {
     }
 
     @Override
-    public Collection<MPDGenre> listAllGenres() throws MPDDatabaseException {
+    public Collection<MPDGenre> listAllGenres() {
         return tagLister.list(TagLister.ListType.GENRE)
                 .stream()
                 .map(MPDGenre::new)
@@ -38,7 +37,7 @@ public class MPDGenreDatabase implements GenreDatabase {
     }
 
     @Override
-    public MPDGenre listGenreByName(String name) throws MPDDatabaseException {
+    public MPDGenre listGenreByName(String name) {
 
         List<String> list = new ArrayList<>();
         list.add(TagLister.ListType.GENRE.getType());

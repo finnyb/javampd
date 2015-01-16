@@ -1,7 +1,5 @@
 package org.bff.javampd.genre;
 
-import org.bff.javampd.database.MPDDatabaseException;
-
 import java.util.Collection;
 
 /**
@@ -16,16 +14,14 @@ public interface GenreDatabase {
      * genres in the database.
      *
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.genre.MPDGenre}s containing the genre names
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    Collection<MPDGenre> listAllGenres() throws MPDDatabaseException;
+    Collection<MPDGenre> listAllGenres();
 
     /**
      * Returns a {@link org.bff.javampd.genre.MPDGenre} with the passed name.
      *
      * @param name the name of the genre
      * @return a {@link org.bff.javampd.genre.MPDGenre
-     * @throws MPDDatabaseException if the MPD responded with an error
      */
-    MPDGenre listGenreByName(String name) throws MPDDatabaseException;
+    MPDGenre listGenreByName(String name);
 }

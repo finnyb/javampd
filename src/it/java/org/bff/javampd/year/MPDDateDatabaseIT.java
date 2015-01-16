@@ -1,13 +1,11 @@
 package org.bff.javampd.year;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.integrationdata.TestYears;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +15,12 @@ public class MPDDateDatabaseIT extends BaseTest {
     private DateDatabase dateDatabase;
 
     @Before
-    public void setUp() throws MPDException, IOException {
+    public void setUp() {
         this.dateDatabase = getMpd().getDatabaseManager().getDateDatabase();
     }
 
     @Test
-    public void testListAllYears() throws MPDException {
+    public void testListAllYears() {
         List<String> resultYears = new ArrayList<String>(dateDatabase.listAllDates());
 
         List<String> foundYears = new ArrayList<String>(TestYears.getYears());

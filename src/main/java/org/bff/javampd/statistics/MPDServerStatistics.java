@@ -2,7 +2,6 @@ package org.bff.javampd.statistics;
 
 import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
-import org.bff.javampd.server.MPDResponseException;
 import org.bff.javampd.server.ServerProperties;
 
 import java.util.List;
@@ -29,9 +28,8 @@ public class MPDServerStatistics implements ServerStatistics {
      *
      * @param stat the statistic desired
      * @return the requested statistic
-     * @throws MPDResponseException if the MPD response generates an error
      */
-    private String getStat(StatList stat) throws MPDResponseException {
+    private String getStat(StatList stat) {
         List<String> respList = sendMPDCommand(serverProperties.getStats());
 
         for (String line : respList) {
@@ -42,42 +40,42 @@ public class MPDServerStatistics implements ServerStatistics {
         return null;
     }
 
-    private List<String> sendMPDCommand(String stats) throws MPDResponseException {
+    private List<String> sendMPDCommand(String stats) {
         return commandExecutor.sendCommand(stats);
     }
 
     @Override
-    public long getPlaytime() throws MPDResponseException {
+    public long getPlaytime() {
         return Long.parseLong(getStat(StatList.PLAYTIME));
     }
 
     @Override
-    public long getUptime() throws MPDResponseException {
+    public long getUptime() {
         return Long.parseLong(getStat(StatList.UPTIME));
     }
 
     @Override
-    public int getAlbumCount() throws MPDResponseException {
+    public int getAlbumCount() {
         return Integer.parseInt(getStat(StatList.ALBUMS));
     }
 
     @Override
-    public int getArtistCount() throws MPDResponseException {
+    public int getArtistCount() {
         return Integer.parseInt(getStat(StatList.ARTISTS));
     }
 
     @Override
-    public int getSongCount() throws MPDResponseException {
+    public int getSongCount() {
         return Integer.parseInt(getStat(StatList.SONGS));
     }
 
     @Override
-    public long getDatabasePlaytime() throws MPDResponseException {
+    public long getDatabasePlaytime() {
         return Integer.parseInt(getStat(StatList.DBPLAYTIME));
     }
 
     @Override
-    public long getLastUpdateTime() throws MPDResponseException {
+    public long getLastUpdateTime() {
         return Long.parseLong(getStat(StatList.DBUPDATE));
     }
 }

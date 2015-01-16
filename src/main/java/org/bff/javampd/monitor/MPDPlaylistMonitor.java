@@ -2,7 +2,6 @@ package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.playlist.PlaylistBasicChangeEvent;
 import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 import org.bff.javampd.server.Status;
@@ -91,7 +90,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         if (oldPlaylistVersion != newPlaylistVersion) {
             firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.PLAYLIST_CHANGED);
             oldPlaylistVersion = newPlaylistVersion;

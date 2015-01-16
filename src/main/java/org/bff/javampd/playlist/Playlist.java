@@ -32,35 +32,31 @@ public interface Playlist {
      * name can be givin with or without the .m3u extension.
      *
      * @param playlistName the playlist name
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void loadPlaylist(String playlistName) throws MPDPlaylistException;
+    void loadPlaylist(String playlistName);
 
     /**
      * Adds a {@link org.bff.javampd.song.MPDSong} to the playlist and fires a {@link PlaylistChangeEvent} for event listeners
      *
      * @param song the song to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void addSong(MPDSong song) throws MPDPlaylistException;
+    void addSong(MPDSong song);
 
     /**
      * Adds a {@link org.bff.javampd.song.MPDSong} to the playlist.
      *
      * @param song      the song to add
      * @param fireEvent whether to fire song added event for the event listeners
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void addSong(MPDSong song, boolean fireEvent) throws MPDPlaylistException;
+    void addSong(MPDSong song, boolean fireEvent);
 
     /**
      * Adds a <CODE>List</CODE> of {@link org.bff.javampd.song.MPDSong}s to the playlist.
      *
      * @param songList the list of songs to add
      * @return true if the songs are added successfully; false otherwise
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    boolean addSongs(List<MPDSong> songList) throws MPDPlaylistException;
+    boolean addSongs(List<MPDSong> songList);
 
     /**
      * Adds a <CODE>List</CODE> of {@link org.bff.javampd.song.MPDSong}s to the playlist.
@@ -68,198 +64,172 @@ public interface Playlist {
      * @param songList  the list of songs to add
      * @param fireEvent true if a playlist event should be fired after adding
      * @return true if the songs are added successfully; false otherwise
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    boolean addSongs(List<MPDSong> songList, boolean fireEvent) throws MPDPlaylistException;
+    boolean addSongs(List<MPDSong> songList, boolean fireEvent);
 
     /**
      * Adds a directory of songs to the playlist.
      *
      * @param file the directory to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void addFileOrDirectory(MPDFile file) throws MPDPlaylistException;
+    void addFileOrDirectory(MPDFile file);
 
     /**
      * Removes a {@link org.bff.javampd.song.MPDSong} from the playlist.
      *
      * @param song the song to remove
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void removeSong(MPDSong song) throws MPDPlaylistException;
+    void removeSong(MPDSong song);
 
     /**
      * Returns the current song.
      *
      * @return the current song
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    MPDSong getCurrentSong() throws MPDPlaylistException;
+    MPDSong getCurrentSong();
 
     /**
      * Removes all songs from the playlist.
-     *
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void clearPlaylist() throws MPDPlaylistException;
+    void clearPlaylist();
 
     /**
      * Deletes a {@link org.bff.javampd.playlist.MPDSavedPlaylist}
      *
      * @param playlist the {@link org.bff.javampd.playlist.MPDSavedPlaylist}
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void deletePlaylist(MPDSavedPlaylist playlist) throws MPDPlaylistException;
+    void deletePlaylist(MPDSavedPlaylist playlist);
 
     /**
      * Deletes the playlist from the MPD server.
      *
      * @param playlistName the playlist to delete
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void deletePlaylist(String playlistName) throws MPDPlaylistException;
+    void deletePlaylist(String playlistName);
 
     /**
      * Moves the desired song to the given position in the playlist.
      *
      * @param song the song to move
      * @param to   the position to move the song to
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void move(MPDSong song, int to) throws MPDPlaylistException;
+    void move(MPDSong song, int to);
 
     /**
      * Shuffles the songs in the playlist.
-     *
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void shuffle() throws MPDPlaylistException;
+    void shuffle();
 
     /**
      * Swaps the given two songs in the playlist.
      *
      * @param song1 first song to swap
      * @param song2 second song to swap
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void swap(MPDSong song1, MPDSong song2) throws MPDPlaylistException;
+    void swap(MPDSong song1, MPDSong song2);
 
     /**
      * Saves the current playlist as the passed playlist name.
      *
      * @param playlistName the playlist name for the playlist
      * @return true if the playlist is saved; otherwise false
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    boolean savePlaylist(String playlistName) throws MPDPlaylistException;
+    boolean savePlaylist(String playlistName);
 
     /**
      * Adds a {@link org.bff.javampd.album.MPDAlbum} by a {@link org.bff.javampd.artist.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.artist.MPDArtist} for the album to add
      * @param album  the {@link org.bff.javampd.album.MPDAlbum} to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException;
+    void insertAlbum(MPDArtist artist, MPDAlbum album);
 
     /**
      * Adds a album by a artist to the playlist.
      *
      * @param artistName the album's artist
      * @param albumName  the album name
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertAlbum(String artistName, String albumName) throws MPDPlaylistException;
+    void insertAlbum(String artistName, String albumName);
 
     /**
      * Adds a {@link org.bff.javampd.album.MPDAlbum} to the playlist.
      *
      * @param album the {@link org.bff.javampd.album.MPDAlbum} to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertAlbum(MPDAlbum album) throws MPDPlaylistException;
+    void insertAlbum(MPDAlbum album);
 
     /**
      * Adds a album to the playlist.
      *
      * @param albumName the album to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertAlbum(String albumName) throws MPDPlaylistException;
+    void insertAlbum(String albumName);
 
     /**
      * Removes a {@link org.bff.javampd.album.MPDAlbum} by a {@link org.bff.javampd.artist.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.artist.MPDArtist} for the album to remove
      * @param album  the {@link org.bff.javampd.album.MPDAlbum} to remove
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void removeAlbum(MPDArtist artist, MPDAlbum album) throws MPDPlaylistException;
+    void removeAlbum(MPDArtist artist, MPDAlbum album);
 
     /**
      * Removes a album by a artist to the playlist.
      *
      * @param artistName the artist for the album to remove
      * @param albumName  the album to remove
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void removeAlbum(String artistName, String albumName) throws MPDPlaylistException;
+    void removeAlbum(String artistName, String albumName);
 
     /**
      * Adds a {@link org.bff.javampd.artist.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.artist.MPDArtist} to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertArtist(MPDArtist artist) throws MPDPlaylistException;
+    void insertArtist(MPDArtist artist);
 
     /**
      * Adds a artist to the playlist.
      *
      * @param artistName the artist to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertArtist(String artistName) throws MPDPlaylistException;
+    void insertArtist(String artistName);
 
     /**
      * Adds a {@link org.bff.javampd.genre.MPDGenre} to the playlist.
      *
      * @param genre the {@link org.bff.javampd.genre.MPDGenre} to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertGenre(MPDGenre genre) throws MPDPlaylistException;
+    void insertGenre(MPDGenre genre);
 
     /**
      * Adds a genre to the playlist.
      *
      * @param genreName the genre to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertGenre(String genreName) throws MPDPlaylistException;
+    void insertGenre(String genreName);
 
     /**
      * Adds a year to the playlist.
      *
      * @param year the {@link org.bff.javampd.genre.MPDGenre} to add
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void insertYear(String year) throws MPDPlaylistException;
+    void insertYear(String year);
 
     /**
      * Removes a {@link org.bff.javampd.artist.MPDArtist} to the playlist.
      *
      * @param artist the {@link org.bff.javampd.artist.MPDArtist} to remove
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void removeArtist(MPDArtist artist) throws MPDPlaylistException;
+    void removeArtist(MPDArtist artist);
 
     /**
      * Removes a artist to the playlist.
      *
      * @param artistName the artist to remove
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    void removeArtist(String artistName) throws MPDPlaylistException;
+    void removeArtist(String artistName);
 
     /**
      * Returns the playlist version.
@@ -273,9 +243,8 @@ public interface Playlist {
      * care should be taken not to call it excessively.
      *
      * @return the song list
-     * @throws MPDPlaylistException if the MPD responded with an error
      */
-    List<MPDSong> getSongList() throws MPDPlaylistException;
+    List<MPDSong> getSongList();
 
     /**
      * Returns the string representation of this playlist.
@@ -285,5 +254,5 @@ public interface Playlist {
     @Override
     String toString();
 
-    void swap(MPDSong song, int i) throws MPDPlaylistException;
+    void swap(MPDSong song, int i);
 }
