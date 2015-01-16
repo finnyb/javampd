@@ -1,9 +1,10 @@
 package org.bff.javampd.player;
 
+import org.bff.javampd.MPDException;
 import org.bff.javampd.SongTestHelper;
 import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.command.CommandExecutor;
-import org.bff.javampd.server.MPDResponseException;
+import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.MPDSongConverter;
@@ -65,15 +66,15 @@ public class MPDPlayerTest {
         assertNull(player.getCurrentSong());
     }
 
-    @Test(expected = MPDPlayerException.class)
+    @Test(expected = MPDException.class)
     public void testGetCurrentSongResponseException() throws Exception {
         when(commandExecutor.sendCommand(playerProperties.getCurrentSong()))
-                .thenThrow(new MPDResponseException());
+                .thenThrow(new MPDConnectionException());
 
         player.getCurrentSong();
     }
 
-    @Test(expected = MPDPlayerException.class)
+    @Test(expected = RuntimeException.class)
     public void testGetCurrentSongGeneralException() throws Exception {
         when(commandExecutor.sendCommand(playerProperties.getCurrentSong()))
                 .thenThrow(new RuntimeException());
@@ -364,16 +365,22 @@ public class MPDPlayerTest {
         assertEquals(volume, (int) commandCaptorInteger.getValue());
     }
 
-    @Test(expected = MPDPlayerException.class)
-    public void testSetVolumeBelowMin() throws Exception {
+
+    @Test
+    public void testVolumeTooLow() {
         player.setVolume(-1);
+        verify(commandExecutor, never())
+                .sendCommand(commandCaptorString.capture(),
+                        commandCaptorInteger.capture());
     }
 
-    @Test(expected = MPDPlayerException.class)
-    public void testSetVolumeAboveMax() throws Exception {
-        player.setVolume(Integer.MAX_VALUE);
+    @Test
+    public void testVolumeTooHigh() {
+        player.setVolume(101);
+        verify(commandExecutor, never())
+                .sendCommand(commandCaptorString.capture(),
+                        commandCaptorInteger.capture());
     }
-
 
     @Test
     public void testGetBitrate() throws Exception {

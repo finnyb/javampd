@@ -1,8 +1,9 @@
 package org.bff.javampd.database;
 
+import org.bff.javampd.MPDException;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.properties.DatabaseProperties;
-import org.bff.javampd.server.MPDResponseException;
+import org.bff.javampd.server.MPDConnectionException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -167,7 +168,7 @@ public class MPDTagListerTest {
         assertEquals(genre, tags.get(0));
     }
 
-    @Test(expected = MPDDatabaseException.class)
+    @Test(expected = MPDException.class)
     public void testListWithResponseException() throws Exception {
         String genre = "genre";
 
@@ -178,12 +179,12 @@ public class MPDTagListerTest {
 
         when(mpdCommandExecutor.sendCommand(databaseProperties.getList(),
                 new String[]{genre}))
-                .thenThrow(new MPDResponseException("oops"));
+                .thenThrow(new MPDConnectionException("oops"));
 
         tagLister.list(TagLister.ListType.GENRE);
     }
 
-    @Test(expected = MPDDatabaseException.class)
+    @Test(expected = MPDException.class)
     public void testListInfoWithResponseException() throws Exception {
         String file = "file";
 
@@ -192,12 +193,12 @@ public class MPDTagListerTest {
 
         when(databaseProperties.getListInfo()).thenReturn(new DatabaseProperties().getListInfo());
         when(mpdCommandExecutor.sendCommand(databaseProperties.getListInfo()))
-                .thenThrow(new MPDResponseException("oops"));
+                .thenThrow(new MPDConnectionException("oops"));
 
         tagLister.listInfo(TagLister.ListInfoType.FILE);
     }
 
-    @Test(expected = MPDDatabaseException.class)
+    @Test(expected = RuntimeException.class)
     public void testListWithRuntimeException() throws Exception {
         String genre = "genre";
 
@@ -213,7 +214,7 @@ public class MPDTagListerTest {
         tagLister.list(TagLister.ListType.GENRE);
     }
 
-    @Test(expected = MPDDatabaseException.class)
+    @Test(expected = RuntimeException.class)
     public void testListInfoWithRuntimeException() throws Exception {
         String file = "file";
 
