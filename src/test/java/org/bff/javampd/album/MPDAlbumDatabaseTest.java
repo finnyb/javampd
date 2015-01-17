@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -22,6 +23,70 @@ public class MPDAlbumDatabaseTest {
 
     @InjectMocks
     private MPDAlbumDatabase albumDatabase;
+
+    @Test
+    public void testListAllAlbums() {
+        MPDArtist testArtist1 = new MPDArtist("testName1");
+        MPDArtist testArtist2 = new MPDArtist("testName2");
+
+        List<String> mockListArtist1 = new ArrayList<>();
+        mockListArtist1.add(testArtist1.getName());
+        mockListArtist1.add(testArtist2.getName());
+
+        List<String> mockListArtist2 = new ArrayList<>();
+        mockListArtist2.add(testArtist1.getName());
+        mockListArtist2.add(testArtist2.getName());
+
+        String testAlbumName1 = "testAlbum1";
+        String testAlbumName2 = "testAlbum2";
+
+        MPDAlbum testAlbum1 = new MPDAlbum(testAlbumName1, testArtist1.getName());
+        MPDAlbum testAlbum2 = new MPDAlbum(testAlbumName2, testArtist1.getName());
+        MPDAlbum testAlbum3 = new MPDAlbum(testAlbumName1, testArtist2.getName());
+        MPDAlbum testAlbum4 = new MPDAlbum(testAlbumName2, testArtist2.getName());
+
+        List<MPDAlbum> allAlbums = new ArrayList<>();
+        allAlbums.add(testAlbum1);
+        allAlbums.add(testAlbum2);
+        allAlbums.add(testAlbum3);
+        allAlbums.add(testAlbum4);
+
+        List<String> mockAlbumList1 = new ArrayList<>();
+        mockAlbumList1.add(TagLister.ListType.ALBUM.getType());
+        mockAlbumList1.add(testAlbumName1);
+
+        List<String> mockAlbumList2 = new ArrayList<>();
+        mockAlbumList2.add(TagLister.ListType.ALBUM.getType());
+        mockAlbumList2.add(testAlbumName2);
+
+
+        List<String> mockAlbumNameList = new ArrayList<>();
+        mockAlbumNameList.add(testAlbumName1);
+        mockAlbumNameList.add(testAlbumName2);
+
+        when(tagLister
+                .list(TagLister.ListType.ALBUM))
+                .thenReturn(mockAlbumNameList);
+        when(tagLister
+                .list(TagLister.ListType.ARTIST, mockAlbumList1))
+                .thenReturn(mockListArtist1);
+        when(tagLister
+                .list(TagLister.ListType.ARTIST, mockAlbumList2))
+                .thenReturn(mockListArtist2);
+
+        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums());
+
+        assertEquals(mockAlbumList1.size() + mockAlbumList2.size(), albums.size());
+        assertTrue(albums.containsAll(allAlbums));
+    }
+
+    @Test
+    public void testFindAlbumByArtist() {
+        String album1Name = "album1";
+        String album2Name = "album2";
+
+
+    }
 
     @Test
     public void testListSingleAlbumsByArtist() throws Exception {
@@ -127,6 +192,7 @@ public class MPDAlbumDatabaseTest {
 
         List<String> mockReturnArtist = new ArrayList<>();
         mockReturnArtist.add(testArtist.getName());
+
         List<String> mockListArtist = new ArrayList<>();
         mockListArtist.add(testArtist.getName());
 

@@ -27,10 +27,10 @@ public class MPDOutputMonitor implements OutputMonitor {
     public void checkStatus() {
         List<MPDOutput> outputs = new ArrayList<>(admin.getOutputs());
         if (outputs.size() > outputMap.size()) {
-            fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));
+            fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.Event.OUTPUT_ADDED));
             loadOutputs(outputs);
         } else if (outputs.size() < outputMap.size()) {
-            fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_DELETED));
+            fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.Event.OUTPUT_DELETED));
             loadOutputs(outputs);
         } else {
             compareOutputs(outputs);
@@ -41,12 +41,12 @@ public class MPDOutputMonitor implements OutputMonitor {
         for (MPDOutput out : outputs) {
             MPDOutput output = outputMap.get(out.getId());
             if (output == null) {
-                fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
+                fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.Event.OUTPUT_CHANGED));
                 loadOutputs(outputs);
                 return;
             } else {
                 if (output.isEnabled() != out.isEnabled()) {
-                    fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
+                    fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.Event.OUTPUT_CHANGED));
                     loadOutputs(outputs);
                     return;
                 }

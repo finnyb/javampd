@@ -2,6 +2,8 @@ package org.bff.javampd.admin;
 
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.output.OutputChangeEvent;
+import org.bff.javampd.output.OutputChangeListener;
 import org.bff.javampd.statistics.ServerStatistics;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +16,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -119,6 +122,82 @@ public class MPDAdminTest {
     public void getDaemonUpTime() {
         admin.getDaemonUpTime();
         verify(serverStatistics, times(1)).getUptime();
+    }
+
+    @Test
+    public void testAddMPDChangeListener() throws Exception {
+        AtomicBoolean gotEvent = new AtomicBoolean(false);
+
+        MPDChangeListener mcl = event -> gotEvent.set(true);
+
+        admin.addMPDChangeListener(mcl);
+        admin.fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
+        assertTrue(gotEvent.get());
+    }
+
+    @Test
+    public void testRemoveMPDChangeListener() throws Exception {
+        AtomicBoolean gotEvent = new AtomicBoolean(false);
+
+        MPDChangeListener mcl = event -> gotEvent.set(true);
+
+        admin.addMPDChangeListener(mcl);
+        admin.fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
+        assertTrue(gotEvent.get());
+
+        gotEvent.set(false);
+        admin.removePlayerChangedListener(mcl);
+        admin.fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
+        assertFalse(gotEvent.get());
+    }
+
+    @Test
+    public void testFireMPDChangeEvent() throws Exception {
+        AtomicBoolean gotEvent = new AtomicBoolean(false);
+
+        MPDChangeListener mcl = event -> gotEvent.set(true);
+
+        admin.addMPDChangeListener(mcl);
+        admin.fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
+        assertTrue(gotEvent.get());
+    }
+
+    @Test
+    public void testAddOutputChangeListener() throws Exception {
+        AtomicBoolean gotEvent = new AtomicBoolean(false);
+
+        OutputChangeListener ocl = event -> gotEvent.set(true);
+
+        admin.addOutputChangeListener(ocl);
+        admin.fireOutputChangeEvent(OutputChangeEvent.Event.OUTPUT_CHANGED);
+        assertTrue(gotEvent.get());
+    }
+
+    @Test
+    public void testRemoveOutputChangeListener() throws Exception {
+        AtomicBoolean gotEvent = new AtomicBoolean(false);
+
+        OutputChangeListener ocl = event -> gotEvent.set(true);
+
+        admin.addOutputChangeListener(ocl);
+        admin.fireOutputChangeEvent(OutputChangeEvent.Event.OUTPUT_ADDED);
+        assertTrue(gotEvent.get());
+
+        gotEvent.set(false);
+        admin.removeOutputChangeListener(ocl);
+        admin.fireOutputChangeEvent(OutputChangeEvent.Event.OUTPUT_DELETED);
+        assertFalse(gotEvent.get());
+    }
+
+    @Test
+    public void testFireOutputChangeEvent() throws Exception {
+        AtomicBoolean gotEvent = new AtomicBoolean(false);
+
+        OutputChangeListener ocl = event -> gotEvent.set(true);
+
+        admin.addOutputChangeListener(ocl);
+        admin.fireOutputChangeEvent(OutputChangeEvent.Event.OUTPUT_ADDED);
+        assertTrue(gotEvent.get());
     }
 
     private List<String> getOutputResponse() {

@@ -87,5 +87,5 @@ public interface Admin {
      *
      * @param pcl the PlaylistChangeListener to remove
      */
-    void removePlaylistStatusChangedListener(OutputChangeListener pcl);
+    void removeOutputChangeListener(OutputChangeListener pcl);
 }

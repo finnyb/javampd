@@ -51,13 +51,13 @@ public class MPDAdmin implements Admin {
 
     @Override
     public boolean disableOutput(MPDOutput output) {
-        fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
+        fireOutputChangeEvent(OutputChangeEvent.Event.OUTPUT_CHANGED);
         return commandExecutor.sendCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
     }
 
     @Override
     public boolean enableOutput(MPDOutput output) {
-        fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
+        fireOutputChangeEvent(OutputChangeEvent.Event.OUTPUT_CHANGED);
         return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
     }
 
@@ -152,7 +152,7 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public synchronized void removePlaylistStatusChangedListener(OutputChangeListener pcl) {
+    public synchronized void removeOutputChangeListener(OutputChangeListener pcl) {
         outputListeners.remove(pcl);
     }
 
@@ -162,7 +162,7 @@ public class MPDAdmin implements Admin {
      *
      * @param event the event id to send
      */
-    protected synchronized void fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT event) {
+    protected synchronized void fireOutputChangeEvent(OutputChangeEvent.Event event) {
         OutputChangeEvent oce = new OutputChangeEvent(this, event);
 
         for (OutputChangeListener pcl : outputListeners) {

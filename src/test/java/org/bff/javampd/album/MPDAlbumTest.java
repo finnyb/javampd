@@ -88,4 +88,12 @@ public class MPDAlbumTest {
 
         assertTrue(item1.compareTo(item2) == 0);
     }
+
+    @Test
+    public void testCompareNullArtist() throws Exception {
+        MPDItem item1 = new MPDAlbum("Album1", null);
+        MPDItem item2 = new MPDAlbum("Album1", "Artist2");
+
+        assertNotEquals(item1, item2);
+    }
 }
