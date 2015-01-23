@@ -152,10 +152,12 @@ public class MPDStandAloneMonitor
         volumeMonitor.removeVolumeChangedListener(vcl);
     }
 
+    @Override
     public synchronized void addOutputChangeListener(OutputChangeListener vcl) {
         outputMonitor.addOutputChangeListener(vcl);
     }
 
+    @Override
     public synchronized void removeOutputChangedListener(OutputChangeListener vcl) {
         outputMonitor.removeOutputChangedListener(vcl);
     }
