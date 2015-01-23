@@ -14,7 +14,7 @@ public enum SongProcessor {
     ID(new IdProcessor()),
     DISC(new DiscProcessor());
 
-    private SongResponseProcessor songResponseProcessor;
+    private transient SongResponseProcessor songResponseProcessor;
 
     SongProcessor(SongResponseProcessor songResponseProcessor) {
         this.songResponseProcessor = songResponseProcessor;
