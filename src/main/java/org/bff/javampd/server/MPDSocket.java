@@ -50,7 +50,7 @@ public class MPDSocket {
      * @return the version of MPD
      * @throws MPDConnectionException    if there is a socked io problem
      */
-    private synchronized String connect(int timeout) throws MPDConnectionException {
+    private synchronized String connect(int timeout) {
         connectSocket(timeout);
         return readVersion();
     }

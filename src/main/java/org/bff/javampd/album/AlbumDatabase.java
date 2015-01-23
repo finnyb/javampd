@@ -64,9 +64,9 @@ public interface AlbumDatabase {
     Collection<MPDAlbum> listAllAlbums();
 
     /**
-     * Returns a list of all {@link org.bff.javampd.album.MPDAlbum}s.  This could
-     * be very slow for large collections.  A better approach is to use the windowed
-     * method {@link #listAllAlbums(int, int)}
+     * Returns a windowed list of {@link org.bff.javampd.album.MPDAlbum}s.  If the start
+     * or end indexes fall outside the range they are adjusted to either the start or end
+     * of the list.
      *
      * @param start starting record number
      * @param end   ending record number

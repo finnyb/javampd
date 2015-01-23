@@ -62,6 +62,14 @@ public class MPDAlbumDatabase implements AlbumDatabase {
 
         List<String> albumNames = new ArrayList<>(listAllAlbumNames());
 
+        if (end < albumNames.size()) {
+            end = albumNames.size() - 1;
+        }
+
+        if (start > end) {
+            throw new IllegalArgumentException("Start index must be smaller than end index");
+        }
+
         for (String albumName : albumNames.subList(start, end)) {
             albums.addAll(findAlbum(albumName));
         }
