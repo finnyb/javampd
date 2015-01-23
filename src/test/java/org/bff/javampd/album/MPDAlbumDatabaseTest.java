@@ -296,6 +296,26 @@ public class MPDAlbumDatabaseTest {
         int start = 2;
         int end = 3;
 
+        List<MPDAlbum> testAlbums = prepareWindowedTest();
+
+
+        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, end));
+
+        assertEquals(end - start, albums.size());
+        assertTrue(albums.contains(testAlbums.get(2)));
+    }
+
+    @Test
+    public void testListAllAlbumsWindowedLast() {
+        List<MPDAlbum> testAlbums = prepareWindowedTest();
+
+        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(testAlbums.size() - 1, testAlbums.size()));
+
+        assertEquals(1, albums.size());
+        assertTrue(albums.contains(testAlbums.get(testAlbums.size() - 1)));
+    }
+
+    private List<MPDAlbum> prepareWindowedTest() {
         MPDArtist testArtist1 = new MPDArtist("testName1");
 
         List<String> mockListArtist1 = new ArrayList<>();
@@ -355,10 +375,6 @@ public class MPDAlbumDatabaseTest {
                 .list(TagLister.ListType.ARTIST, mockAlbumList4))
                 .thenReturn(mockListArtist1);
 
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, end));
-
-        assertEquals(end - start, albums.size());
-        assertTrue(albums.contains(testAlbum3));
+        return allAlbums;
     }
 }
