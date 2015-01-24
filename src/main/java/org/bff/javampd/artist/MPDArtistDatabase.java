@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,21 @@ public class MPDArtistDatabase implements ArtistDatabase {
                 .stream()
                 .map(MPDArtist::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<MPDArtist> listAllArtists(int start, int end) {
+        List<MPDArtist> artists = tagLister.list(TagLister.ListType.ARTIST)
+                .stream()
+                .map(MPDArtist::new)
+                .collect(Collectors.toList());
+        int endIndex = end <= artists.size() ? end : artists.size() - 1;
+
+        if (start > endIndex) {
+            throw new IllegalArgumentException("Start index must be smaller than end index");
+        }
+
+        return Collections.unmodifiableCollection(artists.subList(start, end));
     }
 
     @Override

@@ -36,6 +36,26 @@ public class MPDArtistDatabaseIT extends BaseTest {
     }
 
     @Test
+    public void testListAllArtistsWindowed() throws Exception {
+        int start = 1;
+        int end = 3;
+
+        for (MPDArtist testArtist : TestArtists.getArtists()) {
+            boolean exists = false;
+            for (MPDArtist artist : artistDatabase.listAllArtists()) {
+                if (testArtist.equals(artist)) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                Assert.fail("Artist " + testArtist + " does not exist.");
+            }
+        }
+    }
+
+    @Test
     public void testListArtistsByGenre() throws Exception {
         for (MPDGenre testGenre : TestGenres.getGenres()) {
             for (MPDArtist testArtist : TestGenres.getArtistsForGenre(testGenre)) {

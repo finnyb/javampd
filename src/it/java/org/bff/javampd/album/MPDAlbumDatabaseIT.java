@@ -10,12 +10,12 @@ import org.bff.javampd.integrationdata.TestGenres;
 import org.bff.javampd.integrationdata.TestYears;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -64,7 +64,6 @@ public class MPDAlbumDatabaseIT extends BaseTest {
 
     @Test
     public void testAllAlbums() {
-
         for (MPDAlbum testAlbum : TestAlbums.getAlbums()) {
             boolean exists = false;
             for (MPDAlbum album : albumDatabase.listAllAlbums()) {
@@ -81,14 +80,20 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    @Ignore
     public void testAllAlbumsWindowed() {
-        int start = 0;
-        int end = 1;
+        int start = 1;
+        int end = 2;
+
+
+        MPDAlbum album = TestAlbums.getAlbums().get(0);
+        List<MPDAlbum> expectedAlbums = TestAlbums.getAlbums()
+                .stream()
+                .filter(a -> a.getName().equals(album.getName()))
+                .collect(Collectors.toList());
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, end));
 
-        assertEquals(end - start, albums.size());
+        assertEquals(expectedAlbums.size(), albums.size());
 
         for (MPDAlbum testAlbum : albums) {
             assertNotNull(testAlbum.getArtistName());

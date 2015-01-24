@@ -39,6 +39,65 @@ public class MPDArtistDatabaseTest {
     }
 
     @Test
+    public void testListAllArtistsWindowed() throws Exception {
+        int start = 1;
+        int end = 3;
+
+        MPDArtist testArtist1 = new MPDArtist("testName1");
+        MPDArtist testArtist2 = new MPDArtist("testName2");
+        MPDArtist testArtist3 = new MPDArtist("testName3");
+        MPDArtist testArtist4 = new MPDArtist("testName4");
+        MPDArtist testArtist5 = new MPDArtist("testName5");
+
+        List<String> mockReturn = new ArrayList<>();
+        mockReturn.add(testArtist1.getName());
+        mockReturn.add(testArtist2.getName());
+        mockReturn.add(testArtist3.getName());
+        mockReturn.add(testArtist4.getName());
+        mockReturn.add(testArtist5.getName());
+
+        when(tagLister
+                .list(TagLister.ListType.ARTIST))
+                .thenReturn(mockReturn);
+
+        List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists(start, end));
+        assertEquals(end - start, artists.size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testListAllArtistsWindowedIllegalArgument() throws Exception {
+        int start = 5;
+        int end = 4;
+
+        artistDatabase.listAllArtists(start, end);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testListAllArtistsWindowedIllegalArgumentSize() throws Exception {
+        int start = 8;
+        int end = 10;
+
+        MPDArtist testArtist1 = new MPDArtist("testName1");
+        MPDArtist testArtist2 = new MPDArtist("testName2");
+        MPDArtist testArtist3 = new MPDArtist("testName3");
+        MPDArtist testArtist4 = new MPDArtist("testName4");
+        MPDArtist testArtist5 = new MPDArtist("testName5");
+
+        List<String> mockReturn = new ArrayList<>();
+        mockReturn.add(testArtist1.getName());
+        mockReturn.add(testArtist2.getName());
+        mockReturn.add(testArtist3.getName());
+        mockReturn.add(testArtist4.getName());
+        mockReturn.add(testArtist5.getName());
+
+        when(tagLister
+                .list(TagLister.ListType.ARTIST))
+                .thenReturn(mockReturn);
+
+        artistDatabase.listAllArtists(start, end);
+    }
+
+    @Test
     public void testListArtistsByGenre() throws Exception {
         MPDGenre testGenre = new MPDGenre("testGenreName");
 

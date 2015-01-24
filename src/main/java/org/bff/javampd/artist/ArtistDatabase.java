@@ -19,6 +19,13 @@ public interface ArtistDatabase {
     Collection<MPDArtist> listAllArtists();
 
     /**
+     * Returns a subsetted {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s of
+     *
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s containing the album names
+     */
+    Collection<MPDArtist> listAllArtists(int start, int end);
+
+    /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s of all
      * artists by a particular genre.
      *

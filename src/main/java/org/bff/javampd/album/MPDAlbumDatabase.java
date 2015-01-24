@@ -7,6 +7,7 @@ import org.bff.javampd.genre.MPDGenre;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,10 @@ public class MPDAlbumDatabase implements AlbumDatabase {
 
     @Override
     public Collection<String> listAllAlbumNames() {
-        return tagLister.list(TagLister.ListType.ALBUM).stream().collect(Collectors.toList());
+        return tagLister.list(TagLister.ListType.ALBUM)
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -72,7 +76,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
             albums.addAll(findAlbum(albumName));
         }
 
-        return albums;
+        return Collections.unmodifiableCollection(albums);
     }
 
     @Override
