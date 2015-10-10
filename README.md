@@ -3,7 +3,7 @@ JavaMPD
 
 | Unit  | Integration   |
 |---|---|
-|[![Build Status](http://bjj.is-a-player.com:8080/job/JavaMPDCI/badge/icon)](http://bjj.is-a-player.com:8080/job/JavaMPDCI/4/)   |[![Build Status](http://bjj.is-a-player.com:8080/job/JavaMPDIT/badge/icon)](http://bjj.is-a-player.com:8080/job/JavaMPDIT/)
+|[![Build Status](http://mrorange:8080/buildStatus/icon?job=JavaMPDCI)](http://mrorange:8080/buildStatus/icon?job=JavaMPDCI)   |[![Build Status](http://mrorange:8080/buildStatus/icon?job=JavaMPDIT)](http://mrorange:8080/buildStatus/icon?job=JavaMPDIT)
 
 
 Java API for controlling the Music Player Daemon (MPD)
