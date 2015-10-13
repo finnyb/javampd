@@ -21,6 +21,7 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     private MPDSocket mpdSocket;
     private MPD mpd;
+    private String password;
 
     /**
      * You <b>MUST</b> call {@link #setMpd} before
@@ -66,7 +67,10 @@ public class MPDCommandExecutor implements CommandExecutor {
         }
 
         if (mpdSocket == null) {
-            mpdSocket = new MPDSocket(mpd.getAddress(), mpd.getPort(), mpd.getTimeout());
+            mpdSocket = new MPDSocket(mpd.getAddress(),
+                    mpd.getPort(),
+                    mpd.getTimeout(),
+                    password);
         }
     }
 
@@ -79,5 +83,14 @@ public class MPDCommandExecutor implements CommandExecutor {
     @Override
     public void setMpd(MPD mpd) {
         this.mpd = mpd;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public void authenticate() {
+        mpdSocket.authenticate();
     }
 }

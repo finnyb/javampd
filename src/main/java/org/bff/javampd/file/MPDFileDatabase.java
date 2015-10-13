@@ -5,7 +5,6 @@ import org.bff.javampd.MPDException;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.properties.DatabaseProperties;
-import org.bff.javampd.song.SongConverter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,15 +22,12 @@ public class MPDFileDatabase implements FileDatabase {
 
     private DatabaseProperties databaseProperties;
     private CommandExecutor commandExecutor;
-    private SongConverter songConverter;
 
     @Inject
     public MPDFileDatabase(DatabaseProperties databaseProperties,
-                           CommandExecutor commandExecutor,
-                           SongConverter songConverter) {
+                           CommandExecutor commandExecutor) {
         this.databaseProperties = databaseProperties;
         this.commandExecutor = commandExecutor;
-        this.songConverter = songConverter;
     }
 
     @Override

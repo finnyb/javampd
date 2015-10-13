@@ -13,8 +13,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MPDTest {
@@ -94,19 +93,17 @@ public class MPDTest {
                 .thenReturn(new ArrayList<>());
 
         MPD mpd = mpdBuilder.build();
-        mpd.authenticate(password);
+        mpd.authenticate();
     }
 
     @Test(expected = MPDSecurityException.class)
     public void testFailedAuthenticate() throws Exception {
         String password = "password";
         when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
-        when(mpdCommandExecutor
-                .sendCommand(serverProperties.getPassword(), password))
-                .thenThrow(new MPDConnectionException("incorrect password"));
+        doThrow(new MPDSecurityException("incorrect password")).when(mpdCommandExecutor).authenticate();
 
-        MPD mpd = mpdBuilder.build();
-        mpd.authenticate(password);
+        MPD mpd = mpdBuilder.password(password).build();
+        mpd.authenticate();
     }
 
     @Test

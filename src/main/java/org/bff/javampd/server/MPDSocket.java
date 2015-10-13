@@ -21,22 +21,27 @@ public class MPDSocket {
 
     private Socket socket;
     private ResponseProperties responseProperties;
-    private ServerProperties commandProperties;
+    private ServerProperties serverProperties;
     private String encoding;
     private String lastError;
     private String version;
 
     private String server;
+    private String password;
     private int port;
 
     private static final int TRIES = 3;
 
-    public MPDSocket(InetAddress server, int port, int timeout) throws MPDConnectionException {
+    public MPDSocket(InetAddress server,
+                     int port,
+                     int timeout,
+                     String password) throws MPDConnectionException {
         this.server = server.getHostAddress();
         this.port = port;
+        this.password = password;
         this.responseProperties = new ResponseProperties();
-        this.commandProperties = new ServerProperties();
-        this.encoding = commandProperties.getEncoding();
+        this.serverProperties = new ServerProperties();
+        this.encoding = serverProperties.getEncoding();
         this.version = connect(timeout);
     }
 
@@ -48,7 +53,7 @@ public class MPDSocket {
      *
      * @param timeout socket timeout, 0 for infinite wait
      * @return the version of MPD
-     * @throws MPDConnectionException    if there is a socked io problem
+     * @throws MPDConnectionException if there is a socked io problem
      */
     private synchronized String connect(int timeout) throws MPDConnectionException {
         connectSocket(timeout);
@@ -73,13 +78,33 @@ public class MPDSocket {
     }
 
     private void connectSocket(int timeout) throws MPDConnectionException {
+        LOGGER.debug("attempting to connect socket to {} with timeout of {}", server, timeout);
         this.socket = new Socket();
         SocketAddress socketAddress = new InetSocketAddress(server, port);
         try {
             this.socket.connect(socketAddress, timeout);
+            authenticate();
         } catch (Exception ioe) {
+            LOGGER.error("failed to connect socket to {}", server);
             throw new MPDConnectionException(ioe);
         }
+    }
+
+    public void authenticate() {
+        if (usingPassword()) {
+            try {
+                sendCommand(new MPDCommand(serverProperties.getPassword(), password));
+            } catch (Exception e) {
+                LOGGER.error("Error authenticating to mpd", e);
+                if (e.getMessage().contains("incorrect password")) {
+                    throw new MPDSecurityException("Incorrect password");
+                }
+            }
+        }
+    }
+
+    private boolean usingPassword() {
+        return this.password != null || "".equals(this.password);
     }
 
     public synchronized Collection<String> sendCommand(MPDCommand command) {
@@ -118,7 +143,7 @@ public class MPDSocket {
      * mpdVersion is returned.
      *
      * @return return the version of MPD
-     * @throws IOException            if there is a socked io problem
+     * @throws IOException if there is a socked io problem
      */
     private synchronized String connect() throws IOException {
         return connect(0);
@@ -126,11 +151,8 @@ public class MPDSocket {
 
     private boolean isResponseOK(final String line) {
         try {
-            if (line.startsWith(responseProperties.getOk())) {
-                return true;
-            }
-
-            if (line.startsWith(responseProperties.getListOk())) {
+            if (line.startsWith(responseProperties.getOk())
+                    || line.startsWith(responseProperties.getListOk())) {
                 return true;
             }
         } catch (Exception e) {
@@ -170,12 +192,12 @@ public class MPDSocket {
     }
 
     public synchronized boolean sendCommands(List<MPDCommand> commandList) {
-        StringBuilder sb = new StringBuilder(convertCommand(commandProperties.getStartBulk()));
+        StringBuilder sb = new StringBuilder(convertCommand(serverProperties.getStartBulk()));
 
         for (MPDCommand command : commandList) {
             sb.append(convertCommand(command.getCommand(), command.getParams()));
         }
-        sb.append(convertCommand(commandProperties.getEndBulk()));
+        sb.append(convertCommand(serverProperties.getEndBulk()));
 
         checkConnection();
 
@@ -195,18 +217,15 @@ public class MPDSocket {
 
     private List<String> sendBytes(String command) throws IOException {
         LOGGER.debug("start command: " + command.trim());
-        byte[] bytesToSend = command.getBytes(commandProperties.getEncoding());
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
-
-        OutputStream outStream = socket.getOutputStream();
-        outStream.write(bytesToSend);
 
         List<String> response = new ArrayList<>();
 
+        BufferedReader in = writeToStream(command);
         String inLine = in.readLine();
+        LOGGER.debug("first response line is: {}", inLine);
         while (inLine != null) {
             if (isResponseOK(inLine)) {
+                LOGGER.debug("the response was ok");
                 break;
             }
 
@@ -228,13 +247,43 @@ public class MPDSocket {
     }
 
     private void checkConnection() {
-        if (!socket.isConnected()) {
+        boolean connected = true;
+
+        if (socket.isConnected()) {
+            try {
+                BufferedReader in = writeToStream(convertCommand(serverProperties.getPing()));
+                String inLine = in.readLine();
+                if (!isResponseOK(inLine)) {
+                    connected = false;
+                }
+            } catch (Exception e) {
+                connected = false;
+                LOGGER.error("lost socket connection", e);
+            }
+        } else {
+            LOGGER.debug("socket hasn't been connected yet");
+            connected = false;
+        }
+
+        if (!connected) {
+            LOGGER.warn("we've lost connectivity, attempting to connect");
             try {
                 connect();
             } catch (Exception e) {
                 throw new MPDConnectionException("Connection to server lost: " + e.getMessage(), e);
             }
         }
+    }
+
+    private BufferedReader writeToStream(String command) throws IOException {
+        byte[] bytesToSend = command.getBytes(serverProperties.getEncoding());
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
+
+        OutputStream outStream = socket.getOutputStream();
+        outStream.write(bytesToSend);
+
+        return in;
     }
 
     public String getVersion() {

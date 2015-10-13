@@ -42,6 +42,7 @@ import java.net.UnknownHostException;
  */
 @Singleton
 public class MPD implements Server {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
 
     private int port;
     private InetAddress address;
@@ -61,7 +62,6 @@ public class MPD implements Server {
     private final ServerStatus serverStatus;
     private final StandAloneMonitor standAloneMonitor;
     private final DatabaseManager databaseManager;
-    private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
 
     private MPD(Builder builder) {
         try {
@@ -79,10 +79,6 @@ public class MPD implements Server {
             this.databaseManager = builder.databaseManager;
 
             this.commandExecutor.setMpd(this);
-
-            if (builder.password != null) {
-                authenticate(builder.password);
-            }
         } catch (Exception e) {
             LOGGER.error("Error creating mpd instance to server {} on port {}", this.address, this.port, e);
             throw new MPDConnectionException(e);
@@ -109,15 +105,8 @@ public class MPD implements Server {
         return ping();
     }
 
-    public void authenticate(String password) {
-        try {
-            commandExecutor.sendCommand(serverProperties.getPassword(), password);
-        } catch (Exception e) {
-            LOGGER.error("Error authenticating to mpd", e);
-            if (e.getMessage().contains("incorrect password")) {
-                throw new MPDSecurityException("Incorrect password");
-            }
-        }
+    public void authenticate() {
+        commandExecutor.authenticate();
     }
 
     private boolean ping() {
@@ -184,7 +173,6 @@ public class MPD implements Server {
         private int port = DEFAULT_PORT;
         private String server = DEFAULT_SERVER;
         private int timeout = DEFAULT_TIMEOUT;
-        private String password;
         private ServerProperties serverProperties;
         private CommandExecutor commandExecutor;
         private Player player;
@@ -219,12 +207,13 @@ public class MPD implements Server {
         }
 
         public Builder password(String password) {
-            this.password = password;
+            this.commandExecutor.setPassword(password);
             return this;
         }
 
         public MPD build() {
             MPD mpd = new MPD(this);
+            mpd.authenticate();
             injector.getInstance(ConnectionMonitor.class).setServer(mpd);
             return mpd;
         }

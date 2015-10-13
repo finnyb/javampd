@@ -1,7 +1,7 @@
 package org.bff.javampd;
 
 /**
- * Abstract base class for MPD Exceptions.
+ * Base class for MPD Exceptions.
  *
  * @author Bill
  * @version 1.0

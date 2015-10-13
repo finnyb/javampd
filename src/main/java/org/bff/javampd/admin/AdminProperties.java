@@ -3,9 +3,6 @@ package org.bff.javampd.admin;
 import com.google.inject.Singleton;
 import org.bff.javampd.server.MPDProperties;
 
-/**
- * @author bill
- */
 @Singleton
 public class AdminProperties extends MPDProperties {
 

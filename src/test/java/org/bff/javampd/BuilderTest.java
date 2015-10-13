@@ -17,8 +17,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BuilderTest {
@@ -71,11 +70,9 @@ public class BuilderTest {
 
         MPD mpd = mpdBuilder.password("thepassword").build();
 
-        verify(mpdCommandExecutor)
-                .sendCommand(commandArgumentCaptor.capture(), commandArgumentCaptor.capture());
+        verify(mpdCommandExecutor, times(1)).authenticate();
+
         assertNotNull(mpd);
-        assertEquals(serverProperties.getPassword(), commandArgumentCaptor.getAllValues().get(0));
-        assertEquals("thepassword", commandArgumentCaptor.getAllValues().get(1));
     }
 
     @Test
