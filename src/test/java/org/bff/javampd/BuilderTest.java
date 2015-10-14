@@ -13,11 +13,11 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BuilderTest {
@@ -63,16 +63,15 @@ public class BuilderTest {
 
     @Test
     public void testPassword() throws Exception {
+        String password = "thepassword";
         when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
-        when(mpdCommandExecutor
-                .sendCommand(serverProperties.getPassword()))
-                .thenReturn(new ArrayList<>());
 
-        MPD mpd = mpdBuilder.password("thepassword").build();
+        MPD mpd = mpdBuilder.password(password).build();
 
-        verify(mpdCommandExecutor, times(1)).authenticate();
-
+        verify(mpdCommandExecutor)
+                .authenticate(commandArgumentCaptor.capture());
         assertNotNull(mpd);
+        assertEquals(password, commandArgumentCaptor.getAllValues().get(0));
     }
 
     @Test

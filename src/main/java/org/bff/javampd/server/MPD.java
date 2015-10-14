@@ -46,6 +46,7 @@ public class MPD implements Server {
 
     private int port;
     private InetAddress address;
+    private String password;
     private int timeout;
 
     private static final int DEFAULT_PORT = 6600;
@@ -66,6 +67,7 @@ public class MPD implements Server {
     private MPD(Builder builder) {
         try {
             this.address = InetAddress.getByName(builder.server);
+            this.password = builder.password;
             this.port = builder.port;
             this.timeout = builder.timeout;
             this.serverProperties = builder.serverProperties;
@@ -79,9 +81,16 @@ public class MPD implements Server {
             this.databaseManager = builder.databaseManager;
 
             this.commandExecutor.setMpd(this);
+            authenticate();
         } catch (Exception e) {
             LOGGER.error("Error creating mpd instance to server {} on port {}", this.address, this.port, e);
             throw new MPDConnectionException(e);
+        }
+    }
+
+    private void authenticate() {
+        if (usingPassword()) {
+            commandExecutor.authenticate(this.password);
         }
     }
 
@@ -103,10 +112,6 @@ public class MPD implements Server {
     @Override
     public boolean isConnected() {
         return ping();
-    }
-
-    public void authenticate() {
-        commandExecutor.authenticate();
     }
 
     private boolean ping() {
@@ -169,10 +174,16 @@ public class MPD implements Server {
         return this.standAloneMonitor;
     }
 
+
+    private boolean usingPassword() {
+        return this.password != null || "".equals(this.password);
+    }
+
     public static class Builder {
         private int port = DEFAULT_PORT;
         private String server = DEFAULT_SERVER;
         private int timeout = DEFAULT_TIMEOUT;
+        private String password;
         private ServerProperties serverProperties;
         private CommandExecutor commandExecutor;
         private Player player;
@@ -188,7 +199,6 @@ public class MPD implements Server {
             injector = Guice.createInjector(new MPDModule());
             bind(injector);
             bindMonitorAndRelay(injector);
-
         }
 
         public Builder server(String server) throws UnknownHostException {
@@ -207,13 +217,12 @@ public class MPD implements Server {
         }
 
         public Builder password(String password) {
-            this.commandExecutor.setPassword(password);
+            this.password = password;
             return this;
         }
 
         public MPD build() {
             MPD mpd = new MPD(this);
-            mpd.authenticate();
             injector.getInstance(ConnectionMonitor.class).setServer(mpd);
             return mpd;
         }

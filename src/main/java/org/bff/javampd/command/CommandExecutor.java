@@ -72,14 +72,7 @@ public interface CommandExecutor {
     void setMpd(MPD mpd);
 
     /**
-     * Sets the password for servers with passwords enabled
-     *
-     * @param password
+     * Authenticates to the server using the password
      */
-    void setPassword(String password);
-
-    /**
-     * Authenticates to the server using the set password
-     */
-    void authenticate();
+    void authenticate(String password);
 }

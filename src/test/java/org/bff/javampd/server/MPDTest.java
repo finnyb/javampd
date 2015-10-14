@@ -93,17 +93,17 @@ public class MPDTest {
                 .thenReturn(new ArrayList<>());
 
         MPD mpd = mpdBuilder.build();
-        mpd.authenticate();
     }
 
-    @Test(expected = MPDSecurityException.class)
+    @Test(expected = MPDConnectionException.class)
     public void testFailedAuthenticate() throws Exception {
         String password = "password";
         when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
-        doThrow(new MPDSecurityException("incorrect password")).when(mpdCommandExecutor).authenticate();
+        doThrow(new MPDSecurityException("incorrect password"))
+                .when(mpdCommandExecutor)
+                .authenticate(password);
 
         MPD mpd = mpdBuilder.password(password).build();
-        mpd.authenticate();
     }
 
     @Test

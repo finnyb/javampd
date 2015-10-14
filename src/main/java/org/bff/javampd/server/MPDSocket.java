@@ -27,18 +27,15 @@ public class MPDSocket {
     private String version;
 
     private String server;
-    private String password;
     private int port;
 
     private static final int TRIES = 3;
 
     public MPDSocket(InetAddress server,
                      int port,
-                     int timeout,
-                     String password) throws MPDConnectionException {
+                     int timeout) throws MPDConnectionException {
         this.server = server.getHostAddress();
         this.port = port;
-        this.password = password;
         this.responseProperties = new ResponseProperties();
         this.serverProperties = new ServerProperties();
         this.encoding = serverProperties.getEncoding();
@@ -83,28 +80,10 @@ public class MPDSocket {
         SocketAddress socketAddress = new InetSocketAddress(server, port);
         try {
             this.socket.connect(socketAddress, timeout);
-            authenticate();
         } catch (Exception ioe) {
             LOGGER.error("failed to connect socket to {}", server);
             throw new MPDConnectionException(ioe);
         }
-    }
-
-    public void authenticate() {
-        if (usingPassword()) {
-            try {
-                sendCommand(new MPDCommand(serverProperties.getPassword(), password));
-            } catch (Exception e) {
-                LOGGER.error("Error authenticating to mpd", e);
-                if (e.getMessage().contains("incorrect password")) {
-                    throw new MPDSecurityException("Incorrect password");
-                }
-            }
-        }
-    }
-
-    private boolean usingPassword() {
-        return this.password != null || "".equals(this.password);
     }
 
     public synchronized Collection<String> sendCommand(MPDCommand command) {

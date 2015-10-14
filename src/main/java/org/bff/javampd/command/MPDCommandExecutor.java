@@ -1,9 +1,9 @@
 package org.bff.javampd.command;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.server.MPD;
-import org.bff.javampd.server.MPDConnectionException;
-import org.bff.javampd.server.MPDSocket;
+import org.bff.javampd.server.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,16 +18,19 @@ import java.util.List;
  */
 @Singleton
 public class MPDCommandExecutor implements CommandExecutor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDSocket.class);
 
     private MPDSocket mpdSocket;
     private MPD mpd;
     private String password;
+    private ServerProperties serverProperties;
 
     /**
      * You <b>MUST</b> call {@link #setMpd} before
      * making any calls to the server
      */
     public MPDCommandExecutor() {
+        serverProperties = new ServerProperties();
     }
 
     @Override
@@ -69,8 +72,7 @@ public class MPDCommandExecutor implements CommandExecutor {
         if (mpdSocket == null) {
             mpdSocket = new MPDSocket(mpd.getAddress(),
                     mpd.getPort(),
-                    mpd.getTimeout(),
-                    password);
+                    mpd.getTimeout());
         }
     }
 
@@ -85,12 +87,20 @@ public class MPDCommandExecutor implements CommandExecutor {
         this.mpd = mpd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public void authenticate(String password) {
+        if (password == null) {
+            throw new IllegalArgumentException("Password cannot be null");
+        }
+
+        try {
+            sendCommand(new MPDCommand(serverProperties.getPassword(), password));
+        } catch (Exception e) {
+            LOGGER.error("Error authenticating to mpd", e);
+            if (e.getMessage().contains("incorrect password")) {
+                throw new MPDSecurityException("Incorrect password");
+            }
+        }
     }
 
-    @Override
-    public void authenticate() {
-        mpdSocket.authenticate();
-    }
 }
