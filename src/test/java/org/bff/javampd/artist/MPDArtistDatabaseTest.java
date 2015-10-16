@@ -87,4 +87,29 @@ public class MPDArtistDatabaseTest {
         assertEquals(1, artists.size());
         assertEquals(testArtist, artists.get(0));
     }
+
+    @Test
+    public void testListMultipleArtistByName() throws Exception {
+        String testArtistName = "testArtist";
+        String testArtistName2 = "testArtist";
+
+        List<String> mockReturnName = new ArrayList<>();
+        mockReturnName.add(TagLister.ListType.ARTIST.getType());
+        mockReturnName.add(testArtistName);
+
+        List<String> mockReturnArtist = new ArrayList<>();
+        mockReturnArtist.add(testArtistName);
+        mockReturnArtist.add(testArtistName2);
+
+        when(tagLister
+                .list(TagLister.ListType.ARTIST, mockReturnName))
+                .thenReturn(mockReturnArtist);
+
+        MPDArtist testArtist = new MPDArtist(testArtistName);
+
+        List<MPDArtist> artists = new ArrayList<>();
+        artists.add(artistDatabase.listArtistByName(testArtistName));
+        assertEquals(1, artists.size());
+        assertEquals(testArtist, artists.get(0));
+    }
 }
