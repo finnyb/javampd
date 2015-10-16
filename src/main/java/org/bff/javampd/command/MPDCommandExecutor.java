@@ -22,7 +22,6 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     private MPDSocket mpdSocket;
     private MPD mpd;
-    private String password;
     private ServerProperties serverProperties;
 
     /**
