@@ -62,11 +62,10 @@ public class MPDAlbumDatabase implements AlbumDatabase {
 
         List<String> albumNames = new ArrayList<>(listAllAlbumNames());
 
-        if (end > albumNames.size()) {
-            end = albumNames.size();
-        }
+        int toIndex = end > albumNames.size() ? albumNames.size() : end;
+        int fromIndex = start > end ? end : start;
 
-        for (String albumName : albumNames.subList(start, end)) {
+        for (String albumName : albumNames.subList(fromIndex, toIndex)) {
             albums.addAll(findAlbum(albumName));
         }
 

@@ -271,6 +271,35 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
+    public void testListAllAlbumsStartBelowEnd() {
+        int end = 50;
+
+        String albumPrefix = "testAlbum";
+        String artistPrefix = "testArtist";
+
+        List<String> mockAlbumNameList = new ArrayList<>();
+        for (int i = 0; i < end; i++) {
+            mockAlbumNameList.add(albumPrefix + i);
+            List<String> tagParams = new ArrayList<>();
+            tagParams.add("album");
+            tagParams.add(albumPrefix + i);
+            List<String> mockArtists = new ArrayList<>();
+            mockArtists.add(artistPrefix + i);
+            when(tagLister
+                    .list(TagLister.ListType.ARTIST, tagParams))
+                    .thenReturn(mockArtists);
+        }
+
+        when(tagLister
+                .list(TagLister.ListType.ALBUM))
+                .thenReturn(mockAlbumNameList);
+
+        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(end + 1, end));
+
+        assertEquals(0, albums.size());
+    }
+
+    @Test
     public void testFindAlbumByName() throws Exception {
         MPDArtist testArtist = new MPDArtist("testArtistName");
 
