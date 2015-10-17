@@ -172,6 +172,105 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
+    public void testListAllAlbums() {
+        int start = 0;
+        int end = 100;
+
+        String albumPrefix = "testAlbum";
+        String artistPrefix = "testArtist";
+
+        List<String> mockAlbumNameList = new ArrayList<>();
+        for (int i = 0; i < end + 10; i++) {
+            mockAlbumNameList.add(albumPrefix + i);
+            List<String> tagParams = new ArrayList<>();
+            tagParams.add("album");
+            tagParams.add(albumPrefix + i);
+            List<String> mockArtists = new ArrayList<>();
+            mockArtists.add(artistPrefix + i);
+            when(tagLister
+                    .list(TagLister.ListType.ARTIST, tagParams))
+                    .thenReturn(mockArtists);
+        }
+
+        when(tagLister
+                .list(TagLister.ListType.ALBUM))
+                .thenReturn(mockAlbumNameList);
+
+        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, end));
+
+        assertEquals(end - start, albums.size());
+        for (int i = start; i < end; ++i) {
+            MPDAlbum album = new MPDAlbum(albumPrefix + i, artistPrefix + i);
+            assertEquals(album, albums.get(i));
+        }
+    }
+
+    @Test
+    public void testListAllAlbumsBelowMinimum() {
+        int start = 0;
+        int end = 50;
+        int requested = 100;
+
+        String albumPrefix = "testAlbum";
+        String artistPrefix = "testArtist";
+
+        List<String> mockAlbumNameList = new ArrayList<>();
+        for (int i = 0; i < end; i++) {
+            mockAlbumNameList.add(albumPrefix + i);
+            List<String> tagParams = new ArrayList<>();
+            tagParams.add("album");
+            tagParams.add(albumPrefix + i);
+            List<String> mockArtists = new ArrayList<>();
+            mockArtists.add(artistPrefix + i);
+            when(tagLister
+                    .list(TagLister.ListType.ARTIST, tagParams))
+                    .thenReturn(mockArtists);
+        }
+
+        when(tagLister
+                .list(TagLister.ListType.ALBUM))
+                .thenReturn(mockAlbumNameList);
+
+        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, requested));
+
+        assertEquals(end - start, albums.size());
+        for (int i = start; i < end; ++i) {
+            MPDAlbum album = new MPDAlbum(albumPrefix + i, artistPrefix + i);
+            assertEquals(album, albums.get(i));
+        }
+    }
+
+    @Test
+    public void testListAllAlbumsEmpty() {
+        int start = 0;
+        int end = 50;
+
+        String albumPrefix = "testAlbum";
+        String artistPrefix = "testArtist";
+
+        List<String> mockAlbumNameList = new ArrayList<>();
+        for (int i = 0; i < end; i++) {
+            mockAlbumNameList.add(albumPrefix + i);
+            List<String> tagParams = new ArrayList<>();
+            tagParams.add("album");
+            tagParams.add(albumPrefix + i);
+            List<String> mockArtists = new ArrayList<>();
+            mockArtists.add(artistPrefix + i);
+            when(tagLister
+                    .list(TagLister.ListType.ARTIST, tagParams))
+                    .thenReturn(mockArtists);
+        }
+
+        when(tagLister
+                .list(TagLister.ListType.ALBUM))
+                .thenReturn(mockAlbumNameList);
+
+        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, start));
+
+        assertEquals(0, albums.size());
+    }
+
+    @Test
     public void testFindAlbumByName() throws Exception {
         MPDArtist testArtist = new MPDArtist("testArtistName");
 
