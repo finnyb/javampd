@@ -97,4 +97,13 @@ public class MPDServerStatisticsTest {
 
         assertEquals(Long.parseLong(updateTime), serverStatistics.getLastUpdateTime());
     }
+
+    @Test
+    public void testNonexistantStat() throws Exception {
+        String updateTime = "5";
+        statList.add("fake: " + updateTime);
+        when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
+
+        assertEquals(0, serverStatistics.getLastUpdateTime());
+    }
 }
