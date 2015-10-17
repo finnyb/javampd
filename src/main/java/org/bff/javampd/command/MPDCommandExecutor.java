@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Singleton
 public class MPDCommandExecutor implements CommandExecutor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MPDSocket.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDCommandExecutor.class);
 
     private MPDSocket mpdSocket;
     private MPD mpd;
