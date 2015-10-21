@@ -23,6 +23,10 @@ public class MPDCommand {
      * @param parameters the parameters to send
      */
     public MPDCommand(String command, String... parameters) {
+        if (command == null) {
+            throw new IllegalArgumentException("comand can't be null");
+        }
+
         this.command = command;
         this.params = new ArrayList<>();
         Collections.addAll(this.params, Arrays.copyOf(parameters, parameters.length));
@@ -56,7 +60,6 @@ public class MPDCommand {
         if (!(o instanceof MPDCommand)) {
             return false;
         }
-
 
         MPDCommand that = (MPDCommand) o;
 
