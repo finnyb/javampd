@@ -46,4 +46,32 @@ public class MPDCommand {
     public List<String> getParams() {
         return params;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof MPDCommand)) {
+            return false;
+        }
+
+
+        MPDCommand that = (MPDCommand) o;
+
+        if (!command.equals(that.command)) {
+            return false;
+        }
+
+        return !(params != null ? !params.equals(that.params) : that.params != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = command.hashCode();
+        result = 31 * result + (params != null ? params.hashCode() : 0);
+        return result;
+    }
 }

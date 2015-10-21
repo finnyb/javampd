@@ -1,13 +1,10 @@
 package org.bff.javampd.command;
 
-import org.bff.javampd.server.MPD;
-import org.bff.javampd.server.MPDConnectionException;
-import org.bff.javampd.server.MPDSocket;
+import org.bff.javampd.server.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.InetAddress;
@@ -16,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CommandExecutorTest {
+public class MPDCommandExecutorTest {
     @Mock
     private MPDSocket mpdSocket;
 
@@ -30,10 +28,10 @@ public class CommandExecutorTest {
 
     @Test
     public void testGetVersion() throws UnknownHostException {
-        Mockito.when(mpd.getAddress()).thenReturn(InetAddress.getLocalHost());
-        Mockito.when(mpd.getPort()).thenReturn(8080);
-        Mockito.when(mpd.getTimeout()).thenReturn(0);
-        Mockito.when(mpdSocket.getVersion()).thenReturn("version");
+        when(mpd.getAddress()).thenReturn(InetAddress.getLocalHost());
+        when(mpd.getPort()).thenReturn(8080);
+        when(mpd.getTimeout()).thenReturn(0);
+        when(mpdSocket.getVersion()).thenReturn("version");
         assertEquals("version", commandExecutor.getMPDVersion());
     }
 
@@ -76,5 +74,28 @@ public class CommandExecutorTest {
         commands.add(new MPDCommand("command2"));
         commands.add(new MPDCommand("command3"));
         commandExecutor.sendCommands(commands);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAuthenticateIllegalArgument() throws Exception {
+        commandExecutor.authenticate(null);
+    }
+
+    @Test(expected = MPDSecurityException.class)
+    public void testAuthenticateSecurityException() {
+        String password = "password";
+        ServerProperties serverProperties = new ServerProperties();
+        MPDCommand command = new MPDCommand(serverProperties.getPassword(), password);
+        when(mpdSocket.sendCommand(command)).thenThrow(new RuntimeException("incorrect password"));
+        commandExecutor.authenticate(password);
+    }
+
+    @Test(expected = MPDConnectionException.class)
+    public void testAuthenticateGeneralException() {
+        String password = "password";
+        ServerProperties serverProperties = new ServerProperties();
+        MPDCommand command = new MPDCommand(serverProperties.getPassword(), password);
+        when(mpdSocket.sendCommand(command)).thenThrow(new RuntimeException());
+        commandExecutor.authenticate(password);
     }
 }

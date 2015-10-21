@@ -96,10 +96,11 @@ public class MPDCommandExecutor implements CommandExecutor {
             sendCommand(new MPDCommand(serverProperties.getPassword(), password));
         } catch (Exception e) {
             LOGGER.error("Error authenticating to mpd", e);
-            if (e.getMessage().contains("incorrect password")) {
+            if (e.getMessage() != null && e.getMessage().contains("incorrect password")) {
                 throw new MPDSecurityException("Incorrect password");
             }
+
+            throw new MPDConnectionException("Could not authenticate", e);
         }
     }
-
 }
