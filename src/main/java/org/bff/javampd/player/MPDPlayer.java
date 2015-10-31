@@ -278,7 +278,7 @@ public class MPDPlayer implements Player {
         MPDAudioInfo info = null;
 
         String response = serverStatus.getAudio();
-        if (response != null) {
+        if (!"".equals(response)) {
             info = new MPDAudioInfo();
             String[] split = response.split(":");
             parseSampleRate(info, split[0]);
