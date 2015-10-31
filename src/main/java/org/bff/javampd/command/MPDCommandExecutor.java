@@ -102,7 +102,7 @@ public class MPDCommandExecutor implements CommandExecutor {
     @Override
     public void authenticate() {
         if (password == null) {
-            throw new IllegalArgumentException("Password cannot be null");
+            throw new MPDSecurityException("Password cannot be null");
         }
 
         try {
