@@ -54,6 +54,22 @@ public class MPDServerStatusTest {
     }
 
     @Test
+    public void testInvalidPlaylistVersion() {
+        statusList.add("playlist: junk");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getPlaylistVersion());
+    }
+
+    @Test
+    public void testEmptyPlaylistVersion() {
+        statusList.add("junk: 0");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getPlaylistVersion());
+    }
+
+    @Test
     public void testGetState() throws Exception {
         String state = "state";
         statusList.add("state: " + state);
@@ -69,6 +85,22 @@ public class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
 
         assertEquals(Integer.parseInt(xfade), serverStatus.getXFade());
+    }
+
+    @Test
+    public void testInvalidXFade() {
+        statusList.add("xfade: junk");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getXFade());
+    }
+
+    @Test
+    public void testEmptyXFade() {
+        statusList.add("junk: 0");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getXFade());
     }
 
     @Test
@@ -108,12 +140,44 @@ public class MPDServerStatusTest {
     }
 
     @Test
+    public void testInvalidElapsedTime() {
+        statusList.add("time: junk");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getElapsedTime());
+    }
+
+    @Test
+    public void testEmptyElapsedTime() {
+        statusList.add("junk: 0");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getElapsedTime());
+    }
+
+    @Test
     public void getTotalTime() throws Exception {
         String time = "5:6";
         statusList.add("time: " + time);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
 
         assertEquals(Integer.parseInt(time.split(":")[1]), serverStatus.getTotalTime());
+    }
+
+    @Test
+    public void testInvalidTotalTime() {
+        statusList.add("time: junk");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getTotalTime());
+    }
+
+    @Test
+    public void testEmptyTotalTime() {
+        statusList.add("junk: 0");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getTotalTime());
     }
 
     @Test
@@ -126,12 +190,44 @@ public class MPDServerStatusTest {
     }
 
     @Test
+    public void testInvalidBitrate() {
+        statusList.add("bitrate: junk");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getBitrate());
+    }
+
+    @Test
+    public void testEmptyBitrate() {
+        statusList.add("junk: 0");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getBitrate());
+    }
+
+    @Test
     public void testGetVolume() {
         String volume = "5";
         statusList.add("volume: " + volume);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
 
         assertEquals(Integer.parseInt(volume), serverStatus.getVolume());
+    }
+
+    @Test
+    public void testInvalidVolume() {
+        statusList.add("volume: junk");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getVolume());
+    }
+
+    @Test
+    public void testEmptyVolume() {
+        statusList.add("junk: 0");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getVolume());
     }
 
     @Test
