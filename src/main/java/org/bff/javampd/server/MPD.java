@@ -90,7 +90,8 @@ public class MPD implements Server {
 
     private void authenticate() {
         if (usingPassword()) {
-            commandExecutor.authenticate(this.password);
+            commandExecutor.usePassword(this.password);
+            commandExecutor.authenticate();
         }
     }
 

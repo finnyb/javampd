@@ -23,6 +23,7 @@ public class MPDCommandExecutor implements CommandExecutor {
     private MPDSocket mpdSocket;
     private MPD mpd;
     private ServerProperties serverProperties;
+    private String password;
 
     /**
      * You <b>MUST</b> call {@link #setMpd} before
@@ -53,14 +54,26 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     @Override
     public synchronized Collection<String> sendCommand(MPDCommand command) {
-        checkSocket();
-        return mpdSocket.sendCommand(command);
+        try {
+            checkSocket();
+            return mpdSocket.sendCommand(command);
+        } catch (MPDSecurityException se) {
+            LOGGER.warn("Connection exception while sending command {}, will retry", command.getCommand(), se);
+            authenticate();
+            return mpdSocket.sendCommand(command);
+        }
     }
 
     @Override
     public synchronized boolean sendCommands(List<MPDCommand> commandList) {
-        checkSocket();
-        return mpdSocket.sendCommands(commandList);
+        try {
+            checkSocket();
+            return mpdSocket.sendCommands(commandList);
+        } catch (MPDSecurityException se) {
+            LOGGER.warn("Connection exception while sending commands, will retry", se);
+            authenticate();
+            return mpdSocket.sendCommands(commandList);
+        }
     }
 
     private void checkSocket() {
@@ -87,7 +100,7 @@ public class MPDCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public void authenticate(String password) {
+    public void authenticate() {
         if (password == null) {
             throw new IllegalArgumentException("Password cannot be null");
         }
@@ -102,5 +115,10 @@ public class MPDCommandExecutor implements CommandExecutor {
 
             throw new MPDConnectionException("Could not authenticate", e);
         }
+    }
+
+    @Override
+    public void usePassword(String password) {
+        this.password = password;
     }
 }
