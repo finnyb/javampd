@@ -101,7 +101,7 @@ public class MPDTest {
         when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
         doThrow(new MPDSecurityException("incorrect password"))
                 .when(mpdCommandExecutor)
-                .authenticate(password);
+                .authenticate();
 
         MPD mpd = mpdBuilder.password(password).build();
     }

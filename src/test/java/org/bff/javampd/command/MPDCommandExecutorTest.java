@@ -78,7 +78,7 @@ public class MPDCommandExecutorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAuthenticateIllegalArgument() throws Exception {
-        commandExecutor.authenticate(null);
+        commandExecutor.usePassword(null);
     }
 
     @Test(expected = MPDSecurityException.class)
@@ -87,7 +87,8 @@ public class MPDCommandExecutorTest {
         ServerProperties serverProperties = new ServerProperties();
         MPDCommand command = new MPDCommand(serverProperties.getPassword(), password);
         when(mpdSocket.sendCommand(command)).thenThrow(new RuntimeException("incorrect password"));
-        commandExecutor.authenticate(password);
+        commandExecutor.usePassword(password);
+        commandExecutor.authenticate();
     }
 
     @Test(expected = MPDConnectionException.class)
@@ -96,6 +97,7 @@ public class MPDCommandExecutorTest {
         ServerProperties serverProperties = new ServerProperties();
         MPDCommand command = new MPDCommand(serverProperties.getPassword(), password);
         when(mpdSocket.sendCommand(command)).thenThrow(new RuntimeException());
-        commandExecutor.authenticate(password);
+        commandExecutor.usePassword(password);
+        commandExecutor.authenticate();
     }
 }

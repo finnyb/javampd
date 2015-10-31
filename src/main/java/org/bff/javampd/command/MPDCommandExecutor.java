@@ -119,6 +119,10 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     @Override
     public void usePassword(String password) {
+        if (password == null) {
+            throw new IllegalArgumentException("Password cannot be null");
+        }
+
         this.password = password;
     }
 }

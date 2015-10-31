@@ -69,7 +69,7 @@ public class BuilderTest {
         MPD mpd = mpdBuilder.password(password).build();
 
         verify(mpdCommandExecutor)
-                .authenticate(commandArgumentCaptor.capture());
+                .usePassword(commandArgumentCaptor.capture());
         assertNotNull(mpd);
         assertEquals(password, commandArgumentCaptor.getAllValues().get(0));
     }
