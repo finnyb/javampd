@@ -71,7 +71,7 @@ public class MPDServerStatus implements ServerStatus {
         try {
             return Integer.parseInt("".equals(version) ? "0" : version);
         } catch (NumberFormatException nfe) {
-            LOGGER.error("Could not format bitrate response {}", version, nfe);
+            LOGGER.error("Could not format playlist version response {}", version, nfe);
             return 0;
         }
     }
@@ -87,7 +87,7 @@ public class MPDServerStatus implements ServerStatus {
         try {
             return Integer.parseInt("".equals(xFade) ? "0" : xFade);
         } catch (NumberFormatException nfe) {
-            LOGGER.error("Could not format bitrate response {}", xFade, nfe);
+            LOGGER.error("Could not format xfade response {}", xFade, nfe);
             return 0;
         }
     }
