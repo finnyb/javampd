@@ -33,7 +33,7 @@ public class MPDSocket {
 
     public MPDSocket(InetAddress server,
                      int port,
-                     int timeout) throws MPDConnectionException {
+                     int timeout) {
         this.server = server.getHostAddress();
         this.port = port;
         this.responseProperties = new ResponseProperties();
@@ -52,7 +52,7 @@ public class MPDSocket {
      * @return the version of MPD
      * @throws MPDConnectionException if there is a socked io problem
      */
-    private synchronized String connect(int timeout) throws MPDConnectionException {
+    private synchronized String connect(int timeout) {
         connectSocket(timeout);
         return readVersion();
     }
@@ -74,7 +74,7 @@ public class MPDSocket {
         }
     }
 
-    private void connectSocket(int timeout) throws MPDConnectionException {
+    private void connectSocket(int timeout) {
         LOGGER.debug("attempting to connect socket to {} with timeout of {}", server, timeout);
         this.socket = new Socket();
         SocketAddress socketAddress = new InetSocketAddress(server, port);
