@@ -1,7 +1,6 @@
 package org.bff.javampd.genre;
 
 import com.google.inject.Inject;
-import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.database.TagLister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * MPDGenreDatabase represents a genre database to a {@link org.bff.javampd.server.MPD}.
  * To obtain an instance of the class you must use the
- * {@link MusicDatabase#getGenreDatabase()} method from
+ * {@link org.bff.javampd.database.MusicDatabase#getGenreDatabase()} method from
  * the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill

@@ -1,7 +1,6 @@
 package org.bff.javampd.artist;
 
 import com.google.inject.Inject;
-import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
 import org.slf4j.Logger;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * MPDArtistDatabase represents a artist database controller to a {@link org.bff.javampd.server.MPD}.
  * To obtain an instance of the class you must use the
- * {@link MusicDatabase#getArtistDatabase} method from
+ * {@link org.bff.javampd.database.MusicDatabase#getArtistDatabase} method from
  * the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill
