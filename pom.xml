@@ -34,12 +34,12 @@
     </licenses>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/billf5293/javampd/issues</url>
+        <url>https://github.com/finnyb/javampd/issues</url>
     </issueManagement>
     <scm>
-        <connection>scm:git:https://github.com/billf5293/javampd.git</connection>
-        <developerConnection>scm:git:https://github.com/billf5293/javampd.git</developerConnection>
-        <url>https://github.com/billf5293/javampd</url>
+        <connection>scm:git:https://github.com/finnyb/javampd.git</connection>
+        <developerConnection>scm:git:https://github.com/finnyb/javampd.git</developerConnection>
+        <url>https://github.com/finnyb/javampd</url>
     </scm>
     <ciManagement>
         <system>jenkins</system>
@@ -257,23 +257,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.4</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>lt.velykis.maven.skins</groupId>
-                        <artifactId>reflow-velocity-tools</artifactId>
-                        <version>1.1.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.velocity</groupId>
-                        <artifactId>velocity</artifactId>
-                        <version>1.7</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>
                 <version>1.9.4</version>
             </plugin>
@@ -360,6 +343,14 @@
                 <configuration>
                     <failOnError>false</failOnError>
                 </configuration>
+                <reportSets>
+                    <reportSet>
+                        <id>html</id>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
     </reporting>

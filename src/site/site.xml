@@ -1,87 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="JavaMPD"
-         xmlns="http://maven.apache.org/DECORATION/1.4.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.4.0 http://maven.apache.org/xsd/decoration-1.4.0.xsd">
-
-    <publishDate position="bottom" format="yyyy-MM-dd"/>
-    <version position="bottom"/>
-    <bannerLeft>
-        <name>
-            <![CDATA[
-                <span class="color-highlight">JavaMPD</span>
-            ]]>
-        </name>
-        <href>http://www.thejavashop.net/javampd</href>
-    </bannerLeft>
+<project name="JavaMPD">
+    <publishDate position="right"/>
     <skin>
-        <groupId>lt.velykis.maven.skins</groupId>
-        <artifactId>reflow-maven-skin</artifactId>
-        <version>1.1.1</version>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.4</version>
     </skin>
     <custom>
-        <reflowSkin>
-            <protocolRelativeURLs>true</protocolRelativeURLs>
-            <smoothScroll>true</smoothScroll>
-            <theme>default</theme>
-            <highlightJs>true</highlightJs>
-            <highlightJsTheme>github</highlightJsTheme>
-            <absoluteResourceURL>http://www.thejavashop.net/javampd/</absoluteResourceURL>
-            <brand>
-                <name>
-                    <![CDATA[
-                        <span class="color-highlight">JavaMPD</span>
-                    ]]>
-                </name>
-                <href>http://www.thejavashop.net/javampd</href>
-            </brand>
-            <slogan>Java API for controlling the MPD</slogan>
-            <titleTemplate>%2$s | %1$s</titleTemplate>
-            <toc>top</toc>
-            <tocTopMax>6</tocTopMax>
-            <topNav>Documentation|Download|Contribute</topNav>
-            <bottomNav>
-                <column>Documentation</column>
-                <column>Download</column>
-                <column>reports</column>
-            </bottomNav>
-            <bottomDescription>
-                <![CDATA[
-                    <span class="color-highlight">JavaMPD</span> is a java API for controlling
-                    <a href="http://www.musicpd.org" title="MPD">MPD</a>.
-                ]]>
-            </bottomDescription>
-            <pages>
-                <index project="javampd">
-                    <titleTemplate>JavaMPD</titleTemplate>
-                    <toc>false</toc>
-                    <markPageHeader>false</markPageHeader>
-                    <sections>
-                        <columns>2</columns>
-                    </sections>
-                </index>
-                <contribute>
-                    <breadcrumbs>false</breadcrumbs>
-                </contribute>
-                <!-- Disable source highlighting for Maven reports -->
-                <source-repository>
-                    <highlightJs>false</highlightJs>
-                </source-repository>
-                <issue-tracking>
-                    <highlightJs>false</highlightJs>
-                    <toc>false</toc>
-                </issue-tracking>
-                <license>
-                    <highlightJs>false</highlightJs>
-                    <toc>false</toc>
-                </license>
-            </pages>
-        </reflowSkin>
+        <fluidoSkin>
+            <topBarEnabled>true</topBarEnabled>
+            <sideBarEnabled>false</sideBarEnabled>
+            <gitHub>
+                <projectId>finnyb/javampd</projectId>
+                <ribbonOrientation>right</ribbonOrientation>
+                <ribbonColor>black</ribbonColor>
+            </gitHub>
+        </fluidoSkin>
     </custom>
     <body>
         <links>
-            <item name="GitHub project" href="http://github.com/billf5293/javampd"/>
-            <item name="Sonar" href="http://bjj.is-a-player.com:9000"/>
+            <item name="GitHub" href="http://github.com/finnyb/javampd"/>
+            <item name="Travis" href="http://bjj.is-a-player.com:8080"/>
+            <item name="Sonar" href="http://bjj.is-a-player.com:9000/dashboard/index/1"/>
         </links>
         <menu name="Download" inherit="bottom">
             <item name="Download" href="download.html"/>
@@ -92,9 +31,9 @@
             <item name="Java Docs" href="apidocs/index.html"/>
         </menu>
         <menu name="Contribute" inherit="bottom">
-            <item name="Issues" href="http://github.com/billf5293/javampd/issues/"/>
-            <item name="Fork on GitHub" href="http://github.com/billf5293/javampd/"/>
+            <item name="Issues" href="http://github.com/finnyb/javampd/issues/"/>
+            <item name="Fork on GitHub" href="http://github.com/finnyb/javampd/"/>
         </menu>
-        <menu name="Maven documentation" ref="reports" inherit="bottom"/>
+        <menu name="Maven Docs" ref="reports"/>
     </body>
 </project>
