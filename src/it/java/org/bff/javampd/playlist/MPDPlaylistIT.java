@@ -20,7 +20,7 @@ public class MPDPlaylistIT extends BaseTest {
     @Before
     public void setUp() {
         this.playlist = getMpd().getPlaylist();
-        this.playlistDatabase = getMpd().getDatabaseManager().getPlaylistDatabase();
+        this.playlistDatabase = getMpd().getMusicDatabase().getPlaylistDatabase();
 
         playlist.clearPlaylist();
         for (String pl : playlistDatabase.listPlaylists()) {

@@ -1,6 +1,7 @@
 package org.bff.javampd.year;
 
 import com.google.inject.Inject;
+import org.bff.javampd.database.MPDMusicDatabase;
 import org.bff.javampd.database.TagLister;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * MPDDateDatabase represents a date database controller to a {@link org.bff.javampd.server.MPD}.
  * To obtain an instance of the class you must use the
- * {@link org.bff.javampd.database.MPDDatabaseManager#getDateDatabase} method from
+ * {@link MPDMusicDatabase#getDateDatabase} method from
  * the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill

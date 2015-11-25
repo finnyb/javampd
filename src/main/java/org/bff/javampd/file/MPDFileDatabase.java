@@ -3,6 +3,7 @@ package org.bff.javampd.file;
 import com.google.inject.Inject;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.properties.DatabaseProperties;
 
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * MPDFileDatabase represents a file database controller to a {@link org.bff.javampd.server.MPD}.
  * To obtain an instance of the class you must use the
- * {@link org.bff.javampd.database.DatabaseManager#getFileDatabase()}
+ * {@link MusicDatabase#getFileDatabase()}
  * method from the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill

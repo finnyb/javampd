@@ -43,7 +43,7 @@ public abstract class BaseTest {
     }
 
     public static void loadMPDSong(MPDSong song) {
-        MPDSong s = new ArrayList<>(getMpd().getDatabaseManager().getSongDatabase().searchFileName(song.getFile())).get(0);
+        MPDSong s = new ArrayList<>(getMpd().getMusicDatabase().getSongDatabase().searchFileName(song.getFile())).get(0);
         try {
             MPDSongs.getSongs().add(s);
         } catch (Exception e) {

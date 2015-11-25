@@ -12,7 +12,7 @@ public class MPDGenreDatabaseIT extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        this.genreDatabase = getMpd().getDatabaseManager().getGenreDatabase();
+        this.genreDatabase = getMpd().getMusicDatabase().getGenreDatabase();
     }
 
     @Test

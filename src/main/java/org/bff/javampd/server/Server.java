@@ -1,7 +1,7 @@
 package org.bff.javampd.server;
 
 import org.bff.javampd.admin.Admin;
-import org.bff.javampd.database.DatabaseManager;
+import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.monitor.StandAloneMonitor;
 import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.Playlist;
@@ -53,7 +53,7 @@ public interface Server {
 
     Admin getAdmin();
 
-    DatabaseManager getDatabaseManager();
+    MusicDatabase getMusicDatabase();
 
     ServerStatistics getServerStatistics();
 

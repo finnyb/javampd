@@ -8,11 +8,12 @@ package org.bff.javampd.server;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import org.bff.javampd.MPDDatabaseModule;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.MPDModule;
 import org.bff.javampd.admin.Admin;
 import org.bff.javampd.command.CommandExecutor;
-import org.bff.javampd.database.DatabaseManager;
+import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.monitor.ConnectionMonitor;
 import org.bff.javampd.monitor.StandAloneMonitor;
 import org.bff.javampd.player.Player;
@@ -62,7 +63,7 @@ public class MPD implements Server {
     private final ServerStatistics serverStatistics;
     private final ServerStatus serverStatus;
     private final StandAloneMonitor standAloneMonitor;
-    private final DatabaseManager databaseManager;
+    private final MusicDatabase musicDatabase;
 
     private MPD(Builder builder) {
         try {
@@ -78,7 +79,7 @@ public class MPD implements Server {
             this.serverStatistics = builder.serverStatistics;
             this.serverStatus = builder.serverStatus;
             this.standAloneMonitor = builder.standAloneMonitor;
-            this.databaseManager = builder.databaseManager;
+            this.musicDatabase = builder.musicDatabase;
 
             this.commandExecutor.setMpd(this);
             authenticate();
@@ -155,9 +156,8 @@ public class MPD implements Server {
         return this.admin;
     }
 
-    @Override
-    public DatabaseManager getDatabaseManager() {
-        return this.databaseManager;
+    public MusicDatabase getMusicDatabase() {
+        return this.musicDatabase;
     }
 
     @Override
@@ -193,11 +193,11 @@ public class MPD implements Server {
         private ServerStatistics serverStatistics;
         private ServerStatus serverStatus;
         private StandAloneMonitor standAloneMonitor;
-        private DatabaseManager databaseManager;
+        private MusicDatabase musicDatabase;
         private Injector injector;
 
         public Builder() {
-            injector = Guice.createInjector(new MPDModule());
+            injector = Guice.createInjector(new MPDModule(), new MPDDatabaseModule());
             bind(injector);
             bindMonitorAndRelay(injector);
         }
@@ -235,7 +235,7 @@ public class MPD implements Server {
             this.admin = injector.getInstance(Admin.class);
             this.serverStatistics = injector.getInstance(ServerStatistics.class);
             this.serverStatus = injector.getInstance(ServerStatus.class);
-            this.databaseManager = injector.getInstance(DatabaseManager.class);
+            this.musicDatabase = injector.getInstance(MusicDatabase.class);
 
             this.commandExecutor = injector.getInstance(CommandExecutor.class);
         }

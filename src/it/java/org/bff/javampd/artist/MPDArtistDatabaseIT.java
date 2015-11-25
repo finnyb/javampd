@@ -15,7 +15,7 @@ public class MPDArtistDatabaseIT extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        this.artistDatabase = getMpd().getDatabaseManager().getArtistDatabase();
+        this.artistDatabase = getMpd().getMusicDatabase().getArtistDatabase();
     }
 
     @Test

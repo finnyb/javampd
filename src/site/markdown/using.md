@@ -24,12 +24,12 @@ care not to create new MPD objects each time you want to do something.
 Call close on the object when you are done.
 
 ##Querying
-MPD database access is accomplished using the appropriate access object from the MPDDatabaseManager.
+MPD database access is accomplished using the appropriate access object from the MPDMusicDatabase.
 
-Get the manager from MPD.
+Get the database from MPD.
 
 ```
-mpd.getDatabaseManager()
+mpd.getMusicDatabase()
 ```
 
 There is a database for the following:

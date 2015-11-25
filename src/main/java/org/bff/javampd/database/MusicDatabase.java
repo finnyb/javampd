@@ -10,11 +10,11 @@ import org.bff.javampd.song.SongSearcher;
 import org.bff.javampd.year.DateDatabase;
 
 /**
- * Central location for getting MPD database access paths
+ * Central location for getting MPD database access
  *
  * @author Bill
  */
-public interface DatabaseManager {
+public interface MusicDatabase {
     ArtistDatabase getArtistDatabase();
 
     AlbumDatabase getAlbumDatabase();

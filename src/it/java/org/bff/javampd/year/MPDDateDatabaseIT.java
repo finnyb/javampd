@@ -16,7 +16,7 @@ public class MPDDateDatabaseIT extends BaseTest {
 
     @Before
     public void setUp() {
-        this.dateDatabase = getMpd().getDatabaseManager().getDateDatabase();
+        this.dateDatabase = getMpd().getMusicDatabase().getDateDatabase();
     }
 
     @Test

@@ -3,6 +3,7 @@ package org.bff.javampd.song;
 import com.google.inject.Inject;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
+import org.bff.javampd.database.MPDMusicDatabase;
 import org.bff.javampd.genre.MPDGenre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * MPDSongDatabase represents a song database controller to a {@link org.bff.javampd.server.MPD}.
  * To obtain an instance of the class you must use the
- * {@link org.bff.javampd.database.MPDDatabaseManager#getSongDatabase()} method from
+ * {@link MPDMusicDatabase#getSongDatabase()} method from
  * the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill

@@ -2,6 +2,7 @@ package org.bff.javampd.playlist;
 
 import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.properties.DatabaseProperties;
 import org.bff.javampd.song.MPDSong;
@@ -14,9 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * MPDArtistDatabase represents a artist database controller to a {@link org.bff.javampd.server.MPD}.
+ * MPDPlaylistDatabase represents a playlist database to a {@link org.bff.javampd.server.MPD}.
  * To obtain an instance of the class you must use the
- * {@link org.bff.javampd.database.DatabaseManager#getArtistDatabase} method from
+ * {@link MusicDatabase#getPlaylistDatabase()} method from
  * the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill

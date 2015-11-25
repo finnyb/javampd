@@ -19,7 +19,7 @@ public class MPDFileDatabaseIT extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        fileDatabase = getMpd().getDatabaseManager().getFileDatabase();
+        fileDatabase = getMpd().getMusicDatabase().getFileDatabase();
         this.testProperties = TestProperties.getInstance();
     }
 

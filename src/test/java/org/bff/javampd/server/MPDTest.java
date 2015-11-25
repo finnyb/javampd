@@ -170,9 +170,9 @@ public class MPDTest {
     }
 
     @Test
-    public void testGetDatabaseManager() throws Exception {
+    public void testGetMusicDatabase() throws Exception {
         MPD mpd = mpdBuilder.build();
-        assertNotNull(mpd.getDatabaseManager());
+        assertNotNull(mpd.getMusicDatabase());
     }
 
     @Test

@@ -35,8 +35,8 @@ public class MPDSongDatabaseIT extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        songDatabase = getMpd().getDatabaseManager().getSongDatabase();
-        artistDatabase = getMpd().getDatabaseManager().getArtistDatabase();
+        songDatabase = getMpd().getMusicDatabase().getSongDatabase();
+        artistDatabase = getMpd().getMusicDatabase().getArtistDatabase();
         loadDatabaseSongs();
     }
 

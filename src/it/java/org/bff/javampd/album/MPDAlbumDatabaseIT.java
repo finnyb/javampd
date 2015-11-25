@@ -25,8 +25,8 @@ public class MPDAlbumDatabaseIT extends BaseTest {
 
     @Before
     public void setUp() {
-        this.albumDatabase = getMpd().getDatabaseManager().getAlbumDatabase();
-        this.artistDatabase = getMpd().getDatabaseManager().getArtistDatabase();
+        this.albumDatabase = getMpd().getMusicDatabase().getAlbumDatabase();
+        this.artistDatabase = getMpd().getMusicDatabase().getArtistDatabase();
     }
 
     @Test
