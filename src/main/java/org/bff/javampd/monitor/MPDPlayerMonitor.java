@@ -4,12 +4,16 @@ import com.google.inject.Singleton;
 import org.bff.javampd.player.PlayerBasicChangeEvent;
 import org.bff.javampd.player.PlayerBasicChangeListener;
 import org.bff.javampd.server.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
 public class MPDPlayerMonitor implements PlayerMonitor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlayerMonitor.class);
+
     private PlayerStatus status = PlayerStatus.STATUS_STOPPED;
     private List<PlayerBasicChangeListener> playerListeners;
     private String state;
@@ -49,7 +53,7 @@ public class MPDPlayerMonitor implements PlayerMonitor {
                     processPausedStatus(status);
                     break;
                 default:
-                    assert false : "Invalid player status --> " + status;
+                    processInvalidStatus(status);
                     break;
             }
             status = newStatus;
@@ -94,7 +98,7 @@ public class MPDPlayerMonitor implements PlayerMonitor {
                 firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
                 break;
             default:
-                assert false : "Invalid player status --> " + status;
+                processInvalidStatus(status);
                 break;
         }
     }
@@ -111,8 +115,13 @@ public class MPDPlayerMonitor implements PlayerMonitor {
                 firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
                 break;
             default:
-                assert false : "Invalid player status --> " + status;
+                processInvalidStatus(status);
                 break;
         }
+    }
+
+    private void processInvalidStatus(PlayerStatus status) {
+        LOGGER.warn("Invalid player status --> {}", status);
+        assert false : "unable to process status: " + status;
     }
 }
