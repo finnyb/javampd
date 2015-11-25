@@ -156,6 +156,7 @@ public class MPD implements Server {
         return this.admin;
     }
 
+    @Override
     public MusicDatabase getMusicDatabase() {
         return this.musicDatabase;
     }
