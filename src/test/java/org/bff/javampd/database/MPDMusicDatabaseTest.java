@@ -49,9 +49,4 @@ public class MPDMusicDatabaseTest {
     public void testGetSongDatabase() throws Exception {
         assertNotNull(mpd.getMusicDatabase().getSongDatabase());
     }
-
-    @Test
-    public void testGetSongSearcher() throws Exception {
-        assertNotNull(mpd.getMusicDatabase().getSongSearcher());
-    }
 }

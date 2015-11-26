@@ -23,13 +23,20 @@ The connection remains open for the life of the MPD object so take
 care not to create new MPD objects each time you want to do something.
 Call close on the object when you are done.
 
+##Searching
+Searching for songs is done via the SongSearcher class.
+
+```
+mpd.getSongSearcher();
+```
+
 ##Querying
 MPD database access is accomplished using the appropriate access object from the MPDMusicDatabase.
 
 Get the database from MPD.
 
 ```
-mpd.getMusicDatabase()
+mpd.getMusicDatabase();
 ```
 
 There is a database for the following:

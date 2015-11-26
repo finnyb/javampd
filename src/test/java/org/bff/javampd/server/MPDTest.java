@@ -192,4 +192,10 @@ public class MPDTest {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getMonitor());
     }
+
+    @Test
+    public void testGetSongSearcher() throws Exception {
+        MPD mpd = mpdBuilder.build();
+        assertNotNull(mpd.getSongSearcher());
+    }
 }

@@ -5,6 +5,7 @@ import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.monitor.StandAloneMonitor;
 import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.Playlist;
+import org.bff.javampd.song.SongSearcher;
 import org.bff.javampd.statistics.ServerStatistics;
 
 import java.net.InetAddress;
@@ -54,6 +55,8 @@ public interface Server {
     Admin getAdmin();
 
     MusicDatabase getMusicDatabase();
+
+    SongSearcher getSongSearcher();
 
     ServerStatistics getServerStatistics();
 

@@ -15,7 +15,7 @@ public class SongSearcherTestIT extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        songSearcher = getMpd().getMusicDatabase().getSongSearcher();
+        songSearcher = getMpd().getSongSearcher();
     }
 
     @Test

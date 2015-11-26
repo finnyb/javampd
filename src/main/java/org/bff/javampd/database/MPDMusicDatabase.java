@@ -1,16 +1,16 @@
 package org.bff.javampd.database;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import org.bff.javampd.album.AlbumDatabase;
 import org.bff.javampd.artist.ArtistDatabase;
 import org.bff.javampd.file.FileDatabase;
 import org.bff.javampd.genre.GenreDatabase;
 import org.bff.javampd.playlist.PlaylistDatabase;
 import org.bff.javampd.song.SongDatabase;
-import org.bff.javampd.song.SongSearcher;
 import org.bff.javampd.year.DateDatabase;
 
+@Singleton
 public class MPDMusicDatabase implements MusicDatabase {
     private final ArtistDatabase artistDatabase;
     private final AlbumDatabase albumDatabase;
@@ -19,18 +19,22 @@ public class MPDMusicDatabase implements MusicDatabase {
     private final FileDatabase fileDatabase;
     private final DateDatabase dateDatabase;
     private final SongDatabase songDatabase;
-    private final SongSearcher songSearcher;
 
     @Inject
-    public MPDMusicDatabase(Injector injector) {
-        this.artistDatabase = injector.getInstance(ArtistDatabase.class);
-        this.albumDatabase = injector.getInstance(AlbumDatabase.class);
-        this.genreDatabase = injector.getInstance(GenreDatabase.class);
-        this.playlistDatabase = injector.getInstance(PlaylistDatabase.class);
-        this.fileDatabase = injector.getInstance(FileDatabase.class);
-        this.dateDatabase = injector.getInstance(DateDatabase.class);
-        this.songDatabase = injector.getInstance(SongDatabase.class);
-        this.songSearcher = injector.getInstance(SongSearcher.class);
+    public MPDMusicDatabase(ArtistDatabase artistDatabase,
+                            AlbumDatabase albumDatabase,
+                            GenreDatabase genreDatabase,
+                            PlaylistDatabase playlistDatabase,
+                            FileDatabase fileDatabase,
+                            DateDatabase dateDatabase,
+                            SongDatabase songDatabase) {
+        this.artistDatabase = artistDatabase;
+        this.albumDatabase = albumDatabase;
+        this.genreDatabase = genreDatabase;
+        this.playlistDatabase = playlistDatabase;
+        this.fileDatabase = fileDatabase;
+        this.dateDatabase = dateDatabase;
+        this.songDatabase = songDatabase;
     }
 
     @Override
@@ -66,10 +70,5 @@ public class MPDMusicDatabase implements MusicDatabase {
     @Override
     public SongDatabase getSongDatabase() {
         return songDatabase;
-    }
-
-    @Override
-    public SongSearcher getSongSearcher() {
-        return songSearcher;
     }
 }
