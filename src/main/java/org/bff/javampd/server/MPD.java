@@ -205,7 +205,7 @@ public class MPD implements Server {
         private StandAloneMonitor standAloneMonitor;
         private MusicDatabase musicDatabase;
         private Injector injector;
-        public SongSearcher songSearcher;
+        private SongSearcher songSearcher;
 
         public Builder() {
             injector = Guice.createInjector(new MPDModule(), new MPDDatabaseModule(), new MPDMonitorModule());
