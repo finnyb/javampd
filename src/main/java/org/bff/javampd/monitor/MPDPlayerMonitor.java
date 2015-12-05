@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class MPDPlayerMonitor implements PlayerMonitor {
+public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlayerMonitor.class);
 
     private PlayerStatus status = PlayerStatus.STATUS_STOPPED;
@@ -25,6 +25,7 @@ public class MPDPlayerMonitor implements PlayerMonitor {
 
     @Override
     public void processResponseStatus(String line) {
+        super.processResponseStatus(line);
         if (Status.lookupStatus(line) == Status.STATE) {
             state = line.substring(Status.STATE.getStatusPrefix().length()).trim();
         }
@@ -32,6 +33,7 @@ public class MPDPlayerMonitor implements PlayerMonitor {
 
     @Override
     public void checkStatus() {
+        super.checkStatus();
         PlayerStatus newStatus = PlayerStatus.STATUS_STOPPED;
         if (state.startsWith(StandAloneMonitor.PlayerResponse.PLAY.getPrefix())) {
             newStatus = PlayerStatus.STATUS_PLAYING;
@@ -42,6 +44,7 @@ public class MPDPlayerMonitor implements PlayerMonitor {
         }
 
         if (!status.equals(newStatus)) {
+            LOGGER.debug("status change from {} to {}", status, newStatus);
             switch (newStatus) {
                 case STATUS_PLAYING:
                     processPlayingStatus(status);

@@ -1,6 +1,5 @@
 package org.bff.javampd.monitor;
 
-import com.google.inject.Singleton;
 import org.bff.javampd.server.MPDProperties;
 
 /**
@@ -9,13 +8,10 @@ import org.bff.javampd.server.MPDProperties;
  *
  * @author bill
  */
-@Singleton
 public class MonitorProperties extends MPDProperties {
 
     private enum Delay {
         OUTPUT("MPD_OUTPUT_DELAY"),
-        VOLUME("MPD_VOLUME_DELAY"),
-        BITRATE("MPD_BITRATE_DELAY"),
         CONNECTION("MPD_CONNECTION_DELAY"),
         PLAYLIST("MPD_PLAYLIST_DELAY"),
         ERROR("MPD_ERROR_DELAY"),
@@ -37,14 +33,6 @@ public class MonitorProperties extends MPDProperties {
 
     public int getOutputDelay() {
         return Integer.parseInt(getPropertyString(Delay.OUTPUT.getKey()));
-    }
-
-    public int getVolumeDelay() {
-        return Integer.parseInt(getPropertyString(Delay.VOLUME.getKey()));
-    }
-
-    public int getBitrateDelay() {
-        return Integer.parseInt(getPropertyString(Delay.BITRATE.getKey()));
     }
 
     public int getConnectionDelay() {

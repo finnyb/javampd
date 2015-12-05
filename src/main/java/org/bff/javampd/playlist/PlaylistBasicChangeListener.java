@@ -17,5 +17,5 @@ public interface PlaylistBasicChangeListener {
      *
      * @param event the event fired
      */
-    public void playlistBasicChange(PlaylistBasicChangeEvent event);
+    void playlistBasicChange(PlaylistBasicChangeEvent event);
 }

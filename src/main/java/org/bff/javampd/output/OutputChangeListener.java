@@ -17,5 +17,5 @@ public interface OutputChangeListener {
      *
      * @param event the event received
      */
-    public void outputChanged(OutputChangeEvent event);
+    void outputChanged(OutputChangeEvent event);
 }

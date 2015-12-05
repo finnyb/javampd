@@ -37,7 +37,7 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     }
 
     @Override
-    public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
+    public synchronized void removeVolumeChangeListener(VolumeChangeListener vcl) {
         volumeChangeDelegate.removeVolumeChangedListener(vcl);
     }
 

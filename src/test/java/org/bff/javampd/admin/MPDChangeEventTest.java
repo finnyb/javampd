@@ -14,19 +14,6 @@ public class MPDChangeEventTest {
         MPDChangeEvent changeEvent = new MPDChangeEvent(source, event);
         assertEquals(source, changeEvent.getSource());
         assertEquals(event, changeEvent.getEvent());
-        assertEquals(null, changeEvent.getMsg());
-    }
-
-    @Test
-    public void testConstructor3Params() {
-        Object source = new Object();
-        MPDChangeEvent.Event event = MPDChangeEvent.Event.MPD_KILLED;
-        String testMessage = "testMessage";
-
-        MPDChangeEvent changeEvent = new MPDChangeEvent(source, event, testMessage);
-        assertEquals(source, changeEvent.getSource());
-        assertEquals(event, changeEvent.getEvent());
-        assertEquals(testMessage, changeEvent.getMsg());
     }
 
 }

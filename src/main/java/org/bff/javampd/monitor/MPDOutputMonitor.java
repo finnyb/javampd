@@ -60,7 +60,7 @@ public class MPDOutputMonitor implements OutputMonitor {
     }
 
     @Override
-    public synchronized void removeOutputChangedListener(OutputChangeListener vcl) {
+    public synchronized void removeOutputChangeListener(OutputChangeListener vcl) {
         outputListeners.remove(vcl);
     }
 

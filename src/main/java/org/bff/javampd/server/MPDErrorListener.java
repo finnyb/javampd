@@ -18,6 +18,6 @@ public interface MPDErrorListener {
      *
      * @param event the event received
      */
-    public void errorEventReceived(MPDErrorEvent event);
+    void errorEventReceived(MPDErrorEvent event);
 
 }

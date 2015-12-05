@@ -19,16 +19,6 @@ public class MonitorPropertiesTest {
     }
 
     @Test
-    public void testGetVolumeDelay() throws Exception {
-        assertEquals(1, monitorProperties.getVolumeDelay());
-    }
-
-    @Test
-    public void testGetBitrateDelay() throws Exception {
-        assertEquals(1, monitorProperties.getBitrateDelay());
-    }
-
-    @Test
     public void testGetConnectionDelay() throws Exception {
         assertEquals(1, monitorProperties.getConnectionDelay());
     }

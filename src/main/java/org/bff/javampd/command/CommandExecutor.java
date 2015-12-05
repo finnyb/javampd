@@ -53,9 +53,8 @@ public interface CommandExecutor {
      * as error in the response false will be returned.
      *
      * @param commandList the list of {@link MPDCommand}s
-     * @return true if successful, false otherwise
      */
-    boolean sendCommands(List<MPDCommand> commandList);
+    void sendCommands(List<MPDCommand> commandList);
 
     /**
      * Returns the {@link org.bff.javampd.server.MPD} version
@@ -79,7 +78,7 @@ public interface CommandExecutor {
     /**
      * Password for password protected mpd
      *
-     * @param password
+     * @param password the mpd password
      */
     void usePassword(String password);
 }

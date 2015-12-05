@@ -7,7 +7,7 @@ package org.bff.javampd.server;
  * @version 1.0
  */
 public class MPDErrorEvent extends java.util.EventObject {
-    private String msg;
+    private String message;
 
     /**
      * Creates a new instance of MPDErrorEvent
@@ -21,12 +21,12 @@ public class MPDErrorEvent extends java.util.EventObject {
     /**
      * Creates a new instance of MPDErrorEvent
      *
-     * @param msg    an optional message
+     * @param message    an optional message
      * @param source the object on which the Event initially occurred
      */
-    public MPDErrorEvent(Object source, String msg) {
+    public MPDErrorEvent(Object source, String message) {
         super(source);
-        this.msg = msg;
+        this.message = message;
     }
 
     /**
@@ -35,7 +35,7 @@ public class MPDErrorEvent extends java.util.EventObject {
      *
      * @return the optional message
      */
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 }

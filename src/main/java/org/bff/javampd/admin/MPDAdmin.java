@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.bff.javampd.output.OutputChangeEvent.OUTPUT_EVENT;
+
 /**
  * MPDAdmin represents a administrative controller to a MPD server.  To obtain
  * an instance of the class you must use the <code>getMPDAdmin</code> method from the
@@ -51,13 +53,13 @@ public class MPDAdmin implements Admin {
 
     @Override
     public boolean disableOutput(MPDOutput output) {
-        fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
+        fireOutputChangeEvent(OUTPUT_EVENT.OUTPUT_CHANGED);
         return commandExecutor.sendCommand(adminProperties.getOutputDisable(), output.getId()).isEmpty();
     }
 
     @Override
     public boolean enableOutput(MPDOutput output) {
-        fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED);
+        fireOutputChangeEvent(OUTPUT_EVENT.OUTPUT_CHANGED);
         return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
     }
 
@@ -162,7 +164,7 @@ public class MPDAdmin implements Admin {
      *
      * @param event the event id to send
      */
-    protected synchronized void fireOutputChangeEvent(OutputChangeEvent.OUTPUT_EVENT event) {
+    protected synchronized void fireOutputChangeEvent(OUTPUT_EVENT event) {
         OutputChangeEvent oce = new OutputChangeEvent(this, event);
 
         for (OutputChangeListener pcl : outputListeners) {

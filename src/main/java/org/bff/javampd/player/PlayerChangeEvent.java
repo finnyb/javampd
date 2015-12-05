@@ -7,7 +7,6 @@ package org.bff.javampd.player;
  */
 public class PlayerChangeEvent extends java.util.EventObject {
     private Event event;
-    private String msg;
 
     public enum Event {
         PLAYER_STOPPED,
@@ -26,23 +25,11 @@ public class PlayerChangeEvent extends java.util.EventObject {
      * Creates a new instance of PlayerChangeEvent
      *
      * @param source the object on which the Event initially occurred
-     * @param event  the specific {@link Event} that occurred
+     * @param event  the {@link Event}
      */
     public PlayerChangeEvent(Object source, Event event) {
-        this(source, event, null);
-    }
-
-    /**
-     * Creates a new instance of PlayerChangeEvent
-     *
-     * @param source the object on which the Event initially occurred
-     * @param event  the {@link Event}
-     * @param msg    an optional message
-     */
-    public PlayerChangeEvent(Object source, Event event, String msg) {
         super(source);
         this.event = event;
-        this.msg = msg;
     }
 
     /**
@@ -52,15 +39,5 @@ public class PlayerChangeEvent extends java.util.EventObject {
      */
     public Event getEvent() {
         return this.event;
-    }
-
-    /**
-     * Returns the message attached to this event.  If there is no message null
-     * is returned.
-     *
-     * @return the optional message
-     */
-    public String getMsg() {
-        return this.msg;
     }
 }

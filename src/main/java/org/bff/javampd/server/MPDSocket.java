@@ -170,7 +170,7 @@ public class MPDSocket {
         return sb.append("\n").toString();
     }
 
-    public synchronized boolean sendCommands(List<MPDCommand> commandList) {
+    public synchronized void sendCommands(List<MPDCommand> commandList) {
         StringBuilder sb = new StringBuilder(convertCommand(serverProperties.getStartBulk()));
 
         for (MPDCommand command : commandList) {
@@ -190,8 +190,6 @@ public class MPDSocket {
             commandList.stream().forEach(s -> LOGGER.error(s.getCommand()));
             throw new MPDConnectionException(e.getMessage(), e);
         }
-
-        return true;
     }
 
     private List<String> sendBytes(String command) throws IOException {

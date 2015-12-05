@@ -17,5 +17,5 @@ public interface OutputMonitor extends Monitor {
      *
      * @param vcl the OutputChangeListener to remove
      */
-    void removeOutputChangedListener(OutputChangeListener vcl);
+    void removeOutputChangeListener(OutputChangeListener vcl);
 }

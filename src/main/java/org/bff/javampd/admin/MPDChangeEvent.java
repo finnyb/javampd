@@ -9,7 +9,6 @@ package org.bff.javampd.admin;
 public class MPDChangeEvent
         extends java.util.EventObject {
     private Event event;
-    private String msg;
 
     public enum Event {
         MPD_KILLED,
@@ -23,20 +22,8 @@ public class MPDChangeEvent
      * @param event  the specific {@link Event} that occurred
      */
     public MPDChangeEvent(Object source, Event event) {
-        this(source, event, null);
-    }
-
-    /**
-     * Creates a new instance of MusicPlayerStatusChangedEvent
-     *
-     * @param source the object on which the Event initially occurred
-     * @param event  the specific {@link Event} that occurred
-     * @param msg    an optional message
-     */
-    public MPDChangeEvent(Object source, Event event, String msg) {
         super(source);
         this.event = event;
-        this.msg = msg;
     }
 
     /**
@@ -46,15 +33,5 @@ public class MPDChangeEvent
      */
     public Event getEvent() {
         return this.event;
-    }
-
-    /**
-     * Returns the message attached to this event.  If there is no message null
-     * is returned.
-     *
-     * @return the optional message
-     */
-    public String getMsg() {
-        return this.msg;
     }
 }

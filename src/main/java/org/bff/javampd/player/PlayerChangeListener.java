@@ -17,5 +17,5 @@ public interface PlayerChangeListener {
      *
      * @param event the {@link PlayerChangeEvent} fired
      */
-    public void playerChanged(PlayerChangeEvent event);
+    void playerChanged(PlayerChangeEvent event);
 }

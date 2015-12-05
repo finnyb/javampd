@@ -44,10 +44,9 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
      * {@link ConnectionChangeListener}s.
      *
      * @param isConnected the connection status
-     * @param msg         the message to pass to the exception
      */
-    protected synchronized void fireConnectionChangeEvent(boolean isConnected, String msg) {
-        ConnectionChangeEvent cce = new ConnectionChangeEvent(this, isConnected, msg);
+    protected synchronized void fireConnectionChangeEvent(boolean isConnected) {
+        ConnectionChangeEvent cce = new ConnectionChangeEvent(this, isConnected);
 
         for (ConnectionChangeListener ccl : connectionListeners) {
             ccl.connectionChangeEventReceived(cce);
@@ -59,7 +58,7 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
         boolean conn = this.server.isConnected();
         if (connected != conn) {
             connected = conn;
-            fireConnectionChangeEvent(conn, "Connection Changed");
+            fireConnectionChangeEvent(conn);
         }
     }
 

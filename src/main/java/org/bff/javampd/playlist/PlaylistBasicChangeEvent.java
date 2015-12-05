@@ -9,7 +9,6 @@ import java.util.EventObject;
  */
 public class PlaylistBasicChangeEvent extends EventObject {
     private Event event;
-    private String msg;
 
     public enum Event {
         SONG_ADDED,
@@ -31,34 +30,11 @@ public class PlaylistBasicChangeEvent extends EventObject {
     }
 
     /**
-     * Creates a new instance of PlayListBasicChangeEvent
-     *
-     * @param source the object on which the Event initially occurred
-     * @param event  the specific event that occurred
-     * @param msg    an optional message
-     */
-    public PlaylistBasicChangeEvent(Object source, Event event, String msg) {
-        super(source);
-        this.event = event;
-        this.msg = msg;
-    }
-
-    /**
      * Returns the {@link PlaylistBasicChangeEvent.Event} that occurred.
      *
      * @return the specific {@link PlaylistBasicChangeEvent.Event}
      */
     public Event getEvent() {
         return event;
-    }
-
-    /**
-     * Returns the message attached to this event.  If there is no message null
-     * is returned.
-     *
-     * @return the optional message
-     */
-    public String getMsg() {
-        return msg;
     }
 }

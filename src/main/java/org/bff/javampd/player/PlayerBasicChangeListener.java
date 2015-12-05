@@ -17,5 +17,5 @@ public interface PlayerBasicChangeListener {
      *
      * @param event the event fired
      */
-    public void playerBasicChange(PlayerBasicChangeEvent event);
+    void playerBasicChange(PlayerBasicChangeEvent event);
 }

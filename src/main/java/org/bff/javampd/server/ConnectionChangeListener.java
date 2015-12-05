@@ -17,5 +17,5 @@ public interface ConnectionChangeListener {
      *
      * @param event the event received
      */
-    public void connectionChangeEventReceived(ConnectionChangeEvent event);
+    void connectionChangeEventReceived(ConnectionChangeEvent event);
 }

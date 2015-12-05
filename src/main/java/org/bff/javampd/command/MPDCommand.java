@@ -63,11 +63,7 @@ public class MPDCommand {
 
         MPDCommand that = (MPDCommand) o;
 
-        if (!command.equals(that.command)) {
-            return false;
-        }
-
-        return !(params != null ? !params.equals(that.params) : that.params != null);
+        return command.equals(that.command) && !(params != null ? !params.equals(that.params) : that.params != null);
 
     }
 

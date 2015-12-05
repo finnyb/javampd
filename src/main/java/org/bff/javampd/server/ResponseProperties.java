@@ -1,13 +1,10 @@
 package org.bff.javampd.server;
 
-import com.google.inject.Singleton;
-
 /**
  * Properties for {@link org.bff.javampd.server.MPD} responses
  *
  * @author bill
  */
-@Singleton
 public class ResponseProperties extends MPDProperties {
 
     private enum Command {

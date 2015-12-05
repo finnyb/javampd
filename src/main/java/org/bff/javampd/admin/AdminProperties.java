@@ -1,9 +1,7 @@
 package org.bff.javampd.admin;
 
-import com.google.inject.Singleton;
 import org.bff.javampd.server.MPDProperties;
 
-@Singleton
 public class AdminProperties extends MPDProperties {
 
     private enum Command {

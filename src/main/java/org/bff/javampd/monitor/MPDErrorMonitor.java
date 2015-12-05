@@ -31,10 +31,10 @@ public class MPDErrorMonitor implements ErrorMonitor {
      * Sends the appropriate {@link MPDErrorListener} to all registered
      * {@link MPDErrorListener}s.
      *
-     * @param msg the event message
+     * @param message the event message
      */
-    protected void fireMPDErrorEvent(String msg) {
-        MPDErrorEvent ee = new MPDErrorEvent(this, msg);
+    protected void fireMPDErrorEvent(String message) {
+        MPDErrorEvent ee = new MPDErrorEvent(this, message);
 
         for (MPDErrorListener el : errorListeners) {
             el.errorEventReceived(ee);

@@ -9,7 +9,7 @@ import java.util.List;
  * @author Bill
  */
 public interface TagLister {
-    public enum ListType {
+    enum ListType {
 
         ALBUM("album"),
         ARTIST("artist"),
@@ -26,7 +26,7 @@ public interface TagLister {
         }
     }
 
-    public enum ListInfoType {
+    enum ListInfoType {
 
         PLAYLIST("playlist:"),
         DIRECTORY("directory:"),

@@ -66,10 +66,6 @@ public class MPDAlbum extends MPDItem {
     }
 
     private boolean compareArtists(MPDAlbum album) {
-        if (artistName == null) {
-            return false;
-        } else {
-            return artistName.equals(album.artistName);
-        }
+        return artistName != null && artistName.equals(album.artistName);
     }
 }

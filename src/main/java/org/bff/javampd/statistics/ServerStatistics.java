@@ -58,7 +58,7 @@ public interface ServerStatistics {
      * Enumeration of the available information from MPD server
      * statistics.
      */
-    public enum StatList {
+    enum StatList {
         ALBUMS("albums:"),
         ARTISTS("artists:"),
         SONGS("songs:"),

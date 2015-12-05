@@ -1,12 +1,10 @@
 package org.bff.javampd.song;
 
-import com.google.inject.Singleton;
 import org.bff.javampd.server.MPDProperties;
 
 /**
  * @author bill
  */
-@Singleton
 public class SearchProperties extends MPDProperties {
     private enum Command {
         FIND("MPD_DB_FIND"),

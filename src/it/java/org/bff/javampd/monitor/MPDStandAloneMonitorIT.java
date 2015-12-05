@@ -4,12 +4,8 @@ import org.bff.javampd.BaseTest;
 import org.bff.javampd.MPDSongs;
 import org.bff.javampd.admin.Admin;
 import org.bff.javampd.output.MPDOutput;
-import org.bff.javampd.output.OutputChangeEvent;
-import org.bff.javampd.output.OutputChangeListener;
-import org.bff.javampd.player.*;
+import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.Playlist;
-import org.bff.javampd.playlist.PlaylistBasicChangeEvent;
-import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 import org.bff.javampd.song.MPDSong;
 import org.junit.After;
 import org.junit.Assert;
@@ -17,8 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,15 +68,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testAddSong() {
         success = false;
 
-        monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
-
-            @Override
-            public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getEvent()) {
-                    case SONG_ADDED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlaylistChangeListener(event -> {
+            switch (event.getEvent()) {
+                case SONG_ADDED:
+                    success = true;
+                    break;
             }
         });
 
@@ -97,15 +87,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlaylistChanged() {
         success = false;
 
-        monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
-
-            @Override
-            public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getEvent()) {
-                    case PLAYLIST_CHANGED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlaylistChangeListener(event -> {
+            switch (event.getEvent()) {
+                case PLAYLIST_CHANGED:
+                    success = true;
+                    break;
             }
         });
 
@@ -120,15 +106,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testRemoveSong() {
         success = false;
 
-        monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
-
-            @Override
-            public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getEvent()) {
-                    case SONG_DELETED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlaylistChangeListener(event -> {
+            switch (event.getEvent()) {
+                case SONG_DELETED:
+                    success = true;
+                    break;
             }
         });
 
@@ -147,15 +129,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testSongChanged() {
         success = false;
 
-        monitor.addPlaylistChangeListener(new PlaylistBasicChangeListener() {
-
-            @Override
-            public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getEvent()) {
-                    case SONG_CHANGED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlaylistChangeListener(event -> {
+            switch (event.getEvent()) {
+                case SONG_CHANGED:
+                    success = true;
+                    break;
             }
         });
         playlist.addSong(MPDSongs.getSongs().get(0));
@@ -183,15 +161,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlayerStarted() {
         success = false;
 
-        monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_STARTED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlayerChangeListener(event -> {
+            switch (event.getStatus()) {
+                case PLAYER_STARTED:
+                    success = true;
+                    break;
             }
         });
 
@@ -211,15 +185,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlayerStopped() {
         success = false;
 
-        monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_STOPPED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlayerChangeListener(event -> {
+            switch (event.getStatus()) {
+                case PLAYER_STOPPED:
+                    success = true;
+                    break;
             }
         });
 
@@ -238,15 +208,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testPlayerPaused() {
         success = false;
 
-        monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_PAUSED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlayerChangeListener(event -> {
+            switch (event.getStatus()) {
+                case PLAYER_PAUSED:
+                    success = true;
+                    break;
             }
         });
 
@@ -270,13 +236,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
         delay(2);
 
-        monitor.addVolumeChangeListener(new VolumeChangeListener() {
-
-            @Override
-            public void volumeChanged(VolumeChangeEvent event) {
-                success = true;
-            }
-        });
+        monitor.addVolumeChangeListener(event -> success = true);
 
         loadSeveralSongs();
         player.play();
@@ -289,16 +249,11 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     @Test
     public void testPlayerUnPaused() {
         success = false;
-        Date start = Calendar.getInstance().getTime();
-        monitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_UNPAUSED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlayerChangeListener(event -> {
+            switch (event.getStatus()) {
+                case PLAYER_UNPAUSED:
+                    success = true;
+                    break;
             }
         });
         success = false;
@@ -317,15 +272,9 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     public void testOutputChanged() {
         success = false;
 
-        monitor.addOutputChangeListener(new OutputChangeListener() {
+        monitor.addOutputChangeListener(event -> success = true);
 
-            @Override
-            public void outputChanged(OutputChangeEvent event) {
-                success = true;
-            }
-        });
-
-        MPDOutput output = new ArrayList<MPDOutput>(admin.getOutputs()).get(0);
+        MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         admin.disableOutput(output);
         waitForSuccess();
         Assert.assertTrue(success);

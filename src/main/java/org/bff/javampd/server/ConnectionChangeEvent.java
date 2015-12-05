@@ -10,7 +10,6 @@ import java.util.EventObject;
  */
 public class ConnectionChangeEvent extends EventObject {
     private boolean connected;
-    private String msg;
 
     /**
      * Creates a new instance of ConnectionChangeEvent
@@ -24,19 +23,6 @@ public class ConnectionChangeEvent extends EventObject {
     }
 
     /**
-     * Creates a new instance of ConnectionChangeEvent
-     *
-     * @param msg         an optional message
-     * @param source      the object on which the Event initially occurred
-     * @param isConnected the connection status
-     */
-    public ConnectionChangeEvent(Object source, boolean isConnected, String msg) {
-        super(source);
-        this.connected = isConnected;
-        this.msg = msg;
-    }
-
-    /**
      * Returns true if there is a connection with the MPD server.  If there is no
      * connection returns false.
      *
@@ -44,15 +30,5 @@ public class ConnectionChangeEvent extends EventObject {
      */
     public boolean isConnected() {
         return connected;
-    }
-
-    /**
-     * Returns the message attached to this event.  If there is no message null
-     * is returned.
-     *
-     * @return the optional message
-     */
-    public String getMsg() {
-        return msg;
     }
 }

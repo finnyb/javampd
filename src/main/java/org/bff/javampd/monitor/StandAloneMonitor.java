@@ -1,6 +1,7 @@
 package org.bff.javampd.monitor;
 
 import org.bff.javampd.output.OutputChangeListener;
+import org.bff.javampd.player.BitrateChangeListener;
 import org.bff.javampd.player.PlayerBasicChangeListener;
 import org.bff.javampd.player.TrackPositionChangeListener;
 import org.bff.javampd.player.VolumeChangeListener;
@@ -11,7 +12,7 @@ import org.bff.javampd.server.MPDErrorListener;
 /**
  * @author bill
  */
-public interface StandAloneMonitor extends Runnable {
+public interface StandAloneMonitor {
     /**
      * Adds a {@link org.bff.javampd.player.TrackPositionChangeListener} to this object to receive
      * {@link org.bff.javampd.player.PlayerChangeEvent}s.
@@ -70,7 +71,22 @@ public interface StandAloneMonitor extends Runnable {
      *
      * @param vcl the VolumeChangeListener to remove
      */
-    void removeVolumeChangedListener(VolumeChangeListener vcl);
+    void removeVolumeChangeListener(VolumeChangeListener vcl);
+
+    /**
+     * Adds a {@link org.bff.javampd.player.BitrateChangeListener} to this object to receive
+     * {@link org.bff.javampd.player.BitrateChangeEvent}s.
+     *
+     * @param bcl the BitrateChangeListener to add
+     */
+    void addBitrateChangeListener(BitrateChangeListener bcl);
+
+    /**
+     * Removes a {@link org.bff.javampd.player.BitrateChangeListener} from this object.
+     *
+     * @param bcl the BitrateChangeListener to remove
+     */
+    void removeBitrateChangeListener(BitrateChangeListener bcl);
 
     /**
      * Adds a {@link org.bff.javampd.output.OutputChangeListener} to this object to receive
@@ -85,7 +101,7 @@ public interface StandAloneMonitor extends Runnable {
      *
      * @param vcl the OutputChangeListener to remove
      */
-    void removeOutputChangedListener(OutputChangeListener vcl);
+    void removeOutputChangeListener(OutputChangeListener vcl);
 
     /**
      * Adds a {@link org.bff.javampd.playlist.PlaylistBasicChangeListener} to this object to receive
@@ -100,7 +116,7 @@ public interface StandAloneMonitor extends Runnable {
      *
      * @param pcl the PlaylistBasicChangeListener to remove
      */
-    void removePlaylistStatusChangedListener(PlaylistBasicChangeListener pcl);
+    void removePlaylistStatusChangeListener(PlaylistBasicChangeListener pcl);
 
     /**
      * Adds a {@link org.bff.javampd.server.MPDErrorListener} to this object to receive
@@ -116,12 +132,6 @@ public interface StandAloneMonitor extends Runnable {
      * @param el the MPDErrorListener to remove
      */
     void removeMPDErrorListener(MPDErrorListener el);
-
-    /**
-     * Implements the Runnable run method to monitor the MPD connection.
-     */
-    @Override
-    void run();
 
     /**
      * Starts the monitor by creating and starting a thread using this instance
@@ -141,7 +151,7 @@ public interface StandAloneMonitor extends Runnable {
      */
     boolean isStopped();
 
-    public enum PlayerResponse {
+    enum PlayerResponse {
         PLAY("play"),
         STOP("stop"),
         PAUSE("pause");

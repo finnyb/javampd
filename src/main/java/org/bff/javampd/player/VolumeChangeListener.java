@@ -17,5 +17,5 @@ public interface VolumeChangeListener {
      *
      * @param event the event received
      */
-    public void volumeChanged(VolumeChangeEvent event);
+    void volumeChanged(VolumeChangeEvent event);
 }

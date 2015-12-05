@@ -8,9 +8,8 @@ import java.util.EventObject;
  * @author Bill
  */
 public class PlaylistChangeEvent extends EventObject {
-
     private Event event;
-    private String msg;
+    private String name;
 
     public enum Event {
         SONG_ADDED,
@@ -46,12 +45,12 @@ public class PlaylistChangeEvent extends EventObject {
      *
      * @param source the object on which the Event initially occurred
      * @param event  the specific {@link Event} that occurred
-     * @param msg    an optional message
+     * @param name    name of the added entity
      */
-    public PlaylistChangeEvent(Object source, Event event, String msg) {
+    public PlaylistChangeEvent(Object source, Event event, String name) {
         super(source);
         this.event = event;
-        this.msg = msg;
+        this.name = name;
     }
 
     /**
@@ -63,13 +62,12 @@ public class PlaylistChangeEvent extends EventObject {
         return this.event;
     }
 
+
     /**
-     * Returns the message attached to this event.  If there is no message null
-     * is returned.
-     *
-     * @return the optional message
+     * the name of the added entity
+     * @return name of the artist, album, song, etc
      */
-    public String getMsg() {
-        return msg;
+    public String getName() {
+        return name;
     }
 }

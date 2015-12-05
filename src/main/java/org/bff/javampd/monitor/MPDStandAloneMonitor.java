@@ -2,23 +2,14 @@ package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.bff.javampd.MPDException;
 import org.bff.javampd.output.OutputChangeListener;
-import org.bff.javampd.player.PlayerBasicChangeEvent;
-import org.bff.javampd.player.PlayerBasicChangeListener;
-import org.bff.javampd.player.TrackPositionChangeListener;
-import org.bff.javampd.player.VolumeChangeListener;
+import org.bff.javampd.player.*;
 import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 import org.bff.javampd.server.ConnectionChangeListener;
 import org.bff.javampd.server.MPDErrorListener;
 import org.bff.javampd.server.ServerStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * MPDStandAloneMonitor monitors a MPD connection by querying the status and
@@ -34,60 +25,48 @@ import java.util.concurrent.TimeUnit;
 public class MPDStandAloneMonitor
         implements StandAloneMonitor, PlayerBasicChangeListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MPDStandAloneMonitor.class);
+    private StandAloneMonitorThread standAloneMonitorThread;
 
-    private ServerStatus serverStatus;
     private OutputMonitor outputMonitor;
-    private TrackMonitor trackMonitor;
-    private ConnectionMonitor connectionMonitor;
-    private VolumeMonitor volumeMonitor;
-    private PlayerMonitor playerMonitor;
-    private BitrateMonitor bitrateMonitor;
-    private PlaylistMonitor playlistMonitor;
     private ErrorMonitor errorMonitor;
+    private ConnectionMonitor connectionMonitor;
+    private PlayerMonitor playerMonitor;
+    private TrackMonitor trackMonitor;
+    private PlaylistMonitor playlistMonitor;
+
     private MonitorProperties monitorProperties;
 
-    private List<ThreadedMonitor> monitors;
-
-    private boolean stopped;
-
-    /**
-     * Creates a new instance of MPDStandAloneMonitor using the given getDelay interval
-     * for queries.
-     */
     @Inject
     MPDStandAloneMonitor(ServerStatus serverStatus,
                          OutputMonitor outputMonitor,
                          TrackMonitor trackMonitor,
                          ConnectionMonitor connectionMonitor,
-                         VolumeMonitor volumeMonitor,
                          PlayerMonitor playerMonitor,
-                         BitrateMonitor bitrateMonitor,
                          PlaylistMonitor playlistMonitor,
-                         ErrorMonitor errorMonitor,
-                         MonitorProperties monitorProperties) {
-        this.serverStatus = serverStatus;
+                         ErrorMonitor errorMonitor) {
+        this.monitorProperties = new MonitorProperties();
         this.outputMonitor = outputMonitor;
         this.trackMonitor = trackMonitor;
         this.connectionMonitor = connectionMonitor;
-        this.volumeMonitor = volumeMonitor;
         this.playerMonitor = playerMonitor;
-        this.bitrateMonitor = bitrateMonitor;
         this.playlistMonitor = playlistMonitor;
         this.errorMonitor = errorMonitor;
-        this.monitorProperties = monitorProperties;
-        this.monitors = new ArrayList<>();
+
+        standAloneMonitorThread = new StandAloneMonitorThread(serverStatus,
+                connectionMonitor,
+                monitorProperties.getConnectionDelay(),
+                monitorProperties.getExceptionDelay());
+        createMonitors();
     }
 
-    private void loadMonitors() {
-        monitors.add(new ThreadedMonitor(trackMonitor, monitorProperties.getTrackDelay()));
-        monitors.add(new ThreadedMonitor(playerMonitor, monitorProperties.getPlayerDelay()));
-        monitors.add(new ThreadedMonitor(errorMonitor, monitorProperties.getErrorDelay()));
-        monitors.add(new ThreadedMonitor(playlistMonitor, monitorProperties.getPlaylistDelay()));
-        monitors.add(new ThreadedMonitor(connectionMonitor, monitorProperties.getConnectionDelay()));
-        monitors.add(new ThreadedMonitor(bitrateMonitor, monitorProperties.getBitrateDelay()));
-        monitors.add(new ThreadedMonitor(volumeMonitor, monitorProperties.getVolumeDelay()));
-        monitors.add(new ThreadedMonitor(outputMonitor, monitorProperties.getOutputDelay()));
+    private void createMonitors() {
+        standAloneMonitorThread.addMonitor(
+                new ThreadedMonitor(trackMonitor, monitorProperties.getTrackDelay()),
+                new ThreadedMonitor(playerMonitor, monitorProperties.getPlayerDelay()),
+                new ThreadedMonitor(errorMonitor, monitorProperties.getErrorDelay()),
+                new ThreadedMonitor(playlistMonitor, monitorProperties.getPlaylistDelay()),
+                new ThreadedMonitor(connectionMonitor, monitorProperties.getConnectionDelay()),
+                new ThreadedMonitor(outputMonitor, monitorProperties.getOutputDelay()));
     }
 
     /**
@@ -144,12 +123,22 @@ public class MPDStandAloneMonitor
 
     @Override
     public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
-        volumeMonitor.addVolumeChangeListener(vcl);
+        playerMonitor.addVolumeChangeListener(vcl);
     }
 
     @Override
-    public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
-        volumeMonitor.removeVolumeChangedListener(vcl);
+    public synchronized void removeVolumeChangeListener(VolumeChangeListener vcl) {
+        playerMonitor.removeVolumeChangeListener(vcl);
+    }
+
+    @Override
+    public synchronized void addBitrateChangeListener(BitrateChangeListener bcl) {
+        playerMonitor.addBitrateChangeListener(bcl);
+    }
+
+    @Override
+    public synchronized void removeBitrateChangeListener(BitrateChangeListener bcl) {
+        playerMonitor.removeBitrateChangeListener(bcl);
     }
 
     @Override
@@ -158,8 +147,8 @@ public class MPDStandAloneMonitor
     }
 
     @Override
-    public synchronized void removeOutputChangedListener(OutputChangeListener vcl) {
-        outputMonitor.removeOutputChangedListener(vcl);
+    public synchronized void removeOutputChangeListener(OutputChangeListener vcl) {
+        outputMonitor.removeOutputChangeListener(vcl);
     }
 
     @Override
@@ -168,8 +157,8 @@ public class MPDStandAloneMonitor
     }
 
     @Override
-    public synchronized void removePlaylistStatusChangedListener(PlaylistBasicChangeListener pcl) {
-        playlistMonitor.removePlaylistStatusChangedListener(pcl);
+    public synchronized void removePlaylistStatusChangeListener(PlaylistBasicChangeListener pcl) {
+        playlistMonitor.removePlaylistStatusChangeListener(pcl);
     }
 
     @Override
@@ -183,85 +172,18 @@ public class MPDStandAloneMonitor
     }
 
     @Override
-    public void run() {
-        loadMonitors();
-        loadInitialStatus();
-
-        int delay = monitorProperties.getMonitorDelay();
-        List<String> response;
-        while (!isStopped()) {
-            try {
-                synchronized (this) {
-                    response = new ArrayList<>(serverStatus.getStatus());
-                    processResponse(response);
-                    for (ThreadedMonitor monitor : monitors) {
-                        monitor.checkStatus();
-                    }
-                }
-                TimeUnit.SECONDS.sleep(delay);
-            } catch (InterruptedException ie) {
-                LOGGER.error("Thread interrupted", ie);
-                setStopped(true);
-            } catch (MPDException mpdException) {
-                LOGGER.error("Error while checking statuses", mpdException);
-                boolean retry = true;
-
-                while (retry) {
-                    try {
-                        TimeUnit.SECONDS.sleep(monitorProperties.getExceptionDelay());
-                    } catch (InterruptedException ex) {
-                        LOGGER.error("StandAloneMonitor interrupted", ex);
-                    }
-
-                    try {
-                        connectionMonitor.checkStatus();
-                        retry = !connectionMonitor.isConnected();
-                    } catch (MPDException e) {
-                        LOGGER.error("Error checking connection status.", e);
-                    }
-                }
-            }
-        }
-    }
-
-    private void loadInitialStatus() {
-        try {
-            //initial load so no events fired
-            List<String> response = new ArrayList<>(serverStatus.getStatus());
-            processResponse(response);
-        } catch (MPDException ex) {
-            LOGGER.error("Problem with initialization", ex);
-        }
-    }
-
-    @Override
     public void start() {
-        setStopped(false);
-        Executors.newSingleThreadExecutor().execute(this);
+        Executors.newSingleThreadExecutor().execute(this.standAloneMonitorThread);
     }
 
     @Override
     public void stop() {
-        setStopped(true);
+        this.standAloneMonitorThread.setStopped(true);
     }
 
     @Override
     public boolean isStopped() {
-        return stopped;
-    }
-
-    private void setStopped(boolean stopped) {
-        this.stopped = stopped;
-    }
-
-    private void processResponse(List<String> response) {
-        response.forEach(this::processResponseStatus);
-    }
-
-    private void processResponseStatus(String line) {
-        for (ThreadedMonitor monitor : monitors) {
-            monitor.processResponseLine(line);
-        }
+        return this.standAloneMonitorThread.isStopped();
     }
 
     @Override
@@ -274,36 +196,5 @@ public class MPDStandAloneMonitor
     private void processStoppedStatus() {
         trackMonitor.resetElapsedTime();
         playlistMonitor.playerStopped();
-    }
-
-    private class ThreadedMonitor {
-        private Monitor monitor;
-        private int delay;
-        private int count;
-
-        /**
-         * Threaded version of {@link Monitor}
-         *
-         * @param monitor the {@link Monitor}
-         * @param delay   The number of seconds to delay before performing the check status.  If your
-         *                #checkStatus is expensive this should be a larger number.
-         */
-        ThreadedMonitor(Monitor monitor, int delay) {
-            this.monitor = monitor;
-            this.delay = delay;
-        }
-
-        public void checkStatus() {
-            if (count++ == delay) {
-                count = 0;
-                monitor.checkStatus();
-            }
-        }
-
-        public void processResponseLine(String line) {
-            if (monitor instanceof StatusMonitor) {
-                ((StatusMonitor) monitor).processResponseStatus(line);
-            }
-        }
     }
 }

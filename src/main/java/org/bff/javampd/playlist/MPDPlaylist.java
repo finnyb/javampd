@@ -86,10 +86,10 @@ public class MPDPlaylist implements Playlist {
      * {@link PlaylistChangeListener}.
      *
      * @param event the {@link PlaylistChangeEvent.Event} to send
-     * @param msg   the message for the event
+     * @param name   name of the added entity
      */
-    protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event, String msg) {
-        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, event, msg);
+    protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event, String name) {
+        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, event, name);
 
         for (PlaylistChangeListener pcl : listeners) {
             pcl.playlistChanged(pce);
@@ -296,9 +296,7 @@ public class MPDPlaylist implements Playlist {
                 .filter(song -> song.getArtistName().equals(artistName) && song.getAlbumName().equals(albumName))
                 .collect(Collectors.toList());
 
-        for (MPDSong song : removeList) {
-            removeSong(song);
-        }
+        removeList.forEach(this::removeSong);
     }
 
     @Override
@@ -352,9 +350,7 @@ public class MPDPlaylist implements Playlist {
             removeList.add(song);
         }
 
-        for (MPDSong song : removeList) {
-            removeSong(song);
-        }
+        removeList.forEach(this::removeSong);
     }
 
     @Override

@@ -1,11 +1,8 @@
 package org.bff.javampd.server;
 
-import com.google.inject.Singleton;
-
 /**
  * @author bill
  */
-@Singleton
 public class ServerProperties extends MPDProperties {
 
     private enum Command {

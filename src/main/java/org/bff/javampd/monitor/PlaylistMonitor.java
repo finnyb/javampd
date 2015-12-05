@@ -5,7 +5,7 @@ import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 public interface PlaylistMonitor extends StatusMonitor {
     void addPlaylistChangeListener(PlaylistBasicChangeListener pcl);
 
-    void removePlaylistStatusChangedListener(PlaylistBasicChangeListener pcl);
+    void removePlaylistStatusChangeListener(PlaylistBasicChangeListener pcl);
 
     int getSongId();
 

@@ -11,7 +11,7 @@ public interface SongSearcher {
     /**
      * Defines the scope of items such as find, search.
      */
-    public enum ScopeType {
+    enum ScopeType {
 
         ALBUM("album"),
         ARTIST("artist"),

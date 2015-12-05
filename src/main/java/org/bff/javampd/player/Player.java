@@ -11,7 +11,7 @@ public interface Player {
     /**
      * The status of the player.
      */
-    public enum Status {
+    enum Status {
 
         STATUS_STOPPED("stop"),
         STATUS_PLAYING("play"),

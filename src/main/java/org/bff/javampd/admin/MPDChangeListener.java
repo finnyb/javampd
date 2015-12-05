@@ -15,5 +15,5 @@ public interface MPDChangeListener {
      *
      * @param event the {@link MPDChangeEvent} received
      */
-    public void mpdChanged(MPDChangeEvent event);
+    void mpdChanged(MPDChangeEvent event);
 }
