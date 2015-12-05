@@ -65,14 +65,14 @@ public class MPDCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public synchronized boolean sendCommands(List<MPDCommand> commandList) {
+    public synchronized void sendCommands(List<MPDCommand> commandList) {
         try {
             checkSocket();
-            return mpdSocket.sendCommands(commandList);
+            mpdSocket.sendCommands(commandList);
         } catch (MPDSecurityException se) {
             LOGGER.warn("Connection exception while sending commands, will retry", se);
             authenticate();
-            return mpdSocket.sendCommands(commandList);
+            mpdSocket.sendCommands(commandList);
         }
     }
 
