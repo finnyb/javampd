@@ -108,7 +108,7 @@ public class MPDServerStatusIT extends BaseTest {
     @Test
     public void testGetBitrate() throws Exception {
         player.play();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         assertEquals(48, serverStatus.getBitrate());
     }
 
