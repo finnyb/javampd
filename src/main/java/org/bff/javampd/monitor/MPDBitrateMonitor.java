@@ -20,14 +20,17 @@ public class MPDBitrateMonitor extends MPDVolumeMonitor implements BitrateMonito
         bitrateListeners = new ArrayList<>();
     }
 
+    @Override
     public synchronized void addBitrateChangeListener(BitrateChangeListener bcl) {
         bitrateListeners.add(bcl);
     }
 
+    @Override
     public synchronized void removeBitrateChangeListener(BitrateChangeListener bcl) {
         bitrateListeners.remove(bcl);
     }
 
+    @Override
     public void processResponseStatus(String line) {
         super.processResponseStatus(line);
         if (Status.lookupStatus(line) == Status.BITRATE) {
