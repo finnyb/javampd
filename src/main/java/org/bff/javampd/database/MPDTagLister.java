@@ -60,7 +60,7 @@ public class MPDTagLister implements TagLister {
         for (String s : responseList) {
             try {
                 retList.add(s.substring(s.split(":")[0].length() + 1).trim());
-            } catch (ArrayIndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
                 LOGGER.error("Problem with response array {}", s, e);
                 retList.add("");
             }
