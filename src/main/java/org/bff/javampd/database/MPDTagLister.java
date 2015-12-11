@@ -2,7 +2,6 @@ package org.bff.javampd.database;
 
 import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
-import org.bff.javampd.properties.DatabaseProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

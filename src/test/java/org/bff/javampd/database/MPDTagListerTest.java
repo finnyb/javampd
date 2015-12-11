@@ -1,7 +1,6 @@
 package org.bff.javampd.database;
 
 import org.bff.javampd.command.MPDCommandExecutor;
-import org.bff.javampd.properties.DatabaseProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

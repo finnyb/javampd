@@ -2,8 +2,8 @@ package org.bff.javampd.playlist;
 
 import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.database.DatabaseProperties;
 import org.bff.javampd.database.TagLister;
-import org.bff.javampd.properties.DatabaseProperties;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;

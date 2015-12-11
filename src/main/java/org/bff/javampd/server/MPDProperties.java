@@ -1,6 +1,5 @@
 package org.bff.javampd.server;
 
-import org.bff.javampd.properties.PropertyLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

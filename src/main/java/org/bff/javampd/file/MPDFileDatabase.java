@@ -3,8 +3,8 @@ package org.bff.javampd.file;
 import com.google.inject.Inject;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.database.DatabaseProperties;
 import org.bff.javampd.database.TagLister;
-import org.bff.javampd.properties.DatabaseProperties;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package org.bff.javampd.properties;
+package org.bff.javampd.database;
 
 import org.bff.javampd.server.MPDProperties;
 
