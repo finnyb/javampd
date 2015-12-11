@@ -6,7 +6,7 @@ import org.bff.javampd.output.OutputChangeListener;
 import org.bff.javampd.player.*;
 import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 import org.bff.javampd.server.ConnectionChangeListener;
-import org.bff.javampd.server.MPDErrorListener;
+import org.bff.javampd.server.ErrorListener;
 import org.bff.javampd.server.ServerStatus;
 
 import java.util.concurrent.Executors;
@@ -52,7 +52,7 @@ public class MPDStandAloneMonitor
         this.playlistMonitor = playlistMonitor;
         this.errorMonitor = errorMonitor;
 
-        standAloneMonitorThread = new StandAloneMonitorThread(serverStatus,
+        this.standAloneMonitorThread = new StandAloneMonitorThread(serverStatus,
                 connectionMonitor,
                 monitorProperties.getConnectionDelay(),
                 monitorProperties.getExceptionDelay());
@@ -157,18 +157,18 @@ public class MPDStandAloneMonitor
     }
 
     @Override
-    public synchronized void removePlaylistStatusChangeListener(PlaylistBasicChangeListener pcl) {
-        playlistMonitor.removePlaylistStatusChangeListener(pcl);
+    public synchronized void removePlaylistChangeListener(PlaylistBasicChangeListener pcl) {
+        playlistMonitor.removePlaylistChangeListener(pcl);
     }
 
     @Override
-    public synchronized void addMPDErrorListener(MPDErrorListener el) {
-        errorMonitor.addMPDErrorListener(el);
+    public synchronized void addErrorListener(ErrorListener el) {
+        errorMonitor.addErrorListener(el);
     }
 
     @Override
-    public synchronized void removeMPDErrorListener(MPDErrorListener el) {
-        errorMonitor.removeMPDErrorListener(el);
+    public synchronized void removeErrorListener(ErrorListener el) {
+        errorMonitor.removeErrorListener(el);
     }
 
     @Override

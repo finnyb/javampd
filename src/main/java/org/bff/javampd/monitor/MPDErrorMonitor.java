@@ -1,8 +1,8 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
+import org.bff.javampd.server.ErrorListener;
 import org.bff.javampd.server.MPDErrorEvent;
-import org.bff.javampd.server.MPDErrorListener;
 import org.bff.javampd.server.Status;
 
 import java.util.ArrayList;
@@ -11,32 +11,32 @@ import java.util.List;
 @Singleton
 public class MPDErrorMonitor implements ErrorMonitor {
     private String error;
-    private List<MPDErrorListener> errorListeners;
+    private List<ErrorListener> errorListeners;
 
     public MPDErrorMonitor() {
         this.errorListeners = new ArrayList<>();
     }
 
     @Override
-    public synchronized void addMPDErrorListener(MPDErrorListener el) {
+    public synchronized void addErrorListener(ErrorListener el) {
         errorListeners.add(el);
     }
 
     @Override
-    public synchronized void removeMPDErrorListener(MPDErrorListener el) {
+    public synchronized void removeErrorListener(ErrorListener el) {
         errorListeners.remove(el);
     }
 
     /**
-     * Sends the appropriate {@link MPDErrorListener} to all registered
-     * {@link MPDErrorListener}s.
+     * Sends the appropriate {@link ErrorListener} to all registered
+     * {@link ErrorListener}s.
      *
      * @param message the event message
      */
     protected void fireMPDErrorEvent(String message) {
         MPDErrorEvent ee = new MPDErrorEvent(this, message);
 
-        for (MPDErrorListener el : errorListeners) {
+        for (ErrorListener el : errorListeners) {
             el.errorEventReceived(ee);
         }
     }

@@ -1,9 +1,9 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.server.MPDErrorListener;
+import org.bff.javampd.server.ErrorListener;
 
 public interface ErrorMonitor extends StatusMonitor {
-    void addMPDErrorListener(MPDErrorListener el);
+    void addErrorListener(ErrorListener el);
 
-    void removeMPDErrorListener(MPDErrorListener el);
+    void removeErrorListener(ErrorListener el);
 }

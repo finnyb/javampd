@@ -36,7 +36,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     }
 
     @Override
-    public synchronized void removePlaylistStatusChangeListener(PlaylistBasicChangeListener pcl) {
+    public synchronized void removePlaylistChangeListener(PlaylistBasicChangeListener pcl) {
         playlistListeners.remove(pcl);
     }
 

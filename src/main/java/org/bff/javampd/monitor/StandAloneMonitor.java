@@ -7,7 +7,7 @@ import org.bff.javampd.player.TrackPositionChangeListener;
 import org.bff.javampd.player.VolumeChangeListener;
 import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 import org.bff.javampd.server.ConnectionChangeListener;
-import org.bff.javampd.server.MPDErrorListener;
+import org.bff.javampd.server.ErrorListener;
 
 /**
  * @author bill
@@ -116,22 +116,22 @@ public interface StandAloneMonitor {
      *
      * @param pcl the PlaylistBasicChangeListener to remove
      */
-    void removePlaylistStatusChangeListener(PlaylistBasicChangeListener pcl);
+    void removePlaylistChangeListener(PlaylistBasicChangeListener pcl);
 
     /**
-     * Adds a {@link org.bff.javampd.server.MPDErrorListener} to this object to receive
+     * Adds a {@link ErrorListener} to this object to receive
      * {@link org.bff.javampd.server.MPDErrorEvent}s.
      *
-     * @param el the MPDErrorListener to add
+     * @param el the ErrorListener to add
      */
-    void addMPDErrorListener(MPDErrorListener el);
+    void addErrorListener(ErrorListener el);
 
     /**
-     * Removes a {@link org.bff.javampd.server.MPDErrorListener} from this object.
+     * Removes a {@link ErrorListener} from this object.
      *
-     * @param el the MPDErrorListener to remove
+     * @param el the ErrorListener to remove
      */
-    void removeMPDErrorListener(MPDErrorListener el);
+    void removeErrorListener(ErrorListener el);
 
     /**
      * Starts the monitor by creating and starting a thread using this instance
