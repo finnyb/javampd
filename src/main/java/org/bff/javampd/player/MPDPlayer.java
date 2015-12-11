@@ -103,11 +103,11 @@ public class MPDPlayer implements Player {
 
     @Override
     public void play() {
-        playId(null);
+        playSong(null);
     }
 
     @Override
-    public void playId(MPDSong song) {
+    public void playSong(MPDSong song) {
         if (song == null) {
             commandExecutor.sendCommand(playerProperties.getPlay());
         } else {
@@ -124,11 +124,11 @@ public class MPDPlayer implements Player {
 
     @Override
     public void seek(long secs) {
-        seekId(null, secs);
+        seekSong(null, secs);
     }
 
     @Override
-    public void seekId(MPDSong song, long secs) {
+    public void seekSong(MPDSong song, long secs) {
         List<String> response = null;
         String[] params = new String[2];
         params[1] = Long.toString(secs);
@@ -171,7 +171,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void playPrev() {
+    public void playPrevious() {
         commandExecutor.sendCommand(playerProperties.getPrevious());
         firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_PREVIOUS);
 
@@ -300,8 +300,7 @@ public class MPDPlayer implements Player {
 
     @Override
     public Status getStatus() {
-        String currentStatus;
-        currentStatus = serverStatus.getState();
+        String currentStatus = serverStatus.getState();
 
         if (currentStatus.equalsIgnoreCase(Status.STATUS_PLAYING.getPrefix())) {
             return Status.STATUS_PLAYING;

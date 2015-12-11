@@ -71,11 +71,11 @@ public interface Player {
     void play();
 
     /**
-     * Starts the player with the specified song.
+     * Starts the player with the specified {@link MPDSong}.
      *
      * @param song the song to start the player with
      */
-    void playId(MPDSong song);
+    void playSong(MPDSong song);
 
     /**
      * Seeks to the desired location in the current song.  If the location is larger
@@ -92,7 +92,7 @@ public interface Player {
      * @param song the song to seek in
      * @param secs the location to seek to
      */
-    void seekId(MPDSong song, long secs);
+    void seekSong(MPDSong song, long secs);
 
     /**
      * Stops the player.
@@ -112,7 +112,7 @@ public interface Player {
     /**
      * Plays the previous song in the playlist.
      */
-    void playPrev();
+    void playPrevious();
 
     /**
      * Mutes the volume of the player.
