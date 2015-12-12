@@ -68,6 +68,7 @@ public class MPDTrackMonitor implements TrackMonitor {
     @Override
     public void resetElapsedTime() {
         elapsedTime = 0;
+        oldPos = 0;
     }
 
     /**
