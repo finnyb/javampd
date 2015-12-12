@@ -56,7 +56,7 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
                     processPausedStatus(status);
                     break;
                 default:
-                    processInvalidStatus(status);
+                    LOGGER.warn("Invalid player status --> {}", status);
                     break;
             }
             status = newStatus;
@@ -101,16 +101,13 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
                 firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
                 break;
             default:
-                processInvalidStatus(status);
+                LOGGER.warn("Invalid player status --> {}", status);
                 break;
         }
     }
 
     private void processPausedStatus(PlayerStatus status) {
         switch (status) {
-            case STATUS_PAUSED:
-                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
-                break;
             case STATUS_PLAYING:
                 firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
                 break;
@@ -118,13 +115,8 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
                 firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
                 break;
             default:
-                processInvalidStatus(status);
+                LOGGER.warn("Invalid player status --> {}", status);
                 break;
         }
-    }
-
-    private void processInvalidStatus(PlayerStatus status) {
-        LOGGER.warn("Invalid player status --> {}", status);
-        assert false : "unable to process status: " + status;
     }
 }
