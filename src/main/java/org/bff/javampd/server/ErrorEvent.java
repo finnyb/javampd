@@ -6,25 +6,25 @@ package org.bff.javampd.server;
  * @author Bill
  * @version 1.0
  */
-public class MPDErrorEvent extends java.util.EventObject {
+public class ErrorEvent extends java.util.EventObject {
     private String message;
 
     /**
-     * Creates a new instance of MPDErrorEvent
+     * Creates a new instance of ErrorEvent
      *
      * @param source the object on which the Event initially occurred
      */
-    public MPDErrorEvent(Object source) {
+    public ErrorEvent(Object source) {
         super(source);
     }
 
     /**
-     * Creates a new instance of MPDErrorEvent
+     * Creates a new instance of ErrorEvent
      *
      * @param message    an optional message
      * @param source the object on which the Event initially occurred
      */
-    public MPDErrorEvent(Object source, String message) {
+    public ErrorEvent(Object source, String message) {
         super(source);
         this.message = message;
     }

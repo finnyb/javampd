@@ -7,6 +7,7 @@ import org.bff.javampd.player.TrackPositionChangeListener;
 import org.bff.javampd.player.VolumeChangeListener;
 import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 import org.bff.javampd.server.ConnectionChangeListener;
+import org.bff.javampd.server.ErrorEvent;
 import org.bff.javampd.server.ErrorListener;
 
 /**
@@ -120,7 +121,7 @@ public interface StandAloneMonitor {
 
     /**
      * Adds a {@link ErrorListener} to this object to receive
-     * {@link org.bff.javampd.server.MPDErrorEvent}s.
+     * {@link ErrorEvent}s.
      *
      * @param el the ErrorListener to add
      */
