@@ -38,18 +38,13 @@ public class MPDOutputMonitor implements OutputMonitor {
     }
 
     private void compareOutputs(List<MPDOutput> outputs) {
-        for (MPDOutput out : outputs) {
-            MPDOutput output = outputMap.get(out.getId());
-            if (output == null) {
-                fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
+        for (MPDOutput output : outputs) {
+            MPDOutput mpdOutput = outputMap.get(output.getId());
+
+            if (mpdOutput.isEnabled() != output.isEnabled()) {
+                fireOutputChangeEvent(new OutputChangeEvent(output, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
                 loadOutputs(outputs);
                 return;
-            } else {
-                if (output.isEnabled() != out.isEnabled()) {
-                    fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
-                    loadOutputs(outputs);
-                    return;
-                }
             }
         }
     }
