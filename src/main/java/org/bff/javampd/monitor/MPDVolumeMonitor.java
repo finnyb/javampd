@@ -11,7 +11,7 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     private int oldVolume;
     private VolumeChangeDelegate volumeChangeDelegate;
 
-    public MPDVolumeMonitor() {
+    MPDVolumeMonitor() {
         this.volumeChangeDelegate = new VolumeChangeDelegate();
     }
 

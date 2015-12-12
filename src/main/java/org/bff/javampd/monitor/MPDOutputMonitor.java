@@ -17,7 +17,7 @@ public class MPDOutputMonitor implements OutputMonitor {
     private Admin admin;
 
     @Inject
-    public MPDOutputMonitor(Admin admin) {
+    MPDOutputMonitor(Admin admin) {
         this.admin = admin;
         this.outputMap = new HashMap<>();
         this.outputListeners = new ArrayList<>();

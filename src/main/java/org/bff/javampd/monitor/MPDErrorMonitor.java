@@ -13,7 +13,7 @@ public class MPDErrorMonitor implements ErrorMonitor {
     private String error;
     private List<ErrorListener> errorListeners;
 
-    public MPDErrorMonitor() {
+    MPDErrorMonitor() {
         this.errorListeners = new ArrayList<>();
     }
 

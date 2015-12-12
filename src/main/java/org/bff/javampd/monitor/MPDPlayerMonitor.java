@@ -18,7 +18,7 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
     private List<PlayerBasicChangeListener> playerListeners;
     private String state;
 
-    public MPDPlayerMonitor() {
+    MPDPlayerMonitor() {
         this.playerListeners = new ArrayList<>();
         state = "";
     }

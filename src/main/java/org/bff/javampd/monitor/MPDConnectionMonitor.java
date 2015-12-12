@@ -14,7 +14,7 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
     private Server server;
     private boolean connected = true;
 
-    public MPDConnectionMonitor() {
+    MPDConnectionMonitor() {
         this.connectionListeners = new ArrayList<>();
     }
 

@@ -14,7 +14,7 @@ public class MPDTrackMonitor implements TrackMonitor {
     private long oldPos;
     private long elapsedTime;
 
-    public MPDTrackMonitor() {
+    MPDTrackMonitor() {
         this.trackListeners = new ArrayList<>();
     }
 

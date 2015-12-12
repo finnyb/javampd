@@ -25,7 +25,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     private PlayerMonitor playerMonitor;
 
     @Inject
-    public MPDPlaylistMonitor(PlayerMonitor playerMonitor) {
+    MPDPlaylistMonitor(PlayerMonitor playerMonitor) {
         this.playerMonitor = playerMonitor;
         this.playlistListeners = new ArrayList<>();
     }
