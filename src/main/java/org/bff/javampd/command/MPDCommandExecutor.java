@@ -101,26 +101,24 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     @Override
     public void authenticate() {
-        if (password == null) {
-            throw new MPDSecurityException("Password cannot be null");
-        }
+        if (password != null) {
+            try {
+                sendCommand(new MPDCommand(serverProperties.getPassword(), password));
+            } catch (Exception e) {
+                LOGGER.error("Error authenticating to mpd", e);
+                if (e.getMessage() != null && e.getMessage().contains("incorrect password")) {
+                    throw new MPDSecurityException("Incorrect password");
+                }
 
-        try {
-            sendCommand(new MPDCommand(serverProperties.getPassword(), password));
-        } catch (Exception e) {
-            LOGGER.error("Error authenticating to mpd", e);
-            if (e.getMessage() != null && e.getMessage().contains("incorrect password")) {
-                throw new MPDSecurityException("Incorrect password");
+                throw new MPDConnectionException("Could not authenticate", e);
             }
-
-            throw new MPDConnectionException("Could not authenticate", e);
         }
     }
 
     @Override
     public void usePassword(String password) {
-        if (password == null) {
-            throw new IllegalArgumentException("Password cannot be null");
+        if (password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
         }
 
         this.password = password;
