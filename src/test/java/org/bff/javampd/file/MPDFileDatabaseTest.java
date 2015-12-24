@@ -89,12 +89,98 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles() throws Exception {
+    public void testListDirectoryWithMultipleFilesSize() throws Exception {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
         fileDatabase.listDirectory(file);
 
+        List<String> response = createMultFileResponse();
+
+        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
+        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+
+        assertEquals(4, new ArrayList<>(fileDatabase.listDirectory(file)).size());
+    }
+
+    @Test
+    public void testListDirectoryWithMultipleFiles1() throws Exception {
+        String dir = "test";
+        MPDFile file = new MPDFile(dir);
+        file.setDirectory(true);
+        fileDatabase.listDirectory(file);
+
+        List<String> response = createMultFileResponse();
+
+        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
+        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+
+        List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
+        assertEquals("Q", mpdFiles.get(0).getPath());
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
+                mpdFiles.get(0).getLastModified());
+        assertTrue(mpdFiles.get(0).isDirectory());
+    }
+
+    @Test
+    public void testListDirectoryWithMultipleFiles2() throws Exception {
+        String dir = "test";
+        MPDFile file = new MPDFile(dir);
+        file.setDirectory(true);
+        fileDatabase.listDirectory(file);
+
+        List<String> response = createMultFileResponse();
+
+        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
+        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+
+        List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
+        assertEquals("R", mpdFiles.get(1).getPath());
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:36Z", DateTimeFormatter.ISO_DATE_TIME),
+                mpdFiles.get(1).getLastModified());
+        assertFalse(mpdFiles.get(1).isDirectory());
+    }
+
+    @Test
+    public void testListDirectoryWithMultipleFiles3() throws Exception {
+        String dir = "test";
+        MPDFile file = new MPDFile(dir);
+        file.setDirectory(true);
+        fileDatabase.listDirectory(file);
+
+        List<String> response = createMultFileResponse();
+
+        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
+        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+
+        List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
+        assertEquals("S", mpdFiles.get(2).getPath());
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:37Z", DateTimeFormatter.ISO_DATE_TIME),
+                mpdFiles.get(2).getLastModified());
+        assertFalse(mpdFiles.get(2).isDirectory());
+    }
+
+    @Test
+    public void testListDirectoryWithMultipleFiles4() throws Exception {
+        String dir = "test";
+        MPDFile file = new MPDFile(dir);
+        file.setDirectory(true);
+        fileDatabase.listDirectory(file);
+
+        List<String> response = createMultFileResponse();
+
+        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
+        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+
+        List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
+
+        assertEquals("T", mpdFiles.get(3).getPath());
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:38Z", DateTimeFormatter.ISO_DATE_TIME),
+                mpdFiles.get(3).getLastModified());
+        assertTrue(mpdFiles.get(3).isDirectory());
+    }
+
+    private List<String> createMultFileResponse() {
         List<String> response = new ArrayList<>();
         response.add("directory: Q");
         response.add("Last-Modified: 2015-10-11T22:11:35Z");
@@ -105,30 +191,7 @@ public class MPDFileDatabaseTest {
         response.add("directory: T");
         response.add("Last-Modified: 2015-10-11T22:11:38Z");
 
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
-
-        List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
-        assertEquals(4, mpdFiles.size());
-        assertEquals("Q", mpdFiles.get(0).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
-                mpdFiles.get(0).getLastModified());
-        assertTrue(mpdFiles.get(0).isDirectory());
-
-        assertEquals("R", mpdFiles.get(1).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:36Z", DateTimeFormatter.ISO_DATE_TIME),
-                mpdFiles.get(1).getLastModified());
-        assertFalse(mpdFiles.get(1).isDirectory());
-
-        assertEquals("S", mpdFiles.get(2).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:37Z", DateTimeFormatter.ISO_DATE_TIME),
-                mpdFiles.get(2).getLastModified());
-        assertFalse(mpdFiles.get(2).isDirectory());
-
-        assertEquals("T", mpdFiles.get(3).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:38Z", DateTimeFormatter.ISO_DATE_TIME),
-                mpdFiles.get(3).getLastModified());
-        assertTrue(mpdFiles.get(3).isDirectory());
+        return response;
     }
 
     @Test(expected = MPDException.class)
