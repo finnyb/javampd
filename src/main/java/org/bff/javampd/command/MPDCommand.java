@@ -24,7 +24,7 @@ public class MPDCommand {
      */
     public MPDCommand(String command, String... parameters) {
         if (command == null) {
-            throw new IllegalArgumentException("comand can't be null");
+            throw new IllegalArgumentException("command can't be null");
         }
 
         this.command = command;
