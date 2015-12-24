@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class MPDFileDatabaseIT extends BaseTest {
         for (File f : testFiles) {
             boolean found = false;
             for (MPDFile mpdF : fileDatabase.listRootDirectory()) {
-                if (f.getName().equals(mpdF.getName())) {
+                if (f.getName().equals(mpdF.getPath())) {
                     found = true;
                     assertEquals(f.isDirectory(), mpdF.isDirectory());
                 }
@@ -48,32 +50,15 @@ public class MPDFileDatabaseIT extends BaseTest {
         List<File> testFiles = new ArrayList<>(TestFiles.getRootTestFiles(testProperties.getPath()));
 
         for (File f : testFiles) {
+            boolean found = false;
             for (MPDFile mpdF : fileDatabase.listRootDirectory()) {
-                if (f.getName().equals(mpdF.getName()) && f.isDirectory()) {
+                if (f.getName().equals(mpdF.getPath()) && f.isDirectory()) {
+                    found = true;
                     compareDirs(f, mpdF);
                 }
             }
+            assertTrue(found);
         }
-    }
-
-    @Test
-    public void testListAllFiles() throws Exception {
-
-    }
-
-    @Test
-    public void testListAllFiles1() throws Exception {
-
-    }
-
-    @Test
-    public void testListAllSongFiles() throws Exception {
-
-    }
-
-    @Test
-    public void testListAllSongFiles1() throws Exception {
-
     }
 
     private void compareDirs(File testFile, MPDFile file) throws Exception {
@@ -85,7 +70,9 @@ public class MPDFileDatabaseIT extends BaseTest {
         for (File f : testFiles) {
             boolean found = false;
             for (MPDFile mpdF : files) {
-                if (f.getName().equals(mpdF.getName().replaceFirst(file.getName() + "/", ""))) {
+                assertEquals(LocalDateTime.parse("2014-12-27T13:34:57Z", DateTimeFormatter.ISO_DATE_TIME),
+                        mpdF.getLastModified());
+                if (f.getName().equals(mpdF.getPath().replaceFirst(file.getPath() + "/", ""))) {
                     found = true;
                     assertEquals(f.isDirectory(), mpdF.isDirectory());
                     if (f.isDirectory()) {

@@ -148,7 +148,7 @@ public class MPDPlaylist implements Playlist {
     public void addFileOrDirectory(MPDFile file) {
         commandExecutor.sendCommand(playlistProperties.getAdd(), file.getPath());
         updatePlaylist();
-        firePlaylistChangeEvent(PlaylistChangeEvent.Event.FILE_ADDED, file.getName());
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.FILE_ADDED, file.getPath());
 
     }
 

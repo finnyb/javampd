@@ -1,27 +1,19 @@
 package org.bff.javampd.file;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a file within the mpd songs directory.
  *
  * @author Bill
  */
 public class MPDFile {
-    private String name;
     private boolean directory;
     private String path;
+    private LocalDateTime lastModified;
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name.replaceAll("^.*/", "");
+    public MPDFile(String path) {
+        this.path = path;
     }
 
     /**
@@ -54,6 +46,14 @@ public class MPDFile {
 
     @Override
     public String toString() {
-        return getName();
+        return getPath();
+    }
+
+    public LocalDateTime getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(LocalDateTime lastModified) {
+        this.lastModified = lastModified;
     }
 }

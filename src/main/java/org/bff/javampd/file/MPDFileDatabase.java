@@ -6,8 +6,11 @@ import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.DatabaseProperties;
 import org.bff.javampd.database.TagLister;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -22,6 +25,10 @@ public class MPDFileDatabase implements FileDatabase {
 
     private DatabaseProperties databaseProperties;
     private CommandExecutor commandExecutor;
+
+    private static final String PREFIX_FILE = TagLister.ListInfoType.FILE.getPrefix();
+    private static final String PREFIX_DIRECTORY = TagLister.ListInfoType.DIRECTORY.getPrefix();
+    private static final String PREFIX_LAST_MODIFIED = TagLister.ListInfoType.LAST_MODIFIED.getPrefix();
 
     @Inject
     public MPDFileDatabase(DatabaseProperties databaseProperties,
@@ -40,7 +47,7 @@ public class MPDFileDatabase implements FileDatabase {
         if (directory.isDirectory()) {
             return listDirectory(directory.getPath());
         } else {
-            throw new MPDException(directory.getName() + " is not a directory.");
+            throw new MPDException(directory.getPath() + " is not a directory.");
         }
     }
 
@@ -50,29 +57,55 @@ public class MPDFileDatabase implements FileDatabase {
 
     private Collection<MPDFile> listDirectoryInfo(String directory) {
         List<MPDFile> returnList = new ArrayList<>();
-        List<String> list =
+        List<String> commandResponse =
                 commandExecutor.sendCommand(databaseProperties.getListInfo(), directory);
 
-        for (String s : list) {
+        Iterator<String> iterator = commandResponse.iterator();
+        String line = null;
+        while (iterator.hasNext()) {
+            if (line == null ||
+                    (!line.startsWith(PREFIX_FILE)
+                            && !line.startsWith(PREFIX_DIRECTORY))) {
+                line = iterator.next();
+            }
 
-            if (s.startsWith(TagLister.ListInfoType.FILE.getPrefix())
-                    || s.startsWith(TagLister.ListInfoType.DIRECTORY.getPrefix())) {
-                MPDFile f = new MPDFile();
+            if (line.startsWith(PREFIX_FILE) ||
+                    line.startsWith(PREFIX_DIRECTORY)) {
+                MPDFile mpdFile = new MPDFile(line.startsWith(PREFIX_FILE) ?
+                        line.substring(PREFIX_FILE.length()).trim() :
+                        line.substring(PREFIX_DIRECTORY.length()).trim());
 
-                String name = s;
-                if (s.startsWith(TagLister.ListInfoType.FILE.getPrefix())) {
-                    f.setDirectory(false);
-                    name = name.substring(TagLister.ListInfoType.FILE.getPrefix().length()).trim();
-                } else {
-                    f.setDirectory(true);
-                    name = name.substring(TagLister.ListInfoType.DIRECTORY.getPrefix().length()).trim();
+                if (line.startsWith(PREFIX_DIRECTORY)) {
+                    mpdFile.setDirectory(true);
                 }
-
-                f.setName(name);
-                f.setPath(name);
-                returnList.add(f);
+                line = processFile(mpdFile, iterator);
+                returnList.add(mpdFile);
             }
         }
+
         return returnList;
+    }
+
+    private String processFile(MPDFile mpdFile, Iterator<String> iterator) {
+        String line = iterator.next();
+        while (!line.startsWith(PREFIX_FILE) &&
+                !line.startsWith(PREFIX_DIRECTORY)) {
+
+            if (line.startsWith(PREFIX_LAST_MODIFIED)) {
+                mpdFile.setLastModified(processDate(line));
+            }
+
+            if (!iterator.hasNext()) {
+                break;
+            }
+            line = iterator.next();
+        }
+        return line;
+    }
+
+    private LocalDateTime processDate(String name) {
+        return LocalDateTime.parse(
+                name.substring(PREFIX_LAST_MODIFIED.length()).trim(),
+                DateTimeFormatter.ISO_DATE_TIME);
     }
 }

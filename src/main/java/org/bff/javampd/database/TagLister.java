@@ -30,7 +30,8 @@ public interface TagLister {
 
         PLAYLIST("playlist:"),
         DIRECTORY("directory:"),
-        FILE("file:");
+        FILE("file:"),
+        LAST_MODIFIED("Last-Modified:");
         private String prefix;
 
         ListInfoType(String prefix) {
