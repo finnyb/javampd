@@ -33,8 +33,7 @@ public class MPDFileDatabaseTest {
         response.add("directory: Q");
         response.add("Last-Modified: 2015-10-11T22:11:35Z");
 
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", "")).thenReturn(response);
+        prepMockedCommand("", response);
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listRootDirectory());
         assertEquals(1, mpdFiles.size());
@@ -77,8 +76,7 @@ public class MPDFileDatabaseTest {
         response.add("file: Q");
         response.add("Last-Modified: 2015-10-11T22:11:35Z");
 
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+        prepMockedCommand(dir, response);
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals(1, mpdFiles.size());
@@ -96,9 +94,7 @@ public class MPDFileDatabaseTest {
         fileDatabase.listDirectory(file);
 
         List<String> response = createMultFileResponse();
-
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+        prepMockedCommand(dir, response);
 
         assertEquals(4, new ArrayList<>(fileDatabase.listDirectory(file)).size());
     }
@@ -111,9 +107,7 @@ public class MPDFileDatabaseTest {
         fileDatabase.listDirectory(file);
 
         List<String> response = createMultFileResponse();
-
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+        prepMockedCommand(dir, response);
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals("Q", mpdFiles.get(0).getPath());
@@ -130,9 +124,7 @@ public class MPDFileDatabaseTest {
         fileDatabase.listDirectory(file);
 
         List<String> response = createMultFileResponse();
-
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+        prepMockedCommand(dir, response);
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals("R", mpdFiles.get(1).getPath());
@@ -149,9 +141,7 @@ public class MPDFileDatabaseTest {
         fileDatabase.listDirectory(file);
 
         List<String> response = createMultFileResponse();
-
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+        prepMockedCommand(dir, response);
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals("S", mpdFiles.get(2).getPath());
@@ -168,9 +158,7 @@ public class MPDFileDatabaseTest {
         fileDatabase.listDirectory(file);
 
         List<String> response = createMultFileResponse();
-
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+        prepMockedCommand(dir, response);
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
 
@@ -178,6 +166,13 @@ public class MPDFileDatabaseTest {
         assertEquals(LocalDateTime.parse("2015-10-11T22:11:38Z", DateTimeFormatter.ISO_DATE_TIME),
                 mpdFiles.get(3).getLastModified());
         assertTrue(mpdFiles.get(3).isDirectory());
+    }
+
+    @Test(expected = MPDException.class)
+    public void testListDirectoryException() throws Exception {
+        MPDFile file = new MPDFile("");
+        file.setDirectory(false);
+        fileDatabase.listDirectory(file);
     }
 
     private List<String> createMultFileResponse() {
@@ -194,10 +189,8 @@ public class MPDFileDatabaseTest {
         return response;
     }
 
-    @Test(expected = MPDException.class)
-    public void testListDirectoryException() throws Exception {
-        MPDFile file = new MPDFile("");
-        file.setDirectory(false);
-        fileDatabase.listDirectory(file);
+    private void prepMockedCommand(String file, List<String> response) {
+        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
+        when(commandExecutor.sendCommand("lsinfo", file)).thenReturn(response);
     }
 }
