@@ -3,6 +3,7 @@ package org.bff.javampd.file;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.DatabaseProperties;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,13 @@ public class MPDFileDatabaseTest {
     private CommandExecutor commandExecutor;
     @InjectMocks
     private MPDFileDatabase fileDatabase;
+
+    private DatabaseProperties realDatabaseProperties;
+
+    @Before
+    public void setup() {
+        realDatabaseProperties = new DatabaseProperties();
+    }
 
     @Test
     public void testListRootDirectory() throws Exception {
@@ -54,8 +62,9 @@ public class MPDFileDatabaseTest {
         response.add("directory: Q");
         response.add("Last-Modified: 2015-10-11T22:11:35Z");
 
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", dir)).thenReturn(response);
+        String listInfoCommand = realDatabaseProperties.getListInfo();
+        when(databaseProperties.getListInfo()).thenReturn(listInfoCommand);
+        when(commandExecutor.sendCommand(listInfoCommand, dir)).thenReturn(response);
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals(1, mpdFiles.size());
@@ -190,7 +199,7 @@ public class MPDFileDatabaseTest {
     }
 
     private void prepMockedCommand(String file, List<String> response) {
-        when(databaseProperties.getListInfo()).thenReturn("lsinfo");
-        when(commandExecutor.sendCommand("lsinfo", file)).thenReturn(response);
+        when(databaseProperties.getListInfo()).thenReturn(realDatabaseProperties.getListInfo());
+        when(commandExecutor.sendCommand(realDatabaseProperties.getListInfo(), file)).thenReturn(response);
     }
 }
