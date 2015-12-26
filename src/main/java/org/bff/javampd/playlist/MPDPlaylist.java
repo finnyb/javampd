@@ -100,7 +100,7 @@ public class MPDPlaylist implements Playlist {
     public void loadPlaylist(String playlistName) {
         String name = playlistName;
         if (name.endsWith(".m3u")) {
-            name = name.substring(name.length() - 4);
+            name = name.substring(0, name.length() - 4);
         }
 
         commandExecutor.sendCommand(playlistProperties.getLoad(), name);
@@ -149,19 +149,18 @@ public class MPDPlaylist implements Playlist {
         commandExecutor.sendCommand(playlistProperties.getAdd(), file.getPath());
         updatePlaylist();
         firePlaylistChangeEvent(PlaylistChangeEvent.Event.FILE_ADDED, file.getPath());
-
     }
 
     @Override
     public void removeSong(MPDSong song) {
         if (song.getId() > -1) {
             commandExecutor.sendCommand(playlistProperties.getRemoveId(), song.getId());
-
         } else if (song.getPosition() > -1) {
             commandExecutor.sendCommand(playlistProperties.getRemove(), song.getPosition());
         }
 
         updatePlaylist();
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_DELETED, song.getName());
     }
 
     @Override
@@ -178,6 +177,7 @@ public class MPDPlaylist implements Playlist {
     public void clearPlaylist() {
         commandExecutor.sendCommand(playlistProperties.getClear());
         updatePlaylist();
+        firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_CLEARED);
     }
 
     @Override
@@ -196,7 +196,7 @@ public class MPDPlaylist implements Playlist {
         if (song.getId() > -1) {
             commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getId(), to);
         } else if (song.getPosition() > -1) {
-            commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getPosition(), to);
+            commandExecutor.sendCommand(playlistProperties.getMove(), song.getPosition(), to);
         }
 
         updatePlaylist();
@@ -347,7 +347,6 @@ public class MPDPlaylist implements Playlist {
             if (song.getArtistName().equals(artistName)) {
                 removeList.add(song);
             }
-            removeList.add(song);
         }
 
         removeList.forEach(this::removeSong);
@@ -370,11 +369,6 @@ public class MPDPlaylist implements Playlist {
     @Override
     public List<MPDSong> getSongList() {
         return listSongs();
-    }
-
-    @Override
-    public String toString() {
-        return "Version:" + getVersion() + "\n";
     }
 
     @Override
