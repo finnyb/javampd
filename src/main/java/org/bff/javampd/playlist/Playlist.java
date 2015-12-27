@@ -167,7 +167,7 @@ public interface Playlist {
     void insertAlbum(String albumName);
 
     /**
-     * Removes a {@link org.bff.javampd.album.MPDAlbum} by a {@link org.bff.javampd.artist.MPDArtist} to the playlist.
+     * Removes a {@link org.bff.javampd.album.MPDAlbum} by a {@link org.bff.javampd.artist.MPDArtist} from the playlist.
      *
      * @param artist the {@link org.bff.javampd.artist.MPDArtist} for the album to remove
      * @param album  the {@link org.bff.javampd.album.MPDAlbum} to remove
@@ -175,7 +175,7 @@ public interface Playlist {
     void removeAlbum(MPDArtist artist, MPDAlbum album);
 
     /**
-     * Removes a album by a artist to the playlist.
+     * Removes a album by a artist from the playlist.
      *
      * @param artistName the artist for the album to remove
      * @param albumName  the album to remove
@@ -211,6 +211,20 @@ public interface Playlist {
     void insertGenre(String genreName);
 
     /**
+     * Removes a {@link org.bff.javampd.genre.MPDGenre} from the playlist.
+     *
+     * @param genre the {@link org.bff.javampd.genre.MPDGenre} to remove
+     */
+    void removeGenre(MPDGenre genre);
+
+    /**
+     * Removes a genre from the playlist.
+     *
+     * @param genreName the artist to remove
+     */
+    void removeGenre(String genreName);
+
+    /**
      * Adds a year to the playlist.
      *
      * @param year the {@link org.bff.javampd.genre.MPDGenre} to add
@@ -218,14 +232,21 @@ public interface Playlist {
     void insertYear(String year);
 
     /**
-     * Removes a {@link org.bff.javampd.artist.MPDArtist} to the playlist.
+     * Removes a year from the playlist.
+     *
+     * @param year the artist to remove
+     */
+    void removeYear(String year);
+
+    /**
+     * Removes a {@link org.bff.javampd.artist.MPDArtist} from the playlist.
      *
      * @param artist the {@link org.bff.javampd.artist.MPDArtist} to remove
      */
     void removeArtist(MPDArtist artist);
 
     /**
-     * Removes a artist to the playlist.
+     * Removes a artist from the playlist.
      *
      * @param artistName the artist to remove
      */

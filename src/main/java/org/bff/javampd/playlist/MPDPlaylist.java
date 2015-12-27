@@ -327,12 +327,39 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
+    public void removeGenre(MPDGenre genre) {
+        removeGenre(genre.getName());
+    }
+
+    @Override
+    public void removeGenre(String genreName) {
+        List<MPDSong> removeList =
+                getSongList().stream()
+                        .filter(song -> song.getGenre().equals(genreName))
+                        .collect(Collectors.toList());
+
+        removeList.forEach(this::removeSong);
+    }
+
+    @Override
     public void insertYear(String year) {
         for (MPDSong song : songDatabase.findYear(year)) {
             addSong(song, false);
         }
 
         firePlaylistChangeEvent(PlaylistChangeEvent.Event.YEAR_ADDED, year);
+    }
+
+    @Override
+    public void removeYear(String year) {
+        List<MPDSong> removeList = new ArrayList<>();
+        for (MPDSong song : getSongList()) {
+            if (song.getYear().equals(year)) {
+                removeList.add(song);
+            }
+        }
+
+        removeList.forEach(this::removeSong);
     }
 
     @Override
