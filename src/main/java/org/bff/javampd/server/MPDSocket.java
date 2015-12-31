@@ -76,7 +76,7 @@ public class MPDSocket {
 
     private void connectSocket(int timeout) {
         LOGGER.debug("attempting to connect socket to {} with timeout of {}", server, timeout);
-        this.socket = new Socket();
+        this.socket = createSocket();
         SocketAddress socketAddress = new InetSocketAddress(server, port);
         try {
             this.socket.connect(socketAddress, timeout);
@@ -84,6 +84,10 @@ public class MPDSocket {
             LOGGER.error("failed to connect socket to {}", server);
             throw new MPDConnectionException(ioe);
         }
+    }
+
+    protected Socket createSocket() {
+        return new Socket();
     }
 
     public synchronized Collection<String> sendCommand(MPDCommand command) {
@@ -113,7 +117,9 @@ public class MPDSocket {
                 throw new MPDConnectionException(e);
             }
         }
-        return new ArrayList<>();
+
+        LOGGER.error("Unable to send command {} after {} tries", command, TRIES);
+        throw new MPDConnectionException("Unable to send command " + command);
     }
 
     /**
@@ -141,15 +147,12 @@ public class MPDSocket {
     }
 
     private boolean isResponseError(final String line) {
-        try {
-            if (line.startsWith(responseProperties.getError())) {
-                this.lastError = line.substring(responseProperties.getError().length()).trim();
-                return true;
-            }
-        } catch (Exception e) {
-            LOGGER.error("Could not determine if response is error", e);
+        if (line.startsWith(responseProperties.getError())) {
+            this.lastError = line.substring(responseProperties.getError().length()).trim();
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     private String stripResponse(String response, String line) {
@@ -252,7 +255,7 @@ public class MPDSocket {
         }
     }
 
-    private BufferedReader writeToStream(String command) throws IOException {
+    protected BufferedReader writeToStream(String command) throws IOException {
         byte[] bytesToSend = command.getBytes(serverProperties.getEncoding());
 
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
