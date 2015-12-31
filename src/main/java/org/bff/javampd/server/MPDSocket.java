@@ -1,5 +1,6 @@
 package org.bff.javampd.server;
 
+import org.bff.javampd.MPDException;
 import org.bff.javampd.command.MPDCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +9,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -97,29 +101,30 @@ public class MPDSocket {
         while (count < TRIES) {
             try {
                 return sendBytes(convertCommand(command.getCommand(), command.getParams()));
-            } catch (SocketException se) {
+            } catch (MPDException mpdException) {
+                logCommandError(command, mpdException);
+                throw mpdException;
+            } catch (Exception ex) {
+                logCommandError(command, ex);
                 try {
                     connect();
-                } catch (Exception ex) {
-                    LOGGER.error("Unable to connect to {} on port {}", server, port, ex);
+                } catch (Exception exc) {
+                    LOGGER.error("Unable to connect to {} on port {}", server, port, exc);
                 }
                 ++count;
-                LOGGER.error("Retrying command {} for the {} time", command.getCommand(), count, se);
-            } catch (MPDSecurityException re) {
-                LOGGER.error("Response Error from: {}", command.getCommand(), re);
-                throw re;
-            } catch (Exception e) {
-                LOGGER.error("Error from: {}", command.getCommand(), e);
-                for (String str : command.getParams()) {
-                    LOGGER.error("\tparam: {}", str);
-                }
-
-                throw new MPDConnectionException(e);
+                LOGGER.warn("Retrying command {} for the {} time", command.getCommand(), count);
             }
         }
 
         LOGGER.error("Unable to send command {} after {} tries", command, TRIES);
         throw new MPDConnectionException("Unable to send command " + command);
+    }
+
+    private void logCommandError(MPDCommand command, Exception se) {
+        LOGGER.error("Error from: {}", command.getCommand(), se);
+        for (String str : command.getParams()) {
+            LOGGER.error("\tparam: {}", str);
+        }
     }
 
     /**
@@ -130,7 +135,7 @@ public class MPDSocket {
      * @return return the version of MPD
      * @throws IOException if there is a socked io problem
      */
-    private synchronized String connect() throws IOException {
+    private synchronized String connect() {
         return connect(0);
     }
 
