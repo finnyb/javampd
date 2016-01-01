@@ -115,6 +115,7 @@ public class MPDSongSearcherTest {
 
     @Test
     public void testFindNoCriteria() throws Exception {
+        String searchCriteria = "";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
         MPDSong testSong = new MPDSong("testFile", "testName");
 
@@ -122,16 +123,16 @@ public class MPDSongSearcherTest {
         testSongList.add(testSong);
 
         when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
-                generateParams(scopeType, ""))).thenReturn(new ArrayList<>());
+                generateParams(scopeType, searchCriteria))).thenReturn(new ArrayList<>());
         when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
 
-        List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, ""));
+        List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, searchCriteria));
 
         verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
         assertEquals(testSongList.size(), songList.size());
         assertEquals(searchProperties.getFind(), commandArgumentCaptor.getValue());
-        assertEquals(Arrays.asList(generateParams(scopeType, "")), paramArgumentCaptor.getAllValues());
+        assertEquals(Arrays.asList(generateParams(scopeType, searchCriteria)), paramArgumentCaptor.getAllValues());
         assertEquals(testSongList.get(0), songList.get(0));
     }
 
@@ -198,7 +199,7 @@ public class MPDSongSearcherTest {
                                     String criteria) {
         String[] paramList;
 
-        if (criteria != null && !"".equals(criteria)) {
+        if (criteria != null) {
             paramList = new String[2];
             paramList[1] = criteria;
         } else {

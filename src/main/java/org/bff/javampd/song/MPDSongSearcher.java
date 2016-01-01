@@ -71,7 +71,7 @@ public class MPDSongSearcher implements SongSearcher {
                                     String criteria) {
         String[] paramList;
 
-        if (criteria != null && !"".equals(criteria)) {
+        if (criteria != null) {
             paramList = new String[2];
             paramList[1] = criteria;
         } else {
