@@ -101,7 +101,7 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
                 firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
                 break;
             default:
-                LOGGER.warn("Invalid player status --> {}", status);
+                LOGGER.warn("Invalid playing status --> {}", status);
                 break;
         }
     }
@@ -115,7 +115,7 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
                 firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
                 break;
             default:
-                LOGGER.warn("Invalid player status --> {}", status);
+                LOGGER.warn("Invalid paused status --> {}", status);
                 break;
         }
     }
