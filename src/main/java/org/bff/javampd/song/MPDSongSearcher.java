@@ -5,7 +5,6 @@ import org.bff.javampd.command.CommandExecutor;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Implementation of {@link SongSearcher} for MPD
@@ -42,8 +41,10 @@ public class MPDSongSearcher implements SongSearcher {
     }
 
     private Collection<MPDSong> search(String[] params) {
-        List<String> titleList = commandExecutor.sendCommand(searchProperties.getSearch(), params);
-        return songConverter.convertResponseToSong(titleList);
+        return songConverter.convertResponseToSong(
+                commandExecutor.sendCommand(
+                        searchProperties.getSearch(),
+                        params));
 
     }
 
@@ -61,16 +62,16 @@ public class MPDSongSearcher implements SongSearcher {
     }
 
     private Collection<MPDSong> find(String[] params) {
-        List<String> titleList = commandExecutor.sendCommand(searchProperties.getFind(), params);
-
-        return songConverter.convertResponseToSong(titleList);
+        return songConverter.convertResponseToSong(
+                commandExecutor.sendCommand(searchProperties.getFind(),
+                        params));
     }
 
     private String[] generateParams(ScopeType scopeType,
                                     String criteria) {
         String[] paramList;
 
-        if (criteria != null) {
+        if (criteria != null && !"".equals(criteria)) {
             paramList = new String[2];
             paramList[1] = criteria;
         } else {
