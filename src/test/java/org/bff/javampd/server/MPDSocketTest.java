@@ -222,16 +222,6 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandStream() {
-
-    }
-
-    @Test
-    public void testSendCommandAndParamStream() {
-
-    }
-
-    @Test
     public void testSendCommands() throws Exception {
         createValidSocket();
 
