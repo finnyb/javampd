@@ -57,16 +57,19 @@ public class MPDPlaylistTestSong {
         when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
+        MPDSong mpdSong = new MPDSong("test", "test");
+
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        playlist.addSong(new MPDSong("test", "test"));
+        playlist.addSong(mpdSong);
 
         verify(commandExecutor)
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
         assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
-        assertEquals("test", stringArgumentCaptor.getAllValues().get(1));
+        assertEquals(mpdSong.getFile(), stringArgumentCaptor.getAllValues().get(1));
         assertEquals(PlaylistChangeEvent.Event.SONG_ADDED, changeEvent[0].getEvent());
+        assertEquals(mpdSong.getFile(), changeEvent[0].getName());
     }
 
     @Test
@@ -77,6 +80,40 @@ public class MPDPlaylistTestSong {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
         playlist.addSong(new MPDSong("test", "test"), false);
+
+        assertNull(changeEvent[0]);
+    }
+
+
+    @Test
+    public void testAddSongFile() throws Exception {
+        when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
+        when(serverStatus.getPlaylistVersion()).thenReturn(1);
+
+        MPDSong mpdSong = new MPDSong("testFile", "test");
+
+        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+        playlist.addSong(mpdSong.getFile());
+
+        verify(commandExecutor)
+                .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
+
+        assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+        assertEquals(mpdSong.getFile(), stringArgumentCaptor.getAllValues().get(1));
+        assertEquals(PlaylistChangeEvent.Event.SONG_ADDED, changeEvent[0].getEvent());
+        assertEquals(mpdSong.getFile(), changeEvent[0].getName());
+    }
+
+
+    @Test
+    public void testAddSongFileNoEvent() throws Exception {
+        when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
+        when(serverStatus.getPlaylistVersion()).thenReturn(-1);
+
+        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+        playlist.addSong("testFile", false);
 
         assertNull(changeEvent[0]);
     }

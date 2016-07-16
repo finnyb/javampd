@@ -43,6 +43,21 @@ public interface Playlist {
     void addSong(MPDSong song);
 
     /**
+     * Adds a {@link org.bff.javampd.song.MPDSong} to the playlist and fires a {@link PlaylistChangeEvent} for event listeners
+     *
+     * @param file the file to add
+     */
+    void addSong(String file);
+
+    /**
+     * Adds a {@link org.bff.javampd.song.MPDSong} to the playlist.
+     *
+     * @param file      the song to add
+     * @param fireEvent whether to fire song added event for the event listeners
+     */
+    void addSong(String file, boolean fireEvent);
+
+    /**
      * Adds a {@link org.bff.javampd.song.MPDSong} to the playlist.
      *
      * @param song      the song to add

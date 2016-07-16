@@ -86,7 +86,7 @@ public class MPDPlaylist implements Playlist {
      * {@link PlaylistChangeListener}.
      *
      * @param event the {@link PlaylistChangeEvent.Event} to send
-     * @param name   name of the added entity
+     * @param name  name of the added entity
      */
     protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event, String name) {
         PlaylistChangeEvent pce = new PlaylistChangeEvent(this, event, name);
@@ -114,11 +114,20 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void addSong(MPDSong song, boolean fireEvent) {
-        commandExecutor.sendCommand(playlistProperties.getAdd(), song.getFile());
-        updatePlaylist();
+        addSong(song.getFile(), fireEvent);
+    }
 
+    @Override
+    public void addSong(String file) {
+        this.addSong(file, true);
+    }
+
+    @Override
+    public void addSong(String file, boolean fireEvent) {
+        commandExecutor.sendCommand(playlistProperties.getAdd(), file);
+        updatePlaylist();
         if (fireEvent) {
-            firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_ADDED, song.getName());
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_ADDED, file);
         }
     }
 

@@ -118,4 +118,12 @@ public class MPDPlayerIT extends BaseTest {
         assertEquals(Player.Status.STATUS_PAUSED, player.getStatus());
     }
 
+    @Test
+    public void testPlaySong() throws Exception {
+        MPDSong testSong = new ArrayList<>(TestSongs.getSongs()).get(1);
+        String testFile = "/" + testSong.getFile();
+        String testTitle = testSong.getTitle();
+
+        player.playSong(new MPDSong(testFile, testTitle));
+    }
 }
