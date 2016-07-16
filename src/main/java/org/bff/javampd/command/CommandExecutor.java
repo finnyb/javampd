@@ -81,4 +81,9 @@ public interface CommandExecutor {
      * @param password the mpd password
      */
     void usePassword(String password);
+
+    /**
+     * Close the connection executor socket
+     */
+    void close();
 }

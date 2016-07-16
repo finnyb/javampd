@@ -107,7 +107,11 @@ public class MPD implements Server {
 
     @Override
     public void close() {
-        commandExecutor.sendCommand(serverProperties.getClose());
+        try {
+            commandExecutor.sendCommand(serverProperties.getClose());
+        } finally {
+            commandExecutor.close();
+        }
     }
 
     @Override

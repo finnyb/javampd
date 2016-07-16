@@ -266,6 +266,20 @@ public class MPDSocketTest {
         assertEquals("MPD 0.18.0", socket.getVersion());
     }
 
+    @Test(expected = MPDConnectionException.class)
+    public void testCloseException() throws Exception {
+        createValidSocket();
+
+        doThrow(new IOException()).when(mockSocket).close();
+        socket.close();
+    }
+
+    @Test
+    public void testClose() throws Exception {
+        createValidSocket();
+        socket.close();
+    }
+
     private String convertCommand(MPDCommand command) {
         StringBuilder sb = new StringBuilder(command.getCommand());
 

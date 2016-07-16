@@ -123,4 +123,9 @@ public class MPDCommandExecutor implements CommandExecutor {
 
         this.password = password;
     }
+
+    @Override
+    public void close() {
+        this.mpdSocket.close();
+    }
 }

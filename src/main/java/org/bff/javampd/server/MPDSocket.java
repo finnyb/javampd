@@ -260,6 +260,16 @@ public class MPDSocket {
         }
     }
 
+    public void close() {
+        if (this.socket.isConnected()) {
+            try {
+                this.socket.close();
+            } catch (IOException e) {
+                throw new MPDConnectionException("Unable to close socket", e);
+            }
+        }
+    }
+
     protected BufferedReader writeToStream(String command) throws IOException {
         byte[] bytesToSend = command.getBytes(serverProperties.getEncoding());
 
