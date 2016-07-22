@@ -97,6 +97,13 @@ public interface Playlist {
     void removeSong(MPDSong song);
 
     /**
+     * Removes a {@link org.bff.javampd.song.MPDSong} from the playlist.
+     *
+     * @param position the playlist position to remove
+     */
+    void removeSong(int position);
+
+    /**
      * Returns the current song.
      *
      * @return the current song

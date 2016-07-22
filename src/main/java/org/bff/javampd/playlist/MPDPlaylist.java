@@ -163,13 +163,21 @@ public class MPDPlaylist implements Playlist {
     @Override
     public void removeSong(MPDSong song) {
         if (song.getId() > -1) {
+            updatePlaylist();
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_DELETED, song.getName());
             commandExecutor.sendCommand(playlistProperties.getRemoveId(), song.getId());
-        } else if (song.getPosition() > -1) {
-            commandExecutor.sendCommand(playlistProperties.getRemove(), song.getPosition());
+        } else {
+            removeSong(song.getPosition());
         }
+    }
 
-        updatePlaylist();
-        firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_DELETED, song.getName());
+    @Override
+    public void removeSong(int position) {
+        if (position > -1) {
+            commandExecutor.sendCommand(playlistProperties.getRemove(), position);
+            updatePlaylist();
+            firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_DELETED);
+        }
     }
 
     @Override

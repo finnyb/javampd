@@ -176,6 +176,43 @@ public class MPDPlaylistTestSong {
     }
 
     @Test
+    public void testRemoveSongByPosition() throws Exception {
+        when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
+        when(serverStatus.getPlaylistVersion()).thenReturn(1);
+
+        int position = 5;
+
+        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+        MPDSong mpdSong = new MPDSong("test", "test");
+        mpdSong.setPosition(position);
+        playlist.removeSong(position);
+
+        verify(commandExecutor)
+                .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
+
+        assertEquals(realPlaylistProperties.getRemove(), stringArgumentCaptor.getValue());
+        assertEquals((Integer) position, integerArgumentCaptor.getValue());
+        assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());
+    }
+
+    @Test
+    public void testRemoveSongByBadPosition() throws Exception {
+        when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
+        when(serverStatus.getPlaylistVersion()).thenReturn(1);
+
+        int position = -1;
+
+        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+        MPDSong mpdSong = new MPDSong("test", "test");
+        mpdSong.setPosition(position);
+        playlist.removeSong(position);
+
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
     public void testRemoveSongById() throws Exception {
         when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
