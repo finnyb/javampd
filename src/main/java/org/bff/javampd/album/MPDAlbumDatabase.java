@@ -118,6 +118,15 @@ public class MPDAlbumDatabase implements AlbumDatabase {
         return albums;
     }
 
+    @Override
+    public Collection<String> listAlbumNamesByYear(String year) {
+        List<String> list = new ArrayList<>();
+        list.add(TagLister.ListType.DATE.getType());
+        list.add(year);
+
+        return tagLister.list(TagLister.ListType.ALBUM, list);
+    }
+
     private Collection<MPDAlbum> lookupAlbumByName(String albumName,
                                                    List<String> artistParams) {
         List<MPDAlbum> albums = new ArrayList<>();

@@ -34,6 +34,17 @@ public interface AlbumDatabase {
 
 
     /**
+     * Returns a {@link java.util.Collection} of album names of all
+     * albums for a particular year.
+     *
+     * @param year the year to find albums
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all
+     * years
+     */
+    Collection<String> listAlbumNamesByYear(String year);
+
+
+    /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all
      * albums by a particular artist.
      *
