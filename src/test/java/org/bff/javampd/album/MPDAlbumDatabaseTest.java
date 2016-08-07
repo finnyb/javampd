@@ -152,6 +152,31 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
+    public void testListAlbumNamesByYear() throws Exception {
+        String testYear = "testYear";
+        String testAlbumName = "testAlbum";
+
+        List<String> mockYearList = new ArrayList<>();
+        mockYearList.add(TagLister.ListType.DATE.getType());
+        mockYearList.add(testYear);
+
+        List<String> mockReturnAlbumList = new ArrayList<>();
+        mockReturnAlbumList.add(testAlbumName);
+
+        List<String> mockAlbumList = new ArrayList<>();
+        mockAlbumList.add(TagLister.ListType.ALBUM.getType());
+        mockAlbumList.add(testAlbumName);
+
+        when(tagLister
+                .list(TagLister.ListType.ALBUM, mockYearList))
+                .thenReturn(mockReturnAlbumList);
+
+        List<String> albums = new ArrayList<>(albumDatabase.listAlbumNamesByYear(testYear));
+        assertEquals(1, albums.size());
+        assertEquals(testAlbumName, albums.get(0));
+    }
+
+    @Test
     public void testListAllAlbumNames() throws Exception {
 
         String testAlbumName1 = "testAlbum1";

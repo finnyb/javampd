@@ -64,4 +64,11 @@ Lots of debugging information can be obtained from debug level logging.
 ...
 ```
 
-##Monitoring    
+##Monitoring
+MPDStandAloneMonitor to monitor events
+bitrate can be turned off since chatty
+
+##Server status
+load the server status by getting the status from MPD.  It has an default expiry interval of 5 seconds, this can be
+overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method.  Updates
+can be force using forceUpdate

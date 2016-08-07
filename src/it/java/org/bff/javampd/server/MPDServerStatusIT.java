@@ -48,6 +48,7 @@ public class MPDServerStatusIT extends BaseTest {
     @Test
     public void testGetState() throws Exception {
         player.play();
+        serverStatus.forceUpdate();
         assertEquals("play", serverStatus.getState());
     }
 
@@ -72,6 +73,7 @@ public class MPDServerStatusIT extends BaseTest {
         MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         admin.disableOutput(output);
         player.play();
+        serverStatus.forceUpdate();
         assertTrue(serverStatus.isError());
     }
 
@@ -90,9 +92,11 @@ public class MPDServerStatusIT extends BaseTest {
         admin.disableOutput(output);
 
         player.play();
+        serverStatus.forceUpdate();
         assertTrue(serverStatus.isError());
 
         getMpd().clearerror();
+        serverStatus.forceUpdate();
         assertFalse(serverStatus.isError());
         admin.enableOutput(output);
     }
@@ -110,6 +114,30 @@ public class MPDServerStatusIT extends BaseTest {
         player.play();
         Thread.sleep(5000);
         assertEquals(48, serverStatus.getBitrate());
+    }
+
+    @Test
+    public void testSetExpiryInterval() throws Exception {
+        long time = serverStatus.getElapsedTime();
+        player.play();
+        Thread.sleep(1000);
+        assertEquals(time, serverStatus.getElapsedTime());
+    }
+
+    @Test
+    public void testExpiryInterval() throws Exception {
+        long time = serverStatus.getElapsedTime();
+        player.play();
+        Thread.sleep(1000);
+        assertEquals(time, serverStatus.getElapsedTime());
+    }
+
+    @Test
+    public void testForceUpdate() throws Exception {
+        long time = serverStatus.getElapsedTime();
+        player.play();
+        serverStatus.forceUpdate();
+        assertNotEquals(time, serverStatus.getElapsedTime());
     }
 
     @Test

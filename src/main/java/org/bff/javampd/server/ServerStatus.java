@@ -3,6 +3,10 @@ package org.bff.javampd.server;
 import java.util.Collection;
 
 /**
+ * ServerStatus represents the server's status at the time it is called.  The status has a default expiry interval
+ * of 5 seconds.  This can be overridden by using {@link #setExpiryInterval(long)}.  You can also force an update
+ * from the server by calling {@link #forceUpdate()}
+ *
  * @author bill
  */
 public interface ServerStatus {
@@ -14,6 +18,11 @@ public interface ServerStatus {
      */
     Collection<String> getStatus();
 
+    /**
+     * Returns the current playlist version
+     *
+     * @return the playlist version
+     */
     int getPlaylistVersion();
 
     /**
@@ -23,8 +32,18 @@ public interface ServerStatus {
      */
     String getState();
 
+    /**
+     * Returns the cross fade value
+     *
+     * @return the crossfade value
+     */
     int getXFade();
 
+    /**
+     * Returns the audio format  (sampleRate:bits:channels)
+     *
+     * @return the audio format
+     */
     String getAudio();
 
     /**
@@ -49,8 +68,18 @@ public interface ServerStatus {
      */
     long getTotalTime();
 
+    /**
+     * Returns the current bitrate of the {@link org.bff.javampd.song.MPDSong} playing
+     *
+     * @return the current bitrate
+     */
     int getBitrate();
 
+    /**
+     * Returns the current volume
+     *
+     * @return the current volume
+     */
     int getVolume();
 
     /**
@@ -61,7 +90,36 @@ public interface ServerStatus {
      */
     boolean isError();
 
+    /**
+     * Returns if the playlist is repeating
+     *
+     * @return playlist repeating
+     */
     boolean isRepeat();
 
+    /**
+     * Returns if the playlist is randomized
+     *
+     * @return true if playlist is random
+     */
     boolean isRandom();
+
+    /**
+     * Returns if the database is currently updating
+     *
+     * @return true if the db is updating
+     */
+    boolean isDatabaseUpdating();
+
+    /**
+     * Sets the length of time that the status is considered expired.  Set to 0 to always call the server
+     *
+     * @param seconds the number of seconds before the loaded status is considered expired
+     */
+    void setExpiryInterval(long seconds);
+
+    /**
+     * Forces a server update
+     */
+    void forceUpdate();
 }

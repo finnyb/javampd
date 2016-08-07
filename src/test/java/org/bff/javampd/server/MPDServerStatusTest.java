@@ -6,12 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -264,5 +266,49 @@ public class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
 
         assertFalse(serverStatus.isRandom());
+    }
+
+    @Test
+    public void testInsideDefaultExpiry() {
+        String random = "1";
+        statusList.add("random: " + random);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        serverStatus.isRandom();
+        serverStatus.isRandom();
+        Mockito.verify(commandExecutor, times(1)).sendCommand(properties.getStatus());
+    }
+
+    @Test
+    public void testOutsideDefaultExpiry() throws InterruptedException {
+        String random = "1";
+        statusList.add("random: " + random);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        serverStatus.isRandom();
+        Thread.sleep(5001);
+        serverStatus.isRandom();
+        Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStatus());
+    }
+
+    @Test
+    public void testSetExpiry() throws InterruptedException {
+        serverStatus.setExpiryInterval(1);
+        String random = "1";
+        statusList.add("random: " + random);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        serverStatus.isRandom();
+        Thread.sleep(1001);
+        serverStatus.isRandom();
+        Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStatus());
+    }
+
+    @Test
+    public void testForceUpdate() {
+        String random = "1";
+        statusList.add("random: " + random);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        serverStatus.isRandom();
+        serverStatus.forceUpdate();
+        serverStatus.isRandom();
+        Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStatus());
     }
 }

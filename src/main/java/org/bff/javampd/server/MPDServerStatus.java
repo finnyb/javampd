@@ -5,6 +5,7 @@ import org.bff.javampd.command.CommandExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +14,10 @@ import java.util.List;
  */
 public class MPDServerStatus implements ServerStatus {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDServerStatus.class);
+
+    private long expiryInterval = 5;
+    private List<String> cachedResponse;
+    private LocalDateTime responseDate;
 
     private ServerProperties serverProperties;
     private CommandExecutor commandExecutor;
@@ -37,21 +42,26 @@ public class MPDServerStatus implements ServerStatus {
                            CommandExecutor commandExecutor) {
         this.serverProperties = serverProperties;
         this.commandExecutor = commandExecutor;
+        this.responseDate = LocalDateTime.MIN;
     }
 
     /**
      * Returns the current status of the requested status element.
      * See {@link Status} for a list of possible items returned
-     * by getStatus.  If the status isnt part of the response
+     * by getStatus.  If the status isn't part of the response
      * "" is returned.
      *
      * @param status the status desired
      * @return the desired status information
      */
     protected String getStatus(Status status) {
-        List<String> respList = commandExecutor.sendCommand(serverProperties.getStatus());
+        LocalDateTime now = LocalDateTime.now();
+        if (now.minusSeconds(this.expiryInterval).isAfter(this.responseDate)) {
+            this.responseDate = now;
+            this.cachedResponse = commandExecutor.sendCommand(serverProperties.getStatus());
+        }
 
-        for (String line : respList) {
+        for (String line : cachedResponse) {
             if (line.startsWith(status.getStatusPrefix())) {
                 return line.substring(status.getStatusPrefix().length()).trim();
             }
@@ -147,6 +157,21 @@ public class MPDServerStatus implements ServerStatus {
     @Override
     public boolean isRandom() {
         return "1".equals(getStatus(Status.RANDOM));
+    }
+
+    @Override
+    public boolean isDatabaseUpdating() {
+        return !"".equals(getStatus(Status.UPDATINGDB));
+    }
+
+    @Override
+    public void setExpiryInterval(long seconds) {
+        this.expiryInterval = seconds;
+    }
+
+    @Override
+    public void forceUpdate() {
+        this.responseDate = LocalDateTime.MIN;
     }
 
     private long lookupTime(TimeType type) {
