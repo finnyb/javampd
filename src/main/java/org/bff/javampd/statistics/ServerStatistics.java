@@ -1,6 +1,10 @@
 package org.bff.javampd.statistics;
 
 /**
+ * represents the server's statistics at the time it is called.  The status has a default expiry interval
+ * of 60 seconds.  This can be overridden by using {@link #setExpiryInterval(long)}.  You can also force an update
+ * from the server by calling {@link #forceUpdate()}
+ *
  * @author bill
  */
 public interface ServerStatistics {
@@ -87,4 +91,16 @@ public interface ServerStatistics {
             return prefix;
         }
     }
+
+    /**
+     * Sets the length of time that the status is considered expired.  Set to 0 to always call the server
+     *
+     * @param seconds the number of seconds before the loaded status is considered expired
+     */
+    void setExpiryInterval(long seconds);
+
+    /**
+     * Forces a server update
+     */
+    void forceUpdate();
 }

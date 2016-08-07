@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -15,6 +16,10 @@ import java.util.List;
  */
 public class MPDServerStatistics implements ServerStatistics {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDServerStatistics.class);
+
+    private long expiryInterval = 60;
+    private List<String> cachedResponse;
+    private LocalDateTime responseDate;
 
     private ServerProperties serverProperties;
     private CommandExecutor commandExecutor;
@@ -24,6 +29,7 @@ public class MPDServerStatistics implements ServerStatistics {
                                CommandExecutor commandExecutor) {
         this.serverProperties = serverProperties;
         this.commandExecutor = commandExecutor;
+        this.responseDate = LocalDateTime.MIN;
     }
 
     /**
@@ -35,9 +41,13 @@ public class MPDServerStatistics implements ServerStatistics {
      * @return the requested statistic
      */
     private Number getStat(StatList stat) {
-        List<String> respList = sendMPDCommand(serverProperties.getStats());
+        LocalDateTime now = LocalDateTime.now();
+        if (now.minusSeconds(this.expiryInterval).isAfter(this.responseDate)) {
+            this.responseDate = now;
+            this.cachedResponse = commandExecutor.sendCommand(serverProperties.getStats());
+        }
 
-        for (String line : respList) {
+        for (String line : cachedResponse) {
             if (line.startsWith(stat.getStatPrefix())) {
                 try {
                     return (NumberFormat.getInstance()).parse(line.substring(stat.getStatPrefix().length()).trim());
@@ -49,10 +59,6 @@ public class MPDServerStatistics implements ServerStatistics {
         }
 
         return 0;
-    }
-
-    private List<String> sendMPDCommand(String stats) {
-        return commandExecutor.sendCommand(stats);
     }
 
     @Override
@@ -88,5 +94,15 @@ public class MPDServerStatistics implements ServerStatistics {
     @Override
     public long getLastUpdateTime() {
         return getStat(StatList.DBUPDATE).longValue();
+    }
+
+    @Override
+    public void setExpiryInterval(long seconds) {
+        this.expiryInterval = seconds;
+    }
+
+    @Override
+    public void forceUpdate() {
+        this.responseDate = LocalDateTime.MIN;
     }
 }

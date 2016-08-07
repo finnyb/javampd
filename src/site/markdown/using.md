@@ -72,3 +72,8 @@ bitrate can be turned off since chatty
 load the server status by getting the status from MPD.  It has an default expiry interval of 5 seconds, this can be
 overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method.  Updates
 can be force using forceUpdate
+
+##Server statistics
+load the server statistics by getting the status from MPD.  It has an default expiry interval of 60 seconds, this can be
+overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method.  Updates
+can be force using forceUpdate

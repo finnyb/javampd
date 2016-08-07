@@ -7,12 +7,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -105,5 +107,50 @@ public class MPDServerStatisticsTest {
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
 
         assertEquals(0, serverStatistics.getLastUpdateTime());
+    }
+
+
+    @Test
+    public void testInsideDefaultExpiry() {
+        String songs = "5";
+        statList.add("songs: " + songs);
+        when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
+        serverStatistics.getSongCount();
+        serverStatistics.getSongCount();
+        Mockito.verify(commandExecutor, times(1)).sendCommand(properties.getStats());
+    }
+
+    @Test
+    public void testOutsideDefaultExpiry() throws InterruptedException {
+        String songs = "5";
+        statList.add("songs: " + songs);
+        when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
+        serverStatistics.getSongCount();
+        Thread.sleep(60001);
+        serverStatistics.getSongCount();
+        Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStats());
+    }
+
+    @Test
+    public void testSetExpiry() throws InterruptedException {
+        serverStatistics.setExpiryInterval(1);
+        String songs = "5";
+        statList.add("songs: " + songs);
+        when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
+        serverStatistics.getSongCount();
+        Thread.sleep(1001);
+        serverStatistics.getSongCount();
+        Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStats());
+    }
+
+    @Test
+    public void testForceUpdate() {
+        String songs = "5";
+        statList.add("songs: " + songs);
+        when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
+        serverStatistics.getSongCount();
+        serverStatistics.forceUpdate();
+        serverStatistics.getSongCount();
+        Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStats());
     }
 }
