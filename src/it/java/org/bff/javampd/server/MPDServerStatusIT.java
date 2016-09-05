@@ -147,6 +147,7 @@ public class MPDServerStatusIT extends BaseTest {
     @Test
     public void testGetVolume() {
         player.setVolume(5);
+        delay(DELAY);
         assertEquals(5, serverStatus.getVolume());
     }
 
