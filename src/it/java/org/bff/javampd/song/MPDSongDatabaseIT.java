@@ -34,7 +34,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     private static List<MPDSong> databaseList;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         songDatabase = getMpd().getMusicDatabase().getSongDatabase();
         artistDatabase = getMpd().getMusicDatabase().getArtistDatabase();
         loadDatabaseSongs();
@@ -86,7 +86,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindAlbumByArtist() throws Exception {
+    public void testFindAlbumByArtist() {
         List<MPDSong> testResults = new ArrayList<>();
 
         for (MPDSong song : TestSongs.getSongs()) {
@@ -105,7 +105,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindAlbumByArtistString() throws Exception {
+    public void testFindAlbumByArtistString() {
         List<MPDSong> testResults = new ArrayList<>();
 
         for (MPDSong song : TestSongs.getSongs()) {
@@ -124,7 +124,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindAlbumByGenre() throws Exception {
+    public void testFindAlbumByGenre() {
         List<MPDSong> testResults = new ArrayList<>();
 
         for (MPDSong song : TestSongs.getSongs()) {
@@ -140,7 +140,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindAlbumByGenreString() throws Exception {
+    public void testFindAlbumByGenreString() {
         List<MPDSong> testResults = new ArrayList<>();
 
         for (MPDSong song : TestSongs.getSongs()) {
@@ -155,7 +155,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindAlbumByYear() throws Exception {
+    public void testFindAlbumByYear() {
         List<MPDSong> testResults = new ArrayList<>();
 
         for (MPDSong song : TestSongs.getSongs()) {
@@ -201,7 +201,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindArtist() throws Exception {
+    public void testFindArtist() {
         List<MPDSong> testResults = new ArrayList<>();
 
         for (MPDSong song : TestSongs.getSongs()) {
@@ -278,7 +278,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindTitle() throws Exception {
+    public void testFindTitle() {
         List<MPDSong> testResults = new ArrayList<>();
 
         for (MPDSong song : TestSongs.getSongs()) {
@@ -308,7 +308,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListAllSongsForPath() throws Exception {
+    public void testListAllSongsForPath() {
 
     }
 
@@ -335,7 +335,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testSearchTitleBetweenYears() throws Exception {
+    public void testSearchTitleBetweenYears() {
 
     }
 
@@ -370,7 +370,7 @@ public class MPDSongDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testSearchFileName() throws Exception {
+    public void testSearchFileName() {
 
     }
 

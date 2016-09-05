@@ -28,6 +28,7 @@ public class MPDSong extends MPDItem {
      * Creates a song.
      *
      * @param file the url of the song
+     * @param title the  song title
      */
     public MPDSong(String file, String title) {
         super(title);

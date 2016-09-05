@@ -11,12 +11,12 @@ public class MPDGenreDatabaseIT extends BaseTest {
     private GenreDatabase genreDatabase;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.genreDatabase = getMpd().getMusicDatabase().getGenreDatabase();
     }
 
     @Test
-    public void testListAllGenres() throws Exception {
+    public void testListAllGenres() {
         for (MPDGenre testGenre : TestGenres.getGenres()) {
             boolean exists = false;
             for (MPDGenre genre : genreDatabase.listAllGenres()) {
@@ -33,7 +33,7 @@ public class MPDGenreDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListGenreByName() throws Exception {
+    public void testListGenreByName() {
         String testGenre = "Rock";
         MPDGenre genre = genreDatabase.listGenreByName(testGenre);
 

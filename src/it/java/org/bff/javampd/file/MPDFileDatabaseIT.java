@@ -26,7 +26,7 @@ public class MPDFileDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListRootDirectory() throws Exception {
+    public void testListRootDirectory() {
         List<File> testFiles = new ArrayList<>(TestFiles.getRootTestFiles(testProperties.getPath()));
         List<MPDFile> files = new ArrayList<>(fileDatabase.listRootDirectory());
 
@@ -46,7 +46,7 @@ public class MPDFileDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListDirectories() throws Exception {
+    public void testListDirectories() {
         List<File> testFiles = new ArrayList<>(TestFiles.getRootTestFiles(testProperties.getPath()));
 
         for (File f : testFiles) {
@@ -61,7 +61,7 @@ public class MPDFileDatabaseIT extends BaseTest {
         }
     }
 
-    private void compareDirs(File testFile, MPDFile file) throws Exception {
+    private void compareDirs(File testFile, MPDFile file) {
         List<File> testFiles = new ArrayList<>(TestFiles.getTestFiles(testFile));
         List<MPDFile> files = new ArrayList<>(fileDatabase.listDirectory(file));
 
@@ -70,6 +70,7 @@ public class MPDFileDatabaseIT extends BaseTest {
         for (File f : testFiles) {
             boolean found = false;
             for (MPDFile mpdF : files) {
+                System.out.println(mpdF.getPath() + " --> " + mpdF.getLastModified());
                 assertEquals(LocalDateTime.parse("2016-03-25T12:43:50Z", DateTimeFormatter.ISO_DATE_TIME),
                         mpdF.getLastModified());
                 if (f.getName().equals(mpdF.getPath().replaceFirst(file.getPath() + "/", ""))) {

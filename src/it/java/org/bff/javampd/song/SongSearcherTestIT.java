@@ -14,12 +14,12 @@ public class SongSearcherTestIT extends BaseTest {
     private SongSearcher songSearcher;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         songSearcher = getMpd().getSongSearcher();
     }
 
     @Test
-    public void testSearch() throws Exception {
+    public void testSearch() {
         String albumName = "Album1";
 
         List<MPDSong> testResults = new ArrayList<>();
@@ -38,7 +38,7 @@ public class SongSearcherTestIT extends BaseTest {
 
     @Test
     @Ignore
-    public void testWindowedSearch() throws Exception {
+    public void testWindowedSearch() {
         String albumName = "Album1";
 
         List<MPDSong> testResults = new ArrayList<>();
@@ -56,12 +56,12 @@ public class SongSearcherTestIT extends BaseTest {
     }
 
     @Test
-    public void testFind() throws Exception {
+    public void testFind() {
 
     }
 
     @Test
-    public void testWindowedFind() throws Exception {
+    public void testWindowedFind() {
 
     }
 }

@@ -14,12 +14,12 @@ public class MPDArtistDatabaseIT extends BaseTest {
     private ArtistDatabase artistDatabase;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.artistDatabase = getMpd().getMusicDatabase().getArtistDatabase();
     }
 
     @Test
-    public void testListAllArtists() throws Exception {
+    public void testListAllArtists() {
         for (MPDArtist testArtist : TestArtists.getArtists()) {
             boolean exists = false;
             for (MPDArtist artist : artistDatabase.listAllArtists()) {
@@ -36,7 +36,7 @@ public class MPDArtistDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListArtistsByGenre() throws Exception {
+    public void testListArtistsByGenre() {
         for (MPDGenre testGenre : TestGenres.getGenres()) {
             for (MPDArtist testArtist : TestGenres.getArtistsForGenre(testGenre)) {
                 boolean exists = false;
@@ -54,7 +54,7 @@ public class MPDArtistDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListArtistsByName() throws Exception {
+    public void testListArtistsByName() {
         for (MPDArtist testArtist : TestArtists.getArtists()) {
             MPDArtist artist = artistDatabase.listArtistByName(testArtist.getName());
             assertEquals(testArtist, artist);

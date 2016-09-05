@@ -36,8 +36,8 @@ import java.net.UnknownHostException;
  * <p>
  * Defaults are:
  * <p>
- * server --> localhost
- * port --> 6600
+ * server - localhost
+ * port - 6600
  * no timeout
  * no password
  *

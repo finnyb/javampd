@@ -14,7 +14,7 @@ public class MPDAdminIT extends BaseTest {
     private Admin admin;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         this.admin = getMpd().getAdmin();
     }
 

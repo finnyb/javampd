@@ -40,7 +40,13 @@ public class MPDPlaylist implements Playlist {
     private SongConverter songConverter;
 
     /**
-     * Creates a new instance of MPDPlaylist
+     * Playlist constructor
+     *
+     * @param songDatabase the song database
+     * @param serverStatus the server status
+     * @param playlistProperties playlist properties
+     * @param commandExecutor command runner
+     * @param songConverter song marshaller
      */
     @Inject
     public MPDPlaylist(SongDatabase songDatabase,

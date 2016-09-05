@@ -21,7 +21,7 @@ public interface GenreDatabase {
      * Returns a {@link org.bff.javampd.genre.MPDGenre} with the passed name.
      *
      * @param name the name of the genre
-     * @return a {@link org.bff.javampd.genre.MPDGenre
+     * @return a {@link org.bff.javampd.genre.MPDGenre}
      */
     MPDGenre listGenreByName(String name);
 }

@@ -13,8 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MPDStandAloneMonitorIT extends BaseTest {
 
@@ -54,12 +52,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     }
 
     private void delay(int multiplier) {
-        try {
-            Thread.sleep(MONITOR_DELAY * multiplier);
-        } catch (InterruptedException e) {
-            //don't care
-            e.printStackTrace();
-        }
+        super.delay(MONITOR_DELAY * multiplier);
     }
 
     private boolean success;
@@ -149,11 +142,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     private void waitForSuccess() {
         int count = 0;
         while (!success && count++ < 100) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            super.delay(100);
         }
     }
 

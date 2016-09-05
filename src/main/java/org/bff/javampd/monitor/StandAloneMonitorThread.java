@@ -23,6 +23,8 @@ public class StandAloneMonitorThread implements Runnable {
     /**
      * Creates the monitor thread with the given delay seconds.
      *
+     * @param serverStatus server status
+     * @param connectionMonitor connection monitor
      * @param delay          the number of seconds between each poll
      * @param exceptionDelay the number of seconds to wait should an error occur
      */

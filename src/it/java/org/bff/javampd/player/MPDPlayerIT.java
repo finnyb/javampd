@@ -16,9 +16,10 @@ import static org.junit.Assert.assertTrue;
 public class MPDPlayerIT extends BaseTest {
     private Playlist playlist;
     private Player player;
+    private static long PLAYER_DELAY = 2000;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.player = getMpd().getPlayer();
         this.playlist = getMpd().getPlaylist();
         List<MPDSong> songs = new ArrayList<>(TestSongs.getSongs());
@@ -26,7 +27,7 @@ public class MPDPlayerIT extends BaseTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         playlist.clearPlaylist();
     }
 
@@ -39,12 +40,7 @@ public class MPDPlayerIT extends BaseTest {
     @Test
     public void testAudioDetails() {
         player.play();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        delay(PLAYER_DELAY);
 
         MPDAudioInfo info = player.getAudioDetails();
 
@@ -56,26 +52,14 @@ public class MPDPlayerIT extends BaseTest {
     @Test
     public void testGetTime() {
         player.play();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
+        delay(PLAYER_DELAY * 3);
         assertTrue(player.getElapsedTime() > 0);
     }
 
     @Test
     public void testGetTotalTime() {
         player.play();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        delay(PLAYER_DELAY);
         assertEquals(5, player.getTotalTime());
     }
 
@@ -84,11 +68,7 @@ public class MPDPlayerIT extends BaseTest {
     public void testSetVolume() {
         player.setVolume(0);
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        delay(PLAYER_DELAY);
 
         player.setVolume(5);
 
@@ -114,12 +94,13 @@ public class MPDPlayerIT extends BaseTest {
     @Test
     public void testPaused() {
         player.play();
+        delay(PLAYER_DELAY);
         player.pause();
         assertEquals(Player.Status.STATUS_PAUSED, player.getStatus());
     }
 
     @Test
-    public void testPlaySong() throws Exception {
+    public void testPlaySong() {
         MPDSong testSong = new ArrayList<>(TestSongs.getSongs()).get(1);
         String testFile = "/" + testSong.getFile();
         String testTitle = testSong.getTitle();

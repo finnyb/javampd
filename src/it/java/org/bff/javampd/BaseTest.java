@@ -95,4 +95,12 @@ public abstract class BaseTest {
             assertTrue(found);
         }
     }
+
+    protected void delay(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -30,7 +30,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListAlbumsByArtist() throws Exception {
+    public void testListAlbumsByArtist() {
         for (MPDArtist artist : TestArtists.getArtists()) {
             compareAlbumLists(TestArtists.TEST_ARTIST_ALBUM_MAP.get(artist),
                     albumDatabase.listAlbumsByArtist(artist));
@@ -38,7 +38,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindAlbumByArtist() throws Exception {
+    public void testFindAlbumByArtist() {
         for (MPDArtist artist : TestArtists.getArtists()) {
             for (MPDAlbum album : TestArtists.TEST_ARTIST_ALBUM_MAP.get(artist)) {
                 assertEquals(album, albumDatabase.findAlbumByArtist(artist, album.getName()));
@@ -47,7 +47,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListAlbumsByGenre() throws Exception {
+    public void testListAlbumsByGenre() {
         for (MPDGenre genre : TestGenres.getGenres()) {
             compareAlbumLists(TestGenres.getAlbumsForGenre(genre),
                     albumDatabase.listAlbumsByGenre(genre));
@@ -55,7 +55,7 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testListAlbumsByYear() throws Exception {
+    public void testListAlbumsByYear() {
         for (String year : TestYears.getYears()) {
             compareAlbumLists(TestYears.getAlbums(year),
                     albumDatabase.listAlbumsByYear(year));

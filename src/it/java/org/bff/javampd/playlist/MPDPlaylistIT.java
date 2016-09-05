@@ -99,7 +99,7 @@ public class MPDPlaylistIT extends BaseTest {
     }
 
     @Test(expected = MPDException.class)
-    public void testAddingNonexistentPlaylist() throws Exception {
+    public void testAddingNonexistentPlaylist() {
         playlist.loadPlaylist("DOESNTEXIST");
     }
 

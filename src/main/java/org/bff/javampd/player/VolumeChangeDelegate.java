@@ -27,6 +27,7 @@ public class VolumeChangeDelegate {
      * Sends the appropriate {@link VolumeChangeEvent} to all registered
      * {@link VolumeChangeListener}.
      *
+     * @param source source of event
      * @param volume the new volume
      */
     public synchronized void fireVolumeChangeEvent(Object source, int volume) {
