@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +68,6 @@ public class MPDFileDatabaseIT extends BaseTest {
         for (File f : testFiles) {
             boolean found = false;
             for (MPDFile mpdF : files) {
-                System.out.println(mpdF.getPath() + " --> " + mpdF.getLastModified());
-                assertEquals(LocalDateTime.parse("2016-03-25T12:43:50Z", DateTimeFormatter.ISO_DATE_TIME),
-                        mpdF.getLastModified());
                 if (f.getName().equals(mpdF.getPath().replaceFirst(file.getPath() + "/", ""))) {
                     found = true;
                     assertEquals(f.isDirectory(), mpdF.isDirectory());
