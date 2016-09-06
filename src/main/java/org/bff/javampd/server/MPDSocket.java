@@ -70,10 +70,12 @@ public class MPDSocket {
         } catch (IOException e) {
             throw new MPDConnectionException(e);
         } finally {
-            try {
-                in.close();
-            } catch (IOException e) {
-                LOGGER.error("Could not close reader");
+            if(in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    LOGGER.error("Could not close reader");
+                }
             }
         }
 
