@@ -63,11 +63,18 @@ public class MPDSocket {
 
     private String readVersion() {
         String line;
+        BufferedReader in = null;
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
             line = in.readLine();
         } catch (IOException e) {
             throw new MPDConnectionException(e);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException e) {
+                LOGGER.error("Could not close reader");
+            }
         }
 
         if (isResponseOK(line)) {
