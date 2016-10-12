@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -24,6 +23,8 @@ public class MPDSocket {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDSocket.class);
 
     private Socket socket;
+    private BufferedReader reader;
+
     private ResponseProperties responseProperties;
     private ServerProperties serverProperties;
     private String encoding;
@@ -43,7 +44,7 @@ public class MPDSocket {
         this.responseProperties = new ResponseProperties();
         this.serverProperties = new ServerProperties();
         this.encoding = serverProperties.getEncoding();
-        this.version = connect(timeout);
+        connect(timeout);
     }
 
     /**
@@ -56,31 +57,20 @@ public class MPDSocket {
      * @return the version of MPD
      * @throws MPDConnectionException if there is a socked io problem
      */
-    private synchronized String connect(int timeout) {
+    private synchronized void connect(int timeout) {
         connectSocket(timeout);
-        return readVersion();
     }
 
-    private String readVersion() {
+    private void readVersion() {
         String line;
-        BufferedReader in = null;
         try {
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
-            line = in.readLine();
+            line = reader.readLine();
         } catch (IOException e) {
             throw new MPDConnectionException(e);
-        } finally {
-            if(in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    LOGGER.error("Could not close reader");
-                }
-            }
         }
 
         if (isResponseOK(line)) {
-            return stripResponse(responseProperties.getOk(), line).trim();
+            this.version = stripResponse(responseProperties.getOk(), line).trim();
         } else {
             throw new MPDConnectionException("Command from server: " +
                     ((line == null) ? "null" : stripResponse(responseProperties.getError(), line)));
@@ -93,10 +83,16 @@ public class MPDSocket {
         SocketAddress socketAddress = new InetSocketAddress(server, port);
         try {
             this.socket.connect(socketAddress, timeout);
+            setReader(new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding)));
+            readVersion();
         } catch (Exception ioe) {
             LOGGER.error("failed to connect socket to {}", server);
             throw new MPDConnectionException(ioe);
         }
+    }
+
+    protected void setReader(BufferedReader reader) {
+        this.reader = reader;
     }
 
     protected Socket createSocket() {
@@ -140,12 +136,9 @@ public class MPDSocket {
      * Attempts to connect to MPD with an infinite timeout value.
      * If MPD is already connected no attempt will be made to connect and the
      * mpdVersion is returned.
-     *
-     * @return return the version of MPD
-     * @throws IOException if there is a socked io problem
      */
-    private synchronized String connect() {
-        return connect(0);
+    private synchronized void connect() {
+        connect(0);
     }
 
     private boolean isResponseOK(final String line) {
@@ -214,8 +207,9 @@ public class MPDSocket {
 
         List<String> response = new ArrayList<>();
 
-        BufferedReader in = writeToStream(command);
-        String inLine = in.readLine();
+        writeToStream(command);
+
+        String inLine = reader.readLine();
         LOGGER.debug("first response line is: {}", inLine);
         while (inLine != null) {
             if (isResponseOK(inLine)) {
@@ -232,7 +226,7 @@ public class MPDSocket {
                 }
             }
             response.add(inLine);
-            inLine = in.readLine();
+            inLine = reader.readLine();
         }
 
         response.forEach(LOGGER::debug);
@@ -245,8 +239,8 @@ public class MPDSocket {
 
         if (socket.isConnected()) {
             try {
-                BufferedReader in = writeToStream(convertCommand(serverProperties.getPing()));
-                String inLine = in.readLine();
+                writeToStream(convertCommand(serverProperties.getPing()));
+                String inLine = reader.readLine();
                 if (!isResponseOK(inLine)) {
                     connected = false;
                 }
@@ -272,6 +266,12 @@ public class MPDSocket {
     public void close() {
         if (this.socket.isConnected()) {
             try {
+                this.reader.close();
+            } catch (IOException e) {
+                throw new MPDConnectionException("Unable to close socket", e);
+            }
+
+            try {
                 this.socket.close();
             } catch (IOException e) {
                 throw new MPDConnectionException("Unable to close socket", e);
@@ -279,15 +279,12 @@ public class MPDSocket {
         }
     }
 
-    protected BufferedReader writeToStream(String command) throws IOException {
-        byte[] bytesToSend = command.getBytes(serverProperties.getEncoding());
+    private void writeToStream(String command) throws IOException {
+        while (reader.ready()) {
+            reader.readLine();
+        }
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
-
-        OutputStream outStream = socket.getOutputStream();
-        outStream.write(bytesToSend);
-
-        return in;
+        socket.getOutputStream().write(command.getBytes(serverProperties.getEncoding()));
     }
 
     public String getVersion() {

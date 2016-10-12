@@ -109,8 +109,9 @@ public class MPDSocketTest {
         when(mockSocket.getInputStream()).thenReturn(mockedInputStream);
 
         when(mockedBufferedReader.readLine())
-                .thenReturn("OK")
+                .thenReturn("OK MPD 0.18.0")
                 .thenThrow(new SocketException())
+                .thenReturn("OK MPD 0.18.0")
                 .thenReturn(testResponse)
                 .thenReturn(null);
 
@@ -302,7 +303,15 @@ public class MPDSocketTest {
         when(mockSocket.getOutputStream()).thenReturn(mockedOutputStream);
 
         InetAddress inetAddress = InetAddress.getByName("localhost");
+
+        try {
+            when(mockedBufferedReader.readLine()).thenReturn("OK MPD 0.18.0");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         socket = new TestSocket(inetAddress, 9999, 10);
+        socket.setReader(mockedBufferedReader);
         when(mockSocket.isConnected()).thenReturn(true);
     }
 
@@ -316,10 +325,8 @@ public class MPDSocketTest {
             return mockSocket;
         }
 
-        @Override
-        protected BufferedReader writeToStream(String command) throws IOException {
-            super.writeToStream(command);
-            return mockedBufferedReader;
+        public void setReader(BufferedReader reader) {
+            super.setReader(mockedBufferedReader);
         }
 
         public Socket createParentSocket() {
