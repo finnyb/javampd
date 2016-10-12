@@ -77,7 +77,6 @@ public class MPDPlaylistTestArtist {
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
         when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
 
-
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
@@ -121,7 +120,6 @@ public class MPDPlaylistTestArtist {
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
         when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
-
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);

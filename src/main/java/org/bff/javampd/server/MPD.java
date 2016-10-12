@@ -189,7 +189,6 @@ public class MPD implements Server {
         return this.standAloneMonitor;
     }
 
-
     private boolean usingPassword() {
         return this.password != null || "".equals(this.password);
     }

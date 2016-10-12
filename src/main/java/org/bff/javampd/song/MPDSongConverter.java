@@ -1,6 +1,5 @@
 package org.bff.javampd.song;
 
-
 import org.bff.javampd.processor.SongProcessor;
 
 import java.util.ArrayList;

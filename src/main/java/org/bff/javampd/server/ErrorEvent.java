@@ -21,8 +21,8 @@ public class ErrorEvent extends java.util.EventObject {
     /**
      * Creates a new instance of ErrorEvent
      *
-     * @param message    an optional message
-     * @param source the object on which the Event initially occurred
+     * @param message an optional message
+     * @param source  the object on which the Event initially occurred
      */
     public ErrorEvent(Object source, String message) {
         super(source);

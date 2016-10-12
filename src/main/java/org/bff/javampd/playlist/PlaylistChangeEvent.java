@@ -45,7 +45,7 @@ public class PlaylistChangeEvent extends EventObject {
      *
      * @param source the object on which the Event initially occurred
      * @param event  the specific {@link Event} that occurred
-     * @param name    name of the added entity
+     * @param name   name of the added entity
      */
     public PlaylistChangeEvent(Object source, Event event, String name) {
         super(source);
@@ -62,9 +62,9 @@ public class PlaylistChangeEvent extends EventObject {
         return this.event;
     }
 
-
     /**
      * the name of the added entity
+     *
      * @return name of the artist, album, song, etc
      */
     public String getName() {

@@ -49,7 +49,6 @@ public class MPDTrackMonitorTest {
         assertNull(changeEvent[0]);
     }
 
-
     @Test
     public void testCheckTrackPosition() throws Exception {
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];

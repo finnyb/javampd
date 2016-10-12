@@ -109,7 +109,6 @@ public class MPDServerStatisticsTest {
         assertEquals(0, serverStatistics.getLastUpdateTime());
     }
 
-
     @Test
     public void testInsideDefaultExpiry() {
         String songs = "5";

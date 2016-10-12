@@ -22,7 +22,7 @@ public class MPDServerStatusIT extends BaseTest {
     private Player player;
     private Playlist playlist;
     private static long DELAY = 2000;
-    
+
     @Before
     public void setUp() {
         this.admin = getMpd().getAdmin();

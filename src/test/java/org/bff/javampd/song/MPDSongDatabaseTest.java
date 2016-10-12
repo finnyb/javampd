@@ -172,7 +172,6 @@ public class MPDSongDatabaseTest {
         testSongs.get(0).setGenre(testGenreName);
         testSongs.get(2).setGenre(testGenreName);
 
-
         when(mockedSongSearcher.find(SongSearcher.ScopeType.ALBUM, testAlbumName))
                 .thenReturn(testSongs);
 

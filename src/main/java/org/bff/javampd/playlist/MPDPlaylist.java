@@ -42,11 +42,11 @@ public class MPDPlaylist implements Playlist {
     /**
      * Playlist constructor
      *
-     * @param songDatabase the song database
-     * @param serverStatus the server status
+     * @param songDatabase       the song database
+     * @param serverStatus       the server status
      * @param playlistProperties playlist properties
-     * @param commandExecutor command runner
-     * @param songConverter song marshaller
+     * @param commandExecutor    command runner
+     * @param songConverter      song marshaller
      */
     @Inject
     public MPDPlaylist(SongDatabase songDatabase,

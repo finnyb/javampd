@@ -84,7 +84,6 @@ public class MPDPlaylistTestSong {
         assertNull(changeEvent[0]);
     }
 
-
     @Test
     public void testAddSongFile() throws Exception {
         when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
@@ -104,7 +103,6 @@ public class MPDPlaylistTestSong {
         assertEquals(PlaylistChangeEvent.Event.SONG_ADDED, changeEvent[0].getEvent());
         assertEquals(mpdSong.getFile(), changeEvent[0].getName());
     }
-
 
     @Test
     public void testAddSongFileNoEvent() throws Exception {

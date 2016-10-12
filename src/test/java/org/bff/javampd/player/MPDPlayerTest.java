@@ -167,7 +167,6 @@ public class MPDPlayerTest {
         verifyNoMoreInteractions(commandExecutor);
     }
 
-
     @Test
     public void testSeekSong() throws Exception {
         int seconds = 100;
@@ -198,7 +197,6 @@ public class MPDPlayerTest {
         assertEquals(Integer.toString(testSong.getId()), paramArgumentCaptor.getAllValues().get(0));
         assertEquals(Integer.toString(seconds), paramArgumentCaptor.getAllValues().get(1));
     }
-
 
     @Test
     public void testPlayerChangeEventStarted() throws Exception {
@@ -248,7 +246,6 @@ public class MPDPlayerTest {
         assertEquals(PlayerChangeEvent.Event.PLAYER_STOPPED, playerChangeEvent[0]);
     }
 
-
     @Test
     public void testStop() throws Exception {
         when(playerProperties.getStop()).thenCallRealMethod();
@@ -257,7 +254,6 @@ public class MPDPlayerTest {
                 .sendCommand(stringArgumentCaptor.capture());
         assertEquals(playerProperties.getStop(), stringArgumentCaptor.getValue());
     }
-
 
     @Test
     public void testPause() throws Exception {
@@ -286,7 +282,6 @@ public class MPDPlayerTest {
                 .sendCommand(stringArgumentCaptor.capture());
         assertEquals(playerProperties.getPrevious(), stringArgumentCaptor.getValue());
     }
-
 
     @Test
     public void testMute() throws Exception {
@@ -322,7 +317,6 @@ public class MPDPlayerTest {
 
         assertEquals(5, volumeChangeEvent[0].getVolume());
     }
-
 
     @Test
     public void testAddVolumeChangeListenerOutOfRange() throws Exception {

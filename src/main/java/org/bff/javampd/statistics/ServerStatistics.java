@@ -22,7 +22,6 @@ public interface ServerStatistics {
      */
     long getUptime();
 
-
     /**
      * Returns the total number of artists in the database.
      *

@@ -50,7 +50,7 @@ public class MPDVolumeMonitorTest {
         volumeMonitor.addVolumeChangeListener(event -> {
             eventFired[0] = true;
         });
-        
+
         volumeMonitor.processResponseStatus("bogus: 1");
         volumeMonitor.checkStatus();
         assertFalse(eventFired[0]);

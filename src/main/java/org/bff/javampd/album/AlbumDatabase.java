@@ -32,7 +32,6 @@ public interface AlbumDatabase {
      */
     Collection<MPDAlbum> listAlbumsByYear(String year);
 
-
     /**
      * Returns a {@link java.util.Collection} of album names of all
      * albums for a particular year.
@@ -42,7 +41,6 @@ public interface AlbumDatabase {
      * years
      */
     Collection<String> listAlbumNamesByYear(String year);
-
 
     /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all

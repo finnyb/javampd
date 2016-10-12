@@ -228,7 +228,6 @@ public interface SongDatabase {
      */
     Collection<MPDSong> findGenre(String genre);
 
-
     /**
      * Returns a {@link org.bff.javampd.song.MPDSong} for the given album and artist
      *

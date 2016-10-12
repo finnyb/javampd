@@ -73,7 +73,6 @@ public class MPDSongSearcherTest {
         List<MPDSong> testSongList = new ArrayList<>();
         testSongList.add(testSong);
 
-
         when(mockedCommandExecuter.sendCommand(searchProperties.getSearch(),
                 addWindowedParams(generateParams(scopeType, searchCriteria), start, end)))
                 .thenReturn(new ArrayList<>());
@@ -111,7 +110,6 @@ public class MPDSongSearcherTest {
         assertEquals(Arrays.asList(generateParams(scopeType, searchCriteria)), paramArgumentCaptor.getAllValues());
         assertEquals(testSongList.get(0), songList.get(0));
     }
-
 
     @Test
     public void testFindNoCriteria() throws Exception {

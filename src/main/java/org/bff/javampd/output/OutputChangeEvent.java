@@ -28,7 +28,6 @@ public class OutputChangeEvent
         this.event = event;
     }
 
-
     /**
      * Returns the {@link OUTPUT_EVENT} for this event.
      *

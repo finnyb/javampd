@@ -132,7 +132,6 @@ public class MPDPlaylistTestAlbum {
         assertEquals(PlaylistChangeEvent.Event.ALBUM_ADDED, changeEvent[0].getEvent());
     }
 
-
     @Test
     public void testInsertAlbumByAlbum() throws Exception {
         MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
@@ -188,7 +187,6 @@ public class MPDPlaylistTestAlbum {
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
         when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
 
-
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
@@ -235,7 +233,6 @@ public class MPDPlaylistTestAlbum {
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
         when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
-
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);

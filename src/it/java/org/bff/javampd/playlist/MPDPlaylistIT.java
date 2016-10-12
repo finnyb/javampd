@@ -103,7 +103,6 @@ public class MPDPlaylistIT extends BaseTest {
         playlist.loadPlaylist("DOESNTEXIST");
     }
 
-
     @Test
     public void testMove() {
         List<MPDSong> songs = new ArrayList<>(TestSongs.getSongs());

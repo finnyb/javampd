@@ -8,7 +8,6 @@ import org.bff.javampd.server.Status;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Singleton
 public class MPDBitrateMonitor extends MPDVolumeMonitor implements BitrateMonitor {
     private int oldBitrate;
