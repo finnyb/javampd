@@ -54,7 +54,7 @@ public class MPDStandAloneMonitor
 
         this.standAloneMonitorThread = new StandAloneMonitorThread(serverStatus,
                 connectionMonitor,
-                monitorProperties.getConnectionDelay(),
+                monitorProperties.getMonitorDelay(),
                 monitorProperties.getExceptionDelay());
         createMonitors();
     }
