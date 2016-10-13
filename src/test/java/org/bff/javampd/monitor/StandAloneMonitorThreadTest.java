@@ -13,11 +13,13 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StandAloneMonitorThreadTest {
 
+    public static final int MAX_WAIT_TIME = 60000;
+            
     @Mock
     private ServerStatus serverStatus;
     @Mock
@@ -42,7 +44,7 @@ public class StandAloneMonitorThreadTest {
         createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
         runMonitor();
 
-        for (int i = 1; i < 5000; i++) {
+        for (int i = 1; i < MAX_WAIT_TIME; i++) {
             if (called[0]) {
                 break;
             }
@@ -62,7 +64,7 @@ public class StandAloneMonitorThreadTest {
         runMonitor();
 
         int count = 0;
-        for (int i = 1; i < 5000; i++) {
+        for (int i = 1; i < MAX_WAIT_TIME; i++) {
             if (called[0]) {
                 count = i;
                 break;
@@ -89,7 +91,7 @@ public class StandAloneMonitorThreadTest {
 
         thread.interrupt();
 
-        for (int i = 1; i < 5000; i++) {
+        for (int i = 1; i < MAX_WAIT_TIME; i++) {
             if (!thread.isAlive()) {
                 break;
             }
@@ -101,13 +103,23 @@ public class StandAloneMonitorThreadTest {
 
     @Test
     public void testRunError() throws Exception {
+        final int[] count = {0};
         Monitor monitor = () -> {
+            ++count[0];
             throw new MPDException();
         };
         when(connectionMonitor.isConnected()).thenReturn(true);
         createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
         runMonitor();
-        verify(connectionMonitor, atLeastOnce()).checkStatus();
+
+        for (int i = 1; i < MAX_WAIT_TIME; i++) {
+            if (count[0] > 1) {
+                break;
+            }
+            sleep(1);
+        }
+
+        assertTrue(count[0] > 1);
     }
 
     @Test(expected = MPDException.class)
@@ -135,7 +147,7 @@ public class StandAloneMonitorThreadTest {
         assertFalse(standAloneMonitorThread.isStopped());
         standAloneMonitorThread.setStopped(true);
 
-        for (int i = 1; i < 5000; i++) {
+        for (int i = 1; i < MAX_WAIT_TIME; i++) {
             if (standAloneMonitorThread.isStopped()) {
                 break;
             }
