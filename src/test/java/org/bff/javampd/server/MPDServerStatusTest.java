@@ -1,14 +1,15 @@
 package org.bff.javampd.server;
 
+import org.bff.javampd.Clock;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,9 @@ public class MPDServerStatusTest {
     @Mock
     private ServerProperties properties;
 
-    @InjectMocks
+    @Mock
+    private Clock clock;
+
     private MPDServerStatus serverStatus;
 
     private List<String> statusList;
@@ -33,7 +36,11 @@ public class MPDServerStatusTest {
     @Before
     public void setUp() throws Exception {
         statusList = new ArrayList<>();
+        when(clock.min()).thenReturn(LocalDateTime.MIN);
+        serverStatus = new MPDServerStatus(properties, commandExecutor, clock);
+
         when(properties.getStats()).thenReturn(new ServerProperties().getStatus());
+        when(clock.now()).thenReturn(LocalDateTime.now());
     }
 
     @Test
@@ -284,19 +291,20 @@ public class MPDServerStatusTest {
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         serverStatus.isRandom();
-        Thread.sleep(5001);
+        when(clock.now()).thenReturn(LocalDateTime.now().plusMinutes(5));
         serverStatus.isRandom();
         Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStatus());
     }
 
     @Test
     public void testSetExpiry() throws InterruptedException {
-        serverStatus.setExpiryInterval(1);
+        long interval = 1;
+        serverStatus.setExpiryInterval(interval);
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         serverStatus.isRandom();
-        Thread.sleep(1001);
+        when(clock.now()).thenReturn(LocalDateTime.now().plusMinutes(interval * 2));
         serverStatus.isRandom();
         Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStatus());
     }

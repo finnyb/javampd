@@ -192,6 +192,14 @@ public class MPDSocket {
 
         try {
             sendBytes(sb.toString());
+
+            String line = reader.readLine();
+            while (line != null) {
+                line = reader.readLine();
+                if (!isResponseOK(line)) {
+                    LOGGER.warn("some command from a command list failed: {}", line);
+                }
+            }
         } catch (MPDSecurityException se) {
             LOGGER.error("Response Error from command list", se);
             throw se;
@@ -280,8 +288,11 @@ public class MPDSocket {
     }
 
     private void writeToStream(String command) throws IOException {
+        //clear the stream just in case the previous caller didn't
+        String line;
         while (reader.ready()) {
-            reader.readLine();
+            line = reader.readLine();
+            LOGGER.warn("flushed line from reader {}", line);
         }
 
         socket.getOutputStream().write(command.getBytes(serverProperties.getEncoding()));

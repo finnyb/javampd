@@ -1,6 +1,7 @@
 package org.bff.javampd.server;
 
 import com.google.inject.Inject;
+import org.bff.javampd.Clock;
 import org.bff.javampd.command.CommandExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ public class MPDServerStatus implements ServerStatus {
 
     private long expiryInterval = 5;
     private List<String> cachedResponse;
+    private Clock clock;
     private LocalDateTime responseDate;
 
     private ServerProperties serverProperties;
@@ -39,10 +41,12 @@ public class MPDServerStatus implements ServerStatus {
 
     @Inject
     public MPDServerStatus(ServerProperties serverProperties,
-                           CommandExecutor commandExecutor) {
+                           CommandExecutor commandExecutor,
+                           Clock clock) {
         this.serverProperties = serverProperties;
         this.commandExecutor = commandExecutor;
-        this.responseDate = LocalDateTime.MIN;
+        this.clock = clock;
+        this.responseDate = clock.min();
     }
 
     /**
@@ -55,7 +59,7 @@ public class MPDServerStatus implements ServerStatus {
      * @return the desired status information
      */
     protected String getStatus(Status status) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = this.clock.now();
         if (now.minusSeconds(this.expiryInterval).isAfter(this.responseDate)) {
             this.responseDate = now;
             this.cachedResponse = commandExecutor.sendCommand(serverProperties.getStatus());
@@ -171,7 +175,7 @@ public class MPDServerStatus implements ServerStatus {
 
     @Override
     public void forceUpdate() {
-        this.responseDate = LocalDateTime.MIN;
+        this.responseDate = this.clock.min();
     }
 
     private long lookupTime(TimeType type) {

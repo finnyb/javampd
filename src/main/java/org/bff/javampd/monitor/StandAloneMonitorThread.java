@@ -57,7 +57,7 @@ public class StandAloneMonitorThread implements Runnable {
      *
      * @param monitor the {@link ThreadedMonitor} to remove
      */
-    public void removeMonitor(ThreadedMonitor monitor) {
+    public synchronized void removeMonitor(ThreadedMonitor monitor) {
         this.monitors.remove(monitor);
     }
 

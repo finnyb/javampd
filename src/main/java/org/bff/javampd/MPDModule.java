@@ -35,5 +35,6 @@ public class MPDModule extends AbstractModule {
         bind(CommandExecutor.class).to(MPDCommandExecutor.class);
         bind(TagLister.class).to(MPDTagLister.class);
         bind(SongConverter.class).to(MPDSongConverter.class);
+        bind(Clock.class).to(MPDSystemClock.class);
     }
 }

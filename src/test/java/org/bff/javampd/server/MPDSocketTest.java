@@ -256,6 +256,40 @@ public class MPDSocketTest {
     }
 
     @Test
+    public void testSendCommandsWithError() throws Exception {
+        createValidSocket();
+
+        when(mockedBufferedReader.readLine())
+                .thenReturn("OK")
+                .thenReturn("Error")
+                .thenReturn(null);
+
+        List<MPDCommand> commands = new ArrayList<>();
+
+        MPDCommand command1 = new MPDCommand("command1");
+        MPDCommand command2 = new MPDCommand("command2", "param2");
+        MPDCommand command3 = new MPDCommand("command3");
+
+        commands.add(command1);
+        commands.add(command2);
+        commands.add(command3);
+
+        mockedOutputStream = mock(OutputStream.class);
+        when(mockSocket.getOutputStream()).thenReturn(mockedOutputStream);
+        socket.sendCommands(commands);
+
+        ServerProperties serverProperties = new ServerProperties();
+        StringBuilder sb = new StringBuilder();
+        sb.append(convertCommand(new MPDCommand(serverProperties.getStartBulk())));
+        commands.forEach(command -> sb.append(convertCommand(command)));
+        sb.append(convertCommand(new MPDCommand(serverProperties.getEndBulk())));
+
+        verify(mockedOutputStream, times(2)).write(byteArgumentCaptor.capture());
+
+        assertTrue(Arrays.equals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1)));
+    }
+
+    @Test
     public void testCreateSocket() throws Exception {
         createValidSocket();
         assertNotNull(((TestSocket) socket).createParentSocket());

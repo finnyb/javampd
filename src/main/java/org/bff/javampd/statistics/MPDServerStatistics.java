@@ -1,6 +1,7 @@
 package org.bff.javampd.statistics;
 
 import com.google.inject.Inject;
+import org.bff.javampd.Clock;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.server.ServerProperties;
 import org.slf4j.Logger;
@@ -19,17 +20,19 @@ public class MPDServerStatistics implements ServerStatistics {
 
     private long expiryInterval = 60;
     private List<String> cachedResponse;
+    private Clock clock;
     private LocalDateTime responseDate;
-
     private ServerProperties serverProperties;
     private CommandExecutor commandExecutor;
 
     @Inject
     public MPDServerStatistics(ServerProperties serverProperties,
-                               CommandExecutor commandExecutor) {
+                               CommandExecutor commandExecutor,
+                               Clock clock) {
         this.serverProperties = serverProperties;
         this.commandExecutor = commandExecutor;
-        this.responseDate = LocalDateTime.MIN;
+        this.clock = clock;
+        this.responseDate = clock.min();
     }
 
     /**
@@ -41,7 +44,7 @@ public class MPDServerStatistics implements ServerStatistics {
      * @return the requested statistic
      */
     private Number getStat(StatList stat) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = this.clock.now();
         if (now.minusSeconds(this.expiryInterval).isAfter(this.responseDate)) {
             this.responseDate = now;
             this.cachedResponse = commandExecutor.sendCommand(serverProperties.getStats());
@@ -103,6 +106,6 @@ public class MPDServerStatistics implements ServerStatistics {
 
     @Override
     public void forceUpdate() {
-        this.responseDate = LocalDateTime.MIN;
+        this.responseDate = clock.min();
     }
 }

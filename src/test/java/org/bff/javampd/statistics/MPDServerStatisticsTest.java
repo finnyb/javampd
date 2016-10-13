@@ -1,15 +1,16 @@
 package org.bff.javampd.statistics;
 
+import org.bff.javampd.Clock;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.server.ServerProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +27,21 @@ public class MPDServerStatisticsTest {
     @Mock
     private ServerProperties properties;
 
-    @InjectMocks
+    @Mock
+    private Clock clock;
+
     private MPDServerStatistics serverStatistics;
 
     private List<String> statList;
 
     @Before
     public void setUp() throws Exception {
+        when(clock.min()).thenReturn(LocalDateTime.MIN);
+        serverStatistics = new MPDServerStatistics(properties, commandExecutor, clock);
         statList = new ArrayList<>();
+
         when(properties.getStats()).thenReturn(new ServerProperties().getStats());
+        when(clock.now()).thenReturn(LocalDateTime.now());
     }
 
     @Test
@@ -114,6 +121,8 @@ public class MPDServerStatisticsTest {
         String songs = "5";
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+        when(clock.now()).thenReturn(LocalDateTime.MIN.plusMinutes(5));
         serverStatistics.getSongCount();
         serverStatistics.getSongCount();
         Mockito.verify(commandExecutor, times(1)).sendCommand(properties.getStats());
@@ -125,19 +134,20 @@ public class MPDServerStatisticsTest {
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
         serverStatistics.getSongCount();
-        Thread.sleep(60001);
+        when(clock.now()).thenReturn(LocalDateTime.now().plusMinutes(5));
         serverStatistics.getSongCount();
         Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStats());
     }
 
     @Test
     public void testSetExpiry() throws InterruptedException {
-        serverStatistics.setExpiryInterval(1);
+        int interval = 1;
+        serverStatistics.setExpiryInterval(interval);
         String songs = "5";
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
         serverStatistics.getSongCount();
-        Thread.sleep(1001);
+        when(clock.now()).thenReturn(LocalDateTime.now().plusMinutes(interval * 2));
         serverStatistics.getSongCount();
         Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStats());
     }

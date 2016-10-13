@@ -2,6 +2,7 @@ package org.bff.javampd.monitor;
 
 import org.bff.javampd.MPDException;
 import org.bff.javampd.server.ServerStatus;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StandAloneMonitorThreadTest {
@@ -30,12 +30,24 @@ public class StandAloneMonitorThreadTest {
 
     }
 
+    @After
+    public void tearDown() throws Exception {
+        standAloneMonitorThread.setStopped(true);
+    }
+
     @Test
     public void testAddMonitor() throws Exception {
         final boolean[] called = new boolean[1];
         Monitor monitor = () -> called[0] = true;
-        createMonitor(1, 1).addMonitor(new ThreadedMonitor(monitor, 1));
-        runMonitor(1);
+        createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
+        runMonitor();
+
+        for (int i = 1; i < 5000; i++) {
+            if (called[0]) {
+                break;
+            }
+            sleep(1);
+        }
 
         assertTrue(called[0]);
     }
@@ -44,14 +56,28 @@ public class StandAloneMonitorThreadTest {
     public void testRemoveMonitor() throws Exception {
         final boolean[] called = new boolean[1];
         Monitor monitor = () -> called[0] = true;
-        ThreadedMonitor threadedMonitor = new ThreadedMonitor(monitor, 1);
-        createMonitor(1, 1).addMonitor(threadedMonitor);
-        runMonitor(1);
+        ThreadedMonitor threadedMonitor = new ThreadedMonitor(monitor, 0);
+        StandAloneMonitorThread monitorThread = createMonitor(0, 0);
+        monitorThread.addMonitor(threadedMonitor);
+        runMonitor();
+
+        int count = 0;
+        for (int i = 1; i < 5000; i++) {
+            if (called[0]) {
+                count = i;
+                break;
+            }
+            sleep(1);
+        }
+
         assertTrue(called[0]);
+        monitorThread.removeMonitor(threadedMonitor);
 
         called[0] = false;
-        createMonitor(1, 1).removeMonitor(threadedMonitor);
-        runMonitor(1);
+        for (int i = 1; i < (count + 5); i++) {
+            sleep(1);
+        }
+
         assertFalse(called[0]);
     }
 
@@ -63,7 +89,12 @@ public class StandAloneMonitorThreadTest {
 
         thread.interrupt();
 
-        TimeUnit.SECONDS.sleep(2);
+        for (int i = 1; i < 5000; i++) {
+            if (!thread.isAlive()) {
+                break;
+            }
+            sleep(1);
+        }
 
         assertFalse(thread.isAlive());
     }
@@ -74,9 +105,9 @@ public class StandAloneMonitorThreadTest {
             throw new MPDException();
         };
         when(connectionMonitor.isConnected()).thenReturn(true);
-        createMonitor(1, 1).addMonitor(new ThreadedMonitor(monitor, 1));
-        runMonitor(2);
-        verify(connectionMonitor).checkStatus();
+        createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
+        runMonitor();
+        verify(connectionMonitor, atLeastOnce()).checkStatus();
     }
 
     @Test(expected = MPDException.class)
@@ -85,21 +116,32 @@ public class StandAloneMonitorThreadTest {
             throw new MPDException();
         };
         when(connectionMonitor.isConnected()).thenThrow(new MPDException());
-        createMonitor(1, 1).addMonitor(new ThreadedMonitor(monitor, 1));
+        createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
         standAloneMonitorThread.run();
     }
 
     @Test(expected = MPDException.class)
     public void testLoadInitialStatusException() throws Exception {
         when(serverStatus.getStatus()).thenThrow(new MPDException());
-        createMonitor(1, 1);
+        createMonitor(0, 0);
         standAloneMonitorThread.run();
     }
 
     @Test
     public void testIsStopped() throws Exception {
-        createMonitor(1, 1);
-        runMonitor(1);
+        createMonitor(0, 0);
+        runMonitor();
+
+        assertFalse(standAloneMonitorThread.isStopped());
+        standAloneMonitorThread.setStopped(true);
+
+        for (int i = 1; i < 5000; i++) {
+            if (standAloneMonitorThread.isStopped()) {
+                break;
+            }
+            sleep(1);
+        }
+
         assertTrue(standAloneMonitorThread.isStopped());
     }
 
@@ -112,11 +154,12 @@ public class StandAloneMonitorThreadTest {
         return standAloneMonitorThread;
     }
 
-    private void runMonitor(int delay) throws Exception {
+    private void runMonitor() throws Exception {
         Thread thread = new Thread(standAloneMonitorThread);
         thread.start();
+    }
 
-        TimeUnit.SECONDS.sleep(delay + 1);
-        standAloneMonitorThread.setStopped(true);
+    private void sleep(long millis) throws InterruptedException {
+        TimeUnit.MILLISECONDS.sleep((millis));
     }
 }
