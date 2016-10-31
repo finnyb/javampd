@@ -51,6 +51,7 @@ public class MPD implements Server {
     private InetAddress address;
     private String password;
     private int timeout;
+    private boolean closed;
 
     private static final int DEFAULT_PORT = 6600;
     private static final int DEFAULT_TIMEOUT = 0;
@@ -109,9 +110,15 @@ public class MPD implements Server {
     public void close() {
         try {
             commandExecutor.sendCommand(serverProperties.getClose());
+            this.closed = true;
         } finally {
             commandExecutor.close();
         }
+    }
+
+    @Override
+    public boolean isClosed() {
+        return this.closed;
     }
 
     @Override

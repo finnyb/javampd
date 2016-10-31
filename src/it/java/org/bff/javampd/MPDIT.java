@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class MPDIT extends BaseTest {
 
     @Test
@@ -120,6 +123,58 @@ public class MPDIT extends BaseTest {
                 } catch (Exception e) {
                     //dont care
                 }
+            }
+        }
+    }
+
+    @Test
+    public void testIsConnected() throws Exception {
+        MPD mpd = null;
+        try {
+            mpd = new MPD.Builder()
+                    .server(TestProperties.getInstance().getServer())
+                    .port(TestProperties.getInstance().getPort())
+                    .build();
+
+            assertTrue(mpd.isConnected());
+        } finally {
+            if (mpd != null) {
+                mpd.close();
+            }
+        }
+    }
+
+    @Test
+    public void testIsConnectedAfterClose() throws Exception {
+        MPD mpd = new MPD.Builder()
+                .server(TestProperties.getInstance().getServer())
+                .port(TestProperties.getInstance().getPort())
+                .build();
+        mpd.close();
+
+        assertFalse(mpd.isConnected());
+    }
+
+    @Test
+    public void testNewConnectionAfterClose() throws Exception {
+        MPD mpd = null;
+        try {
+            mpd = new MPD.Builder()
+                    .server(TestProperties.getInstance().getServer())
+                    .port(TestProperties.getInstance().getPort())
+                    .build();
+            mpd.close();
+
+            assertFalse(mpd.isConnected());
+
+            mpd = new MPD.Builder()
+                    .server(TestProperties.getInstance().getServer())
+                    .port(TestProperties.getInstance().getPort())
+                    .build();
+            assertTrue(mpd.isConnected());
+        } finally {
+            if (mpd != null) {
+                mpd.close();
             }
         }
     }

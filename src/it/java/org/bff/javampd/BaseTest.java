@@ -32,9 +32,7 @@ public abstract class BaseTest {
                     .build();
 
             DataLoader.loadData(new File(TestProperties.getInstance().getPath()));
-            for (MPDSong song : TestSongs.getSongs()) {
-                loadMPDSong(song);
-            }
+            TestSongs.getSongs().forEach(BaseTest::loadMPDSong);
         } catch (IOException ex) {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MPDException ex) {

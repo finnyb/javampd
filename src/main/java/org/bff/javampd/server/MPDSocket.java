@@ -25,14 +25,15 @@ public class MPDSocket {
     private Socket socket;
     private BufferedReader reader;
 
-    private ResponseProperties responseProperties;
-    private ServerProperties serverProperties;
-    private String encoding;
+    private final ResponseProperties responseProperties;
+    private final ServerProperties serverProperties;
+    private final String encoding;
     private String lastError;
     private String version;
 
-    private String server;
-    private int port;
+    private final String server;
+    private final int port;
+    private boolean closed;
 
     private static final int TRIES = 3;
 
@@ -69,7 +70,7 @@ public class MPDSocket {
             throw new MPDConnectionException(e);
         }
 
-        if (isResponseOK(line)) {
+        if (line != null && isResponseOK(line)) {
             this.version = stripResponse(responseProperties.getOk(), line).trim();
         } else {
             throw new MPDConnectionException("Command from server: " +
@@ -150,6 +151,7 @@ public class MPDSocket {
         } catch (Exception e) {
             LOGGER.error("Could not determine if response is ok", e);
         }
+
         return false;
     }
 
@@ -186,6 +188,7 @@ public class MPDSocket {
         for (MPDCommand command : commandList) {
             sb.append(convertCommand(command.getCommand(), command.getParams()));
         }
+
         sb.append(convertCommand(serverProperties.getEndBulk()));
 
         checkConnection();
@@ -195,9 +198,15 @@ public class MPDSocket {
 
             String line = reader.readLine();
             while (line != null) {
-                line = reader.readLine();
                 if (!isResponseOK(line)) {
                     LOGGER.warn("some command from a command list failed: {}", line);
+                }
+
+                if (reader.ready()) {
+                    line = reader.readLine();
+                    LOGGER.warn("unexpected response line {}", line);
+                } else {
+                    line = null;
                 }
             }
         } catch (MPDSecurityException se) {
@@ -205,7 +214,7 @@ public class MPDSocket {
             throw se;
         } catch (Exception e) {
             LOGGER.error("Response Error from command list", e);
-            commandList.stream().forEach(s -> LOGGER.error(s.getCommand()));
+            commandList.forEach(s -> LOGGER.error(s.getCommand()));
             throw new MPDConnectionException(e.getMessage(), e);
         }
     }
@@ -245,20 +254,29 @@ public class MPDSocket {
     private void checkConnection() {
         boolean connected = true;
 
-        if (socket.isConnected()) {
-            try {
-                writeToStream(convertCommand(serverProperties.getPing()));
-                String inLine = reader.readLine();
-                if (!isResponseOK(inLine)) {
-                    connected = false;
-                }
-            } catch (Exception e) {
-                connected = false;
-                LOGGER.error("lost socket connection", e);
-            }
-        } else {
-            LOGGER.debug("socket hasn't been connected yet");
+        if (this.closed) {
+            throw new MPDConnectionException("Close has been called on MPD.  Create a new MPD.");
+        }
+
+        if (!socket.isConnected()) {
+            LOGGER.warn("socket hasn't been connected yet");
             connected = false;
+        } else {
+            if (!socket.isClosed()) {
+                try {
+                    writeToStream(convertCommand(serverProperties.getPing()));
+                    String inLine = reader.readLine();
+                    if (!isResponseOK(inLine)) {
+                        connected = false;
+                    }
+                } catch (Exception e) {
+                    connected = false;
+                    LOGGER.error("lost socket connection", e);
+                }
+            } else {
+                LOGGER.warn("socket is closed");
+                connected = false;
+            }
         }
 
         if (!connected) {
@@ -272,7 +290,8 @@ public class MPDSocket {
     }
 
     public void close() {
-        if (this.socket.isConnected()) {
+        this.closed = true;
+        if (!this.socket.isClosed()) {
             try {
                 this.reader.close();
             } catch (IOException e) {
@@ -288,13 +307,6 @@ public class MPDSocket {
     }
 
     private void writeToStream(String command) throws IOException {
-        //clear the stream just in case the previous caller didn't
-        String line;
-        while (reader.ready()) {
-            line = reader.readLine();
-            LOGGER.warn("flushed line from reader {}", line);
-        }
-
         socket.getOutputStream().write(command.getBytes(serverProperties.getEncoding()));
     }
 
