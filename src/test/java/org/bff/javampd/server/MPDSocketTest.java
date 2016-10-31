@@ -24,6 +24,7 @@ public class MPDSocketTest {
     private InputStream mockedInputStream;
     private OutputStream mockedOutputStream;
     private BufferedReader mockedBufferedReader;
+    private static final String VERSION_RESPONSE = "OK MPD 0.18.0";
 
     private ArgumentCaptor<byte[]> byteArgumentCaptor;
 
@@ -90,7 +91,9 @@ public class MPDSocketTest {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
+                .thenReturn(null)
                 .thenReturn("OK")
+                .thenReturn(null)
                 .thenReturn("OK")
                 .thenReturn(null);
 
@@ -105,13 +108,13 @@ public class MPDSocketTest {
         String testResponse = "testResponse";
         createValidSocket();
 
-        mockedInputStream = new ByteArrayInputStream("OK MPD 0.18.0".getBytes());
+        mockedInputStream = new ByteArrayInputStream(VERSION_RESPONSE.getBytes());
         when(mockSocket.getInputStream()).thenReturn(mockedInputStream);
 
         when(mockedBufferedReader.readLine())
-                .thenReturn("OK MPD 0.18.0")
+                .thenReturn(VERSION_RESPONSE)
                 .thenThrow(new SocketException())
-                .thenReturn("OK MPD 0.18.0")
+                .thenReturn(VERSION_RESPONSE)
                 .thenReturn(testResponse)
                 .thenReturn(null);
 
@@ -122,7 +125,7 @@ public class MPDSocketTest {
     }
 
     @Test(expected = MPDSecurityException.class)
-    public void testSendCommandNoPermissionException() throws Exception {
+    public void testSendCommandNoPermissionResponse() throws Exception {
         String testResponse = "ACK: you don't have permission";
         createValidSocket();
 
@@ -137,10 +140,94 @@ public class MPDSocketTest {
         socket.sendCommand(new MPDCommand("command", "params"));
     }
 
+    @Test(expected = MPDSecurityException.class)
+    public void testSendCommandsSecurityException() throws Exception {
+        createValidSocket();
+
+        when(mockedBufferedReader.readLine())
+                .thenReturn("OK")
+                .thenThrow(new MPDSecurityException("security exception"));
+
+        List<MPDCommand> commands = new ArrayList<>();
+        commands.add(new MPDCommand("command", "params"));
+
+        socket.sendCommands(commands);
+    }
+
+    @Test(expected = MPDConnectionException.class)
+    public void testSendCommandsException() throws Exception {
+        createValidSocket();
+
+        when(mockedBufferedReader.readLine())
+                .thenReturn("OK")
+                .thenThrow(new RuntimeException("exception"));
+
+        List<MPDCommand> commands = new ArrayList<>();
+        commands.add(new MPDCommand("command", "params"));
+
+        socket.sendCommands(commands);
+    }
+
     @Test(expected = MPDConnectionException.class)
     public void testSendCommandError() throws Exception {
         String testResponse = "ACK: error";
         createValidSocket();
+
+        List<String> responseList = new ArrayList<>();
+        responseList.add(testResponse);
+
+        when(mockedBufferedReader.readLine())
+                .thenReturn("OK")
+                .thenReturn(testResponse)
+                .thenReturn(null);
+
+        socket.sendCommand(new MPDCommand("command", "params"));
+    }
+
+    @Test(expected = MPDConnectionException.class)
+    public void testSendCommandAfterClose() throws Exception {
+        String testResponse = "test response";
+        createValidSocket();
+
+        socket.close();
+
+        List<String> responseList = new ArrayList<>();
+        responseList.add(testResponse);
+
+        when(mockedBufferedReader.readLine())
+                .thenReturn("OK")
+                .thenReturn(testResponse)
+                .thenReturn(null);
+
+        socket.sendCommand(new MPDCommand("command", "params"));
+    }
+
+    @Test
+    public void testSendCommandClosedAfterConnected() throws Exception {
+        String testResponse = "testResponse";
+        createValidSocket();
+
+        List<String> responseList = new ArrayList<>();
+        responseList.add(testResponse);
+
+        when(mockedBufferedReader.readLine())
+                .thenReturn("OK")
+                .thenReturn(testResponse)
+                .thenReturn(null);
+
+        when(mockSocket.isClosed()).thenReturn(true);
+
+        MPDCommand command = new MPDCommand("command");
+
+        List<String> response = new ArrayList<>(socket.sendCommand(command));
+        assertEquals(testResponse, response.get(0));
+    }
+
+    @Test
+    public void testSendCommandNeverConnected() throws Exception {
+        String testResponse = "test response";
+        createValidSocket(false);
+        when(mockSocket.isConnected()).thenReturn(false).thenReturn(true);
 
         List<String> responseList = new ArrayList<>();
         responseList.add(testResponse);
@@ -194,7 +281,7 @@ public class MPDSocketTest {
     public void testSendCommandExceptionWithConnectException() throws Exception {
         createValidSocket();
 
-        mockedInputStream = new ByteArrayInputStream("OK MPD 0.18.0".getBytes());
+        mockedInputStream = new ByteArrayInputStream(VERSION_RESPONSE.getBytes());
         when(mockSocket.getInputStream())
                 .thenThrow(new SocketException())
                 .thenReturn(mockedInputStream);
@@ -227,8 +314,47 @@ public class MPDSocketTest {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
+                .thenReturn(null)
                 .thenReturn("OK")
                 .thenReturn(null);
+
+        List<MPDCommand> commands = new ArrayList<>();
+
+        MPDCommand command1 = new MPDCommand("command1");
+        MPDCommand command2 = new MPDCommand("command2", "param2");
+        MPDCommand command3 = new MPDCommand("command3");
+
+        commands.add(command1);
+        commands.add(command2);
+        commands.add(command3);
+
+        mockedOutputStream = mock(OutputStream.class);
+        when(mockSocket.getOutputStream()).thenReturn(mockedOutputStream);
+        socket.sendCommands(commands);
+
+        ServerProperties serverProperties = new ServerProperties();
+        StringBuilder sb = new StringBuilder();
+        sb.append(convertCommand(new MPDCommand(serverProperties.getStartBulk())));
+        commands.forEach(command -> sb.append(convertCommand(command)));
+        sb.append(convertCommand(new MPDCommand(serverProperties.getEndBulk())));
+
+        verify(mockedOutputStream, times(2)).write(byteArgumentCaptor.capture());
+
+        assertTrue(Arrays.equals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1)));
+    }
+
+    @Test
+    public void testSendCommandsExtraResponses() throws Exception {
+        createValidSocket();
+
+        when(mockedBufferedReader.readLine())
+                .thenReturn("OK")
+                .thenReturn("OK")
+                .thenReturn("unexpected");
+
+        when(mockedBufferedReader.ready())
+                .thenReturn(true)
+                .thenReturn(false);
 
         List<MPDCommand> commands = new ArrayList<>();
 
@@ -260,7 +386,9 @@ public class MPDSocketTest {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
+                .thenReturn(null)
                 .thenReturn("OK")
+                .thenReturn(null)
                 .thenReturn("Error")
                 .thenReturn(null);
 
@@ -309,6 +437,14 @@ public class MPDSocketTest {
         socket.close();
     }
 
+    @Test(expected = MPDConnectionException.class)
+    public void testCloseReaderException() throws Exception {
+        createValidSocket();
+
+        doThrow(new IOException()).when(mockedBufferedReader).close();
+        socket.close();
+    }
+
     @Test
     public void testClose() throws Exception {
         createValidSocket();
@@ -327,8 +463,12 @@ public class MPDSocketTest {
     }
 
     private void createValidSocket() throws IOException {
+        createValidSocket(true);
+    }
+
+    private void createValidSocket(boolean connected) throws IOException {
         mockSocket = mock(Socket.class);
-        mockedInputStream = new ByteArrayInputStream("OK MPD 0.18.0".getBytes());
+        mockedInputStream = new ByteArrayInputStream(VERSION_RESPONSE.getBytes());
         mockedOutputStream = new ByteArrayOutputStream();
         mockedBufferedReader = mock(BufferedReader.class);
         byteArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
@@ -339,14 +479,16 @@ public class MPDSocketTest {
         InetAddress inetAddress = InetAddress.getByName("localhost");
 
         try {
-            when(mockedBufferedReader.readLine()).thenReturn("OK MPD 0.18.0");
+            when(mockedBufferedReader.readLine()).thenReturn(VERSION_RESPONSE);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         socket = new TestSocket(inetAddress, 9999, 10);
         socket.setReader(mockedBufferedReader);
-        when(mockSocket.isConnected()).thenReturn(true);
+        if (connected) {
+            when(mockSocket.isConnected()).thenReturn(true);
+        }
     }
 
     private class TestSocket extends MPDSocket {

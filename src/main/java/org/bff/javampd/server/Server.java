@@ -42,6 +42,14 @@ public interface Server {
      */
     boolean isConnected();
 
+    /**
+     * Returns true if {@link #close()} has been called.  Once closed a new {@link MPD} will need to be created.
+     * Automatic reconnections will not be attempted after close is called.
+     *
+     * @return true if {@link #close()} has been called
+     */
+    boolean isClosed();
+
     int getPort();
 
     InetAddress getAddress();

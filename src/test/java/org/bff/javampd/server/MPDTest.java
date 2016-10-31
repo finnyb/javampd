@@ -55,6 +55,19 @@ public class MPDTest {
     }
 
     @Test
+    public void testIsClosed() {
+        MPD mpd = mpdBuilder.build();
+        assertFalse(mpd.isClosed());
+    }
+
+    @Test
+    public void testIsNotClosed() {
+        MPD mpd = mpdBuilder.build();
+        mpd.close();
+        assertTrue(mpd.isClosed());
+    }
+
+    @Test
     public void testGetVersion() throws Exception {
         String theVersion = "testVersion";
         when(mpdCommandExecutor.getMPDVersion())
