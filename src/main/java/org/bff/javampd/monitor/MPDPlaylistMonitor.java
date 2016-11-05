@@ -99,7 +99,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
         if (oldPlaylistLength != newPlaylistLength) {
             if (oldPlaylistLength < newPlaylistLength) {
                 firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.SONG_ADDED);
-            } else if (oldPlaylistLength > newPlaylistLength) {
+            } else {
                 firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.SONG_DELETED);
             }
 
