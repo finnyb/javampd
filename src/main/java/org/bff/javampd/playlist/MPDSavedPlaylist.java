@@ -40,12 +40,14 @@ public class MPDSavedPlaylist extends MPDItem {
         this.songs = songs;
     }
 
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!super.equals(o)) {
-            return false;
-        }
-
-        return true;
+        return super.equals(o);
     }
 }
