@@ -39,4 +39,13 @@ public class MPDSavedPlaylist extends MPDItem {
     public void setSongs(Collection<MPDSong> songs) {
         this.songs = songs;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        return true;
+    }
 }
