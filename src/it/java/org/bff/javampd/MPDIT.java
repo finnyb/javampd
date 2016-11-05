@@ -24,6 +24,12 @@ public class MPDIT extends BaseTest {
     }
 
     @Test
+    public void testDefaultMPD() throws MPDConnectionException {
+        MPD mpd = new MPD.Builder().build();
+        assertTrue(mpd.isConnected());
+    }
+
+    @Test
     public void testClearError() throws IOException, MPDException {
         MPD mpd = null;
         try {
