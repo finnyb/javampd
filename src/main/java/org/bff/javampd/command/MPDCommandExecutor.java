@@ -82,9 +82,7 @@ public class MPDCommandExecutor implements CommandExecutor {
         }
 
         if (mpdSocket == null) {
-            mpdSocket = new MPDSocket(mpd.getAddress(),
-                    mpd.getPort(),
-                    mpd.getTimeout());
+            mpdSocket = createSocket();
         }
     }
 
@@ -127,5 +125,11 @@ public class MPDCommandExecutor implements CommandExecutor {
     @Override
     public void close() {
         this.mpdSocket.close();
+    }
+
+    protected MPDSocket createSocket() {
+        return new MPDSocket(mpd.getAddress(),
+                mpd.getPort(),
+                mpd.getTimeout());
     }
 }

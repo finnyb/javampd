@@ -7,14 +7,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MPDCommandExecutorTest {
@@ -37,9 +41,88 @@ public class MPDCommandExecutorTest {
     }
 
     @Test(expected = MPDConnectionException.class)
-    public void testCommandNoMPDSet() {
+    public void testSendCommandNoMPDSet() {
         commandExecutor = new MPDCommandExecutor();
         commandExecutor.sendCommand("command");
+    }
+
+    @Test
+    public void testSendCommandSecurityException() {
+        commandExecutor = new TestMPDCommandExecutor();
+        commandExecutor.setMpd(mpd);
+
+        MPDCommand command = new MPDCommand("command");
+        MPDCommand passwordCommand = new MPDCommand("password", "password");
+
+        when(mpdSocket.sendCommand(passwordCommand))
+                .thenReturn(new ArrayList<>())
+                .thenReturn(new ArrayList<>());
+
+        List<String> testResponse = new ArrayList<>();
+        testResponse.add("testResponse");
+
+        when(mpdSocket.sendCommand(command))
+                .thenThrow(new MPDSecurityException("exception"))
+                .thenReturn(testResponse);
+        List<String> response = new ArrayList<>(commandExecutor.sendCommand(command));
+        assertEquals(response.get(0), testResponse.get(0));
+    }
+
+    @Test
+    public void testSendCommandsSecurityException() {
+        commandExecutor = new TestMPDCommandExecutor();
+        commandExecutor.setMpd(mpd);
+
+        MPDCommand command1 = new MPDCommand("command1");
+        MPDCommand command2 = new MPDCommand("command2");
+
+        List<MPDCommand> commands = new ArrayList<>();
+        commands.add(command1);
+        commands.add(command2);
+
+        MPDCommand passwordCommand = new MPDCommand("password", "password");
+        when(mpdSocket.sendCommand(passwordCommand))
+                .thenReturn(new ArrayList<>())
+                .thenReturn(new ArrayList<>());
+
+        doThrow(new MPDSecurityException("exception"))
+                .doNothing()
+                .when(mpdSocket).sendCommands(commands);
+
+        commandExecutor.sendCommands(commands);
+    }
+
+    @Test
+    public void testCreateSocket() throws Exception {
+        ServerSocket socket = null;
+        try {
+            socket = new ServerSocket(0);
+            socket.setReuseAddress(true);
+            int port = socket.getLocalPort();
+            when(mpd.getAddress()).thenReturn(InetAddress.getLocalHost());
+            when(mpd.getPort()).thenReturn(port);
+            when(mpd.getTimeout()).thenReturn(5000);
+
+            ServerSocket finalSocket = socket;
+            new Thread(() -> {
+                Socket clientSocket = null;
+                try {
+                    clientSocket = finalSocket.accept();
+                    PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
+                    pw.write("OK MPD Version\r\n");
+                    pw.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+            commandExecutor.setMpd(mpd);
+            assertNotNull(commandExecutor.createSocket());
+        } finally {
+            if (socket != null) {
+                socket.close();
+            }
+        }
     }
 
     @Test(expected = MPDConnectionException.class)
@@ -106,5 +189,12 @@ public class MPDCommandExecutorTest {
     public void testClose() {
         commandExecutor.close();
         verify(mpdSocket).close();
+    }
+
+    private class TestMPDCommandExecutor extends MPDCommandExecutor {
+        @Override
+        protected MPDSocket createSocket() {
+            return mpdSocket;
+        }
     }
 }
