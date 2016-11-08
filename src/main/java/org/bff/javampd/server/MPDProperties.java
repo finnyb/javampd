@@ -1,5 +1,6 @@
 package org.bff.javampd.server;
 
+import org.bff.javampd.MPDException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public abstract class MPDProperties implements PropertyLoader {
     private static final String PROPFILE = "/mpd.properties";
 
     protected MPDProperties() {
-        loadValues();
+        loadValues(PROPFILE);
     }
 
     @Override
@@ -28,21 +29,25 @@ public abstract class MPDProperties implements PropertyLoader {
         return prop.getProperty(property);
     }
 
-    private void loadValues() {
+    protected void loadValues(String propertiesResourceLocation) {
         prop = new Properties();
 
-        InputStream is = MPDProperties.class.getResourceAsStream(PROPFILE);
+        InputStream is = MPDProperties.class.getResourceAsStream(propertiesResourceLocation);
 
         try {
             prop.load(is);
         } catch (Exception e) {
             LOGGER.error("Could not load properties values", e);
+            throw new MPDException("Could not load mpd porporties", e);
         } finally {
-            try {
-                is.close();
-            } catch (IOException ex) {
-                LOGGER.error("Could not close properties file stream", ex);
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException ex) {
+                    LOGGER.error("Could not close properties file stream", ex);
+                }
             }
+
         }
     }
 }
