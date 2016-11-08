@@ -2,6 +2,8 @@ package org.bff.javampd.admin;
 
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.output.OutputChangeEvent;
+import org.bff.javampd.output.OutputChangeListener;
 import org.bff.javampd.statistics.ServerStatistics;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -119,6 +122,70 @@ public class MPDAdminTest {
     public void getDaemonUpTime() {
         admin.getDaemonUpTime();
         verify(serverStatistics, times(1)).getUptime();
+    }
+
+    @Test
+    public void testAddChangeListener() {
+        final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
+
+        MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.MPD_KILLED;
+        MPDChangeListener changeListener = event -> eventReceived[0] = event;
+
+        admin.addMPDChangeListener(changeListener);
+        admin.fireMPDChangeEvent(changeEvent);
+
+        assertEquals(changeEvent, eventReceived[0].getEvent());
+    }
+
+    @Test
+    public void testRemoveListener() {
+        final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
+
+        MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.MPD_KILLED;
+        MPDChangeListener changeListener = event -> eventReceived[0] = event;
+
+        admin.addMPDChangeListener(changeListener);
+        admin.fireMPDChangeEvent(changeEvent);
+
+        assertEquals(changeEvent, eventReceived[0].getEvent());
+
+        eventReceived[0] = null;
+        admin.removeMPDChangeListener(changeListener);
+        admin.fireMPDChangeEvent(changeEvent);
+
+        assertNull(eventReceived[0]);
+    }
+
+    @Test
+    public void testAddOutputChangeListener() {
+        final OutputChangeEvent[] eventReceived = new OutputChangeEvent[1];
+
+        OutputChangeEvent.OUTPUT_EVENT changeEvent = OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED;
+        OutputChangeListener changeListener = event -> eventReceived[0] = event;
+
+        admin.addOutputChangeListener(changeListener);
+        admin.fireOutputChangeEvent(changeEvent);
+
+        assertEquals(changeEvent, eventReceived[0].getEvent());
+    }
+
+    @Test
+    public void testRemoveOutputListener() {
+        final OutputChangeEvent[] eventReceived = new OutputChangeEvent[1];
+
+        OutputChangeEvent.OUTPUT_EVENT changeEvent = OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED;
+        OutputChangeListener changeListener = event -> eventReceived[0] = event;
+
+        admin.addOutputChangeListener(changeListener);
+        admin.fireOutputChangeEvent(changeEvent);
+
+        assertEquals(changeEvent, eventReceived[0].getEvent());
+
+        eventReceived[0] = null;
+        admin.removeOutputChangeListener(changeListener);
+        admin.fireOutputChangeEvent(changeEvent);
+
+        assertNull(eventReceived[0]);
     }
 
     private List<String> getOutputResponse() {

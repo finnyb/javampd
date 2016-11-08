@@ -107,7 +107,7 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public synchronized void removePlayerChangedListener(MPDChangeListener mcl) {
+    public synchronized void removeMPDChangeListener(MPDChangeListener mcl) {
         listeners.remove(mcl);
     }
 
@@ -154,7 +154,7 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
-    public synchronized void removePlaylistStatusChangedListener(OutputChangeListener pcl) {
+    public synchronized void removeOutputChangeListener(OutputChangeListener pcl) {
         outputListeners.remove(pcl);
     }
 

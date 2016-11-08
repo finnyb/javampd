@@ -47,7 +47,7 @@ public interface Admin {
      *
      * @param mcl the MPDChangeListener to remove
      */
-    void removePlayerChangedListener(MPDChangeListener mcl);
+    void removeMPDChangeListener(MPDChangeListener mcl);
 
     /**
      * Kills the mpd connection.
@@ -87,5 +87,5 @@ public interface Admin {
      *
      * @param pcl the PlaylistChangeListener to remove
      */
-    void removePlaylistStatusChangedListener(OutputChangeListener pcl);
+    void removeOutputChangeListener(OutputChangeListener pcl);
 }
