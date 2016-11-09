@@ -13,36 +13,45 @@ public class MPDAlbumTest {
 
     @Test
     public void testInEqualityAlbumNames() {
-        MPDAlbum alb1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum alb2 = new MPDAlbum("Album2", "Artist1");
+        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
 
-        Assert.assertFalse(alb1.equals(alb2));
+        Assert.assertFalse(album1.equals(album2));
     }
 
     @Test
     public void testInEqualityAlbumArtists() {
-        MPDAlbum alb1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum alb2 = new MPDAlbum("Album1", "Artist2");
+        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album2 = new MPDAlbum("Album1", "Artist2");
 
-        Assert.assertFalse(alb1.equals(alb2));
+        Assert.assertFalse(album1.equals(album2));
     }
 
     @Test
     public void testEqualityAlbumNames() {
-        MPDAlbum alb1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum alb2 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
 
-        Assert.assertTrue(alb1.equals(alb2));
+        Assert.assertTrue(album1.equals(album2));
     }
 
     @Test
     public void testEqualityAlbumArtists() {
-        MPDAlbum alb1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum alb2 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
 
-        Assert.assertTrue(alb1.equals(alb2));
+        Assert.assertTrue(album1.equals(album2));
     }
 
+
+    @Test
+    public void testCompareArtists() throws Exception {
+        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
+
+        assertEquals(album1.getArtistName(), album2.getArtistName());
+    }
+    
     @Test
     public void testEqualsNull() throws Exception {
         MPDAlbum album = new MPDAlbum("Album", "Artist");
