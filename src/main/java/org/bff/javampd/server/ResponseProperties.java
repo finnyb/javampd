@@ -23,10 +23,6 @@ public class ResponseProperties extends MPDProperties {
         }
     }
 
-    public String getResponseCommand(Command command) {
-        return getPropertyString(command.getKey());
-    }
-
     public String getOk() {
         return getPropertyString(Command.OK.getKey());
     }
