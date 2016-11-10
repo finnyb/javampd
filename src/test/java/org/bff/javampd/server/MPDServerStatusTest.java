@@ -11,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -165,6 +166,22 @@ public class MPDServerStatusTest {
     }
 
     @Test
+    public void testElapsedTimeParseException() {
+        statusList.add("time: junk:junk");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getElapsedTime());
+    }
+
+    @Test
+    public void testTotalTimeParseException() {
+        statusList.add("time: junk:junk");
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertEquals(0, serverStatus.getElapsedTime());
+    }
+
+    @Test
     public void getTotalTime() throws Exception {
         String time = "5:6";
         statusList.add("time: " + time);
@@ -258,6 +275,24 @@ public class MPDServerStatusTest {
     }
 
     @Test
+    public void testIsDatabaseUpdating() {
+        String updating = "anything";
+        statusList.add("updating_db: " + updating);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertTrue(serverStatus.isDatabaseUpdating());
+    }
+
+    @Test
+    public void testIsDatabaseUpdatingFalse() {
+        String updating = "";
+        statusList.add("updating_db: " + updating);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+
+        assertFalse(serverStatus.isDatabaseUpdating());
+    }
+
+    @Test
     public void testIsRandom() {
         String random = "1";
         statusList.add("random: " + random);
@@ -318,5 +353,21 @@ public class MPDServerStatusTest {
         serverStatus.forceUpdate();
         serverStatus.isRandom();
         Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStatus());
+    }
+
+    @Test
+    public void testGetStatus() {
+        String random = "1";
+        String volume = "5";
+        statusList.add("volume: " + volume);
+        statusList.add("random: " + random);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        serverStatus.isRandom();
+        serverStatus.forceUpdate();
+        serverStatus.isRandom();
+
+        Collection status = serverStatus.getStatus();
+
+        assertEquals(status.size(), statusList.size());
     }
 }
