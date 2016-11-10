@@ -54,6 +54,15 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
+    public void testGetPlaytimeParseException() throws Exception {
+        String playTime = "junk";
+        statList.add("playtime: " + playTime);
+        when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
+
+        assertEquals(0, serverStatistics.getPlaytime());
+    }
+
+    @Test
     public void testGetUptime() throws Exception {
         String uptime = "5";
         statList.add("uptime: " + uptime);
