@@ -4,7 +4,6 @@ import org.bff.javampd.MPDException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -32,22 +31,11 @@ public abstract class MPDProperties implements PropertyLoader {
     protected void loadValues(String propertiesResourceLocation) {
         prop = new Properties();
 
-        InputStream is = MPDProperties.class.getResourceAsStream(propertiesResourceLocation);
-
-        try {
+        try (InputStream is = MPDProperties.class.getResourceAsStream(propertiesResourceLocation)) {
             prop.load(is);
         } catch (Exception e) {
             LOGGER.error("Could not load properties values", e);
             throw new MPDException("Could not load mpd porporties", e);
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException ex) {
-                    LOGGER.error("Could not close properties file stream", ex);
-                }
-            }
-
         }
     }
 }
