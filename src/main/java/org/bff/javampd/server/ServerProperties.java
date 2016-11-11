@@ -32,10 +32,6 @@ public class ServerProperties extends MPDProperties {
         return getResponseCommand(Command.CLEARERROR);
     }
 
-    public String getKill() {
-        return getResponseCommand(Command.KILL);
-    }
-
     public String getStatus() {
         return getResponseCommand(Command.STATUS);
     }
