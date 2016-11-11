@@ -47,6 +47,71 @@ public class MPDCommandExecutorTest {
     }
 
     @Test
+    public void testSendCommandString() {
+        String commandString = "command";
+        MPDCommand command = new MPDCommand(commandString);
+        commandExecutor = new TestMPDCommandExecutor();
+        commandExecutor.setMpd(mpd);
+        List<String> testResponse = new ArrayList<>();
+        testResponse.add("testResponse");
+        when(mpdSocket.sendCommand(command))
+                .thenReturn(testResponse);
+
+        List<String> response = commandExecutor.sendCommand(commandString);
+
+        assertEquals(response.get(0), testResponse.get(0));
+    }
+
+    @Test
+    public void testSendCommand() {
+        MPDCommand command = new MPDCommand("command");
+        commandExecutor = new TestMPDCommandExecutor();
+        commandExecutor.setMpd(mpd);
+        List<String> testResponse = new ArrayList<>();
+        testResponse.add("testResponse");
+        when(mpdSocket.sendCommand(command))
+                .thenReturn(testResponse);
+
+        List<String> response = commandExecutor.sendCommand(command);
+
+        assertEquals(response.get(0), testResponse.get(0));
+    }
+
+    @Test
+    public void testSendCommandWithStringParams() {
+        String commandString = "command";
+        String paramString = "param";
+        MPDCommand command = new MPDCommand(commandString, paramString);
+        commandExecutor = new TestMPDCommandExecutor();
+        commandExecutor.setMpd(mpd);
+        List<String> testResponse = new ArrayList<>();
+        testResponse.add("testResponse");
+        when(mpdSocket.sendCommand(command))
+                .thenReturn(testResponse);
+
+        List<String> response = commandExecutor.sendCommand(commandString, paramString);
+
+        assertEquals(response.get(0), testResponse.get(0));
+    }
+
+    @Test
+    public void testSendCommandWithIntegerParams() {
+        String commandString = "command";
+        Integer paramInteger = 1;
+        MPDCommand command = new MPDCommand(commandString, Integer.toString(paramInteger));
+        commandExecutor = new TestMPDCommandExecutor();
+        commandExecutor.setMpd(mpd);
+        List<String> testResponse = new ArrayList<>();
+        testResponse.add("testResponse");
+        when(mpdSocket.sendCommand(command))
+                .thenReturn(testResponse);
+
+        List<String> response = commandExecutor.sendCommand(commandString, paramInteger);
+
+        assertEquals(response.get(0), testResponse.get(0));
+    }
+
+    @Test
     public void testSendCommandSecurityException() {
         commandExecutor = new TestMPDCommandExecutor();
         commandExecutor.setMpd(mpd);
@@ -88,6 +153,23 @@ public class MPDCommandExecutorTest {
         doThrow(new MPDSecurityException("exception"))
                 .doNothing()
                 .when(mpdSocket).sendCommands(commands);
+
+        commandExecutor.sendCommands(commands);
+    }
+
+    @Test
+    public void testSendCommands() {
+        commandExecutor = new TestMPDCommandExecutor();
+        commandExecutor.setMpd(mpd);
+
+        MPDCommand command1 = new MPDCommand("command1");
+        MPDCommand command2 = new MPDCommand("command2");
+
+        List<MPDCommand> commands = new ArrayList<>();
+        commands.add(command1);
+        commands.add(command2);
+
+        doNothing().when(mpdSocket).sendCommands(commands);
 
         commandExecutor.sendCommands(commands);
     }
@@ -163,6 +245,21 @@ public class MPDCommandExecutorTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAuthenticateIllegalArgument() throws Exception {
         commandExecutor.usePassword(null);
+    }
+
+    @Test
+    public void testAuthentication() {
+        String password = "password";
+        ServerProperties serverProperties = new ServerProperties();
+        MPDCommand command = new MPDCommand(serverProperties.getPassword(), password);
+
+        List<String> testResponse = new ArrayList<>();
+        testResponse.add("testResponse");
+
+        when(mpdSocket.sendCommand(command)).thenReturn(testResponse);
+
+        commandExecutor.usePassword(password);
+        commandExecutor.authenticate();
     }
 
     @Test(expected = MPDSecurityException.class)

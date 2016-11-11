@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -35,12 +34,12 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     @Override
     public synchronized List<String> sendCommand(String command) {
-        return new ArrayList<>(sendCommand(new MPDCommand(command)));
+        return sendCommand(new MPDCommand(command));
     }
 
     @Override
     public synchronized List<String> sendCommand(String command, String... params) {
-        return new ArrayList<>(sendCommand(new MPDCommand(command, params)));
+        return sendCommand(new MPDCommand(command, params));
     }
 
     @Override
@@ -53,14 +52,14 @@ public class MPDCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public synchronized Collection<String> sendCommand(MPDCommand command) {
+    public synchronized List<String> sendCommand(MPDCommand command) {
         try {
             checkSocket();
-            return mpdSocket.sendCommand(command);
+            return new ArrayList<>(mpdSocket.sendCommand(command));
         } catch (MPDSecurityException se) {
             LOGGER.warn("Connection exception while sending command {}, will retry", command.getCommand(), se);
             authenticate();
-            return mpdSocket.sendCommand(command);
+            return new ArrayList<>(mpdSocket.sendCommand(command));
         }
     }
 
