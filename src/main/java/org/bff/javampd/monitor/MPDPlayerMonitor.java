@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.bff.javampd.monitor.PlayerStatus.*;
+
 @Singleton
 public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlayerMonitor.class);
@@ -34,32 +36,29 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
     @Override
     public void checkStatus() {
         super.checkStatus();
-        PlayerStatus newStatus = PlayerStatus.STATUS_STOPPED;
+        PlayerStatus newStatus = null;
         if (state.startsWith(StandAloneMonitor.PlayerResponse.PLAY.getPrefix())) {
-            newStatus = PlayerStatus.STATUS_PLAYING;
+            newStatus = STATUS_PLAYING;
         } else if (state.startsWith(StandAloneMonitor.PlayerResponse.PAUSE.getPrefix())) {
-            newStatus = PlayerStatus.STATUS_PAUSED;
+            newStatus = STATUS_PAUSED;
         } else if (state.startsWith(StandAloneMonitor.PlayerResponse.STOP.getPrefix())) {
             newStatus = PlayerStatus.STATUS_STOPPED;
         }
 
         if (!status.equals(newStatus)) {
-            LOGGER.debug("status change from {} to {}", status, newStatus);
-            switch (newStatus) {
-                case STATUS_PLAYING:
-                    processPlayingStatus(status);
-                    break;
-                case STATUS_STOPPED:
-                    firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
-                    break;
-                case STATUS_PAUSED:
-                    processPausedStatus(status);
-                    break;
-                default:
-                    LOGGER.warn("Invalid player status --> {}", status);
-                    break;
-            }
+            processNewStatus(newStatus);
             status = newStatus;
+        }
+    }
+
+    private void processNewStatus(PlayerStatus newStatus) {
+        LOGGER.debug("status change from {} to {}", status, newStatus);
+        if (newStatus == STATUS_PLAYING) {
+            processPlayingStatus(status);
+        } else if (newStatus == STATUS_STOPPED) {
+            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
+        } else if (newStatus == STATUS_PAUSED) {
+            processPausedStatus(status);
         }
     }
 
@@ -92,31 +91,19 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
         }
     }
 
-    private void processPlayingStatus(PlayerStatus status) {
-        switch (status) {
-            case STATUS_PAUSED:
-                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
-                break;
-            case STATUS_STOPPED:
-                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
-                break;
-            default:
-                LOGGER.warn("Invalid playing status --> {}", status);
-                break;
+    private void processPlayingStatus(PlayerStatus oldStatus) {
+        if (oldStatus == STATUS_PAUSED) {
+            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED);
+        } else if (oldStatus == STATUS_STOPPED) {
+            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STARTED);
         }
     }
 
-    private void processPausedStatus(PlayerStatus status) {
-        switch (status) {
-            case STATUS_PLAYING:
-                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
-                break;
-            case STATUS_STOPPED:
-                firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
-                break;
-            default:
-                LOGGER.warn("Invalid paused status --> {}", status);
-                break;
+    private void processPausedStatus(PlayerStatus oldStatus) {
+        if (oldStatus == STATUS_PLAYING) {
+            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_PAUSED);
+        } else if (oldStatus == STATUS_STOPPED) {
+            firePlayerChangeEvent(PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
         }
     }
 }

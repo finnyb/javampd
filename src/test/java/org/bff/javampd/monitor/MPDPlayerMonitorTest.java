@@ -5,8 +5,7 @@ import org.bff.javampd.player.PlayerBasicChangeListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class MPDPlayerMonitorTest {
 
@@ -67,6 +66,21 @@ public class MPDPlayerMonitorTest {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus("state: bogus");
+        playerMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testPlayerInvalidStatusAfterValidStatus() throws Exception {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
+
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus("state: play");
+        playerMonitor.checkStatus();
+        assertNotNull(changeEvent[0]);
+
+        changeEvent[0] = null;
         playerMonitor.processResponseStatus("state: bogus");
         playerMonitor.checkStatus();
         assertNull(changeEvent[0]);

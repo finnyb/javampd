@@ -76,7 +76,7 @@ public class StandAloneMonitorThread implements Runnable {
                 }
                 TimeUnit.SECONDS.sleep(delay);
             } catch (InterruptedException ie) {
-                LOGGER.error("Thread interrupted", ie);
+                LOGGER.error("StandAloneMonitor interrupted", ie);
                 setStopped(true);
             } catch (MPDException mpdException) {
                 LOGGER.error("Error while checking statuses", mpdException);
@@ -87,6 +87,8 @@ public class StandAloneMonitorThread implements Runnable {
                         TimeUnit.SECONDS.sleep(this.exceptionDelay);
                     } catch (InterruptedException ex) {
                         LOGGER.error("StandAloneMonitor interrupted", ex);
+                        setStopped(true);
+                        break;
                     }
 
                     try {
