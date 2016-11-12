@@ -67,7 +67,7 @@ public enum Status {
     /**
      * if the status is unknown
      */
-    UNKNOWN("");
+    UNKNOWN("unknown");
 
     /**
      * the prefix associated with the status
