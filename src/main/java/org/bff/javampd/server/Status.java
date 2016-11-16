@@ -127,7 +127,7 @@ public enum Status {
                 return status;
             }
         }
-        //LOGGER.warn("Unknown status {} returned", statusLine);
+        LOGGER.warn("Unknown status {} returned", statusLine);
         return UNKNOWN;
     }
 }
