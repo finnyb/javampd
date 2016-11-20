@@ -15,7 +15,7 @@ public class MonitorProperties extends MPDProperties {
         CONNECTION("MPD_CONNECTION_DELAY"),
         PLAYLIST("MPD_PLAYLIST_DELAY"),
         ERROR("MPD_ERROR_DELAY"),
-        PLAYER("MPD_PlAYER_DELAY"),
+        PLAYER("MPD_PLAYER_DELAY"),
         TRACK("MPD_TRACK_DELAY"),
         MONITOR("MPD_MONITOR_DELAY"),
         EXCEPTION("MPD_EXCEPTION_DELAY");

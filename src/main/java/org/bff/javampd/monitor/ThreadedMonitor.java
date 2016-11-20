@@ -13,7 +13,7 @@ public class ThreadedMonitor {
      *
      * @param monitor the {@link Monitor}
      * @param delay   The number of seconds to delay before performing the check status.  If your
-     *                #checkStatus is expensive this should be a larger number.
+     *                {@link #checkStatus} is expensive this should be a larger number.
      */
     ThreadedMonitor(Monitor monitor, int delay) {
         this.monitor = monitor;
