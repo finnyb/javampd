@@ -10,9 +10,21 @@ import org.bff.javampd.MPDItem;
 public class MPDAlbum extends MPDItem {
 
     private String artistName;
+    private String date;
 
     /**
      * Constructs an album
+     *
+     * @param name name of the album
+     */
+    public MPDAlbum(String name) {
+        super(name);
+        this.artistName = "";
+        this.date = "";
+    }
+
+    /**
+     * Constructs an album wiht an artist name
      *
      * @param name       name of the album
      * @param artistName artist of the album
@@ -20,6 +32,7 @@ public class MPDAlbum extends MPDItem {
     public MPDAlbum(String name, String artistName) {
         super(name);
         this.artistName = artistName;
+        this.date = "";
     }
 
     /**
@@ -32,9 +45,37 @@ public class MPDAlbum extends MPDItem {
     }
 
     /**
+     * Sets the artist name for this album
+     *
+     * @param artistName the artist's name
+     */
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+
+    /**
+     * the date of the album
+     *
+     * @return the date of the album
+     */
+    public String getDate() {
+        return date;
+    }
+
+    /**
+     * Sets the date of the album
+     *
+     * @param date the date of the album
+     */
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    /**
      * We consider two albums to be equal if the {@link MPDAlbum}
      * names match and if the {@link org.bff.javampd.artist.MPDArtist}
-     * name matches
+     * name matches and the Date matches
      *
      * @param object the {@link MPDAlbum} to compare
      * @return true or false
@@ -56,8 +97,13 @@ public class MPDAlbum extends MPDItem {
         MPDAlbum album = (MPDAlbum) object;
 
         return this.getName().equals(album.getName()) &&
-                compareArtists(album);
+                compareArtists(album) &&
+                compareDates(album);
 
+    }
+
+    private boolean compareDates(MPDAlbum album) {
+        return getDate() != null && getDate().equals(album.getDate());
     }
 
     @Override
@@ -66,6 +112,6 @@ public class MPDAlbum extends MPDItem {
     }
 
     private boolean compareArtists(MPDAlbum album) {
-        return artistName != null && artistName.equals(album.artistName);
+        return getArtistName() != null && getArtistName().equals(album.getArtistName());
     }
 }

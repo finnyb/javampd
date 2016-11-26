@@ -127,18 +127,18 @@ public class MPDSongConverterTest {
         List<String> response = new ArrayList<>();
 
         for (int i = 0; i < COUNT; i++) {
-            response.add(new FileProcessor().getPrefix() + FILE + i);
-            response.add(new ArtistProcessor().getPrefix() + ARTIST + i);
-            response.add(new AlbumProcessor().getPrefix() + ALBUM + i);
-            response.add(new TrackProcessor().getPrefix() + i);
-            response.add(new TitleProcessor().getPrefix() + TITLE + i);
-            response.add(new DateProcessor().getPrefix() + DATE + i);
-            response.add(new GenreProcessor().getPrefix() + GENRE + i);
-            response.add(new CommentProcessor().getPrefix() + COMMENT + i);
-            response.add(new TimeProcessor().getPrefix() + i);
-            response.add(new PositionProcessor().getPrefix() + i);
-            response.add(new IdProcessor().getPrefix() + i);
-            response.add(new DiscProcessor().getPrefix() + DISC + i);
+            response.add(new FileTagProcessor().getPrefix() + FILE + i);
+            response.add(new ArtistTagProcessor().getPrefix() + ARTIST + i);
+            response.add(new AlbumTagProcessor().getPrefix() + ALBUM + i);
+            response.add(new TrackTagProcessor().getPrefix() + i);
+            response.add(new TitleTagProcessor().getPrefix() + TITLE + i);
+            response.add(new DateTagProcessor().getPrefix() + DATE + i);
+            response.add(new GenreTagProcessor().getPrefix() + GENRE + i);
+            response.add(new CommentTagProcessor().getPrefix() + COMMENT + i);
+            response.add(new TimeTagProcessor().getPrefix() + i);
+            response.add(new PositionTagProcessor().getPrefix() + i);
+            response.add(new IdTagProcessor().getPrefix() + i);
+            response.add(new DiscTagProcessor().getPrefix() + DISC + i);
         }
         return response;
     }

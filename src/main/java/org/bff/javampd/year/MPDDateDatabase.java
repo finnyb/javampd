@@ -28,6 +28,7 @@ public class MPDDateDatabase implements DateDatabase {
 
         return tagLister.list(TagLister.ListType.DATE)
                 .stream()
+                .map(s -> s.substring(s.split(":")[0].length() + 1).trim())
                 .distinct()
                 .sorted()
                 .collect(Collectors.toList());

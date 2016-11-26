@@ -6,17 +6,17 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class DateProcessorTest {
+public class DateTagProcessorTest {
 
     @Test
     public void testProcessSong() throws Exception {
         String testDate = "1990";
 
-        DateProcessor dateProcessor = new DateProcessor();
+        DateTagProcessor dateTagProcessor = new DateTagProcessor();
         MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Date:" + testDate;
-        dateProcessor.processSong(song, line);
+        dateTagProcessor.processTag(song, line);
 
         assertEquals(testDate, song.getYear());
     }
@@ -25,11 +25,11 @@ public class DateProcessorTest {
     public void testProcessSongBadLine() throws Exception {
         String testDate = "1990";
 
-        DateProcessor dateProcessor = new DateProcessor();
+        DateTagProcessor dateTagProcessor = new DateTagProcessor();
         MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadDate:" + testDate;
-        dateProcessor.processSong(song, line);
+        dateTagProcessor.processTag(song, line);
 
         assertNull(song.getYear());
     }

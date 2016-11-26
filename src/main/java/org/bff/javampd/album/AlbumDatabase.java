@@ -92,14 +92,4 @@ public interface AlbumDatabase {
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s
      */
     Collection<MPDAlbum> findAlbum(String albumName);
-
-    /**
-     * Returns the {@link org.bff.javampd.album.MPDAlbum} for the passed {@link org.bff.javampd.artist.MPDArtist}.
-     * Returns null if no album found.
-     *
-     * @param artist    the {@link org.bff.javampd.artist.MPDArtist}
-     * @param albumName the albums name
-     * @return the {@link org.bff.javampd.album.MPDAlbum}, null if nothing found
-     */
-    MPDAlbum findAlbumByArtist(MPDArtist artist, String albumName);
 }

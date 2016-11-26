@@ -5,17 +5,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class FileProcessorTest {
+public class FileTagProcessorTest {
 
     @Test
     public void testProcessSong() throws Exception {
         String testFile = "testFile";
 
-        FileProcessor fileProcessor = new FileProcessor();
+        FileTagProcessor fileTagProcessor = new FileTagProcessor();
         MPDSong song = new MPDSong("file", "title");
 
         String line = "file:" + testFile;
-        fileProcessor.processSong(song, line);
+        fileTagProcessor.processTag(song, line);
 
         assertEquals(testFile, song.getFile());
     }
@@ -25,11 +25,11 @@ public class FileProcessorTest {
         String testFile = "testFile";
         String f = "file";
 
-        FileProcessor fileProcessor = new FileProcessor();
+        FileTagProcessor fileTagProcessor = new FileTagProcessor();
         MPDSong song = new MPDSong(f, "title");
 
         String line = "BadFile:" + testFile;
-        fileProcessor.processSong(song, line);
+        fileTagProcessor.processTag(song, line);
 
         assertEquals(f, song.getFile());
     }

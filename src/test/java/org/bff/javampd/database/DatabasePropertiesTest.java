@@ -24,6 +24,11 @@ public class DatabasePropertiesTest {
     }
 
     @Test
+    public void getGroup() throws Exception {
+        assertEquals("group", databaseProperties.getGroup());
+    }
+
+    @Test
     public void getListInfo() throws Exception {
         assertEquals("lsinfo", databaseProperties.getListInfo());
     }

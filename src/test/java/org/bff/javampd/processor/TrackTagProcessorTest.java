@@ -5,16 +5,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TrackProcessorTest {
+public class TrackTagProcessorTest {
     @Test
     public void testProcessSong() throws Exception {
         String testTrack = "2/10";
 
-        TrackProcessor trackProcessor = new TrackProcessor();
+        TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
         MPDSong song = new MPDSong("testFile", "title");
 
         String line = "Track:" + testTrack;
-        trackProcessor.processSong(song, line);
+        trackTagProcessor.processTag(song, line);
 
         assertEquals(2, song.getTrack());
     }
@@ -23,11 +23,11 @@ public class TrackProcessorTest {
     public void testProcessSongBadLine() throws Exception {
         String testTrack = "2/10";
 
-        TrackProcessor trackProcessor = new TrackProcessor();
+        TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
         MPDSong song = new MPDSong("testFile", "title");
 
         String line = "BadTrack:" + testTrack;
-        trackProcessor.processSong(song, line);
+        trackTagProcessor.processTag(song, line);
 
         assertEquals(0, song.getTrack());
     }
@@ -36,11 +36,11 @@ public class TrackProcessorTest {
     public void testProcessSongUnparseable() throws Exception {
         String testTrack = "junk";
 
-        TrackProcessor trackProcessor = new TrackProcessor();
+        TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
         MPDSong song = new MPDSong("testFile", "title");
 
         String line = "Track:" + testTrack;
-        trackProcessor.processSong(song, line);
+        trackTagProcessor.processTag(song, line);
 
         assertEquals(0, song.getTrack());
     }

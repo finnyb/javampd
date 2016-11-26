@@ -5,17 +5,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TimeProcessorTest {
+public class TimeTagProcessorTest {
 
     @Test
     public void testProcessSong() throws Exception {
         int testLength = 1;
 
-        TimeProcessor timeProcessor = new TimeProcessor();
+        TimeTagProcessor timeTagProcessor = new TimeTagProcessor();
         MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Time:" + testLength;
-        timeProcessor.processSong(song, line);
+        timeTagProcessor.processTag(song, line);
 
         assertEquals(testLength, song.getLength());
     }
@@ -24,11 +24,11 @@ public class TimeProcessorTest {
     public void testProcessSongBadLine() throws Exception {
         int testLength = 1;
 
-        TimeProcessor timeProcessor = new TimeProcessor();
+        TimeTagProcessor timeTagProcessor = new TimeTagProcessor();
         MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadTime:" + testLength;
-        timeProcessor.processSong(song, line);
+        timeTagProcessor.processTag(song, line);
 
         assertEquals(0, song.getLength());
     }

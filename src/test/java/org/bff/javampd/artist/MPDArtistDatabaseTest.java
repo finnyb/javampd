@@ -2,9 +2,9 @@ package org.bff.javampd.artist;
 
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -16,18 +16,24 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MPDArtistDatabaseTest {
+    private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
+
     @Mock
     private TagLister tagLister;
 
-    @InjectMocks
     private MPDArtistDatabase artistDatabase;
+
+    @Before
+    public void before() {
+        artistDatabase = new MPDArtistDatabase(tagLister);
+    }
 
     @Test
     public void testListAllArtists() throws Exception {
         MPDArtist testArtist = new MPDArtist("testName");
 
         List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(testArtist.getName());
+        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
 
         when(tagLister
                 .list(TagLister.ListType.ARTIST))
@@ -52,7 +58,7 @@ public class MPDArtistDatabaseTest {
         mockReturnGenreList.add(testArtistName);
 
         List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(testArtistName);
+        mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
 
         when(tagLister
                 .list(TagLister.ListType.ARTIST, mockGenreList))
@@ -74,7 +80,7 @@ public class MPDArtistDatabaseTest {
         mockReturnName.add(testArtistName);
 
         List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(testArtistName);
+        mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
 
         when(tagLister
                 .list(TagLister.ListType.ARTIST, mockReturnName))
@@ -84,6 +90,7 @@ public class MPDArtistDatabaseTest {
 
         List<MPDArtist> artists = new ArrayList<>();
         artists.add(artistDatabase.listArtistByName(testArtistName));
+
         assertEquals(1, artists.size());
         assertEquals(testArtist, artists.get(0));
     }
@@ -98,8 +105,8 @@ public class MPDArtistDatabaseTest {
         mockReturnName.add(testArtistName);
 
         List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(testArtistName);
-        mockReturnArtist.add(testArtistName2);
+        mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
+        mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName2);
 
         when(tagLister
                 .list(TagLister.ListType.ARTIST, mockReturnName))
@@ -109,6 +116,7 @@ public class MPDArtistDatabaseTest {
 
         List<MPDArtist> artists = new ArrayList<>();
         artists.add(artistDatabase.listArtistByName(testArtistName));
+
         assertEquals(1, artists.size());
         assertEquals(testArtist, artists.get(0));
     }

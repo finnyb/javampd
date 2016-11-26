@@ -65,26 +65,6 @@ public enum Status {
      */
     ERROR("error:"),
     /**
-     *  the threshold at which songs will be overlapped. Like crossfading but doesn't fade the track volume, just overlaps
-     */
-    MIXRAMPDB("mixrampdb:"),
-    /**
-     *  The index of the next song in the queue
-     */
-    NEXTSONG("nextsong:"),
-    /**
-     *  The id of the next song
-     */
-    NEXTSONGID("nextsongid:"),
-    /**
-     *  Whether the server should consume the message in queue or not
-     */
-    CONSUME("consume:"),
-    /**
-     *  whether we should just replay this song repeatively
-     */
-    SINGLE("single:"),
-    /**
      * if the status is unknown
      */
     UNKNOWN("unknown");

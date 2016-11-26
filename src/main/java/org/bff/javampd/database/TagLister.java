@@ -1,6 +1,5 @@
 package org.bff.javampd.database;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -26,6 +25,23 @@ public interface TagLister {
         }
     }
 
+    enum GroupType {
+
+        ALBUM("album"),
+        ARTIST("artist"),
+        GENRE("genre"),
+        DATE("date");
+        private String type;
+
+        GroupType(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
+    }
+
     enum ListInfoType {
 
         PLAYLIST("playlist:"),
@@ -43,9 +59,11 @@ public interface TagLister {
         }
     }
 
-    Collection<String> listInfo(ListInfoType... types);
+    List<String> listInfo(ListInfoType... types);
 
-    Collection<String> list(ListType listType);
+    List<String> list(ListType listType);
 
-    Collection<String> list(ListType listType, List<String> params);
+    List<String> list(ListType listType, GroupType... groupTypes);
+
+    List<String> list(ListType listType, List<String> params, GroupType... groupTypes);
 }

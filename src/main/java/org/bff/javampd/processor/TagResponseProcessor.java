@@ -1,12 +1,10 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.song.MPDSong;
-
-public abstract class SongResponseProcessor {
+public abstract class TagResponseProcessor {
 
     private String prefix;
 
-    public SongResponseProcessor(String prefix) {
+    public TagResponseProcessor(String prefix) {
         this.prefix = prefix;
     }
 
@@ -18,5 +16,4 @@ public abstract class SongResponseProcessor {
         return line.startsWith(getPrefix());
     }
 
-    public abstract void processSong(MPDSong song, String line);
 }

@@ -10,7 +10,7 @@ import org.bff.javampd.MPDItem;
 public class MPDArtist extends MPDItem {
 
     /**
-     * Creates a String object
+     * Creates a new artist
      *
      * @param name the name of the artist
      */

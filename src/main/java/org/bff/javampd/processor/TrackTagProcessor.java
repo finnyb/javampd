@@ -4,15 +4,15 @@ import org.bff.javampd.song.MPDSong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TrackProcessor extends SongResponseProcessor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TrackProcessor.class);
+public class TrackTagProcessor extends TagResponseProcessor implements SongTagResponseProcessor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrackTagProcessor.class);
 
-    public TrackProcessor() {
+    public TrackTagProcessor() {
         super("Track:");
     }
 
     @Override
-    public void processSong(MPDSong song, String line) {
+    public void processTag(MPDSong song, String line) {
         if (startsWith(line)) {
             song.setTrack(processTrack(line.substring(getPrefix().length()).trim()));
         }
