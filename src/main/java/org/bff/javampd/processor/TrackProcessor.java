@@ -18,7 +18,7 @@ public class TrackProcessor extends SongResponseProcessor {
         }
     }
 
-    private int processTrack(String track) {
+    private static int processTrack(String track) {
         try {
             return Integer.parseInt(track.split("/")[0]);
         } catch (NumberFormatException nfe) {

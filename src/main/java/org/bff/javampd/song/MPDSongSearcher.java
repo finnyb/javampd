@@ -67,7 +67,7 @@ public class MPDSongSearcher implements SongSearcher {
                         params));
     }
 
-    private String[] generateParams(ScopeType scopeType,
+    private static String[] generateParams(ScopeType scopeType,
                                     String criteria) {
         String[] paramList;
 

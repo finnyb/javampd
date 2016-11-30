@@ -67,7 +67,7 @@ public class MPDTagLister implements TagLister {
         return retList;
     }
 
-    private String[] generateParamList(ListType listType, List<String> params) {
+    private static String[] generateParamList(ListType listType, List<String> params) {
         String[] paramList;
 
         int i = 0;

@@ -63,7 +63,7 @@ public class MPDAdmin implements Admin {
         return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
     }
 
-    private Collection<MPDOutput> parseOutputs(Collection<String> response) {
+    private static Collection<MPDOutput> parseOutputs(Collection<String> response) {
         List<MPDOutput> outputs = new ArrayList<>();
         Iterator<String> iterator = response.iterator();
         String line = null;
@@ -80,7 +80,7 @@ public class MPDAdmin implements Admin {
         return outputs;
     }
 
-    private MPDOutput parseOutput(String startingLine, Iterator<String> iterator) {
+    private static MPDOutput parseOutput(String startingLine, Iterator<String> iterator) {
         MPDOutput output = new MPDOutput(Integer.parseInt(startingLine.substring(OUTPUT_PREFIX_ID.length()).trim()));
 
         String line = iterator.next();

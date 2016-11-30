@@ -289,7 +289,7 @@ public class MPDPlayer implements Player {
         return info;
     }
 
-    private void parseSampleRate(MPDAudioInfo info, String sampleRate) {
+    private static void parseSampleRate(MPDAudioInfo info, String sampleRate) {
         try {
             info.setSampleRate(Integer.parseInt(sampleRate));
         } catch (NumberFormatException nfe) {
@@ -311,7 +311,7 @@ public class MPDPlayer implements Player {
         }
     }
 
-    private void parseChannels(MPDAudioInfo info, String channels) {
+    private static void parseChannels(MPDAudioInfo info, String channels) {
         try {
             info.setChannels(Integer.parseInt(channels));
         } catch (NumberFormatException nfe) {
@@ -320,7 +320,7 @@ public class MPDPlayer implements Player {
         }
     }
 
-    private void parseBitRate(MPDAudioInfo info, String bitRate) {
+    private static void parseBitRate(MPDAudioInfo info, String bitRate) {
         try {
             info.setBits(Integer.parseInt(bitRate));
         } catch (NumberFormatException nfe) {

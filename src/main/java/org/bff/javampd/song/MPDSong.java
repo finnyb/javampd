@@ -317,7 +317,7 @@ public class MPDSong extends MPDItem {
         return thisSong.compareTo(songToCompare);
     }
 
-    private String formatToComparableString(int i) {
+    private static String formatToComparableString(int i) {
         return String.format("%1$08d", i);
     }
 }

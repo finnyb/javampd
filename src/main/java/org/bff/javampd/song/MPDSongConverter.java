@@ -48,7 +48,7 @@ public class MPDSongConverter implements SongConverter {
         return line;
     }
 
-    private void initialize(MPDSong song) {
+    private static void initialize(MPDSong song) {
         song.setName("");
         song.setAlbumName("");
         song.setArtistName("");

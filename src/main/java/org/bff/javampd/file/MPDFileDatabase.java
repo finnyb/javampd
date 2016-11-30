@@ -86,7 +86,7 @@ public class MPDFileDatabase implements FileDatabase {
         return returnList;
     }
 
-    private String processFile(MPDFile mpdFile, Iterator<String> iterator) {
+    private static String processFile(MPDFile mpdFile, Iterator<String> iterator) {
         String line = iterator.next();
         while (!line.startsWith(PREFIX_FILE) &&
                 !line.startsWith(PREFIX_DIRECTORY)) {
@@ -103,7 +103,7 @@ public class MPDFileDatabase implements FileDatabase {
         return line;
     }
 
-    private LocalDateTime processDate(String name) {
+    private static LocalDateTime processDate(String name) {
         return LocalDateTime.parse(
                 name.substring(PREFIX_LAST_MODIFIED.length()).trim(),
                 DateTimeFormatter.ISO_DATE_TIME);

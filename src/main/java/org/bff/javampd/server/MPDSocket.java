@@ -126,7 +126,7 @@ public class MPDSocket {
         throw new MPDConnectionException("Unable to send command " + command);
     }
 
-    private void logCommandError(MPDCommand command, Exception se) {
+    private static void logCommandError(MPDCommand command, Exception se) {
         LOGGER.error("Error from: {}", command.getCommand(), se);
         for (String str : command.getParams()) {
             LOGGER.error("\tparam: {}", str);
@@ -164,15 +164,15 @@ public class MPDSocket {
         }
     }
 
-    private String stripResponse(String response, String line) {
+    private static String stripResponse(String response, String line) {
         return line.substring(response.length());
     }
 
-    private String convertCommand(String command) {
+    private static String convertCommand(String command) {
         return convertCommand(command, new ArrayList<>());
     }
 
-    private String convertCommand(String command, List<String> params) {
+    private static String convertCommand(String command, List<String> params) {
         StringBuilder sb = new StringBuilder(command);
         for (String param : params) {
             param = param.replaceAll("\"", "\\\\\"");
