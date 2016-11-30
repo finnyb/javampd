@@ -10,6 +10,7 @@ package org.bff.javampd.player;
  *
  * @author Bill
  */
+@FunctionalInterface
 public interface BitrateChangeListener {
     /**
      * Invoked when a bitrate change event occurs.

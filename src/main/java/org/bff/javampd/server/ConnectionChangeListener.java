@@ -11,6 +11,7 @@ package org.bff.javampd.server;
  * @author Bill
  * @version 1.0
  */
+@FunctionalInterface
 public interface ConnectionChangeListener {
     /**
      * Invoked when a connection change event occurs.

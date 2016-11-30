@@ -11,6 +11,7 @@ package org.bff.javampd.player;
  * @author Bill
  * @version 1.0
  */
+@FunctionalInterface
 public interface PlayerChangeListener {
     /**
      * Invoked when a player change event occurs.

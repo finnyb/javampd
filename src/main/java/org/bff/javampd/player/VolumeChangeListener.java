@@ -11,6 +11,7 @@ package org.bff.javampd.player;
  * @author Bill
  * @version 1.0
  */
+@FunctionalInterface
 public interface VolumeChangeListener {
     /**
      * Invoked when a mpd volume change event occurs.

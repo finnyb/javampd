@@ -11,6 +11,7 @@ package org.bff.javampd.playlist;
  * @author Bill
  * @version 1.0
  */
+@FunctionalInterface
 public interface PlaylistChangeListener {
     /**
      * Invoked when a playlist event occurs.

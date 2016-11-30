@@ -11,6 +11,7 @@ package org.bff.javampd.output;
  * @author Bill
  * @version 1.0
  */
+@FunctionalInterface
 public interface OutputChangeListener {
     /**
      * Invoked when a mpd {@link OutputChangeEvent} occurs.
