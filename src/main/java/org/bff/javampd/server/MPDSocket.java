@@ -252,7 +252,7 @@ public class MPDSocket {
     }
 
     private void checkConnection() {
-        boolean connected = true;
+        boolean connected;
 
         if (this.closed) {
             throw new MPDConnectionException("Close has been called on MPD.  Create a new MPD.");
