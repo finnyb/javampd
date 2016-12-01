@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class MPDSongConverter implements SongConverter {
 
-    private static String PREFIX_FILE = SongProcessor.FILE.getProcessor().getPrefix();
+    private static final String PREFIX_FILE = SongProcessor.FILE.getProcessor().getPrefix();
 
     @Override
     public List<MPDSong> convertResponseToSong(List<String> list) {
