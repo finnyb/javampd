@@ -211,4 +211,10 @@ public class MPDTest {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getSongSearcher());
     }
+
+    @Test
+    public void testCommandExecutor() throws Exception {
+        MPD mpd = mpdBuilder.build();
+        assertNotNull(mpd.getCommandExecutor());
+    }
 }

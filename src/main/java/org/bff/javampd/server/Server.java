@@ -1,6 +1,7 @@
 package org.bff.javampd.server;
 
 import org.bff.javampd.admin.Admin;
+import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.monitor.StandAloneMonitor;
 import org.bff.javampd.player.Player;
@@ -71,4 +72,6 @@ public interface Server {
     ServerStatus getServerStatus();
 
     StandAloneMonitor getMonitor();
+
+    CommandExecutor getCommandExecutor();
 }

@@ -196,6 +196,11 @@ public class MPD implements Server {
         return this.standAloneMonitor;
     }
 
+    @Override
+    public CommandExecutor getCommandExecutor() {
+        return this.commandExecutor;
+    }
+
     private boolean usingPassword() {
         return this.password != null || "".equals(this.password);
     }
