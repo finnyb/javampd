@@ -263,16 +263,7 @@ public class MPDSocket {
             connected = false;
         } else {
             if (!socket.isClosed()) {
-                try {
-                    writeToStream(convertCommand(serverProperties.getPing()));
-                    String inLine = reader.readLine();
-                    if (!isResponseOK(inLine)) {
-                        connected = false;
-                    }
-                } catch (Exception e) {
-                    connected = false;
-                    LOGGER.error("lost socket connection", e);
-                }
+                connected = checkPing();
             } else {
                 LOGGER.warn("socket is closed");
                 connected = false;
@@ -312,5 +303,21 @@ public class MPDSocket {
 
     public String getVersion() {
         return this.version;
+    }
+
+    private boolean checkPing() {
+        boolean connected = true;
+        try {
+            writeToStream(convertCommand(serverProperties.getPing()));
+            String inLine = reader.readLine();
+            if (!isResponseOK(inLine)) {
+                connected = false;
+            }
+        } catch (Exception e) {
+            connected = false;
+            LOGGER.error("lost socket connection", e);
+        }
+
+        return connected;
     }
 }
