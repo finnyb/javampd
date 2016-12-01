@@ -26,11 +26,6 @@ public class MPDPropertiesTest {
         new TestBadPropertiesLoad();
     }
 
-    @Test(expected = MPDException.class)
-    public void testNullPropertiesLoad() {
-        new TestNullPropertiesLoad();
-    }
-
     private class TestProperties extends MPDProperties {
         public String getOk() {
             return getPropertyString("MPD_CMD_RESPONSE_OK");
@@ -48,13 +43,6 @@ public class MPDPropertiesTest {
         @Override
         protected void loadProperties(InputStream inputStream) throws IOException {
             throw new IOException();
-        }
-    }
-
-    private class TestNullPropertiesLoad extends MPDProperties {
-        @Override
-        protected void loadProperties(InputStream inputStream) throws IOException {
-            throw new NullPointerException();
         }
     }
 }
