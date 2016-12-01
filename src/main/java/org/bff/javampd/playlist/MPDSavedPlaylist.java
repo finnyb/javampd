@@ -39,4 +39,30 @@ public class MPDSavedPlaylist extends MPDItem {
     public void setSongs(Collection<MPDSong> songs) {
         this.songs = songs;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        MPDSavedPlaylist that = (MPDSavedPlaylist) o;
+
+        return songs != null ? songs.equals(that.songs) : that.songs == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (songs != null ? songs.hashCode() : 0);
+        return result;
+    }
 }

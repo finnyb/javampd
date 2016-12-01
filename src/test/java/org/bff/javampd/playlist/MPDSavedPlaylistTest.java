@@ -1,12 +1,14 @@
 package org.bff.javampd.playlist;
 
+import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.song.MPDSong;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class MPDSavedPlaylistTest {
     @Test
@@ -29,7 +31,7 @@ public class MPDSavedPlaylistTest {
     public void testEqualsSameObject() throws Exception {
         MPDSavedPlaylist playlist = new MPDSavedPlaylist("playlist1");
 
-        assertTrue(playlist.equals(playlist));
+        assertEquals(playlist, playlist);
     }
 
     @Test
@@ -37,12 +39,11 @@ public class MPDSavedPlaylistTest {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist1");
 
-        assertTrue(playlist1.equals(playlist2));
+        assertEquals(playlist1, playlist2);
     }
 
-
     @Test
-    public void testEqualsSameNameDifferentSongs() throws Exception {
+    public void testNotEqualsSameNameDifferentSongs() throws Exception {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist1");
 
@@ -57,7 +58,8 @@ public class MPDSavedPlaylistTest {
 
         playlist1.setSongs(songs1);
         playlist2.setSongs(songs2);
-        assertTrue(playlist1.equals(playlist2));
+
+        assertNotEquals(playlist1, playlist2);
     }
 
     @Test
@@ -65,6 +67,14 @@ public class MPDSavedPlaylistTest {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist2");
 
-        assertFalse(playlist1.equals(playlist2));
+        assertNotEquals(playlist1, playlist2);
+    }
+
+    @Test
+    public void testNotEqualsDifferentClasses() throws Exception {
+        MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
+        MPDArtist playlist2 = new MPDArtist("playlist2");
+
+        assertNotEquals(playlist1, playlist2);
     }
 }
