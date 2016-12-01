@@ -3,6 +3,9 @@ package org.bff.javampd.server;
 import org.bff.javampd.MPDException;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import static org.junit.Assert.assertEquals;
 
 public class MPDPropertiesTest {
@@ -20,7 +23,7 @@ public class MPDPropertiesTest {
 
     @Test(expected = MPDException.class)
     public void testBadPropertiesLoad() {
-        new TestBadProperties();
+        new TestBadPropertiesLoad();
     }
 
     private class TestProperties extends MPDProperties {
@@ -33,6 +36,13 @@ public class MPDPropertiesTest {
         @Override
         protected void loadValues(String propertiesResourceLocation) {
             super.loadValues("badLocation");
+        }
+    }
+
+    private class TestBadPropertiesLoad extends MPDProperties {
+        @Override
+        protected void loadProperties(InputStream inputStream) throws IOException {
+            throw new IOException();
         }
     }
 }
