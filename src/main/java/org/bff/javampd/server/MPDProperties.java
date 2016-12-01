@@ -35,7 +35,7 @@ public abstract class MPDProperties implements PropertyLoader {
             prop.load(is);
         } catch (Exception e) {
             LOGGER.error("Could not load properties values", e);
-            throw new MPDException("Could not load mpd porporties", e);
+            throw new MPDException("Could not load mpd properties", e);
         }
     }
 }

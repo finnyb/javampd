@@ -18,6 +18,11 @@ public class MPDPropertiesTest {
         new TestBadProperties();
     }
 
+    @Test(expected = MPDException.class)
+    public void testBadPropertiesLoad() {
+        new TestBadProperties();
+    }
+
     private class TestProperties extends MPDProperties {
         public String getOk() {
             return getPropertyString("MPD_CMD_RESPONSE_OK");
@@ -28,10 +33,6 @@ public class MPDPropertiesTest {
         @Override
         protected void loadValues(String propertiesResourceLocation) {
             super.loadValues("badLocation");
-        }
-
-        public String getOk() {
-            return getPropertyString("MPD_CMD_RESPONSE_OK");
         }
     }
 }
