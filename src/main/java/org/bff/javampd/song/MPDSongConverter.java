@@ -32,7 +32,7 @@ public class MPDSongConverter implements SongConverter {
         return songList;
     }
 
-    private String processSong(String file, Iterator<String> iterator, List<MPDSong> songs) {
+    private static String processSong(String file, Iterator<String> iterator, List<MPDSong> songs) {
         MPDSong song = new MPDSong(file, "");
         initialize(song);
         String line = iterator.next();
