@@ -5,15 +5,18 @@ import org.bff.javampd.player.*;
 import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 import org.bff.javampd.server.ConnectionChangeListener;
 import org.bff.javampd.server.ErrorListener;
+import org.bff.javampd.server.ServerStatus;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -33,12 +36,9 @@ public class MPDStandAloneMonitorTest {
     @Mock
     private PlaylistMonitor playlistMonitor;
     @Mock
-    private MonitorProperties monitorProperties;
+    private ServerStatus serverStatus;
     @InjectMocks
     private MPDStandAloneMonitor standAloneMonitor;
-
-    @Captor
-    private ArgumentCaptor<Object> stringArgumentCaptor;
 
     @After
     public void tearDown() throws Exception {
@@ -176,15 +176,26 @@ public class MPDStandAloneMonitorTest {
     @Test
     public void testStart() throws Exception {
         standAloneMonitor.start();
-        assertFalse(standAloneMonitor.isStopped());
+        assertFalse(standAloneMonitor.isDone());
+    }
+
+    @Test
+    public void testLoaded() throws Exception {
+        List<String> status = new ArrayList<>();
+        status.add("volume: 2");
+
+        when(serverStatus.getStatus()).thenReturn(status);
+
+        standAloneMonitor.start();
+        await().until(() -> standAloneMonitor.isLoaded());
     }
 
     @Test
     public void testStop() throws Exception {
         standAloneMonitor.start();
-        assertFalse(standAloneMonitor.isStopped());
+        assertFalse(standAloneMonitor.isDone());
         standAloneMonitor.stop();
-        assertTrue(standAloneMonitor.isStopped());
+        assertTrue(standAloneMonitor.isDone());
     }
 
     @Test

@@ -24,6 +24,12 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     }
 
     @Override
+    public void reset() {
+        newVolume = 0;
+        oldVolume = 0;
+    }
+
+    @Override
     public void checkStatus() {
         if (oldVolume != newVolume) {
             fireVolumeChangeEvent(newVolume);

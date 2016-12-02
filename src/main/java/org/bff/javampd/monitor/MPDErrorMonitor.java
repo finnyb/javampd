@@ -50,6 +50,11 @@ public class MPDErrorMonitor implements ErrorMonitor {
     }
 
     @Override
+    public void reset() {
+        error = null;
+    }
+
+    @Override
     public void checkStatus() {
         if (error != null) {
             fireMPDErrorEvent(error);

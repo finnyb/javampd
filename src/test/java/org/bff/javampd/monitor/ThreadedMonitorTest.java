@@ -8,6 +8,8 @@ import static org.junit.Assert.assertTrue;
 public class ThreadedMonitorTest {
     private boolean checked;
     private boolean processedResponse;
+    private boolean reset;
+
     private ThreadedMonitor threadedMonitor;
 
     @Test
@@ -52,6 +54,16 @@ public class ThreadedMonitorTest {
         assertTrue(processedResponse);
     }
 
+    @Test
+    public void testReset() throws Exception {
+        Monitor testMonitor = new TestStatusMonitor();
+
+        threadedMonitor = new ThreadedMonitor(testMonitor, 1);
+        threadedMonitor.reset();
+
+        assertTrue(reset);
+    }
+
     private class TestMonitor implements Monitor {
 
         @Override
@@ -70,6 +82,11 @@ public class ThreadedMonitorTest {
         @Override
         public void processResponseStatus(String line) {
             processedResponse = true;
+        }
+
+        @Override
+        public void reset() {
+            reset = true;
         }
     }
 }

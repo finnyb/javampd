@@ -54,4 +54,23 @@ public class MPDErrorMonitorTest {
 
         assertNull(errorEvent[0]);
     }
+
+    @Test
+    public void testResetError() throws Exception {
+        String line = "error: message";
+        final ErrorEvent[] errorEvent = new ErrorEvent[1];
+
+        errorMonitor.addErrorListener(event -> errorEvent[0] = event);
+        errorMonitor.processResponseStatus(line);
+        errorMonitor.checkStatus();
+        assertEquals("message", errorEvent[0].getMessage());
+
+        errorMonitor.reset();
+        errorEvent[0] = null;
+
+        errorMonitor.processResponseStatus(line);
+        errorMonitor.checkStatus();
+        assertEquals("message", errorEvent[0].getMessage());
+
+    }
 }

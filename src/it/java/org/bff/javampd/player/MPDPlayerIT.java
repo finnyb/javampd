@@ -5,18 +5,20 @@ import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.integrationdata.TestSongs;
 import org.bff.javampd.playlist.Playlist;
 import org.bff.javampd.song.MPDSong;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class MPDPlayerIT extends BaseTest {
     private Playlist playlist;
     private Player player;
-    private static long PLAYER_DELAY = 2000;
 
     @Before
     public void setUp() {
@@ -34,13 +36,13 @@ public class MPDPlayerIT extends BaseTest {
     @Test
     public void testAudioDetailsStopped() {
         player.stop();
-        Assert.assertNull(player.getAudioDetails());
+        await().until(() -> null == player.getAudioDetails());
     }
 
     @Test
     public void testAudioDetails() {
         player.play();
-        delay(PLAYER_DELAY);
+        await().until(() -> player.getAudioDetails().getSampleRate() > 0);
 
         MPDAudioInfo info = player.getAudioDetails();
 
@@ -52,15 +54,13 @@ public class MPDPlayerIT extends BaseTest {
     @Test
     public void testGetTime() {
         player.play();
-        delay(PLAYER_DELAY * 3);
-        assertTrue(player.getElapsedTime() > 0);
+        await().until(() -> player.getElapsedTime() > 0);
     }
 
     @Test
     public void testGetTotalTime() {
         player.play();
-        delay(PLAYER_DELAY);
-        assertEquals(5, player.getTotalTime());
+        await().until(() -> 5 == player.getTotalTime());
     }
 
     @Test
@@ -68,11 +68,11 @@ public class MPDPlayerIT extends BaseTest {
     public void testSetVolume() {
         player.setVolume(0);
 
-        delay(PLAYER_DELAY);
+        await().until(() -> 0 == player.getVolume());
 
         player.setVolume(5);
 
-        assertTrue(5 == player.getVolume());
+        await().until(() -> 5 == player.getVolume());
     }
 
     @Test
@@ -94,9 +94,9 @@ public class MPDPlayerIT extends BaseTest {
     @Test
     public void testPaused() {
         player.play();
-        delay(PLAYER_DELAY);
+        await().until(() -> Player.Status.STATUS_PLAYING == player.getStatus());
         player.pause();
-        assertEquals(Player.Status.STATUS_PAUSED, player.getStatus());
+        await().until(() -> Player.Status.STATUS_PAUSED == player.getStatus());
     }
 
     @Test

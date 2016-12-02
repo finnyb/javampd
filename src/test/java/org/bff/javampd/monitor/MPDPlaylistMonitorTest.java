@@ -196,4 +196,58 @@ public class MPDPlaylistMonitorTest {
 
         assertNull(changeEvent[0]);
     }
+
+    @Test
+    public void testResetSongId() throws Exception {
+        String line = "songid: 1";
+        statusSongChanged(line);
+        playlistMonitor.reset();
+        statusSongChanged(line);
+    }
+
+    @Test
+    public void testResetSong() throws Exception {
+        String line = "song: 1";
+        statusSongChanged(line);
+        playlistMonitor.reset();
+        statusSongChanged(line);
+
+    }
+
+    @Test
+    public void testResetPlaylistVersion() throws Exception {
+        String line = "playlist: 1";
+        final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
+
+        playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
+        playlistMonitor.processResponseStatus(line);
+        playlistMonitor.checkStatus();
+        assertEquals(PlaylistBasicChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0]);
+
+        playlistMonitor.reset();
+        changeEvent[0] = null;
+
+        playlistMonitor.processResponseStatus(line);
+        playlistMonitor.checkStatus();
+        assertEquals(PlaylistBasicChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0]);
+    }
+
+    @Test
+    public void testResetPlaylistLength() throws Exception {
+        String line = "playlistlength: 1";
+        final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
+
+        playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
+        playlistMonitor.processResponseStatus(line);
+        playlistMonitor.checkStatus();
+        assertEquals(PlaylistBasicChangeEvent.Event.SONG_ADDED, changeEvent[0]);
+
+        playlistMonitor.reset();
+        changeEvent[0] = null;
+
+        playlistMonitor.processResponseStatus(line);
+        playlistMonitor.checkStatus();
+        assertEquals(PlaylistBasicChangeEvent.Event.SONG_ADDED, changeEvent[0]);
+
+    }
 }

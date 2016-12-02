@@ -1,5 +1,6 @@
 package org.bff.javampd;
 
+import org.awaitility.Awaitility;
 import org.bff.javampd.integrationdata.DataLoader;
 import org.bff.javampd.integrationdata.TestSongs;
 import org.bff.javampd.server.MPD;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +35,7 @@ public abstract class BaseTest {
 
             DataLoader.loadData(new File(TestProperties.getInstance().getPath()));
             TestSongs.getSongs().forEach(BaseTest::loadMPDSong);
+            Awaitility.setDefaultTimeout(60, TimeUnit.SECONDS);
         } catch (IOException ex) {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MPDException ex) {
@@ -91,14 +94,6 @@ public abstract class BaseTest {
             }
 
             assertTrue(found);
-        }
-    }
-
-    protected void delay(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

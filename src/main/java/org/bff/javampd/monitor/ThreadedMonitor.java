@@ -32,4 +32,10 @@ public class ThreadedMonitor {
             ((StatusMonitor) monitor).processResponseStatus(line);
         }
     }
+
+    public void reset() {
+        if (monitor instanceof StatusMonitor) {
+            ((StatusMonitor) monitor).reset();
+        }
+    }
 }

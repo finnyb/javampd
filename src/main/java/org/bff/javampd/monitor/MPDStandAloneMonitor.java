@@ -182,8 +182,13 @@ public class MPDStandAloneMonitor
     }
 
     @Override
-    public boolean isStopped() {
-        return this.standAloneMonitorThread.isStopped();
+    public boolean isDone() {
+        return this.standAloneMonitorThread.isDone();
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return this.standAloneMonitorThread.isInitialized();
     }
 
     @Override

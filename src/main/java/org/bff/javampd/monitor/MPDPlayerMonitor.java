@@ -77,6 +77,13 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
         return this.status;
     }
 
+    @Override
+    public void reset() {
+        state = "";
+        status = PlayerStatus.STATUS_STOPPED;
+        ;
+    }
+
     /**
      * Sends the appropriate {@link org.bff.javampd.player.PlayerBasicChangeEvent.Status} to all registered
      * {@link PlayerBasicChangeListener}s.

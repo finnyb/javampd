@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.when;
 public class StandAloneMonitorThreadTest {
 
     public static final int MAX_WAIT_TIME = 60000;
-            
+
     @Mock
     private ServerStatus serverStatus;
     @Mock
@@ -44,7 +45,6 @@ public class StandAloneMonitorThreadTest {
         final boolean[] called = new boolean[1];
         List<String> returnStatus1 = new ArrayList<>();
         returnStatus1.add("volume: 1");
-
 
         List<String> returnStatus2 = new ArrayList<>();
         returnStatus2.add("volume: 2");
@@ -196,17 +196,25 @@ public class StandAloneMonitorThreadTest {
         createMonitor(0, 0);
         runMonitor();
 
-        assertFalse(standAloneMonitorThread.isStopped());
+        assertFalse(standAloneMonitorThread.isDone());
         standAloneMonitorThread.setStopped(true);
 
         for (int i = 1; i < MAX_WAIT_TIME; i++) {
-            if (standAloneMonitorThread.isStopped()) {
+            if (standAloneMonitorThread.isDone()) {
                 break;
             }
             sleep(1);
         }
 
-        assertTrue(standAloneMonitorThread.isStopped());
+        assertTrue(standAloneMonitorThread.isDone());
+    }
+
+    @Test
+    public void testIsLoaded() throws Exception {
+        createMonitor(0, 0);
+        assertFalse(standAloneMonitorThread.isInitialized());
+        runMonitor();
+        await().until(() -> standAloneMonitorThread.isInitialized());
     }
 
     private StandAloneMonitorThread createMonitor(int delay, int exceptionDelay) {

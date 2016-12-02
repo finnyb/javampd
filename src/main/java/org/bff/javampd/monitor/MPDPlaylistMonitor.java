@@ -90,6 +90,18 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     }
 
     @Override
+    public void reset() {
+        newPlaylistVersion = 0;
+        oldPlaylistVersion = 0;
+        newPlaylistLength = 0;
+        oldPlaylistLength = 0;
+        oldSong = 0;
+        newSong = 0;
+        oldSongId = 0;
+        newSongId = 0;
+    }
+
+    @Override
     public void checkStatus() {
         if (oldPlaylistVersion != newPlaylistVersion) {
             firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.PLAYLIST_CHANGED);

@@ -73,4 +73,25 @@ public class MPDVolumeMonitorTest {
         assertEquals(1, volume[0]);
 
     }
+
+    @Test
+    public void testResetVolume() throws Exception {
+        String line = "volume: 1";
+
+        final boolean[] eventFired = {false};
+
+        volumeMonitor.addVolumeChangeListener(event -> {
+            eventFired[0] = true;
+        });
+        volumeMonitor.processResponseStatus(line);
+        volumeMonitor.checkStatus();
+        assertTrue(eventFired[0]);
+
+        volumeMonitor.reset();
+        eventFired[0] = false;
+
+        volumeMonitor.processResponseStatus(line);
+        volumeMonitor.checkStatus();
+        assertTrue(eventFired[0]);
+    }
 }

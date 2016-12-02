@@ -14,13 +14,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.awaitility.Awaitility.await;
+
 public class MPDStandAloneMonitorIT extends BaseTest {
-
-    /**
-     * Delay for various monitor actions
-     */
-    private static final int MONITOR_DELAY = 1500;
-
     private Player player;
     private Playlist playlist;
     private Admin admin;
@@ -34,75 +30,71 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         this.monitor = getMpd().getMonitor();
 
         playlist.clearPlaylist();
+        await().until(() -> 0 == playlist.getSongList().size());
+
         player.stop();
+        await().until(() -> Player.Status.STATUS_STOPPED == player.getStatus());
+
         MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         admin.enableOutput(output);
         monitor.start();
-        delay();
+        await().until(() -> monitor.isLoaded());
     }
 
     @After
     public void tearDown() {
         monitor.stop();
-        delay();
+        await().until(() -> monitor.isDone());
     }
-
-    private void delay() {
-        delay(1);
-    }
-
-    private void delay(int multiplier) {
-        super.delay(MONITOR_DELAY * multiplier);
-    }
-
-    private boolean success;
 
     @Test
     public void testAddSong() {
-        success = false;
+        final boolean[] success = {false};
 
         monitor.addPlaylistChangeListener(event -> {
             switch (event.getEvent()) {
                 case SONG_ADDED:
-                    success = true;
+                    success[0] = true;
                     break;
             }
         });
 
         playlist.addSong(MPDSongs.getSongs().get(0));
 
-        waitForSuccess();
+        await().until(() -> success[0]);
 
-        Assert.assertTrue(success);
+        Assert.assertTrue(success[0]);
     }
 
     @Test
     public void testPlaylistChanged() {
-        success = false;
+        final boolean[] success = {false};
 
         monitor.addPlaylistChangeListener(event -> {
             switch (event.getEvent()) {
                 case PLAYLIST_CHANGED:
-                    success = true;
+                    success[0] = true;
                     break;
             }
         });
 
         playlist.addSong(MPDSongs.getSongs().get(0));
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
     public void testRemoveSong() {
-        success = false;
+        final boolean[] success = {false};
+        final boolean[] successAdded = {false};
 
         monitor.addPlaylistChangeListener(event -> {
             switch (event.getEvent()) {
                 case SONG_DELETED:
-                    success = true;
+                    success[0] = true;
+                    break;
+                case SONG_ADDED:
+                    successAdded[0] = true;
                     break;
             }
         });
@@ -110,22 +102,20 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         MPDSong song = MPDSongs.getSongs().get(0);
 
         playlist.addSong(song);
-        delay(2);
+        await().until(() -> successAdded[0]);
         playlist.removeSong(playlist.getSongList().get(0));
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
     public void testSongChanged() {
-        success = false;
+        final boolean[] success = {false};
 
         monitor.addPlaylistChangeListener(event -> {
             switch (event.getEvent()) {
                 case SONG_CHANGED:
-                    success = true;
+                    success[0] = true;
                     break;
             }
         });
@@ -134,138 +124,132 @@ public class MPDStandAloneMonitorIT extends BaseTest {
 
         player.play();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
-    }
-
-    private void waitForSuccess() {
-        int count = 0;
-        while (!success && count++ < 100) {
-            super.delay(100);
-        }
+        await().until(() -> success[0]);
     }
 
     @Test
     public void testPlayerStarted() {
-        success = false;
+        final boolean[] success = {false};
 
         monitor.addPlayerChangeListener(event -> {
             switch (event.getStatus()) {
                 case PLAYER_STARTED:
-                    success = true;
+                    success[0] = true;
                     break;
             }
         });
 
         player.stop();
-        delay();
+        await().until(() -> Player.Status.STATUS_STOPPED == player.getStatus());
 
-        success = false;
+        success[0] = false;
         loadSeveralSongs();
         player.play();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
     public void testPlayerStopped() {
-        success = false;
+        final boolean[] success = {false};
 
         monitor.addPlayerChangeListener(event -> {
             switch (event.getStatus()) {
                 case PLAYER_STOPPED:
-                    success = true;
+                    success[0] = true;
                     break;
             }
         });
 
-        success = false;
+        success[0] = false;
         loadSeveralSongs();
         player.play();
-        delay(5);
+        await().until(() -> Player.Status.STATUS_PLAYING == player.getStatus());
         player.stop();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
     public void testPlayerPaused() {
-        success = false;
+        final boolean[] success = {false};
+        final boolean[] successPlaying = {false};
 
         monitor.addPlayerChangeListener(event -> {
             switch (event.getStatus()) {
                 case PLAYER_PAUSED:
-                    success = true;
+                    success[0] = true;
+                    break;
+                case PLAYER_STARTED:
+                    successPlaying[0] = true;
                     break;
             }
         });
 
-        success = false;
+        success[0] = false;
         loadSeveralSongs();
         player.play();
-        delay(2);
+        await().until(() -> successPlaying[0]);
         player.pause();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
     public void testVolumeChanged() {
-        success = false;
+        final boolean[] success = {false};
 
         player.setVolume(0);
 
-        delay(2);
+        await().until(() -> 0 == player.getVolume());
 
-        monitor.addVolumeChangeListener(event -> success = true);
+        monitor.addVolumeChangeListener(event -> success[0] = true);
 
         loadSeveralSongs();
         player.play();
 
         player.setVolume(5);
-        waitForSuccess();
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
     public void testPlayerUnPaused() {
-        success = false;
+        final boolean[] success = {false};
+        final boolean[] successStarted = {false};
+        final boolean[] successPaused = {false};
         monitor.addPlayerChangeListener(event -> {
             switch (event.getStatus()) {
+                case PLAYER_STARTED:
+                    successStarted[0] = true;
+                    break;
                 case PLAYER_UNPAUSED:
-                    success = true;
+                    success[0] = true;
+                    break;
+                case PLAYER_PAUSED:
+                    successPaused[0] = true;
                     break;
             }
         });
-        success = false;
+        success[0] = false;
         loadSeveralSongs();
         player.play();
+        await().until(() -> successStarted[0]);
         player.pause();
-        delay();
+        await().until(() -> successPaused[0]);
         player.pause();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
     public void testOutputChanged() {
-        success = false;
+        final boolean[] success = {false};
 
-        monitor.addOutputChangeListener(event -> success = true);
+        monitor.addOutputChangeListener(event -> success[0] = true);
 
         MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         admin.disableOutput(output);
-        waitForSuccess();
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     private void loadSeveralSongs() {

@@ -62,4 +62,26 @@ public class MPDBitrateMonitorTest {
         bitrateMonitor.checkStatus();
         assertNull(changeEvent[0]);
     }
+
+    @Test
+    public void testResetBitrateChangeListener() throws Exception {
+        String line = "bitrate: 1";
+
+        final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
+
+        bitrateMonitor.addBitrateChangeListener(event -> changeEvent[0] = event);
+        bitrateMonitor.processResponseStatus(line);
+        bitrateMonitor.checkStatus();
+        assertEquals(0, changeEvent[0].getOldBitrate());
+        assertEquals(1, changeEvent[0].getNewBitrate());
+
+        bitrateMonitor.reset();
+        changeEvent[0] = null;
+
+        bitrateMonitor.processResponseStatus(line);
+        bitrateMonitor.checkStatus();
+        assertEquals(0, changeEvent[0].getOldBitrate());
+        assertEquals(1, changeEvent[0].getNewBitrate());
+
+    }
 }

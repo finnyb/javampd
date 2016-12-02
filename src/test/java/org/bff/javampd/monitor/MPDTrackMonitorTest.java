@@ -106,4 +106,50 @@ public class MPDTrackMonitorTest {
         trackMonitor.checkStatus();
         assertEquals(1, changeEvent[0].getElapsedTime());
     }
+
+    @Test
+    public void testResetTrackPositionChange() throws Exception {
+        String line = "time: 1";
+
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+
+        assertEquals(1, changeEvent[0].getElapsedTime());
+
+        trackMonitor.reset();
+        changeEvent[0] = null;
+
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+
+        assertEquals(1, changeEvent[0].getElapsedTime());
+    }
+
+    @Test
+    public void testMonitorResetElapsedTime() throws Exception {
+        String line = "time: 1";
+
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+        assertEquals(1, changeEvent[0].getElapsedTime());
+
+        changeEvent[0] = null;
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+
+        trackMonitor.reset();
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+        assertEquals(1, changeEvent[0].getElapsedTime());
+    }
 }

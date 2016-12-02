@@ -149,7 +149,14 @@ public interface StandAloneMonitor {
      *
      * @return true if monitor is running, false otherwise false
      */
-    boolean isStopped();
+    boolean isDone();
+
+    /**
+     * Returns true after the initial statuses have been loaded by the monitor
+     *
+     * @return if the initial state has been loaded
+     */
+    boolean isLoaded();
 
     enum PlayerResponse {
         PLAY("play"),

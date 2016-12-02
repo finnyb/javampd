@@ -31,6 +31,12 @@ public class MPDTrackMonitor implements TrackMonitor {
         }
     }
 
+    @Override
+    public void reset() {
+        oldPos = 0;
+        elapsedTime = 0;
+    }
+
     /**
      * Checks the track position and fires a {@link TrackPositionChangeEvent} if
      * there has been a change in track position.

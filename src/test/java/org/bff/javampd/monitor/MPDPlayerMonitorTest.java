@@ -136,4 +136,24 @@ public class MPDPlayerMonitorTest {
         playerMonitor.checkStatus();
         assertEquals(PlayerStatus.STATUS_PLAYING, playerMonitor.getStatus());
     }
+
+    @Test
+    public void testResetState() throws Exception {
+        String line = "state: play";
+
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
+
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+
+        playerMonitor.processResponseStatus(line);
+        playerMonitor.checkStatus();
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STARTED, changeEvent[0].getStatus());
+
+        playerMonitor.reset();
+        changeEvent[0] = null;
+
+        playerMonitor.processResponseStatus(line);
+        playerMonitor.checkStatus();
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STARTED, changeEvent[0].getStatus());
+    }
 }

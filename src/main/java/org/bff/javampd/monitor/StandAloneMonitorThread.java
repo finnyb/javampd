@@ -19,6 +19,8 @@ public class StandAloneMonitorThread implements Runnable {
     private int delay;
     private int exceptionDelay;
     private boolean stopped;
+    private boolean done;
+    private boolean initialized;
 
     /**
      * Creates the monitor thread with the given delay seconds.
@@ -64,10 +66,12 @@ public class StandAloneMonitorThread implements Runnable {
     @Override
     public void run() {
         this.stopped = false;
+        this.done = false;
+        this.initialized = false;
         loadInitialStatus();
 
         List<String> response;
-        while (!isStopped()) {
+        while (!this.stopped) {
             try {
                 synchronized (this) {
                     response = new ArrayList<>(serverStatus.getStatus());
@@ -101,6 +105,13 @@ public class StandAloneMonitorThread implements Runnable {
                 }
             }
         }
+
+        resetMonitors();
+        this.done = true;
+    }
+
+    private void resetMonitors() {
+        this.monitors.forEach(monitor -> monitor.reset());
     }
 
     private void processResponse(List<String> response) {
@@ -118,14 +129,20 @@ public class StandAloneMonitorThread implements Runnable {
             //initial load so no events fired
             List<String> response = new ArrayList<>(serverStatus.getStatus());
             processResponse(response);
+            this.initialized = true;
         } catch (MPDException ex) {
             LOGGER.error("Problem with initialization", ex);
             throw ex;
         }
     }
 
-    public boolean isStopped() {
-        return stopped;
+    public boolean isInitialized() {
+        return this.initialized;
+    }
+
+
+    public boolean isDone() {
+        return this.done;
     }
 
     public void setStopped(boolean stopped) {

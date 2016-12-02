@@ -10,6 +10,7 @@ import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.Playlist;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.statistics.ServerStatistics;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -26,7 +28,6 @@ public class MPDServerStatisticsIT extends BaseTest {
     private Player player;
     private Playlist playlist;
     private ServerStatistics serverStatistics;
-    private static long DELAY = 1000;
 
     @Before
     public void setUp() {
@@ -35,17 +36,19 @@ public class MPDServerStatisticsIT extends BaseTest {
         this.serverStatistics = getMpd().getServerStatistics();
     }
 
+    @After
+    public void tearDown() {
+        player.stop();
+    }
+
     @Test
     public void testGetPlaytime() {
         player.stop();
         List<MPDSong> songs = new ArrayList<>(TestSongs.getSongs());
         playlist.addSong(songs.get(0));
         player.play();
-        delay(DELAY);
 
-        player.stop();
-
-        assertTrue(serverStatistics.getPlaytime() > 0);
+        await().until(() -> (serverStatistics.getPlaytime() > 0));
     }
 
     @Test

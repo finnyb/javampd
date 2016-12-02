@@ -13,7 +13,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.*;
 
 public class MPDServerStatusIT extends BaseTest {
@@ -21,7 +23,6 @@ public class MPDServerStatusIT extends BaseTest {
     private ServerStatus serverStatus;
     private Player player;
     private Playlist playlist;
-    private static long DELAY = 2000;
 
     @Before
     public void setUp() {
@@ -63,10 +64,7 @@ public class MPDServerStatusIT extends BaseTest {
         List<MPDSong> songs = new ArrayList<>(TestSongs.getSongs());
         playlist.addSongs(songs);
         player.play();
-
-        delay(DELAY * 2);
-
-        assertEquals("44100:24:1", serverStatus.getAudio());
+        await().until(() -> "44100:24:1".equals(serverStatus.getAudio()));
     }
 
     @Test
@@ -83,8 +81,7 @@ public class MPDServerStatusIT extends BaseTest {
         MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
         admin.disableOutput(output);
         player.play();
-        delay(DELAY * 3);
-        assertEquals("All audio outputs are disabled", serverStatus.getError());
+        await().until(() -> "All audio outputs are disabled".equals(serverStatus.getError()));
         admin.enableOutput(output);
     }
 
@@ -106,32 +103,29 @@ public class MPDServerStatusIT extends BaseTest {
     @Test
     public void testGetTime() {
         player.play();
-        delay(DELAY * 2);
-
-        assertTrue(serverStatus.getElapsedTime() > 0);
+        await().until(() -> serverStatus.getElapsedTime() > 0);
     }
 
     @Test
     public void testGetBitrate() {
+        List<MPDSong> songs = new ArrayList<>(TestSongs.getSongs());
+        playlist.addSongs(songs);
         player.play();
-        delay(DELAY * 3);
-        assertEquals(48, serverStatus.getBitrate());
+        await().atMost(20, TimeUnit.SECONDS).until(() -> 48 == serverStatus.getBitrate());
     }
 
     @Test
     public void testSetExpiryInterval() {
         long time = serverStatus.getElapsedTime();
         player.play();
-        delay(DELAY);
-        assertEquals(time, serverStatus.getElapsedTime());
+        await().until(() -> time == serverStatus.getElapsedTime());
     }
 
     @Test
     public void testExpiryInterval() {
         long time = serverStatus.getElapsedTime();
         player.play();
-        delay(DELAY);
-        assertEquals(time, serverStatus.getElapsedTime());
+        await().until(() -> time == serverStatus.getElapsedTime());
     }
 
     @Test
@@ -139,16 +133,13 @@ public class MPDServerStatusIT extends BaseTest {
         long time = serverStatus.getElapsedTime();
         player.play();
         serverStatus.forceUpdate();
-        delay(DELAY);
-
-        assertNotEquals(time, serverStatus.getElapsedTime());
+        await().until(() -> time != serverStatus.getElapsedTime());
     }
 
     @Test
     public void testGetVolume() {
         player.setVolume(5);
-        delay(DELAY * 3);
-        assertEquals(5, serverStatus.getVolume());
+        await().until(() -> 5 == serverStatus.getVolume());
     }
 
     @Test

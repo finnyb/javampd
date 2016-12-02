@@ -52,4 +52,10 @@ public class MPDBitrateMonitor extends MPDVolumeMonitor implements BitrateMonito
             bcl.bitrateChanged(bitrateChangeEvent);
         }
     }
+
+    @Override
+    public void reset() {
+        oldBitrate = 0;
+        newBitrate = 0;
+    }
 }
