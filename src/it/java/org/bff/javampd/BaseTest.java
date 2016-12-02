@@ -35,7 +35,7 @@ public abstract class BaseTest {
 
             DataLoader.loadData(new File(TestProperties.getInstance().getPath()));
             TestSongs.getSongs().forEach(BaseTest::loadMPDSong);
-            Awaitility.setDefaultTimeout(60, TimeUnit.SECONDS);
+            Awaitility.setDefaultTimeout(5, TimeUnit.MINUTES);
         } catch (IOException ex) {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MPDException ex) {

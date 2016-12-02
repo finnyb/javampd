@@ -3,7 +3,6 @@ package org.bff.javampd.monitor;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.server.ServerStatus;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -19,19 +18,12 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class StandAloneMonitorThreadTest {
 
-    public static final int MAX_WAIT_TIME = 60000;
-
     @Mock
     private ServerStatus serverStatus;
     @Mock
     private ConnectionMonitor connectionMonitor;
 
     private StandAloneMonitorThread standAloneMonitorThread;
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
 
     @After
     public void tearDown() throws Exception {

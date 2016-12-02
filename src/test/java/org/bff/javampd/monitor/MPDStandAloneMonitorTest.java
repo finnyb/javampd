@@ -1,5 +1,6 @@
 package org.bff.javampd.monitor;
 
+import org.awaitility.Awaitility;
 import org.bff.javampd.output.OutputChangeListener;
 import org.bff.javampd.player.*;
 import org.bff.javampd.playlist.PlaylistBasicChangeListener;
@@ -7,6 +8,7 @@ import org.bff.javampd.server.ConnectionChangeListener;
 import org.bff.javampd.server.ErrorListener;
 import org.bff.javampd.server.ServerStatus;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertFalse;
@@ -38,6 +41,11 @@ public class MPDStandAloneMonitorTest {
     private ServerStatus serverStatus;
     @InjectMocks
     private MPDStandAloneMonitor standAloneMonitor;
+
+    @Before
+    public void setup() {
+        Awaitility.setDefaultPollInterval(5, TimeUnit.MILLISECONDS);
+    }
 
     @After
     public void tearDown() throws Exception {
