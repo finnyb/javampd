@@ -18,7 +18,6 @@ import java.util.List;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -193,9 +192,9 @@ public class MPDStandAloneMonitorTest {
     @Test
     public void testStop() throws Exception {
         standAloneMonitor.start();
-        assertFalse(standAloneMonitor.isDone());
+        await().until(() -> !standAloneMonitor.isDone());
         standAloneMonitor.stop();
-        assertTrue(standAloneMonitor.isDone());
+        await().until(() -> standAloneMonitor.isDone());
     }
 
     @Test

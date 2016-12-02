@@ -11,11 +11,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,14 +53,7 @@ public class StandAloneMonitorThreadTest {
         createMonitor(0, 0).addMonitor(new ThreadedMonitor(volumeMonitor, 0));
         runMonitor();
 
-        for (int i = 1; i < MAX_WAIT_TIME; i++) {
-            if (called[0]) {
-                break;
-            }
-            sleep(1);
-        }
-
-        assertTrue(called[0]);
+        await().until(() -> called[0]);
     }
 
     @Test
@@ -72,14 +63,7 @@ public class StandAloneMonitorThreadTest {
         createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
         runMonitor();
 
-        for (int i = 1; i < MAX_WAIT_TIME; i++) {
-            if (called[0]) {
-                break;
-            }
-            sleep(1);
-        }
-
-        assertTrue(called[0]);
+        await().until(() -> called[0]);
     }
 
     @Test
@@ -91,24 +75,11 @@ public class StandAloneMonitorThreadTest {
         monitorThread.addMonitor(threadedMonitor);
         runMonitor();
 
-        int count = 0;
-        for (int i = 1; i < MAX_WAIT_TIME; i++) {
-            if (called[0]) {
-                count = i;
-                break;
-            }
-            sleep(1);
-        }
-
-        assertTrue(called[0]);
+        await().until(() -> called[0]);
         monitorThread.removeMonitor(threadedMonitor);
 
         called[0] = false;
-        for (int i = 1; i < (count + 5); i++) {
-            sleep(1);
-        }
-
-        assertFalse(called[0]);
+        await().until(() -> !called[0]);
     }
 
     @Test
@@ -119,14 +90,7 @@ public class StandAloneMonitorThreadTest {
 
         thread.interrupt();
 
-        for (int i = 1; i < MAX_WAIT_TIME; i++) {
-            if (!thread.isAlive()) {
-                break;
-            }
-            sleep(1);
-        }
-
-        assertFalse(thread.isAlive());
+        await().until(() -> !thread.isAlive());
     }
 
     @Test
@@ -143,14 +107,7 @@ public class StandAloneMonitorThreadTest {
 
         thread.interrupt();
 
-        for (int i = 1; i < MAX_WAIT_TIME; i++) {
-            if (!thread.isAlive()) {
-                break;
-            }
-            sleep(1);
-        }
-
-        assertFalse(thread.isAlive());
+        await().until(() -> !thread.isAlive());
     }
 
     @Test
@@ -164,14 +121,7 @@ public class StandAloneMonitorThreadTest {
         createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
         runMonitor();
 
-        for (int i = 1; i < MAX_WAIT_TIME; i++) {
-            if (count[0] > 1) {
-                break;
-            }
-            sleep(1);
-        }
-
-        assertTrue(count[0] > 1);
+        await().until(() -> count[0] > 1);
     }
 
     @Test(expected = MPDException.class)
@@ -196,17 +146,11 @@ public class StandAloneMonitorThreadTest {
         createMonitor(0, 0);
         runMonitor();
 
-        assertFalse(standAloneMonitorThread.isDone());
+        await().until(() -> !standAloneMonitorThread.isDone());
+
         standAloneMonitorThread.setStopped(true);
 
-        for (int i = 1; i < MAX_WAIT_TIME; i++) {
-            if (standAloneMonitorThread.isDone()) {
-                break;
-            }
-            sleep(1);
-        }
-
-        assertTrue(standAloneMonitorThread.isDone());
+        await().until(() -> standAloneMonitorThread.isDone());
     }
 
     @Test
@@ -231,9 +175,5 @@ public class StandAloneMonitorThreadTest {
         thread.start();
 
         return thread;
-    }
-
-    private void sleep(long millis) throws InterruptedException {
-        TimeUnit.MILLISECONDS.sleep((millis));
     }
 }
