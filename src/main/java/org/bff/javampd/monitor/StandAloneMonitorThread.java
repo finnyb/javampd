@@ -111,7 +111,7 @@ public class StandAloneMonitorThread implements Runnable {
     }
 
     private void resetMonitors() {
-        this.monitors.forEach(monitor -> monitor.reset());
+        this.monitors.forEach(ThreadedMonitor::reset);
     }
 
     private void processResponse(List<String> response) {
