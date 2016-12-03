@@ -3,8 +3,10 @@ package org.bff.javampd.album;
 import java.util.List;
 
 /**
+ * Converts the MPD response to a {@link MPDAlbum}
  * @author bill
  */
+@FunctionalInterface
 public interface AlbumConverter {
     /**
      * Converts the response from the MPD server into a {@link MPDAlbum} object.
