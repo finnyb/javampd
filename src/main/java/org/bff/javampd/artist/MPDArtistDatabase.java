@@ -33,7 +33,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
     public Collection<MPDArtist> listAllArtists() {
         return tagLister.list(TagLister.ListType.ARTIST)
                 .stream()
-                .map(MPDArtist::new)
+                .map(s -> new MPDArtist(convertResponse(s)))
                 .collect(Collectors.toList());
     }
 
@@ -45,7 +45,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
 
         return tagLister.list(TagLister.ListType.ARTIST, list)
                 .stream()
-                .map(MPDArtist::new)
+                .map(s -> new MPDArtist(convertResponse(s)))
                 .collect(Collectors.toList());
     }
 
@@ -57,16 +57,23 @@ public class MPDArtistDatabase implements ArtistDatabase {
         list.add(name);
 
         MPDArtist artist = null;
-        List<String> artists = new ArrayList<>(tagLister.list(TagLister.ListType.ARTIST, list));
+        List<MPDArtist> artists = new ArrayList<>(tagLister.list(TagLister.ListType.ARTIST, list)
+                .stream()
+                .map(s -> new MPDArtist(convertResponse(s)))
+                .collect(Collectors.toList()));
 
         if (artists.size() > 1) {
             LOGGER.warn("Multiple artists returned for name {}", name);
         }
 
         if (!artists.isEmpty()) {
-            artist = new MPDArtist(artists.get(0));
+            artist = artists.get(0);
         }
 
         return artist;
+    }
+
+    private String convertResponse(String s) {
+        return s.substring(s.split(":")[0].length() + 1).trim();
     }
 }

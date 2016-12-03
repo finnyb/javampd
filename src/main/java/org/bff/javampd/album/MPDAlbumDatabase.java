@@ -21,55 +21,53 @@ import java.util.stream.Collectors;
 public class MPDAlbumDatabase implements AlbumDatabase {
 
     private TagLister tagLister;
+    private AlbumConverter albumConverter;
+
+    private static final TagLister.GroupType ALBUM_TAGS[] = {
+            TagLister.GroupType.ARTIST,
+            TagLister.GroupType.DATE
+    };
 
     @Inject
-    public MPDAlbumDatabase(TagLister tagLister) {
+    public MPDAlbumDatabase(TagLister tagLister,
+                            AlbumConverter albumConverter) {
         this.tagLister = tagLister;
+        this.albumConverter = albumConverter;
     }
 
     @Override
     public Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) {
         List<String> list = new ArrayList<>();
+        list.add(TagLister.ListType.ARTIST.getType());
         list.add(artist.getName());
 
-        List<MPDAlbum> albums = new ArrayList<>();
-        for (String albumName : tagLister.list(TagLister.ListType.ALBUM, list)) {
-            MPDAlbum album = new MPDAlbum(albumName, artist.getName());
-            albums.add(album);
-        }
-        return albums;
+        return convertResponseToAlbum(tagLister.list(TagLister.ListType.ALBUM,
+                list,
+                ALBUM_TAGS));
     }
 
     @Override
     public Collection<String> listAllAlbumNames() {
-        return tagLister.list(TagLister.ListType.ALBUM).stream().collect(Collectors.toList());
+        return tagLister.list(TagLister.ListType.ALBUM)
+                .stream()
+                .map(s -> s.substring(s.split(":")[0].length() + 1).trim())
+                .collect(Collectors.toList());
     }
 
     @Override
     public Collection<MPDAlbum> listAllAlbums() {
-        List<MPDAlbum> albums = new ArrayList<>();
-
-        for (String albumName : listAllAlbumNames()) {
-            albums.addAll(findAlbum(albumName));
-        }
-
-        return albums;
+        return convertResponseToAlbum(this.tagLister.list(TagLister.ListType.ALBUM,
+                ALBUM_TAGS));
     }
 
     @Override
     public Collection<MPDAlbum> listAllAlbums(int start, int end) {
-        List<MPDAlbum> albums = new ArrayList<>();
+        List<MPDAlbum> albums = new ArrayList<>(listAllAlbums());
 
-        List<String> albumNames = new ArrayList<>(listAllAlbumNames());
-
-        int toIndex = end > albumNames.size() ? albumNames.size() : end;
+        int toIndex = end > albums.size() ? albums.size() : end;
         int fromIndex = start > end ? end : start;
 
-        for (String albumName : albumNames.subList(fromIndex, toIndex)) {
-            albums.addAll(findAlbum(albumName));
-        }
-
-        return albums;
+        return albums.subList(fromIndex, toIndex);
     }
 
     @Override
@@ -78,18 +76,9 @@ public class MPDAlbumDatabase implements AlbumDatabase {
         list.add(TagLister.ListType.ALBUM.getType());
         list.add(albumName);
 
-        return lookupAlbumByName(albumName, list);
-    }
-
-    @Override
-    public MPDAlbum findAlbumByArtist(MPDArtist artist, String albumName) {
-        for (MPDAlbum album : listAlbumsByArtist(artist)) {
-            if (albumName.equalsIgnoreCase(album.getName())) {
-                return album;
-            }
-        }
-
-        return null;
+        return convertResponseToAlbum(tagLister.list(TagLister.ListType.ALBUM,
+                list,
+                ALBUM_TAGS));
     }
 
     @Override
@@ -98,11 +87,10 @@ public class MPDAlbumDatabase implements AlbumDatabase {
         list.add(TagLister.ListType.GENRE.getType());
         list.add(genre.getName());
 
-        List<MPDAlbum> albums = new ArrayList<>();
-        for (String albumName : tagLister.list(TagLister.ListType.ALBUM, list)) {
-            albums.addAll(lookupAlbumByName(albumName, list));
-        }
-        return albums;
+        return convertResponseToAlbum(tagLister.list(
+                TagLister.ListType.ALBUM,
+                list,
+                ALBUM_TAGS));
     }
 
     @Override
@@ -111,11 +99,10 @@ public class MPDAlbumDatabase implements AlbumDatabase {
         list.add(TagLister.ListType.DATE.getType());
         list.add(year);
 
-        List<MPDAlbum> albums = new ArrayList<>();
-        for (String albumName : tagLister.list(TagLister.ListType.ALBUM, list)) {
-            albums.addAll(lookupAlbumByName(albumName, list));
-        }
-        return albums;
+        return convertResponseToAlbum(tagLister.list(
+                TagLister.ListType.ALBUM,
+                list,
+                ALBUM_TAGS));
     }
 
     @Override
@@ -127,22 +114,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
         return tagLister.list(TagLister.ListType.ALBUM, list);
     }
 
-    private Collection<MPDAlbum> lookupAlbumByName(String albumName,
-                                                   List<String> artistParams) {
-        List<MPDAlbum> albums = new ArrayList<>();
-        List<String> tagParams = new ArrayList<>();
-        tagParams.add(TagLister.ListType.ALBUM.getType());
-        tagParams.add(albumName);
-
-        Collection<String> allArtists = tagLister.list(TagLister.ListType.ARTIST, tagParams);
-        Collection<String> artists = tagLister.list(TagLister.ListType.ARTIST, artistParams);
-        allArtists.retainAll(artists);
-
-        for (String artist : allArtists) {
-            MPDAlbum album = new MPDAlbum(albumName, artist);
-            albums.add(album);
-        }
-
-        return albums;
+    private Collection<MPDAlbum> convertResponseToAlbum(List<String> response) {
+        return this.albumConverter.convertResponseToAlbum(response);
     }
 }

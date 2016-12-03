@@ -5,17 +5,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class IdProcessorTest {
+public class IdTagProcessorTest {
 
     @Test
     public void testProcessSong() throws Exception {
         int testId = 1;
 
-        IdProcessor idProcessor = new IdProcessor();
+        IdTagProcessor idTagProcessor = new IdTagProcessor();
         MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Id:" + testId;
-        idProcessor.processSong(song, line);
+        idTagProcessor.processTag(song, line);
 
         assertEquals(testId, song.getId());
     }
@@ -24,11 +24,11 @@ public class IdProcessorTest {
     public void testProcessSongBadLine() throws Exception {
         int testId = 1;
 
-        IdProcessor idProcessor = new IdProcessor();
+        IdTagProcessor idTagProcessor = new IdTagProcessor();
         MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadId:" + testId;
-        idProcessor.processSong(song, line);
+        idTagProcessor.processTag(song, line);
 
         assertEquals(-1, song.getId());
     }

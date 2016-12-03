@@ -38,15 +38,6 @@ public class MPDAlbumDatabaseIT extends BaseTest {
     }
 
     @Test
-    public void testFindAlbumByArtist() {
-        for (MPDArtist artist : TestArtists.getArtists()) {
-            for (MPDAlbum album : TestArtists.TEST_ARTIST_ALBUM_MAP.get(artist)) {
-                assertEquals(album, albumDatabase.findAlbumByArtist(artist, album.getName()));
-            }
-        }
-    }
-
-    @Test
     public void testListAlbumsByGenre() {
         for (MPDGenre genre : TestGenres.getGenres()) {
             compareAlbumLists(TestGenres.getAlbumsForGenre(genre),

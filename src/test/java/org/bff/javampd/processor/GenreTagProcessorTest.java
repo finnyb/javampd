@@ -6,17 +6,17 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class GenreProcessorTest {
+public class GenreTagProcessorTest {
 
     @Test
     public void testProcessSong() throws Exception {
         String testGenre = "testGenre";
 
-        GenreProcessor genreProcessor = new GenreProcessor();
+        GenreTagProcessor genreTagProcessor = new GenreTagProcessor();
         MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "Genre:" + testGenre;
-        genreProcessor.processSong(song, line);
+        genreTagProcessor.processTag(song, line);
 
         assertEquals(testGenre, song.getGenre());
     }
@@ -25,11 +25,11 @@ public class GenreProcessorTest {
     public void testProcessSongBadLine() throws Exception {
         String testGenre = "testGenre";
 
-        GenreProcessor genreProcessor = new GenreProcessor();
+        GenreTagProcessor genreTagProcessor = new GenreTagProcessor();
         MPDSong song = new MPDSong("testFile", "testName");
 
         String line = "BadGenre:" + testGenre;
-        genreProcessor.processSong(song, line);
+        genreTagProcessor.processTag(song, line);
 
         assertNull(song.getGenre());
     }

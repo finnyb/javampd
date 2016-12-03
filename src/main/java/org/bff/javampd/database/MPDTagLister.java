@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ public class MPDTagLister implements TagLister {
     }
 
     @Override
-    public Collection<String> listInfo(ListInfoType... types) {
+    public List<String> listInfo(ListInfoType... types) {
         List<String> returnList = new ArrayList<>();
         List<String> list = commandExecutor.sendCommand(databaseProperties.getListInfo());
 
@@ -44,27 +44,32 @@ public class MPDTagLister implements TagLister {
     }
 
     @Override
-    public Collection<String> list(ListType listType) {
-        return list(listType, null);
+    public List<String> list(ListType listType) {
+        return list(listType, new ArrayList<>());
     }
 
     @Override
-    public Collection<String> list(ListType listType, List<String> params) {
-        String[] paramList = generateParamList(listType, params);
+    public List<String> list(ListType listType, List<String> params, GroupType... groupTypes) {
+        addGroupParams(params, groupTypes);
 
-        List<String> responseList =
-                commandExecutor.sendCommand(databaseProperties.getList(), paramList);
+        return commandExecutor.sendCommand(databaseProperties.getList(), generateParamList(listType, params));
+    }
 
-        List<String> retList = new ArrayList<>();
-        for (String s : responseList) {
-            try {
-                retList.add(s.substring(s.split(":")[0].length() + 1).trim());
-            } catch (IndexOutOfBoundsException e) {
-                LOGGER.error("Problem with response array {}", s, e);
-                retList.add("");
-            }
+    @Override
+    public List<String> list(ListType listType, GroupType... groupTypes) {
+        List<String> params = new ArrayList<>();
+        addGroupParams(params, groupTypes);
+
+        return commandExecutor.sendCommand(databaseProperties.getList(), generateParamList(listType, params));
+    }
+
+    private void addGroupParams(List<String> params, GroupType... groupTypes) {
+        if (groupTypes.length > 0) {
+            Arrays.stream(groupTypes).forEach(group -> {
+                params.add(databaseProperties.getGroup());
+                params.add(group.getType());
+            });
         }
-        return retList;
     }
 
     private static String[] generateParamList(ListType listType, List<String> params) {

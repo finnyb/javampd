@@ -32,7 +32,7 @@ public class MPDGenreDatabase implements GenreDatabase {
     public Collection<MPDGenre> listAllGenres() {
         return tagLister.list(TagLister.ListType.GENRE)
                 .stream()
-                .map(MPDGenre::new)
+                .map(s -> new MPDGenre(s.substring(s.split(":")[0].length() + 1).trim()))
                 .collect(Collectors.toList());
     }
 
@@ -44,14 +44,17 @@ public class MPDGenreDatabase implements GenreDatabase {
         list.add(name);
 
         MPDGenre genre = null;
-        List<String> genres = new ArrayList<>(tagLister.list(TagLister.ListType.GENRE, list));
+        List<MPDGenre> genres = new ArrayList<>();
+
+        tagLister.list(TagLister.ListType.GENRE, list)
+                .forEach(response -> genres.add(new MPDGenre(response.split(":")[1].trim())));
 
         if (genres.size() > 1) {
             LOGGER.warn("Multiple genres returned for name {}", name);
         }
 
         if (!genres.isEmpty()) {
-            genre = new MPDGenre(genres.get(0));
+            genre = genres.get(0);
         }
 
         return genre;

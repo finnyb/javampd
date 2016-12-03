@@ -3,9 +3,11 @@ package org.bff.javampd.album;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
+import org.bff.javampd.processor.AlbumTagProcessor;
+import org.bff.javampd.processor.ArtistTagProcessor;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -13,16 +15,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MPDAlbumDatabaseTest {
+    private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
+    private static final String ALBUM_RESPONSE_PREFIX = "Album: ";
+    private static final String DATE_RESPONSE_PREFIX = "Date: ";
+
+    private static final TagLister.GroupType[] ALBUM_GROUPS = {
+            TagLister.GroupType.ARTIST,
+            TagLister.GroupType.DATE
+    };
+
     @Mock
     private TagLister tagLister;
 
-    @InjectMocks
     private MPDAlbumDatabase albumDatabase;
+
+    @Before
+    public void before() {
+        albumDatabase = new MPDAlbumDatabase(tagLister, new MPDAlbumConverter());
+    }
 
     @Test
     public void testListSingleAlbumsByArtist() throws Exception {
@@ -31,12 +45,17 @@ public class MPDAlbumDatabaseTest {
         String testAlbumName = "testAlbum";
 
         List<String> mockList = new ArrayList<>();
+        mockList.add(TagLister.ListType.ARTIST.getType());
         mockList.add(testArtist.getName());
+
         List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(testAlbumName);
+        mockReturn.add(ALBUM_RESPONSE_PREFIX + testAlbumName);
+        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
 
         when(tagLister
-                .list(TagLister.ListType.ALBUM, mockList))
+                .list(TagLister.ListType.ALBUM,
+                        mockList,
+                        ALBUM_GROUPS))
                 .thenReturn(mockReturn);
 
         MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
@@ -54,13 +73,20 @@ public class MPDAlbumDatabaseTest {
         String testAlbumName2 = "testAlbum2";
 
         List<String> mockList = new ArrayList<>();
+        mockList.add(TagLister.ListType.ARTIST.getType());
         mockList.add(testArtist.getName());
+
         List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(testAlbumName1);
-        mockReturn.add(testAlbumName2);
+        mockReturn.add(ALBUM_RESPONSE_PREFIX + testAlbumName1);
+        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+
+        mockReturn.add(ALBUM_RESPONSE_PREFIX + testAlbumName2);
+        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
 
         when(tagLister
-                .list(TagLister.ListType.ALBUM, mockList))
+                .list(TagLister.ListType.ALBUM,
+                        mockList,
+                        ALBUM_GROUPS))
                 .thenReturn(mockReturn);
 
         MPDAlbum testAlbum1 = new MPDAlbum(testAlbumName1, testArtist.getName());
@@ -79,31 +105,23 @@ public class MPDAlbumDatabaseTest {
 
         String testAlbumName = "testAlbum";
 
-        List<String> mockGenreList = new ArrayList<>();
-        mockGenreList.add(TagLister.ListType.GENRE.getType());
-        mockGenreList.add(testGenre.getName());
+        List<String> mockList = new ArrayList<>();
+        mockList.add(TagLister.ListType.GENRE.getType());
+        mockList.add(testGenre.getName());
 
         List<String> mockReturnGenreList = new ArrayList<>();
-        mockReturnGenreList.add(testAlbumName);
-
-        List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(testArtist.getName());
-        List<String> mockListArtist = new ArrayList<>();
-        mockListArtist.add(testArtist.getName());
+        mockReturnGenreList.add(ALBUM_RESPONSE_PREFIX + testAlbumName);
+        mockReturnGenreList.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
 
         List<String> mockAlbumList = new ArrayList<>();
         mockAlbumList.add(TagLister.ListType.ALBUM.getType());
         mockAlbumList.add(testAlbumName);
 
         when(tagLister
-                .list(TagLister.ListType.ALBUM, mockGenreList))
+                .list(TagLister.ListType.ALBUM,
+                        mockList,
+                        ALBUM_GROUPS))
                 .thenReturn(mockReturnGenreList);
-        when(tagLister
-                .list(TagLister.ListType.ARTIST, mockAlbumList))
-                .thenReturn(mockReturnArtist);
-        when(tagLister
-                .list(TagLister.ListType.ARTIST, mockGenreList))
-                .thenReturn(mockReturnArtist);
 
         MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
 
@@ -116,36 +134,26 @@ public class MPDAlbumDatabaseTest {
     public void testListAlbumsByYear() throws Exception {
         MPDArtist testArtist = new MPDArtist("testArtistName");
         String testYear = "testYear";
-
         String testAlbumName = "testAlbum";
 
-        List<String> mockYearList = new ArrayList<>();
-        mockYearList.add(TagLister.ListType.DATE.getType());
-        mockYearList.add(testYear);
+        List<String> mockList = new ArrayList<>();
+        mockList.add(TagLister.ListType.DATE.getType());
+        mockList.add(testYear);
 
-        List<String> mockReturnAlbumList = new ArrayList<>();
-        mockReturnAlbumList.add(testAlbumName);
 
-        List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(testArtist.getName());
-        List<String> mockListArtist = new ArrayList<>();
-        mockListArtist.add(testArtist.getName());
-
-        List<String> mockAlbumList = new ArrayList<>();
-        mockAlbumList.add(TagLister.ListType.ALBUM.getType());
-        mockAlbumList.add(testAlbumName);
+        List<String> mockReturn = new ArrayList<>();
+        mockReturn.add(ALBUM_RESPONSE_PREFIX + testAlbumName);
+        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+        mockReturn.add(DATE_RESPONSE_PREFIX + testYear);
 
         when(tagLister
-                .list(TagLister.ListType.ALBUM, mockYearList))
-                .thenReturn(mockReturnAlbumList);
-        when(tagLister
-                .list(TagLister.ListType.ARTIST, mockAlbumList))
-                .thenReturn(mockReturnArtist);
-        when(tagLister
-                .list(TagLister.ListType.ARTIST, mockYearList))
-                .thenReturn(mockReturnArtist);
+                .list(TagLister.ListType.ALBUM,
+                        mockList,
+                        ALBUM_GROUPS))
+                .thenReturn(mockReturn);
 
         MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
+        testAlbum.setDate(testYear);
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByYear(testYear));
         assertEquals(1, albums.size());
@@ -169,7 +177,8 @@ public class MPDAlbumDatabaseTest {
         mockAlbumList.add(testAlbumName);
 
         when(tagLister
-                .list(TagLister.ListType.ALBUM, mockYearList))
+                .list(TagLister.ListType.ALBUM,
+                        mockYearList))
                 .thenReturn(mockReturnAlbumList);
 
         List<String> albums = new ArrayList<>(albumDatabase.listAlbumNamesByYear(testYear));
@@ -183,8 +192,8 @@ public class MPDAlbumDatabaseTest {
         String testAlbumName2 = "testAlbum2";
 
         List<String> mockAlbumNameList = new ArrayList<>();
-        mockAlbumNameList.add(testAlbumName1);
-        mockAlbumNameList.add(testAlbumName2);
+        mockAlbumNameList.add(ALBUM_RESPONSE_PREFIX + testAlbumName1);
+        mockAlbumNameList.add(ALBUM_RESPONSE_PREFIX + testAlbumName2);
 
         when(tagLister
                 .list(TagLister.ListType.ALBUM))
@@ -204,11 +213,7 @@ public class MPDAlbumDatabaseTest {
         String albumPrefix = "testAlbum";
         String artistPrefix = "testArtist";
 
-        List<String> mockAlbumNameList = loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM))
-                .thenReturn(mockAlbumNameList);
+        loadMockAlbums(albumPrefix, artistPrefix, end);
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, end));
 
@@ -226,11 +231,7 @@ public class MPDAlbumDatabaseTest {
         String albumPrefix = "testAlbum";
         String artistPrefix = "testArtist";
 
-        List<String> mockAlbumNameList = loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM))
-                .thenReturn(mockAlbumNameList);
+        loadMockAlbums(albumPrefix, artistPrefix, end);
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums());
 
@@ -250,11 +251,7 @@ public class MPDAlbumDatabaseTest {
         String albumPrefix = "testAlbum";
         String artistPrefix = "testArtist";
 
-        List<String> mockAlbumNameList = loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM))
-                .thenReturn(mockAlbumNameList);
+        loadMockAlbums(albumPrefix, artistPrefix, end);
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, requested));
 
@@ -272,11 +269,7 @@ public class MPDAlbumDatabaseTest {
         String albumPrefix = "testAlbum";
         String artistPrefix = "testArtist";
 
-        List<String> mockAlbumNameList = loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM))
-                .thenReturn(mockAlbumNameList);
+        loadMockAlbums(albumPrefix, artistPrefix, end);
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, start));
 
@@ -289,54 +282,32 @@ public class MPDAlbumDatabaseTest {
         String albumPrefix = "testAlbum";
         String artistPrefix = "testArtist";
 
-        List<String> mockAlbumNameList = loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM))
-                .thenReturn(mockAlbumNameList);
+        loadMockAlbums(albumPrefix, artistPrefix, end);
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(end + 1, end));
 
         assertEquals(0, albums.size());
     }
 
-    private List<String> loadMockAlbums(String albumPrefix, String artistPrefix, int count) {
-        List<String> mockAlbumNameList = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            mockAlbumNameList.add(albumPrefix + i);
-            List<String> tagParams = new ArrayList<>();
-            tagParams.add("album");
-            tagParams.add(albumPrefix + i);
-            List<String> mockArtists = new ArrayList<>();
-            mockArtists.add(artistPrefix + i);
-            when(tagLister
-                    .list(TagLister.ListType.ARTIST, tagParams))
-                    .thenReturn(mockArtists);
-        }
-
-        return mockAlbumNameList;
-    }
-
     @Test
     public void testFindAlbumByName() throws Exception {
         MPDArtist testArtist = new MPDArtist("testArtistName");
-
         String testAlbumName = "testAlbum1";
+
+        List<String> mockList = new ArrayList<>();
+        mockList.add(TagLister.ListType.ALBUM.getType());
+        mockList.add(testAlbumName);
 
         List<String> mockAlbumList = new ArrayList<>();
         mockAlbumList.add(TagLister.ListType.ALBUM.getType());
-        mockAlbumList.add(testAlbumName);
-
-        List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(testArtist.getName());
+        mockAlbumList.add(ALBUM_RESPONSE_PREFIX + testAlbumName);
+        mockAlbumList.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
 
         when(tagLister
-                .list(TagLister.ListType.ALBUM))
+                .list(TagLister.ListType.ALBUM,
+                        mockList,
+                        ALBUM_GROUPS))
                 .thenReturn(mockAlbumList);
-        when(tagLister
-                .list(TagLister.ListType.ARTIST, mockAlbumList))
-                .thenReturn(mockReturnArtist);
 
         MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
 
@@ -345,45 +316,17 @@ public class MPDAlbumDatabaseTest {
         assertEquals(testAlbum, albums.get(0));
     }
 
+    private void loadMockAlbums(String albumPrefix, String artistPrefix, int count) {
+        List<String> mockAlbumList = new ArrayList<>();
 
-    @Test
-    public void testFindAlbumByArtist() throws Exception {
-        MPDArtist testArtist = new MPDArtist("testName");
-        String testAlbumName = "testAlbum";
-
-        List<String> mockList = new ArrayList<>();
-        mockList.add(testArtist.getName());
-        List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(testAlbumName);
+        for (int i = 0; i < count; i++) {
+            mockAlbumList.add(new AlbumTagProcessor().getPrefix() + " " + albumPrefix + i);
+            mockAlbumList.add(new ArtistTagProcessor().getPrefix() + " " + artistPrefix + i);
+        }
 
         when(tagLister
-                .list(TagLister.ListType.ALBUM, mockList))
-                .thenReturn(mockReturn);
-
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
-
-        MPDAlbum album = albumDatabase.findAlbumByArtist(testArtist, testAlbumName);
-
-        assertEquals(album, testAlbum);
-    }
-
-    @Test
-    public void testFindAlbumByArtistNoMatch() throws Exception {
-        MPDArtist testArtist = new MPDArtist("testName");
-        String testAlbumName = "testAlbum";
-        String searchName = "testAlbum1";
-
-        List<String> mockList = new ArrayList<>();
-        mockList.add(testArtist.getName());
-        List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(testAlbumName);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM, mockList))
-                .thenReturn(mockReturn);
-
-        MPDAlbum album = albumDatabase.findAlbumByArtist(testArtist, searchName);
-
-        assertNull(album);
+                .list(TagLister.ListType.ALBUM,
+                        ALBUM_GROUPS))
+                .thenReturn(mockAlbumList);
     }
 }

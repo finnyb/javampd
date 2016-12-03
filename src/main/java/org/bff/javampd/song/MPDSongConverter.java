@@ -1,7 +1,5 @@
 package org.bff.javampd.song;
 
-import org.bff.javampd.processor.SongProcessor;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.stream.Collectors;
  */
 public class MPDSongConverter implements SongConverter {
 
-    private static final String PREFIX_FILE = SongProcessor.FILE.getProcessor().getPrefix();
+    private static String delimitingPrefix = SongProcessor.getDelimitingPrefix();
 
     @Override
     public List<MPDSong> convertResponseToSong(List<String> list) {
@@ -21,12 +19,12 @@ public class MPDSongConverter implements SongConverter {
 
         String line = null;
         while (iterator.hasNext()) {
-            if (line == null || (!line.startsWith(PREFIX_FILE))) {
+            if (line == null || (!line.startsWith(delimitingPrefix))) {
                 line = iterator.next();
             }
 
-            if (line.startsWith(PREFIX_FILE)) {
-                line = processSong(line.substring(PREFIX_FILE.length()).trim(), iterator, songList);
+            if (line.startsWith(delimitingPrefix)) {
+                line = processSong(line.substring(delimitingPrefix.length()).trim(), iterator, songList);
             }
         }
         return songList;
@@ -36,7 +34,7 @@ public class MPDSongConverter implements SongConverter {
         MPDSong song = new MPDSong(file, "");
         initialize(song);
         String line = iterator.next();
-        while (!line.startsWith(PREFIX_FILE)) {
+        while (!line.startsWith(delimitingPrefix)) {
             processLine(song, line);
             if (!iterator.hasNext()) {
                 break;
@@ -71,7 +69,7 @@ public class MPDSongConverter implements SongConverter {
 
     private static void processLine(MPDSong song, String line) {
         for (SongProcessor songProcessor : SongProcessor.values()) {
-            songProcessor.getProcessor().processSong(song, line);
+            songProcessor.getProcessor().processTag(song, line);
         }
     }
 }

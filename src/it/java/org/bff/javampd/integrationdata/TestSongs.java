@@ -81,7 +81,7 @@ public class TestSongs {
             albumName = albumName.replace("[colon]", ":");
         }
         song.setAlbumName(albumName != null ? albumName : TestAlbums.NULL_ALBUM);
-        return TestAlbums.addAlbum(albumName, song.getArtistName());
+        return TestAlbums.addAlbum(albumName, song.getArtistName(), song.getYear());
     }
 
     private static MPDArtist processArtist(MPDSong song, String artistName) {

@@ -2,14 +2,14 @@ package org.bff.javampd.processor;
 
 import org.bff.javampd.song.MPDSong;
 
-public class PositionProcessor extends SongResponseProcessor {
+public class PositionTagProcessor extends TagResponseProcessor implements SongTagResponseProcessor {
 
-    public PositionProcessor() {
+    public PositionTagProcessor() {
         super("Pos:");
     }
 
     @Override
-    public void processSong(MPDSong song, String line) {
+    public void processTag(MPDSong song, String line) {
         if (startsWith(line)) {
             song.setPosition(Integer.parseInt(line.substring(getPrefix().length()).trim()));
         }

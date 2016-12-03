@@ -1,6 +1,7 @@
 package org.bff.javampd.year;
 
 import org.bff.javampd.database.TagLister;
+import org.bff.javampd.processor.DateTagProcessor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MPDDateDatabaseTest {
+    private static String DATE_PREFIX = new DateTagProcessor().getPrefix();
 
     @Mock
     private TagLister tagLister;
@@ -28,8 +30,8 @@ public class MPDDateDatabaseTest {
         String year2 = "1990-mar-24";
 
         List<String> yearList = new ArrayList<>();
-        yearList.add(year1);
-        yearList.add(year2);
+        yearList.add(DATE_PREFIX + year1);
+        yearList.add(DATE_PREFIX + year2);
 
         when(tagLister
                 .list(TagLister.ListType.DATE))

@@ -2,14 +2,14 @@ package org.bff.javampd.processor;
 
 import org.bff.javampd.song.MPDSong;
 
-public class FileProcessor extends SongResponseProcessor {
+public class FileTagProcessor extends TagResponseProcessor implements SongTagResponseProcessor {
 
-    public FileProcessor() {
+    public FileTagProcessor() {
         super("file:");
     }
 
     @Override
-    public void processSong(MPDSong song, String line) {
+    public void processTag(MPDSong song, String line) {
         if (startsWith(line)) {
             song.setFile(line.substring(getPrefix().length()).trim());
         }
