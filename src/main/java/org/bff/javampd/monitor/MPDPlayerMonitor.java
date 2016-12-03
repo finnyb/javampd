@@ -81,7 +81,6 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
     public void reset() {
         state = "";
         status = PlayerStatus.STATUS_STOPPED;
-        ;
     }
 
     /**
