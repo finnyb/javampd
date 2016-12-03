@@ -73,7 +73,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
         return artist;
     }
 
-    private String convertResponse(String s) {
+    private static String convertResponse(String s) {
         return s.substring(s.split(":")[0].length() + 1).trim();
     }
 }
