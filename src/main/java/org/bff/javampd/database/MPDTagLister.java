@@ -2,21 +2,17 @@ package org.bff.javampd.database;
 
 import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Implementation of {@link TagLister} for MPD database
+ * Implementation of {@link TagLister} for the MPD database
  *
  * @author Bill
  */
 public class MPDTagLister implements TagLister {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MPDTagLister.class);
-
     private DatabaseProperties databaseProperties;
     private CommandExecutor commandExecutor;
 
