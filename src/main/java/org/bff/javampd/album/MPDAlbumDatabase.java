@@ -23,7 +23,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     private TagLister tagLister;
     private AlbumConverter albumConverter;
 
-    private static final TagLister.GroupType ALBUM_TAGS[] = {
+    private static final TagLister.GroupType[] ALBUM_TAGS = {
             TagLister.GroupType.ARTIST,
             TagLister.GroupType.DATE
     };
