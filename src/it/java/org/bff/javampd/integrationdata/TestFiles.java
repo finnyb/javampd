@@ -24,8 +24,7 @@ public class TestFiles {
         List<File> testRootFiles = new ArrayList<>();
         File[] files = new File(path).listFiles();
         for (File file : files) {
-            if (!file.getName().startsWith("ReadMe")
-                    && !file.getName().startsWith("TestWaveFile")) {
+            if (!file.getName().startsWith("ReadMe") && !file.isHidden()) {
                 testRootFiles.add(file);
             }
         }
