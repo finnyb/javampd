@@ -24,7 +24,7 @@ public class TestFiles {
         List<File> testRootFiles = new ArrayList<>();
         File[] files = new File(path).listFiles();
         for (File file : files) {
-            if (!file.getName().startsWith("ReadMe") && !file.isHidden()) {
+            if (!file.getName().startsWith("ReadMe") && !file.isHidden() && !file.getName().equals("playlists")) {
                 testRootFiles.add(file);
             }
         }
