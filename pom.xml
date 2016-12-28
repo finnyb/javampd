@@ -426,7 +426,6 @@
                                             <name>finnyb/mpd</name>
                                             <alias>it-mpd</alias>
                                             <run>
-                                                <privileged>true</privileged>
                                                 <ports>
                                                     <port>6600:6600</port>
                                                 </ports>
