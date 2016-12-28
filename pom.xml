@@ -437,6 +437,15 @@
                                                         </volume>
                                                     </bind>
                                                 </volumes>
+                                                <wait>
+                                                    <tcp>
+                                                        <host>127.0.0.1</host>
+                                                        <ports>
+                                                            <port>6600</port>
+                                                        </ports>
+                                                    </tcp>
+                                                    <time>60000</time>
+                                                </wait>
                                             </run>
                                         </image>
                                     </images>
