@@ -399,6 +399,47 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.18.1</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-it-mpd</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                                <configuration>
+                                    <images>
+                                        <image>
+                                            <name>finnyb/mpd</name>
+                                            <alias>it-mpd</alias>
+                                            <run>
+                                                <ports>
+                                                    <port>6600:6600</port>
+                                                </ports>
+                                                <volumes>
+                                                    <bind>
+                                                        <volume>
+                                                            ${project.build.directory}/test-classes/TestMp3s:/mnt/music
+                                                        </volume>
+                                                    </bind>
+                                                </volumes>
+                                            </run>
+                                        </image>
+                                    </images>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>remove-javampd-it</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
