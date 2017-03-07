@@ -5,6 +5,8 @@ import org.bff.javampd.admin.Admin;
 import org.bff.javampd.admin.MPDAdmin;
 import org.bff.javampd.album.AlbumConverter;
 import org.bff.javampd.album.MPDAlbumConverter;
+import org.bff.javampd.art.ArtworkFinder;
+import org.bff.javampd.art.MPDArtworkFinder;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.database.MPDTagLister;
@@ -38,6 +40,7 @@ public class MPDModule extends AbstractModule {
         bind(TagLister.class).to(MPDTagLister.class);
         bind(SongConverter.class).to(MPDSongConverter.class);
         bind(AlbumConverter.class).to(MPDAlbumConverter.class);
+        bind(ArtworkFinder.class).to(MPDArtworkFinder.class);
         bind(Clock.class).to(MPDSystemClock.class);
     }
 }

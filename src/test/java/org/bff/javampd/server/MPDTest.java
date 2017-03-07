@@ -35,7 +35,7 @@ public class MPDTest {
         when(serverProperties.getClearError()).thenReturn(new ServerProperties().getClearError());
 
         MPD mpd = mpdBuilder.build();
-        mpd.clearerror();
+        mpd.clearError();
 
         verify(mpdCommandExecutor)
                 .sendCommand(commandArgumentCaptor.capture());

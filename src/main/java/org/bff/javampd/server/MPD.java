@@ -13,6 +13,7 @@ import org.bff.javampd.MPDException;
 import org.bff.javampd.MPDModule;
 import org.bff.javampd.MPDMonitorModule;
 import org.bff.javampd.admin.Admin;
+import org.bff.javampd.art.ArtworkFinder;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.monitor.ConnectionMonitor;
@@ -68,6 +69,7 @@ public class MPD implements Server {
     private final StandAloneMonitor standAloneMonitor;
     private final MusicDatabase musicDatabase;
     private final SongSearcher songSearcher;
+    private final ArtworkFinder artworkFinder;
 
     private MPD(Builder builder) {
         try {
@@ -85,6 +87,7 @@ public class MPD implements Server {
             this.standAloneMonitor = builder.standAloneMonitor;
             this.songSearcher = builder.songSearcher;
             this.musicDatabase = builder.musicDatabase;
+            this.artworkFinder = builder.artworkFinder;
 
             this.commandExecutor.setMpd(this);
             authenticate();
@@ -102,7 +105,7 @@ public class MPD implements Server {
     }
 
     @Override
-    public void clearerror() {
+    public void clearError() {
         commandExecutor.sendCommand(serverProperties.getClearError());
     }
 
@@ -205,6 +208,11 @@ public class MPD implements Server {
         return this.password != null || "".equals(this.password);
     }
 
+    @Override
+    public ArtworkFinder getArtworkFinder() {
+        return this.artworkFinder;
+    }
+
     public static class Builder {
         private int port = DEFAULT_PORT;
         private String server = DEFAULT_SERVER;
@@ -221,6 +229,7 @@ public class MPD implements Server {
         private MusicDatabase musicDatabase;
         private Injector injector;
         private SongSearcher songSearcher;
+        private ArtworkFinder artworkFinder;
 
         public Builder() {
             injector = Guice.createInjector(new MPDModule(), new MPDDatabaseModule(), new MPDMonitorModule());
@@ -264,6 +273,7 @@ public class MPD implements Server {
             this.musicDatabase = injector.getInstance(MusicDatabase.class);
             this.songSearcher = injector.getInstance(SongSearcher.class);
             this.commandExecutor = injector.getInstance(CommandExecutor.class);
+            this.artworkFinder = injector.getInstance(ArtworkFinder.class);
         }
 
         private void bindMonitorAndRelay(Injector injector) {

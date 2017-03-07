@@ -1,6 +1,7 @@
 package org.bff.javampd.server;
 
 import org.bff.javampd.admin.Admin;
+import org.bff.javampd.art.ArtworkFinder;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.monitor.StandAloneMonitor;
@@ -20,7 +21,7 @@ public interface Server {
      *
      * @throws MPDConnectionException if there is a problem sending the command to the server
      */
-    void clearerror();
+    void clearError();
 
     /**
      * Closes the connection to the MPD server.
@@ -42,6 +43,8 @@ public interface Server {
      * @return true if connected to server , false if not
      */
     boolean isConnected();
+
+    ArtworkFinder getArtworkFinder();
 
     /**
      * Returns true if {@link #close()} has been called.  Once closed a new {@link MPD} will need to be created.

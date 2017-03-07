@@ -34,7 +34,7 @@ public class MPDIT extends BaseTest {
         MPD mpd = null;
         try {
             mpd = getNewMpd();
-            mpd.clearerror();
+            mpd.clearError();
         } finally {
             if (mpd != null) {
                 mpd.close();

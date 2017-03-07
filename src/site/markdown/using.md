@@ -23,6 +23,27 @@ The connection remains open for the life of the MPD object so take
 care not to create new MPD objects each time you want to do something.
 Call close on the object when you are done.
 
+##Art
+When running on the same server as MPD a list of artwork can be obtained for an artist or album.  If not running on the
+same server but hosting the images locally a path prefix can be passed to locate the images. 
+
+A list of all images in the directory can be returned if those files are readable by whatever user is running JavaMPD.  
+
+Ideally you should have some directory structure like
+/Artist/Album/song.flac
+/Artist/Album/cover.jpg
+
+When searching for artist images assumptions are made that the artist lives in her own directory.  Images in the artist
+directory are returned first then images for each album are returned.
+
+supported image types:
+    _jpg_ and _png_
+    
+```
+ArtworkFinder artworkFinder = mpd.getArtworkFinder();
+List<MPDArtwork> artworkList = artworkFinder.find(album);
+```
+
 ##Searching
 Searching for songs is done via the SongSearcher class.
 

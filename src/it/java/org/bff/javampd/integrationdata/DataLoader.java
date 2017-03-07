@@ -1,6 +1,7 @@
 package org.bff.javampd.integrationdata;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +19,7 @@ public class DataLoader {
         return testFiles;
     }
 
-    public static void loadData(File f) {
+    public static void loadData(File f) throws IOException {
         File[] files = f.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {

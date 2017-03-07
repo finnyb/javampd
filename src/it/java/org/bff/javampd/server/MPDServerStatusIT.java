@@ -94,7 +94,7 @@ public class MPDServerStatusIT extends BaseTest {
         serverStatus.forceUpdate();
         assertTrue(serverStatus.isError());
 
-        getMpd().clearerror();
+        getMpd().clearError();
         serverStatus.forceUpdate();
         assertFalse(serverStatus.isError());
         admin.enableOutput(output);

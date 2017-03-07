@@ -40,6 +40,8 @@ public abstract class BaseTest {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MPDException ex) {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -93,6 +95,9 @@ public abstract class BaseTest {
                 }
             }
 
+            if (!found) {
+                Logger.getLogger(BaseTest.class.getName()).log(Level.WARNING, "Unable to find song " + song.getFile());
+            }
             assertTrue(found);
         }
     }

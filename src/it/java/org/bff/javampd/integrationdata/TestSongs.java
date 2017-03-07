@@ -1,11 +1,13 @@
 package org.bff.javampd.integrationdata;
 
+import org.bff.javampd.TestProperties;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.genre.MPDGenre;
 import org.bff.javampd.song.MPDSong;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,12 +38,12 @@ public class TestSongs {
     private static final HashMap<MPDArtist, Collection<MPDSong>> SONG_ARTIST_MAP =
             new HashMap<>();
 
-    public static void loadSong(File file, File f) {
+    public static void loadSong(File file, File f) throws IOException {
         String[] s = file.getName().replace(EXTENSION, "").split("-");
         String title = "null".equalsIgnoreCase(s[INDEX_TITLE]) ? NULL_TITLE : s[INDEX_TITLE];
 
         MPDSong song = new MPDSong(file.getName(), title);
-        song.setFile((f.isDirectory() ? f.getName() : "") + "/" + file.getName());
+        song.setFile(file.getPath().replace(TestProperties.getInstance().getPath() + "/", ""));
         song.setComment("null".equalsIgnoreCase(s[INDEX_COMMENT]) ? NULL_COMMENT : s[INDEX_COMMENT]);
         song.setTrack(Integer.parseInt("null".equalsIgnoreCase(s[INDEX_TRACK]) ? NULL_TRACK : s[INDEX_TRACK]));
         song.setDiscNumber("null".equalsIgnoreCase(s[INDEX_DISC]) ? NULL_DISC : s[INDEX_DISC]);
