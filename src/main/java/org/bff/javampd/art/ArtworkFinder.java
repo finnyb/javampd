@@ -32,7 +32,7 @@ public interface ArtworkFinder {
     /**
      * Returns a list of {@link MPDArtwork} for images in the given {@link MPDArtist}
      * This will search both the artist path and all albums by the artist.  This assumes you have the artist as part
-     * of the directory structure similar to this: <p/>'/music/artist/album/song.flac'.  If the artist is not there
+     * of the directory structure similar to this: <p>'/music/artist/album/song.flac'</p>  If the artist is not there
      * no attempt will be made to search the artist directory.
      *
      * @param artist the artist path to interrogate
@@ -43,11 +43,11 @@ public interface ArtworkFinder {
     /**
      * Returns a list of {@link MPDArtwork} for images in the given {@link MPDArtist}
      * This will search both the artist path and all albums by the artist.  This assumes you have the artist as part
-     * of the directory structure similar to this: <p/>'/music/artist/album/song.flac'.  If the artist is not there
+     * of the directory structure similar to this: <p>'/music/artist/album/song.flac'</p>  If the artist is not there
      * no attempt will be made to search the artist directory.
      *
-     * @param artist the artist path to interrogate
-     *               * @param pathPrefix the prefix of the path if not running locally with the MPD server
+     * @param artist     the artist path to interrogate
+     * @param pathPrefix the prefix of the path if not running locally with the MPD server
      * @return a list of {@link MPDArtwork}
      */
     List<MPDArtwork> find(MPDArtist artist, String pathPrefix);
