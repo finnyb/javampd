@@ -11,6 +11,7 @@ public class MPDAlbum extends MPDItem {
 
     private String artistName;
     private String date;
+    private String genre;
 
     /**
      * Constructs an album
@@ -21,6 +22,7 @@ public class MPDAlbum extends MPDItem {
         super(name);
         this.artistName = "";
         this.date = "";
+        this.genre = "";
     }
 
     /**
@@ -33,6 +35,7 @@ public class MPDAlbum extends MPDItem {
         super(name);
         this.artistName = artistName;
         this.date = "";
+        this.genre = "";
     }
 
     /**
@@ -113,5 +116,13 @@ public class MPDAlbum extends MPDItem {
 
     private boolean compareArtists(MPDAlbum album) {
         return getArtistName() != null && getArtistName().equals(album.getArtistName());
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

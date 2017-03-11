@@ -25,7 +25,8 @@ public class MPDAlbumDatabase implements AlbumDatabase {
 
     private static final TagLister.GroupType[] ALBUM_TAGS = {
             TagLister.GroupType.ARTIST,
-            TagLister.GroupType.DATE
+            TagLister.GroupType.DATE,
+            TagLister.GroupType.GENRE
     };
 
     @Inject

@@ -43,6 +43,16 @@ public class MPDAlbumTest {
         Assert.assertTrue(album1.equals(album2));
     }
 
+    @Test
+    public void testEqualityDifferentGenres() {
+        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
+        album1.setGenre("genre1");
+        MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
+        album2.setGenre("genre2");
+
+        Assert.assertTrue(album1.equals(album2));
+    }
+
 
     @Test
     public void testCompareArtists() throws Exception {

@@ -1,14 +1,12 @@
 package org.bff.javampd.album;
 
-import org.bff.javampd.processor.AlbumTagProcessor;
-import org.bff.javampd.processor.AlbumTagResponseProcessor;
-import org.bff.javampd.processor.ArtistTagProcessor;
-import org.bff.javampd.processor.DateTagProcessor;
+import org.bff.javampd.processor.*;
 
 public enum AlbumProcessor {
     ARTIST(new ArtistTagProcessor()),
     DATE(new DateTagProcessor()),
-    ALBUM(new AlbumTagProcessor());
+    ALBUM(new AlbumTagProcessor()),
+    GENRE(new GenreTagProcessor());
 
     private final transient AlbumTagResponseProcessor albumTagResponseProcessor;
 

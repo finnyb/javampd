@@ -22,10 +22,12 @@ public class MPDAlbumDatabaseTest {
     private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
     private static final String ALBUM_RESPONSE_PREFIX = "Album: ";
     private static final String DATE_RESPONSE_PREFIX = "Date: ";
+    private static final String GENRE_RESPONSE_PREFIX = "Genre: ";
 
     private static final TagLister.GroupType[] ALBUM_GROUPS = {
             TagLister.GroupType.ARTIST,
-            TagLister.GroupType.DATE
+            TagLister.GroupType.DATE,
+            TagLister.GroupType.GENRE
     };
 
     @Mock
