@@ -220,7 +220,7 @@ public class MPDSocket {
     }
 
     private List<String> sendBytes(String command) throws IOException {
-        LOGGER.debug("start command: " + command.trim());
+        LOGGER.debug("start command: {}", command.trim());
 
         List<String> response = new ArrayList<>();
 
