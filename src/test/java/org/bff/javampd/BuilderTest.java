@@ -16,8 +16,7 @@ import java.net.InetAddress;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BuilderTest {
@@ -72,6 +71,28 @@ public class BuilderTest {
                 .usePassword(commandArgumentCaptor.capture());
         assertNotNull(mpd);
         assertEquals(password, commandArgumentCaptor.getAllValues().get(0));
+    }
+
+    @Test
+    public void testNullPassword() throws Exception {
+        String password = null;
+        when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
+
+        MPD mpd = mpdBuilder.password(password).build();
+
+        verify(mpdCommandExecutor, never()).usePassword(password);
+        assertNotNull(mpd);
+    }
+
+    @Test
+    public void testBlankPassword() throws Exception {
+        String password = "";
+        when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
+
+        MPD mpd = mpdBuilder.password(password).build();
+
+        verify(mpdCommandExecutor, never()).usePassword(password);
+        assertNotNull(mpd);
     }
 
     @Test
