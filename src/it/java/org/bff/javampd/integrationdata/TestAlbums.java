@@ -13,12 +13,14 @@ public class TestAlbums {
     private static List<MPDAlbum> albums = new ArrayList<>();
     public static final String NULL_ALBUM = "";
 
-    public static MPDAlbum addAlbum(String albumName,
-                                    String artistName,
-                                    String date) {
+    static MPDAlbum addAlbum(String albumName,
+                             String artistName,
+                             String date,
+                             String genre) {
         MPDAlbum album = new MPDAlbum(albumName);
         album.setArtistName(artistName);
         album.setDate(date);
+        album.setGenre(genre);
 
         if (!getAlbums().contains(album)) {
             getAlbums().add(album);

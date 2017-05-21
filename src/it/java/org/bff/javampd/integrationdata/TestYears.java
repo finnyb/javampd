@@ -15,19 +15,17 @@ public class TestYears {
     private static List<String> years = new ArrayList<>();
     private static final HashMap<String, Collection<MPDAlbum>> YEAR_ALBUM_MAP = new HashMap<>();
 
-    public static final String NULL_YEAR = "";
+    static final String NULL_YEAR = "";
 
-    public static void addYear(String year) {
+    static void addYear(String year) {
         String addYear = year.equals(NULL_YEAR) ? "" : year;
         if (!getYears().contains(addYear)) {
             getYears().add(addYear);
         }
     }
 
-    public static void addAlbum(String year, MPDAlbum album) {
-        if (YEAR_ALBUM_MAP.get(year) == null) {
-            YEAR_ALBUM_MAP.put(year, new ArrayList<MPDAlbum>());
-        }
+    static void addAlbum(String year, MPDAlbum album) {
+        YEAR_ALBUM_MAP.computeIfAbsent(year, k -> new ArrayList<>());
 
         if (!YEAR_ALBUM_MAP.get(year).contains(album)) {
             YEAR_ALBUM_MAP.get(year).add(album);

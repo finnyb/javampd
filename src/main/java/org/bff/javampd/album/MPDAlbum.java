@@ -100,19 +100,25 @@ public class MPDAlbum extends MPDItem {
         MPDAlbum album = (MPDAlbum) object;
 
         return this.getName().equals(album.getName()) &&
+                this.getGenre().equals(album.getGenre()) &&
                 compareArtists(album) &&
                 compareDates(album);
 
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + artistName.hashCode();
+        result = 31 * result + date.hashCode();
+        result = 31 * result + genre.hashCode();
+        return result;
     }
 
     private boolean compareDates(MPDAlbum album) {
         return getDate() != null && getDate().equals(album.getDate());
     }
 
-    @Override
-    public int hashCode() {
-        return getName() != null ? getName().hashCode() : 0;
-    }
 
     private boolean compareArtists(MPDAlbum album) {
         return getArtistName() != null && getArtistName().equals(album.getArtistName());

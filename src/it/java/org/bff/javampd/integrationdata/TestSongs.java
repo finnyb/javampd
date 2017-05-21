@@ -38,7 +38,7 @@ public class TestSongs {
     private static final HashMap<MPDArtist, Collection<MPDSong>> SONG_ARTIST_MAP =
             new HashMap<>();
 
-    public static void loadSong(File file, File f) throws IOException {
+    static void loadSong(File file, File f) throws IOException {
         String[] s = file.getName().replace(EXTENSION, "").split("-");
         String title = "null".equalsIgnoreCase(s[INDEX_TITLE]) ? NULL_TITLE : s[INDEX_TITLE];
 
@@ -55,7 +55,7 @@ public class TestSongs {
         song.setYear(year);
         TestYears.addYear(year);
 
-        MPDAlbum album = processAlbum(song, s[INDEX_ALBUM]);
+        MPDAlbum album = processAlbum(song, s[INDEX_ALBUM], genre.getName());
         TestYears.addAlbum(year, album);
 
         if (artist != null) {
@@ -67,23 +67,21 @@ public class TestSongs {
 
         songs.add(song);
 
-        if (SONG_ARTIST_MAP.get(artist) == null) {
-            SONG_ARTIST_MAP.put(artist, new ArrayList<MPDSong>());
-        }
+        SONG_ARTIST_MAP.computeIfAbsent(artist, k -> new ArrayList<>());
 
         if (!SONG_ARTIST_MAP.get(artist).contains(song)) {
             SONG_ARTIST_MAP.get(artist).add(song);
         }
     }
 
-    private static MPDAlbum processAlbum(MPDSong song, String albumName) {
+    private static MPDAlbum processAlbum(MPDSong song, String albumName, String genre) {
         if ("null".equalsIgnoreCase(albumName)) {
             albumName = "";
         } else {
             albumName = albumName.replace("[colon]", ":");
         }
         song.setAlbumName(albumName != null ? albumName : TestAlbums.NULL_ALBUM);
-        return TestAlbums.addAlbum(albumName, song.getArtistName(), song.getYear());
+        return TestAlbums.addAlbum(albumName, song.getArtistName(), song.getYear(), genre);
     }
 
     private static MPDArtist processArtist(MPDSong song, String artistName) {

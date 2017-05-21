@@ -1,7 +1,6 @@
 package org.bff.javampd.album;
 
 import org.bff.javampd.MPDItem;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,7 +15,7 @@ public class MPDAlbumTest {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
 
-        Assert.assertFalse(album1.equals(album2));
+        assertFalse(album1.equals(album2));
     }
 
     @Test
@@ -24,7 +23,7 @@ public class MPDAlbumTest {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist2");
 
-        Assert.assertFalse(album1.equals(album2));
+        assertFalse(album1.equals(album2));
     }
 
     @Test
@@ -32,7 +31,7 @@ public class MPDAlbumTest {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
 
-        Assert.assertTrue(album1.equals(album2));
+        assertTrue(album1.equals(album2));
     }
 
     @Test
@@ -40,7 +39,7 @@ public class MPDAlbumTest {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
 
-        Assert.assertTrue(album1.equals(album2));
+        assertTrue(album1.equals(album2));
     }
 
     @Test
@@ -50,7 +49,7 @@ public class MPDAlbumTest {
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
         album2.setGenre("genre2");
 
-        Assert.assertTrue(album1.equals(album2));
+        assertFalse(album1.equals(album2));
     }
 
 
