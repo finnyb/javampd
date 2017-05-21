@@ -205,7 +205,7 @@ public class MPD implements Server {
     }
 
     private boolean usingPassword() {
-        return this.password != null || "".equals(this.password);
+        return this.password != null && !"".equals(this.password);
     }
 
     @Override
