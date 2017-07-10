@@ -82,6 +82,7 @@ public class StandAloneMonitorThread implements Runnable {
             } catch (InterruptedException ie) {
                 LOGGER.error("StandAloneMonitor interrupted", ie);
                 setStopped(true);
+                Thread.currentThread().interrupt();
             } catch (MPDException mpdException) {
                 LOGGER.error("Error while checking statuses", mpdException);
                 boolean retry = true;
@@ -92,6 +93,7 @@ public class StandAloneMonitorThread implements Runnable {
                     } catch (InterruptedException ex) {
                         LOGGER.error("StandAloneMonitor interrupted", ex);
                         setStopped(true);
+                        Thread.currentThread().interrupt();
                         break;
                     }
 
