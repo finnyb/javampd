@@ -26,7 +26,7 @@ public class MPDAlbum extends MPDItem {
     }
 
     /**
-     * Constructs an album wiht an artist name
+     * Constructs an album with an artist name
      *
      * @param name       name of the album
      * @param artistName artist of the album

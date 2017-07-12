@@ -55,7 +55,6 @@ public class MPDSocket {
      * A timeout of 0 means an infinite wait.
      *
      * @param timeout socket timeout, 0 for infinite wait
-     * @return the version of MPD
      * @throws MPDConnectionException if there is a socked io problem
      */
     private synchronized void connect(int timeout) {
