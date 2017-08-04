@@ -70,46 +70,54 @@ public class StandAloneMonitorThread implements Runnable {
         this.initialized = false;
         loadInitialStatus();
 
-        List<String> response;
         while (!this.stopped) {
-            try {
-                synchronized (this) {
-                    response = new ArrayList<>(serverStatus.getStatus());
-                    processResponse(response);
-                    monitors.forEach(ThreadedMonitor::checkStatus);
-                }
-                TimeUnit.SECONDS.sleep(delay);
-            } catch (InterruptedException ie) {
-                LOGGER.error("StandAloneMonitor interrupted", ie);
-                setStopped(true);
-                Thread.currentThread().interrupt();
-            } catch (MPDException mpdException) {
-                LOGGER.error("Error while checking statuses", mpdException);
-                boolean retry = true;
-
-                while (retry) {
-                    try {
-                        TimeUnit.SECONDS.sleep(this.exceptionDelay);
-                    } catch (InterruptedException ex) {
-                        LOGGER.error("StandAloneMonitor interrupted", ex);
-                        setStopped(true);
-                        Thread.currentThread().interrupt();
-                        break;
-                    }
-
-                    try {
-                        connectionMonitor.checkStatus();
-                        retry = !connectionMonitor.isConnected();
-                    } catch (MPDException e) {
-                        LOGGER.error("Error checking connection status.", e);
-                        throw e;
-                    }
-                }
-            }
+            monitor();
         }
 
         resetMonitors();
         this.done = true;
+    }
+
+    private void monitor() {
+        List<String> response;
+        try {
+            synchronized (this) {
+                response = new ArrayList<>(serverStatus.getStatus());
+                processResponse(response);
+                monitors.forEach(ThreadedMonitor::checkStatus);
+            }
+            TimeUnit.SECONDS.sleep(delay);
+        } catch (InterruptedException ie) {
+            LOGGER.error("StandAloneMonitor interrupted", ie);
+            setStopped(true);
+            Thread.currentThread().interrupt();
+        } catch (MPDException mpdException) {
+            LOGGER.error("Error while checking statuses", mpdException);
+            boolean retry = true;
+
+            while (retry) {
+                retry = retry();
+            }
+        }
+    }
+
+    private boolean retry() {
+        try {
+            TimeUnit.SECONDS.sleep(this.exceptionDelay);
+        } catch (InterruptedException ex) {
+            LOGGER.error("StandAloneMonitor interrupted", ex);
+            setStopped(true);
+            Thread.currentThread().interrupt();
+            return false;
+        }
+
+        try {
+            connectionMonitor.checkStatus();
+            return !connectionMonitor.isConnected();
+        } catch (MPDException e) {
+            LOGGER.error("Error checking connection status.", e);
+            throw e;
+        }
     }
 
     private void resetMonitors() {
