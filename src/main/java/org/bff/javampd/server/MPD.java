@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * MPD represents a connection to a MPD server.  The commands
@@ -237,7 +236,7 @@ public class MPD implements Server {
             bindMonitorAndRelay(injector);
         }
 
-        public Builder server(String server) throws UnknownHostException {
+        public Builder server(String server) {
             this.server = server;
             return this;
         }
