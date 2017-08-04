@@ -8,8 +8,8 @@ public class AdminProperties extends MPDProperties {
         KILL("MPD_ADMIN_KILL"),
         REFRESH("MPD_ADMIN_REFRESH"),
         OUTPUTS("MPD_ADMIN_OUTPUTS"),
-        OUTPUTENABLE("MPD_ADMIN_ENABLE_OUT"),
-        OUTPUTDISABLE("MPD_ADMIN_DISABLE_OUT");
+        OUTPUT_ENABLE("MPD_ADMIN_ENABLE_OUT"),
+        OUTPUT_DISABLE("MPD_ADMIN_DISABLE_OUT");
 
         private final String key;
 
@@ -35,10 +35,10 @@ public class AdminProperties extends MPDProperties {
     }
 
     public String getOutputEnable() {
-        return getPropertyString(Command.OUTPUTENABLE.getKey());
+        return getPropertyString(Command.OUTPUT_ENABLE.getKey());
     }
 
     public String getOutputDisable() {
-        return getPropertyString(Command.OUTPUTDISABLE.getKey());
+        return getPropertyString(Command.OUTPUT_DISABLE.getKey());
     }
 }
