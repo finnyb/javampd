@@ -37,22 +37,21 @@ public class MPDSong extends MPDItem {
     }
 
     /**
-     * Returns the name of the song.
+     * Returns the title of the song.
      *
-     * @return the name of the song.
+     * @return the title of the song.
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * Sets the name of the song.
+     * Sets the title of the song.
      *
      * @param title the name of the song
      */
     public void setTitle(String title) {
         this.title = title;
-        super.setName(title);
     }
 
     /**
@@ -284,9 +283,19 @@ public class MPDSong extends MPDItem {
         return this.getFile().equals(song.getFile());
     }
 
+    /**
+     * Returns the name of the song which can be different than the title if for example listening
+     * to streamin radio.  If no name has been set then {@link #getTitle()} is used
+     *
+     * @return the name of the song if set, otherwise the title
+     */
     @Override
     public String getName() {
-        return getTitle();
+        if (super.getName() == null || "".equals(super.getName())) {
+            return getTitle();
+        } else {
+            return super.getName();
+        }
     }
 
     /**

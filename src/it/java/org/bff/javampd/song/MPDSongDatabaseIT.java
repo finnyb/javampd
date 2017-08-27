@@ -400,6 +400,7 @@ public class MPDSongDatabaseIT extends BaseTest {
 
         assertNotNull(song);
         assertEquals(name, song.getName());
+        assertEquals(name, song.getTitle());
         assertEquals(artist, song.getArtistName());
         assertEquals(album, song.getAlbumName());
     }

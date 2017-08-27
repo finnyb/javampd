@@ -8,6 +8,7 @@ public enum SongProcessor {
     ALBUM(new AlbumTagProcessor()),
     TRACK(new TrackTagProcessor()),
     TITLE(new TitleTagProcessor()),
+    NAME(new NameTagProcessor()),
     DATE(new DateTagProcessor()),
     GENRE(new GenreTagProcessor()),
     COMMENT(new CommentTagProcessor()),

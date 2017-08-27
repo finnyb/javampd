@@ -76,4 +76,26 @@ public class MPDSongTest {
 
         assertEquals(file, song.toString());
     }
+
+    @Test
+    public void testGetName() {
+        MPDItem song = new MPDSong("file1", "song1");
+        song.setName("name1");
+
+        assertEquals("name1", song.getName());
+    }
+
+    @Test
+    public void testGetNameNullName() {
+        MPDItem song = new MPDSong("file1", "song1");
+        song.setName(null);
+        assertEquals("song1", song.getName());
+    }
+
+    @Test
+    public void testGetNameEmptyName() {
+        MPDItem song = new MPDSong("file1", "song1");
+        song.setName("");
+        assertEquals("song1", song.getName());
+    }
 }
