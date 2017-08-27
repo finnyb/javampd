@@ -285,7 +285,7 @@ public class MPDSong extends MPDItem {
 
     /**
      * Returns the name of the song which can be different than the title if for example listening
-     * to streamin radio.  If no name has been set then {@link #getTitle()} is used
+     * to streaming radio.  If no name has been set then {@link #getTitle()} is used
      *
      * @return the name of the song if set, otherwise the title
      */
