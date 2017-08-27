@@ -23,9 +23,9 @@ under the License.
     <link>https://github.com/finnyb/javampd/</link>
     <description>JavaMPD - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2016</copyright>
+    <copyright>&#169;2017</copyright>
     <item>
-      <title>File: 127,
+      <title>File: 137,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -172,34 +172,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.DateProcessor.java">org/bff/javampd/processor/DateProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.PositionProcessor.java">org/bff/javampd/processor/PositionProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.album.MPDAlbum.java">org/bff/javampd/album/MPDAlbum.java</a>
                 </td>
                 <td>
@@ -242,7 +214,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.IdProcessor.java">org/bff/javampd/processor/IdProcessor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.year.MPDDateDatabase.java">org/bff/javampd/year/MPDDateDatabase.java</a>
                 </td>
                 <td>
                   0
@@ -256,7 +228,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.year.MPDDateDatabase.java">org/bff/javampd/year/MPDDateDatabase.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.album.AlbumProcessor.java">org/bff/javampd/album/AlbumProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -312,7 +284,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.MPDProperties.java">org/bff/javampd/server/MPDProperties.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.ArtistTagProcessor.java">org/bff/javampd/processor/ArtistTagProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -326,7 +298,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.playlist.PlaylistBasicChangeListener.java">org/bff/javampd/playlist/PlaylistBasicChangeListener.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.MPDProperties.java">org/bff/javampd/server/MPDProperties.java</a>
                 </td>
                 <td>
                   0
@@ -354,7 +326,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.MPDStandAloneMonitor.java">org/bff/javampd/monitor/MPDStandAloneMonitor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.playlist.PlaylistBasicChangeListener.java">org/bff/javampd/playlist/PlaylistBasicChangeListener.java</a>
                 </td>
                 <td>
                   0
@@ -368,7 +340,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.admin.MPDAdmin.java">org/bff/javampd/admin/MPDAdmin.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.MPDStandAloneMonitor.java">org/bff/javampd/monitor/MPDStandAloneMonitor.java</a>
                 </td>
                 <td>
                   0
@@ -396,7 +368,35 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.admin.MPDAdmin.java">org/bff/javampd/admin/MPDAdmin.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.MPDServerStatus.java">org/bff/javampd/server/MPDServerStatus.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.art.ArtworkFinder.java">org/bff/javampd/art/ArtworkFinder.java</a>
                 </td>
                 <td>
                   0
@@ -438,20 +438,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.BitrateMonitor.java">org/bff/javampd/monitor/BitrateMonitor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.StatusMonitor.java">org/bff/javampd/monitor/StatusMonitor.java</a>
                 </td>
                 <td>
@@ -466,7 +452,21 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.SongResponseProcessor.java">org/bff/javampd/processor/SongResponseProcessor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.BitrateMonitor.java">org/bff/javampd/monitor/BitrateMonitor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.NameTagProcessor.java">org/bff/javampd/processor/NameTagProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -522,21 +522,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.SongProcessor.java">org/bff/javampd/processor/SongProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.database.MPDMusicDatabase.java">org/bff/javampd/database/MPDMusicDatabase.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.CommentTagProcessor.java">org/bff/javampd/processor/CommentTagProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -551,6 +537,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.VolumeMonitor.java">org/bff/javampd/monitor/VolumeMonitor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.database.MPDMusicDatabase.java">org/bff/javampd/database/MPDMusicDatabase.java</a>
                 </td>
                 <td>
                   0
@@ -579,6 +579,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.artist.MPDArtist.java">org/bff/javampd/artist/MPDArtist.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.AlbumTagResponseProcessor.java">org/bff/javampd/processor/AlbumTagResponseProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -662,6 +676,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.album.MPDAlbumConverter.java">org/bff/javampd/album/MPDAlbumConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.StandAloneMonitor.java">org/bff/javampd/monitor/StandAloneMonitor.java</a>
                 </td>
                 <td>
@@ -677,20 +705,6 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.player.PlayerProperties.java">org/bff/javampd/player/PlayerProperties.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.TitleProcessor.java">org/bff/javampd/processor/TitleProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -760,7 +774,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.ConnectionMonitor.java">org/bff/javampd/monitor/ConnectionMonitor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.ErrorEvent.java">org/bff/javampd/server/ErrorEvent.java</a>
                 </td>
                 <td>
                   0
@@ -774,7 +788,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.ErrorEvent.java">org/bff/javampd/server/ErrorEvent.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.ConnectionMonitor.java">org/bff/javampd/monitor/ConnectionMonitor.java</a>
                 </td>
                 <td>
                   0
@@ -816,7 +830,35 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.TrackTagProcessor.java">org/bff/javampd/processor/TrackTagProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.output.OutputChangeListener.java">org/bff/javampd/output/OutputChangeListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.PositionTagProcessor.java">org/bff/javampd/processor/PositionTagProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -858,7 +900,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.AlbumProcessor.java">org/bff/javampd/processor/AlbumProcessor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.MPDMonitorModule.java">org/bff/javampd/MPDMonitorModule.java</a>
                 </td>
                 <td>
                   0
@@ -872,7 +914,21 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.MPDMonitorModule.java">org/bff/javampd/MPDMonitorModule.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.GenreTagProcessor.java">org/bff/javampd/processor/GenreTagProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.IdTagProcessor.java">org/bff/javampd/processor/IdTagProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -928,7 +984,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.ServerProperties.java">org/bff/javampd/server/ServerProperties.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.album.AlbumConverter.java">org/bff/javampd/album/AlbumConverter.java</a>
                 </td>
                 <td>
                   0
@@ -956,7 +1012,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.MPDPlayerMonitor.java">org/bff/javampd/monitor/MPDPlayerMonitor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.ServerProperties.java">org/bff/javampd/server/ServerProperties.java</a>
                 </td>
                 <td>
                   0
@@ -984,7 +1040,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.album.MPDAlbumDatabase.java">org/bff/javampd/album/MPDAlbumDatabase.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.MPDPlayerMonitor.java">org/bff/javampd/monitor/MPDPlayerMonitor.java</a>
                 </td>
                 <td>
                   0
@@ -998,7 +1054,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.TrackProcessor.java">org/bff/javampd/processor/TrackProcessor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.album.MPDAlbumDatabase.java">org/bff/javampd/album/MPDAlbumDatabase.java</a>
                 </td>
                 <td>
                   0
@@ -1027,6 +1083,34 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.player.PlayerChangeListener.java">org/bff/javampd/player/PlayerChangeListener.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.TimeTagProcessor.java">org/bff/javampd/processor/TimeTagProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.TitleTagProcessor.java">org/bff/javampd/processor/TitleTagProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -1083,20 +1167,6 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.album.AlbumDatabase.java">org/bff/javampd/album/AlbumDatabase.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.DiscProcessor.java">org/bff/javampd/processor/DiscProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -1180,6 +1250,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.DiscTagProcessor.java">org/bff/javampd/processor/DiscTagProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.song.SongDatabase.java">org/bff/javampd/song/SongDatabase.java</a>
                 </td>
                 <td>
@@ -1250,7 +1334,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.file.MPDFile.java">org/bff/javampd/file/MPDFile.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.TrackMonitor.java">org/bff/javampd/monitor/TrackMonitor.java</a>
                 </td>
                 <td>
                   0
@@ -1264,7 +1348,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.TrackMonitor.java">org/bff/javampd/monitor/TrackMonitor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.file.MPDFile.java">org/bff/javampd/file/MPDFile.java</a>
                 </td>
                 <td>
                   0
@@ -1292,7 +1376,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.MPDItem.java">org/bff/javampd/MPDItem.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.SongTagResponseProcessor.java">org/bff/javampd/processor/SongTagResponseProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -1306,7 +1390,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.TimeProcessor.java">org/bff/javampd/processor/TimeProcessor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.MPDItem.java">org/bff/javampd/MPDItem.java</a>
                 </td>
                 <td>
                   0
@@ -1376,7 +1460,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.CommentProcessor.java">org/bff/javampd/processor/CommentProcessor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.art.MPDArtwork.java">org/bff/javampd/art/MPDArtwork.java</a>
                 </td>
                 <td>
                   0
@@ -1446,6 +1530,34 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.DateTagProcessor.java">org/bff/javampd/processor/DateTagProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.artist.MPDConverter.java">org/bff/javampd/artist/MPDConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.PlayerStatus.java">org/bff/javampd/monitor/PlayerStatus.java</a>
                 </td>
                 <td>
@@ -1474,7 +1586,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.database.DatabaseProperties.java">org/bff/javampd/database/DatabaseProperties.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.player.PlayerBasicChangeEvent.java">org/bff/javampd/player/PlayerBasicChangeEvent.java</a>
                 </td>
                 <td>
                   0
@@ -1488,7 +1600,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.player.PlayerBasicChangeEvent.java">org/bff/javampd/player/PlayerBasicChangeEvent.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.database.DatabaseProperties.java">org/bff/javampd/database/DatabaseProperties.java</a>
                 </td>
                 <td>
                   0
@@ -1530,7 +1642,21 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.FileProcessor.java">org/bff/javampd/processor/FileProcessor.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.song.SongProcessor.java">org/bff/javampd/song/SongProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.AlbumTagProcessor.java">org/bff/javampd/processor/AlbumTagProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -1600,20 +1726,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.ArtistProcessor.java">org/bff/javampd/processor/ArtistProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.command.MPDCommand.java">org/bff/javampd/command/MPDCommand.java</a>
                 </td>
                 <td>
@@ -1628,7 +1740,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.genre.MPDGenre.java">org/bff/javampd/genre/MPDGenre.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.TagResponseProcessor.java">org/bff/javampd/processor/TagResponseProcessor.java</a>
                 </td>
                 <td>
                   0
@@ -1657,6 +1769,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.playlist.Playlist.java">org/bff/javampd/playlist/Playlist.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.genre.MPDGenre.java">org/bff/javampd/genre/MPDGenre.java</a>
                 </td>
                 <td>
                   0
@@ -1726,7 +1852,21 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.Status.java">org/bff/javampd/server/Status.java</a>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.FileTagProcessor.java">org/bff/javampd/processor/FileTagProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.art.MPDArtworkFinder.java">org/bff/javampd/art/MPDArtworkFinder.java</a>
                 </td>
                 <td>
                   0
@@ -1741,6 +1881,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.MPDException.java">org/bff/javampd/MPDException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.server.Status.java">org/bff/javampd/server/Status.java</a>
                 </td>
                 <td>
                   0
@@ -1769,20 +1923,6 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.monitor.MPDPlaylistMonitor.java">org/bff/javampd/monitor/MPDPlaylistMonitor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/finnyb/javampd//checkstyle.html#org.bff.javampd.processor.GenreProcessor.java">org/bff/javampd/processor/GenreProcessor.java</a>
                 </td>
                 <td>
                   0

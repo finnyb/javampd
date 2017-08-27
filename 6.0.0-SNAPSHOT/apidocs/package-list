@@ -1,6 +1,7 @@
 org.bff.javampd
 org.bff.javampd.admin
 org.bff.javampd.album
+org.bff.javampd.art
 org.bff.javampd.artist
 org.bff.javampd.audioinfo
 org.bff.javampd.command
