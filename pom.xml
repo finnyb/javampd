@@ -412,7 +412,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.21.0</version>
+                        <version>0.22.0</version>
                         <executions>
                             <execution>
                                 <id>prepare-it-mpd</id>
