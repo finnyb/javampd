@@ -249,25 +249,68 @@ List&lt;MPDArtwork&gt; artworkList = artworkFinder.find(album);
 <div class="section">
 <h4><a name="Refresh_Intervals"></a>Refresh Intervals</h4>
 <p>The monitor.delay property is the length of time (in seconds) that the monitor sleeps between rounds. Each monitor has a multiplier that can be overridden depending on the desired check frequency. Setting the multiplier value to 0 means checking every time the monitor runs (0 based).</p>
-<p>The following properties can be overridden: ``` monitor.delay</p>
-<p>monitor.output.multiplier monitor.connection.multiplier monitor.playlist.multiplier monitor.error.multiplier monitor.player.multiplier monitor.track.multiplier monitor.exception.multiplier ```</p>
+<p>The following properties can be overridden:</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">monitor.delay
+
+monitor.output.multiplier
+monitor.connection.multiplier
+monitor.playlist.multiplier
+monitor.error.multiplier
+monitor.player.multiplier
+monitor.track.multiplier
+monitor.exception.multiplier
+</pre></div></div>
 <p>To override place a javampd.properties file on the classpath with your desired overrides:</p>
 <p>For example:</p>
-<p>javampd.properties <tt>
-monitor.playlist.multiplier=4
-</tt> would check for playlist changes every ~5 seconds</p>
+<p>javampd.properties</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">monitor.playlist.multiplier=4
+</pre></div></div>
+<p>would check for playlist changes every ~5 seconds</p>
 <p>or maybe something list this:</p>
-<p>javampd.properties <tt>
-monitor.delay=10
+<p>javampd.properties</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">monitor.delay=10
 monitor.playlist.multiplier=0
 monitor.track.multiplier=2
-</tt> would run the monitor every ~10 seconds checking the playlist every ~10 seconds and the track every ~30</p></div></div></div>
+</pre></div></div>
+<p>would run the monitor every ~10 seconds checking the playlist every ~10 seconds and the track every ~30</p></div></div></div>
 <div class="section">
 <h2><a name="Server_status"></a>Server status</h2>
-<p>load the server status by getting the status from MPD. It has an default expiry interval of 5 seconds, this can be overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method. Updates can be force using forceUpdate</p></div>
+<p>load the server status by getting the status from MPD. </p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">ServerStatus status = mpd.getServerStatus();
+int volume = status.getVolume();
+</pre></div></div>
+<p>There is a default expiry interval of 5 seconds. This can be overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method. </p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">ServerStatus status = mpd.getServerStatus();
+//removes 5 second cache
+status.setExpiryInterval(0);    
+</pre></div></div>
+<p>Status updates can be force using forceUpdate</p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">ServerStatus status = mpd.getServerStatus();
+//reset the update clock so updates are pulled
+status.forceUpdate();
+status.setExpiryInterval(0); 
+</pre></div></div></div>
 <div class="section">
 <h2><a name="Server_statistics"></a>Server statistics</h2>
-<p>load the server statistics by getting the status from MPD. It has an default expiry interval of 60 seconds, this can be overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method. Updates can be force using forceUpdate</p></div>
+<p>load the server statistics by getting the status from MPD. </p>
+
+<div class="source">
+<div class="source"><pre class="prettyprint">ServerStatistics stats = mpd.getServerStatistics();
+long uptime = status.getUptime();
+</pre></div></div>
+<p>It has an default expiry interval of 60 seconds. Caching behavior is exactly like the status.</p></div>
                   </div>
           </div>
 
