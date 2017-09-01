@@ -93,6 +93,7 @@ Each monitor has a multiplier that can be overridden depending on the desired ch
 multiplier value to 0 means checking every time the monitor runs (0 based).
 
 The following properties can be overridden:
+
 ```
 monitor.delay
 
@@ -110,27 +111,56 @@ To override place a javampd.properties file on the classpath with your desired o
 For example:
 
 javampd.properties
+
 ```
 monitor.playlist.multiplier=4
 ```
+
 would check for playlist changes every ~5 seconds
 
 or maybe something list this:
 
 javampd.properties
+
 ```
 monitor.delay=10
 monitor.playlist.multiplier=0
 monitor.track.multiplier=2
 ```
+
 would run the monitor every ~10 seconds checking the playlist every ~10 seconds and the track every ~30
 
 ##Server status
-load the server status by getting the status from MPD.  It has an default expiry interval of 5 seconds, this can be
-overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method.  Updates
-can be force using forceUpdate
+load the server status by getting the status from MPD.  
+
+```
+ServerStatus status = mpd.getServerStatus();
+int volume = status.getVolume();
+```
+
+There is a default expiry interval of 5 seconds. This can be overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method.  
+
+```
+ServerStatus status = mpd.getServerStatus();
+//removes 5 second cache
+status.setExpiryInterval(0);    
+```
+
+Status updates can be force using forceUpdate
+
+```
+ServerStatus status = mpd.getServerStatus();
+//reset the update clock so updates are pulled
+status.forceUpdate();
+status.setExpiryInterval(0); 
+```
 
 ##Server statistics
-load the server statistics by getting the status from MPD.  It has an default expiry interval of 60 seconds, this can be
-overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method.  Updates
-can be force using forceUpdate
+load the server statistics by getting the status from MPD.  
+
+```
+ServerStatistics stats = mpd.getServerStatistics();
+long uptime = status.getUptime();
+```
+
+It has an default expiry interval of 60 seconds.  Caching behavior is exactly like the status.
