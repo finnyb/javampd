@@ -28,7 +28,7 @@ public class MPDPropertiesTest {
 
     private class TestProperties extends MPDProperties {
         public String getOk() {
-            return getPropertyString("MPD_CMD_RESPONSE_OK");
+            return getPropertyString("cmd.response.ok");
         }
     }
 

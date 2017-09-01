@@ -7,12 +7,12 @@ import org.bff.javampd.server.MPDProperties;
  */
 public class DatabaseProperties extends MPDProperties {
     private enum Command {
-        FIND("MPD_DB_FIND"),
-        LIST("MPD_DB_LIST_TAG"),
-        GROUP("MPD_DB_GROUP"),
-        LISTINFO("MPD_DB_LIST_INFO"),
-        SEARCH("MPD_DB_SEARCH"),
-        LISTSONGS("MPD_DB_LIST_SONGS");
+        FIND("db.find"),
+        LIST("db.list.tag"),
+        GROUP("db.group"),
+        LISTINFO("db.list.info"),
+        SEARCH("db.search"),
+        LISTSONGS("db.list.songs");
 
         private final String key;
 

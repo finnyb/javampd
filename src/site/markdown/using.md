@@ -87,7 +87,43 @@ Lots of debugging information can be obtained from debug level logging.
 
 ##Monitoring
 MPDStandAloneMonitor to monitor events
-bitrate can be turned off since chatty
+####Refresh Intervals
+The monitor.delay property is the length of time (in seconds) that the monitor sleeps between rounds.
+Each monitor has a multiplier that can be overridden depending on the desired check frequency.  Setting the
+multiplier value to 0 means checking every time the monitor runs (0 based).
+
+The following properties can be overridden:
+```
+monitor.delay
+
+monitor.output.multiplier
+monitor.connection.multiplier
+monitor.playlist.multiplier
+monitor.error.multiplier
+monitor.player.multiplier
+monitor.track.multiplier
+monitor.exception.multiplier
+```
+
+To override place a javampd.properties file on the classpath with your desired overrides:
+
+For example:
+
+javampd.properties
+```
+monitor.playlist.multiplier=4
+```
+would check for playlist changes every ~5 seconds
+
+or maybe something list this:
+
+javampd.properties
+```
+monitor.delay=10
+monitor.playlist.multiplier=0
+monitor.track.multiplier=2
+```
+would run the monitor every ~10 seconds checking the playlist every ~10 seconds and the track every ~30
 
 ##Server status
 load the server status by getting the status from MPD.  It has an default expiry interval of 5 seconds, this can be

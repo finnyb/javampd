@@ -128,19 +128,19 @@ public class MPDAdmin implements Admin {
     @Override
     public void killMPD() {
         commandExecutor.sendCommand(adminProperties.getKill());
-        fireMPDChangeEvent(MPDChangeEvent.Event.MPD_KILLED);
+        fireMPDChangeEvent(MPDChangeEvent.Event.KILLED);
     }
 
     @Override
     public void updateDatabase() {
         commandExecutor.sendCommand(adminProperties.getRefresh());
-        fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
+        fireMPDChangeEvent(MPDChangeEvent.Event.REFRESHED);
     }
 
     @Override
     public void updateDatabase(String path) {
         commandExecutor.sendCommand(adminProperties.getRefresh(), path);
-        fireMPDChangeEvent(MPDChangeEvent.Event.MPD_REFRESHED);
+        fireMPDChangeEvent(MPDChangeEvent.Event.REFRESHED);
     }
 
     @Override

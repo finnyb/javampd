@@ -11,14 +11,14 @@ import org.bff.javampd.server.MPDProperties;
 public class MonitorProperties extends MPDProperties {
 
     private enum Delay {
-        OUTPUT("MPD_OUTPUT_DELAY"),
-        CONNECTION("MPD_CONNECTION_DELAY"),
-        PLAYLIST("MPD_PLAYLIST_DELAY"),
-        ERROR("MPD_ERROR_DELAY"),
-        PLAYER("MPD_PLAYER_DELAY"),
-        TRACK("MPD_TRACK_DELAY"),
-        MONITOR("MPD_MONITOR_DELAY"),
-        EXCEPTION("MPD_EXCEPTION_DELAY");
+        OUTPUT("monitor.output.multiplier"),
+        CONNECTION("monitor.connection.multiplier"),
+        PLAYLIST("monitor.playlist.multiplier"),
+        ERROR("monitor.error.multiplier"),
+        PLAYER("monitor.player.multiplier"),
+        TRACK("monitor.track.multiplier"),
+        MONITOR("monitor.delay"),
+        EXCEPTION("monitor.exception.multiplier");
 
         private final String key;
 

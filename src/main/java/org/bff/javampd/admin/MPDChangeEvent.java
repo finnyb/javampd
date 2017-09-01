@@ -11,8 +11,8 @@ public class MPDChangeEvent
     private Event event;
 
     public enum Event {
-        MPD_KILLED,
-        MPD_REFRESHED
+        KILLED,
+        REFRESHED
     }
 
     /**

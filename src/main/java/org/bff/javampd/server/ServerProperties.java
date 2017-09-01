@@ -6,16 +6,16 @@ package org.bff.javampd.server;
 public class ServerProperties extends MPDProperties {
 
     private enum Command {
-        SERVERENCODING("MPD_SERVER_ENCODING"),
-        CLEARERROR("MPD_CMD_CLEAR_ERROR"),
-        CLOSE("MPD_CMD_CLOSE"),
-        KILL("MPD_CMD_KILL"),
-        STATUS("MPD_CMD_STATUS"),
-        STATS("MPD_CMD_STATISTICS"),
-        STARTBULK("MPD_CMD_START_BULK"),
-        ENDBULK("MPD_CMD_END_BULK"),
-        PASSWORD("MPD_CMD_PASSWORD"),
-        PING("MPD_CMD_PING");
+        SERVERENCODING("server.encoding"),
+        CLEARERROR("cmd.clear.error"),
+        CLOSE("cmd.close"),
+        KILL("cmd.kill"),
+        STATUS("cmd.status"),
+        STATS("cmd.statistics"),
+        STARTBULK("cmd.start.bulk"),
+        ENDBULK("cmd.end.bulk"),
+        PASSWORD("cmd.password"),
+        PING("cmd.ping");
 
         private final String key;
 

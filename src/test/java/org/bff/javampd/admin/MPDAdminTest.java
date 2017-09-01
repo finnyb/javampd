@@ -128,7 +128,7 @@ public class MPDAdminTest {
     public void testAddChangeListener() {
         final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
 
-        MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.MPD_KILLED;
+        MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.KILLED;
         MPDChangeListener changeListener = event -> eventReceived[0] = event;
 
         admin.addMPDChangeListener(changeListener);
@@ -141,7 +141,7 @@ public class MPDAdminTest {
     public void testRemoveListener() {
         final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
 
-        MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.MPD_KILLED;
+        MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.KILLED;
         MPDChangeListener changeListener = event -> eventReceived[0] = event;
 
         admin.addMPDChangeListener(changeListener);

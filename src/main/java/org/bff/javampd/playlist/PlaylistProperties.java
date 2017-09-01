@@ -8,22 +8,22 @@ import org.bff.javampd.server.MPDProperties;
 public class PlaylistProperties extends MPDProperties {
 
     private enum Command {
-        ADD("MPD_PLAYLIST_ADD"),
-        CLEAR("MPD_PLAYLIST_CLEAR"),
-        CURRSONG("MPD_PLAYLIST_CURRSONG"),
-        DELETE("MPD_PLAYLIST_DELETE"),
-        CHANGES("MPD_PLAYLIST_CHANGES"),
-        ID("MPD_PLAYLIST_LIST_ID"),
-        INFO("MPD_PLAYLIST_LIST"),
-        LOAD("MPD_PLAYLIST_LOAD"),
-        MOVE("MPD_PLAYLIST_MOVE"),
-        MOVEID("MPD_PLAYLIST_MOVE_ID"),
-        REMOVE("MPD_PLAYLIST_REMOVE"),
-        REMOVEID("MPD_PLAYLIST_REMOVE_ID"),
-        SAVE("MPD_PLAYLIST_SAVE"),
-        SHUFFLE("MPD_PLAYLIST_SHUFFLE"),
-        SWAP("MPD_PLAYLIST_SWAP"),
-        SWAPID("MPD_PLAYLIST_SWAP_ID");
+        ADD("playlist.add"),
+        CLEAR("playlist.clear"),
+        CURRSONG("playlist.currsong"),
+        DELETE("playlist.delete"),
+        CHANGES("playlist.changes"),
+        ID("playlist.list.id"),
+        INFO("playlist.list"),
+        LOAD("playlist.load"),
+        MOVE("playlist.move"),
+        MOVEID("playlist.move.id"),
+        REMOVE("playlist.remove"),
+        REMOVEID("playlist.remove.id"),
+        SAVE("playlist.save"),
+        SHUFFLE("playlist.shuffle"),
+        SWAP("playlist.swap"),
+        SWAPID("playlist.swap.id");
 
         private final String key;
 

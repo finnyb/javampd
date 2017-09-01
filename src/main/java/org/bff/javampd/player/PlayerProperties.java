@@ -8,19 +8,19 @@ import org.bff.javampd.server.MPDProperties;
 public class PlayerProperties extends MPDProperties {
 
     private enum Command {
-        XFADE("MPD_PLAYER_CROSSFADE"),
-        CURRSONG("MPD_PLAYER_CURRENTSONG"),
-        NEXT("MPD_PLAYER_NEXT"),
-        PAUSE("MPD_PLAYER_PAUSE"),
-        PLAY("MPD_PLAYER_PLAY"),
-        PLAYID("MPD_PLAYER_PLAY_ID"),
-        PREV("MPD_PLAYER_PREV"),
-        REPEAT("MPD_PLAYER_REPEAT"),
-        RANDOM("MPD_PLAYER_RANDOM"),
-        SEEK("MPD_PLAYER_SEEK"),
-        SEEKID("MPD_PLAYER_SEEK_ID"),
-        STOP("MPD_PLAYER_STOP"),
-        SETVOL("MPD_PLAYER_SET_VOLUME");
+        XFADE("player.crossfade"),
+        CURRSONG("player.currentsong"),
+        NEXT("player.next"),
+        PAUSE("player.pause"),
+        PLAY("player.play"),
+        PLAYID("player.play.id"),
+        PREV("player.prev"),
+        REPEAT("player.repeat"),
+        RANDOM("player.random"),
+        SEEK("player.seek"),
+        SEEKID("player.seek.id"),
+        STOP("player.stop"),
+        SETVOL("player.set.volume");
 
         private final String key;
 

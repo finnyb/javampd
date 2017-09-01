@@ -5,11 +5,11 @@ import org.bff.javampd.server.MPDProperties;
 public class AdminProperties extends MPDProperties {
 
     private enum Command {
-        KILL("MPD_ADMIN_KILL"),
-        REFRESH("MPD_ADMIN_REFRESH"),
-        OUTPUTS("MPD_ADMIN_OUTPUTS"),
-        OUTPUT_ENABLE("MPD_ADMIN_ENABLE_OUT"),
-        OUTPUT_DISABLE("MPD_ADMIN_DISABLE_OUT");
+        KILL("admin.kill"),
+        REFRESH("admin.refresh"),
+        OUTPUTS("admin.outputs"),
+        OUTPUT_ENABLE("admin.enable.out"),
+        OUTPUT_DISABLE("admin.disable.out");
 
         private final String key;
 

@@ -8,9 +8,9 @@ package org.bff.javampd.server;
 public class ResponseProperties extends MPDProperties {
 
     private enum Command {
-        OK("MPD_CMD_RESPONSE_OK"),
-        LIST_OK("MPD_CMD_RESPONSE_LIST_OK"),
-        ERR("MPD_CMD_RESPONSE_ERR");
+        OK("cmd.response.ok"),
+        LIST_OK("cmd.response.list.ok"),
+        ERR("cmd.response.err");
 
         private final String key;
 
