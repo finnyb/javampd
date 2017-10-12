@@ -152,7 +152,6 @@ Status updates can be force using forceUpdate
 ServerStatus status = mpd.getServerStatus();
 //reset the update clock so updates are pulled
 status.forceUpdate();
-status.setExpiryInterval(0); 
 ```
 
 ##Server statistics
