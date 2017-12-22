@@ -25,7 +25,7 @@ then add the dependency
 <dependency>
   <groupId>net.thejavashop</groupId>
   <artifactId>javampd</artifactId>
-  <version>6.0.0-SNAPSHOT</version>
+  <version>6.1.0-SNAPSHOT</version>
 </dependency>
 ```
 ##Releases
