@@ -1,5 +1,7 @@
 ## Maven
-Get it from maven central
+Get it from maven central [here](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22net.thejavashop%22%20AND%20a%3A%22javampd%22)
+
+
 
 To use the latest snapshot add this repo
 
