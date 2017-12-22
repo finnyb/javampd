@@ -1,70 +1,76 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.events.MPDErrorEvent;
-import org.bff.javampd.events.MPDErrorListener;
+import org.bff.javampd.server.ErrorEvent;
+import org.bff.javampd.server.ErrorListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class MPDErrorMonitorTest {
     private ErrorMonitor errorMonitor;
-    private boolean success;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         errorMonitor = new MPDErrorMonitor();
-        success = false;
     }
 
     @Test
-    public void testCheckStatus() throws Exception {
-        errorMonitor.addMPDErrorListener(new MPDErrorListener() {
-            @Override
-            public void errorEventReceived(MPDErrorEvent event) {
-                success = true;
-            }
-        });
-        errorMonitor.processResponseStatus("error: 1");
+    public void testAddErrorListener() throws Exception {
+        final ErrorEvent[] errorEvent = new ErrorEvent[1];
+
+        errorMonitor.addErrorListener(event -> errorEvent[0] = event);
+        errorMonitor.processResponseStatus("error: message");
         errorMonitor.checkStatus();
-        assertTrue(success);
+        assertEquals("message", errorEvent[0].getMessage());
     }
 
     @Test
-    public void testCheckStatusNoEvent() throws Exception {
-        errorMonitor.processResponseStatus("error: 1");
+    public void testRemoveErrorListener() throws Exception {
+        final ErrorEvent[] errorEvent = new ErrorEvent[1];
+
+        ErrorListener errorListener = event -> errorEvent[0] = event;
+
+        errorMonitor.addErrorListener(errorListener);
+        errorMonitor.processResponseStatus("error: message");
         errorMonitor.checkStatus();
-        errorMonitor.addMPDErrorListener(new MPDErrorListener() {
-            @Override
-            public void errorEventReceived(MPDErrorEvent event) {
-                success = true;
-            }
-        });
+        assertEquals("message", errorEvent[0].getMessage());
+
+        errorEvent[0] = null;
+        errorMonitor.removeErrorListener(errorListener);
+        errorMonitor.processResponseStatus("error: message2");
         errorMonitor.checkStatus();
-        assertFalse(success);
+        assertNull(errorEvent[0]);
     }
 
     @Test
-    public void testRemoveListener() throws Exception {
-        MPDErrorListener errorListener = new MPDErrorListener() {
-            @Override
-            public void errorEventReceived(MPDErrorEvent event) {
-                success = true;
-            }
-        };
+    public void testInvalidStatus() throws Exception {
+        final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
-        errorMonitor.addMPDErrorListener(errorListener);
-        errorMonitor.processResponseStatus("error: 1");
+        errorMonitor.addErrorListener(event -> errorEvent[0] = event);
+        errorMonitor.processResponseStatus("bogus: message");
         errorMonitor.checkStatus();
 
-        assertTrue(success);
+        assertNull(errorEvent[0]);
+    }
 
-        success = false;
+    @Test
+    public void testResetError() throws Exception {
+        String line = "error: message";
+        final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
-        errorMonitor.removeMPDErrorListener(errorListener);
-        errorMonitor.processResponseStatus("error: 1");
+        errorMonitor.addErrorListener(event -> errorEvent[0] = event);
+        errorMonitor.processResponseStatus(line);
         errorMonitor.checkStatus();
-        assertFalse(success);
+        assertEquals("message", errorEvent[0].getMessage());
+
+        errorMonitor.reset();
+        errorEvent[0] = null;
+
+        errorMonitor.processResponseStatus(line);
+        errorMonitor.checkStatus();
+        assertEquals("message", errorEvent[0].getMessage());
+
     }
 }

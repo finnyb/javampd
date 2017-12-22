@@ -1,10 +1,9 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.Server;
-import org.bff.javampd.events.ConnectionChangeEvent;
-import org.bff.javampd.events.ConnectionChangeListener;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.server.ConnectionChangeEvent;
+import org.bff.javampd.server.ConnectionChangeListener;
+import org.bff.javampd.server.Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +14,13 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
     private Server server;
     private boolean connected = true;
 
-    public MPDConnectionMonitor() {
+    MPDConnectionMonitor() {
         this.connectionListeners = new ArrayList<>();
     }
 
     /**
-     * Adds a {@link org.bff.javampd.events.ConnectionChangeListener} to this object to receive
-     * {@link org.bff.javampd.events.ConnectionChangeEvent}s.
+     * Adds a {@link org.bff.javampd.server.ConnectionChangeListener} to this object to receive
+     * {@link org.bff.javampd.server.ConnectionChangeEvent}s.
      *
      * @param ccl the ConnectionChangeListener to add
      */
@@ -41,14 +40,13 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
     }
 
     /**
-     * Sends the appropriate {@link org.bff.javampd.events.ConnectionChangeEvent} to all registered
+     * Sends the appropriate {@link org.bff.javampd.server.ConnectionChangeEvent} to all registered
      * {@link ConnectionChangeListener}s.
      *
      * @param isConnected the connection status
-     * @param msg         the message to pass to the exception
      */
-    protected synchronized void fireConnectionChangeEvent(boolean isConnected, String msg) {
-        ConnectionChangeEvent cce = new ConnectionChangeEvent(this, isConnected, msg);
+    protected synchronized void fireConnectionChangeEvent(boolean isConnected) {
+        ConnectionChangeEvent cce = new ConnectionChangeEvent(this, isConnected);
 
         for (ConnectionChangeListener ccl : connectionListeners) {
             ccl.connectionChangeEventReceived(cce);
@@ -56,11 +54,11 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         boolean conn = this.server.isConnected();
         if (connected != conn) {
             connected = conn;
-            fireConnectionChangeEvent(conn, "Connection Changed");
+            fireConnectionChangeEvent(conn);
         }
     }
 

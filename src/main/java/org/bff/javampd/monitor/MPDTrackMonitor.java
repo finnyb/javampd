@@ -1,10 +1,9 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.Status;
-import org.bff.javampd.events.TrackPositionChangeEvent;
-import org.bff.javampd.events.TrackPositionChangeListener;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.player.TrackPositionChangeEvent;
+import org.bff.javampd.player.TrackPositionChangeListener;
+import org.bff.javampd.server.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +14,12 @@ public class MPDTrackMonitor implements TrackMonitor {
     private long oldPos;
     private long elapsedTime;
 
-    public MPDTrackMonitor() {
+    MPDTrackMonitor() {
         this.trackListeners = new ArrayList<>();
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void checkStatus() {
         checkTrackPosition(elapsedTime);
     }
 
@@ -30,6 +29,12 @@ public class MPDTrackMonitor implements TrackMonitor {
             elapsedTime =
                     Long.parseLong(line.substring(Status.TIME.getStatusPrefix().length()).trim().split(":")[0]);
         }
+    }
+
+    @Override
+    public void reset() {
+        oldPos = 0;
+        elapsedTime = 0;
     }
 
     /**
@@ -47,7 +52,7 @@ public class MPDTrackMonitor implements TrackMonitor {
 
     /**
      * Adds a {@link TrackPositionChangeListener} to this object to receive
-     * {@link org.bff.javampd.events.TrackPositionChangeEvent}s.
+     * {@link org.bff.javampd.player.TrackPositionChangeEvent}s.
      *
      * @param tpcl the TrackPositionChangeListener to add
      */
@@ -69,10 +74,11 @@ public class MPDTrackMonitor implements TrackMonitor {
     @Override
     public void resetElapsedTime() {
         elapsedTime = 0;
+        oldPos = 0;
     }
 
     /**
-     * Sends the appropriate {@link org.bff.javampd.events.TrackPositionChangeEvent} to all registered
+     * Sends the appropriate {@link org.bff.javampd.player.TrackPositionChangeEvent} to all registered
      * {@link TrackPositionChangeListener}s.
      *
      * @param newTime the new elapsed time

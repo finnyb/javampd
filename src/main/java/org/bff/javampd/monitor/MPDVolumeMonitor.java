@@ -1,10 +1,9 @@
 package org.bff.javampd.monitor;
 
 import com.google.inject.Singleton;
-import org.bff.javampd.Status;
-import org.bff.javampd.events.VolumeChangeDelegate;
-import org.bff.javampd.events.VolumeChangeListener;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.player.VolumeChangeDelegate;
+import org.bff.javampd.player.VolumeChangeListener;
+import org.bff.javampd.server.Status;
 
 @Singleton
 public class MPDVolumeMonitor implements VolumeMonitor {
@@ -12,7 +11,7 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     private int oldVolume;
     private VolumeChangeDelegate volumeChangeDelegate;
 
-    public MPDVolumeMonitor() {
+    MPDVolumeMonitor() {
         this.volumeChangeDelegate = new VolumeChangeDelegate();
     }
 
@@ -25,7 +24,13 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void reset() {
+        newVolume = 0;
+        oldVolume = 0;
+    }
+
+    @Override
+    public void checkStatus() {
         if (oldVolume != newVolume) {
             fireVolumeChangeEvent(newVolume);
             oldVolume = newVolume;
@@ -38,12 +43,12 @@ public class MPDVolumeMonitor implements VolumeMonitor {
     }
 
     @Override
-    public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
+    public synchronized void removeVolumeChangeListener(VolumeChangeListener vcl) {
         volumeChangeDelegate.removeVolumeChangedListener(vcl);
     }
 
     /**
-     * Sends the appropriate {@link org.bff.javampd.events.VolumeChangeEvent} to all registered
+     * Sends the appropriate {@link org.bff.javampd.player.VolumeChangeEvent} to all registered
      * {@link VolumeChangeListener}.
      *
      * @param volume the new volume

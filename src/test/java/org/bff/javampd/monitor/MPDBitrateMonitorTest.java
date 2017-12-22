@@ -1,57 +1,87 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.events.PlayerBasicChangeEvent;
-import org.bff.javampd.events.PlayerBasicChangeListener;
+import org.bff.javampd.player.BitrateChangeEvent;
+import org.bff.javampd.player.BitrateChangeListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class MPDBitrateMonitorTest {
 
     private BitrateMonitor bitrateMonitor;
-    private boolean success;
-    private static final String RESPONSE = "bitrate: ";
 
     @Before
-    public void setUp() {
+    public void setup() {
         bitrateMonitor = new MPDBitrateMonitor();
-        success = false;
     }
 
     @Test
-    public void testCheckStatus() throws Exception {
-        bitrateMonitor.processResponseStatus(RESPONSE + "1");
-        bitrateMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_BITRATE_CHANGE:
-                        success = true;
-                }
-            }
-        });
-        bitrateMonitor.processResponseStatus(RESPONSE + "2");
+    public void testAddBitrateChangeListener() throws Exception {
+        final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
+
+        bitrateMonitor.addBitrateChangeListener(event -> changeEvent[0] = event);
+        bitrateMonitor.processResponseStatus("bitrate: 1");
         bitrateMonitor.checkStatus();
-        assertTrue(success);
+        assertEquals(0, changeEvent[0].getOldBitrate());
+        assertEquals(1, changeEvent[0].getNewBitrate());
     }
 
     @Test
-    public void testCheckStatusNoEvent() throws Exception {
-        bitrateMonitor.processResponseStatus(RESPONSE + "1");
+    public void testRemoveBitrateChangeListener() throws Exception {
+        final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
+
+        BitrateChangeListener bitrateChangeListener = event -> changeEvent[0] = event;
+
+        bitrateMonitor.addBitrateChangeListener(bitrateChangeListener);
+        bitrateMonitor.processResponseStatus("bitrate: 1");
         bitrateMonitor.checkStatus();
-        bitrateMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_BITRATE_CHANGE:
-                        success = true;
-                }
-            }
-        });
+        assertEquals(0, changeEvent[0].getOldBitrate());
+        assertEquals(1, changeEvent[0].getNewBitrate());
+
+        changeEvent[0] = null;
+        bitrateMonitor.removeBitrateChangeListener(bitrateChangeListener);
+        bitrateMonitor.processResponseStatus("bitrate: 2");
         bitrateMonitor.checkStatus();
-        bitrateMonitor.processResponseStatus(RESPONSE + "1");
-        assertFalse(success);
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testBitrateNoChange() throws Exception {
+        final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
+
+        bitrateMonitor.addBitrateChangeListener(event -> changeEvent[0] = event);
+        bitrateMonitor.processResponseStatus("bitrate: 1");
+        bitrateMonitor.checkStatus();
+        assertEquals(0, changeEvent[0].getOldBitrate());
+        assertEquals(1, changeEvent[0].getNewBitrate());
+
+        changeEvent[0] = null;
+        bitrateMonitor.processResponseStatus("bitrate: 1");
+        bitrateMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testResetBitrateChangeListener() throws Exception {
+        String line = "bitrate: 1";
+
+        final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
+
+        bitrateMonitor.addBitrateChangeListener(event -> changeEvent[0] = event);
+        bitrateMonitor.processResponseStatus(line);
+        bitrateMonitor.checkStatus();
+        assertEquals(0, changeEvent[0].getOldBitrate());
+        assertEquals(1, changeEvent[0].getNewBitrate());
+
+        bitrateMonitor.reset();
+        changeEvent[0] = null;
+
+        bitrateMonitor.processResponseStatus(line);
+        bitrateMonitor.checkStatus();
+        assertEquals(0, changeEvent[0].getOldBitrate());
+        assertEquals(1, changeEvent[0].getNewBitrate());
+
     }
 }

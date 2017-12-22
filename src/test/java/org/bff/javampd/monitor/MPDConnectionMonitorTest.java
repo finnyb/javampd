@@ -1,100 +1,74 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.Server;
-import org.bff.javampd.events.ConnectionChangeEvent;
-import org.bff.javampd.events.ConnectionChangeListener;
+import org.bff.javampd.server.ConnectionChangeEvent;
+import org.bff.javampd.server.ConnectionChangeListener;
+import org.bff.javampd.server.Server;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MPDConnectionMonitorTest {
+
     @Mock
     private Server server;
 
-    @InjectMocks
-    private MPDConnectionMonitor connectionMonitor;
-    private boolean success;
+    private ConnectionMonitor connectionMonitor;
 
     @Before
-    public void setUp() {
-        success = false;
+    public void setUp() throws Exception {
+        connectionMonitor = new MPDConnectionMonitor();
+        connectionMonitor.setServer(server);
     }
 
     @Test
-    public void testCheckStatusLostConnection() throws Exception {
-        connectionMonitor.addConnectionChangeListener(new ConnectionChangeListener() {
+    public void testAddConnectionChangeListener() throws Exception {
+        final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
 
-            @Override
-            public void connectionChangeEventReceived(ConnectionChangeEvent event) {
-                success = true;
-            }
-        });
+        connectionMonitor.addConnectionChangeListener(event -> changeEvent[0] = event);
         when(server.isConnected()).thenReturn(false);
         connectionMonitor.checkStatus();
-        assertTrue(success);
+        assertEquals(false, changeEvent[0].isConnected());
     }
 
     @Test
-    public void testCheckStatusReConnected() throws Exception {
-        when(server.isConnected()).thenReturn(false);
-        connectionMonitor.checkStatus();
-        connectionMonitor.addConnectionChangeListener(new ConnectionChangeListener() {
+    public void testRemoveConnectionChangeListener() throws Exception {
+        final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
 
-            @Override
-            public void connectionChangeEventReceived(ConnectionChangeEvent event) {
-                success = true;
-            }
-        });
-
-        when(server.isConnected()).thenReturn(true);
-        connectionMonitor.checkStatus();
-        assertTrue(success);
-    }
-
-    @Test
-    public void testCheckStatusNoEvent() throws Exception {
-        when(server.isConnected()).thenReturn(true);
-        connectionMonitor.checkStatus();
-        connectionMonitor.addConnectionChangeListener(new ConnectionChangeListener() {
-
-            @Override
-            public void connectionChangeEventReceived(ConnectionChangeEvent event) {
-                success = true;
-            }
-        });
-        when(server.isConnected()).thenReturn(true);
-        connectionMonitor.checkStatus();
-        assertFalse(success);
-    }
-
-    @Test
-    public void testRemoveListener() throws Exception {
-        ConnectionChangeListener connectionChangeListener = new ConnectionChangeListener() {
-
-            @Override
-            public void connectionChangeEventReceived(ConnectionChangeEvent event) {
-                success = true;
-            }
-        };
+        ConnectionChangeListener connectionChangeListener = event -> changeEvent[0] = event;
 
         connectionMonitor.addConnectionChangeListener(connectionChangeListener);
+        when(server.isConnected()).thenReturn(false);
         connectionMonitor.checkStatus();
+        assertEquals(false, changeEvent[0].isConnected());
 
-        assertTrue(success);
-
-        success = false;
-
+        changeEvent[0] = null;
         connectionMonitor.removeConnectionChangeListener(connectionChangeListener);
         when(server.isConnected()).thenReturn(true);
         connectionMonitor.checkStatus();
-        assertFalse(success);
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testNoChange() throws Exception {
+        final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
+
+        connectionMonitor.addConnectionChangeListener(event -> changeEvent[0] = event);
+        when(server.isConnected()).thenReturn(true);
+        connectionMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testIsConnected() throws Exception {
+        when(server.isConnected()).thenReturn(false);
+        connectionMonitor.checkStatus();
+        assertEquals(false, connectionMonitor.isConnected());
     }
 }

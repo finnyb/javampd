@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.bff.javampd;
 
-import org.bff.javampd.exception.MPDConnectionException;
+import org.bff.javampd.server.MPDConnectionException;
 
 import java.io.FileInputStream;
 import java.io.IOException;

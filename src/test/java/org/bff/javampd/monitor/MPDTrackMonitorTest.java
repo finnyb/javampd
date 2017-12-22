@@ -1,91 +1,155 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.events.TrackPositionChangeEvent;
-import org.bff.javampd.events.TrackPositionChangeListener;
+import org.bff.javampd.player.TrackPositionChangeEvent;
+import org.bff.javampd.player.TrackPositionChangeListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class MPDTrackMonitorTest {
+
     private TrackMonitor trackMonitor;
-    private boolean success;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         trackMonitor = new MPDTrackMonitor();
-        success = false;
     }
 
     @Test
-    public void testCheckStatus() throws Exception {
-        trackMonitor.addTrackPositionChangeListener(new TrackPositionChangeListener() {
+    public void testAddTrackPositionChangeListener() throws Exception {
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+        final TrackPositionChangeEvent[] changeEvent2 = new TrackPositionChangeEvent[1];
 
-            @Override
-            public void trackPositionChanged(TrackPositionChangeEvent event) {
-                success = true;
-            }
-        });
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent2[0] = event);
         trackMonitor.processResponseStatus("time: 1");
         trackMonitor.checkStatus();
-        assertTrue(success);
+
+        assertEquals(1, changeEvent[0].getElapsedTime());
+        assertEquals(1, changeEvent2[0].getElapsedTime());
     }
 
     @Test
-    public void testCheckStatusAfterReset() throws Exception {
-        trackMonitor.addTrackPositionChangeListener(new TrackPositionChangeListener() {
+    public void testRemoveTrackPositionChangeListener() throws Exception {
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
 
-            @Override
-            public void trackPositionChanged(TrackPositionChangeEvent event) {
-                success = true;
-            }
-        });
-
-        trackMonitor.processResponseStatus("time: 1");
-        trackMonitor.checkStatus();
-        trackMonitor.resetElapsedTime();
-        trackMonitor.processResponseStatus("time: 1");
-        trackMonitor.checkStatus();
-        assertTrue(success);
-    }
-
-    @Test
-    public void testCheckStatusNoEvent() throws Exception {
-        trackMonitor.processResponseStatus("time: 1");
-        trackMonitor.checkStatus();
-        trackMonitor.addTrackPositionChangeListener(new TrackPositionChangeListener() {
-
-            @Override
-            public void trackPositionChanged(TrackPositionChangeEvent event) {
-                success = true;
-            }
-        });
-        trackMonitor.checkStatus();
-        assertFalse(success);
-    }
-
-    @Test
-    public void testRemoveListener() throws Exception {
-        TrackPositionChangeListener trackPositionChangeListener = new TrackPositionChangeListener() {
-
-            @Override
-            public void trackPositionChanged(TrackPositionChangeEvent event) {
-                success = true;
-            }
-        };
+        TrackPositionChangeListener trackPositionChangeListener = event -> changeEvent[0] = event;
 
         trackMonitor.addTrackPositionChangeListener(trackPositionChangeListener);
         trackMonitor.processResponseStatus("time: 1");
         trackMonitor.checkStatus();
+        assertEquals(1, changeEvent[0].getElapsedTime());
 
-        assertTrue(success);
-
-        success = false;
-
+        changeEvent[0] = null;
         trackMonitor.removeTrackPositionChangeListener(trackPositionChangeListener);
+        trackMonitor.processResponseStatus("time: 2");
+        trackMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testCheckTrackPosition() throws Exception {
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
         trackMonitor.processResponseStatus("time: 1");
         trackMonitor.checkStatus();
-        assertFalse(success);
+        assertEquals(1, changeEvent[0].getElapsedTime());
+    }
+
+    @Test
+    public void testCheckTrackPositionNoChange() throws Exception {
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.processResponseStatus("time: 1");
+        trackMonitor.checkStatus();
+        assertEquals(1, changeEvent[0].getElapsedTime());
+
+        changeEvent[0] = null;
+        trackMonitor.processResponseStatus("time: 1");
+        trackMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testProcessInvalidResponse() throws Exception {
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.processResponseStatus("bogus: 1");
+        trackMonitor.checkStatus();
+
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testResetElapsedTime() throws Exception {
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.processResponseStatus("time: 1");
+        trackMonitor.checkStatus();
+        assertEquals(1, changeEvent[0].getElapsedTime());
+
+        changeEvent[0] = null;
+        trackMonitor.processResponseStatus("time: 1");
+        trackMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+
+        trackMonitor.resetElapsedTime();
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.processResponseStatus("time: 1");
+        trackMonitor.checkStatus();
+        assertEquals(1, changeEvent[0].getElapsedTime());
+    }
+
+    @Test
+    public void testResetTrackPositionChange() throws Exception {
+        String line = "time: 1";
+
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+
+        assertEquals(1, changeEvent[0].getElapsedTime());
+
+        trackMonitor.reset();
+        changeEvent[0] = null;
+
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+
+        assertEquals(1, changeEvent[0].getElapsedTime());
+    }
+
+    @Test
+    public void testMonitorResetElapsedTime() throws Exception {
+        String line = "time: 1";
+
+        final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+        assertEquals(1, changeEvent[0].getElapsedTime());
+
+        changeEvent[0] = null;
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+
+        trackMonitor.reset();
+
+        trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
+        trackMonitor.processResponseStatus(line);
+        trackMonitor.checkStatus();
+        assertEquals(1, changeEvent[0].getElapsedTime());
     }
 }

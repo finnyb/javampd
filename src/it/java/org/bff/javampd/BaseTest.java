@@ -1,33 +1,29 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.bff.javampd;
 
-import org.bff.javampd.exception.MPDConnectionException;
-import org.bff.javampd.exception.MPDException;
+import org.awaitility.Awaitility;
 import org.bff.javampd.integrationdata.DataLoader;
-import org.bff.javampd.integrationdata.Songs;
-import org.bff.javampd.objects.MPDSong;
+import org.bff.javampd.integrationdata.TestSongs;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDConnectionException;
+import org.bff.javampd.song.MPDSong;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Bill
  */
 public abstract class BaseTest {
 
-    private static Database database;
     private static MPD mpd;
-    private static Playlist playlist;
-    private static Player player;
-    private static Admin admin;
-    private static StandAloneMonitor monitor;
-    private static ServerStatistics serverStatistics;
 
     static {
         try {
@@ -37,30 +33,22 @@ public abstract class BaseTest {
                     .password(TestProperties.getInstance().getPassword())
                     .build();
 
-            database = getMpd().getDatabase();
-            playlist = getMpd().getPlaylist();
-            player = getMpd().getPlayer();
-            admin = getMpd().getAdmin();
-            monitor = getMpd().getMonitor();
-            serverStatistics = getMpd().getServerStatistics();
             DataLoader.loadData(new File(TestProperties.getInstance().getPath()));
-            for (MPDSong song : Songs.songs) {
-                fillSongId(song);
-            }
+            TestSongs.getSongs().forEach(BaseTest::loadMPDSong);
+            Awaitility.setDefaultTimeout(5, TimeUnit.MINUTES);
         } catch (IOException ex) {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MPDException ex) {
             Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(BaseTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public BaseTest() {
-    }
-
-    public static void fillSongId(MPDSong song) throws MPDException {
-        MPDSong s = new ArrayList<>(getDatabase().searchFileName(song.getFile())).get(0);
+    public static void loadMPDSong(MPDSong song) {
+        MPDSong s = new ArrayList<>(getMpd().getMusicDatabase().getSongDatabase().searchFileName(song.getFile())).get(0);
         try {
-            Songs.databaseSongs.add(s);
+            MPDSongs.getSongs().add(s);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,42 +72,33 @@ public abstract class BaseTest {
     }
 
     /**
-     * @return the database
-     */
-    public static Database getDatabase() {
-        return database;
-    }
-
-    /**
      * @return the mpd
      */
     public static MPD getMpd() {
         return mpd;
     }
 
-    /**
-     * @return the playlist
-     */
-    public static Playlist getPlaylist() {
-        return playlist;
-    }
+    public void compareSongLists(List<MPDSong> testResults, List<MPDSong> foundSongs) {
 
-    /**
-     * @return the player
-     */
-    public static Player getPlayer() {
-        return player;
-    }
+        if (testResults.isEmpty()) {
+            assertTrue("Bad test criteria.  Should have a size of at least 1", false);
+        }
 
-    public static Admin getAdmin() {
-        return admin;
-    }
+        assertEquals(testResults.size(), foundSongs.size());
 
-    public static StandAloneMonitor getMonitor() {
-        return monitor;
-    }
+        for (MPDSong song : testResults) {
+            boolean found = false;
+            for (MPDSong songDb : foundSongs) {
+                if (song.getFile().equals(songDb.getFile())) {
+                    found = true;
+                    break;
+                }
+            }
 
-    public static ServerStatistics getServerStatistics() {
-        return serverStatistics;
+            if (!found) {
+                Logger.getLogger(BaseTest.class.getName()).log(Level.WARNING, "Unable to find song " + song.getFile());
+            }
+            assertTrue(found);
+        }
     }
 }

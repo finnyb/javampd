@@ -1,73 +1,97 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.events.VolumeChangeEvent;
-import org.bff.javampd.events.VolumeChangeListener;
+import org.bff.javampd.player.VolumeChangeListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MPDVolumeMonitorTest {
+
     private VolumeMonitor volumeMonitor;
-    private boolean success;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         volumeMonitor = new MPDVolumeMonitor();
-        success = false;
     }
 
     @Test
-    public void testCheckStatus() throws Exception {
-        volumeMonitor.addVolumeChangeListener(new VolumeChangeListener() {
-
-            @Override
-            public void volumeChanged(VolumeChangeEvent event) {
-                success = true;
-            }
+    public void testProcessResponseStatus() throws Exception {
+        final int[] volume = {0};
+        volumeMonitor.addVolumeChangeListener(event -> {
+            volume[0] = event.getVolume();
         });
         volumeMonitor.processResponseStatus("volume: 1");
         volumeMonitor.checkStatus();
-        assertTrue(success);
+        assertEquals(1, volume[0]);
     }
 
     @Test
-    public void testCheckStatusNoEvent() throws Exception {
+    public void testProcessResponseStatusSameVolume() throws Exception {
+        final boolean[] eventFired = {false};
+
+        volumeMonitor.addVolumeChangeListener(event -> {
+            eventFired[0] = true;
+        });
         volumeMonitor.processResponseStatus("volume: 1");
         volumeMonitor.checkStatus();
-        volumeMonitor.addVolumeChangeListener(new VolumeChangeListener() {
+        assertTrue(eventFired[0]);
 
-            @Override
-            public void volumeChanged(VolumeChangeEvent event) {
-                success = true;
-            }
-        });
+        eventFired[0] = false;
+        volumeMonitor.processResponseStatus("volume: 1");
         volumeMonitor.checkStatus();
-        assertFalse(success);
+        assertFalse(eventFired[0]);
     }
 
     @Test
-    public void testRemoveListener() throws Exception {
-        VolumeChangeListener volumeChangeListener = new VolumeChangeListener() {
+    public void testProcessResponseStatusNotVolume() throws Exception {
+        final boolean[] eventFired = {false};
 
-            @Override
-            public void volumeChanged(VolumeChangeEvent event) {
-                success = true;
-            }
-        };
+        volumeMonitor.addVolumeChangeListener(event -> {
+            eventFired[0] = true;
+        });
+
+        volumeMonitor.processResponseStatus("bogus: 1");
+        volumeMonitor.checkStatus();
+        assertFalse(eventFired[0]);
+    }
+
+    @Test
+    public void testRemoveVolumeChangeListener() throws Exception {
+        final int[] volume = {0};
+
+        VolumeChangeListener volumeChangeListener = event -> volume[0] = event.getVolume();
 
         volumeMonitor.addVolumeChangeListener(volumeChangeListener);
         volumeMonitor.processResponseStatus("volume: 1");
         volumeMonitor.checkStatus();
+        assertEquals(1, volume[0]);
 
-        assertTrue(success);
+        volumeMonitor.removeVolumeChangeListener(volumeChangeListener);
 
-        success = false;
+        volumeMonitor.processResponseStatus("volume: 2");
+        assertEquals(1, volume[0]);
 
-        volumeMonitor.removeVolumeChangedListener(volumeChangeListener);
-        volumeMonitor.processResponseStatus("volume: 1");
+    }
+
+    @Test
+    public void testResetVolume() throws Exception {
+        String line = "volume: 1";
+
+        final boolean[] eventFired = {false};
+
+        volumeMonitor.addVolumeChangeListener(event -> {
+            eventFired[0] = true;
+        });
+        volumeMonitor.processResponseStatus(line);
         volumeMonitor.checkStatus();
-        assertFalse(success);
+        assertTrue(eventFired[0]);
+
+        volumeMonitor.reset();
+        eventFired[0] = false;
+
+        volumeMonitor.processResponseStatus(line);
+        volumeMonitor.checkStatus();
+        assertTrue(eventFired[0]);
     }
 }

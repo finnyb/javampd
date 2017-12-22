@@ -2,10 +2,9 @@ package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.bff.javampd.Status;
-import org.bff.javampd.events.PlaylistBasicChangeEvent;
-import org.bff.javampd.events.PlaylistBasicChangeListener;
-import org.bff.javampd.exception.MPDException;
+import org.bff.javampd.playlist.PlaylistBasicChangeEvent;
+import org.bff.javampd.playlist.PlaylistBasicChangeListener;
+import org.bff.javampd.server.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +22,11 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     private int oldSongId;
     private int newSongId;
 
-    @Inject
     private PlayerMonitor playerMonitor;
 
-    public MPDPlaylistMonitor() {
+    @Inject
+    MPDPlaylistMonitor(PlayerMonitor playerMonitor) {
+        this.playerMonitor = playerMonitor;
         this.playlistListeners = new ArrayList<>();
     }
 
@@ -36,7 +36,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     }
 
     @Override
-    public synchronized void removePlaylistStatusChangedListener(PlaylistBasicChangeListener pcl) {
+    public synchronized void removePlaylistChangeListener(PlaylistBasicChangeListener pcl) {
         playlistListeners.remove(pcl);
     }
 
@@ -53,10 +53,10 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     }
 
     /**
-     * Sends the appropriate {@link org.bff.javampd.events.PlaylistChangeEvent} to all registered
-     * {@link org.bff.javampd.events.PlaylistChangeListener}.
+     * Sends the appropriate {@link org.bff.javampd.playlist.PlaylistChangeEvent} to all registered
+     * {@link org.bff.javampd.playlist.PlaylistChangeListener}.
      *
-     * @param event the {@link org.bff.javampd.events.PlaylistBasicChangeEvent.Event}
+     * @param event the {@link org.bff.javampd.playlist.PlaylistBasicChangeEvent.Event}
      */
     public synchronized void firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event event) {
         PlaylistBasicChangeEvent pce = new PlaylistBasicChangeEvent(this, event);
@@ -90,7 +90,19 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     }
 
     @Override
-    public void checkStatus() throws MPDException {
+    public void reset() {
+        newPlaylistVersion = 0;
+        oldPlaylistVersion = 0;
+        newPlaylistLength = 0;
+        oldPlaylistLength = 0;
+        oldSong = 0;
+        newSong = 0;
+        oldSongId = 0;
+        newSongId = 0;
+    }
+
+    @Override
+    public void checkStatus() {
         if (oldPlaylistVersion != newPlaylistVersion) {
             firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.PLAYLIST_CHANGED);
             oldPlaylistVersion = newPlaylistVersion;
@@ -99,7 +111,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
         if (oldPlaylistLength != newPlaylistLength) {
             if (oldPlaylistLength < newPlaylistLength) {
                 firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.SONG_ADDED);
-            } else if (oldPlaylistLength > newPlaylistLength) {
+            } else {
                 firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event.SONG_DELETED);
             }
 

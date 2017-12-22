@@ -1,0 +1,39 @@
+<project name="JavaMPD">
+    <publishDate position="right"/>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.5</version>
+    </skin>
+    <custom>
+        <fluidoSkin>
+            <topBarEnabled>true</topBarEnabled>
+            <sideBarEnabled>false</sideBarEnabled>
+            <gitHub>
+                <projectId>finnyb/javampd</projectId>
+                <ribbonOrientation>right</ribbonOrientation>
+                <ribbonColor>black</ribbonColor>
+            </gitHub>
+        </fluidoSkin>
+    </custom>
+    <body>
+        <links>
+            <item name="GitHub" href="http://github.com/finnyb/javampd"/>
+            <item name="Travis" href="http://bjj.is-a-player.com:8080"/>
+            <item name="Sonar" href="http://bjj.is-a-player.com:9000/dashboard/index/1"/>
+        </links>
+        <menu name="Download" inherit="bottom">
+            <item name="Download" href="download.html"/>
+            <item name="License" href="license.html"/>
+        </menu>
+        <menu name="Documentation" inherit="bottom">
+            <item name="Using" href="using.html"/>
+            <item name="Java Docs" href="apidocs/index.html"/>
+        </menu>
+        <menu name="Contribute" inherit="bottom">
+            <item name="Issues" href="http://github.com/finnyb/javampd/issues/"/>
+            <item name="Fork on GitHub" href="http://github.com/finnyb/javampd/"/>
+        </menu>
+        <menu name="Maven Docs" ref="reports"/>
+    </body>
+</project>

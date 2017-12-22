@@ -15,42 +15,32 @@ public class MonitorPropertiesTest {
 
     @Test
     public void testGetOutputDelay() throws Exception {
-        assertEquals(1, monitorProperties.getOutputDelay());
-    }
-
-    @Test
-    public void testGetVolumeDelay() throws Exception {
-        assertEquals(1, monitorProperties.getVolumeDelay());
-    }
-
-    @Test
-    public void testGetBitrateDelay() throws Exception {
-        assertEquals(1, monitorProperties.getBitrateDelay());
+        assertEquals(60, monitorProperties.getOutputDelay());
     }
 
     @Test
     public void testGetConnectionDelay() throws Exception {
-        assertEquals(1, monitorProperties.getConnectionDelay());
+        assertEquals(5, monitorProperties.getConnectionDelay());
     }
 
     @Test
     public void testGetPlaylistDelay() throws Exception {
-        assertEquals(1, monitorProperties.getPlaylistDelay());
+        assertEquals(2, monitorProperties.getPlaylistDelay());
     }
 
     @Test
     public void testGetPlayerDelay() throws Exception {
-        assertEquals(1, monitorProperties.getPlayerDelay());
+        assertEquals(0, monitorProperties.getPlayerDelay());
     }
 
     @Test
     public void testGetErrorDelay() throws Exception {
-        assertEquals(1, monitorProperties.getErrorDelay());
+        assertEquals(0, monitorProperties.getErrorDelay());
     }
 
     @Test
     public void testGetTrackDelay() throws Exception {
-        assertEquals(1, monitorProperties.getTrackDelay());
+        assertEquals(0, monitorProperties.getTrackDelay());
     }
 
     @Test

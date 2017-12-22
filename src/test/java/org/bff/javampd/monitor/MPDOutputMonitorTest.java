@@ -1,9 +1,9 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.MPDAdmin;
-import org.bff.javampd.MPDOutput;
-import org.bff.javampd.events.OutputChangeEvent;
-import org.bff.javampd.events.OutputChangeListener;
+import org.bff.javampd.admin.Admin;
+import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.output.OutputChangeEvent;
+import org.bff.javampd.output.OutputChangeListener;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,149 +14,102 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MPDOutputMonitorTest {
-    private boolean success;
 
     @Mock
-    private MPDAdmin mpdAdmin;
+    private Admin admin;
 
     @InjectMocks
     private MPDOutputMonitor outputMonitor;
 
-
     @Before
-    public void setUp() {
-        success = false;
+    public void setUp() throws Exception {
+
     }
 
     @Test
-    public void testCheckStatusOutputAdded() throws Exception {
-        outputMonitor.addOutputChangeListener(new OutputChangeListener() {
+    public void testAddOutputChangeListener() throws Exception {
+        final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
-            @Override
-            public void outputChanged(OutputChangeEvent event) {
-                success =
-                        event.getEvent() == OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED;
-            }
-        });
-        MPDOutput output = new MPDOutput(1);
-        List<MPDOutput> outputList = new ArrayList<>();
-        outputList.add(output);
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
+        outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
+        List<MPDOutput> testOutputs = new ArrayList<>();
+        testOutputs.add(new MPDOutput(0));
+        when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
-
-        assertTrue(success);
+        assertEquals(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED, outputEvent[0].getEvent());
     }
 
     @Test
-    public void testCheckStatusOutputDeleted() throws Exception {
-        outputMonitor.addOutputChangeListener(new OutputChangeListener() {
+    public void testRemoveOutputChangeListener() throws Exception {
+        final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
-            @Override
-            public void outputChanged(OutputChangeEvent event) {
-                success =
-                        event.getEvent() == OutputChangeEvent.OUTPUT_EVENT.OUTPUT_DELETED;
-            }
-        });
-        MPDOutput output1 = new MPDOutput(1);
-        MPDOutput output2 = new MPDOutput(2);
-        List<MPDOutput> outputList = new ArrayList<>();
-        outputList.add(output1);
-        outputList.add(output2);
+        OutputChangeListener outputChangeListener = event -> outputEvent[0] = event;
 
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
+        outputMonitor.addOutputChangeListener(outputChangeListener);
+        List<MPDOutput> testOutputs = new ArrayList<>();
+        testOutputs.add(new MPDOutput(0));
+        when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
+        assertEquals(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED, outputEvent[0].getEvent());
 
-        outputList = new ArrayList<>();
-        outputList.add(output1);
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
+        outputEvent[0] = null;
+        outputMonitor.removeOutputChangeListener(outputChangeListener);
         outputMonitor.checkStatus();
-
-        assertTrue(success);
+        assertNull(outputEvent[0]);
     }
 
     @Test
-    public void testCheckStatusOutputChanged() throws Exception {
-        outputMonitor.addOutputChangeListener(new OutputChangeListener() {
+    public void testOutputAdded() throws Exception {
+        final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
-            @Override
-            public void outputChanged(OutputChangeEvent event) {
-                success =
-                        event.getEvent() == OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED;
-            }
-        });
-        MPDOutput output1 = new MPDOutput(1);
-        List<MPDOutput> outputList = new ArrayList<>();
-        outputList.add(output1);
-
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
+        outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
+        List<MPDOutput> testOutputs = new ArrayList<>();
+        testOutputs.add(new MPDOutput(0));
+        testOutputs.add(new MPDOutput(1));
+        when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
-
-        outputList = new ArrayList<>();
-        output1 = new MPDOutput(1);
-        output1.setEnabled(true);
-        outputList.add(output1);
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
-        outputMonitor.checkStatus();
-
-        assertTrue(success);
+        assertEquals(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED, outputEvent[0].getEvent());
     }
 
     @Test
-    public void testCheckStatusNoEvent() throws Exception {
-        MPDOutput output = new MPDOutput(1);
-        List<MPDOutput> outputList = new ArrayList<>();
-        outputList.add(output);
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
+    public void testOutputRemoved() throws Exception {
+        final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
+
+        outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
+        List<MPDOutput> testOutputs = new ArrayList<>();
+        testOutputs.add(new MPDOutput(0));
+        when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
 
-        outputMonitor.addOutputChangeListener(new OutputChangeListener() {
-
-            @Override
-            public void outputChanged(OutputChangeEvent event) {
-                success =
-                        event.getEvent() == OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED;
-            }
-        });
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
+        testOutputs = new ArrayList<>();
+        when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
 
-        assertFalse(success);
+        assertEquals(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_DELETED, outputEvent[0].getEvent());
     }
 
     @Test
-    public void testRemoveListener() throws Exception {
-        OutputChangeListener trackPositionChangeListener = new OutputChangeListener() {
+    public void testOutputChanged() throws Exception {
+        final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
-            @Override
-            public void outputChanged(OutputChangeEvent event) {
-                success = true;
-            }
-        };
-
-        outputMonitor.addOutputChangeListener(trackPositionChangeListener);
-
-        MPDOutput output = new MPDOutput(1);
-        List<MPDOutput> outputList = new ArrayList<>();
-        outputList.add(output);
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
+        outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
+        List<MPDOutput> testOutputs = new ArrayList<>();
+        testOutputs.add(new MPDOutput(0));
+        when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
 
-        assertTrue(success);
-
-        success = false;
-
-        outputMonitor.removeOutputChangedListener(trackPositionChangeListener);
-        MPDOutput output2 = new MPDOutput(2);
-        outputList.add(output2);
-
-        when(mpdAdmin.getOutputs()).thenReturn(outputList);
+        testOutputs = new ArrayList<>();
+        MPDOutput output = new MPDOutput(0);
+        output.setEnabled(true);
+        testOutputs.add(output);
+        when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
-        assertFalse(success);
+
+        assertEquals(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED, outputEvent[0].getEvent());
     }
 }

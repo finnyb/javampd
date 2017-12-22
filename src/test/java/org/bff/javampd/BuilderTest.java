@@ -1,6 +1,9 @@
 package org.bff.javampd;
 
-import org.bff.javampd.properties.ServerProperties;
+import org.bff.javampd.command.MPDCommandExecutor;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.server.MPDConnectionException;
+import org.bff.javampd.server.ServerProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -10,12 +13,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BuilderTest {
@@ -42,6 +43,11 @@ public class BuilderTest {
         assertEquals(InetAddress.getByName("localhost"), mpd.getAddress());
     }
 
+    @Test(expected = MPDConnectionException.class)
+    public void testBuilderException() throws Exception {
+        new MPD.Builder().server("bogusServer").build();
+    }
+
     @Test
     public void testPort() throws Exception {
         MPD mpd = mpdBuilder.port(8080).build();
@@ -56,18 +62,37 @@ public class BuilderTest {
 
     @Test
     public void testPassword() throws Exception {
+        String password = "thepassword";
         when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
-        when(mpdCommandExecutor
-                .sendCommand(serverProperties.getPassword()))
-                .thenReturn(new ArrayList<String>());
 
-        MPD mpd = mpdBuilder.password("thepassword").build();
+        MPD mpd = mpdBuilder.password(password).build();
 
         verify(mpdCommandExecutor)
-                .sendCommand(commandArgumentCaptor.capture(), commandArgumentCaptor.capture());
+                .usePassword(commandArgumentCaptor.capture());
         assertNotNull(mpd);
-        assertEquals(serverProperties.getPassword(), commandArgumentCaptor.getAllValues().get(0));
-        assertEquals("thepassword", commandArgumentCaptor.getAllValues().get(1));
+        assertEquals(password, commandArgumentCaptor.getAllValues().get(0));
+    }
+
+    @Test
+    public void testNullPassword() throws Exception {
+        String password = null;
+        when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
+
+        MPD mpd = mpdBuilder.password(password).build();
+
+        verify(mpdCommandExecutor, never()).usePassword(password);
+        assertNotNull(mpd);
+    }
+
+    @Test
+    public void testBlankPassword() throws Exception {
+        String password = "";
+        when(serverProperties.getPassword()).thenReturn(new ServerProperties().getPassword());
+
+        MPD mpd = mpdBuilder.password(password).build();
+
+        verify(mpdCommandExecutor, never()).usePassword(password);
+        assertNotNull(mpd);
     }
 
     @Test

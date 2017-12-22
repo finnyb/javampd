@@ -2,11 +2,10 @@ package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.bff.javampd.Admin;
-import org.bff.javampd.MPDOutput;
-import org.bff.javampd.events.OutputChangeEvent;
-import org.bff.javampd.events.OutputChangeListener;
-import org.bff.javampd.exception.MPDAdminException;
+import org.bff.javampd.admin.Admin;
+import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.output.OutputChangeEvent;
+import org.bff.javampd.output.OutputChangeListener;
 
 import java.util.*;
 
@@ -15,16 +14,17 @@ public class MPDOutputMonitor implements OutputMonitor {
     private Map<Integer, MPDOutput> outputMap;
     private List<OutputChangeListener> outputListeners;
 
-    @Inject
     private Admin admin;
 
-    public MPDOutputMonitor() {
+    @Inject
+    MPDOutputMonitor(Admin admin) {
+        this.admin = admin;
         this.outputMap = new HashMap<>();
         this.outputListeners = new ArrayList<>();
     }
 
     @Override
-    public void checkStatus() throws MPDAdminException {
+    public void checkStatus() {
         List<MPDOutput> outputs = new ArrayList<>(admin.getOutputs());
         if (outputs.size() > outputMap.size()) {
             fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));
@@ -33,19 +33,18 @@ public class MPDOutputMonitor implements OutputMonitor {
             fireOutputChangeEvent(new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_DELETED));
             loadOutputs(outputs);
         } else {
-            for (MPDOutput out : outputs) {
-                MPDOutput output = outputMap.get(out.getId());
-                if (output == null) {
-                    fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
-                    loadOutputs(outputs);
-                    return;
-                } else {
-                    if (output.isEnabled() != out.isEnabled()) {
-                        fireOutputChangeEvent(new OutputChangeEvent(out, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
-                        loadOutputs(outputs);
-                        return;
-                    }
-                }
+            compareOutputs(outputs);
+        }
+    }
+
+    private void compareOutputs(List<MPDOutput> outputs) {
+        for (MPDOutput output : outputs) {
+            MPDOutput mpdOutput = outputMap.get(output.getId());
+
+            if (mpdOutput.isEnabled() != output.isEnabled()) {
+                fireOutputChangeEvent(new OutputChangeEvent(output, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
+                loadOutputs(outputs);
+                return;
             }
         }
     }
@@ -56,13 +55,13 @@ public class MPDOutputMonitor implements OutputMonitor {
     }
 
     @Override
-    public synchronized void removeOutputChangedListener(OutputChangeListener vcl) {
+    public synchronized void removeOutputChangeListener(OutputChangeListener vcl) {
         outputListeners.remove(vcl);
     }
 
     /**
      * Sends the appropriate {@link OutputChangeEvent} to all registered
-     * {@link org.bff.javampd.events.OutputChangeListener}s.
+     * {@link org.bff.javampd.output.OutputChangeListener}s.
      *
      * @param event the event id to send
      */

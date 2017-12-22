@@ -1,332 +1,267 @@
 package org.bff.javampd.monitor;
 
 import org.bff.javampd.BaseTest;
-import org.bff.javampd.MPDOutput;
-import org.bff.javampd.events.*;
-import org.bff.javampd.exception.MPDException;
-import org.bff.javampd.integrationdata.Songs;
-import org.bff.javampd.objects.MPDSong;
+import org.bff.javampd.MPDSongs;
+import org.bff.javampd.admin.Admin;
+import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.player.Player;
+import org.bff.javampd.playlist.Playlist;
+import org.bff.javampd.song.MPDSong;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import static org.awaitility.Awaitility.await;
 
 public class MPDStandAloneMonitorIT extends BaseTest {
-
-    /**
-     * Delay for various monitor actions
-     */
-    private static final int MONITOR_DELAY = 1500;
+    private Player player;
+    private Playlist playlist;
+    private Admin admin;
+    private StandAloneMonitor monitor;
 
     @Before
-    public void setUp() throws MPDException {
-        getPlaylist().clearPlaylist();
-        getPlayer().stop();
-        MPDOutput output = new ArrayList<>(getAdmin().getOutputs()).get(0);
-        getAdmin().enableOutput(output);
-        getMonitor().start();
-        delay();
+    public void setUp() {
+        this.player = getMpd().getPlayer();
+        this.playlist = getMpd().getPlaylist();
+        this.admin = getMpd().getAdmin();
+        this.monitor = getMpd().getMonitor();
+
+        playlist.clearPlaylist();
+        await().until(() -> 0 == playlist.getSongList().size());
+
+        player.stop();
+        await().until(() -> Player.Status.STATUS_STOPPED == player.getStatus());
+
+        MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
+        admin.enableOutput(output);
+        monitor.start();
+        await().until(() -> monitor.isLoaded());
     }
 
     @After
     public void tearDown() {
-        getMonitor().stop();
-        delay();
-    }
-
-    private void delay() {
-        delay(1);
-    }
-
-    private void delay(int multiplier) {
-        try {
-            Thread.sleep(MONITOR_DELAY * multiplier);
-        } catch (InterruptedException e) {
-            //don't care
-            e.printStackTrace();
-        }
-    }
-
-    private boolean success;
-
-    @Test
-    public void testAddSong() throws MPDException, IOException {
-        success = false;
-
-        getMonitor().addPlaylistChangeListener(new PlaylistBasicChangeListener() {
-
-            @Override
-            public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getEvent()) {
-                    case SONG_ADDED:
-                        success = true;
-                        break;
-                }
-            }
-        });
-
-        getPlaylist().addSong(Songs.databaseSongs.get(0));
-
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        monitor.stop();
+        await().until(() -> monitor.isDone());
     }
 
     @Test
-    public void testPlaylistChanged() throws MPDException, IOException {
-        success = false;
+    public void testAddSong() {
+        final boolean[] success = {false};
 
-        getMonitor().addPlaylistChangeListener(new PlaylistBasicChangeListener() {
-
-            @Override
-            public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getEvent()) {
-                    case PLAYLIST_CHANGED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlaylistChangeListener(event -> {
+            switch (event.getEvent()) {
+                case SONG_ADDED:
+                    success[0] = true;
+                    break;
             }
         });
 
-        getPlaylist().addSong(Songs.databaseSongs.get(0));
+        playlist.addSong(MPDSongs.getSongs().get(0));
 
-        waitForSuccess();
+        await().until(() -> success[0]);
 
-        Assert.assertTrue(success);
+        Assert.assertTrue(success[0]);
     }
 
     @Test
-    public void testRemoveSong() throws MPDException, IOException {
-        success = false;
+    public void testPlaylistChanged() {
+        final boolean[] success = {false};
 
-        getMonitor().addPlaylistChangeListener(new PlaylistBasicChangeListener() {
-
-            @Override
-            public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getEvent()) {
-                    case SONG_DELETED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlaylistChangeListener(event -> {
+            switch (event.getEvent()) {
+                case PLAYLIST_CHANGED:
+                    success[0] = true;
+                    break;
             }
         });
 
-        MPDSong song = Songs.databaseSongs.get(0);
+        playlist.addSong(MPDSongs.getSongs().get(0));
 
-        getPlaylist().addSong(song);
-        delay(2);
-        getPlaylist().removeSong(getPlaylist().getSongList().get(0));
-
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
-    public void testSongChanged() throws MPDException, IOException {
-        success = false;
+    public void testRemoveSong() {
+        final boolean[] success = {false};
+        final boolean[] successAdded = {false};
 
-        getMonitor().addPlaylistChangeListener(new PlaylistBasicChangeListener() {
-
-            @Override
-            public void playlistBasicChange(PlaylistBasicChangeEvent event) {
-                switch (event.getEvent()) {
-                    case SONG_CHANGED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlaylistChangeListener(event -> {
+            switch (event.getEvent()) {
+                case SONG_DELETED:
+                    success[0] = true;
+                    break;
+                case SONG_ADDED:
+                    successAdded[0] = true;
+                    break;
             }
         });
-        getPlaylist().addSong(Songs.databaseSongs.get(0));
-        getPlaylist().addSong(Songs.databaseSongs.get(1));
 
-        getPlayer().play();
+        MPDSong song = MPDSongs.getSongs().get(0);
 
-        waitForSuccess();
+        playlist.addSong(song);
+        await().until(() -> successAdded[0]);
+        playlist.removeSong(playlist.getSongList().get(0));
 
-        Assert.assertTrue(success);
-    }
-
-    private void waitForSuccess() {
-        int count = 0;
-        while (!success && count++ < 100) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MPDStandAloneMonitorIT.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        await().until(() -> success[0]);
     }
 
     @Test
-    public void testPlayerStarted() throws MPDException, IOException {
-        success = false;
+    public void testSongChanged() {
+        final boolean[] success = {false};
 
-        getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
+        monitor.addPlaylistChangeListener(event -> {
+            switch (event.getEvent()) {
+                case SONG_CHANGED:
+                    success[0] = true;
+                    break;
+            }
+        });
+        playlist.addSong(MPDSongs.getSongs().get(0));
+        playlist.addSong(MPDSongs.getSongs().get(1));
 
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_STARTED:
-                        success = true;
-                        break;
-                }
+        player.play();
+
+        await().until(() -> success[0]);
+    }
+
+    @Test
+    public void testPlayerStarted() {
+        final boolean[] success = {false};
+
+        monitor.addPlayerChangeListener(event -> {
+            switch (event.getStatus()) {
+                case PLAYER_STARTED:
+                    success[0] = true;
+                    break;
             }
         });
 
-        getPlayer().stop();
-        delay();
+        player.stop();
+        await().until(() -> Player.Status.STATUS_STOPPED == player.getStatus());
 
-        success = false;
+        success[0] = false;
         loadSeveralSongs();
-        getPlayer().play();
+        player.play();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
-    public void testPlayerStopped() throws MPDException, IOException {
-        success = false;
+    public void testPlayerStopped() {
+        final boolean[] success = {false};
 
-        getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
-
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_STOPPED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlayerChangeListener(event -> {
+            switch (event.getStatus()) {
+                case PLAYER_STOPPED:
+                    success[0] = true;
+                    break;
             }
         });
 
-        success = false;
+        success[0] = false;
         loadSeveralSongs();
-        getPlayer().play();
-        delay();
-        getPlayer().stop();
+        player.play();
+        await().until(() -> Player.Status.STATUS_PLAYING == player.getStatus());
+        player.stop();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
-    public void testPlayerPaused() throws MPDException, IOException {
-        success = false;
+    public void testPlayerPaused() {
+        final boolean[] success = {false};
+        final boolean[] successPlaying = {false};
 
-        getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
-
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_PAUSED:
-                        success = true;
-                        break;
-                }
+        monitor.addPlayerChangeListener(event -> {
+            switch (event.getStatus()) {
+                case PLAYER_PAUSED:
+                    success[0] = true;
+                    break;
+                case PLAYER_STARTED:
+                    successPlaying[0] = true;
+                    break;
             }
         });
 
-
-        success = false;
+        success[0] = false;
         loadSeveralSongs();
-        getPlayer().play();
-        delay();
-        getPlayer().pause();
+        player.play();
+        await().until(() -> successPlaying[0]);
+        player.pause();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
-    public void testVolumeChanged() throws MPDException, IOException {
-        success = false;
+    public void testVolumeChanged() {
+        final boolean[] success = {false};
 
-        getPlayer().setVolume(0);
+        player.setVolume(0);
 
-        delay(2);
+        await().until(() -> 0 == player.getVolume());
 
-        getMonitor().addVolumeChangeListener(new VolumeChangeListener() {
-
-            @Override
-            public void volumeChanged(VolumeChangeEvent event) {
-                success = true;
-            }
-        });
+        monitor.addVolumeChangeListener(event -> success[0] = true);
 
         loadSeveralSongs();
-        getPlayer().play();
+        player.play();
 
-        getPlayer().setVolume(5);
-        waitForSuccess();
-        Assert.assertTrue(success);
+        player.setVolume(5);
+        await().until(() -> success[0]);
     }
 
     @Test
-    public void testPlayerUnPaused() throws MPDException, IOException {
-        success = false;
-        Date start = Calendar.getInstance().getTime();
-        getMonitor().addPlayerChangeListener(new PlayerBasicChangeListener() {
-
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                switch (event.getStatus()) {
-                    case PLAYER_UNPAUSED:
-                        success = true;
-                        break;
-                }
+    public void testPlayerUnPaused() {
+        final boolean[] success = {false};
+        final boolean[] successStarted = {false};
+        final boolean[] successPaused = {false};
+        monitor.addPlayerChangeListener(event -> {
+            switch (event.getStatus()) {
+                case PLAYER_STARTED:
+                    successStarted[0] = true;
+                    break;
+                case PLAYER_UNPAUSED:
+                    success[0] = true;
+                    break;
+                case PLAYER_PAUSED:
+                    successPaused[0] = true;
+                    break;
             }
         });
-        success = false;
+        success[0] = false;
         loadSeveralSongs();
-        getPlayer().play();
-        getPlayer().pause();
-        delay();
-        getPlayer().pause();
+        player.play();
+        await().until(() -> successStarted[0]);
+        player.pause();
+        await().until(() -> successPaused[0]);
+        player.pause();
 
-        waitForSuccess();
-
-        Assert.assertTrue(success);
+        await().until(() -> success[0]);
     }
 
     @Test
-    public void testOutputChanged() throws MPDException, IOException {
-        success = false;
+    public void testOutputChanged() {
+        final boolean[] success = {false};
 
-        getMonitor().addOutputChangeListener(new OutputChangeListener() {
+        monitor.addOutputChangeListener(event -> success[0] = true);
 
-            @Override
-            public void outputChanged(OutputChangeEvent event) {
-                success = true;
-            }
-        });
-
-        MPDOutput output = new ArrayList<MPDOutput>(getAdmin().getOutputs()).get(0);
-        getAdmin().disableOutput(output);
-        waitForSuccess();
-        Assert.assertTrue(success);
+        MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
+        admin.disableOutput(output);
+        await().until(() -> success[0]);
     }
 
-    private void loadSeveralSongs() throws MPDException, IOException {
-        getPlaylist().addSong(Songs.databaseSongs.get(0));
-        getPlaylist().addSong(Songs.databaseSongs.get(1));
-        getPlaylist().addSong(Songs.databaseSongs.get(2));
-        getPlaylist().addSong(Songs.databaseSongs.get(3));
-        getPlaylist().addSong(Songs.databaseSongs.get(4));
-        getPlaylist().addSong(Songs.databaseSongs.get(5));
-        getPlaylist().addSong(Songs.databaseSongs.get(6));
-        getPlaylist().addSong(Songs.databaseSongs.get(7));
-        getPlaylist().addSong(Songs.databaseSongs.get(8));
-        getPlaylist().addSong(Songs.databaseSongs.get(9));
+    private void loadSeveralSongs() {
+        playlist.addSong(MPDSongs.getSongs().get(0));
+        playlist.addSong(MPDSongs.getSongs().get(1));
+        playlist.addSong(MPDSongs.getSongs().get(2));
+        playlist.addSong(MPDSongs.getSongs().get(3));
+        playlist.addSong(MPDSongs.getSongs().get(4));
+        playlist.addSong(MPDSongs.getSongs().get(5));
+        playlist.addSong(MPDSongs.getSongs().get(6));
+        playlist.addSong(MPDSongs.getSongs().get(7));
+        playlist.addSong(MPDSongs.getSongs().get(8));
+        playlist.addSong(MPDSongs.getSongs().get(9));
     }
 }

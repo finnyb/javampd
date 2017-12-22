@@ -1,4 +1,10 @@
 package org.bff.javampd.monitor;
 
-public interface BitrateMonitor extends PlayerMonitor {
+import org.bff.javampd.player.BitrateChangeListener;
+
+public interface BitrateMonitor extends StatusMonitor {
+
+    void addBitrateChangeListener(BitrateChangeListener bcl);
+
+    void removeBitrateChangeListener(BitrateChangeListener bcl);
 }

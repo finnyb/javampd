@@ -1,123 +1,159 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.events.PlayerBasicChangeEvent;
-import org.bff.javampd.events.PlayerBasicChangeListener;
+import org.bff.javampd.player.PlayerBasicChangeEvent;
+import org.bff.javampd.player.PlayerBasicChangeListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MPDPlayerMonitorTest {
-    private boolean success;
+
     private PlayerMonitor playerMonitor;
 
-    private static final String RESPONSE = "state: ";
-
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         playerMonitor = new MPDPlayerMonitor();
-        success = false;
     }
 
     @Test
-    public void testCheckStatusPaused() throws Exception {
-        playerMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
+    public void testAddPlayerChangeListener() throws Exception {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                success = event.getStatus() == PlayerBasicChangeEvent.Status.PLAYER_PAUSED;
-            }
-        });
-        playerMonitor.processResponseStatus(RESPONSE + "play");
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus("state: play");
         playerMonitor.checkStatus();
-        playerMonitor.processResponseStatus(RESPONSE + "paused");
-        playerMonitor.checkStatus();
-        assertTrue(success);
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STARTED, changeEvent[0].getStatus());
     }
 
     @Test
-    public void testCheckStatusUnPaused() throws Exception {
-        playerMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
+    public void testRemovePlayerChangeListener() throws Exception {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                success = event.getStatus() == PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED;
-            }
-        });
-        playerMonitor.processResponseStatus(RESPONSE + "paused");
+        PlayerBasicChangeListener playerBasicChangeListener = event -> changeEvent[0] = event;
+
+        playerMonitor.addPlayerChangeListener(playerBasicChangeListener);
+        playerMonitor.processResponseStatus("state: play");
         playerMonitor.checkStatus();
-        playerMonitor.processResponseStatus(RESPONSE + "play");
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STARTED, changeEvent[0].getStatus());
+
+        changeEvent[0] = null;
+        playerMonitor.removePlayerChangeListener(playerBasicChangeListener);
+        playerMonitor.processResponseStatus("state: stop");
         playerMonitor.checkStatus();
-        assertTrue(success);
+        assertNull(changeEvent[0]);
     }
 
     @Test
-    public void testCheckStatusPlaying() throws Exception {
-        playerMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
+    public void testPlayerStarted() throws Exception {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                success = event.getStatus() == PlayerBasicChangeEvent.Status.PLAYER_STARTED;
-            }
-        });
-        playerMonitor.processResponseStatus(RESPONSE + "play");
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus("state: stop");
         playerMonitor.checkStatus();
-        assertTrue(success);
+        playerMonitor.processResponseStatus("state: play");
+        playerMonitor.checkStatus();
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STARTED, changeEvent[0].getStatus());
     }
 
     @Test
-    public void testCheckStatusStopped() throws Exception {
-        playerMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
-
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                success = event.getStatus() == PlayerBasicChangeEvent.Status.PLAYER_STOPPED;
-            }
-        });
-        playerMonitor.processResponseStatus(RESPONSE + "play");
-        playerMonitor.checkStatus();
-        playerMonitor.processResponseStatus(RESPONSE + "stop");
-        playerMonitor.checkStatus();
-        assertTrue(success);
+    public void testPlayerStopped() throws Exception {
+        processStoppedTest("state: play", "state: stop");
     }
 
     @Test
-    public void testCheckStatusNoEvent() throws Exception {
-        playerMonitor.processResponseStatus(RESPONSE + "stop");
-        playerMonitor.checkStatus();
-        playerMonitor.addPlayerChangeListener(new PlayerBasicChangeListener() {
+    public void testPlayerInvalidStatus() throws Exception {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                success = event.getStatus() == PlayerBasicChangeEvent.Status.PLAYER_STOPPED;
-            }
-        });
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus("state: bogus");
         playerMonitor.checkStatus();
-        assertFalse(success);
+        assertNull(changeEvent[0]);
     }
 
     @Test
-    public void testRemoveListener() throws Exception {
-        PlayerBasicChangeListener trackPositionChangeListener = new PlayerBasicChangeListener() {
+    public void testPlayerInvalidStatusAfterValidStatus() throws Exception {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
-            @Override
-            public void playerBasicChange(PlayerBasicChangeEvent event) {
-                success = true;
-            }
-        };
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus("state: play");
+        playerMonitor.checkStatus();
+        assertNotNull(changeEvent[0]);
 
-        playerMonitor.addPlayerChangeListener(trackPositionChangeListener);
-        playerMonitor.processResponseStatus(RESPONSE + "play");
+        changeEvent[0] = null;
+        playerMonitor.processResponseStatus("state: bogus");
+        playerMonitor.checkStatus();
+        assertNull(changeEvent[0]);
+    }
+
+    @Test
+    public void testPlayerPaused() throws Exception {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
+
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus("state: play");
+        playerMonitor.checkStatus();
+        playerMonitor.processResponseStatus("state: pause");
+        playerMonitor.checkStatus();
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_PAUSED, changeEvent[0].getStatus());
+    }
+
+    @Test
+    public void testPlayerPausedtoStopped() throws Exception {
+        processStoppedTest("state: pause", "state: stop");
+    }
+
+    private void processStoppedTest(String from, String to) {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
+
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus(from);
+        playerMonitor.checkStatus();
+        playerMonitor.processResponseStatus(to);
+        playerMonitor.checkStatus();
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STOPPED, changeEvent[0].getStatus());
+    }
+
+    @Test
+    public void testPlayerUnPaused() throws Exception {
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
+
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+        playerMonitor.processResponseStatus("state: play");
+        playerMonitor.checkStatus();
+        playerMonitor.processResponseStatus("state: pause");
+        playerMonitor.checkStatus();
+        playerMonitor.processResponseStatus("state: play");
         playerMonitor.checkStatus();
 
-        assertTrue(success);
-
-        success = false;
-
-        playerMonitor.removePlayerChangeListener(trackPositionChangeListener);
-        playerMonitor.processResponseStatus(RESPONSE + "stop");
         playerMonitor.checkStatus();
-        assertFalse(success);
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_UNPAUSED, changeEvent[0].getStatus());
+    }
+
+    @Test
+    public void testGetStatus() throws Exception {
+        playerMonitor.processResponseStatus("state: play");
+        playerMonitor.checkStatus();
+        assertEquals(PlayerStatus.STATUS_PLAYING, playerMonitor.getStatus());
+    }
+
+    @Test
+    public void testResetState() throws Exception {
+        String line = "state: play";
+
+        final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
+
+        playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
+
+        playerMonitor.processResponseStatus(line);
+        playerMonitor.checkStatus();
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STARTED, changeEvent[0].getStatus());
+
+        playerMonitor.reset();
+        changeEvent[0] = null;
+
+        playerMonitor.processResponseStatus(line);
+        playerMonitor.checkStatus();
+        assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STARTED, changeEvent[0].getStatus());
     }
 }
