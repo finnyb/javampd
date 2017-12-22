@@ -11,5 +11,5 @@ Java API for controlling the Music Player Daemon (MPD)
 
 ###Version 6 is a massive refactoring
 
-Documentation can be found [here](http://finnyb.github.io/javampd/6.0.0-SNAPSHOT)
+Documentation can be found [here](http://finnyb.github.io/javampd/6.0.0)
 
