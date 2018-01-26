@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import static org.junit.Assert.assertNotEquals;
@@ -23,16 +25,15 @@ public class MPDPropertiesOverrideTest {
     private MPDProperties properties;
 
     @BeforeClass
-    public static void beforeClass() throws IOException {
+    public static void beforeClass() throws Exception {
         InputStream is = MPDPropertiesOverrideTest.class.getResourceAsStream("/overrides/javampd.properties");
         Properties properties = new Properties();
         properties.load(is);
 
-        String propPath = MPDPropertiesOverrideTest.class.getResource("/")
-                .toString()
-                .replace("file:", "");
+        URI propPath = MPDPropertiesOverrideTest.class.getResource("/").toURI();
 
-        propertiesFile = new File(propPath + "javampd.properties");
+        propertiesFile = new File(new File(propPath).getPath() + "/javampd.properties");
+
         try {
             propertiesFile.createNewFile();
         } catch (IOException e) {
