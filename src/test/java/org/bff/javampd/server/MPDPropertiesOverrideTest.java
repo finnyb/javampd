@@ -5,6 +5,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,6 +17,8 @@ import java.util.Properties;
 import static org.junit.Assert.assertNotEquals;
 
 public class MPDPropertiesOverrideTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPDPropertiesOverrideTest.class);
+
     private static File propertiesFile;
     private MPDProperties properties;
 
@@ -29,7 +33,12 @@ public class MPDPropertiesOverrideTest {
                 .replace("file:", "");
 
         propertiesFile = new File(propPath + "javampd.properties");
-        propertiesFile.createNewFile();
+        try {
+            propertiesFile.createNewFile();
+        } catch (IOException e) {
+            LOGGER.error("unable to create file in {}", propPath, e);
+            throw e;
+        }
 
         properties.store(new FileWriter(propertiesFile), "");
     }
