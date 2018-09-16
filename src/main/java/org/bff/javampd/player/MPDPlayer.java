@@ -274,6 +274,28 @@ public class MPDPlayer implements Player {
     }
 
     @Override
+    public void setConsume(boolean pConsume) {
+        String consume;
+        if (pConsume) {
+            consume = "1";
+        } else {
+            consume = "0";
+        }
+        commandExecutor.sendCommand(playerProperties.getConsume(), consume);
+    }
+
+    @Override
+    public void setSingle(boolean pSingle) {
+        String single;
+        if (pSingle) {
+            single = "1";
+        } else {
+            single = "0";
+        }
+        commandExecutor.sendCommand(playerProperties.getSingle(), single);
+    }
+
+    @Override
     public MPDAudioInfo getAudioDetails() {
         MPDAudioInfo info = null;
 

@@ -27,4 +27,6 @@ public interface PlaylistDatabase {
     Collection<String> listPlaylists();
 
     Collection<MPDSong> listPlaylistSongs(String playlistName);
+
+    int countPlaylistSongs(String playlistName);
 }

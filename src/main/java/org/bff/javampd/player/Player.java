@@ -228,4 +228,18 @@ public interface Player {
      * @return the status of the player
      */
     Status getStatus();
+
+    /**
+     * Set 'consume' state of the player.
+     *
+     * @param consume
+     */
+    void setConsume(boolean consume);
+
+    /**
+     * Set 'single' state of the player.
+     *
+     * @param single
+     */
+    void setSingle(boolean single);
 }
