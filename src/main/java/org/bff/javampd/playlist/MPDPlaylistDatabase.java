@@ -65,17 +65,9 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
         songList.addAll(
                 songConverter.getSongFileNameList(response)
                         .stream()
-                        .filter(song -> new ArrayList<>(songDatabase.searchFileName(song)).size() > 0)
                         .map(song -> new ArrayList<>(songDatabase.searchFileName(song)).get(0))
                         .collect(Collectors.toList()));
 
         return songList;
-    }
-
-    @Override
-    public int countPlaylistSongs(String playlistName) {
-        List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
-
-        return response.size();
     }
 }
