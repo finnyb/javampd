@@ -169,6 +169,16 @@ public class MPDServerStatus implements ServerStatus {
     }
 
     @Override
+    public boolean isConsume() {
+        return "1".equals(getStatus(Status.CONSUME));
+    }
+
+    @Override
+    public boolean isSingle() {
+        return "1".equals(getStatus(Status.SINGLE));
+    }
+
+    @Override
     public void setExpiryInterval(long seconds) {
         this.expiryInterval = seconds;
     }
