@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * MPDGenreDatabase represents a genre database to a {@link org.bff.javampd.server.MPD}.
@@ -30,10 +29,12 @@ public class MPDGenreDatabase implements GenreDatabase {
 
     @Override
     public Collection<MPDGenre> listAllGenres() {
-        return tagLister.list(TagLister.ListType.GENRE)
-                .stream()
-                .map(s -> new MPDGenre(s.substring(s.split(":")[0].length() + 1).trim()))
-                .collect(Collectors.toList());
+        List<MPDGenre> list = new ArrayList<>();
+        for (String s : tagLister.list(TagLister.ListType.GENRE)) {
+            MPDGenre mpdGenre = new MPDGenre(s.substring(s.split(":")[0].length() + 1).trim());
+            list.add(mpdGenre);
+        }
+        return list;
     }
 
     @Override
@@ -46,8 +47,9 @@ public class MPDGenreDatabase implements GenreDatabase {
         MPDGenre genre = null;
         List<MPDGenre> genres = new ArrayList<>();
 
-        tagLister.list(TagLister.ListType.GENRE, list)
-                .forEach(response -> genres.add(new MPDGenre(response.split(":")[1].trim())));
+        for (String response : tagLister.list(TagLister.ListType.GENRE, list)) {
+            genres.add(new MPDGenre(response.split(":")[1].trim()));
+        }
 
         if (genres.size() > 1) {
             LOGGER.warn("Multiple genres returned for name {}", name);

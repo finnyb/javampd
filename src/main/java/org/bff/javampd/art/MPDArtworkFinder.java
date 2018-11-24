@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
+import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class MPDArtworkFinder implements ArtworkFinder {
@@ -39,10 +42,16 @@ public class MPDArtworkFinder implements ArtworkFinder {
         List<MPDArtwork> artworkList = new ArrayList<>();
         List<String> paths = new ArrayList<>();
 
-        this.songDatabase.findAlbum(album)
-                .forEach(song -> paths.add(pathPrefix + song.getFile().substring(0, song.getFile().lastIndexOf(File.separator))));
+        for (MPDSong song : this.songDatabase.findAlbum(album)) {
+            paths.add(pathPrefix + song.getFile().substring(0, song.getFile().lastIndexOf(File.separator)));
+        }
 
-        paths.stream().distinct().forEach(path -> artworkList.addAll(find(path)));
+        Set<String> uniqueValues = new HashSet<>();
+        for (String path : paths) {
+            if (uniqueValues.add(path)) {
+                artworkList.addAll(find(path));
+            }
+        }
 
         return artworkList;
     }
@@ -58,18 +67,24 @@ public class MPDArtworkFinder implements ArtworkFinder {
         List<String> paths = new ArrayList<>();
         List<String> albumPaths = new ArrayList<>();
 
-        this.songDatabase.findArtist(artist)
-                .forEach(song -> albumPaths.add(pathPrefix + song.getFile().substring(0, song.getFile()
-                        .lastIndexOf(File.separator))));
+        for (MPDSong song : this.songDatabase.findArtist(artist)) {
+            albumPaths.add(pathPrefix + song.getFile().substring(0, song.getFile()
+                    .lastIndexOf(File.separator)));
+        }
 
-        albumPaths.forEach(path -> {
-            if (path.contains(File.separator + artist.getName() + File.separator)) {
-                paths.add(path.substring(0, path.lastIndexOf(File.separator)));
+        for (String albumPath : albumPaths) {
+            if (albumPath.contains(File.separator + artist.getName() + File.separator)) {
+                paths.add(albumPath.substring(0, albumPath.lastIndexOf(File.separator)));
             }
-        });
+        }
 
         paths.addAll(albumPaths);
-        paths.stream().distinct().forEach(path -> artworkList.addAll(find(path)));
+        Set<String> uniqueValues = new HashSet<>();
+        for (String path : paths) {
+            if (uniqueValues.add(path)) {
+                artworkList.addAll(find(path));
+            }
+        }
 
         return artworkList;
     }
@@ -79,7 +94,9 @@ public class MPDArtworkFinder implements ArtworkFinder {
         List<MPDArtwork> artworkList = new ArrayList<>();
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(path), "**.{jpg,jpeg,png}")) {
-            stream.forEach(file -> artworkList.add(loadArtwork(file)));
+            for (Path file : stream) {
+                artworkList.add(loadArtwork(file));
+            }
         } catch (IOException e) {
             LOGGER.error("Could not load art in {}", path, e);
             throw new MPDException("Could not read path: " + path, e);

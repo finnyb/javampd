@@ -84,7 +84,9 @@ public class StandAloneMonitorThread implements Runnable {
             synchronized (this) {
                 response = new ArrayList<>(serverStatus.getStatus());
                 processResponse(response);
-                monitors.forEach(ThreadedMonitor::checkStatus);
+                for (ThreadedMonitor monitor : monitors) {
+                    monitor.checkStatus();
+                }
             }
             TimeUnit.SECONDS.sleep(delay);
         } catch (InterruptedException ie) {
@@ -121,11 +123,15 @@ public class StandAloneMonitorThread implements Runnable {
     }
 
     private void resetMonitors() {
-        this.monitors.forEach(ThreadedMonitor::reset);
+        for (ThreadedMonitor monitor : this.monitors) {
+            monitor.reset();
+        }
     }
 
     private void processResponse(List<String> response) {
-        response.forEach(this::processResponseStatus);
+        for (String s : response) {
+            processResponseStatus(s);
+        }
     }
 
     private void processResponseStatus(String line) {

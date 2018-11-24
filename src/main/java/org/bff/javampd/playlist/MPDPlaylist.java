@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * MPDPlaylist represents a playlist controller to a MPD server.  To obtain
@@ -144,10 +143,12 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public boolean addSongs(List<MPDSong> songList, boolean fireEvent) {
-        commandExecutor.sendCommands(songList
-                .stream()
-                .map(song -> new MPDCommand(playlistProperties.getAdd(), song.getFile()))
-                .collect(Collectors.toList()));
+        List<MPDCommand> list = new ArrayList<>();
+        for (MPDSong song : songList) {
+            MPDCommand mpdCommand = new MPDCommand(playlistProperties.getAdd(), song.getFile());
+            list.add(mpdCommand);
+        }
+        commandExecutor.sendCommands(list);
 
         int oldCount = songList.size();
         updatePlaylist();
@@ -315,11 +316,16 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeAlbum(String artistName, String albumName) {
-        List<MPDSong> removeList = getSongList().stream()
-                .filter(song -> song.getArtistName().equals(artistName) && song.getAlbumName().equals(albumName))
-                .collect(Collectors.toList());
+        List<MPDSong> removeList = new ArrayList<>();
+        for (MPDSong song : getSongList()) {
+            if (song.getArtistName().equals(artistName) && song.getAlbumName().equals(albumName)) {
+                removeList.add(song);
+            }
+        }
 
-        removeList.forEach(this::removeSong);
+        for (MPDSong mpdSong : removeList) {
+            removeSong(mpdSong);
+        }
     }
 
     @Override
@@ -357,11 +363,16 @@ public class MPDPlaylist implements Playlist {
     @Override
     public void removeGenre(String genreName) {
         List<MPDSong> removeList =
-                getSongList().stream()
-                        .filter(song -> song.getGenre().equals(genreName))
-                        .collect(Collectors.toList());
+                new ArrayList<>();
+        for (MPDSong song : getSongList()) {
+            if (song.getGenre().equals(genreName)) {
+                removeList.add(song);
+            }
+        }
 
-        removeList.forEach(this::removeSong);
+        for (MPDSong mpdSong : removeList) {
+            removeSong(mpdSong);
+        }
     }
 
     @Override
@@ -382,7 +393,9 @@ public class MPDPlaylist implements Playlist {
             }
         }
 
-        removeList.forEach(this::removeSong);
+        for (MPDSong mpdSong : removeList) {
+            removeSong(mpdSong);
+        }
     }
 
     @Override
@@ -399,7 +412,9 @@ public class MPDPlaylist implements Playlist {
             }
         }
 
-        removeList.forEach(this::removeSong);
+        for (MPDSong mpdSong : removeList) {
+            removeSong(mpdSong);
+        }
     }
 
     @Override

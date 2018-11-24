@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import org.bff.javampd.command.CommandExecutor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class MPDTagLister implements TagLister {
 
     @Override
     public List<String> list(ListType listType) {
-        return list(listType, new ArrayList<>());
+        return list(listType, new ArrayList<String>());
     }
 
     @Override
@@ -61,10 +60,10 @@ public class MPDTagLister implements TagLister {
 
     private void addGroupParams(List<String> params, GroupType... groupTypes) {
         if (groupTypes.length > 0) {
-            Arrays.stream(groupTypes).forEach(group -> {
+            for (GroupType group : groupTypes) {
                 params.add(databaseProperties.getGroup());
                 params.add(group.getType());
-            });
+            }
         }
     }
 

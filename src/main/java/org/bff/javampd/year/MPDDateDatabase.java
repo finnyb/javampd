@@ -3,8 +3,12 @@ package org.bff.javampd.year;
 import com.google.inject.Inject;
 import org.bff.javampd.database.TagLister;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * MPDDateDatabase represents a date database controller to a {@link org.bff.javampd.server.MPD}.
@@ -26,11 +30,15 @@ public class MPDDateDatabase implements DateDatabase {
     @Override
     public Collection<String> listAllDates() {
 
-        return tagLister.list(TagLister.ListType.DATE)
-                .stream()
-                .map(s -> s.substring(s.split(":")[0].length() + 1).trim())
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
+        List<String> list = new ArrayList<>();
+        Set<String> uniqueValues = new HashSet<>();
+        for (String s : tagLister.list(TagLister.ListType.DATE)) {
+            String trim = s.substring(s.split(":")[0].length() + 1).trim();
+            if (uniqueValues.add(trim)) {
+                list.add(trim);
+            }
+        }
+        Collections.sort(list);
+        return list;
     }
 }

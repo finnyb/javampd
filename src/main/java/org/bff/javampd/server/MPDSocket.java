@@ -168,7 +168,7 @@ public class MPDSocket {
     }
 
     private static String convertCommand(String command) {
-        return convertCommand(command, new ArrayList<>());
+        return convertCommand(command, new ArrayList<String>());
     }
 
     private static String convertCommand(String command, List<String> params) {
@@ -213,7 +213,9 @@ public class MPDSocket {
             throw se;
         } catch (Exception e) {
             LOGGER.error("Response Error from command list", e);
-            commandList.forEach(s -> LOGGER.error(s.getCommand()));
+            for (MPDCommand s : commandList) {
+                LOGGER.error(s.getCommand());
+            }
             throw new MPDConnectionException(e.getMessage(), e);
         }
     }
@@ -245,7 +247,7 @@ public class MPDSocket {
             inLine = reader.readLine();
         }
 
-        response.forEach(LOGGER::debug);
+//        response.forEach(LOGGER::debug);
 
         return response;
     }

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * MPDArtistDatabase represents a artist database controller to a {@link org.bff.javampd.server.MPD}.
@@ -31,10 +30,12 @@ public class MPDArtistDatabase implements ArtistDatabase {
 
     @Override
     public Collection<MPDArtist> listAllArtists() {
-        return tagLister.list(TagLister.ListType.ARTIST)
-                .stream()
-                .map(s -> new MPDArtist(convertResponse(s)))
-                .collect(Collectors.toList());
+        List<MPDArtist> list = new ArrayList<>();
+        for (String s : tagLister.list(TagLister.ListType.ARTIST)) {
+            MPDArtist mpdArtist = new MPDArtist(convertResponse(s));
+            list.add(mpdArtist);
+        }
+        return list;
     }
 
     @Override
@@ -43,10 +44,12 @@ public class MPDArtistDatabase implements ArtistDatabase {
         list.add(TagLister.ListType.GENRE.getType());
         list.add(genre.getName());
 
-        return tagLister.list(TagLister.ListType.ARTIST, list)
-                .stream()
-                .map(s -> new MPDArtist(convertResponse(s)))
-                .collect(Collectors.toList());
+        List<MPDArtist> result = new ArrayList<>();
+        for (String s : tagLister.list(TagLister.ListType.ARTIST, list)) {
+            MPDArtist mpdArtist = new MPDArtist(convertResponse(s));
+            result.add(mpdArtist);
+        }
+        return result;
     }
 
     @Override
@@ -57,10 +60,12 @@ public class MPDArtistDatabase implements ArtistDatabase {
         list.add(name);
 
         MPDArtist artist = null;
-        List<MPDArtist> artists = new ArrayList<>(tagLister.list(TagLister.ListType.ARTIST, list)
-                .stream()
-                .map(s -> new MPDArtist(convertResponse(s)))
-                .collect(Collectors.toList()));
+        List<MPDArtist> result = new ArrayList<>();
+        for (String s : tagLister.list(TagLister.ListType.ARTIST, list)) {
+            MPDArtist mpdArtist = new MPDArtist(convertResponse(s));
+            result.add(mpdArtist);
+        }
+        List<MPDArtist> artists = new ArrayList<>(result);
 
         if (artists.size() > 1) {
             LOGGER.warn("Multiple artists returned for name {}", name);

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * MPDSongDatabase represents a song database controller to a {@link org.bff.javampd.server.MPD}.
@@ -49,9 +48,13 @@ public class MPDSongDatabase implements SongDatabase {
     public Collection<MPDSong> findAlbumByArtist(String artistName, String albumName) {
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, albumName));
 
-        return songList.stream()
-                .filter(song -> song.getArtistName() != null && song.getArtistName().equals(artistName))
-                .collect(Collectors.toList());
+        List<MPDSong> list = new ArrayList<>();
+        for (MPDSong song : songList) {
+            if (song.getArtistName() != null && song.getArtistName().equals(artistName)) {
+                list.add(song);
+            }
+        }
+        return list;
 
     }
 
@@ -59,18 +62,26 @@ public class MPDSongDatabase implements SongDatabase {
     public Collection<MPDSong> findAlbumByGenre(MPDGenre genre, MPDAlbum album) {
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));
 
-        return songList.stream()
-                .filter(song -> song.getGenre() != null && song.getGenre().equals(genre.getName()))
-                .collect(Collectors.toList());
+        List<MPDSong> list = new ArrayList<>();
+        for (MPDSong song : songList) {
+            if (song.getGenre() != null && song.getGenre().equals(genre.getName())) {
+                list.add(song);
+            }
+        }
+        return list;
     }
 
     @Override
     public Collection<MPDSong> findAlbumByYear(String year, MPDAlbum album) {
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));
 
-        return songList.stream()
-                .filter(song -> song.getYear() != null && song.getYear().equals(year))
-                .collect(Collectors.toList());
+        List<MPDSong> list = new ArrayList<>();
+        for (MPDSong song : songList) {
+            if (song.getYear() != null && song.getYear().equals(year)) {
+                list.add(song);
+            }
+        }
+        return list;
     }
 
     @Override
