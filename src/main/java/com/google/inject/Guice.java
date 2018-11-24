@@ -69,9 +69,6 @@ public final class Guice {
         }
 
         private static boolean isSingleton(Constructor<?>[] used) {
-            if (used[0].getAnnotation(Singleton.class) != null) {
-                return true;
-            }
             if (used[0].getDeclaringClass().getAnnotation(Singleton.class) != null) {
                 return true;
             }
