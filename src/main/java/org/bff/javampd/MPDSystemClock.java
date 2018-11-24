@@ -1,6 +1,8 @@
 package org.bff.javampd;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+import org.joda.time.LocalDateTime;
+
 
 public class MPDSystemClock implements Clock {
     @Override
@@ -10,6 +12,6 @@ public class MPDSystemClock implements Clock {
 
     @Override
     public LocalDateTime min() {
-        return LocalDateTime.MIN;
+        return LocalDateTime.fromDateFields(new Date(0));
     }
 }

@@ -10,10 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -46,7 +46,7 @@ public class MPDFileDatabaseTest {
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listRootDirectory());
         assertEquals(1, mpdFiles.size());
         assertEquals("Q", mpdFiles.get(0).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", ISODateTimeFormat.dateTimeParser()),
                 mpdFiles.get(0).getLastModified());
         assertTrue(mpdFiles.get(0).isDirectory());
     }
@@ -69,7 +69,7 @@ public class MPDFileDatabaseTest {
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals(1, mpdFiles.size());
         assertEquals("Q", mpdFiles.get(0).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", ISODateTimeFormat.dateTimeParser()),
                 mpdFiles.get(0).getLastModified());
         assertTrue(mpdFiles.get(0).isDirectory());
     }
@@ -90,7 +90,7 @@ public class MPDFileDatabaseTest {
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals(1, mpdFiles.size());
         assertEquals("Q", mpdFiles.get(0).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", ISODateTimeFormat.dateTimeParser()),
                 mpdFiles.get(0).getLastModified());
         assertFalse(mpdFiles.get(0).isDirectory());
     }
@@ -120,7 +120,7 @@ public class MPDFileDatabaseTest {
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals("Q", mpdFiles.get(0).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:35Z", ISODateTimeFormat.dateTimeParser()),
                 mpdFiles.get(0).getLastModified());
         assertTrue(mpdFiles.get(0).isDirectory());
     }
@@ -137,7 +137,7 @@ public class MPDFileDatabaseTest {
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals("R", mpdFiles.get(1).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:36Z", DateTimeFormatter.ISO_DATE_TIME),
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:36Z", ISODateTimeFormat.dateTimeParser()),
                 mpdFiles.get(1).getLastModified());
         assertFalse(mpdFiles.get(1).isDirectory());
     }
@@ -154,7 +154,7 @@ public class MPDFileDatabaseTest {
 
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
         assertEquals("S", mpdFiles.get(2).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:37Z", DateTimeFormatter.ISO_DATE_TIME),
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:37Z", ISODateTimeFormat.dateTimeParser()),
                 mpdFiles.get(2).getLastModified());
         assertFalse(mpdFiles.get(2).isDirectory());
     }
@@ -172,7 +172,7 @@ public class MPDFileDatabaseTest {
         List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
 
         assertEquals("T", mpdFiles.get(3).getPath());
-        assertEquals(LocalDateTime.parse("2015-10-11T22:11:38Z", DateTimeFormatter.ISO_DATE_TIME),
+        assertEquals(LocalDateTime.parse("2015-10-11T22:11:38Z", ISODateTimeFormat.dateTimeParser()),
                 mpdFiles.get(3).getLastModified());
         assertTrue(mpdFiles.get(3).isDirectory());
     }

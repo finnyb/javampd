@@ -7,7 +7,6 @@ import java.util.Collection;
  *
  * @author bill
  */
-@FunctionalInterface
 public interface DateDatabase {
 
     /**

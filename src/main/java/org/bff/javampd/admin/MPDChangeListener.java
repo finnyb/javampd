@@ -9,7 +9,6 @@ package org.bff.javampd.admin;
  *
  * @author Bill
  */
-@FunctionalInterface
 public interface MPDChangeListener {
     /**
      * Invoked when a mpd administrative change event occurs.

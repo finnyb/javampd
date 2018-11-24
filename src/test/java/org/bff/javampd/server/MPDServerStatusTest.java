@@ -9,10 +9,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
@@ -37,7 +38,7 @@ public class MPDServerStatusTest {
     @Before
     public void setUp() throws Exception {
         statusList = new ArrayList<>();
-        when(clock.min()).thenReturn(LocalDateTime.MIN);
+        when(clock.min()).thenReturn(LocalDateTime.fromDateFields(new Date(0)));
         serverStatus = new MPDServerStatus(properties, commandExecutor, clock);
 
         when(properties.getStats()).thenReturn(new ServerProperties().getStatus());
@@ -339,7 +340,7 @@ public class MPDServerStatusTest {
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         serverStatus.isRandom();
-        when(clock.now()).thenReturn(LocalDateTime.now().plusMinutes(interval * 2));
+        when(clock.now()).thenReturn(LocalDateTime.now().plusMinutes((int) interval * 2));
         serverStatus.isRandom();
         Mockito.verify(commandExecutor, times(2)).sendCommand(properties.getStatus());
     }

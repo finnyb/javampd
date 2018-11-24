@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.List;
+import org.joda.time.LocalDateTime;
 
 /**
  * @author bill
@@ -45,7 +45,7 @@ public class MPDServerStatistics implements ServerStatistics {
      */
     private Number getStat(StatList stat) {
         LocalDateTime now = this.clock.now();
-        if (now.minusSeconds(this.expiryInterval).isAfter(this.responseDate)) {
+        if (now.minusSeconds((int)this.expiryInterval).isAfter(this.responseDate)) {
             this.responseDate = now;
             this.cachedResponse = commandExecutor.sendCommand(serverProperties.getStats());
         }

@@ -11,7 +11,6 @@ package org.bff.javampd.server;
  * @author Bill
  * @version 1.0
  */
-@FunctionalInterface
 public interface ErrorListener {
 
     /**

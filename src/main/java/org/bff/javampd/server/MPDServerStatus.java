@@ -6,9 +6,9 @@ import org.bff.javampd.command.CommandExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import org.joda.time.LocalDateTime;
 
 /**
  * @author bill
@@ -60,7 +60,7 @@ public class MPDServerStatus implements ServerStatus {
      */
     protected String getStatus(Status status) {
         LocalDateTime now = this.clock.now();
-        if (now.minusSeconds(this.expiryInterval).isAfter(this.responseDate)) {
+        if (now.minusSeconds((int)this.expiryInterval).isAfter(this.responseDate)) {
             this.responseDate = now;
             this.cachedResponse = commandExecutor.sendCommand(serverProperties.getStatus());
         }

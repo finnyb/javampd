@@ -6,12 +6,12 @@ import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.DatabaseProperties;
 import org.bff.javampd.database.TagLister;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * MPDFileDatabase represents a file database controller to a {@link org.bff.javampd.server.MPD}.
@@ -105,7 +105,8 @@ public class MPDFileDatabase implements FileDatabase {
 
     private static LocalDateTime processDate(String name) {
         return LocalDateTime.parse(
-                name.substring(PREFIX_LAST_MODIFIED.length()).trim(),
-                DateTimeFormatter.ISO_DATE_TIME);
+            name.substring(PREFIX_LAST_MODIFIED.length()).trim(),
+            ISODateTimeFormat.dateTimeParser()
+        );
     }
 }

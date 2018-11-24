@@ -10,9 +10,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
@@ -36,7 +37,7 @@ public class MPDServerStatisticsTest {
 
     @Before
     public void setUp() throws Exception {
-        when(clock.min()).thenReturn(LocalDateTime.MIN);
+        when(clock.min()).thenReturn(LocalDateTime.fromDateFields(new Date(0)));
         serverStatistics = new MPDServerStatistics(properties, commandExecutor, clock);
         statList = new ArrayList<>();
 
@@ -131,7 +132,7 @@ public class MPDServerStatisticsTest {
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
         when(clock.now()).thenReturn(LocalDateTime.now());
-        when(clock.now()).thenReturn(LocalDateTime.MIN.plusMinutes(5));
+        when(clock.now()).thenReturn(LocalDateTime.fromDateFields(new Date(0)).plusMinutes(5));
         serverStatistics.getSongCount();
         serverStatistics.getSongCount();
         Mockito.verify(commandExecutor, times(1)).sendCommand(properties.getStats());

@@ -1,9 +1,9 @@
 package org.bff.javampd;
 
+import java.util.Date;
+import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 
@@ -26,6 +26,6 @@ public class MPDSystemClockTest {
 
     @Test
     public void min() throws Exception {
-        assertEquals(LocalDateTime.MIN, clock.min());
+        assertEquals(LocalDateTime.fromDateFields(new Date(0)), clock.min());
     }
 }

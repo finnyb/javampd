@@ -5,7 +5,6 @@ package org.bff.javampd.server;
  *
  * @author bill
  */
-@FunctionalInterface
 public interface PropertyLoader {
     /**
      * Returns the properties value
