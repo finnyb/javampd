@@ -534,6 +534,7 @@
             </activation>
             <properties>
                 <maven.test.skip>true</maven.test.skip>
+                <coveralls.skip>true</coveralls.skip>
             </properties>
         </profile>
     </profiles>
