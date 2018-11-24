@@ -42,8 +42,12 @@ public abstract class MPDProperties implements PropertyLoader {
     }
 
     protected void loadOverrideValues(String propertiesResourceLocation) {
-        try (InputStream is = MPDProperties.class.getResourceAsStream(propertiesResourceLocation)) {
-            loadProperties(is);
+        final InputStream is = MPDProperties.class.getResourceAsStream(propertiesResourceLocation);
+        if (is == null) {
+            return;
+        }
+        try (InputStream stream = is) {
+            loadProperties(stream);
         } catch (NullPointerException | IOException e) {
             LOGGER.info("Override properties file not on classpath", e);
         }
