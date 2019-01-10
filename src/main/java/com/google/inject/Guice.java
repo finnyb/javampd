@@ -52,7 +52,7 @@ public final class Guice {
                             c.setAccessible(true);
                             ret = c.newInstance(args);
                         } catch (Exception ex) {
-                            throw new IllegalStateException(ex);
+                            throw new IllegalStateException("Cannot instantiate " + value.type, ex);
                         }
                         break;
                     }
@@ -85,7 +85,7 @@ public final class Guice {
                 }
                 return ret;
             } catch (Exception exception) {
-                throw new IllegalStateException(exception);
+                throw new IllegalStateException("Cannot instantiate " + type.getName(), exception);
             }
         }
 
