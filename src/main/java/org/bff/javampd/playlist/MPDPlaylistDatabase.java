@@ -10,6 +10,7 @@ import org.bff.javampd.song.SongDatabase;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -63,7 +64,8 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
         List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
         List<MPDSong> list = new ArrayList<>();
         for (String song : songConverter.getSongFileNameList(response)) {
-            MPDSong mpdSong = new ArrayList<>(songDatabase.searchFileName(song)).get(0);
+            final Iterator<MPDSong> found = songDatabase.searchFileName(song).iterator();
+            MPDSong mpdSong = found.hasNext() ? found.next() : new MPDSong(song, playlistName);
             list.add(mpdSong);
         }
         songList.addAll(list);
