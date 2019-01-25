@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.thejavashop</groupId>
+    <groupId>org.hihn</groupId>
     <artifactId>javampd</artifactId>
     <packaging>jar</packaging>
     <version>6.1.0-SNAPSHOT</version>
     <name>JavaMPD</name>
-    <description>A Java API for controlling the Music Player Daemon (MPD)</description>
-    <url>https://github.com/finnyb/javampd/</url>
+    <description>A Java API for controlling the Music Player Daemon (MPD). Forked version.</description>
+    <url>https://github.com/rain0r/javampd/</url>
     <developers>
         <developer>
             <id>bill</id>
@@ -19,6 +19,15 @@
             </roles>
             <timezone>America/Chicago</timezone>
         </developer>
+        <developer>
+            <id>rain0r</id>
+            <name>Rainer</name>
+            <email>hihn.rainer@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Berlin</timezone>
+        </developer>
     </developers>
     <licenses>
         <license>
@@ -29,17 +38,13 @@
     </licenses>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/finnyb/javampd/issues</url>
+        <url>https://github.com/rain0r/javampd/issues</url>
     </issueManagement>
     <scm>
-        <connection>scm:git:https://github.com/finnyb/javampd.git</connection>
-        <developerConnection>scm:git:https://github.com/finnyb/javampd.git</developerConnection>
-        <url>https://github.com/finnyb/javampd</url>
+        <connection>scm:git:https://github.com/rain0r/javampd.git</connection>
+        <developerConnection>scm:git:https://github.com/rain0r/javampd.git</developerConnection>
+        <url>https://github.com/rain0r/javampd</url>
     </scm>
-    <ciManagement>
-        <system>jenkins</system>
-        <url>http://bjj.is-a-player.com:8080</url>
-    </ciManagement>
     <distributionManagement>
         <site>
             <id>github-pages-site</id>
