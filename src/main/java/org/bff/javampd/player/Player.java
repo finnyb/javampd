@@ -232,14 +232,14 @@ public interface Player {
     /**
      * Set 'consume' state of the player.
      *
-     * @param consume
+     * @param consume should consume be turned on
      */
     void setConsume(boolean consume);
 
     /**
      * Set 'single' state of the player.
      *
-     * @param single
+     * @param single should the single mode be turned on
      */
     void setSingle(boolean single);
 }
