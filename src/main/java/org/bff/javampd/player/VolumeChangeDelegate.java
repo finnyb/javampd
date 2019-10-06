@@ -30,10 +30,14 @@ public class VolumeChangeDelegate {
      * @param source source of event
      * @param volume the new volume
      */
-    public synchronized void fireVolumeChangeEvent(Object source, int volume) {
-        VolumeChangeEvent vce = new VolumeChangeEvent(source, volume);
+    public void fireVolumeChangeEvent(Object source, int volume) {
+        final VolumeChangeListener[] arr;
+        synchronized (this) {
+            arr = volListeners.toArray(new VolumeChangeListener[0]);
+        }
 
-        for (VolumeChangeListener vcl : volListeners) {
+        VolumeChangeEvent vce = new VolumeChangeEvent(source, volume);
+        for (VolumeChangeListener vcl : arr) {
             vcl.volumeChanged(vce);
         }
     }
