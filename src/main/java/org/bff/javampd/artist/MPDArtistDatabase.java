@@ -57,10 +57,9 @@ public class MPDArtistDatabase implements ArtistDatabase {
         list.add(name);
 
         MPDArtist artist = null;
-        List<MPDArtist> artists = new ArrayList<>(tagLister.list(TagLister.ListType.ARTIST, list)
+        List<MPDArtist> artists = tagLister.list(TagLister.ListType.ARTIST, list)
                 .stream()
-                .map(s -> new MPDArtist(convertResponse(s)))
-                .collect(Collectors.toList()));
+                .map(s -> new MPDArtist(convertResponse(s))).collect(Collectors.toList());
 
         if (artists.size() > 1) {
             LOGGER.warn("Multiple artists returned for name {}", name);

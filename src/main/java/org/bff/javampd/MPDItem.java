@@ -1,5 +1,7 @@
 package org.bff.javampd;
 
+import java.util.Objects;
+
 /**
  * Abstract base class for all MPD related objects.
  *
@@ -59,7 +61,7 @@ public abstract class MPDItem implements Comparable<MPDItem> {
 
         MPDItem mpdItem = (MPDItem) o;
 
-        return !(name != null ? !name.equals(mpdItem.name) : mpdItem.name != null);
+        return Objects.equals(name, mpdItem.name);
 
     }
 
