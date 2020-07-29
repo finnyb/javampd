@@ -4,21 +4,20 @@ import org.bff.javampd.admin.Admin;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDOutputMonitorTest {
 
     @Mock
@@ -27,13 +26,8 @@ public class MPDOutputMonitorTest {
     @InjectMocks
     private MPDOutputMonitor outputMonitor;
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @Test
-    public void testAddOutputChangeListener() throws Exception {
+    public void testAddOutputChangeListener() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
@@ -45,7 +39,7 @@ public class MPDOutputMonitorTest {
     }
 
     @Test
-    public void testRemoveOutputChangeListener() throws Exception {
+    public void testRemoveOutputChangeListener() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         OutputChangeListener outputChangeListener = event -> outputEvent[0] = event;
@@ -64,7 +58,7 @@ public class MPDOutputMonitorTest {
     }
 
     @Test
-    public void testOutputAdded() throws Exception {
+    public void testOutputAdded() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
@@ -77,7 +71,7 @@ public class MPDOutputMonitorTest {
     }
 
     @Test
-    public void testOutputRemoved() throws Exception {
+    public void testOutputRemoved() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
@@ -94,7 +88,7 @@ public class MPDOutputMonitorTest {
     }
 
     @Test
-    public void testOutputChanged() throws Exception {
+    public void testOutputChanged() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);

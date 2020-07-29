@@ -5,7 +5,7 @@ import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.integrationdata.TestSongs;
 import org.bff.javampd.playlist.Playlist;
 import org.bff.javampd.song.MPDSong;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MPDPlayerIT extends BaseTest {
     private Playlist playlist;
     private Player player;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.player = getMpd().getPlayer();
         this.playlist = getMpd().getPlaylist();
@@ -28,7 +28,7 @@ public class MPDPlayerIT extends BaseTest {
         playlist.addSongs(songs);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         playlist.clearPlaylist();
     }

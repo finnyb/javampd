@@ -1,60 +1,60 @@
 package org.bff.javampd.server;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ServerPropertiesTest {
     private ServerProperties serverProperties;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         serverProperties = new ServerProperties();
     }
 
     @Test
-    public void getClearError() throws Exception {
+    public void getClearError() {
         assertEquals("clearerror", serverProperties.getClearError());
     }
 
     @Test
-    public void getStatus() throws Exception {
+    public void getStatus() {
         assertEquals("status", serverProperties.getStatus());
     }
 
     @Test
-    public void getStats() throws Exception {
+    public void getStats() {
         assertEquals("stats", serverProperties.getStats());
     }
 
     @Test
-    public void getPing() throws Exception {
+    public void getPing() {
         assertEquals("ping", serverProperties.getPing());
     }
 
     @Test
-    public void getPassword() throws Exception {
+    public void getPassword() {
         assertEquals("password", serverProperties.getPassword());
     }
 
     @Test
-    public void getClose() throws Exception {
+    public void getClose() {
         assertEquals("close", serverProperties.getClose());
     }
 
     @Test
-    public void getStartBulk() throws Exception {
+    public void getStartBulk() {
         assertEquals("command_list_ok_begin", serverProperties.getStartBulk());
     }
 
     @Test
-    public void getEndBulk() throws Exception {
+    public void getEndBulk() {
         assertEquals("command_list_end", serverProperties.getEndBulk());
     }
 
     @Test
-    public void getEncoding() throws Exception {
+    public void getEncoding() {
         assertEquals("UTF-8", serverProperties.getEncoding());
     }
 

@@ -1,80 +1,80 @@
 package org.bff.javampd.player;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlayerPropertiesTest {
     private PlayerProperties playerProperties;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         playerProperties = new PlayerProperties();
     }
 
     @Test
-    public void getXFade() throws Exception {
+    public void getXFade() {
         assertEquals("crossfade", playerProperties.getXFade());
     }
 
     @Test
-    public void getCurrentSong() throws Exception {
+    public void getCurrentSong() {
         assertEquals("currentsong", playerProperties.getCurrentSong());
     }
 
     @Test
-    public void getNext() throws Exception {
+    public void getNext() {
         assertEquals("next", playerProperties.getNext());
     }
 
     @Test
-    public void getPause() throws Exception {
+    public void getPause() {
         assertEquals("pause", playerProperties.getPause());
     }
 
     @Test
-    public void getPlay() throws Exception {
+    public void getPlay() {
         assertEquals("play", playerProperties.getPlay());
     }
 
     @Test
-    public void getPlayId() throws Exception {
+    public void getPlayId() {
         assertEquals("playid", playerProperties.getPlayId());
     }
 
     @Test
-    public void getPrevious() throws Exception {
+    public void getPrevious() {
         assertEquals("previous", playerProperties.getPrevious());
     }
 
     @Test
-    public void getRepeat() throws Exception {
+    public void getRepeat() {
         assertEquals("repeat", playerProperties.getRepeat());
     }
 
     @Test
-    public void getRandom() throws Exception {
+    public void getRandom() {
         assertEquals("random", playerProperties.getRandom());
     }
 
     @Test
-    public void getSeek() throws Exception {
+    public void getSeek() {
         assertEquals("seek", playerProperties.getSeek());
     }
 
     @Test
-    public void getSeekId() throws Exception {
+    public void getSeekId() {
         assertEquals("seekid", playerProperties.getSeekId());
     }
 
     @Test
-    public void getStop() throws Exception {
+    public void getStop() {
         assertEquals("stop", playerProperties.getStop());
     }
 
     @Test
-    public void getSetVolume() throws Exception {
+    public void getSetVolume() {
         assertEquals("setvol", playerProperties.getSetVolume());
     }
 

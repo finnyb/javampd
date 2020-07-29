@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDAlbumDatabaseIT extends BaseTest {
     private AlbumDatabase albumDatabase;
     private ArtistDatabase artistDatabase;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.albumDatabase = getMpd().getMusicDatabase().getAlbumDatabase();
         this.artistDatabase = getMpd().getMusicDatabase().getArtistDatabase();

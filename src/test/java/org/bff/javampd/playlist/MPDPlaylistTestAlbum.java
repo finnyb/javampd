@@ -8,22 +8,22 @@ import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDPlaylistTestAlbum {
 
     @Mock
@@ -47,13 +47,13 @@ public class MPDPlaylistTestAlbum {
 
     private PlaylistProperties realPlaylistProperties;
 
-    @Before
+    @BeforeEach
     public void setup() {
         realPlaylistProperties = new PlaylistProperties();
     }
 
     @Test
-    public void testInsertAlbumByArtist() throws Exception {
+    public void testInsertAlbumByArtist() {
         MPDArtist artist = new MPDArtist("testArtist");
         MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
 
@@ -67,8 +67,6 @@ public class MPDPlaylistTestAlbum {
 
         playlist.insertAlbum(artist, album);
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
-
         verify(commandExecutor, times(2))
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
@@ -80,7 +78,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testInsertAlbumByNames() throws Exception {
+    public void testInsertAlbumByNames() {
         String artist = "testArtist";
         String album = "testAlbum";
 
@@ -94,8 +92,6 @@ public class MPDPlaylistTestAlbum {
 
         playlist.insertAlbum(artist, album);
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
-
         verify(commandExecutor, times(2))
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
@@ -107,7 +103,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testInsertAlbumByName() throws Exception {
+    public void testInsertAlbumByName() {
         String album = "testAlbum";
 
         List<MPDSong> songs = new ArrayList<>();
@@ -120,8 +116,6 @@ public class MPDPlaylistTestAlbum {
 
         playlist.insertAlbum(album);
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
-
         verify(commandExecutor, times(2))
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
@@ -133,7 +127,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testInsertAlbumByAlbum() throws Exception {
+    public void testInsertAlbumByAlbum() {
         MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
 
         List<MPDSong> songs = new ArrayList<>();
@@ -146,8 +140,6 @@ public class MPDPlaylistTestAlbum {
 
         playlist.insertAlbum(album);
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
-
         verify(commandExecutor, times(2))
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
@@ -159,7 +151,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testRemoveAlbumByArtist() throws Exception {
+    public void testRemoveAlbumByArtist() {
         MPDArtist artist = new MPDArtist("testArtist");
         MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
 
@@ -180,8 +172,6 @@ public class MPDPlaylistTestAlbum {
         mockedSongs.add(song2);
         mockedSongs.add(song3);
 
-        when(playlistProperties.getInfo()).thenReturn(realPlaylistProperties.getInfo());
-
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
@@ -192,7 +182,6 @@ public class MPDPlaylistTestAlbum {
 
         playlist.removeAlbum(artist, album);
 
-        when(playlistProperties.getRemoveId()).thenReturn(realPlaylistProperties.getRemoveId());
         verify(commandExecutor)
                 .sendCommand(stringArgumentCaptor.capture());
         verify(commandExecutor, times(2))
@@ -206,7 +195,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testRemoveAlbumByName() throws Exception {
+    public void testRemoveAlbumByName() {
         String artist = "testArtist";
         String album = "testAlbum";
 
@@ -227,8 +216,6 @@ public class MPDPlaylistTestAlbum {
         mockedSongs.add(song2);
         mockedSongs.add(song3);
 
-        when(playlistProperties.getInfo()).thenReturn(realPlaylistProperties.getInfo());
-
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
@@ -239,7 +226,6 @@ public class MPDPlaylistTestAlbum {
 
         playlist.removeAlbum(artist, album);
 
-        when(playlistProperties.getRemoveId()).thenReturn(realPlaylistProperties.getRemoveId());
         verify(commandExecutor)
                 .sendCommand(stringArgumentCaptor.capture());
         verify(commandExecutor, times(2))

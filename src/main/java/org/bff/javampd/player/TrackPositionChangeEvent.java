@@ -7,7 +7,7 @@ package org.bff.javampd.player;
  * @version 1.0
  */
 public class TrackPositionChangeEvent extends java.util.EventObject {
-    private long newElapsedTime = 0;
+    private long newElapsedTime;
 
     /**
      * Creates a new instance of TrackPositionEvent.

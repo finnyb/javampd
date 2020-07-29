@@ -2,19 +2,19 @@ package org.bff.javampd.artist;
 
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDArtistDatabaseTest {
     private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
 
@@ -23,13 +23,13 @@ public class MPDArtistDatabaseTest {
 
     private MPDArtistDatabase artistDatabase;
 
-    @Before
+    @BeforeEach
     public void before() {
         artistDatabase = new MPDArtistDatabase(tagLister);
     }
 
     @Test
-    public void testListAllArtists() throws Exception {
+    public void testListAllArtists() {
         MPDArtist testArtist = new MPDArtist("testName");
 
         List<String> mockReturn = new ArrayList<>();
@@ -45,7 +45,7 @@ public class MPDArtistDatabaseTest {
     }
 
     @Test
-    public void testListArtistsByGenre() throws Exception {
+    public void testListArtistsByGenre() {
         MPDGenre testGenre = new MPDGenre("testGenreName");
 
         String testArtistName = "testArtist";
@@ -72,7 +72,7 @@ public class MPDArtistDatabaseTest {
     }
 
     @Test
-    public void testListArtistByName() throws Exception {
+    public void testListArtistByName() {
         String testArtistName = "testArtist";
 
         List<String> mockReturnName = new ArrayList<>();
@@ -96,7 +96,7 @@ public class MPDArtistDatabaseTest {
     }
 
     @Test
-    public void testListMultipleArtistByName() throws Exception {
+    public void testListMultipleArtistByName() {
         String testArtistName = "testArtist";
         String testArtistName2 = "testArtist";
 

@@ -12,8 +12,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MPDSongDatabaseIT extends BaseTest {
     private static final String FIND_ARTIST = "Artist1";
@@ -33,7 +33,7 @@ public class MPDSongDatabaseIT extends BaseTest {
 
     private static List<MPDSong> databaseList;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         songDatabase = getMpd().getMusicDatabase().getSongDatabase();
         artistDatabase = getMpd().getMusicDatabase().getArtistDatabase();

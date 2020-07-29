@@ -1,15 +1,15 @@
 package org.bff.javampd.processor;
 
 import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class NameTagProcessorTest {
 
     @Test
-    public void testProcessSong() throws Exception {
+    public void testProcessSong() {
         String testName = "testName";
 
         NameTagProcessor nameTagProcessor = new NameTagProcessor();
@@ -22,7 +22,7 @@ public class NameTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongNoName() throws Exception {
+    public void testProcessSongNoName() {
         String testTitle = "testTitle";
 
         NameTagProcessor nameTagProcessor = new NameTagProcessor();
@@ -35,7 +35,7 @@ public class NameTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() throws Exception {
+    public void testProcessSongBadLine() {
         String testName = "testName";
 
         TitleTagProcessor titleTagProcessor = new TitleTagProcessor();

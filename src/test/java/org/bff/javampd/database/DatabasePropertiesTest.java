@@ -1,45 +1,45 @@
 package org.bff.javampd.database;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DatabasePropertiesTest {
     private DatabaseProperties databaseProperties;
 
-    @Before
+    @BeforeEach
     public void before() {
         databaseProperties = new DatabaseProperties();
     }
 
     @Test
-    public void getFind() throws Exception {
+    public void getFind() {
         assertEquals("find", databaseProperties.getFind());
     }
 
     @Test
-    public void getList() throws Exception {
+    public void getList() {
         assertEquals("list", databaseProperties.getList());
     }
 
     @Test
-    public void getGroup() throws Exception {
+    public void getGroup() {
         assertEquals("group", databaseProperties.getGroup());
     }
 
     @Test
-    public void getListInfo() throws Exception {
+    public void getListInfo() {
         assertEquals("lsinfo", databaseProperties.getListInfo());
     }
 
     @Test
-    public void getSearch() throws Exception {
+    public void getSearch() {
         assertEquals("search", databaseProperties.getSearch());
     }
 
     @Test
-    public void getListSongs() throws Exception {
+    public void getListSongs() {
         assertEquals("listplaylist", databaseProperties.getListSongs());
     }
 

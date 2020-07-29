@@ -1,13 +1,13 @@
 package org.bff.javampd.processor;
 
 import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TrackTagProcessorTest {
     @Test
-    public void testProcessSong() throws Exception {
+    public void testProcessSong() {
         String testTrack = "2/10";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
@@ -20,7 +20,7 @@ public class TrackTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() throws Exception {
+    public void testProcessSongBadLine() {
         String testTrack = "2/10";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
@@ -33,7 +33,7 @@ public class TrackTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongUnparseable() throws Exception {
+    public void testProcessSongUnparseable() {
         String testTrack = "junk";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();

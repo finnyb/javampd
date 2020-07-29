@@ -2,23 +2,23 @@ package org.bff.javampd.server;
 
 import org.bff.javampd.Clock;
 import org.bff.javampd.command.MPDCommandExecutor;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDServerStatusTest {
 
     @Mock
@@ -34,31 +34,29 @@ public class MPDServerStatusTest {
 
     private List<String> statusList;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         statusList = new ArrayList<>();
         when(clock.min()).thenReturn(LocalDateTime.MIN);
         serverStatus = new MPDServerStatus(properties, commandExecutor, clock);
-
-        when(properties.getStats()).thenReturn(new ServerProperties().getStatus());
-        when(clock.now()).thenReturn(LocalDateTime.now());
     }
 
     @Test
-    public void testLookupStatus() throws Exception {
+    public void testLookupStatus() {
         assertEquals(Status.VOLUME, Status.lookupStatus("volume:"));
     }
 
     @Test
-    public void testLookupUnknownStatus() throws Exception {
+    public void testLookupUnknownStatus() {
         assertEquals(Status.UNKNOWN, Status.lookupStatus("bogus:"));
     }
 
     @Test
-    public void testGetPlaylistVersion() throws Exception {
+    public void testGetPlaylistVersion() {
         String version = "5";
         statusList.add("playlist: " + version);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(Integer.parseInt(version), serverStatus.getPlaylistVersion());
     }
@@ -67,6 +65,7 @@ public class MPDServerStatusTest {
     public void testInvalidPlaylistVersion() {
         statusList.add("playlist: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getPlaylistVersion());
     }
@@ -75,24 +74,27 @@ public class MPDServerStatusTest {
     public void testEmptyPlaylistVersion() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getPlaylistVersion());
     }
 
     @Test
-    public void testGetState() throws Exception {
+    public void testGetState() {
         String state = "state";
         statusList.add("state: " + state);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(state, serverStatus.getState());
     }
 
     @Test
-    public void testGetXFade() throws Exception {
+    public void testGetXFade() {
         String xfade = "5";
         statusList.add("xfade: " + xfade);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(Integer.parseInt(xfade), serverStatus.getXFade());
     }
@@ -101,6 +103,7 @@ public class MPDServerStatusTest {
     public void testInvalidXFade() {
         statusList.add("xfade: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getXFade());
     }
@@ -109,42 +112,46 @@ public class MPDServerStatusTest {
     public void testEmptyXFade() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
-
+        when(clock.now()).thenReturn(LocalDateTime.now());
         assertEquals(0, serverStatus.getXFade());
     }
 
     @Test
-    public void testGetAudio() throws Exception {
+    public void testGetAudio() {
         String audio = "audio";
         statusList.add("audio: " + audio);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(audio, serverStatus.getAudio());
     }
 
     @Test
-    public void testIsError() throws Exception {
+    public void testIsError() {
         String error = "true";
         statusList.add("error: " + error);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertTrue(serverStatus.isError());
     }
 
     @Test
-    public void testGetError() throws Exception {
+    public void testGetError() {
         String error = "true";
         statusList.add("error: " + error);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(error, serverStatus.getError());
     }
 
     @Test
-    public void testGetElapsedTime() throws Exception {
+    public void testGetElapsedTime() {
         String time = "5:6";
         statusList.add("time: " + time);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(Integer.parseInt(time.split(":")[0]), serverStatus.getElapsedTime());
     }
@@ -153,6 +160,7 @@ public class MPDServerStatusTest {
     public void testInvalidElapsedTime() {
         statusList.add("time: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getElapsedTime());
     }
@@ -161,6 +169,7 @@ public class MPDServerStatusTest {
     public void testEmptyElapsedTime() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getElapsedTime());
     }
@@ -169,6 +178,7 @@ public class MPDServerStatusTest {
     public void testElapsedTimeParseException() {
         statusList.add("time: junk:junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getElapsedTime());
     }
@@ -177,15 +187,17 @@ public class MPDServerStatusTest {
     public void testTotalTimeParseException() {
         statusList.add("time: junk:junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getElapsedTime());
     }
 
     @Test
-    public void getTotalTime() throws Exception {
+    public void getTotalTime() {
         String time = "5:6";
         statusList.add("time: " + time);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(Integer.parseInt(time.split(":")[1]), serverStatus.getTotalTime());
     }
@@ -194,6 +206,7 @@ public class MPDServerStatusTest {
     public void testInvalidTotalTime() {
         statusList.add("time: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getTotalTime());
     }
@@ -202,15 +215,17 @@ public class MPDServerStatusTest {
     public void testEmptyTotalTime() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getTotalTime());
     }
 
     @Test
-    public void testGetBitrate() throws Exception {
+    public void testGetBitrate() {
         String bitrate = "5";
         statusList.add("bitrate: " + bitrate);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(Integer.parseInt(bitrate), serverStatus.getBitrate());
     }
@@ -219,6 +234,7 @@ public class MPDServerStatusTest {
     public void testInvalidBitrate() {
         statusList.add("bitrate: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getBitrate());
     }
@@ -227,6 +243,7 @@ public class MPDServerStatusTest {
     public void testEmptyBitrate() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getBitrate());
     }
@@ -236,6 +253,7 @@ public class MPDServerStatusTest {
         String volume = "5";
         statusList.add("volume: " + volume);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(Integer.parseInt(volume), serverStatus.getVolume());
     }
@@ -244,6 +262,7 @@ public class MPDServerStatusTest {
     public void testInvalidVolume() {
         statusList.add("volume: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getVolume());
     }
@@ -252,6 +271,7 @@ public class MPDServerStatusTest {
     public void testEmptyVolume() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getVolume());
     }
@@ -261,6 +281,7 @@ public class MPDServerStatusTest {
         String repeat = "1";
         statusList.add("repeat: " + repeat);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertTrue(serverStatus.isRepeat());
     }
@@ -270,6 +291,7 @@ public class MPDServerStatusTest {
         String repeat = "0";
         statusList.add("repeat: " + repeat);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertFalse(serverStatus.isRepeat());
     }
@@ -279,6 +301,7 @@ public class MPDServerStatusTest {
         String updating = "anything";
         statusList.add("updating_db: " + updating);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertTrue(serverStatus.isDatabaseUpdating());
     }
@@ -288,6 +311,7 @@ public class MPDServerStatusTest {
         String updating = "";
         statusList.add("updating_db: " + updating);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertFalse(serverStatus.isDatabaseUpdating());
     }
@@ -297,6 +321,7 @@ public class MPDServerStatusTest {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertTrue(serverStatus.isRandom());
     }
@@ -306,6 +331,7 @@ public class MPDServerStatusTest {
         String random = "0";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertFalse(serverStatus.isRandom());
     }
@@ -315,16 +341,19 @@ public class MPDServerStatusTest {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
         serverStatus.isRandom();
         serverStatus.isRandom();
         Mockito.verify(commandExecutor, times(1)).sendCommand(properties.getStatus());
     }
 
     @Test
-    public void testOutsideDefaultExpiry() throws InterruptedException {
+    public void testOutsideDefaultExpiry() {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
         serverStatus.isRandom();
         when(clock.now()).thenReturn(LocalDateTime.now().plusMinutes(5));
         serverStatus.isRandom();
@@ -332,12 +361,13 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testSetExpiry() throws InterruptedException {
+    public void testSetExpiry() {
         long interval = 1;
         serverStatus.setExpiryInterval(interval);
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
         serverStatus.isRandom();
         when(clock.now()).thenReturn(LocalDateTime.now().plusMinutes(interval * 2));
         serverStatus.isRandom();
@@ -349,6 +379,7 @@ public class MPDServerStatusTest {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
         serverStatus.isRandom();
         serverStatus.forceUpdate();
         serverStatus.isRandom();
@@ -362,12 +393,11 @@ public class MPDServerStatusTest {
         statusList.add("volume: " + volume);
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
         serverStatus.isRandom();
         serverStatus.forceUpdate();
         serverStatus.isRandom();
 
-        Collection status = serverStatus.getStatus();
-
-        assertEquals(status.size(), statusList.size());
+        assertEquals(serverStatus.getStatus().size(), statusList.size());
     }
 }

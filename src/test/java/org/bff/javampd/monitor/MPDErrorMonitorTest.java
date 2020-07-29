@@ -2,22 +2,22 @@ package org.bff.javampd.monitor;
 
 import org.bff.javampd.server.ErrorEvent;
 import org.bff.javampd.server.ErrorListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MPDErrorMonitorTest {
     private ErrorMonitor errorMonitor;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         errorMonitor = new MPDErrorMonitor();
     }
 
     @Test
-    public void testAddErrorListener() throws Exception {
+    public void testAddErrorListener() {
         final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
         errorMonitor.addErrorListener(event -> errorEvent[0] = event);
@@ -27,7 +27,7 @@ public class MPDErrorMonitorTest {
     }
 
     @Test
-    public void testRemoveErrorListener() throws Exception {
+    public void testRemoveErrorListener() {
         final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
         ErrorListener errorListener = event -> errorEvent[0] = event;
@@ -45,7 +45,7 @@ public class MPDErrorMonitorTest {
     }
 
     @Test
-    public void testInvalidStatus() throws Exception {
+    public void testInvalidStatus() {
         final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
         errorMonitor.addErrorListener(event -> errorEvent[0] = event);
@@ -56,7 +56,7 @@ public class MPDErrorMonitorTest {
     }
 
     @Test
-    public void testResetError() throws Exception {
+    public void testResetError() {
         String line = "error: message";
         final ErrorEvent[] errorEvent = new ErrorEvent[1];
 

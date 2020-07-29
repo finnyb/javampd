@@ -1,13 +1,13 @@
 package org.bff.javampd.output;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDOutputTest {
 
     @Test
-    public void testEquals() throws Exception {
+    public void testEquals() {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(1);
 
@@ -15,7 +15,7 @@ public class MPDOutputTest {
     }
 
     @Test
-    public void testNotEquals() throws Exception {
+    public void testNotEquals() {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(2);
 
@@ -23,21 +23,21 @@ public class MPDOutputTest {
     }
 
     @Test
-    public void testEqualsNull() throws Exception {
+    public void testEqualsNull() {
         MPDOutput item = new MPDOutput(1);
 
         assertNotEquals(item, null);
     }
 
     @Test
-    public void testEqualsSameObject() throws Exception {
+    public void testEqualsSameObject() {
         MPDOutput item = new MPDOutput(1);
 
         assertTrue(item.equals(item));
     }
 
     @Test
-    public void testHashCode() throws Exception {
+    public void testHashCode() {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(2);
 

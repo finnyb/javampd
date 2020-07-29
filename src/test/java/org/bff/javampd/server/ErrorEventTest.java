@@ -1,12 +1,12 @@
 package org.bff.javampd.server;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ErrorEventTest {
     @Test
-    public void getMessage() throws Exception {
+    public void getMessage() {
         String message = "message";
         ErrorEvent errorEvent = new ErrorEvent(this, message);
 
@@ -14,7 +14,7 @@ public class ErrorEventTest {
     }
 
     @Test
-    public void getSource() throws Exception {
+    public void getSource() {
         Object source = new Object();
         ErrorEvent errorEvent = new ErrorEvent(source);
 
@@ -22,7 +22,7 @@ public class ErrorEventTest {
     }
 
     @Test
-    public void getSourceAndMessage() throws Exception {
+    public void getSourceAndMessage() {
         Object source = new Object();
         String message = "message";
         ErrorEvent errorEvent = new ErrorEvent(source, message);

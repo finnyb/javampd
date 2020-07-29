@@ -5,19 +5,19 @@ import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
 import org.bff.javampd.processor.AlbumTagProcessor;
 import org.bff.javampd.processor.ArtistTagProcessor;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDAlbumDatabaseTest {
     private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
     private static final String ALBUM_RESPONSE_PREFIX = "Album: ";
@@ -35,13 +35,13 @@ public class MPDAlbumDatabaseTest {
 
     private MPDAlbumDatabase albumDatabase;
 
-    @Before
+    @BeforeEach
     public void before() {
         albumDatabase = new MPDAlbumDatabase(tagLister, new MPDAlbumConverter());
     }
 
     @Test
-    public void testListSingleAlbumsByArtist() throws Exception {
+    public void testListSingleAlbumsByArtist() {
         MPDArtist testArtist = new MPDArtist("testName");
 
         String testAlbumName = "testAlbum";
@@ -68,7 +68,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListMultipleAlbumsByArtist() throws Exception {
+    public void testListMultipleAlbumsByArtist() {
         MPDArtist testArtist = new MPDArtist("testName");
 
         String testAlbumName1 = "testAlbum1";
@@ -101,7 +101,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAlbumsByGenre() throws Exception {
+    public void testListAlbumsByGenre() {
         MPDArtist testArtist = new MPDArtist("testArtistName");
         MPDGenre testGenre = new MPDGenre("testGenreName");
 
@@ -133,7 +133,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAlbumsByYear() throws Exception {
+    public void testListAlbumsByYear() {
         MPDArtist testArtist = new MPDArtist("testArtistName");
         String testYear = "testYear";
         String testAlbumName = "testAlbum";
@@ -163,7 +163,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAlbumNamesByYear() throws Exception {
+    public void testListAlbumNamesByYear() {
         String testYear = "testYear";
         String testAlbumName = "testAlbum";
 
@@ -189,7 +189,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAllAlbumNames() throws Exception {
+    public void testListAllAlbumNames() {
         String testAlbumName1 = "testAlbum1";
         String testAlbumName2 = "testAlbum2";
 
@@ -292,7 +292,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByName() throws Exception {
+    public void testFindAlbumByName() {
         MPDArtist testArtist = new MPDArtist("testArtistName");
         String testAlbumName = "testAlbum1";
 

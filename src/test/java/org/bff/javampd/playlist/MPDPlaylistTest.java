@@ -7,34 +7,29 @@ import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDPlaylistTest {
-
-    @Mock
-    private SongDatabase songDatabase;
     @Mock
     private ServerStatus serverStatus;
     @Mock
     private PlaylistProperties playlistProperties;
     @Mock
     private CommandExecutor commandExecutor;
-    @Mock
-    private SongConverter songConverter;
     @InjectMocks
     private MPDPlaylist playlist;
     @Captor
@@ -46,13 +41,13 @@ public class MPDPlaylistTest {
 
     private PlaylistProperties realPlaylistProperties;
 
-    @Before
+    @BeforeEach
     public void setup() {
         realPlaylistProperties = new PlaylistProperties();
     }
 
     @Test
-    public void testAddPlaylistChangeListener() throws Exception {
+    public void testAddPlaylistChangeListener() {
         final boolean[] gotEvent = {true};
         playlist.addPlaylistChangeListener(event -> gotEvent[0] = true);
         playlist.firePlaylistChangeEvent(PlaylistChangeEvent.Event.ARTIST_ADDED);
@@ -60,7 +55,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testRemovePlaylistStatusChangedListener() throws Exception {
+    public void testRemovePlaylistStatusChangedListener() {
         final boolean[] gotEvent = {true};
 
         PlaylistChangeListener pcl = event -> gotEvent[0] = true;
@@ -76,7 +71,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testFirePlaylistChangeEvent() throws Exception {
+    public void testFirePlaylistChangeEvent() {
         final boolean[] gotEvent = {true};
         playlist.addPlaylistChangeListener(event -> gotEvent[0] = true);
         playlist.firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED);
@@ -84,7 +79,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testFirePlaylistChangeEventSongAdded() throws Exception {
+    public void testFirePlaylistChangeEventSongAdded() {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
         playlist.firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_ADDED, "name");
@@ -92,9 +87,8 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testLoadPlaylist() throws Exception {
+    public void testLoadPlaylist() {
         String testPlaylist = "testPlaylist";
-        when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -109,9 +103,8 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testLoadPlaylistM3u() throws Exception {
+    public void testLoadPlaylistM3u() {
         String testPlaylist = "testPlaylist.m3u";
-        when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -126,8 +119,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testAddFileOrDirectory() throws Exception {
-        when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
+    public void testAddFileOrDirectory() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -143,8 +135,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testClearPlaylist() throws Exception {
-        when(playlistProperties.getLoad()).thenReturn(realPlaylistProperties.getLoad());
+    public void testClearPlaylist() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -159,10 +150,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testDeletePlaylist() throws Exception {
-        when(playlistProperties.getDelete()).thenReturn(realPlaylistProperties.getDelete());
-        when(serverStatus.getPlaylistVersion()).thenReturn(1);
-
+    public void testDeletePlaylist() {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
@@ -178,10 +166,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testDeletePlaylistByName() throws Exception {
-        when(playlistProperties.getDelete()).thenReturn(realPlaylistProperties.getDelete());
-        when(serverStatus.getPlaylistVersion()).thenReturn(1);
-
+    public void testDeletePlaylistByName() {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
         playlist.deletePlaylist("testPlaylist");
@@ -195,8 +180,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testMoveById() throws Exception {
-        when(playlistProperties.getMoveId()).thenReturn(realPlaylistProperties.getMoveId());
+    public void testMoveById() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -218,8 +202,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testMoveByPosition() throws Exception {
-        when(playlistProperties.getMove()).thenReturn(realPlaylistProperties.getMove());
+    public void testMoveByPosition() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -241,8 +224,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testShuffle() throws Exception {
-        when(playlistProperties.getShuffle()).thenReturn(realPlaylistProperties.getShuffle());
+    public void testShuffle() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -258,8 +240,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testSwapByExplicitId() throws Exception {
-        when(playlistProperties.getSwapId()).thenReturn(realPlaylistProperties.getSwapId());
+    public void testSwapByExplicitId() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -282,8 +263,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testSwapById() throws Exception {
-        when(playlistProperties.getSwapId()).thenReturn(realPlaylistProperties.getSwapId());
+    public void testSwapById() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -308,10 +288,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testSwapByPosition() throws Exception {
-        when(playlistProperties.getSwap()).thenReturn(realPlaylistProperties.getSwap());
-        when(serverStatus.getPlaylistVersion()).thenReturn(1);
-
+    public void testSwapByPosition() {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
@@ -334,10 +311,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testPlaylistSave() throws Exception {
-        when(playlistProperties.getSave()).thenReturn(realPlaylistProperties.getSave());
-        when(serverStatus.getPlaylistVersion()).thenReturn(1);
-
+    public void testPlaylistSave() {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
@@ -353,10 +327,7 @@ public class MPDPlaylistTest {
     }
 
     @Test
-    public void testPlaylistSaveNull() throws Exception {
-        when(playlistProperties.getSave()).thenReturn(realPlaylistProperties.getSave());
-        when(serverStatus.getPlaylistVersion()).thenReturn(1);
-
+    public void testPlaylistSaveNull() {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 

@@ -1,11 +1,11 @@
 package org.bff.javampd.command;
 
 import org.bff.javampd.server.*;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,34 +16,29 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDCommandExecutorTest {
     @Mock
     private MPDSocket mpdSocket;
-
     @Mock
     private MPD mpd;
-
     @InjectMocks
     private MPDCommandExecutor commandExecutor;
 
     @Test
-    public void testGetVersion() throws UnknownHostException {
-        when(mpd.getAddress()).thenReturn(InetAddress.getLocalHost());
-        when(mpd.getPort()).thenReturn(8080);
-        when(mpd.getTimeout()).thenReturn(0);
+    public void testGetVersion() {
         when(mpdSocket.getVersion()).thenReturn("version");
         assertEquals("version", commandExecutor.getMPDVersion());
     }
 
-    @Test(expected = MPDConnectionException.class)
+    @Test
     public void testSendCommandNoMPDSet() {
         commandExecutor = new MPDCommandExecutor();
-        commandExecutor.sendCommand("command");
+        assertThrows(MPDConnectionException.class,
+                () -> commandExecutor.sendCommand("command"));
     }
 
     @Test
@@ -97,7 +92,7 @@ public class MPDCommandExecutorTest {
     @Test
     public void testSendCommandWithIntegerParams() {
         String commandString = "command";
-        Integer paramInteger = 1;
+        int paramInteger = 1;
         MPDCommand command = new MPDCommand(commandString, Integer.toString(paramInteger));
         commandExecutor = new TestMPDCommandExecutor();
         commandExecutor.setMpd(mpd);
@@ -117,11 +112,6 @@ public class MPDCommandExecutorTest {
         commandExecutor.setMpd(mpd);
 
         MPDCommand command = new MPDCommand("command");
-        MPDCommand passwordCommand = new MPDCommand("password", "password");
-
-        when(mpdSocket.sendCommand(passwordCommand))
-                .thenReturn(new ArrayList<>())
-                .thenReturn(new ArrayList<>());
 
         List<String> testResponse = new ArrayList<>();
         testResponse.add("testResponse");
@@ -144,11 +134,6 @@ public class MPDCommandExecutorTest {
         List<MPDCommand> commands = new ArrayList<>();
         commands.add(command1);
         commands.add(command2);
-
-        MPDCommand passwordCommand = new MPDCommand("password", "password");
-        when(mpdSocket.sendCommand(passwordCommand))
-                .thenReturn(new ArrayList<>())
-                .thenReturn(new ArrayList<>());
 
         doThrow(new MPDSecurityException("exception"))
                 .doNothing()
@@ -175,10 +160,8 @@ public class MPDCommandExecutorTest {
     }
 
     @Test
-    public void testCreateSocket() throws Exception {
-        ServerSocket socket = null;
-        try {
-            socket = new ServerSocket(0);
+    public void testCreateSocket() throws IOException {
+        try (ServerSocket socket = new ServerSocket(0)) {
             socket.setReuseAddress(true);
             int port = socket.getLocalPort();
             when(mpd.getAddress()).thenReturn(InetAddress.getLocalHost());
@@ -187,7 +170,7 @@ public class MPDCommandExecutorTest {
 
             ServerSocket finalSocket = socket;
             new Thread(() -> {
-                Socket clientSocket = null;
+                Socket clientSocket;
                 try {
                     clientSocket = finalSocket.accept();
                     PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -200,51 +183,53 @@ public class MPDCommandExecutorTest {
 
             commandExecutor.setMpd(mpd);
             assertNotNull(commandExecutor.createSocket());
-        } finally {
-            if (socket != null) {
-                socket.close();
-            }
         }
     }
 
-    @Test(expected = MPDConnectionException.class)
+    @Test
     public void testCommandObjectNoMPDSet() {
         commandExecutor = new MPDCommandExecutor();
         MPDCommand command = new MPDCommand("command");
-        commandExecutor.sendCommand(command);
+        assertThrows(MPDConnectionException.class,
+                () -> commandExecutor.sendCommand(command));
     }
 
-    @Test(expected = MPDConnectionException.class)
+    @Test
     public void testCommandStringParamsNoMPDSet() {
         commandExecutor = new MPDCommandExecutor();
-        commandExecutor.sendCommand("command", "param1", "param2");
+        assertThrows(MPDConnectionException.class,
+                () -> commandExecutor.sendCommand("command", "param1", "param2"));
     }
 
-    @Test(expected = MPDConnectionException.class)
+    @Test
     public void testCommandStringIntegerParamsNoMPDSet() {
         commandExecutor = new MPDCommandExecutor();
-        commandExecutor.sendCommand("command", 1, 2, 3);
+        assertThrows(MPDConnectionException.class,
+                () -> commandExecutor.sendCommand("command", 1, 2, 3));
     }
 
-    @Test(expected = MPDConnectionException.class)
+    @Test
     public void testGetVersionNoMPDSet() {
         commandExecutor = new MPDCommandExecutor();
-        commandExecutor.getMPDVersion();
+        assertThrows(MPDConnectionException.class,
+                () -> commandExecutor.getMPDVersion());
     }
 
-    @Test(expected = MPDConnectionException.class)
+    @Test
     public void testSendCommandsNoMPDSet() {
         commandExecutor = new MPDCommandExecutor();
-        List<MPDCommand> commands = new ArrayList<MPDCommand>();
+        List<MPDCommand> commands = new ArrayList<>();
         commands.add(new MPDCommand("command1"));
         commands.add(new MPDCommand("command2"));
         commands.add(new MPDCommand("command3"));
-        commandExecutor.sendCommands(commands);
+        assertThrows(MPDConnectionException.class,
+                () -> commandExecutor.sendCommands(commands));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testAuthenticateIllegalArgument() throws Exception {
-        commandExecutor.usePassword(null);
+    @Test
+    public void testAuthenticateIllegalArgument() {
+        assertThrows(IllegalArgumentException.class,
+                () -> commandExecutor.usePassword(null));
     }
 
     @Test
@@ -262,24 +247,26 @@ public class MPDCommandExecutorTest {
         commandExecutor.authenticate();
     }
 
-    @Test(expected = MPDSecurityException.class)
+    @Test
     public void testAuthenticateSecurityException() {
         String password = "password";
         ServerProperties serverProperties = new ServerProperties();
         MPDCommand command = new MPDCommand(serverProperties.getPassword(), password);
         when(mpdSocket.sendCommand(command)).thenThrow(new RuntimeException("incorrect password"));
         commandExecutor.usePassword(password);
-        commandExecutor.authenticate();
+        assertThrows(MPDSecurityException.class,
+                () -> commandExecutor.authenticate());
     }
 
-    @Test(expected = MPDConnectionException.class)
+    @Test
     public void testAuthenticateGeneralException() {
         String password = "password";
         ServerProperties serverProperties = new ServerProperties();
         MPDCommand command = new MPDCommand(serverProperties.getPassword(), password);
         when(mpdSocket.sendCommand(command)).thenThrow(new RuntimeException());
         commandExecutor.usePassword(password);
-        commandExecutor.authenticate();
+        assertThrows(MPDConnectionException.class,
+                () -> commandExecutor.authenticate());
     }
 
     @Test

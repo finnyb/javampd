@@ -5,7 +5,7 @@ import org.bff.javampd.TestProperties;
 import org.bff.javampd.integrationdata.TestSongs;
 import org.bff.javampd.playlist.PlaylistProperties;
 import org.bff.javampd.song.MPDSong;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class MPDCommandExecutorTestIT extends BaseTest {
     private MPDCommandExecutor commandExecutor;
     private PlaylistProperties playlistProperties;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         this.playlistProperties = new PlaylistProperties();
         this.commandExecutor = new MPDCommandExecutor();
@@ -26,7 +26,7 @@ public class MPDCommandExecutorTestIT extends BaseTest {
         this.commandExecutor.authenticate();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         this.commandExecutor.close();
     }

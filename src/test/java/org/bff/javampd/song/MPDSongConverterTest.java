@@ -1,13 +1,13 @@
 package org.bff.javampd.song;
 
 import org.bff.javampd.processor.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MPDSongConverterTest {
 
@@ -25,7 +25,7 @@ public class MPDSongConverterTest {
     private SongConverter converter;
     private List<MPDSong> songs;
 
-    @Before
+    @BeforeEach
     public void before() {
         converter = new MPDSongConverter();
         songs = converter.convertResponseToSong(createResponses(true));
@@ -131,7 +131,7 @@ public class MPDSongConverterTest {
     }
 
     @Test
-    public void testGetSongFileNameList() throws Exception {
+    public void testGetSongFileNameList() {
         List<String> names = converter.getSongFileNameList(createResponses(true));
         assertEquals(COUNT, names.size());
         for (int i = 0; i < COUNT; i++) {

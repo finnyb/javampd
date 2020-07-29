@@ -1,14 +1,14 @@
 package org.bff.javampd.processor;
 
 import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IdTagProcessorTest {
 
     @Test
-    public void testProcessSong() throws Exception {
+    public void testProcessSong() {
         int testId = 1;
 
         IdTagProcessor idTagProcessor = new IdTagProcessor();
@@ -21,7 +21,7 @@ public class IdTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() throws Exception {
+    public void testProcessSongBadLine() {
         int testId = 1;
 
         IdTagProcessor idTagProcessor = new IdTagProcessor();

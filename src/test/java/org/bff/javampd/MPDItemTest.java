@@ -1,13 +1,13 @@
 package org.bff.javampd;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDItemTest {
 
     @Test
-    public void testEquals() throws Exception {
+    public void testEquals() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item1");
 
@@ -15,7 +15,7 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testNotEquals() throws Exception {
+    public void testNotEquals() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem();
 
@@ -23,28 +23,28 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testEqualsNull() throws Exception {
+    public void testEqualsNull() {
         MPDItem item = new TestItem("item");
 
         assertNotEquals(item, null);
     }
 
     @Test
-    public void testEqualsSameObject() throws Exception {
+    public void testEqualsSameObject() {
         MPDItem item = new TestItem("item");
 
         assertTrue(item.equals(item));
     }
 
     @Test
-    public void testEqualsDifferentClass() throws Exception {
+    public void testEqualsDifferentClass() {
         MPDItem item = new TestItem("item");
 
-        assertFalse(item.equals(new String()));
+        assertNotEquals("", item);
     }
 
     @Test
-    public void testHashCode() throws Exception {
+    public void testHashCode() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item1");
 
@@ -52,14 +52,14 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testHashCodeNull() throws Exception {
+    public void testHashCodeNull() {
         MPDItem item = new TestItem(null);
 
         assertEquals(0, item.hashCode());
     }
 
     @Test
-    public void testCompareToLessThanZero() throws Exception {
+    public void testCompareToLessThanZero() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item2");
 
@@ -67,7 +67,7 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testCompareToGreaterThanZero() throws Exception {
+    public void testCompareToGreaterThanZero() {
         MPDItem item1 = new TestItem("item2");
         MPDItem item2 = new TestItem("item1");
 
@@ -75,7 +75,7 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testCompareToEquals() throws Exception {
+    public void testCompareToEquals() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item1");
 
@@ -90,7 +90,7 @@ public class MPDItemTest {
         assertEquals(name, item.toString());
     }
 
-    private class TestItem extends MPDItem {
+    private static class TestItem extends MPDItem {
         public TestItem() {
             super();
         }

@@ -3,13 +3,13 @@ package org.bff.javampd.album;
 import org.bff.javampd.processor.AlbumTagProcessor;
 import org.bff.javampd.processor.ArtistTagProcessor;
 import org.bff.javampd.processor.DateTagProcessor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MPDAlbumConverterTest {
 
@@ -20,7 +20,7 @@ public class MPDAlbumConverterTest {
     private AlbumConverter converter;
     private List<MPDAlbum> albums;
 
-    @Before
+    @BeforeEach
     public void before() {
         converter = new MPDAlbumConverter();
         albums = converter.convertResponseToAlbum(createResponses());

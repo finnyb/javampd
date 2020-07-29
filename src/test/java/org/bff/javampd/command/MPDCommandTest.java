@@ -1,8 +1,9 @@
 package org.bff.javampd.command;
 
-import org.junit.Test;
+import org.bff.javampd.server.MPDConnectionException;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDCommandTest {
 
@@ -46,7 +47,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testEqualsNoParams() throws Exception {
+    public void testEqualsNoParams() {
         MPDCommand command1 = new MPDCommand("command1");
         MPDCommand command2 = new MPDCommand("command1");
 
@@ -54,7 +55,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testEqualsSingleParam() throws Exception {
+    public void testEqualsSingleParam() {
         MPDCommand command1 = new MPDCommand("command1", "param1");
         MPDCommand command2 = new MPDCommand("command1", "param1");
 
@@ -62,7 +63,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testEqualsMultipleParams() throws Exception {
+    public void testEqualsMultipleParams() {
         MPDCommand command1 = new MPDCommand("command1", "param1", "param2");
         MPDCommand command2 = new MPDCommand("command1", "param1", "param2");
 
@@ -70,7 +71,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testNotEquals() throws Exception {
+    public void testNotEquals() {
         MPDCommand command1 = new MPDCommand("command1");
         MPDCommand command2 = new MPDCommand("command2");
 
@@ -78,36 +79,36 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testEqualsNull() throws Exception {
+    public void testEqualsNull() {
         MPDCommand command = new MPDCommand("command");
 
         assertNotEquals(command, null);
     }
 
     @Test
-    public void testEqualsSameObject() throws Exception {
+    public void testEqualsSameObject() {
         MPDCommand item = new MPDCommand("command");
 
-        assertTrue(item.equals(item));
+        assertEquals(item, item);
     }
 
     @Test
-    public void testEqualsDifferentClass() throws Exception {
+    public void testEqualsDifferentClass() {
         MPDCommand command = new MPDCommand("command");
 
-        assertFalse(command.equals(new String()));
+        assertNotEquals("", command);
     }
 
     @Test
-    public void testHashCode() throws Exception {
+    public void testHashCode() {
         MPDCommand command1 = new MPDCommand("command1");
         MPDCommand command2 = new MPDCommand("command1");
 
         assertEquals(command1.hashCode(), command2.hashCode());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testNullException() throws Exception {
-        new MPDCommand(null);
+    @Test
+    public void testNullException() {
+        assertThrows(IllegalArgumentException.class, () -> new MPDCommand(null));
     }
 }

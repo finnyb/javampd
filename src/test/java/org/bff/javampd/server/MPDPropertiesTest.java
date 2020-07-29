@@ -1,45 +1,46 @@
 package org.bff.javampd.server;
 
 import org.bff.javampd.MPDException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MPDPropertiesTest {
 
     @Test
-    public void testGetPropertyString() throws Exception {
+    public void testGetPropertyString() {
         TestProperties testProperties = new TestProperties();
         assertEquals("OK", testProperties.getOk());
     }
 
-    @Test(expected = MPDException.class)
+    @Test
     public void testBadProperties() {
-        new TestBadProperties();
+        assertThrows(MPDException.class, TestBadProperties::new);
     }
 
-    @Test(expected = MPDException.class)
+    @Test
     public void testBadPropertiesLoad() {
-        new TestBadPropertiesLoad();
+        assertThrows(MPDException.class, TestBadPropertiesLoad::new);
     }
 
-    private class TestProperties extends MPDProperties {
+    private static class TestProperties extends MPDProperties {
         public String getOk() {
             return getPropertyString("cmd.response.ok");
         }
     }
 
-    private class TestBadProperties extends MPDProperties {
+    private static class TestBadProperties extends MPDProperties {
         @Override
         protected void loadValues(String propertiesResourceLocation) {
             super.loadValues("badLocation");
         }
     }
 
-    private class TestBadPropertiesLoad extends MPDProperties {
+    private static class TestBadPropertiesLoad extends MPDProperties {
         @Override
         protected void loadProperties(InputStream inputStream) throws IOException {
             throw new IOException();

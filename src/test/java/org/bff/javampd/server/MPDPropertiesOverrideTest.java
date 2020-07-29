@@ -1,10 +1,7 @@
 package org.bff.javampd.server;
 
 import org.bff.javampd.monitor.MonitorProperties;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MPDPropertiesOverrideTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDPropertiesOverrideTest.class);
@@ -24,8 +21,8 @@ public class MPDPropertiesOverrideTest {
     private static File propertiesFile;
     private MPDProperties properties;
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
+    @BeforeAll
+    public static void beforeAll() throws IOException, URISyntaxException {
         InputStream is = MPDPropertiesOverrideTest.class.getResourceAsStream("/overrides/javampd.properties");
         Properties properties = new Properties();
         properties.load(is);
@@ -44,18 +41,18 @@ public class MPDPropertiesOverrideTest {
         properties.store(new FileWriter(propertiesFile), "");
     }
 
-    @AfterClass
-    public static void afterClass() {
+    @AfterAll
+    public static void afterAll() {
         propertiesFile.delete();
     }
 
-    @Before
+    @BeforeEach
     public void before() {
         properties = new MonitorProperties();
     }
 
     @Test
-    public void testAllMonitorOverrides() throws Exception {
+    public void testAllMonitorOverrides() throws IOException {
         Properties originalProperties = new Properties();
         InputStream is = MPDProperties.class.getResourceAsStream("/mpd.properties");
         originalProperties.load(is);

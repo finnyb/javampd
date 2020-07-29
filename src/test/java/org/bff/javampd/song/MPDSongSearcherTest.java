@@ -1,21 +1,21 @@
 package org.bff.javampd.song;
 
 import org.bff.javampd.command.CommandExecutor;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDSongSearcherTest {
 
     private SongSearcher songSearcher;
@@ -28,7 +28,7 @@ public class MPDSongSearcherTest {
     @Captor
     private ArgumentCaptor<String[]> paramArgumentCaptor;
 
-    @Before
+    @BeforeEach
     public void setup() {
         searchProperties = new SearchProperties();
         mockedSongConverter = mock(SongConverter.class);
@@ -39,7 +39,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testSearch() throws Exception {
+    public void testSearch() {
         String searchCriteria = "testSearch";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
         MPDSong testSong = new MPDSong("testFile", "testName");
@@ -62,7 +62,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testSearchWindowed() throws Exception {
+    public void testSearchWindowed() {
         String searchCriteria = "testSearch";
         int start = 1;
         int end = 5;
@@ -89,7 +89,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testFind() throws Exception {
+    public void testFind() {
         String searchCriteria = "testSearch";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
         MPDSong testSong = new MPDSong("testFile", "testName");
@@ -112,7 +112,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testFindNoCriteria() throws Exception {
+    public void testFindNoCriteria() {
         String searchCriteria = "";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
         MPDSong testSong = new MPDSong("testFile", "testName");
@@ -135,7 +135,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testFindNullCriteria() throws Exception {
+    public void testFindNullCriteria() {
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ANY;
         MPDSong testSong = new MPDSong("testFile", "testName");
 
@@ -157,7 +157,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testFindWindowed() throws Exception {
+    public void testFindWindowed() {
         String searchCriteria = "testSearch";
         int start = 1;
         int end = 5;

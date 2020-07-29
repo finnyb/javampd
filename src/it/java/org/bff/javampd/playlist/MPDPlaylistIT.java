@@ -11,13 +11,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MPDPlaylistIT extends BaseTest {
     private Playlist playlist;
     private PlaylistDatabase playlistDatabase;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.playlist = getMpd().getPlaylist();
         this.playlistDatabase = getMpd().getMusicDatabase().getPlaylistDatabase();

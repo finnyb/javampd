@@ -1,52 +1,52 @@
 package org.bff.javampd.database;
 
 import org.bff.javampd.server.MPD;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MPDMusicDatabaseTest {
 
     private MPD mpd;
 
-    @Before
+    @BeforeEach
     public void before() {
         mpd = new MPD.Builder().build();
     }
 
     @Test
-    public void testGetArtistDatabase() throws Exception {
+    public void testGetArtistDatabase() {
         assertNotNull(mpd.getMusicDatabase().getArtistDatabase());
     }
 
     @Test
-    public void testGetAlbumDatabase() throws Exception {
+    public void testGetAlbumDatabase() {
         assertNotNull(mpd.getMusicDatabase().getAlbumDatabase());
     }
 
     @Test
-    public void testGetGenreDatabase() throws Exception {
+    public void testGetGenreDatabase() {
         assertNotNull(mpd.getMusicDatabase().getGenreDatabase());
     }
 
     @Test
-    public void testGetPlaylistDatabase() throws Exception {
+    public void testGetPlaylistDatabase() {
         assertNotNull(mpd.getMusicDatabase().getPlaylistDatabase());
     }
 
     @Test
-    public void testGetFileDatabase() throws Exception {
+    public void testGetFileDatabase() {
         assertNotNull(mpd.getMusicDatabase().getFileDatabase());
     }
 
     @Test
-    public void testGetDateDatabase() throws Exception {
+    public void testGetDateDatabase() {
         assertNotNull(mpd.getMusicDatabase().getDateDatabase());
     }
 
     @Test
-    public void testGetSongDatabase() throws Exception {
+    public void testGetSongDatabase() {
         assertNotNull(mpd.getMusicDatabase().getSongDatabase());
     }
 }
