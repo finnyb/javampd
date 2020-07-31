@@ -3,22 +3,22 @@ package org.bff.javampd.statistics;
 import org.bff.javampd.Clock;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.server.ServerProperties;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDServerStatisticsTest {
 
     @Mock
@@ -34,8 +34,8 @@ public class MPDServerStatisticsTest {
 
     private List<String> statList;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         when(clock.min()).thenReturn(LocalDateTime.MIN);
         serverStatistics = new MPDServerStatistics(properties, commandExecutor, clock);
         statList = new ArrayList<>();
@@ -45,7 +45,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetPlaytime() throws Exception {
+    public void testGetPlaytime() {
         String playTime = "5";
         statList.add("playtime: " + playTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -54,7 +54,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetPlaytimeParseException() throws Exception {
+    public void testGetPlaytimeParseException() {
         String playTime = "junk";
         statList.add("playtime: " + playTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -63,7 +63,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetUptime() throws Exception {
+    public void testGetUptime() {
         String uptime = "5";
         statList.add("uptime: " + uptime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -72,7 +72,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetAlbumCount() throws Exception {
+    public void testGetAlbumCount() {
         String albums = "5";
         statList.add("albums: " + albums);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -81,7 +81,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetArtistCount() throws Exception {
+    public void testGetArtistCount() {
         String artists = "5";
         statList.add("artists: " + artists);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -90,7 +90,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetSongCount() throws Exception {
+    public void testGetSongCount() {
         String songs = "5";
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -99,7 +99,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetDatabasePlaytime() throws Exception {
+    public void testGetDatabasePlaytime() {
         String playtime = "5";
         statList.add("db_playtime: " + playtime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -108,7 +108,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetLastUpdateTime() throws Exception {
+    public void testGetLastUpdateTime() {
         String updateTime = "5";
         statList.add("db_update: " + updateTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -117,7 +117,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testNonexistantStat() throws Exception {
+    public void testNonexistantStat() {
         String updateTime = "5";
         statList.add("fake: " + updateTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);

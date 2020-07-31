@@ -2,17 +2,17 @@ package org.bff.javampd.playlist;
 
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MPDSavedPlaylistTest {
     @Test
-    public void testHashCode() throws Exception {
+    public void testHashCode() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist1");
 
@@ -20,7 +20,7 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testDifferentHashCode() throws Exception {
+    public void testDifferentHashCode() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist2");
 
@@ -28,14 +28,14 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testEqualsSameObject() throws Exception {
+    public void testEqualsSameObject() {
         MPDSavedPlaylist playlist = new MPDSavedPlaylist("playlist1");
 
         assertEquals(playlist, playlist);
     }
 
     @Test
-    public void testEqualsSameName() throws Exception {
+    public void testEqualsSameName() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist1");
 
@@ -43,7 +43,7 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testNotEqualsSameNameDifferentSongs() throws Exception {
+    public void testNotEqualsSameNameDifferentSongs() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist1");
 
@@ -63,7 +63,7 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testNotEquals() throws Exception {
+    public void testNotEquals() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist2");
 
@@ -71,7 +71,7 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testNotEqualsDifferentClasses() throws Exception {
+    public void testNotEqualsDifferentClasses() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDArtist playlist2 = new MPDArtist("playlist2");
 

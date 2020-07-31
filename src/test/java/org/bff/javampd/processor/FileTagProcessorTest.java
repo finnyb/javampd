@@ -1,14 +1,14 @@
 package org.bff.javampd.processor;
 
 import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileTagProcessorTest {
 
     @Test
-    public void testProcessSong() throws Exception {
+    public void testProcessSong() {
         String testFile = "testFile";
 
         FileTagProcessor fileTagProcessor = new FileTagProcessor();
@@ -21,7 +21,7 @@ public class FileTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() throws Exception {
+    public void testProcessSongBadLine() {
         String testFile = "testFile";
         String f = "file";
 

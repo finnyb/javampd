@@ -5,12 +5,12 @@ import org.bff.javampd.integrationdata.TestGenres;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDGenreDatabaseIT extends BaseTest {
     private GenreDatabase genreDatabase;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.genreDatabase = getMpd().getMusicDatabase().getGenreDatabase();
     }

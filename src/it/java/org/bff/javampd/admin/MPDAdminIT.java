@@ -2,7 +2,7 @@ package org.bff.javampd.admin;
 
 import org.bff.javampd.BaseTest;
 import org.bff.javampd.output.MPDOutput;
-import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +13,12 @@ import java.util.List;
 public class MPDAdminIT extends BaseTest {
     private Admin admin;
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.admin = getMpd().getAdmin();
     }
 
-    @AfterClass
+    @AfterEach
     public static void after() {
         MPDOutput output = new ArrayList<>(getMpd().getAdmin().getOutputs()).get(0);
         Assert.assertTrue(getMpd().getAdmin().enableOutput(output));

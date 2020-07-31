@@ -7,22 +7,22 @@ import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDPlaylistTestGenreAndYear {
 
     @Mock
@@ -46,13 +46,13 @@ public class MPDPlaylistTestGenreAndYear {
 
     private PlaylistProperties realPlaylistProperties;
 
-    @Before
+    @BeforeEach
     public void setup() {
         realPlaylistProperties = new PlaylistProperties();
     }
 
     @Test
-    public void testInsertGenre() throws Exception {
+    public void testInsertGenre() {
         MPDGenre genre = new MPDGenre("testGenre");
 
         List<MPDSong> songs = new ArrayList<>();
@@ -66,8 +66,6 @@ public class MPDPlaylistTestGenreAndYear {
 
         playlist.insertGenre(genre);
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
-
         verify(commandExecutor, times(2))
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
@@ -79,7 +77,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testInsertGenreByName() throws Exception {
+    public void testInsertGenreByName() {
         String genre = "testGenre";
 
         List<MPDSong> songs = new ArrayList<>();
@@ -92,8 +90,6 @@ public class MPDPlaylistTestGenreAndYear {
 
         playlist.insertGenre(genre);
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
-
         verify(commandExecutor, times(2))
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
@@ -105,7 +101,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testRemoveGenre() throws Exception {
+    public void testRemoveGenre() {
         MPDGenre genre = new MPDGenre("testGenre");
 
         List<MPDSong> mockedSongs = new ArrayList<>();
@@ -122,8 +118,6 @@ public class MPDPlaylistTestGenreAndYear {
         mockedSongs.add(song2);
         mockedSongs.add(song3);
 
-        when(playlistProperties.getInfo()).thenReturn(realPlaylistProperties.getInfo());
-
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
@@ -134,7 +128,6 @@ public class MPDPlaylistTestGenreAndYear {
 
         playlist.removeGenre(genre);
 
-        when(playlistProperties.getRemoveId()).thenReturn(realPlaylistProperties.getRemoveId());
         verify(commandExecutor)
                 .sendCommand(stringArgumentCaptor.capture());
         verify(commandExecutor, times(2))
@@ -148,7 +141,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testRemoveGenreByName() throws Exception {
+    public void testRemoveGenreByName() {
         String genre = "testGenre";
 
         List<MPDSong> mockedSongs = new ArrayList<>();
@@ -165,8 +158,6 @@ public class MPDPlaylistTestGenreAndYear {
         mockedSongs.add(song2);
         mockedSongs.add(song3);
 
-        when(playlistProperties.getInfo()).thenReturn(realPlaylistProperties.getInfo());
-
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
@@ -177,7 +168,6 @@ public class MPDPlaylistTestGenreAndYear {
 
         playlist.removeGenre(genre);
 
-        when(playlistProperties.getRemoveId()).thenReturn(realPlaylistProperties.getRemoveId());
         verify(commandExecutor)
                 .sendCommand(stringArgumentCaptor.capture());
         verify(commandExecutor, times(2))
@@ -191,7 +181,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testInsertYear() throws Exception {
+    public void testInsertYear() {
         String year = "testYear";
 
         List<MPDSong> songs = new ArrayList<>();
@@ -204,8 +194,6 @@ public class MPDPlaylistTestGenreAndYear {
 
         playlist.insertYear(year);
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
-
         verify(commandExecutor, times(2))
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
@@ -217,7 +205,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testRemoveYear() throws Exception {
+    public void testRemoveYear() {
         String year = "testYear";
 
         List<MPDSong> mockedSongs = new ArrayList<>();
@@ -234,8 +222,6 @@ public class MPDPlaylistTestGenreAndYear {
         mockedSongs.add(song2);
         mockedSongs.add(song3);
 
-        when(playlistProperties.getInfo()).thenReturn(realPlaylistProperties.getInfo());
-
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
@@ -246,7 +232,6 @@ public class MPDPlaylistTestGenreAndYear {
 
         playlist.removeYear(year);
 
-        when(playlistProperties.getRemoveId()).thenReturn(realPlaylistProperties.getRemoveId());
         verify(commandExecutor)
                 .sendCommand(stringArgumentCaptor.capture());
         verify(commandExecutor, times(2))

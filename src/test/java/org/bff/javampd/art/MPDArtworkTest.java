@@ -1,10 +1,10 @@
 package org.bff.javampd.art;
 
 import org.bff.javampd.artist.MPDArtist;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MPDArtworkTest {
     @Test
@@ -70,7 +70,7 @@ public class MPDArtworkTest {
     }
 
     @Test
-    public void testHashCodeSamePath() throws Exception {
+    public void testHashCodeSamePath() {
         MPDArtwork artwork1 = new MPDArtwork("name", "path");
         MPDArtwork artwork2 = new MPDArtwork("name", "path");
         assertEquals(artwork1.hashCode(), artwork2.hashCode());

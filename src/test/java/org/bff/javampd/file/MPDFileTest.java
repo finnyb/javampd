@@ -1,14 +1,14 @@
 package org.bff.javampd.file;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class MPDFileTest {
 
     @Test
-    public void testGetPath() throws Exception {
+    public void testGetPath() {
         String path = "/path/to/Name";
         MPDFile mpdFile = new MPDFile(path);
         mpdFile.setPath(path);
@@ -16,7 +16,7 @@ public class MPDFileTest {
     }
 
     @Test
-    public void testIsDirectory() throws Exception {
+    public void testIsDirectory() {
         MPDFile mpdFile = new MPDFile("");
         mpdFile.setDirectory(false);
         assertFalse(mpdFile.isDirectory());

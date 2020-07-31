@@ -2,19 +2,19 @@ package org.bff.javampd.year;
 
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.processor.DateTagProcessor;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDDateDatabaseTest {
     private static String DATE_PREFIX = new DateTagProcessor().getPrefix();
 
@@ -25,7 +25,7 @@ public class MPDDateDatabaseTest {
     private MPDDateDatabase yearDatabase;
 
     @Test
-    public void testListAllYears() throws Exception {
+    public void testListAllYears() {
         String year1 = "1990";
         String year2 = "1990-mar-24";
 

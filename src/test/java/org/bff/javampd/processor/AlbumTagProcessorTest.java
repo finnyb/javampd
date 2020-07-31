@@ -2,15 +2,15 @@ package org.bff.javampd.processor;
 
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class AlbumTagProcessorTest {
 
     @Test
-    public void testProcessSong() throws Exception {
+    public void testProcessSong() {
         String testAlbum = "testAlbum";
 
         AlbumTagProcessor albumTagProcessor = new AlbumTagProcessor();
@@ -23,7 +23,7 @@ public class AlbumTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() throws Exception {
+    public void testProcessSongBadLine() {
         String testAlbum = "testAlbum";
 
         AlbumTagProcessor albumTagProcessor = new AlbumTagProcessor();
@@ -36,7 +36,7 @@ public class AlbumTagProcessorTest {
     }
 
     @Test
-    public void testProcessAlbum() throws Exception {
+    public void testProcessAlbum() {
         String testAlbumName = "testAlbum";
         String testArtist = "testArtist";
 

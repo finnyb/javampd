@@ -7,7 +7,7 @@ import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.Playlist;
 import org.bff.javampd.song.MPDSong;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDServerStatusIT extends BaseTest {
     private Admin admin;
@@ -24,7 +24,7 @@ public class MPDServerStatusIT extends BaseTest {
     private Player player;
     private Playlist playlist;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.admin = getMpd().getAdmin();
         this.serverStatus = getMpd().getServerStatus();
@@ -32,7 +32,7 @@ public class MPDServerStatusIT extends BaseTest {
         this.playlist = getMpd().getPlaylist();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         MPDOutput output = new ArrayList<>(getMpd().getAdmin().getOutputs()).get(0);
         getMpd().getAdmin().enableOutput(output);

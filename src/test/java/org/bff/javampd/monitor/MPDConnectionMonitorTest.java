@@ -3,17 +3,17 @@ package org.bff.javampd.monitor;
 import org.bff.javampd.server.ConnectionChangeEvent;
 import org.bff.javampd.server.ConnectionChangeListener;
 import org.bff.javampd.server.Server;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDConnectionMonitorTest {
 
     @Mock
@@ -21,14 +21,14 @@ public class MPDConnectionMonitorTest {
 
     private ConnectionMonitor connectionMonitor;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         connectionMonitor = new MPDConnectionMonitor();
         connectionMonitor.setServer(server);
     }
 
     @Test
-    public void testAddConnectionChangeListener() throws Exception {
+    public void testAddConnectionChangeListener() {
         final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
 
         connectionMonitor.addConnectionChangeListener(event -> changeEvent[0] = event);
@@ -38,7 +38,7 @@ public class MPDConnectionMonitorTest {
     }
 
     @Test
-    public void testRemoveConnectionChangeListener() throws Exception {
+    public void testRemoveConnectionChangeListener() {
         final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
 
         ConnectionChangeListener connectionChangeListener = event -> changeEvent[0] = event;
@@ -56,7 +56,7 @@ public class MPDConnectionMonitorTest {
     }
 
     @Test
-    public void testNoChange() throws Exception {
+    public void testNoChange() {
         final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
 
         connectionMonitor.addConnectionChangeListener(event -> changeEvent[0] = event);
@@ -66,7 +66,7 @@ public class MPDConnectionMonitorTest {
     }
 
     @Test
-    public void testIsConnected() throws Exception {
+    public void testIsConnected() {
         when(server.isConnected()).thenReturn(false);
         connectionMonitor.checkStatus();
         assertEquals(false, connectionMonitor.isConnected());

@@ -1,22 +1,22 @@
 package org.bff.javampd;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDSystemClockTest {
     private Clock clock;
 
-    @Before
+    @BeforeEach
     public void before() {
         clock = new MPDSystemClock();
     }
 
     @Test
-    public void now() throws Exception {
+    public void now() {
         LocalDateTime systemTime = LocalDateTime.now();
         LocalDateTime clockTime = clock.now();
 
@@ -25,7 +25,7 @@ public class MPDSystemClockTest {
     }
 
     @Test
-    public void min() throws Exception {
+    public void min() {
         assertEquals(LocalDateTime.MIN, clock.min());
     }
 }

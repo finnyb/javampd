@@ -1,13 +1,13 @@
 package org.bff.javampd;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MPDExceptionTest {
     @Test
-    public void testDefaultConstructorCommand() throws Exception {
+    public void testDefaultConstructorCommand() {
         MPDException exception = new MPDException();
         assertNull(exception.getCommand());
         assertNull(exception.getMessage());
@@ -15,7 +15,7 @@ public class MPDExceptionTest {
     }
 
     @Test
-    public void testMessageConstructorCommand() throws Exception {
+    public void testMessageConstructorCommand() {
         String message = "message";
         MPDException exception = new MPDException(message);
         assertNull(exception.getCommand());
@@ -24,7 +24,7 @@ public class MPDExceptionTest {
     }
 
     @Test
-    public void testCauseConstructorCommand() throws Exception {
+    public void testCauseConstructorCommand() {
         String message = "message";
         Exception cause = new Exception(message);
         MPDException exception = new MPDException(cause);
@@ -34,7 +34,7 @@ public class MPDExceptionTest {
     }
 
     @Test
-    public void testMessageCauseConstructorCommand() throws Exception {
+    public void testMessageCauseConstructorCommand() {
         Exception cause = new Exception();
         String message = "message";
         MPDException exception = new MPDException(message, cause);
@@ -44,7 +44,7 @@ public class MPDExceptionTest {
     }
 
     @Test
-    public void testMessageCauseCommandConstructorCommand() throws Exception {
+    public void testMessageCauseCommandConstructorCommand() {
         Exception cause = new Exception();
         String message = "message";
         String command = "command";

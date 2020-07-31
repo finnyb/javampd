@@ -3,22 +3,23 @@ package org.bff.javampd.file;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.DatabaseProperties;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.bff.javampd.server.MPDConnectionException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDFileDatabaseTest {
 
     @Mock
@@ -30,13 +31,13 @@ public class MPDFileDatabaseTest {
 
     private DatabaseProperties realDatabaseProperties;
 
-    @Before
+    @BeforeEach
     public void setup() {
         realDatabaseProperties = new DatabaseProperties();
     }
 
     @Test
-    public void testListRootDirectory() throws Exception {
+    public void testListRootDirectory() {
         List<String> response = new ArrayList<>();
         response.add("directory: Q");
         response.add("Last-Modified: 2015-10-11T22:11:35Z");
@@ -52,7 +53,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectory() throws Exception {
+    public void testListDirectory() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -75,7 +76,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithFiles() throws Exception {
+    public void testListDirectoryWithFiles() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -96,7 +97,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFilesSize() throws Exception {
+    public void testListDirectoryWithMultipleFilesSize() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -109,7 +110,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles1() throws Exception {
+    public void testListDirectoryWithMultipleFiles1() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -126,7 +127,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles2() throws Exception {
+    public void testListDirectoryWithMultipleFiles2() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -143,7 +144,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles3() throws Exception {
+    public void testListDirectoryWithMultipleFiles3() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -160,7 +161,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles4() throws Exception {
+    public void testListDirectoryWithMultipleFiles4() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -177,11 +178,11 @@ public class MPDFileDatabaseTest {
         assertTrue(mpdFiles.get(3).isDirectory());
     }
 
-    @Test(expected = MPDException.class)
-    public void testListDirectoryException() throws Exception {
+    @Test
+    public void testListDirectoryException() {
         MPDFile file = new MPDFile("");
         file.setDirectory(false);
-        fileDatabase.listDirectory(file);
+        assertThrows(MPDException.class, () -> fileDatabase.listDirectory(file));
     }
 
     private List<String> createMultFileResponse() {

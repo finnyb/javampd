@@ -1,9 +1,9 @@
 package org.bff.javampd.album;
 
 import org.bff.javampd.MPDItem;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Bill
@@ -15,7 +15,7 @@ public class MPDAlbumTest {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
 
-        assertFalse(album1.equals(album2));
+        assertNotEquals(album2, album1);
     }
 
     @Test
@@ -23,7 +23,7 @@ public class MPDAlbumTest {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist2");
 
-        assertFalse(album1.equals(album2));
+        assertNotEquals(album2, album1);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class MPDAlbumTest {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
 
-        assertTrue(album1.equals(album2));
+        assertEquals(album2, album1);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class MPDAlbumTest {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
 
-        assertTrue(album1.equals(album2));
+        assertEquals(album2, album1);
     }
 
     @Test
@@ -49,12 +49,12 @@ public class MPDAlbumTest {
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
         album2.setGenre("genre2");
 
-        assertFalse(album1.equals(album2));
+        assertNotEquals(album2, album1);
     }
 
 
     @Test
-    public void testCompareArtists() throws Exception {
+    public void testCompareArtists() {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
 
@@ -62,21 +62,21 @@ public class MPDAlbumTest {
     }
     
     @Test
-    public void testEqualsNull() throws Exception {
+    public void testEqualsNull() {
         MPDAlbum album = new MPDAlbum("Album", "Artist");
 
         assertNotEquals(album, null);
     }
 
     @Test
-    public void testEqualsSameObject() throws Exception {
+    public void testEqualsSameObject() {
         MPDAlbum album = new MPDAlbum("Album", "Artist");
 
-        assertTrue(album.equals(album));
+        assertEquals(album, album);
     }
 
     @Test
-    public void testHashCode() throws Exception {
+    public void testHashCode() {
         MPDItem item1 = new MPDAlbum("Album1", "Artist1");
         MPDItem item2 = new MPDAlbum("Album1", "Artist1");
 
@@ -84,7 +84,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testCompareToLessThanZero() throws Exception {
+    public void testCompareToLessThanZero() {
         MPDItem item1 = new MPDAlbum("Album1", "Artist1");
         MPDItem item2 = new MPDAlbum("Album2", "Artist1");
 
@@ -92,7 +92,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testCompareToGreaterThanZero() throws Exception {
+    public void testCompareToGreaterThanZero() {
         MPDItem item1 = new MPDAlbum("Album2", "Artist1");
         MPDItem item2 = new MPDAlbum("Album1", "Artist1");
 
@@ -100,10 +100,10 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testCompareToEquals() throws Exception {
+    public void testCompareToEquals() {
         MPDItem item1 = new MPDAlbum("Album1", "Artist1");
         MPDItem item2 = new MPDAlbum("Album1", "Artist1");
 
-        assertTrue(item1.compareTo(item2) == 0);
+        assertEquals(item1.compareTo(item2), 0);
     }
 }

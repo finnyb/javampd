@@ -13,7 +13,7 @@ public class SongSearcherTestIT extends BaseTest {
 
     private SongSearcher songSearcher;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         songSearcher = getMpd().getSongSearcher();
     }

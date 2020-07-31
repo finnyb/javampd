@@ -60,14 +60,11 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
 
     @Override
     public Collection<MPDSong> listPlaylistSongs(String playlistName) {
-        List<MPDSong> songList = new ArrayList<>();
         List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
-        songList.addAll(
-                songConverter.getSongFileNameList(response)
-                        .stream()
-                        .map(song -> new ArrayList<>(songDatabase.searchFileName(song)).get(0))
-                        .collect(Collectors.toList()));
 
-        return songList;
+        return songConverter.getSongFileNameList(response)
+                .stream()
+                .map(song -> new ArrayList<>(songDatabase.searchFileName(song)).get(0))
+                .collect(Collectors.toList());
     }
 }

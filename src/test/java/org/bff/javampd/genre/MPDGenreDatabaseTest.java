@@ -1,19 +1,19 @@
 package org.bff.javampd.genre;
 
 import org.bff.javampd.database.TagLister;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDGenreDatabaseTest {
     private static final String GENRE_PREFIX = "Genre: ";
 
@@ -24,7 +24,7 @@ public class MPDGenreDatabaseTest {
     private MPDGenreDatabase genreDatabase;
 
     @Test
-    public void testListAllGenres() throws Exception {
+    public void testListAllGenres() {
         MPDGenre testGenre1 = new MPDGenre("Genre1");
         MPDGenre testGenre2 = new MPDGenre("Genre2");
 
@@ -41,7 +41,7 @@ public class MPDGenreDatabaseTest {
     }
 
     @Test
-    public void testListGenreByName() throws Exception {
+    public void testListGenreByName() {
         MPDGenre genre = new MPDGenre("Genre1");
 
         List<String> testGenres = new ArrayList<>();
@@ -57,7 +57,7 @@ public class MPDGenreDatabaseTest {
     }
 
     @Test
-    public void testListGenreByNameMultiples() throws Exception {
+    public void testListGenreByNameMultiples() {
         MPDGenre genre1 = new MPDGenre("Genre1");
         MPDGenre genre2 = new MPDGenre("Genre2");
 

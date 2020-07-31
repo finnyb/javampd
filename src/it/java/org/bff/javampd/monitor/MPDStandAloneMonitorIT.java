@@ -7,7 +7,7 @@ import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.Playlist;
 import org.bff.javampd.song.MPDSong;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
     private Admin admin;
     private StandAloneMonitor monitor;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.player = getMpd().getPlayer();
         this.playlist = getMpd().getPlaylist();
@@ -41,7 +41,7 @@ public class MPDStandAloneMonitorIT extends BaseTest {
         await().until(() -> monitor.isLoaded());
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         monitor.stop();
         await().until(() -> monitor.isDone());

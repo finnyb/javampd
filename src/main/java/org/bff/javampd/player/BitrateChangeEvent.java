@@ -6,8 +6,8 @@ package org.bff.javampd.player;
  * @author Bill
  */
 public class BitrateChangeEvent extends java.util.EventObject {
-    private int oldBitrate;
-    private int newBitrate;
+    private final int oldBitrate;
+    private final int newBitrate;
 
     /**
      * Creates a new instance of BitrateChangeEvent

@@ -9,12 +9,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MPDDateDatabaseIT extends BaseTest {
     private DateDatabase dateDatabase;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.dateDatabase = getMpd().getMusicDatabase().getDateDatabase();
     }

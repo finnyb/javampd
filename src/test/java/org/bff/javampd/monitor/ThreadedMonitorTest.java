@@ -1,9 +1,9 @@
 package org.bff.javampd.monitor;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ThreadedMonitorTest {
     private boolean checked;
@@ -13,7 +13,7 @@ public class ThreadedMonitorTest {
     private ThreadedMonitor threadedMonitor;
 
     @Test
-    public void testCheckStatusDelayed() throws Exception {
+    public void testCheckStatusDelayed() {
         Monitor testMonitor = new TestMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);
@@ -23,7 +23,7 @@ public class ThreadedMonitorTest {
     }
 
     @Test
-    public void testCheckStatus() throws Exception {
+    public void testCheckStatus() {
         Monitor testMonitor = new TestMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);
@@ -35,7 +35,7 @@ public class ThreadedMonitorTest {
     }
 
     @Test
-    public void testShouldntProcessResponseLine() throws Exception {
+    public void testShouldntProcessResponseLine() {
         Monitor testMonitor = new TestMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);
@@ -45,7 +45,7 @@ public class ThreadedMonitorTest {
     }
 
     @Test
-    public void testProcessResponseLine() throws Exception {
+    public void testProcessResponseLine() {
         Monitor testMonitor = new TestStatusMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);
@@ -55,7 +55,7 @@ public class ThreadedMonitorTest {
     }
 
     @Test
-    public void testReset() throws Exception {
+    public void testReset() {
         Monitor testMonitor = new TestStatusMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);

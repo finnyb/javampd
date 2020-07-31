@@ -2,23 +2,23 @@ package org.bff.javampd.monitor;
 
 import org.bff.javampd.player.TrackPositionChangeEvent;
 import org.bff.javampd.player.TrackPositionChangeListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MPDTrackMonitorTest {
 
     private TrackMonitor trackMonitor;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         trackMonitor = new MPDTrackMonitor();
     }
 
     @Test
-    public void testAddTrackPositionChangeListener() throws Exception {
+    public void testAddTrackPositionChangeListener() {
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
         final TrackPositionChangeEvent[] changeEvent2 = new TrackPositionChangeEvent[1];
 
@@ -32,7 +32,7 @@ public class MPDTrackMonitorTest {
     }
 
     @Test
-    public void testRemoveTrackPositionChangeListener() throws Exception {
+    public void testRemoveTrackPositionChangeListener() {
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
 
         TrackPositionChangeListener trackPositionChangeListener = event -> changeEvent[0] = event;
@@ -50,7 +50,7 @@ public class MPDTrackMonitorTest {
     }
 
     @Test
-    public void testCheckTrackPosition() throws Exception {
+    public void testCheckTrackPosition() {
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
 
         trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
@@ -60,7 +60,7 @@ public class MPDTrackMonitorTest {
     }
 
     @Test
-    public void testCheckTrackPositionNoChange() throws Exception {
+    public void testCheckTrackPositionNoChange() {
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
 
         trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
@@ -75,7 +75,7 @@ public class MPDTrackMonitorTest {
     }
 
     @Test
-    public void testProcessInvalidResponse() throws Exception {
+    public void testProcessInvalidResponse() {
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
 
         trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
@@ -86,7 +86,7 @@ public class MPDTrackMonitorTest {
     }
 
     @Test
-    public void testResetElapsedTime() throws Exception {
+    public void testResetElapsedTime() {
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
 
         trackMonitor.addTrackPositionChangeListener(event -> changeEvent[0] = event);
@@ -108,7 +108,7 @@ public class MPDTrackMonitorTest {
     }
 
     @Test
-    public void testResetTrackPositionChange() throws Exception {
+    public void testResetTrackPositionChange() {
         String line = "time: 1";
 
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];
@@ -129,7 +129,7 @@ public class MPDTrackMonitorTest {
     }
 
     @Test
-    public void testMonitorResetElapsedTime() throws Exception {
+    public void testMonitorResetElapsedTime() {
         String line = "time: 1";
 
         final TrackPositionChangeEvent[] changeEvent = new TrackPositionChangeEvent[1];

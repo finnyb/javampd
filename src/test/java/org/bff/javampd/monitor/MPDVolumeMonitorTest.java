@@ -1,38 +1,34 @@
 package org.bff.javampd.monitor;
 
 import org.bff.javampd.player.VolumeChangeListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDVolumeMonitorTest {
 
     private VolumeMonitor volumeMonitor;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         volumeMonitor = new MPDVolumeMonitor();
     }
 
     @Test
-    public void testProcessResponseStatus() throws Exception {
+    public void testProcessResponseStatus() {
         final int[] volume = {0};
-        volumeMonitor.addVolumeChangeListener(event -> {
-            volume[0] = event.getVolume();
-        });
+        volumeMonitor.addVolumeChangeListener(event -> volume[0] = event.getVolume());
         volumeMonitor.processResponseStatus("volume: 1");
         volumeMonitor.checkStatus();
         assertEquals(1, volume[0]);
     }
 
     @Test
-    public void testProcessResponseStatusSameVolume() throws Exception {
+    public void testProcessResponseStatusSameVolume() {
         final boolean[] eventFired = {false};
 
-        volumeMonitor.addVolumeChangeListener(event -> {
-            eventFired[0] = true;
-        });
+        volumeMonitor.addVolumeChangeListener(event -> eventFired[0] = true);
         volumeMonitor.processResponseStatus("volume: 1");
         volumeMonitor.checkStatus();
         assertTrue(eventFired[0]);
@@ -44,12 +40,10 @@ public class MPDVolumeMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusNotVolume() throws Exception {
+    public void testProcessResponseStatusNotVolume() {
         final boolean[] eventFired = {false};
 
-        volumeMonitor.addVolumeChangeListener(event -> {
-            eventFired[0] = true;
-        });
+        volumeMonitor.addVolumeChangeListener(event -> eventFired[0] = true);
 
         volumeMonitor.processResponseStatus("bogus: 1");
         volumeMonitor.checkStatus();
@@ -57,7 +51,7 @@ public class MPDVolumeMonitorTest {
     }
 
     @Test
-    public void testRemoveVolumeChangeListener() throws Exception {
+    public void testRemoveVolumeChangeListener() {
         final int[] volume = {0};
 
         VolumeChangeListener volumeChangeListener = event -> volume[0] = event.getVolume();
@@ -75,14 +69,12 @@ public class MPDVolumeMonitorTest {
     }
 
     @Test
-    public void testResetVolume() throws Exception {
+    public void testResetVolume() {
         String line = "volume: 1";
 
         final boolean[] eventFired = {false};
 
-        volumeMonitor.addVolumeChangeListener(event -> {
-            eventFired[0] = true;
-        });
+        volumeMonitor.addVolumeChangeListener(event -> eventFired[0] = true);
         volumeMonitor.processResponseStatus(line);
         volumeMonitor.checkStatus();
         assertTrue(eventFired[0]);

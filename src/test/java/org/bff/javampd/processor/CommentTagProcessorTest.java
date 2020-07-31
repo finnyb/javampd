@@ -1,15 +1,15 @@
 package org.bff.javampd.processor;
 
 import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class CommentTagProcessorTest {
 
     @Test
-    public void testProcessSong() throws Exception {
+    public void testProcessSong() {
         String testComment = "testComment";
 
         CommentTagProcessor commentTagProcessor = new CommentTagProcessor();
@@ -22,7 +22,7 @@ public class CommentTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() throws Exception {
+    public void testProcessSongBadLine() {
         String testComment = "testComment";
 
         CommentTagProcessor commentTagProcessor = new CommentTagProcessor();

@@ -2,23 +2,23 @@ package org.bff.javampd.monitor;
 
 import org.bff.javampd.player.BitrateChangeEvent;
 import org.bff.javampd.player.BitrateChangeListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MPDBitrateMonitorTest {
 
     private BitrateMonitor bitrateMonitor;
 
-    @Before
+    @BeforeEach
     public void setup() {
         bitrateMonitor = new MPDBitrateMonitor();
     }
 
     @Test
-    public void testAddBitrateChangeListener() throws Exception {
+    public void testAddBitrateChangeListener() {
         final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
 
         bitrateMonitor.addBitrateChangeListener(event -> changeEvent[0] = event);
@@ -29,7 +29,7 @@ public class MPDBitrateMonitorTest {
     }
 
     @Test
-    public void testRemoveBitrateChangeListener() throws Exception {
+    public void testRemoveBitrateChangeListener() {
         final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
 
         BitrateChangeListener bitrateChangeListener = event -> changeEvent[0] = event;
@@ -48,7 +48,7 @@ public class MPDBitrateMonitorTest {
     }
 
     @Test
-    public void testBitrateNoChange() throws Exception {
+    public void testBitrateNoChange() {
         final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
 
         bitrateMonitor.addBitrateChangeListener(event -> changeEvent[0] = event);
@@ -64,7 +64,7 @@ public class MPDBitrateMonitorTest {
     }
 
     @Test
-    public void testResetBitrateChangeListener() throws Exception {
+    public void testResetBitrateChangeListener() {
         String line = "bitrate: 1";
 
         final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];

@@ -65,8 +65,8 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     public Collection<MPDAlbum> listAllAlbums(int start, int end) {
         List<MPDAlbum> albums = new ArrayList<>(listAllAlbums());
 
-        int toIndex = end > albums.size() ? albums.size() : end;
-        int fromIndex = start > end ? end : start;
+        int toIndex = Math.min(end, albums.size());
+        int fromIndex = Math.min(start, end);
 
         return albums.subList(fromIndex, toIndex);
     }

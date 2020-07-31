@@ -1,9 +1,6 @@
 package org.bff.javampd.command;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * MPDCommand represents a command along with optional command parameters to be
@@ -63,7 +60,7 @@ public class MPDCommand {
 
         MPDCommand that = (MPDCommand) o;
 
-        return command.equals(that.command) && !(params != null ? !params.equals(that.params) : that.params != null);
+        return command.equals(that.command) && !(!Objects.equals(params, that.params));
 
     }
 

@@ -3,33 +3,33 @@ package org.bff.javampd.song;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.genre.MPDGenre;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDSongDatabaseTest {
     private SongDatabase songDatabase;
     private SongSearcher mockedSongSearcher;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mockedSongSearcher = mock(SongSearcher.class);
         songDatabase = new MPDSongDatabase(mockedSongSearcher);
     }
 
     @Test
-    public void testFindAlbum() throws Exception {
+    public void testFindAlbum() {
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
@@ -43,7 +43,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByName() throws Exception {
+    public void testFindAlbumByName() {
         String testAlbumName = "testAlbumName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -54,7 +54,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchAlbum() throws Exception {
+    public void testSearchAlbum() {
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
@@ -68,7 +68,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchAlbumByName() throws Exception {
+    public void testSearchAlbumByName() {
         String testAlbumName = "testAlbumName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -79,7 +79,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindArtist() throws Exception {
+    public void testFindArtist() {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -92,7 +92,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindArtistByName() throws Exception {
+    public void testFindArtistByName() {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -103,7 +103,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchArtist() throws Exception {
+    public void testSearchArtist() {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -116,7 +116,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchArtistByName() throws Exception {
+    public void testSearchArtistByName() {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -127,7 +127,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByArtist() throws Exception {
+    public void testFindAlbumByArtist() {
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
@@ -145,7 +145,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByArtistByName() throws Exception {
+    public void testFindAlbumByArtistByName() {
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
 
@@ -161,7 +161,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByGenre() throws Exception {
+    public void testFindAlbumByGenre() {
         String testAlbumName = "testAlbumName";
         String testGenreName = "testGenre";
 
@@ -179,7 +179,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByYear() throws Exception {
+    public void testFindAlbumByYear() {
         String testAlbumName = "testAlbumName";
         String testYear = "1990";
         List<MPDSong> testSongs = generateSongs();
@@ -194,7 +194,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindYear() throws Exception {
+    public void testFindYear() {
         String testYear = "1990";
         List<MPDSong> testSongs = generateSongs();
 
@@ -205,7 +205,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindTitle() throws Exception {
+    public void testFindTitle() {
         String testTitle = "testTitle";
         List<MPDSong> testSongs = generateSongs();
 
@@ -216,7 +216,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindSongByAlbumAndArtist() throws Exception {
+    public void testFindSongByAlbumAndArtist() {
         String testTitle = "testTitle";
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
@@ -236,7 +236,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindSongByAlbumAndArtistNotFound() throws Exception {
+    public void testFindSongByAlbumAndArtistNotFound() {
         String testTitle = "testTitle";
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
@@ -252,7 +252,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAny() throws Exception {
+    public void testFindAny() {
         String testAny = "testAny";
         List<MPDSong> testSongs = generateSongs();
 
@@ -263,7 +263,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitle() throws Exception {
+    public void testSearchTitle() {
         String testTitle = "testTitle";
         List<MPDSong> testSongs = generateSongs();
 
@@ -274,7 +274,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchAny() throws Exception {
+    public void testSearchAny() {
         String testAny = "testAny";
         List<MPDSong> testSongs = generateSongs();
 
@@ -285,7 +285,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchFileName() throws Exception {
+    public void testSearchFileName() {
         String testFileName = "testFileName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -296,7 +296,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindGenre() throws Exception {
+    public void testFindGenre() {
         String testGenreName = "testGenreName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -309,7 +309,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindGenreByName() throws Exception {
+    public void testFindGenreByName() {
         String testGenreName = "testGenreName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -320,7 +320,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitleByYear() throws Exception {
+    public void testSearchTitleByYear() {
         String testTitle = "testTitle";
         int testStartYear = 1990;
         int testEndYear = 1992;
@@ -337,7 +337,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitleByYearNullYear() throws Exception {
+    public void testSearchTitleByYearNullYear() {
         String testTitle = "testTitle";
         int testStartYear = 1990;
         int testEndYear = 1992;
@@ -354,7 +354,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitleByYearFullYear() throws Exception {
+    public void testSearchTitleByYearFullYear() {
         String testTitle = "testTitle";
         int testStartYear = 1990;
         int testEndYear = 1992;
@@ -371,7 +371,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitleByYearBadYear() throws Exception {
+    public void testSearchTitleByYearBadYear() {
         String testTitle = "testTitle";
         int testStartYear = 1990;
         int testEndYear = 1992;

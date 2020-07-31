@@ -6,19 +6,19 @@ import org.bff.javampd.database.TagLister;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MPDPlaylistDatabaseTest {
 
     @Mock
@@ -36,7 +36,7 @@ public class MPDPlaylistDatabaseTest {
     private MPDPlaylistDatabase playlistDatabase;
 
     @Test
-    public void testListSavedPlaylists() throws Exception {
+    public void testListSavedPlaylists() {
         String testPlaylistName1 = "testName1";
         String testPlaylistName2 = "testName2";
 
@@ -62,7 +62,7 @@ public class MPDPlaylistDatabaseTest {
     }
 
     @Test
-    public void testListSavedPlaylistsSongs() throws Exception {
+    public void testListSavedPlaylistsSongs() {
         String testPlaylistName1 = "testName1";
         String testPlaylistName2 = "testName2";
 
@@ -110,7 +110,7 @@ public class MPDPlaylistDatabaseTest {
     }
 
     @Test
-    public void testListPlaylists() throws Exception {
+    public void testListPlaylists() {
         String testPlaylist = "testPlaylist";
 
         List<String> mockList = new ArrayList<>();

@@ -10,14 +10,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MPDFileDatabaseIT extends BaseTest {
     private FileDatabase fileDatabase;
     private TestProperties testProperties;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         fileDatabase = getMpd().getMusicDatabase().getFileDatabase();
         this.testProperties = TestProperties.getInstance();

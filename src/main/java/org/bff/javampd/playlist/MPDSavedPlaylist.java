@@ -4,6 +4,7 @@ import org.bff.javampd.MPDItem;
 import org.bff.javampd.song.MPDSong;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * MPDSavedPlaylist represents a saved playlist.
@@ -56,7 +57,7 @@ public class MPDSavedPlaylist extends MPDItem {
 
         MPDSavedPlaylist that = (MPDSavedPlaylist) o;
 
-        return songs != null ? songs.equals(that.songs) : that.songs == null;
+        return Objects.equals(songs, that.songs);
     }
 
     @Override

@@ -13,14 +13,14 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MPDArtworkFinderIT extends BaseTest {
     private ArtistDatabase artistDatabase;
     private ArtworkFinder artworkFinder;
 
-    @Before
+    @BeforeEach
     public void before() {
         this.artistDatabase = getMpd().getMusicDatabase().getArtistDatabase();
         this.artworkFinder = getMpd().getArtworkFinder();

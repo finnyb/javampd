@@ -1,14 +1,14 @@
 package org.bff.javampd.song;
 
 import org.bff.javampd.MPDItem;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDSongTest {
 
     @Test
-    public void testEquals() throws Exception {
+    public void testEquals() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file1", "song1");
 
@@ -16,21 +16,21 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testEqualsNull() throws Exception {
+    public void testEqualsNull() {
         MPDItem song1 = new MPDSong("file1", "song1");
 
         assertNotEquals(song1, null);
     }
 
     @Test
-    public void testEqualsSameObject() throws Exception {
+    public void testEqualsSameObject() {
         MPDItem song = new MPDSong("file1", "song");
 
         assertTrue(song.equals(song));
     }
 
     @Test
-    public void testNotEquals() throws Exception {
+    public void testNotEquals() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file2", "song2");
 
@@ -38,7 +38,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testHashCode() throws Exception {
+    public void testHashCode() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file1", "song1");
 
@@ -46,7 +46,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testCompareToLessThanZero() throws Exception {
+    public void testCompareToLessThanZero() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file2", "song2");
 
@@ -54,7 +54,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testCompareToGreaterThanZero() throws Exception {
+    public void testCompareToGreaterThanZero() {
         MPDItem song1 = new MPDSong("file2", "song2");
         MPDItem song2 = new MPDSong("file1", "song1");
 
@@ -62,7 +62,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testCompareToEquals() throws Exception {
+    public void testCompareToEquals() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file1", "song1");
 

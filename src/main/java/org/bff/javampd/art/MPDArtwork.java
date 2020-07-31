@@ -1,5 +1,7 @@
 package org.bff.javampd.art;
 
+import java.util.Objects;
+
 public class MPDArtwork {
     private String name;
     private String path;
@@ -38,7 +40,7 @@ public class MPDArtwork {
 
         MPDArtwork artwork = (MPDArtwork) o;
 
-        return this.path != null ? this.path.equals(artwork.path) : artwork.path == null;
+        return Objects.equals(this.path, artwork.path);
     }
 
     @Override

@@ -2,22 +2,22 @@ package org.bff.javampd.monitor;
 
 import org.bff.javampd.player.PlayerBasicChangeEvent;
 import org.bff.javampd.player.PlayerBasicChangeListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MPDPlayerMonitorTest {
 
     private PlayerMonitor playerMonitor;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         playerMonitor = new MPDPlayerMonitor();
     }
 
     @Test
-    public void testAddPlayerChangeListener() throws Exception {
+    public void testAddPlayerChangeListener() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -27,7 +27,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testRemovePlayerChangeListener() throws Exception {
+    public void testRemovePlayerChangeListener() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         PlayerBasicChangeListener playerBasicChangeListener = event -> changeEvent[0] = event;
@@ -45,7 +45,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerStarted() throws Exception {
+    public void testPlayerStarted() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -57,12 +57,12 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerStopped() throws Exception {
-        processStoppedTest("state: play", "state: stop");
+    public void testPlayerStopped() {
+        processStoppedTest("state: play");
     }
 
     @Test
-    public void testPlayerInvalidStatus() throws Exception {
+    public void testPlayerInvalidStatus() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -72,7 +72,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerInvalidStatusAfterValidStatus() throws Exception {
+    public void testPlayerInvalidStatusAfterValidStatus() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -87,7 +87,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerPaused() throws Exception {
+    public void testPlayerPaused() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -99,23 +99,23 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerPausedtoStopped() throws Exception {
-        processStoppedTest("state: pause", "state: stop");
+    public void testPlayerPausedtoStopped() {
+        processStoppedTest("state: pause");
     }
 
-    private void processStoppedTest(String from, String to) {
+    private void processStoppedTest(String from) {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
         playerMonitor.processResponseStatus(from);
         playerMonitor.checkStatus();
-        playerMonitor.processResponseStatus(to);
+        playerMonitor.processResponseStatus("state: stop");
         playerMonitor.checkStatus();
         assertEquals(PlayerBasicChangeEvent.Status.PLAYER_STOPPED, changeEvent[0].getStatus());
     }
 
     @Test
-    public void testPlayerUnPaused() throws Exception {
+    public void testPlayerUnPaused() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -131,14 +131,14 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testGetStatus() throws Exception {
+    public void testGetStatus() {
         playerMonitor.processResponseStatus("state: play");
         playerMonitor.checkStatus();
         assertEquals(PlayerStatus.STATUS_PLAYING, playerMonitor.getStatus());
     }
 
     @Test
-    public void testResetState() throws Exception {
+    public void testResetState() {
         String line = "state: play";
 
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
