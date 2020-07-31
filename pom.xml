@@ -61,6 +61,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <junit.jupiter.version>5.6.2</junit.jupiter.version>
         <mockito.version>3.4.4</mockito.version>
+        <plugin.prettier.goal>write</plugin.prettier.goal>
     </properties>
     <build>
         <plugins>
@@ -135,6 +136,19 @@
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.hubspot.maven.plugins</groupId>
+                <artifactId>prettier-maven-plugin</artifactId>
+                <version>0.8</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>${plugin.prettier.goal}</goal>
                         </goals>
                     </execution>
                 </executions>

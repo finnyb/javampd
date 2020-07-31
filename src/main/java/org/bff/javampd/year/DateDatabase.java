@@ -9,12 +9,11 @@ import java.util.Collection;
  */
 @FunctionalInterface
 public interface DateDatabase {
-
-    /**
-     * Returns a {@code Collection} of dates for songs in the database.  The dates are sorted from least to
-     * greatest.
-     *
-     * @return a {@link java.util.Collection} of years
-     */
-    Collection<String> listAllDates();
+  /**
+   * Returns a {@code Collection} of dates for songs in the database.  The dates are sorted from least to
+   * greatest.
+   *
+   * @return a {@link java.util.Collection} of years
+   */
+  Collection<String> listAllDates();
 }

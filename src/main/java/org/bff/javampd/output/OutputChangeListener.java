@@ -13,10 +13,10 @@ package org.bff.javampd.output;
  */
 @FunctionalInterface
 public interface OutputChangeListener {
-    /**
-     * Invoked when a mpd {@link OutputChangeEvent} occurs.
-     *
-     * @param event the event received
-     */
-    void outputChanged(OutputChangeEvent event);
+  /**
+   * Invoked when a mpd {@link OutputChangeEvent} occurs.
+   *
+   * @param event the event received
+   */
+  void outputChanged(OutputChangeEvent event);
 }

@@ -11,10 +11,10 @@ package org.bff.javampd.admin;
  */
 @FunctionalInterface
 public interface MPDChangeListener {
-    /**
-     * Invoked when a mpd administrative change event occurs.
-     *
-     * @param event the {@link MPDChangeEvent} received
-     */
-    void mpdChanged(MPDChangeEvent event);
+  /**
+   * Invoked when a mpd administrative change event occurs.
+   *
+   * @param event the {@link MPDChangeEvent} received
+   */
+  void mpdChanged(MPDChangeEvent event);
 }

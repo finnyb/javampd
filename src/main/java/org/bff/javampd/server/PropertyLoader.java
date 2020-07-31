@@ -7,11 +7,11 @@ package org.bff.javampd.server;
  */
 @FunctionalInterface
 public interface PropertyLoader {
-    /**
-     * Returns the properties value
-     *
-     * @param property the property string key
-     * @return the value from the properties file
-     */
-    String getPropertyString(String property);
+  /**
+   * Returns the properties value
+   *
+   * @param property the property string key
+   * @return the value from the properties file
+   */
+  String getPropertyString(String property);
 }

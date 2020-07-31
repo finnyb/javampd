@@ -26,16 +26,17 @@ import org.bff.javampd.year.MPDDateDatabase;
  * @author bill
  */
 public class MPDDatabaseModule extends AbstractModule {
-    @Override
-    protected void configure() {
-        bind(ArtistDatabase.class).to(MPDArtistDatabase.class);
-        bind(AlbumDatabase.class).to(MPDAlbumDatabase.class);
-        bind(SongDatabase.class).to(MPDSongDatabase.class);
-        bind(GenreDatabase.class).to(MPDGenreDatabase.class);
-        bind(PlaylistDatabase.class).to(MPDPlaylistDatabase.class);
-        bind(FileDatabase.class).to(MPDFileDatabase.class);
-        bind(DateDatabase.class).to(MPDDateDatabase.class);
-        bind(MusicDatabase.class).to(MPDMusicDatabase.class);
-        bind(SongSearcher.class).to(MPDSongSearcher.class);
-    }
+
+  @Override
+  protected void configure() {
+    bind(ArtistDatabase.class).to(MPDArtistDatabase.class);
+    bind(AlbumDatabase.class).to(MPDAlbumDatabase.class);
+    bind(SongDatabase.class).to(MPDSongDatabase.class);
+    bind(GenreDatabase.class).to(MPDGenreDatabase.class);
+    bind(PlaylistDatabase.class).to(MPDPlaylistDatabase.class);
+    bind(FileDatabase.class).to(MPDFileDatabase.class);
+    bind(DateDatabase.class).to(MPDDateDatabase.class);
+    bind(MusicDatabase.class).to(MPDMusicDatabase.class);
+    bind(SongSearcher.class).to(MPDSongSearcher.class);
+  }
 }

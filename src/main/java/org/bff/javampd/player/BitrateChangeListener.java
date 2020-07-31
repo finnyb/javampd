@@ -12,10 +12,10 @@ package org.bff.javampd.player;
  */
 @FunctionalInterface
 public interface BitrateChangeListener {
-    /**
-     * Invoked when a bitrate change event occurs.
-     *
-     * @param event the {@link BitrateChangeEvent} fired
-     */
-    void bitrateChanged(BitrateChangeEvent event);
+  /**
+   * Invoked when a bitrate change event occurs.
+   *
+   * @param event the {@link BitrateChangeEvent} fired
+   */
+  void bitrateChanged(BitrateChangeEvent event);
 }

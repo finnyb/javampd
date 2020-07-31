@@ -13,10 +13,10 @@ package org.bff.javampd.player;
  */
 @FunctionalInterface
 public interface TrackPositionChangeListener {
-    /**
-     * Invoked when a track position change occurs.
-     *
-     * @param event the event fired
-     */
-    void trackPositionChanged(TrackPositionChangeEvent event);
+  /**
+   * Invoked when a track position change occurs.
+   *
+   * @param event the event fired
+   */
+  void trackPositionChanged(TrackPositionChangeEvent event);
 }

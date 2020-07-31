@@ -13,10 +13,10 @@ package org.bff.javampd.player;
  */
 @FunctionalInterface
 public interface PlayerChangeListener {
-    /**
-     * Invoked when a player change event occurs.
-     *
-     * @param event the {@link PlayerChangeEvent} fired
-     */
-    void playerChanged(PlayerChangeEvent event);
+  /**
+   * Invoked when a player change event occurs.
+   *
+   * @param event the {@link PlayerChangeEvent} fired
+   */
+  void playerChanged(PlayerChangeEvent event);
 }

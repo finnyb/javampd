@@ -33,6 +33,7 @@
         <menu name="Contribute" inherit="bottom">
             <item name="Issues" href="http://github.com/finnyb/javampd/issues/"/>
             <item name="Fork on GitHub" href="http://github.com/finnyb/javampd/"/>
+            <item name="Style" href="https://google.github.io/styleguide/javaguide.html" />
         </menu>
         <menu name="Maven Docs" ref="reports"/>
     </body>

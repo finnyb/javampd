@@ -1,36 +1,36 @@
 package org.bff.javampd.processor;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.bff.javampd.song.MPDSong;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class FileTagProcessorTest {
 
-    @Test
-    public void testProcessSong() {
-        String testFile = "testFile";
+  @Test
+  public void testProcessSong() {
+    String testFile = "testFile";
 
-        FileTagProcessor fileTagProcessor = new FileTagProcessor();
-        MPDSong song = new MPDSong("file", "title");
+    FileTagProcessor fileTagProcessor = new FileTagProcessor();
+    MPDSong song = new MPDSong("file", "title");
 
-        String line = "file:" + testFile;
-        fileTagProcessor.processTag(song, line);
+    String line = "file:" + testFile;
+    fileTagProcessor.processTag(song, line);
 
-        assertEquals(testFile, song.getFile());
-    }
+    assertEquals(testFile, song.getFile());
+  }
 
-    @Test
-    public void testProcessSongBadLine() {
-        String testFile = "testFile";
-        String f = "file";
+  @Test
+  public void testProcessSongBadLine() {
+    String testFile = "testFile";
+    String f = "file";
 
-        FileTagProcessor fileTagProcessor = new FileTagProcessor();
-        MPDSong song = new MPDSong(f, "title");
+    FileTagProcessor fileTagProcessor = new FileTagProcessor();
+    MPDSong song = new MPDSong(f, "title");
 
-        String line = "BadFile:" + testFile;
-        fileTagProcessor.processTag(song, line);
+    String line = "BadFile:" + testFile;
+    fileTagProcessor.processTag(song, line);
 
-        assertEquals(f, song.getFile());
-    }
+    assertEquals(f, song.getFile());
+  }
 }

@@ -9,12 +9,12 @@ import org.bff.javampd.MPDItem;
  */
 public class MPDGenre extends MPDItem {
 
-    /**
-     * Creates a MPDGenre object
-     *
-     * @param name the name of the genre
-     */
-    public MPDGenre(String name) {
-        setName(name);
-    }
+  /**
+   * Creates a MPDGenre object
+   *
+   * @param name the name of the genre
+   */
+  public MPDGenre(String name) {
+    setName(name);
+  }
 }

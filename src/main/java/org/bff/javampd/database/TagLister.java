@@ -8,62 +8,66 @@ import java.util.List;
  * @author Bill
  */
 public interface TagLister {
-    enum ListType {
+  enum ListType {
+    ALBUM("album"),
+    ARTIST("artist"),
+    GENRE("genre"),
+    DATE("date");
 
-        ALBUM("album"),
-        ARTIST("artist"),
-        GENRE("genre"),
-        DATE("date");
-        private String type;
+    private String type;
 
-        ListType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
+    ListType(String type) {
+      this.type = type;
     }
 
-    enum GroupType {
+    public String getType() {
+      return type;
+    }
+  }
 
-        ALBUM("album"),
-        ARTIST("artist"),
-        GENRE("genre"),
-        DATE("date");
-        private String type;
+  enum GroupType {
+    ALBUM("album"),
+    ARTIST("artist"),
+    GENRE("genre"),
+    DATE("date");
 
-        GroupType(String type) {
-            this.type = type;
-        }
+    private String type;
 
-        public String getType() {
-            return type;
-        }
+    GroupType(String type) {
+      this.type = type;
     }
 
-    enum ListInfoType {
+    public String getType() {
+      return type;
+    }
+  }
 
-        PLAYLIST("playlist:"),
-        DIRECTORY("directory:"),
-        FILE("file:"),
-        LAST_MODIFIED("Last-Modified:");
-        private String prefix;
+  enum ListInfoType {
+    PLAYLIST("playlist:"),
+    DIRECTORY("directory:"),
+    FILE("file:"),
+    LAST_MODIFIED("Last-Modified:");
 
-        ListInfoType(String prefix) {
-            this.prefix = prefix;
-        }
+    private String prefix;
 
-        public String getPrefix() {
-            return prefix;
-        }
+    ListInfoType(String prefix) {
+      this.prefix = prefix;
     }
 
-    List<String> listInfo(ListInfoType... types);
+    public String getPrefix() {
+      return prefix;
+    }
+  }
 
-    List<String> list(ListType listType);
+  List<String> listInfo(ListInfoType... types);
 
-    List<String> list(ListType listType, GroupType... groupTypes);
+  List<String> list(ListType listType);
 
-    List<String> list(ListType listType, List<String> params, GroupType... groupTypes);
+  List<String> list(ListType listType, GroupType... groupTypes);
+
+  List<String> list(
+    ListType listType,
+    List<String> params,
+    GroupType... groupTypes
+  );
 }

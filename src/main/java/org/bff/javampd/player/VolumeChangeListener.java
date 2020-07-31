@@ -13,10 +13,10 @@ package org.bff.javampd.player;
  */
 @FunctionalInterface
 public interface VolumeChangeListener {
-    /**
-     * Invoked when a mpd volume change event occurs.
-     *
-     * @param event the event received
-     */
-    void volumeChanged(VolumeChangeEvent event);
+  /**
+   * Invoked when a mpd volume change event occurs.
+   *
+   * @param event the event received
+   */
+  void volumeChanged(VolumeChangeEvent event);
 }

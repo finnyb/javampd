@@ -13,10 +13,10 @@ package org.bff.javampd.server;
  */
 @FunctionalInterface
 public interface ConnectionChangeListener {
-    /**
-     * Invoked when a connection change event occurs.
-     *
-     * @param event the event received
-     */
-    void connectionChangeEventReceived(ConnectionChangeEvent event);
+  /**
+   * Invoked when a connection change event occurs.
+   *
+   * @param event the event received
+   */
+  void connectionChangeEventReceived(ConnectionChangeEvent event);
 }

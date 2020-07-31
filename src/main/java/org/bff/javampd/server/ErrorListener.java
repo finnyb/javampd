@@ -13,12 +13,10 @@ package org.bff.javampd.server;
  */
 @FunctionalInterface
 public interface ErrorListener {
-
-    /**
-     * Invoked when a MPD error occurs.
-     *
-     * @param event the event received
-     */
-    void errorEventReceived(ErrorEvent event);
-
+  /**
+   * Invoked when a MPD error occurs.
+   *
+   * @param event the event received
+   */
+  void errorEventReceived(ErrorEvent event);
 }

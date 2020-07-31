@@ -9,12 +9,12 @@ import org.bff.javampd.MPDItem;
  */
 public class MPDArtist extends MPDItem {
 
-    /**
-     * Creates a new artist
-     *
-     * @param name the name of the artist
-     */
-    public MPDArtist(String name) {
-        setName(name);
-    }
+  /**
+   * Creates a new artist
+   *
+   * @param name the name of the artist
+   */
+  public MPDArtist(String name) {
+    setName(name);
+  }
 }

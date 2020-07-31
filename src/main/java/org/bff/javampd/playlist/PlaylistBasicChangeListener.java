@@ -13,10 +13,10 @@ package org.bff.javampd.playlist;
  */
 @FunctionalInterface
 public interface PlaylistBasicChangeListener {
-    /**
-     * Invoked when a playlist event occurs.
-     *
-     * @param event the event fired
-     */
-    void playlistBasicChange(PlaylistBasicChangeEvent event);
+  /**
+   * Invoked when a playlist event occurs.
+   *
+   * @param event the event fired
+   */
+  void playlistBasicChange(PlaylistBasicChangeEvent event);
 }

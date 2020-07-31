@@ -8,19 +8,18 @@ import java.util.Collection;
  * @author bill
  */
 public interface FileDatabase {
+  /**
+   * Lists all {@link org.bff.javampd.file.MPDFile}s for the root directory of the file system.
+   *
+   * @return a {@code Collection} of {@link org.bff.javampd.file.MPDFile}
+   */
+  Collection<MPDFile> listRootDirectory();
 
-    /**
-     * Lists all {@link org.bff.javampd.file.MPDFile}s for the root directory of the file system.
-     *
-     * @return a {@code Collection} of {@link org.bff.javampd.file.MPDFile}
-     */
-    Collection<MPDFile> listRootDirectory();
-
-    /**
-     * Lists all {@link org.bff.javampd.file.MPDFile}s for the given directory of the file system.
-     *
-     * @param directory the directory to list
-     * @return a {@code Collection} of {@link org.bff.javampd.file.MPDFile}
-     */
-    Collection<MPDFile> listDirectory(MPDFile directory);
+  /**
+   * Lists all {@link org.bff.javampd.file.MPDFile}s for the given directory of the file system.
+   *
+   * @param directory the directory to list
+   * @return a {@code Collection} of {@link org.bff.javampd.file.MPDFile}
+   */
+  Collection<MPDFile> listDirectory(MPDFile directory);
 }

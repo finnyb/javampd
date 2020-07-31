@@ -28,19 +28,20 @@ import org.bff.javampd.statistics.ServerStatistics;
  * @author bill
  */
 public class MPDModule extends AbstractModule {
-    @Override
-    protected void configure() {
-        bind(Admin.class).to(MPDAdmin.class);
-        bind(Player.class).to(MPDPlayer.class);
-        bind(Playlist.class).to(MPDPlaylist.class);
-        bind(ServerStatus.class).to(MPDServerStatus.class);
-        bind(ServerStatistics.class).to(MPDServerStatistics.class);
-        bind(Player.class).to(MPDPlayer.class);
-        bind(CommandExecutor.class).to(MPDCommandExecutor.class);
-        bind(TagLister.class).to(MPDTagLister.class);
-        bind(SongConverter.class).to(MPDSongConverter.class);
-        bind(AlbumConverter.class).to(MPDAlbumConverter.class);
-        bind(ArtworkFinder.class).to(MPDArtworkFinder.class);
-        bind(Clock.class).to(MPDSystemClock.class);
-    }
+
+  @Override
+  protected void configure() {
+    bind(Admin.class).to(MPDAdmin.class);
+    bind(Player.class).to(MPDPlayer.class);
+    bind(Playlist.class).to(MPDPlaylist.class);
+    bind(ServerStatus.class).to(MPDServerStatus.class);
+    bind(ServerStatistics.class).to(MPDServerStatistics.class);
+    bind(Player.class).to(MPDPlayer.class);
+    bind(CommandExecutor.class).to(MPDCommandExecutor.class);
+    bind(TagLister.class).to(MPDTagLister.class);
+    bind(SongConverter.class).to(MPDSongConverter.class);
+    bind(AlbumConverter.class).to(MPDAlbumConverter.class);
+    bind(ArtworkFinder.class).to(MPDArtworkFinder.class);
+    bind(Clock.class).to(MPDSystemClock.class);
+  }
 }
