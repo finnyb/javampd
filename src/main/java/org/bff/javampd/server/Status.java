@@ -65,6 +65,14 @@ public enum Status {
      */
     ERROR("error:"),
     /**
+     * if 'consume' mode is enabled
+     */
+    CONSUME("consume:"),
+    /**
+     * if 'single' mode is enabled
+     */
+    SINGLE("single:"),
+    /**
      * if the status is unknown
      */
     UNKNOWN("unknown");

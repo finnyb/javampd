@@ -35,7 +35,7 @@ public class MPDServerStatus implements ServerStatus {
         }
 
         public int getIndex() {
-            return this.index;
+            return index;
         }
     }
 
@@ -46,7 +46,7 @@ public class MPDServerStatus implements ServerStatus {
         this.serverProperties = serverProperties;
         this.commandExecutor = commandExecutor;
         this.clock = clock;
-        this.responseDate = clock.min();
+        responseDate = clock.min();
     }
 
     /**
@@ -59,10 +59,10 @@ public class MPDServerStatus implements ServerStatus {
      * @return the desired status information
      */
     protected String getStatus(Status status) {
-        LocalDateTime now = this.clock.now();
-        if (now.minusSeconds(this.expiryInterval).isAfter(this.responseDate)) {
-            this.responseDate = now;
-            this.cachedResponse = commandExecutor.sendCommand(serverProperties.getStatus());
+        LocalDateTime now = clock.now();
+        if (now.minusSeconds(expiryInterval).isAfter(responseDate)) {
+            responseDate = now;
+            cachedResponse = commandExecutor.sendCommand(serverProperties.getStatus());
         }
 
         for (String line : cachedResponse) {
@@ -169,13 +169,23 @@ public class MPDServerStatus implements ServerStatus {
     }
 
     @Override
+    public boolean isConsume() {
+        return "1".equals(getStatus(Status.CONSUME));
+    }
+
+    @Override
+    public boolean isSingle() {
+        return "1".equals(getStatus(Status.SINGLE));
+    }
+
+    @Override
     public void setExpiryInterval(long seconds) {
-        this.expiryInterval = seconds;
+        expiryInterval = seconds;
     }
 
     @Override
     public void forceUpdate() {
-        this.responseDate = this.clock.min();
+        responseDate = clock.min();
     }
 
     private long lookupTime(TimeType type) {

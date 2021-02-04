@@ -122,4 +122,20 @@ public interface ServerStatus {
      * Forces a server update
      */
     void forceUpdate();
+
+    /**
+     * Returns if the player is in consuming mode. If true, each song played is removed from
+     * playlist.
+     *
+     * @return true if the player is in consuming mode.
+     */
+    boolean isConsume();
+
+    /**
+     * Returns if the player plays a single track. If true, activated, playback is stopped after
+     * current song, or song is repeated if the 'repeat' mode is enabled.
+     *
+     * @return true if the player plays a single track;
+     */
+    boolean isSingle();
 }
