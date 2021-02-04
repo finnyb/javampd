@@ -78,4 +78,12 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
 
         return songList;
     }
+
+    @Override
+    public int countPlaylistSongs(String playlistName) {
+        List<String> response = commandExecutor
+                .sendCommand(databaseProperties.getListSongs(), playlistName);
+
+        return response.size();
+    }
 }
