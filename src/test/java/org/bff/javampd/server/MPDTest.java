@@ -98,7 +98,7 @@ class MPDTest {
 
     @Test
     void testAuthenticate() {
-        mpdBuilder.build();
+        assertDoesNotThrow(() -> mpdBuilder.build());
     }
 
     @Test

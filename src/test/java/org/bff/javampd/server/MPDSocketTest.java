@@ -240,7 +240,7 @@ class MPDSocketTest {
                 .thenReturn(testResponse)
                 .thenReturn(null);
 
-        socket.sendCommand(new MPDCommand("command", "params"));
+        assertDoesNotThrow(() -> socket.sendCommand(new MPDCommand("command", "params")));
     }
 
     @Test
@@ -297,7 +297,7 @@ class MPDSocketTest {
                 .thenThrow(new SocketException())
                 .thenReturn("OK");
 
-        socket.sendCommand(new MPDCommand("command"));
+        assertDoesNotThrow(() -> socket.sendCommand(new MPDCommand("command")));
     }
 
     @Test
@@ -455,7 +455,7 @@ class MPDSocketTest {
     @Test
     void testClose() throws IOException {
         createValidSocket();
-        socket.close();
+        assertDoesNotThrow(() -> socket.close());
     }
 
     private String convertCommand(MPDCommand command) {

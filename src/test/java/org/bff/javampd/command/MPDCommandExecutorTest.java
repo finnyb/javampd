@@ -138,7 +138,7 @@ class MPDCommandExecutorTest {
                 .doNothing()
                 .when(mpdSocket).sendCommands(commands);
 
-        commandExecutor.sendCommands(commands);
+        assertDoesNotThrow(() -> commandExecutor.sendCommands(commands));
     }
 
     @Test
@@ -155,7 +155,7 @@ class MPDCommandExecutorTest {
 
         doNothing().when(mpdSocket).sendCommands(commands);
 
-        commandExecutor.sendCommands(commands);
+        assertDoesNotThrow(() -> commandExecutor.sendCommands(commands));
     }
 
     @Test
@@ -243,7 +243,7 @@ class MPDCommandExecutorTest {
         when(mpdSocket.sendCommand(command)).thenReturn(testResponse);
 
         commandExecutor.usePassword(password);
-        commandExecutor.authenticate();
+        assertDoesNotThrow(() -> commandExecutor.authenticate());
     }
 
     @Test
