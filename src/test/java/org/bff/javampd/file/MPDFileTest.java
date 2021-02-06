@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class MPDFileTest {
+class MPDFileTest {
 
     @Test
-    public void testGetPath() {
+    void testGetPath() {
         String path = "/path/to/Name";
         MPDFile mpdFile = new MPDFile(path);
         mpdFile.setPath(path);
@@ -16,14 +16,14 @@ public class MPDFileTest {
     }
 
     @Test
-    public void testIsDirectory() {
+    void testIsDirectory() {
         MPDFile mpdFile = new MPDFile("");
         mpdFile.setDirectory(false);
         assertFalse(mpdFile.isDirectory());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String path = "/path/to/Name";
         MPDFile mpdFile = new MPDFile(path);
         mpdFile.setPath(path);

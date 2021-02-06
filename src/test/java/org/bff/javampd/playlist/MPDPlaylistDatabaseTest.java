@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDPlaylistDatabaseTest {
+class MPDPlaylistDatabaseTest {
 
     @Mock
     private SongDatabase songDatabase;
@@ -36,7 +36,7 @@ public class MPDPlaylistDatabaseTest {
     private MPDPlaylistDatabase playlistDatabase;
 
     @Test
-    public void testListSavedPlaylists() {
+    void testListSavedPlaylists() {
         String testPlaylistName1 = "testName1";
         String testPlaylistName2 = "testName2";
 
@@ -62,7 +62,7 @@ public class MPDPlaylistDatabaseTest {
     }
 
     @Test
-    public void testListSavedPlaylistsSongs() {
+    void testListSavedPlaylistsSongs() {
         String testPlaylistName1 = "testName1";
         String testPlaylistName2 = "testName2";
 
@@ -110,7 +110,7 @@ public class MPDPlaylistDatabaseTest {
     }
 
     @Test
-    public void testListPlaylists() {
+    void testListPlaylists() {
         String testPlaylist = "testPlaylist";
 
         List<String> mockList = new ArrayList<>();

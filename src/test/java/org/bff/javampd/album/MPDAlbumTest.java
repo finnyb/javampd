@@ -8,10 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Bill
  */
-public class MPDAlbumTest {
+class MPDAlbumTest {
 
     @Test
-    public void testInEqualityAlbumNames() {
+    void testInEqualityAlbumNames() {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
 
@@ -19,7 +19,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testInEqualityAlbumArtists() {
+    void testInEqualityAlbumArtists() {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist2");
 
@@ -27,7 +27,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testEqualityAlbumNames() {
+    void testEqualityAlbumNames() {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
 
@@ -35,7 +35,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testEqualityAlbumArtists() {
+    void testEqualityAlbumArtists() {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
 
@@ -43,7 +43,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testEqualityDifferentGenres() {
+    void testEqualityDifferentGenres() {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         album1.setGenre("genre1");
         MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
@@ -54,7 +54,7 @@ public class MPDAlbumTest {
 
 
     @Test
-    public void testCompareArtists() {
+    void testCompareArtists() {
         MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
         MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
 
@@ -62,21 +62,21 @@ public class MPDAlbumTest {
     }
     
     @Test
-    public void testEqualsNull() {
+    void testEqualsNull() {
         MPDAlbum album = new MPDAlbum("Album", "Artist");
 
         assertNotEquals(album, null);
     }
 
     @Test
-    public void testEqualsSameObject() {
+    void testEqualsSameObject() {
         MPDAlbum album = new MPDAlbum("Album", "Artist");
 
         assertEquals(album, album);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         MPDItem item1 = new MPDAlbum("Album1", "Artist1");
         MPDItem item2 = new MPDAlbum("Album1", "Artist1");
 
@@ -84,7 +84,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testCompareToLessThanZero() {
+    void testCompareToLessThanZero() {
         MPDItem item1 = new MPDAlbum("Album1", "Artist1");
         MPDItem item2 = new MPDAlbum("Album2", "Artist1");
 
@@ -92,7 +92,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testCompareToGreaterThanZero() {
+    void testCompareToGreaterThanZero() {
         MPDItem item1 = new MPDAlbum("Album2", "Artist1");
         MPDItem item2 = new MPDAlbum("Album1", "Artist1");
 
@@ -100,7 +100,7 @@ public class MPDAlbumTest {
     }
 
     @Test
-    public void testCompareToEquals() {
+    void testCompareToEquals() {
         MPDItem item1 = new MPDAlbum("Album1", "Artist1");
         MPDItem item2 = new MPDAlbum("Album1", "Artist1");
 

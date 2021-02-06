@@ -16,10 +16,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class BuilderTest {
+class BuilderTest {
 
     @Mock
     private MPDCommandExecutor mpdCommandExecutor;
@@ -38,30 +39,30 @@ public class BuilderTest {
     private static final String DEFAULT_SERVER = "localhost";
 
     @Test
-    public void testServer() throws UnknownHostException {
+    void testServer() throws UnknownHostException {
         MPD mpd = mpdBuilder.server("localhost").build();
         assertEquals(InetAddress.getByName("localhost"), mpd.getAddress());
     }
 
     @Test
-    public void testBuilderException() {
+    void testBuilderException() {
          assertThrows(MPDConnectionException.class, () -> new MPD.Builder().server("bogusServer").build());
     }
 
     @Test
-    public void testPort() {
+    void testPort() {
         MPD mpd = mpdBuilder.port(8080).build();
         assertEquals(mpd.getPort(), 8080);
     }
 
     @Test
-    public void testTimeout() {
+    void testTimeout() {
         MPD mpd = mpdBuilder.timeout(0).build();
         assertEquals(mpd.getTimeout(), 0);
     }
 
     @Test
-    public void testPassword() {
+    void testPassword() {
         String password = "thepassword";
 
         MPD mpd = mpdBuilder.password(password).build();
@@ -73,7 +74,7 @@ public class BuilderTest {
     }
 
     @Test
-    public void testNullPassword() {
+    void testNullPassword() {
         String password = null;
         MPD mpd = mpdBuilder.password(password).build();
 
@@ -82,7 +83,7 @@ public class BuilderTest {
     }
 
     @Test
-    public void testBlankPassword() {
+    void testBlankPassword() {
         String password = "";
         MPD mpd = mpdBuilder.password(password).build();
 
@@ -91,25 +92,25 @@ public class BuilderTest {
     }
 
     @Test
-    public void testBuild() {
+    void testBuild() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd);
     }
 
     @Test
-    public void testDefaultServer() throws UnknownHostException {
+    void testDefaultServer() throws UnknownHostException {
         MPD mpd = mpdBuilder.build();
         assertEquals(InetAddress.getByName(DEFAULT_SERVER), mpd.getAddress());
     }
 
     @Test
-    public void testDefaultPort() {
+    void testDefaultPort() {
         MPD mpd = mpdBuilder.build();
         assertEquals(mpd.getPort(), DEFAULT_PORT);
     }
 
     @Test
-    public void testDefaultTimeout() {
+    void testDefaultTimeout() {
         MPD mpd = mpdBuilder.build();
         assertEquals(mpd.getTimeout(), DEFAULT_TIMEOUT);
     }

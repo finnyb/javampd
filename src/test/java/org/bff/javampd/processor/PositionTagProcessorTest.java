@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PositionTagProcessorTest {
+class PositionTagProcessorTest {
 
     @Test
-    public void testProcessSong() {
+    void testProcessSong() {
         int testPosition = 1;
 
         PositionTagProcessor positionTagProcessor = new PositionTagProcessor();
@@ -21,7 +21,7 @@ public class PositionTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() {
+    void testProcessSongBadLine() {
         int testPosition = 1;
 
         PositionTagProcessor positionTagProcessor = new PositionTagProcessor();

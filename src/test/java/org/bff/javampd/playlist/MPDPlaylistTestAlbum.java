@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDPlaylistTestAlbum {
+class MPDPlaylistTestAlbum {
 
     @Mock
     private SongDatabase songDatabase;
@@ -48,12 +48,12 @@ public class MPDPlaylistTestAlbum {
     private PlaylistProperties realPlaylistProperties;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         realPlaylistProperties = new PlaylistProperties();
     }
 
     @Test
-    public void testInsertAlbumByArtist() {
+    void testInsertAlbumByArtist() {
         MPDArtist artist = new MPDArtist("testArtist");
         MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
 
@@ -78,7 +78,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testInsertAlbumByNames() {
+    void testInsertAlbumByNames() {
         String artist = "testArtist";
         String album = "testAlbum";
 
@@ -103,7 +103,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testInsertAlbumByName() {
+    void testInsertAlbumByName() {
         String album = "testAlbum";
 
         List<MPDSong> songs = new ArrayList<>();
@@ -127,7 +127,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testInsertAlbumByAlbum() {
+    void testInsertAlbumByAlbum() {
         MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
 
         List<MPDSong> songs = new ArrayList<>();
@@ -151,7 +151,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testRemoveAlbumByArtist() {
+    void testRemoveAlbumByArtist() {
         MPDArtist artist = new MPDArtist("testArtist");
         MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
 
@@ -195,7 +195,7 @@ public class MPDPlaylistTestAlbum {
     }
 
     @Test
-    public void testRemoveAlbumByName() {
+    void testRemoveAlbumByName() {
         String artist = "testArtist";
         String album = "testAlbum";
 

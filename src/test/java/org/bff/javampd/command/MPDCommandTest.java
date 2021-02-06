@@ -1,45 +1,44 @@
 package org.bff.javampd.command;
 
-import org.bff.javampd.server.MPDConnectionException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MPDCommandTest {
+class MPDCommandTest {
 
     @Test
-    public void testCommand() {
+    void testCommand() {
         MPDCommand mpdCommand = new MPDCommand("command");
         assertEquals("command", mpdCommand.getCommand());
     }
 
     @Test
-    public void testCommandWithOneParm() {
+    void testCommandWithOneParm() {
         MPDCommand mpdCommand = new MPDCommand("command", "parm");
         assertEquals("command", mpdCommand.getCommand());
     }
 
     @Test
-    public void testCommandWithParms() {
+    void testCommandWithParms() {
         MPDCommand mpdCommand = new MPDCommand("command", "parm1", "parm2");
         assertEquals("command", mpdCommand.getCommand());
     }
 
     @Test
-    public void testParmsWithNoParam() {
+    void testParmsWithNoParam() {
         MPDCommand mpdCommand = new MPDCommand("command");
         assertEquals(0, mpdCommand.getParams().size());
     }
 
     @Test
-    public void testParmsWithOneParm() {
+    void testParmsWithOneParm() {
         MPDCommand mpdCommand = new MPDCommand("command", "parm");
         assertEquals(1, mpdCommand.getParams().size());
         assertEquals("parm", mpdCommand.getParams().get(0));
     }
 
     @Test
-    public void testParmsWithMultipleParms() {
+    void testParmsWithMultipleParms() {
         MPDCommand mpdCommand = new MPDCommand("command", "parm1", "parm2");
         assertEquals(2, mpdCommand.getParams().size());
         assertEquals("parm1", mpdCommand.getParams().get(0));
@@ -47,7 +46,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testEqualsNoParams() {
+    void testEqualsNoParams() {
         MPDCommand command1 = new MPDCommand("command1");
         MPDCommand command2 = new MPDCommand("command1");
 
@@ -55,7 +54,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testEqualsSingleParam() {
+    void testEqualsSingleParam() {
         MPDCommand command1 = new MPDCommand("command1", "param1");
         MPDCommand command2 = new MPDCommand("command1", "param1");
 
@@ -63,7 +62,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testEqualsMultipleParams() {
+    void testEqualsMultipleParams() {
         MPDCommand command1 = new MPDCommand("command1", "param1", "param2");
         MPDCommand command2 = new MPDCommand("command1", "param1", "param2");
 
@@ -71,7 +70,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         MPDCommand command1 = new MPDCommand("command1");
         MPDCommand command2 = new MPDCommand("command2");
 
@@ -79,28 +78,28 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testEqualsNull() {
+    void testEqualsNull() {
         MPDCommand command = new MPDCommand("command");
 
         assertNotEquals(command, null);
     }
 
     @Test
-    public void testEqualsSameObject() {
+    void testEqualsSameObject() {
         MPDCommand item = new MPDCommand("command");
 
         assertEquals(item, item);
     }
 
     @Test
-    public void testEqualsDifferentClass() {
+    void testEqualsDifferentClass() {
         MPDCommand command = new MPDCommand("command");
 
         assertNotEquals("", command);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         MPDCommand command1 = new MPDCommand("command1");
         MPDCommand command2 = new MPDCommand("command1");
 
@@ -108,7 +107,7 @@ public class MPDCommandTest {
     }
 
     @Test
-    public void testNullException() {
+    void testNullException() {
         assertThrows(IllegalArgumentException.class, () -> new MPDCommand(null));
     }
 }

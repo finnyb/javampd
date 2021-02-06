@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDGenreDatabaseTest {
+class MPDGenreDatabaseTest {
     private static final String GENRE_PREFIX = "Genre: ";
 
     @Mock
@@ -24,7 +24,7 @@ public class MPDGenreDatabaseTest {
     private MPDGenreDatabase genreDatabase;
 
     @Test
-    public void testListAllGenres() {
+    void testListAllGenres() {
         MPDGenre testGenre1 = new MPDGenre("Genre1");
         MPDGenre testGenre2 = new MPDGenre("Genre2");
 
@@ -41,7 +41,7 @@ public class MPDGenreDatabaseTest {
     }
 
     @Test
-    public void testListGenreByName() {
+    void testListGenreByName() {
         MPDGenre genre = new MPDGenre("Genre1");
 
         List<String> testGenres = new ArrayList<>();
@@ -57,7 +57,7 @@ public class MPDGenreDatabaseTest {
     }
 
     @Test
-    public void testListGenreByNameMultiples() {
+    void testListGenreByNameMultiples() {
         MPDGenre genre1 = new MPDGenre("Genre1");
         MPDGenre genre2 = new MPDGenre("Genre2");
 

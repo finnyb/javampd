@@ -19,7 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDServerStatisticsTest {
+class MPDServerStatisticsTest {
 
     @Mock
     private MPDCommandExecutor commandExecutor;
@@ -35,7 +35,7 @@ public class MPDServerStatisticsTest {
     private List<String> statList;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         when(clock.min()).thenReturn(LocalDateTime.MIN);
         serverStatistics = new MPDServerStatistics(properties, commandExecutor, clock);
         statList = new ArrayList<>();
@@ -45,7 +45,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetPlaytime() {
+    void testGetPlaytime() {
         String playTime = "5";
         statList.add("playtime: " + playTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -54,7 +54,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetPlaytimeParseException() {
+    void testGetPlaytimeParseException() {
         String playTime = "junk";
         statList.add("playtime: " + playTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -63,7 +63,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetUptime() {
+    void testGetUptime() {
         String uptime = "5";
         statList.add("uptime: " + uptime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -72,7 +72,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetAlbumCount() {
+    void testGetAlbumCount() {
         String albums = "5";
         statList.add("albums: " + albums);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -81,7 +81,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetArtistCount() {
+    void testGetArtistCount() {
         String artists = "5";
         statList.add("artists: " + artists);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -90,7 +90,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetSongCount() {
+    void testGetSongCount() {
         String songs = "5";
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -99,7 +99,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetDatabasePlaytime() {
+    void testGetDatabasePlaytime() {
         String playtime = "5";
         statList.add("db_playtime: " + playtime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -108,7 +108,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testGetLastUpdateTime() {
+    void testGetLastUpdateTime() {
         String updateTime = "5";
         statList.add("db_update: " + updateTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -117,7 +117,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testNonexistantStat() {
+    void testNonexistantStat() {
         String updateTime = "5";
         statList.add("fake: " + updateTime);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -126,7 +126,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testInsideDefaultExpiry() {
+    void testInsideDefaultExpiry() {
         String songs = "5";
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -138,7 +138,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testOutsideDefaultExpiry() throws InterruptedException {
+    void testOutsideDefaultExpiry() throws InterruptedException {
         String songs = "5";
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);
@@ -149,7 +149,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testSetExpiry() throws InterruptedException {
+    void testSetExpiry() throws InterruptedException {
         int interval = 1;
         serverStatistics.setExpiryInterval(interval);
         String songs = "5";
@@ -162,7 +162,7 @@ public class MPDServerStatisticsTest {
     }
 
     @Test
-    public void testForceUpdate() {
+    void testForceUpdate() {
         String songs = "5";
         statList.add("songs: " + songs);
         when(commandExecutor.sendCommand(properties.getStats())).thenReturn(statList);

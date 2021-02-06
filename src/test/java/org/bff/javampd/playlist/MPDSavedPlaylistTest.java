@@ -10,9 +10,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class MPDSavedPlaylistTest {
+class MPDSavedPlaylistTest {
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist1");
 
@@ -20,7 +20,7 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testDifferentHashCode() {
+    void testDifferentHashCode() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist2");
 
@@ -28,14 +28,14 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testEqualsSameObject() {
+    void testEqualsSameObject() {
         MPDSavedPlaylist playlist = new MPDSavedPlaylist("playlist1");
 
         assertEquals(playlist, playlist);
     }
 
     @Test
-    public void testEqualsSameName() {
+    void testEqualsSameName() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist1");
 
@@ -43,7 +43,7 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testNotEqualsSameNameDifferentSongs() {
+    void testNotEqualsSameNameDifferentSongs() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist1");
 
@@ -63,7 +63,7 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDSavedPlaylist playlist2 = new MPDSavedPlaylist("playlist2");
 
@@ -71,7 +71,7 @@ public class MPDSavedPlaylistTest {
     }
 
     @Test
-    public void testNotEqualsDifferentClasses() {
+    void testNotEqualsDifferentClasses() {
         MPDSavedPlaylist playlist1 = new MPDSavedPlaylist("playlist1");
         MPDArtist playlist2 = new MPDArtist("playlist2");
 

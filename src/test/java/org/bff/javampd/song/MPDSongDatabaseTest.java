@@ -18,18 +18,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDSongDatabaseTest {
+class MPDSongDatabaseTest {
     private SongDatabase songDatabase;
     private SongSearcher mockedSongSearcher;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mockedSongSearcher = mock(SongSearcher.class);
         songDatabase = new MPDSongDatabase(mockedSongSearcher);
     }
 
     @Test
-    public void testFindAlbum() {
+    void testFindAlbum() {
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
@@ -43,7 +43,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByName() {
+    void testFindAlbumByName() {
         String testAlbumName = "testAlbumName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -54,7 +54,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchAlbum() {
+    void testSearchAlbum() {
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
@@ -68,7 +68,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchAlbumByName() {
+    void testSearchAlbumByName() {
         String testAlbumName = "testAlbumName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -79,7 +79,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindArtist() {
+    void testFindArtist() {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -92,7 +92,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindArtistByName() {
+    void testFindArtistByName() {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -103,7 +103,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchArtist() {
+    void testSearchArtist() {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -116,7 +116,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchArtistByName() {
+    void testSearchArtistByName() {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -127,7 +127,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByArtist() {
+    void testFindAlbumByArtist() {
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
@@ -145,7 +145,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByArtistByName() {
+    void testFindAlbumByArtistByName() {
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
 
@@ -161,7 +161,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByGenre() {
+    void testFindAlbumByGenre() {
         String testAlbumName = "testAlbumName";
         String testGenreName = "testGenre";
 
@@ -179,7 +179,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByYear() {
+    void testFindAlbumByYear() {
         String testAlbumName = "testAlbumName";
         String testYear = "1990";
         List<MPDSong> testSongs = generateSongs();
@@ -194,7 +194,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindYear() {
+    void testFindYear() {
         String testYear = "1990";
         List<MPDSong> testSongs = generateSongs();
 
@@ -205,7 +205,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindTitle() {
+    void testFindTitle() {
         String testTitle = "testTitle";
         List<MPDSong> testSongs = generateSongs();
 
@@ -216,7 +216,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindSongByAlbumAndArtist() {
+    void testFindSongByAlbumAndArtist() {
         String testTitle = "testTitle";
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
@@ -236,7 +236,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindSongByAlbumAndArtistNotFound() {
+    void testFindSongByAlbumAndArtistNotFound() {
         String testTitle = "testTitle";
         String testAlbumName = "testAlbumName";
         String testArtistName = "testArtistName";
@@ -252,7 +252,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindAny() {
+    void testFindAny() {
         String testAny = "testAny";
         List<MPDSong> testSongs = generateSongs();
 
@@ -263,7 +263,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitle() {
+    void testSearchTitle() {
         String testTitle = "testTitle";
         List<MPDSong> testSongs = generateSongs();
 
@@ -274,7 +274,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchAny() {
+    void testSearchAny() {
         String testAny = "testAny";
         List<MPDSong> testSongs = generateSongs();
 
@@ -285,7 +285,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchFileName() {
+    void testSearchFileName() {
         String testFileName = "testFileName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -296,7 +296,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindGenre() {
+    void testFindGenre() {
         String testGenreName = "testGenreName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -309,7 +309,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testFindGenreByName() {
+    void testFindGenreByName() {
         String testGenreName = "testGenreName";
         List<MPDSong> testSongs = generateSongs();
 
@@ -320,7 +320,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitleByYear() {
+    void testSearchTitleByYear() {
         String testTitle = "testTitle";
         int testStartYear = 1990;
         int testEndYear = 1992;
@@ -337,7 +337,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitleByYearNullYear() {
+    void testSearchTitleByYearNullYear() {
         String testTitle = "testTitle";
         int testStartYear = 1990;
         int testEndYear = 1992;
@@ -354,7 +354,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitleByYearFullYear() {
+    void testSearchTitleByYearFullYear() {
         String testTitle = "testTitle";
         int testStartYear = 1990;
         int testEndYear = 1992;
@@ -371,7 +371,7 @@ public class MPDSongDatabaseTest {
     }
 
     @Test
-    public void testSearchTitleByYearBadYear() {
+    void testSearchTitleByYearBadYear() {
         String testTitle = "testTitle";
         int testStartYear = 1990;
         int testEndYear = 1992;

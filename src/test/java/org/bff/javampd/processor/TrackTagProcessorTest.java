@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TrackTagProcessorTest {
+class TrackTagProcessorTest {
     @Test
-    public void testProcessSong() {
+    void testProcessSong() {
         String testTrack = "2/10";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
@@ -20,7 +20,7 @@ public class TrackTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() {
+    void testProcessSongBadLine() {
         String testTrack = "2/10";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
@@ -33,7 +33,7 @@ public class TrackTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongUnparseable() {
+    void testProcessSongUnparseable() {
         String testTrack = "junk";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();

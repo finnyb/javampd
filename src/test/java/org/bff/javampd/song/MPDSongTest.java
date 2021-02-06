@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MPDSongTest {
+class MPDSongTest {
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file1", "song1");
 
@@ -16,21 +16,21 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testEqualsNull() {
+    void testEqualsNull() {
         MPDItem song1 = new MPDSong("file1", "song1");
 
         assertNotEquals(song1, null);
     }
 
     @Test
-    public void testEqualsSameObject() {
+    void testEqualsSameObject() {
         MPDItem song = new MPDSong("file1", "song");
 
         assertTrue(song.equals(song));
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file2", "song2");
 
@@ -38,7 +38,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file1", "song1");
 
@@ -46,7 +46,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testCompareToLessThanZero() {
+    void testCompareToLessThanZero() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file2", "song2");
 
@@ -54,7 +54,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testCompareToGreaterThanZero() {
+    void testCompareToGreaterThanZero() {
         MPDItem song1 = new MPDSong("file2", "song2");
         MPDItem song2 = new MPDSong("file1", "song1");
 
@@ -62,7 +62,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testCompareToEquals() {
+    void testCompareToEquals() {
         MPDItem song1 = new MPDSong("file1", "song1");
         MPDItem song2 = new MPDSong("file1", "song1");
 
@@ -70,7 +70,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String file = "file1";
         MPDItem song = new MPDSong("file1", "song1");
 
@@ -78,7 +78,7 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testGetName() {
+    void testGetName() {
         MPDItem song = new MPDSong("file1", "song1");
         song.setName("name1");
 
@@ -86,14 +86,14 @@ public class MPDSongTest {
     }
 
     @Test
-    public void testGetNameNullName() {
+    void testGetNameNullName() {
         MPDItem song = new MPDSong("file1", "song1");
         song.setName(null);
         assertEquals("song1", song.getName());
     }
 
     @Test
-    public void testGetNameEmptyName() {
+    void testGetNameEmptyName() {
         MPDItem song = new MPDSong("file1", "song1");
         song.setName("");
         assertEquals("song1", song.getName());

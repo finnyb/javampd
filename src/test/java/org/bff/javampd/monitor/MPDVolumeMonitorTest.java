@@ -6,17 +6,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MPDVolumeMonitorTest {
+class MPDVolumeMonitorTest {
 
     private VolumeMonitor volumeMonitor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         volumeMonitor = new MPDVolumeMonitor();
     }
 
     @Test
-    public void testProcessResponseStatus() {
+    void testProcessResponseStatus() {
         final int[] volume = {0};
         volumeMonitor.addVolumeChangeListener(event -> volume[0] = event.getVolume());
         volumeMonitor.processResponseStatus("volume: 1");
@@ -25,7 +25,7 @@ public class MPDVolumeMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusSameVolume() {
+    void testProcessResponseStatusSameVolume() {
         final boolean[] eventFired = {false};
 
         volumeMonitor.addVolumeChangeListener(event -> eventFired[0] = true);
@@ -40,7 +40,7 @@ public class MPDVolumeMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusNotVolume() {
+    void testProcessResponseStatusNotVolume() {
         final boolean[] eventFired = {false};
 
         volumeMonitor.addVolumeChangeListener(event -> eventFired[0] = true);
@@ -51,7 +51,7 @@ public class MPDVolumeMonitorTest {
     }
 
     @Test
-    public void testRemoveVolumeChangeListener() {
+    void testRemoveVolumeChangeListener() {
         final int[] volume = {0};
 
         VolumeChangeListener volumeChangeListener = event -> volume[0] = event.getVolume();
@@ -69,7 +69,7 @@ public class MPDVolumeMonitorTest {
     }
 
     @Test
-    public void testResetVolume() {
+    void testResetVolume() {
         String line = "volume: 1";
 
         final boolean[] eventFired = {false};

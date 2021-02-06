@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class DateTagProcessorTest {
+class DateTagProcessorTest {
 
     @Test
-    public void testProcessSong() {
+    void testProcessSong() {
         String testDate = "1990";
 
         DateTagProcessor dateTagProcessor = new DateTagProcessor();
@@ -22,7 +22,7 @@ public class DateTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() {
+    void testProcessSongBadLine() {
         String testDate = "1990";
 
         DateTagProcessor dateTagProcessor = new DateTagProcessor();

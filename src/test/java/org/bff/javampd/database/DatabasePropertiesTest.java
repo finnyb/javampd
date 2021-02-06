@@ -5,41 +5,41 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DatabasePropertiesTest {
+class DatabasePropertiesTest {
     private DatabaseProperties databaseProperties;
 
     @BeforeEach
-    public void before() {
+    void before() {
         databaseProperties = new DatabaseProperties();
     }
 
     @Test
-    public void getFind() {
+    void getFind() {
         assertEquals("find", databaseProperties.getFind());
     }
 
     @Test
-    public void getList() {
+    void getList() {
         assertEquals("list", databaseProperties.getList());
     }
 
     @Test
-    public void getGroup() {
+    void getGroup() {
         assertEquals("group", databaseProperties.getGroup());
     }
 
     @Test
-    public void getListInfo() {
+    void getListInfo() {
         assertEquals("lsinfo", databaseProperties.getListInfo());
     }
 
     @Test
-    public void getSearch() {
+    void getSearch() {
         assertEquals("search", databaseProperties.getSearch());
     }
 
     @Test
-    public void getListSongs() {
+    void getListSongs() {
         assertEquals("listplaylist", databaseProperties.getListSongs());
     }
 

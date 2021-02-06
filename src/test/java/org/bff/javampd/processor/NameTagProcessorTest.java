@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class NameTagProcessorTest {
+class NameTagProcessorTest {
 
     @Test
-    public void testProcessSong() {
+    void testProcessSong() {
         String testName = "testName";
 
         NameTagProcessor nameTagProcessor = new NameTagProcessor();
@@ -22,7 +22,7 @@ public class NameTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongNoName() {
+    void testProcessSongNoName() {
         String testTitle = "testTitle";
 
         NameTagProcessor nameTagProcessor = new NameTagProcessor();
@@ -35,7 +35,7 @@ public class NameTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() {
+    void testProcessSongBadLine() {
         String testName = "testName";
 
         TitleTagProcessor titleTagProcessor = new TitleTagProcessor();

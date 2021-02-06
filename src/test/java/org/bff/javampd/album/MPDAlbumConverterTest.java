@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MPDAlbumConverterTest {
+class MPDAlbumConverterTest {
 
     private static final String ALBUM = "album";
     private static final String ARTIST = "artist";
@@ -21,13 +21,13 @@ public class MPDAlbumConverterTest {
     private List<MPDAlbum> albums;
 
     @BeforeEach
-    public void before() {
+    void before() {
         converter = new MPDAlbumConverter();
         albums = converter.convertResponseToAlbum(createResponses());
     }
 
     @Test
-    public void testArtist() {
+    void testArtist() {
         assertEquals("", albums.get(0).getArtistName());
         for (int i = 1; i < COUNT + 1; i++) {
             assertEquals(albums.get(i).getArtistName(), ARTIST + (i - 1));
@@ -35,7 +35,7 @@ public class MPDAlbumConverterTest {
     }
 
     @Test
-    public void testAlbum() {
+    void testAlbum() {
         assertEquals(albums.get(0).getName(), ALBUM);
         for (int i = 1; i < COUNT + 1; i++) {
             assertEquals(albums.get(i).getName(), ALBUM + (i - 1));
@@ -43,7 +43,7 @@ public class MPDAlbumConverterTest {
     }
 
     @Test
-    public void testAlbumSingleTag() {
+    void testAlbumSingleTag() {
         List<String> albumResponse = new ArrayList<>();
         albumResponse.add("Album: " + ALBUM);
         albumResponse.add("Album: " + ALBUM + "1");
@@ -55,7 +55,7 @@ public class MPDAlbumConverterTest {
     }
 
     @Test
-    public void testAlbumSingleTagSingleAlbum() {
+    void testAlbumSingleTagSingleAlbum() {
         List<String> albumResponse = new ArrayList<>();
         albumResponse.add("Album: " + ALBUM);
         albums = converter.convertResponseToAlbum(albumResponse);

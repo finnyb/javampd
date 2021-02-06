@@ -6,47 +6,47 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class MPDMusicDatabaseTest {
+class MPDMusicDatabaseTest {
 
     private MPD mpd;
 
     @BeforeEach
-    public void before() {
+    void before() {
         mpd = new MPD.Builder().build();
     }
 
     @Test
-    public void testGetArtistDatabase() {
+    void testGetArtistDatabase() {
         assertNotNull(mpd.getMusicDatabase().getArtistDatabase());
     }
 
     @Test
-    public void testGetAlbumDatabase() {
+    void testGetAlbumDatabase() {
         assertNotNull(mpd.getMusicDatabase().getAlbumDatabase());
     }
 
     @Test
-    public void testGetGenreDatabase() {
+    void testGetGenreDatabase() {
         assertNotNull(mpd.getMusicDatabase().getGenreDatabase());
     }
 
     @Test
-    public void testGetPlaylistDatabase() {
+    void testGetPlaylistDatabase() {
         assertNotNull(mpd.getMusicDatabase().getPlaylistDatabase());
     }
 
     @Test
-    public void testGetFileDatabase() {
+    void testGetFileDatabase() {
         assertNotNull(mpd.getMusicDatabase().getFileDatabase());
     }
 
     @Test
-    public void testGetDateDatabase() {
+    void testGetDateDatabase() {
         assertNotNull(mpd.getMusicDatabase().getDateDatabase());
     }
 
     @Test
-    public void testGetSongDatabase() {
+    void testGetSongDatabase() {
         assertNotNull(mpd.getMusicDatabase().getSongDatabase());
     }
 }

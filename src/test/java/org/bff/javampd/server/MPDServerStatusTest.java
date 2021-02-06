@@ -11,7 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDServerStatusTest {
+class MPDServerStatusTest {
 
     @Mock
     private MPDCommandExecutor commandExecutor;
@@ -35,24 +34,24 @@ public class MPDServerStatusTest {
     private List<String> statusList;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         statusList = new ArrayList<>();
         when(clock.min()).thenReturn(LocalDateTime.MIN);
         serverStatus = new MPDServerStatus(properties, commandExecutor, clock);
     }
 
     @Test
-    public void testLookupStatus() {
+    void testLookupStatus() {
         assertEquals(Status.VOLUME, Status.lookupStatus("volume:"));
     }
 
     @Test
-    public void testLookupUnknownStatus() {
+    void testLookupUnknownStatus() {
         assertEquals(Status.UNKNOWN, Status.lookupStatus("bogus:"));
     }
 
     @Test
-    public void testGetPlaylistVersion() {
+    void testGetPlaylistVersion() {
         String version = "5";
         statusList.add("playlist: " + version);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -62,7 +61,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testInvalidPlaylistVersion() {
+    void testInvalidPlaylistVersion() {
         statusList.add("playlist: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -71,7 +70,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testEmptyPlaylistVersion() {
+    void testEmptyPlaylistVersion() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -80,7 +79,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetState() {
+    void testGetState() {
         String state = "state";
         statusList.add("state: " + state);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -90,7 +89,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetXFade() {
+    void testGetXFade() {
         String xfade = "5";
         statusList.add("xfade: " + xfade);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -100,7 +99,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testInvalidXFade() {
+    void testInvalidXFade() {
         statusList.add("xfade: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -109,7 +108,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testEmptyXFade() {
+    void testEmptyXFade() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -117,7 +116,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetAudio() {
+    void testGetAudio() {
         String audio = "audio";
         statusList.add("audio: " + audio);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -127,7 +126,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsError() {
+    void testIsError() {
         String error = "true";
         statusList.add("error: " + error);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -137,7 +136,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetError() {
+    void testGetError() {
         String error = "true";
         statusList.add("error: " + error);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -147,7 +146,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetElapsedTime() {
+    void testGetElapsedTime() {
         String time = "5:6";
         statusList.add("time: " + time);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -157,7 +156,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testInvalidElapsedTime() {
+    void testInvalidElapsedTime() {
         statusList.add("time: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -166,7 +165,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testEmptyElapsedTime() {
+    void testEmptyElapsedTime() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -175,7 +174,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testElapsedTimeParseException() {
+    void testElapsedTimeParseException() {
         statusList.add("time: junk:junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -184,7 +183,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testTotalTimeParseException() {
+    void testTotalTimeParseException() {
         statusList.add("time: junk:junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -193,7 +192,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void getTotalTime() {
+    void getTotalTime() {
         String time = "5:6";
         statusList.add("time: " + time);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -203,7 +202,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testInvalidTotalTime() {
+    void testInvalidTotalTime() {
         statusList.add("time: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -212,7 +211,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testEmptyTotalTime() {
+    void testEmptyTotalTime() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -221,7 +220,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetBitrate() {
+    void testGetBitrate() {
         String bitrate = "5";
         statusList.add("bitrate: " + bitrate);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -231,7 +230,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testInvalidBitrate() {
+    void testInvalidBitrate() {
         statusList.add("bitrate: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -240,7 +239,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testEmptyBitrate() {
+    void testEmptyBitrate() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -249,7 +248,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetVolume() {
+    void testGetVolume() {
         String volume = "5";
         statusList.add("volume: " + volume);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -259,7 +258,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testInvalidVolume() {
+    void testInvalidVolume() {
         statusList.add("volume: junk");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -268,7 +267,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testEmptyVolume() {
+    void testEmptyVolume() {
         statusList.add("junk: 0");
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
@@ -277,7 +276,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsRepeat() {
+    void testIsRepeat() {
         String repeat = "1";
         statusList.add("repeat: " + repeat);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -287,7 +286,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsNotRepeat() {
+    void testIsNotRepeat() {
         String repeat = "0";
         statusList.add("repeat: " + repeat);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -297,7 +296,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsDatabaseUpdating() {
+    void testIsDatabaseUpdating() {
         String updating = "anything";
         statusList.add("updating_db: " + updating);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -307,7 +306,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsDatabaseUpdatingFalse() {
+    void testIsDatabaseUpdatingFalse() {
         String updating = "";
         statusList.add("updating_db: " + updating);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -317,7 +316,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsRandom() {
+    void testIsRandom() {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -327,7 +326,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testIsNotRandom() {
+    void testIsNotRandom() {
         String random = "0";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -337,7 +336,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testInsideDefaultExpiry() {
+    void testInsideDefaultExpiry() {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -349,7 +348,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testOutsideDefaultExpiry() {
+    void testOutsideDefaultExpiry() {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -361,7 +360,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testSetExpiry() {
+    void testSetExpiry() {
         long interval = 1;
         serverStatus.setExpiryInterval(interval);
         String random = "1";
@@ -375,7 +374,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testForceUpdate() {
+    void testForceUpdate() {
         String random = "1";
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
@@ -387,7 +386,7 @@ public class MPDServerStatusTest {
     }
 
     @Test
-    public void testGetStatus() {
+    void testGetStatus() {
         String random = "1";
         String volume = "5";
         statusList.add("volume: " + volume);

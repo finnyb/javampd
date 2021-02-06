@@ -1,7 +1,6 @@
 package org.bff.javampd.database;
 
 import org.bff.javampd.command.MPDCommandExecutor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDTagListerTest {
+class MPDTagListerTest {
 
     @Mock
     private MPDCommandExecutor commandExecutor;
@@ -26,7 +25,7 @@ public class MPDTagListerTest {
     private MPDTagLister tagLister;
 
     @Test
-    public void testListInfoSingle() {
+    void testListInfoSingle() {
         List<String> retList = new ArrayList<>();
         retList.add("playlist: 5");
         when(commandExecutor.sendCommand("lsinfo")).thenReturn(retList);
@@ -39,7 +38,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testListInfoDouble() {
+    void testListInfoDouble() {
         List<String> retList = new ArrayList<>();
         retList.add("playlist: 5");
         retList.add("directory: 6");
@@ -55,7 +54,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testListInfoNone() {
+    void testListInfoNone() {
         List<String> retList = new ArrayList<>();
         retList.add("bogus: 5");
         when(databaseProperties.getListInfo()).thenReturn("lsinfo");
@@ -66,7 +65,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testList() {
+    void testList() {
         String testAlbumResponse = "album: 5";
         List<String> retList = new ArrayList<>();
         retList.add(testAlbumResponse);
@@ -79,7 +78,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testListGroupArtist() {
+    void testListGroupArtist() {
         List<String> retList = new ArrayList<>();
         retList.add("album: testAlbum");
         retList.add("artist: testArtist");
@@ -94,7 +93,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testListGroupDate() {
+    void testListGroupDate() {
         List<String> retList = new ArrayList<>();
         retList.add("album: testAlbum");
         retList.add("date: testDate");
@@ -110,7 +109,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testListGroupGenre() {
+    void testListGroupGenre() {
         List<String> retList = new ArrayList<>();
         retList.add("album: testAlbum");
         retList.add("genre: testGenre");
@@ -126,7 +125,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testListError() {
+    void testListError() {
         List<String> retList = new ArrayList<>();
         retList.add("");
         when(commandExecutor.sendCommand("list", "artist")).thenReturn(retList);
@@ -139,7 +138,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testListWithParam() {
+    void testListWithParam() {
         String testResponse = "album: artist";
         List<String> retList = new ArrayList<>();
         retList.add(testResponse);
@@ -157,7 +156,7 @@ public class MPDTagListerTest {
     }
 
     @Test
-    public void testListWithParamAndGroups() {
+    void testListWithParamAndGroups() {
         String testResponse = "album: artist";
         List<String> retList = new ArrayList<>();
         retList.add(testResponse);

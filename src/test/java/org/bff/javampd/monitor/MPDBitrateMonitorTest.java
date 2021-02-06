@@ -8,17 +8,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class MPDBitrateMonitorTest {
+class MPDBitrateMonitorTest {
 
     private BitrateMonitor bitrateMonitor;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         bitrateMonitor = new MPDBitrateMonitor();
     }
 
     @Test
-    public void testAddBitrateChangeListener() {
+    void testAddBitrateChangeListener() {
         final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
 
         bitrateMonitor.addBitrateChangeListener(event -> changeEvent[0] = event);
@@ -29,7 +29,7 @@ public class MPDBitrateMonitorTest {
     }
 
     @Test
-    public void testRemoveBitrateChangeListener() {
+    void testRemoveBitrateChangeListener() {
         final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
 
         BitrateChangeListener bitrateChangeListener = event -> changeEvent[0] = event;
@@ -48,7 +48,7 @@ public class MPDBitrateMonitorTest {
     }
 
     @Test
-    public void testBitrateNoChange() {
+    void testBitrateNoChange() {
         final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];
 
         bitrateMonitor.addBitrateChangeListener(event -> changeEvent[0] = event);
@@ -64,7 +64,7 @@ public class MPDBitrateMonitorTest {
     }
 
     @Test
-    public void testResetBitrateChangeListener() {
+    void testResetBitrateChangeListener() {
         String line = "bitrate: 1";
 
         final BitrateChangeEvent[] changeEvent = new BitrateChangeEvent[1];

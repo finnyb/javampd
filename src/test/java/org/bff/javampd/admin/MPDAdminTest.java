@@ -50,7 +50,7 @@ class MPDAdminTest {
     private AdminProperties realAdminProperties;
 
     @BeforeEach
-    public void before() {
+    void before() {
         realAdminProperties = new AdminProperties();
     }
 

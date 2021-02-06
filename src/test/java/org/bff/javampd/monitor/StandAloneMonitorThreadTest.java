@@ -1,7 +1,6 @@
 package org.bff.javampd.monitor;
 
 import org.bff.javampd.MPDException;
-import org.bff.javampd.server.MPDConnectionException;
 import org.bff.javampd.server.ServerStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class StandAloneMonitorThreadTest {
+class StandAloneMonitorThreadTest {
 
     @Mock
     private ServerStatus serverStatus;
@@ -28,12 +27,12 @@ public class StandAloneMonitorThreadTest {
     private StandAloneMonitorThread standAloneMonitorThread;
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         standAloneMonitorThread.setStopped(true);
     }
 
     @Test
-    public void testInitialStatus() {
+    void testInitialStatus() {
         final boolean[] called = new boolean[1];
         List<String> returnStatus1 = new ArrayList<>();
         returnStatus1.add("volume: 1");
@@ -51,7 +50,7 @@ public class StandAloneMonitorThreadTest {
     }
 
     @Test
-    public void testAddMonitor() {
+    void testAddMonitor() {
         final boolean[] called = new boolean[1];
         Monitor monitor = () -> called[0] = true;
         createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
@@ -61,7 +60,7 @@ public class StandAloneMonitorThreadTest {
     }
 
     @Test
-    public void testRemoveMonitor() {
+    void testRemoveMonitor() {
         final boolean[] called = new boolean[1];
         Monitor monitor = () -> called[0] = true;
         ThreadedMonitor threadedMonitor = new ThreadedMonitor(monitor, 0);
@@ -77,7 +76,7 @@ public class StandAloneMonitorThreadTest {
     }
 
     @Test
-    public void testRunInterupted() {
+    void testRunInterupted() {
         createMonitor(1, 1);
         Thread thread = new Thread(standAloneMonitorThread);
         thread.start();
@@ -88,7 +87,7 @@ public class StandAloneMonitorThreadTest {
     }
 
     @Test
-    public void testRunConnectionErrorWithInterrupt() {
+    void testRunConnectionErrorWithInterrupt() {
         final int[] count = {0};
         Monitor monitor = () -> {
             ++count[0];
@@ -104,7 +103,7 @@ public class StandAloneMonitorThreadTest {
     }
 
     @Test
-    public void testRunError() {
+    void testRunError() {
         final int[] count = {0};
         Monitor monitor = () -> {
             ++count[0];
@@ -118,7 +117,7 @@ public class StandAloneMonitorThreadTest {
     }
 
     @Test
-    public void testRunConnectionError() {
+    void testRunConnectionError() {
         Monitor monitor = () -> {
             throw new MPDException();
         };
@@ -128,14 +127,14 @@ public class StandAloneMonitorThreadTest {
     }
 
     @Test
-    public void testLoadInitialStatusException() {
+    void testLoadInitialStatusException() {
         when(serverStatus.getStatus()).thenThrow(new MPDException());
         createMonitor(0, 0);
         assertThrows(MPDException.class, () -> standAloneMonitorThread.run());
     }
 
     @Test
-    public void testIsStopped() {
+    void testIsStopped() {
         createMonitor(0, 0);
         runMonitor();
 
@@ -147,7 +146,7 @@ public class StandAloneMonitorThreadTest {
     }
 
     @Test
-    public void testIsLoaded() {
+    void testIsLoaded() {
         createMonitor(0, 0);
         assertFalse(standAloneMonitorThread.isInitialized());
         runMonitor();

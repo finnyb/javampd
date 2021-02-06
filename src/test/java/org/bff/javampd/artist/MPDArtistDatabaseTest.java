@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDArtistDatabaseTest {
+class MPDArtistDatabaseTest {
     private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
 
     @Mock
@@ -24,12 +24,12 @@ public class MPDArtistDatabaseTest {
     private MPDArtistDatabase artistDatabase;
 
     @BeforeEach
-    public void before() {
+    void before() {
         artistDatabase = new MPDArtistDatabase(tagLister);
     }
 
     @Test
-    public void testListAllArtists() {
+    void testListAllArtists() {
         MPDArtist testArtist = new MPDArtist("testName");
 
         List<String> mockReturn = new ArrayList<>();
@@ -45,7 +45,7 @@ public class MPDArtistDatabaseTest {
     }
 
     @Test
-    public void testListArtistsByGenre() {
+    void testListArtistsByGenre() {
         MPDGenre testGenre = new MPDGenre("testGenreName");
 
         String testArtistName = "testArtist";
@@ -72,7 +72,7 @@ public class MPDArtistDatabaseTest {
     }
 
     @Test
-    public void testListArtistByName() {
+    void testListArtistByName() {
         String testArtistName = "testArtist";
 
         List<String> mockReturnName = new ArrayList<>();
@@ -96,7 +96,7 @@ public class MPDArtistDatabaseTest {
     }
 
     @Test
-    public void testListMultipleArtistByName() {
+    void testListMultipleArtistByName() {
         String testArtistName = "testArtist";
         String testArtistName2 = "testArtist";
 

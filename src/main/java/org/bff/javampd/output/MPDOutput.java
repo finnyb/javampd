@@ -1,10 +1,13 @@
 package org.bff.javampd.output;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Represent a MPD output.
  *
  * @author Bill
  */
+@EqualsAndHashCode
 public class MPDOutput {
     private int id;
     private String name;
@@ -55,6 +58,7 @@ public class MPDOutput {
         return enabled;
     }
 
+
     /**
      * Sets whether the output is enabled
      *
@@ -62,29 +66,5 @@ public class MPDOutput {
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (object.getClass() != this.getClass())) {
-            return false;
-        }
-
-        MPDOutput output = (MPDOutput) object;
-        return this.getId() == output.getId();
-    }
-
-    /**
-     * Returns the hash code for this object.
-     *
-     * @return the hash code
-     */
-    @Override
-    public int hashCode() {
-        return getName() != null ? getName().hashCode() : 0;
     }
 }

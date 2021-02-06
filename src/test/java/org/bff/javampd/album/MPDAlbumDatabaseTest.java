@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDAlbumDatabaseTest {
+class MPDAlbumDatabaseTest {
     private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
     private static final String ALBUM_RESPONSE_PREFIX = "Album: ";
     private static final String DATE_RESPONSE_PREFIX = "Date: ";
@@ -36,12 +36,12 @@ public class MPDAlbumDatabaseTest {
     private MPDAlbumDatabase albumDatabase;
 
     @BeforeEach
-    public void before() {
+    void before() {
         albumDatabase = new MPDAlbumDatabase(tagLister, new MPDAlbumConverter());
     }
 
     @Test
-    public void testListSingleAlbumsByArtist() {
+    void testListSingleAlbumsByArtist() {
         MPDArtist testArtist = new MPDArtist("testName");
 
         String testAlbumName = "testAlbum";
@@ -68,7 +68,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListMultipleAlbumsByArtist() {
+    void testListMultipleAlbumsByArtist() {
         MPDArtist testArtist = new MPDArtist("testName");
 
         String testAlbumName1 = "testAlbum1";
@@ -101,7 +101,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAlbumsByGenre() {
+    void testListAlbumsByGenre() {
         MPDArtist testArtist = new MPDArtist("testArtistName");
         MPDGenre testGenre = new MPDGenre("testGenreName");
 
@@ -133,7 +133,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAlbumsByYear() {
+    void testListAlbumsByYear() {
         MPDArtist testArtist = new MPDArtist("testArtistName");
         String testYear = "testYear";
         String testAlbumName = "testAlbum";
@@ -163,7 +163,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAlbumNamesByYear() {
+    void testListAlbumNamesByYear() {
         String testYear = "testYear";
         String testAlbumName = "testAlbum";
 
@@ -189,7 +189,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAllAlbumNames() {
+    void testListAllAlbumNames() {
         String testAlbumName1 = "testAlbum1";
         String testAlbumName2 = "testAlbum2";
 
@@ -208,7 +208,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAllAlbumsWindowed() {
+    void testListAllAlbumsWindowed() {
         int start = 0;
         int end = 100;
 
@@ -227,7 +227,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAllAlbums() {
+    void testListAllAlbums() {
         int end = 100;
 
         String albumPrefix = "testAlbum";
@@ -245,7 +245,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAllAlbumsBelowMinimum() {
+    void testListAllAlbumsBelowMinimum() {
         int start = 0;
         int end = 50;
         int requested = 100;
@@ -265,7 +265,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAllAlbumsEmpty() {
+    void testListAllAlbumsEmpty() {
         int start = 0;
         int end = 50;
         String albumPrefix = "testAlbum";
@@ -279,7 +279,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testListAllAlbumsStartBelowEnd() {
+    void testListAllAlbumsStartBelowEnd() {
         int end = 50;
         String albumPrefix = "testAlbum";
         String artistPrefix = "testArtist";
@@ -292,7 +292,7 @@ public class MPDAlbumDatabaseTest {
     }
 
     @Test
-    public void testFindAlbumByName() {
+    void testFindAlbumByName() {
         MPDArtist testArtist = new MPDArtist("testArtistName");
         String testAlbumName = "testAlbum1";
 

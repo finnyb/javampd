@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDDateDatabaseTest {
+class MPDDateDatabaseTest {
     private static String DATE_PREFIX = new DateTagProcessor().getPrefix();
 
     @Mock
@@ -25,7 +25,7 @@ public class MPDDateDatabaseTest {
     private MPDDateDatabase yearDatabase;
 
     @Test
-    public void testListAllYears() {
+    void testListAllYears() {
         String year1 = "1990";
         String year2 = "1990-mar-24";
 

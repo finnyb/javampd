@@ -1,7 +1,8 @@
 package org.bff.javampd.art;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class MPDArtwork {
     private String name;
     private String path;
@@ -26,25 +27,5 @@ public class MPDArtwork {
 
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof MPDArtwork)) {
-            return false;
-        }
-
-        MPDArtwork artwork = (MPDArtwork) o;
-
-        return Objects.equals(this.path, artwork.path);
-    }
-
-    @Override
-    public int hashCode() {
-        return path != null ? path.hashCode() : 0;
     }
 }

@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDPlaylistTestArtist {
+class MPDPlaylistTestArtist {
 
     @Mock
     private SongDatabase songDatabase;
@@ -48,12 +48,12 @@ public class MPDPlaylistTestArtist {
     private PlaylistProperties realPlaylistProperties;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         realPlaylistProperties = new PlaylistProperties();
     }
 
     @Test
-    public void testRemoveArtist() {
+    void testRemoveArtist() {
         MPDArtist artist = new MPDArtist("testArtist");
 
         List<MPDSong> mockedSongs = new ArrayList<>();
@@ -94,7 +94,7 @@ public class MPDPlaylistTestArtist {
     }
 
     @Test
-    public void testRemoveArtistByName() {
+    void testRemoveArtistByName() {
         String artist = "testArtist";
 
         List<MPDSong> mockedSongs = new ArrayList<>();
@@ -135,7 +135,7 @@ public class MPDPlaylistTestArtist {
     }
 
     @Test
-    public void testInsertArtist() {
+    void testInsertArtist() {
         MPDArtist artist = new MPDArtist("testArtist");
 
         List<MPDSong> songs = new ArrayList<>();
@@ -160,7 +160,7 @@ public class MPDPlaylistTestArtist {
     }
 
     @Test
-    public void testInsertArtistByName() {
+    void testInsertArtistByName() {
         String artist = "testArtist";
 
         List<MPDSong> songs = new ArrayList<>();

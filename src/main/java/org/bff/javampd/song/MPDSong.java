@@ -1,5 +1,6 @@
 package org.bff.javampd.song;
 
+import lombok.EqualsAndHashCode;
 import org.bff.javampd.MPDItem;
 
 /**
@@ -9,6 +10,7 @@ import org.bff.javampd.MPDItem;
  * @author Bill
  * @version 1.0
  */
+@EqualsAndHashCode
 public class MPDSong extends MPDItem {
 
     private String title;
@@ -262,28 +264,6 @@ public class MPDSong extends MPDItem {
     }
 
     /**
-     * Compares this MPDSong to the specified object.  The result is true if and only
-     * if the argument is not null and is a MPDSong that has the same file path.
-     *
-     * @param object the object to compare to
-     * @return true if the paths are equal; false otherwise
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (object.getClass() != this.getClass())) {
-            return false;
-        }
-
-        MPDSong song = (MPDSong) object;
-
-        return this.getFile().equals(song.getFile());
-    }
-
-    /**
      * Returns the name of the song which can be different than the title if for example listening
      * to streaming radio.  If no name has been set then {@link #getTitle()} is used
      *
@@ -296,16 +276,6 @@ public class MPDSong extends MPDItem {
         } else {
             return super.getName();
         }
-    }
-
-    /**
-     * Returns the hash code for this object.
-     *
-     * @return the hash code
-     */
-    @Override
-    public int hashCode() {
-        return getTitle() != null ? getTitle().hashCode() : 0;
     }
 
     @Override

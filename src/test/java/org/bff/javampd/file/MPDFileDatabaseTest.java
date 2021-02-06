@@ -3,7 +3,6 @@ package org.bff.javampd.file;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.DatabaseProperties;
-import org.bff.javampd.server.MPDConnectionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDFileDatabaseTest {
+class MPDFileDatabaseTest {
 
     @Mock
     private DatabaseProperties databaseProperties;
@@ -32,12 +31,12 @@ public class MPDFileDatabaseTest {
     private DatabaseProperties realDatabaseProperties;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         realDatabaseProperties = new DatabaseProperties();
     }
 
     @Test
-    public void testListRootDirectory() {
+    void testListRootDirectory() {
         List<String> response = new ArrayList<>();
         response.add("directory: Q");
         response.add("Last-Modified: 2015-10-11T22:11:35Z");
@@ -53,7 +52,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectory() {
+    void testListDirectory() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -76,7 +75,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithFiles() {
+    void testListDirectoryWithFiles() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -97,7 +96,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFilesSize() {
+    void testListDirectoryWithMultipleFilesSize() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -110,7 +109,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles1() {
+    void testListDirectoryWithMultipleFiles1() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -127,7 +126,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles2() {
+    void testListDirectoryWithMultipleFiles2() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -144,7 +143,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles3() {
+    void testListDirectoryWithMultipleFiles3() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -161,7 +160,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryWithMultipleFiles4() {
+    void testListDirectoryWithMultipleFiles4() {
         String dir = "test";
         MPDFile file = new MPDFile(dir);
         file.setDirectory(true);
@@ -179,7 +178,7 @@ public class MPDFileDatabaseTest {
     }
 
     @Test
-    public void testListDirectoryException() {
+    void testListDirectoryException() {
         MPDFile file = new MPDFile("");
         file.setDirectory(false);
         assertThrows(MPDException.class, () -> fileDatabase.listDirectory(file));

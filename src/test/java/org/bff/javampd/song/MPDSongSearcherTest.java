@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDSongSearcherTest {
+class MPDSongSearcherTest {
 
     private SongSearcher songSearcher;
     private CommandExecutor mockedCommandExecuter;
@@ -29,7 +29,7 @@ public class MPDSongSearcherTest {
     private ArgumentCaptor<String[]> paramArgumentCaptor;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         searchProperties = new SearchProperties();
         mockedSongConverter = mock(SongConverter.class);
         mockedCommandExecuter = mock(CommandExecutor.class);
@@ -39,7 +39,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testSearch() {
+    void testSearch() {
         String searchCriteria = "testSearch";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
         MPDSong testSong = new MPDSong("testFile", "testName");
@@ -62,7 +62,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testSearchWindowed() {
+    void testSearchWindowed() {
         String searchCriteria = "testSearch";
         int start = 1;
         int end = 5;
@@ -89,7 +89,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testFind() {
+    void testFind() {
         String searchCriteria = "testSearch";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
         MPDSong testSong = new MPDSong("testFile", "testName");
@@ -112,7 +112,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testFindNoCriteria() {
+    void testFindNoCriteria() {
         String searchCriteria = "";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
         MPDSong testSong = new MPDSong("testFile", "testName");
@@ -135,7 +135,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testFindNullCriteria() {
+    void testFindNullCriteria() {
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ANY;
         MPDSong testSong = new MPDSong("testFile", "testName");
 
@@ -157,7 +157,7 @@ public class MPDSongSearcherTest {
     }
 
     @Test
-    public void testFindWindowed() {
+    void testFindWindowed() {
         String searchCriteria = "testSearch";
         int start = 1;
         int end = 5;

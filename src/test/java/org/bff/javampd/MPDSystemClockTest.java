@@ -5,18 +5,19 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MPDSystemClockTest {
+class MPDSystemClockTest {
     private Clock clock;
 
     @BeforeEach
-    public void before() {
+    void before() {
         clock = new MPDSystemClock();
     }
 
     @Test
-    public void now() {
+    void now() {
         LocalDateTime systemTime = LocalDateTime.now();
         LocalDateTime clockTime = clock.now();
 
@@ -25,7 +26,7 @@ public class MPDSystemClockTest {
     }
 
     @Test
-    public void min() {
+    void min() {
         assertEquals(LocalDateTime.MIN, clock.min());
     }
 }

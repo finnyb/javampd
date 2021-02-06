@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDTest {
+class MPDTest {
 
     @Mock
     private MPDCommandExecutor mpdCommandExecutor;
@@ -32,7 +32,7 @@ public class MPDTest {
     private ArgumentCaptor<String> commandArgumentCaptor;
 
     @Test
-    public void testClearError() {
+    void testClearError() {
         when(serverProperties.getClearError()).thenReturn(new ServerProperties().getClearError());
 
         MPD mpd = mpdBuilder.build();
@@ -44,7 +44,7 @@ public class MPDTest {
     }
 
     @Test
-    public void testClose() {
+    void testClose() {
         MPD mpd = mpdBuilder.build();
         mpd.close();
 
@@ -54,20 +54,20 @@ public class MPDTest {
     }
 
     @Test
-    public void testIsClosed() {
+    void testIsClosed() {
         MPD mpd = mpdBuilder.build();
         assertFalse(mpd.isClosed());
     }
 
     @Test
-    public void testIsNotClosed() {
+    void testIsNotClosed() {
         MPD mpd = mpdBuilder.build();
         mpd.close();
         assertTrue(mpd.isClosed());
     }
 
     @Test
-    public void testGetVersion() {
+    void testGetVersion() {
         String theVersion = "testVersion";
         when(mpdCommandExecutor.getMPDVersion())
                 .thenReturn(theVersion);
@@ -77,7 +77,7 @@ public class MPDTest {
     }
 
     @Test
-    public void testIsConnected() {
+    void testIsConnected() {
         when(serverProperties.getPing()).thenReturn(new ServerProperties().getPing());
         when(mpdCommandExecutor.sendCommand(serverProperties.getPing()))
                 .thenReturn(new ArrayList<>());
@@ -87,7 +87,7 @@ public class MPDTest {
     }
 
     @Test
-    public void testIsNotConnected() {
+    void testIsNotConnected() {
         when(serverProperties.getPing()).thenReturn(new ServerProperties().getPing());
         when(mpdCommandExecutor.sendCommand(serverProperties.getPing()))
                 .thenThrow(new MPDConnectionException());
@@ -97,12 +97,12 @@ public class MPDTest {
     }
 
     @Test
-    public void testAuthenticate() {
+    void testAuthenticate() {
         mpdBuilder.build();
     }
 
     @Test
-    public void testFailedAuthenticate() {
+    void testFailedAuthenticate() {
         String password = "password";
         doThrow(new MPDSecurityException("incorrect password"))
                 .when(mpdCommandExecutor)
@@ -112,7 +112,7 @@ public class MPDTest {
     }
 
     @Test
-    public void testGetPort() {
+    void testGetPort() {
         int port = 666;
         MPD mpd = mpdBuilder.port(port).build();
 
@@ -120,14 +120,14 @@ public class MPDTest {
     }
 
     @Test
-    public void testGetDefaultPort() {
+    void testGetDefaultPort() {
         MPD mpd = mpdBuilder.build();
 
         assertEquals(6600, mpd.getPort());
     }
 
     @Test
-    public void testGetAddress() throws UnknownHostException {
+    void testGetAddress() throws UnknownHostException {
         String address = "localhost";
         MPD mpd = mpdBuilder.server(address).build();
 
@@ -135,14 +135,14 @@ public class MPDTest {
     }
 
     @Test
-    public void testGetDefaultAddress() throws UnknownHostException {
+    void testGetDefaultAddress() throws UnknownHostException {
         MPD mpd = mpdBuilder.build();
 
         assertEquals(InetAddress.getByName("localhost"), mpd.getAddress());
     }
 
     @Test
-    public void testGetTimeout() {
+    void testGetTimeout() {
         int timeOut = 666;
         MPD mpd = mpdBuilder.timeout(timeOut).build();
 
@@ -150,62 +150,62 @@ public class MPDTest {
     }
 
     @Test
-    public void testGetDefaultTimeout() {
+    void testGetDefaultTimeout() {
         MPD mpd = mpdBuilder.build();
 
         assertEquals(0, mpd.getTimeout());
     }
 
     @Test
-    public void testGetPlayer() {
+    void testGetPlayer() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getPlayer());
     }
 
     @Test
-    public void testGetPlaylist() {
+    void testGetPlaylist() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getPlaylist());
     }
 
     @Test
-    public void testGetAdmin() {
+    void testGetAdmin() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getAdmin());
     }
 
     @Test
-    public void testGetMusicDatabase() {
+    void testGetMusicDatabase() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getMusicDatabase());
     }
 
     @Test
-    public void testGetServerStatistics() {
+    void testGetServerStatistics() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getServerStatistics());
     }
 
     @Test
-    public void testGetServerStatus() {
+    void testGetServerStatus() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getServerStatus());
     }
 
     @Test
-    public void testGetMonitor() {
+    void testGetMonitor() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getMonitor());
     }
 
     @Test
-    public void testGetSongSearcher() {
+    void testGetSongSearcher() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getSongSearcher());
     }
 
     @Test
-    public void testCommandExecutor() {
+    void testCommandExecutor() {
         MPD mpd = mpdBuilder.build();
         assertNotNull(mpd.getCommandExecutor());
     }

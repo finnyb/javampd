@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FileTagProcessorTest {
+class FileTagProcessorTest {
 
     @Test
-    public void testProcessSong() {
+    void testProcessSong() {
         String testFile = "testFile";
 
         FileTagProcessor fileTagProcessor = new FileTagProcessor();
@@ -21,7 +21,7 @@ public class FileTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() {
+    void testProcessSongBadLine() {
         String testFile = "testFile";
         String f = "file";
 

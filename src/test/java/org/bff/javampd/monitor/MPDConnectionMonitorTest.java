@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDConnectionMonitorTest {
+class MPDConnectionMonitorTest {
 
     @Mock
     private Server server;
@@ -22,13 +22,13 @@ public class MPDConnectionMonitorTest {
     private ConnectionMonitor connectionMonitor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         connectionMonitor = new MPDConnectionMonitor();
         connectionMonitor.setServer(server);
     }
 
     @Test
-    public void testAddConnectionChangeListener() {
+    void testAddConnectionChangeListener() {
         final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
 
         connectionMonitor.addConnectionChangeListener(event -> changeEvent[0] = event);
@@ -38,7 +38,7 @@ public class MPDConnectionMonitorTest {
     }
 
     @Test
-    public void testRemoveConnectionChangeListener() {
+    void testRemoveConnectionChangeListener() {
         final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
 
         ConnectionChangeListener connectionChangeListener = event -> changeEvent[0] = event;
@@ -56,7 +56,7 @@ public class MPDConnectionMonitorTest {
     }
 
     @Test
-    public void testNoChange() {
+    void testNoChange() {
         final ConnectionChangeEvent[] changeEvent = new ConnectionChangeEvent[1];
 
         connectionMonitor.addConnectionChangeListener(event -> changeEvent[0] = event);
@@ -66,7 +66,7 @@ public class MPDConnectionMonitorTest {
     }
 
     @Test
-    public void testIsConnected() {
+    void testIsConnected() {
         when(server.isConnected()).thenReturn(false);
         connectionMonitor.checkStatus();
         assertEquals(false, connectionMonitor.isConnected());

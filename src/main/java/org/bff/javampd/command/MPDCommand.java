@@ -1,6 +1,11 @@
 package org.bff.javampd.command;
 
-import java.util.*;
+import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * MPDCommand represents a command along with optional command parameters to be
@@ -9,6 +14,7 @@ import java.util.*;
  * @author Bill
  * @version 1.0
  */
+@EqualsAndHashCode
 public class MPDCommand {
     private String command;
     private List<String> params;
@@ -46,28 +52,5 @@ public class MPDCommand {
      */
     public List<String> getParams() {
         return params;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof MPDCommand)) {
-            return false;
-        }
-
-        MPDCommand that = (MPDCommand) o;
-
-        return command.equals(that.command) && !(!Objects.equals(params, that.params));
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = command.hashCode();
-        result = 31 * result + (params != null ? params.hashCode() : 0);
-        return result;
     }
 }

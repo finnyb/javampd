@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDStandAloneMonitorTest {
+class MPDStandAloneMonitorTest {
     @Mock
     private OutputMonitor outputMonitor;
     @Mock
@@ -43,17 +43,17 @@ public class MPDStandAloneMonitorTest {
     private MPDStandAloneMonitor standAloneMonitor;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         Awaitility.setDefaultPollInterval(5, TimeUnit.MILLISECONDS);
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         standAloneMonitor.stop();
     }
 
     @Test
-    public void testAddTrackPositionChangeListener() {
+    void testAddTrackPositionChangeListener() {
         TrackPositionChangeListener tpl = event -> {
         };
         standAloneMonitor.addTrackPositionChangeListener(tpl);
@@ -61,7 +61,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testRemoveTrackPositionChangeListener() {
+    void testRemoveTrackPositionChangeListener() {
         TrackPositionChangeListener tpl = event -> {
         };
         standAloneMonitor.removeTrackPositionChangeListener(tpl);
@@ -69,7 +69,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testAddConnectionChangeListener() {
+    void testAddConnectionChangeListener() {
         ConnectionChangeListener ccl = event -> {
         };
         standAloneMonitor.addConnectionChangeListener(ccl);
@@ -77,7 +77,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testRemoveConnectionChangeListener() {
+    void testRemoveConnectionChangeListener() {
         ConnectionChangeListener ccl = event -> {
         };
         standAloneMonitor.removeConnectionChangeListener(ccl);
@@ -85,7 +85,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testAddPlayerChangeListener() {
+    void testAddPlayerChangeListener() {
         PlayerBasicChangeListener pbcl = event -> {
         };
         standAloneMonitor.addPlayerChangeListener(pbcl);
@@ -93,7 +93,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testRemovePlayerChangeListener() {
+    void testRemovePlayerChangeListener() {
         PlayerBasicChangeListener pbcl = event -> {
         };
         standAloneMonitor.removePlayerChangeListener(pbcl);
@@ -101,7 +101,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testAddVolumeChangeListener() {
+    void testAddVolumeChangeListener() {
         VolumeChangeListener vcl = event -> {
         };
         standAloneMonitor.addVolumeChangeListener(vcl);
@@ -109,7 +109,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testRemoveVolumeChangeListener() {
+    void testRemoveVolumeChangeListener() {
         VolumeChangeListener vcl = event -> {
         };
         standAloneMonitor.removeVolumeChangeListener(vcl);
@@ -117,7 +117,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testAddBitrateChangeListener() {
+    void testAddBitrateChangeListener() {
         BitrateChangeListener bcl = event -> {
         };
         standAloneMonitor.addBitrateChangeListener(bcl);
@@ -125,7 +125,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testRemoveBitrateChangeListener() {
+    void testRemoveBitrateChangeListener() {
         BitrateChangeListener bcl = event -> {
         };
         standAloneMonitor.removeBitrateChangeListener(bcl);
@@ -133,7 +133,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testAddOutputChangeListener() {
+    void testAddOutputChangeListener() {
         OutputChangeListener ocl = event -> {
         };
         standAloneMonitor.addOutputChangeListener(ocl);
@@ -141,7 +141,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testRemoveOutputChangeListener() {
+    void testRemoveOutputChangeListener() {
         OutputChangeListener ocl = event -> {
         };
         standAloneMonitor.removeOutputChangeListener(ocl);
@@ -149,7 +149,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testAddPlaylistChangeListener() {
+    void testAddPlaylistChangeListener() {
         PlaylistBasicChangeListener pbcl = event -> {
         };
         standAloneMonitor.addPlaylistChangeListener(pbcl);
@@ -157,7 +157,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testRemovePlaylistStatusChangeListener() {
+    void testRemovePlaylistStatusChangeListener() {
         PlaylistBasicChangeListener pbcl = event -> {
         };
         standAloneMonitor.removePlaylistChangeListener(pbcl);
@@ -165,7 +165,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testAddErrorListener() {
+    void testAddErrorListener() {
         ErrorListener el = event -> {
         };
         standAloneMonitor.addErrorListener(el);
@@ -173,7 +173,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testRemoveErrorListener() {
+    void testRemoveErrorListener() {
         ErrorListener el = event -> {
         };
         standAloneMonitor.removeErrorListener(el);
@@ -181,13 +181,13 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         standAloneMonitor.start();
         assertFalse(standAloneMonitor.isDone());
     }
 
     @Test
-    public void testLoaded() {
+    void testLoaded() {
         List<String> status = new ArrayList<>();
         status.add("volume: 2");
 
@@ -198,7 +198,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testStop() {
+    void testStop() {
         standAloneMonitor.start();
         await().until(() -> !standAloneMonitor.isDone());
         standAloneMonitor.stop();
@@ -206,7 +206,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testPlayerBasicChangeStopped() {
+    void testPlayerBasicChangeStopped() {
         PlayerBasicChangeEvent event =
                 new PlayerBasicChangeEvent(this, PlayerBasicChangeEvent.Status.PLAYER_STOPPED);
         standAloneMonitor.playerBasicChange(event);
@@ -215,7 +215,7 @@ public class MPDStandAloneMonitorTest {
     }
 
     @Test
-    public void testPlayerBasicChangeNotStopped() {
+    void testPlayerBasicChangeNotStopped() {
         PlayerBasicChangeEvent event =
                 new PlayerBasicChangeEvent(this, PlayerBasicChangeEvent.Status.PLAYER_STARTED);
         standAloneMonitor.playerBasicChange(event);

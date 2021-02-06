@@ -6,91 +6,85 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class MPDArtworkTest {
+class MPDArtworkTest {
     @Test
-    public void testEqualsSameObject() {
+    void testEqualsSameObject() {
         MPDArtwork artwork = new MPDArtwork("name", "path");
         assertEquals(artwork, artwork);
     }
 
     @Test
-    public void testGetName() {
+    void testGetName() {
         String name = "name";
         MPDArtwork artwork = new MPDArtwork(name, "path");
         assertEquals(name, artwork.getName());
     }
 
     @Test
-    public void testGetPath() {
+    void testGetPath() {
         String path = "path";
         MPDArtwork artwork = new MPDArtwork("name", path);
         assertEquals(path, artwork.getPath());
     }
 
     @Test
-    public void testEqualsSamePath() {
+    void testEqualsSamePath() {
         MPDArtwork artwork1 = new MPDArtwork("name", "path");
         MPDArtwork artwork2 = new MPDArtwork("name", "path");
         assertEquals(artwork1, artwork2);
     }
 
     @Test
-    public void testEqualsDifferentPath() {
+    void testEqualsDifferentPath() {
         MPDArtwork artwork1 = new MPDArtwork("name", "path1");
         MPDArtwork artwork2 = new MPDArtwork("name", "path2");
         assertNotEquals(artwork1, artwork2);
     }
 
     @Test
-    public void testEqualsDifferentObject() {
+    void testEqualsDifferentObject() {
         MPDArtwork artwork = new MPDArtwork("name", "path");
         MPDArtist artist = new MPDArtist("artist");
         assertNotEquals(artwork, artist);
     }
 
     @Test
-    public void testEqualsNullPath() {
+    void testEqualsNullPath() {
         MPDArtwork artwork1 = new MPDArtwork("name", null);
         MPDArtwork artwork2 = new MPDArtwork("name", "path2");
         assertNotEquals(artwork1, artwork2);
     }
 
     @Test
-    public void testEqualsNullPathParamater() {
+    void testEqualsNullPathParamater() {
         MPDArtwork artwork1 = new MPDArtwork("name", "path1");
         MPDArtwork artwork2 = new MPDArtwork("name", null);
         assertNotEquals(artwork1, artwork2);
     }
 
     @Test
-    public void testEqualsBothNull() {
+    void testEqualsBothNull() {
         MPDArtwork artwork1 = new MPDArtwork("name", null);
         MPDArtwork artwork2 = new MPDArtwork("name", null);
         assertEquals(artwork1, artwork2);
     }
 
     @Test
-    public void testHashCodeSamePath() {
+    void testHashCodeSamePath() {
         MPDArtwork artwork1 = new MPDArtwork("name", "path");
         MPDArtwork artwork2 = new MPDArtwork("name", "path");
         assertEquals(artwork1.hashCode(), artwork2.hashCode());
     }
 
     @Test
-    public void testHashCodeDifferentPath() {
+    void testHashCodeDifferentPath() {
         MPDArtwork artwork1 = new MPDArtwork("name", "path1");
         MPDArtwork artwork2 = new MPDArtwork("name", "path2");
         assertNotEquals(artwork1.hashCode(), artwork2.hashCode());
     }
 
     @Test
-    public void testHashCodeNull() {
-        MPDArtwork artwork = new MPDArtwork("name", null);
-        assertEquals(0, artwork.hashCode());
-    }
-
-    @Test
-    public void testGetBytes() {
+    void testGetBytes() {
         byte[] bytes = {
                 0
         };

@@ -5,91 +5,91 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PlaylistPropertiesTest {
+class PlaylistPropertiesTest {
     private PlaylistProperties playlistProperties;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         playlistProperties = new PlaylistProperties();
     }
 
     @Test
-    public void getAdd() {
+    void getAdd() {
         assertEquals("add", playlistProperties.getAdd());
     }
 
     @Test
-    public void getClear() {
+    void getClear() {
         assertEquals("clear", playlistProperties.getClear());
     }
 
     @Test
-    public void getCurrentSong() {
+    void getCurrentSong() {
         assertEquals("currentsong", playlistProperties.getCurrentSong());
     }
 
     @Test
-    public void getDelete() {
+    void getDelete() {
         assertEquals("rm", playlistProperties.getDelete());
     }
 
     @Test
-    public void getChanges() {
+    void getChanges() {
         assertEquals("plchanges", playlistProperties.getChanges());
     }
 
     @Test
-    public void getId() {
+    void getId() {
         assertEquals("playlistid", playlistProperties.getId());
     }
 
     @Test
-    public void getInfo() {
+    void getInfo() {
         assertEquals("playlistinfo", playlistProperties.getInfo());
     }
 
     @Test
-    public void getLoad() {
+    void getLoad() {
         assertEquals("load", playlistProperties.getLoad());
     }
 
     @Test
-    public void getMove() {
+    void getMove() {
         assertEquals("move", playlistProperties.getMove());
     }
 
     @Test
-    public void getMoveId() {
+    void getMoveId() {
         assertEquals("moveid", playlistProperties.getMoveId());
     }
 
     @Test
-    public void getRemove() {
+    void getRemove() {
         assertEquals("delete", playlistProperties.getRemove());
     }
 
     @Test
-    public void getRemoveId() {
+    void getRemoveId() {
         assertEquals("deleteid", playlistProperties.getRemoveId());
     }
 
     @Test
-    public void getSave() {
+    void getSave() {
         assertEquals("save", playlistProperties.getSave());
     }
 
     @Test
-    public void getShuffle() {
+    void getShuffle() {
         assertEquals("shuffle", playlistProperties.getShuffle());
     }
 
     @Test
-    public void getSwap() {
+    void getSwap() {
         assertEquals("swap", playlistProperties.getSwap());
     }
 
     @Test
-    public void getSwapId() {
+    void getSwapId() {
         assertEquals("swapid", playlistProperties.getSwapId());
     }
 

@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ErrorEventTest {
+class ErrorEventTest {
     @Test
-    public void getMessage() {
+    void getMessage() {
         String message = "message";
         ErrorEvent errorEvent = new ErrorEvent(this, message);
 
@@ -14,7 +14,7 @@ public class ErrorEventTest {
     }
 
     @Test
-    public void getSource() {
+    void getSource() {
         Object source = new Object();
         ErrorEvent errorEvent = new ErrorEvent(source);
 
@@ -22,7 +22,7 @@ public class ErrorEventTest {
     }
 
     @Test
-    public void getSourceAndMessage() {
+    void getSourceAndMessage() {
         Object source = new Object();
         String message = "message";
         ErrorEvent errorEvent = new ErrorEvent(source, message);

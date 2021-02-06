@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDOutputMonitorTest {
+class MPDOutputMonitorTest {
 
     @Mock
     private Admin admin;
@@ -27,7 +27,7 @@ public class MPDOutputMonitorTest {
     private MPDOutputMonitor outputMonitor;
 
     @Test
-    public void testAddOutputChangeListener() {
+    void testAddOutputChangeListener() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
@@ -39,7 +39,7 @@ public class MPDOutputMonitorTest {
     }
 
     @Test
-    public void testRemoveOutputChangeListener() {
+    void testRemoveOutputChangeListener() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         OutputChangeListener outputChangeListener = event -> outputEvent[0] = event;
@@ -58,7 +58,7 @@ public class MPDOutputMonitorTest {
     }
 
     @Test
-    public void testOutputAdded() {
+    void testOutputAdded() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
@@ -71,7 +71,7 @@ public class MPDOutputMonitorTest {
     }
 
     @Test
-    public void testOutputRemoved() {
+    void testOutputRemoved() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
@@ -88,7 +88,7 @@ public class MPDOutputMonitorTest {
     }
 
     @Test
-    public void testOutputChanged() {
+    void testOutputChanged() {
         final OutputChangeEvent[] outputEvent = new OutputChangeEvent[1];
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);

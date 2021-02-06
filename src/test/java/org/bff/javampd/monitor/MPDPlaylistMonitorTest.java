@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDPlaylistMonitorTest {
+class MPDPlaylistMonitorTest {
 
     @Mock
     private PlayerMonitor playerMonitor;
@@ -21,7 +21,7 @@ public class MPDPlaylistMonitorTest {
     private MPDPlaylistMonitor playlistMonitor;
 
     @Test
-    public void testAddPlaylistChangeListener() {
+    void testAddPlaylistChangeListener() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -30,7 +30,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testRemovePlaylistChangeListener() {
+    void testRemovePlaylistChangeListener() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         PlaylistBasicChangeListener playlistChangeListener = event -> changeEvent[0] = event.getEvent();
@@ -45,13 +45,13 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testGetSongId() {
+    void testGetSongId() {
         playlistMonitor.processResponseStatus("songid: 1");
         assertEquals(1, playlistMonitor.getSongId());
     }
 
     @Test
-    public void testPlayerStopped() {
+    void testPlayerStopped() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -61,7 +61,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testPlayerNotStopped() {
+    void testPlayerNotStopped() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -72,7 +72,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusPlaylistChanged() {
+    void testProcessResponseStatusPlaylistChanged() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -82,7 +82,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusPlaylistNotChanged() {
+    void testProcessResponseStatusPlaylistNotChanged() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -97,7 +97,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusSongAdded() {
+    void testProcessResponseStatusSongAdded() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -107,7 +107,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusSongDeleted() {
+    void testProcessResponseStatusSongDeleted() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -119,7 +119,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusSongUnchanged() {
+    void testProcessResponseStatusSongUnchanged() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -132,12 +132,12 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusSongChanged() {
+    void testProcessResponseStatusSongChanged() {
         statusSongChanged("song: 1");
     }
 
     @Test
-    public void testProcessResponseStatusSongChangedById() {
+    void testProcessResponseStatusSongChangedById() {
         statusSongChanged("songid: 1");
     }
 
@@ -168,17 +168,17 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testProcessResponseStatusSongNoChange() {
+    void testProcessResponseStatusSongNoChange() {
         statusSongNoChange("song: 1");
     }
 
     @Test
-    public void testProcessResponseStatusSongNoChangeById() {
+    void testProcessResponseStatusSongNoChangeById() {
         statusSongNoChange("songid: 1");
     }
 
     @Test
-    public void testProcessResponseStatusPlaylistNothing() {
+    void testProcessResponseStatusPlaylistNothing() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
         playlistMonitor.processResponseStatus("bogus: 1");
         playlistMonitor.checkStatus();
@@ -186,7 +186,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testSongChangeNotPlaying() {
+    void testSongChangeNotPlaying() {
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
         playlistMonitor.addPlaylistChangeListener(event -> changeEvent[0] = event.getEvent());
@@ -198,7 +198,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testResetSongId() {
+    void testResetSongId() {
         String line = "songid: 1";
         statusSongChanged(line);
         playlistMonitor.reset();
@@ -206,7 +206,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testResetSong() {
+    void testResetSong() {
         String line = "song: 1";
         statusSongChanged(line);
         playlistMonitor.reset();
@@ -215,7 +215,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testResetPlaylistVersion() {
+    void testResetPlaylistVersion() {
         String line = "playlist: 1";
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 
@@ -233,7 +233,7 @@ public class MPDPlaylistMonitorTest {
     }
 
     @Test
-    public void testResetPlaylistLength() {
+    void testResetPlaylistLength() {
         String line = "playlistlength: 1";
         final PlaylistBasicChangeEvent.Event[] changeEvent = new PlaylistBasicChangeEvent.Event[1];
 

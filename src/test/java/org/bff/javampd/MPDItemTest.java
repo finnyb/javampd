@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MPDItemTest {
+class MPDItemTest {
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item1");
 
@@ -15,7 +15,7 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem();
 
@@ -23,28 +23,28 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testEqualsNull() {
+    void testEqualsNull() {
         MPDItem item = new TestItem("item");
 
         assertNotEquals(item, null);
     }
 
     @Test
-    public void testEqualsSameObject() {
+    void testEqualsSameObject() {
         MPDItem item = new TestItem("item");
 
         assertTrue(item.equals(item));
     }
 
     @Test
-    public void testEqualsDifferentClass() {
+    void testEqualsDifferentClass() {
         MPDItem item = new TestItem("item");
 
         assertNotEquals("", item);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item1");
 
@@ -52,14 +52,7 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testHashCodeNull() {
-        MPDItem item = new TestItem(null);
-
-        assertEquals(0, item.hashCode());
-    }
-
-    @Test
-    public void testCompareToLessThanZero() {
+    void testCompareToLessThanZero() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item2");
 
@@ -67,7 +60,7 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testCompareToGreaterThanZero() {
+    void testCompareToGreaterThanZero() {
         MPDItem item1 = new TestItem("item2");
         MPDItem item2 = new TestItem("item1");
 
@@ -75,7 +68,7 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testCompareToEquals() {
+    void testCompareToEquals() {
         MPDItem item1 = new TestItem("item1");
         MPDItem item2 = new TestItem("item1");
 
@@ -83,7 +76,7 @@ public class MPDItemTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String name = "name";
         MPDItem item = new TestItem(name);
 
@@ -91,11 +84,11 @@ public class MPDItemTest {
     }
 
     private static class TestItem extends MPDItem {
-        public TestItem() {
+        TestItem() {
             super();
         }
 
-        public TestItem(String name) {
+        TestItem(String name) {
             super(name);
         }
     }

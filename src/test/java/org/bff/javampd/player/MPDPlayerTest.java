@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDPlayerTest {
+class MPDPlayerTest {
 
     @Mock
     private ServerStatus serverStatus;
@@ -44,7 +44,7 @@ public class MPDPlayerTest {
     private ArgumentCaptor<String> paramArgumentCaptor;
 
     @Test
-    public void testGetCurrentSong() {
+    void testGetCurrentSong() {
         List<String> responseList = new ArrayList<>();
         String testFile = "testFile";
         String testTitle = "testTitle";
@@ -66,7 +66,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testGetCurrentSongEmpty() {
+    void testGetCurrentSongEmpty() {
         List<String> responseList = new ArrayList<>();
         List<MPDSong> testSongResponse = new ArrayList<>();
 
@@ -81,7 +81,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testPlay() {
+    void testPlay() {
         when(playerProperties.getPlay()).thenCallRealMethod();
         mpdPlayer.play();
         verify(commandExecutor)
@@ -90,7 +90,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testPlaySong() {
+    void testPlaySong() {
         int id = 1;
         String testFile = "testFile";
         String testTitle = "testTitle";
@@ -106,7 +106,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testSeek() {
+    void testSeek() {
         int seconds = 100;
         List<String> responseList = new ArrayList<>();
         String testFile = "testFile";
@@ -139,7 +139,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testSeekSongLengthLessThanRequest() {
+    void testSeekSongLengthLessThanRequest() {
         int seconds = 100;
         List<String> responseList = new ArrayList<>();
         String testFile = "testFile";
@@ -167,7 +167,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testSeekSong() {
+    void testSeekSong() {
         int seconds = 100;
         List<String> responseList = new ArrayList<>();
         String testFile = "testFile";
@@ -196,7 +196,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testPlayerChangeEventStarted() {
+    void testPlayerChangeEventStarted() {
         final PlayerChangeEvent.Event[] playerChangeEvent = {null};
         mpdPlayer.addPlayerChangeListener(event -> playerChangeEvent[0] = event.getEvent());
 
@@ -207,7 +207,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testPlayerChangeEventSongSet() {
+    void testPlayerChangeEventSongSet() {
         final PlayerChangeEvent.Event[] playerChangeEvent = {null};
         mpdPlayer.addPlayerChangeListener(event -> playerChangeEvent[0] = event.getEvent());
 
@@ -222,7 +222,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testRemovePlayerChangedListener() {
+    void testRemovePlayerChangedListener() {
         final PlayerChangeEvent.Event[] playerChangeEvent = {null};
 
         PlayerChangeListener playerChangeListener = event -> playerChangeEvent[0] = event.getEvent();
@@ -244,7 +244,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testStop() {
+    void testStop() {
         when(playerProperties.getStop()).thenCallRealMethod();
         mpdPlayer.stop();
         verify(commandExecutor)
@@ -253,7 +253,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testPause() {
+    void testPause() {
         when(playerProperties.getPause()).thenCallRealMethod();
         mpdPlayer.pause();
         verify(commandExecutor)
@@ -263,7 +263,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testPlayNext() {
+    void testPlayNext() {
         when(playerProperties.getNext()).thenCallRealMethod();
         mpdPlayer.playNext();
         verify(commandExecutor)
@@ -272,7 +272,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testPlayPrevious() {
+    void testPlayPrevious() {
         when(playerProperties.getPrevious()).thenCallRealMethod();
         mpdPlayer.playPrevious();
         verify(commandExecutor)
@@ -281,7 +281,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testMute() {
+    void testMute() {
         when(playerProperties.getSetVolume()).thenCallRealMethod();
         mpdPlayer.mute();
         verify(commandExecutor)
@@ -291,7 +291,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testUnMute() {
+    void testUnMute() {
         when(playerProperties.getSetVolume()).thenCallRealMethod();
         mpdPlayer.setVolume(1);
         mpdPlayer.unMute();
@@ -303,7 +303,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testAddVolumeChangeListener() {
+    void testAddVolumeChangeListener() {
         final VolumeChangeEvent[] volumeChangeEvent = {null};
         mpdPlayer.addVolumeChangeListener(event -> volumeChangeEvent[0] = event);
 
@@ -314,7 +314,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testAddVolumeChangeListenerOutOfRange() {
+    void testAddVolumeChangeListenerOutOfRange() {
         final VolumeChangeEvent[] volumeChangeEvent = {null};
         mpdPlayer.addVolumeChangeListener(event -> volumeChangeEvent[0] = event);
 
@@ -326,7 +326,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testRemoveVolumeChangedListener() {
+    void testRemoveVolumeChangedListener() {
         final VolumeChangeEvent[] volumeChangeEvent = {null};
 
         VolumeChangeListener volumeChangeListener = event -> volumeChangeEvent[0] = event;
@@ -345,7 +345,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testRandomizePlay() {
+    void testRandomizePlay() {
         when(playerProperties.getRandom()).thenCallRealMethod();
         mpdPlayer.randomizePlay();
         verify(commandExecutor)
@@ -355,7 +355,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testUnrandomizePlay() {
+    void testUnrandomizePlay() {
         when(playerProperties.getRandom()).thenCallRealMethod();
         mpdPlayer.unRandomizePlay();
         verify(commandExecutor)
@@ -365,7 +365,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testSetRandomTrue() {
+    void testSetRandomTrue() {
         when(playerProperties.getRandom()).thenCallRealMethod();
         mpdPlayer.setRandom(true);
         verify(commandExecutor)
@@ -375,7 +375,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testSetRandomFalse() {
+    void testSetRandomFalse() {
         when(playerProperties.getRandom()).thenCallRealMethod();
         mpdPlayer.setRandom(false);
         verify(commandExecutor)
@@ -385,13 +385,13 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testIsRandom() {
+    void testIsRandom() {
         when(serverStatus.isRandom()).thenReturn(true);
         assertTrue(mpdPlayer.isRandom());
     }
 
     @Test
-    public void testSetRepeatTrue() {
+    void testSetRepeatTrue() {
         when(playerProperties.getRepeat()).thenCallRealMethod();
         mpdPlayer.setRepeat(true);
         verify(commandExecutor)
@@ -401,7 +401,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testSetRepeatFalse() {
+    void testSetRepeatFalse() {
         when(playerProperties.getRepeat()).thenCallRealMethod();
         mpdPlayer.setRepeat(false);
         verify(commandExecutor)
@@ -411,25 +411,25 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testIsRepeat() {
+    void testIsRepeat() {
         when(serverStatus.isRepeat()).thenReturn(true);
         assertTrue(mpdPlayer.isRepeat());
     }
 
     @Test
-    public void testGetBitrate() {
+    void testGetBitrate() {
         when(serverStatus.getBitrate()).thenReturn(1);
         assertTrue(1 == mpdPlayer.getBitrate());
     }
 
     @Test
-    public void testGetVolume() {
+    void testGetVolume() {
         when(serverStatus.getVolume()).thenReturn(1);
         assertTrue(1 == mpdPlayer.getVolume());
     }
 
     @Test
-    public void testSetVolume() {
+    void testSetVolume() {
         when(playerProperties.getSetVolume()).thenCallRealMethod();
         mpdPlayer.setVolume(0);
         verify(commandExecutor)
@@ -439,7 +439,7 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testSetVolumeOutOfRangeHigh() {
+    void testSetVolumeOutOfRangeHigh() {
         mpdPlayer.setVolume(101);
         verify(commandExecutor, never())
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -447,20 +447,20 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testSetVolumeOutOfRangeLow() {
+    void testSetVolumeOutOfRangeLow() {
         mpdPlayer.setVolume(-1);
         verify(commandExecutor, never())
                 .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     }
 
     @Test
-    public void testGetXFade() {
+    void testGetXFade() {
         when(serverStatus.getXFade()).thenReturn(1);
         assertTrue(1 == mpdPlayer.getXFade());
     }
 
     @Test
-    public void testSetXFade() {
+    void testSetXFade() {
         when(playerProperties.getXFade()).thenCallRealMethod();
         mpdPlayer.setXFade(5);
         verify(commandExecutor)
@@ -470,67 +470,67 @@ public class MPDPlayerTest {
     }
 
     @Test
-    public void testGetElapsedTime() {
+    void testGetElapsedTime() {
         when(serverStatus.getElapsedTime()).thenReturn(1L);
         assertTrue(1 == mpdPlayer.getElapsedTime());
     }
 
     @Test
-    public void testGetTotalTime() {
+    void testGetTotalTime() {
         when(serverStatus.getTotalTime()).thenReturn(1L);
         assertTrue(1 == mpdPlayer.getTotalTime());
     }
 
     @Test
-    public void testGetStatusPlaying() {
+    void testGetStatusPlaying() {
         when(serverStatus.getState()).thenReturn(Player.Status.STATUS_PLAYING.getPrefix());
         assertEquals(Player.Status.STATUS_PLAYING, mpdPlayer.getStatus());
     }
 
     @Test
-    public void testGetStatusPaused() {
+    void testGetStatusPaused() {
         when(serverStatus.getState()).thenReturn(Player.Status.STATUS_PAUSED.getPrefix());
         assertEquals(Player.Status.STATUS_PAUSED, mpdPlayer.getStatus());
     }
 
     @Test
-    public void testGetStatusStopped() {
+    void testGetStatusStopped() {
         when(serverStatus.getState()).thenReturn(Player.Status.STATUS_STOPPED.getPrefix());
         assertEquals(Player.Status.STATUS_STOPPED, mpdPlayer.getStatus());
     }
 
     @Test
-    public void testGetAudioDetailsBitrate() {
+    void testGetAudioDetailsBitrate() {
         when(serverStatus.getAudio()).thenReturn("4:5:6");
         assertTrue(5 == mpdPlayer.getAudioDetails().getBits());
     }
 
     @Test
-    public void testGetAudioDetailsBadBitrate() {
+    void testGetAudioDetailsBadBitrate() {
         when(serverStatus.getAudio()).thenReturn("4:bad:6");
         assertTrue(-1 == mpdPlayer.getAudioDetails().getBits());
     }
 
     @Test
-    public void testGetAudioDetailsChannels() {
+    void testGetAudioDetailsChannels() {
         when(serverStatus.getAudio()).thenReturn("4:5:6");
         assertTrue(6 == mpdPlayer.getAudioDetails().getChannels());
     }
 
     @Test
-    public void testGetAudioDetailsBadChannels() {
+    void testGetAudioDetailsBadChannels() {
         when(serverStatus.getAudio()).thenReturn("4:5:bad");
         assertTrue(-1 == mpdPlayer.getAudioDetails().getChannels());
     }
 
     @Test
-    public void testGetAudioDetailsSampleRate() {
+    void testGetAudioDetailsSampleRate() {
         when(serverStatus.getAudio()).thenReturn("4:5:6");
         assertTrue(4 == mpdPlayer.getAudioDetails().getSampleRate());
     }
 
     @Test
-    public void testGetAudioDetailsBadSampleRate() {
+    void testGetAudioDetailsBadSampleRate() {
         when(serverStatus.getAudio()).thenReturn("bad:5:6");
         assertTrue(-1 == mpdPlayer.getAudioDetails().getSampleRate());
     }

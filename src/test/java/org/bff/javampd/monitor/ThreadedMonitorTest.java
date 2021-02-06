@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ThreadedMonitorTest {
+class ThreadedMonitorTest {
     private boolean checked;
     private boolean processedResponse;
     private boolean reset;
@@ -13,7 +13,7 @@ public class ThreadedMonitorTest {
     private ThreadedMonitor threadedMonitor;
 
     @Test
-    public void testCheckStatusDelayed() {
+    void testCheckStatusDelayed() {
         Monitor testMonitor = new TestMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);
@@ -23,7 +23,7 @@ public class ThreadedMonitorTest {
     }
 
     @Test
-    public void testCheckStatus() {
+    void testCheckStatus() {
         Monitor testMonitor = new TestMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);
@@ -35,7 +35,7 @@ public class ThreadedMonitorTest {
     }
 
     @Test
-    public void testShouldntProcessResponseLine() {
+    void testShouldntProcessResponseLine() {
         Monitor testMonitor = new TestMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);
@@ -45,7 +45,7 @@ public class ThreadedMonitorTest {
     }
 
     @Test
-    public void testProcessResponseLine() {
+    void testProcessResponseLine() {
         Monitor testMonitor = new TestStatusMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);
@@ -55,7 +55,7 @@ public class ThreadedMonitorTest {
     }
 
     @Test
-    public void testReset() {
+    void testReset() {
         Monitor testMonitor = new TestStatusMonitor();
 
         threadedMonitor = new ThreadedMonitor(testMonitor, 1);

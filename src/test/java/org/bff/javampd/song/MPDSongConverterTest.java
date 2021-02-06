@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MPDSongConverterTest {
+class MPDSongConverterTest {
 
     private static final String FILE = "file";
     private static final String ARTIST = "artist";
@@ -26,41 +26,41 @@ public class MPDSongConverterTest {
     private List<MPDSong> songs;
 
     @BeforeEach
-    public void before() {
+    void before() {
         converter = new MPDSongConverter();
         songs = converter.convertResponseToSong(createResponses(true));
     }
 
     @Test
-    public void testArtist() {
+    void testArtist() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getArtistName(), ARTIST + i);
         }
     }
 
     @Test
-    public void testAlbum() {
+    void testAlbum() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getAlbumName(), ALBUM + i);
         }
     }
 
     @Test
-    public void testTrack() {
+    void testTrack() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getTrack(), i);
         }
     }
 
     @Test
-    public void testName() {
+    void testName() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getName(), NAME + i);
         }
     }
 
     @Test
-    public void testNameWithoutResponse() {
+    void testNameWithoutResponse() {
         songs = converter.convertResponseToSong(createResponses(false));
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getName(), TITLE + i);
@@ -68,70 +68,70 @@ public class MPDSongConverterTest {
     }
 
     @Test
-    public void testTitle() {
+    void testTitle() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getTitle(), TITLE + i);
         }
     }
 
     @Test
-    public void testDate() {
+    void testDate() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getYear(), DATE + i);
         }
     }
 
     @Test
-    public void testGenre() {
+    void testGenre() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getGenre(), GENRE + i);
         }
     }
 
     @Test
-    public void testComment() {
+    void testComment() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getComment(), COMMENT + i);
         }
     }
 
     @Test
-    public void testTime() {
+    void testTime() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getLength(), i);
         }
     }
 
     @Test
-    public void testPosition() {
+    void testPosition() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getPosition(), i);
         }
     }
 
     @Test
-    public void testId() {
+    void testId() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getId(), i);
         }
     }
 
     @Test
-    public void testDisc() {
+    void testDisc() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getDiscNumber(), DISC + i);
         }
     }
 
     @Test
-    public void testFile() {
+    void testFile() {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getFile(), FILE + i);
         }
     }
 
     @Test
-    public void testGetSongFileNameList() {
+    void testGetSongFileNameList() {
         List<String> names = converter.getSongFileNameList(createResponses(true));
         assertEquals(COUNT, names.size());
         for (int i = 0; i < COUNT; i++) {

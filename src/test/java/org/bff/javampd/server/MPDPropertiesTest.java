@@ -9,26 +9,26 @@ import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MPDPropertiesTest {
+class MPDPropertiesTest {
 
     @Test
-    public void testGetPropertyString() {
+    void testGetPropertyString() {
         TestProperties testProperties = new TestProperties();
         assertEquals("OK", testProperties.getOk());
     }
 
     @Test
-    public void testBadProperties() {
+    void testBadProperties() {
         assertThrows(MPDException.class, TestBadProperties::new);
     }
 
     @Test
-    public void testBadPropertiesLoad() {
+    void testBadPropertiesLoad() {
         assertThrows(MPDException.class, TestBadPropertiesLoad::new);
     }
 
     private static class TestProperties extends MPDProperties {
-        public String getOk() {
+        String getOk() {
             return getPropertyString("cmd.response.ok");
         }
     }

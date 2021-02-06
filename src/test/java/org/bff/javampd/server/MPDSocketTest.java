@@ -1,12 +1,14 @@
 package org.bff.javampd.server;
 
-import org.bff.javampd.MPDException;
 import org.bff.javampd.command.MPDCommand;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.io.*;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class MPDSocketTest {
+class MPDSocketTest {
 
     private MPDSocket socket;
 
@@ -27,7 +29,7 @@ public class MPDSocketTest {
     private ArgumentCaptor<byte[]> byteArgumentCaptor;
 
     @Test
-    public void testSocketCreationWithError() throws IOException {
+    void testSocketCreationWithError() throws IOException {
         mockSocket = mock(Socket.class);
         mockedInputStream = mock(InputStream.class);
         when(mockSocket.getInputStream()).thenReturn(mockedInputStream);
@@ -37,7 +39,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSocketCreationWithConnectError() throws IOException {
+    void testSocketCreationWithConnectError() throws IOException {
         mockSocket = mock(Socket.class);
         mockedInputStream = mock(InputStream.class);
 
@@ -53,7 +55,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSocketCreationWithBadResponse() throws IOException {
+    void testSocketCreationWithBadResponse() throws IOException {
         mockSocket = mock(Socket.class);
         mockedBufferedReader = mock(BufferedReader.class);
 
@@ -66,7 +68,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommand() throws IOException {
+    void testSendCommand() throws IOException {
         String testResponse = "testResponse";
         createValidSocket();
 
@@ -85,7 +87,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandOKButNoResponse() throws IOException {
+    void testSendCommandOKButNoResponse() throws IOException {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
@@ -102,7 +104,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandSocketException() throws IOException {
+    void testSendCommandSocketException() throws IOException {
         String testResponse = "testResponse";
         createValidSocket();
 
@@ -123,7 +125,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandNoPermissionResponse() throws IOException {
+    void testSendCommandNoPermissionResponse() throws IOException {
         String testResponse = "ACK: you don't have permission";
         createValidSocket();
 
@@ -140,7 +142,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandsSecurityException() throws IOException {
+    void testSendCommandsSecurityException() throws IOException {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
@@ -154,7 +156,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandsException() throws IOException {
+    void testSendCommandsException() throws IOException {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
@@ -168,7 +170,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandError() throws IOException {
+    void testSendCommandError() throws IOException {
         String testResponse = "ACK: error";
         createValidSocket();
 
@@ -185,7 +187,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandAfterClose() throws IOException {
+    void testSendCommandAfterClose() throws IOException {
         String testResponse = "test response";
         createValidSocket();
 
@@ -204,7 +206,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandClosedAfterConnected() throws IOException {
+    void testSendCommandClosedAfterConnected() throws IOException {
         String testResponse = "testResponse";
         createValidSocket();
 
@@ -225,7 +227,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandNeverConnected() throws IOException {
+    void testSendCommandNeverConnected() throws IOException {
         String testResponse = "test response";
         createValidSocket(false);
         when(mockSocket.isConnected()).thenReturn(false).thenReturn(true);
@@ -242,7 +244,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandEmptyError() throws IOException {
+    void testSendCommandEmptyError() throws IOException {
         String testResponse = "ACK";
         createValidSocket();
 
@@ -259,7 +261,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandGeneralException() throws IOException {
+    void testSendCommandGeneralException() throws IOException {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
@@ -270,7 +272,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandException() throws IOException {
+    void testSendCommandException() throws IOException {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
@@ -282,7 +284,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandExceptionWithConnectException() throws IOException {
+    void testSendCommandExceptionWithConnectException() throws IOException {
         createValidSocket();
 
         mockedInputStream = new ByteArrayInputStream(VERSION_RESPONSE.getBytes());
@@ -299,7 +301,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandExceptionWithMaxConnectExceptions() throws IOException {
+    void testSendCommandExceptionWithMaxConnectExceptions() throws IOException {
         createValidSocket();
         when(mockedBufferedReader.readLine())
                 .thenReturn("OK")
@@ -315,7 +317,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommands() throws IOException {
+    void testSendCommands() throws IOException {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
@@ -349,7 +351,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandsExtraResponses() throws IOException {
+    void testSendCommandsExtraResponses() throws IOException {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
@@ -387,7 +389,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testSendCommandsWithError() throws IOException {
+    void testSendCommandsWithError() throws IOException {
         createValidSocket();
 
         when(mockedBufferedReader.readLine())
@@ -423,19 +425,19 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testCreateSocket() throws IOException {
+    void testCreateSocket() throws IOException {
         createValidSocket();
         assertNotNull(((TestSocket) socket).createParentSocket());
     }
 
     @Test
-    public void testGetVersion() throws IOException {
+    void testGetVersion() throws IOException {
         createValidSocket();
         assertEquals("MPD 0.18.0", socket.getVersion());
     }
 
     @Test
-    public void testCloseException() throws IOException {
+    void testCloseException() throws IOException {
         createValidSocket();
 
         doThrow(new IOException()).when(mockSocket).close();
@@ -443,7 +445,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testCloseReaderException() throws IOException {
+    void testCloseReaderException() throws IOException {
         createValidSocket();
 
         doThrow(new IOException()).when(mockedBufferedReader).close();
@@ -451,7 +453,7 @@ public class MPDSocketTest {
     }
 
     @Test
-    public void testClose() throws IOException {
+    void testClose() throws IOException {
         createValidSocket();
         socket.close();
     }
@@ -497,7 +499,7 @@ public class MPDSocketTest {
     }
 
     private class TestSocket extends MPDSocket {
-        public TestSocket(InetAddress server, int port, int timeout) {
+        TestSocket(InetAddress server, int port, int timeout) {
             super(server, port, timeout);
         }
 
@@ -510,7 +512,7 @@ public class MPDSocketTest {
             super.setReader(mockedBufferedReader);
         }
 
-        public Socket createParentSocket() {
+        Socket createParentSocket() {
             return super.createSocket();
         }
     }

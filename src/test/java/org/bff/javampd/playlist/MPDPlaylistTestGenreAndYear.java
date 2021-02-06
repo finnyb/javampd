@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MPDPlaylistTestGenreAndYear {
+class MPDPlaylistTestGenreAndYear {
 
     @Mock
     private SongDatabase songDatabase;
@@ -47,12 +47,12 @@ public class MPDPlaylistTestGenreAndYear {
     private PlaylistProperties realPlaylistProperties;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         realPlaylistProperties = new PlaylistProperties();
     }
 
     @Test
-    public void testInsertGenre() {
+    void testInsertGenre() {
         MPDGenre genre = new MPDGenre("testGenre");
 
         List<MPDSong> songs = new ArrayList<>();
@@ -77,7 +77,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testInsertGenreByName() {
+    void testInsertGenreByName() {
         String genre = "testGenre";
 
         List<MPDSong> songs = new ArrayList<>();
@@ -101,7 +101,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testRemoveGenre() {
+    void testRemoveGenre() {
         MPDGenre genre = new MPDGenre("testGenre");
 
         List<MPDSong> mockedSongs = new ArrayList<>();
@@ -141,7 +141,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testRemoveGenreByName() {
+    void testRemoveGenreByName() {
         String genre = "testGenre";
 
         List<MPDSong> mockedSongs = new ArrayList<>();
@@ -181,7 +181,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testInsertYear() {
+    void testInsertYear() {
         String year = "testYear";
 
         List<MPDSong> songs = new ArrayList<>();
@@ -205,7 +205,7 @@ public class MPDPlaylistTestGenreAndYear {
     }
 
     @Test
-    public void testRemoveYear() {
+    void testRemoveYear() {
         String year = "testYear";
 
         List<MPDSong> mockedSongs = new ArrayList<>();

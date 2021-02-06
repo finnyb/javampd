@@ -8,16 +8,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class MPDErrorMonitorTest {
+class MPDErrorMonitorTest {
     private ErrorMonitor errorMonitor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         errorMonitor = new MPDErrorMonitor();
     }
 
     @Test
-    public void testAddErrorListener() {
+    void testAddErrorListener() {
         final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
         errorMonitor.addErrorListener(event -> errorEvent[0] = event);
@@ -27,7 +27,7 @@ public class MPDErrorMonitorTest {
     }
 
     @Test
-    public void testRemoveErrorListener() {
+    void testRemoveErrorListener() {
         final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
         ErrorListener errorListener = event -> errorEvent[0] = event;
@@ -45,7 +45,7 @@ public class MPDErrorMonitorTest {
     }
 
     @Test
-    public void testInvalidStatus() {
+    void testInvalidStatus() {
         final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
         errorMonitor.addErrorListener(event -> errorEvent[0] = event);
@@ -56,7 +56,7 @@ public class MPDErrorMonitorTest {
     }
 
     @Test
-    public void testResetError() {
+    void testResetError() {
         String line = "error: message";
         final ErrorEvent[] errorEvent = new ErrorEvent[1];
 

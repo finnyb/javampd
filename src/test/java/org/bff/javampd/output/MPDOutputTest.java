@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MPDOutputTest {
+class MPDOutputTest {
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(1);
 
@@ -15,7 +15,7 @@ public class MPDOutputTest {
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(2);
 
@@ -23,25 +23,25 @@ public class MPDOutputTest {
     }
 
     @Test
-    public void testEqualsNull() {
+    void testEqualsNull() {
         MPDOutput item = new MPDOutput(1);
 
         assertNotEquals(item, null);
     }
 
     @Test
-    public void testEqualsSameObject() {
+    void testEqualsSameObject() {
         MPDOutput item = new MPDOutput(1);
 
         assertTrue(item.equals(item));
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(2);
 
-        assertEquals(output1.hashCode(), output2.hashCode());
+        assertNotEquals(output1.hashCode(), output2.hashCode());
     }
 
 }

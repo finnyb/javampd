@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TimeTagProcessorTest {
+class TimeTagProcessorTest {
 
     @Test
-    public void testProcessSong() {
+    void testProcessSong() {
         int testLength = 1;
 
         TimeTagProcessor timeTagProcessor = new TimeTagProcessor();
@@ -21,7 +21,7 @@ public class TimeTagProcessorTest {
     }
 
     @Test
-    public void testProcessSongBadLine() {
+    void testProcessSongBadLine() {
         int testLength = 1;
 
         TimeTagProcessor timeTagProcessor = new TimeTagProcessor();

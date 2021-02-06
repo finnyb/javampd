@@ -1,12 +1,13 @@
 package org.bff.javampd;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
 /**
  * Abstract base class for all MPD related objects.
  *
  * @author Bill
  */
+@EqualsAndHashCode
 public abstract class MPDItem implements Comparable<MPDItem> {
 
     private String name;
@@ -14,7 +15,7 @@ public abstract class MPDItem implements Comparable<MPDItem> {
     /**
      * Default constructor for a MPDItem
      */
-    public MPDItem() {
+    protected MPDItem() {
     }
 
     /**
@@ -47,27 +48,6 @@ public abstract class MPDItem implements Comparable<MPDItem> {
     @Override
     public String toString() {
         return getName();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        MPDItem mpdItem = (MPDItem) o;
-
-        return Objects.equals(name, mpdItem.name);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return name != null ? name.hashCode() : 0;
     }
 
     @Override

@@ -7,17 +7,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MPDPlayerMonitorTest {
+class MPDPlayerMonitorTest {
 
     private PlayerMonitor playerMonitor;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         playerMonitor = new MPDPlayerMonitor();
     }
 
     @Test
-    public void testAddPlayerChangeListener() {
+    void testAddPlayerChangeListener() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -27,7 +27,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testRemovePlayerChangeListener() {
+    void testRemovePlayerChangeListener() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         PlayerBasicChangeListener playerBasicChangeListener = event -> changeEvent[0] = event;
@@ -45,7 +45,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerStarted() {
+    void testPlayerStarted() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -57,12 +57,12 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerStopped() {
+    void testPlayerStopped() {
         processStoppedTest("state: play");
     }
 
     @Test
-    public void testPlayerInvalidStatus() {
+    void testPlayerInvalidStatus() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -72,7 +72,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerInvalidStatusAfterValidStatus() {
+    void testPlayerInvalidStatusAfterValidStatus() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -87,7 +87,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerPaused() {
+    void testPlayerPaused() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -99,7 +99,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerPausedtoStopped() {
+    void testPlayerPausedtoStopped() {
         processStoppedTest("state: pause");
     }
 
@@ -115,7 +115,7 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testPlayerUnPaused() {
+    void testPlayerUnPaused() {
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];
 
         playerMonitor.addPlayerChangeListener(event -> changeEvent[0] = event);
@@ -131,14 +131,14 @@ public class MPDPlayerMonitorTest {
     }
 
     @Test
-    public void testGetStatus() {
+    void testGetStatus() {
         playerMonitor.processResponseStatus("state: play");
         playerMonitor.checkStatus();
         assertEquals(PlayerStatus.STATUS_PLAYING, playerMonitor.getStatus());
     }
 
     @Test
-    public void testResetState() {
+    void testResetState() {
         String line = "state: play";
 
         final PlayerBasicChangeEvent[] changeEvent = new PlayerBasicChangeEvent[1];

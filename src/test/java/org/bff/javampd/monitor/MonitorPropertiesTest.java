@@ -5,51 +5,51 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MonitorPropertiesTest {
+class MonitorPropertiesTest {
     private MonitorProperties monitorProperties;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         monitorProperties = new MonitorProperties();
     }
 
     @Test
-    public void testGetOutputDelay() {
+    void testGetOutputDelay() {
         assertEquals(60, monitorProperties.getOutputDelay());
     }
 
     @Test
-    public void testGetConnectionDelay() {
+    void testGetConnectionDelay() {
         assertEquals(5, monitorProperties.getConnectionDelay());
     }
 
     @Test
-    public void testGetPlaylistDelay() {
+    void testGetPlaylistDelay() {
         assertEquals(2, monitorProperties.getPlaylistDelay());
     }
 
     @Test
-    public void testGetPlayerDelay() {
+    void testGetPlayerDelay() {
         assertEquals(0, monitorProperties.getPlayerDelay());
     }
 
     @Test
-    public void testGetErrorDelay() {
+    void testGetErrorDelay() {
         assertEquals(0, monitorProperties.getErrorDelay());
     }
 
     @Test
-    public void testGetTrackDelay() {
+    void testGetTrackDelay() {
         assertEquals(0, monitorProperties.getTrackDelay());
     }
 
     @Test
-    public void testGetMonitorDelay() {
+    void testGetMonitorDelay() {
         assertEquals(1, monitorProperties.getMonitorDelay());
     }
 
     @Test
-    public void testGetExceptionDelay() {
+    void testGetExceptionDelay() {
         assertEquals(5, monitorProperties.getExceptionDelay());
     }
 }

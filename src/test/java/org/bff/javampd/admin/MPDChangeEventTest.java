@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MPDChangeEventTest {
+class MPDChangeEventTest {
 
     @Test
-    public void testConstructor2Params() {
+    void testConstructor2Params() {
         Object source = new Object();
         MPDChangeEvent.Event event = MPDChangeEvent.Event.KILLED;
 
