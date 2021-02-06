@@ -91,7 +91,6 @@ public class MPD implements Server {
             this.commandExecutor.setMpd(this);
             authenticate();
         } catch (Exception e) {
-            LOGGER.error("Error creating mpd instance to server {} on port {}", this.address, this.port, e);
             throw new MPDConnectionException(e);
         }
     }
