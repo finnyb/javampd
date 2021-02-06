@@ -61,6 +61,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <junit.jupiter.version>5.6.2</junit.jupiter.version>
         <mockito.version>3.4.4</mockito.version>
+        <sonar.projectKey>finnyb_javampd</sonar.projectKey>
+        <sonar.organization>finnyb</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <build>
         <plugins>
