@@ -136,9 +136,8 @@ class MPDSocketTest {
                 .thenReturn("OK")
                 .thenReturn(testResponse)
                 .thenReturn(null);
-
-        assertThrows(MPDSecurityException.class,
-                () -> socket.sendCommand(new MPDCommand("command", "params")));
+        MPDCommand command = new MPDCommand("command", "params");
+        assertThrows(MPDSecurityException.class, () -> socket.sendCommand(command));
     }
 
     @Test
@@ -182,8 +181,9 @@ class MPDSocketTest {
                 .thenReturn(testResponse)
                 .thenReturn(null);
 
-        assertThrows(MPDConnectionException.class,
-                () -> socket.sendCommand(new MPDCommand("command", "params")));
+        MPDCommand command = new MPDCommand("command", "params");
+
+        assertThrows(MPDConnectionException.class, () -> socket.sendCommand(command));
     }
 
     @Test
@@ -201,8 +201,9 @@ class MPDSocketTest {
                 .thenReturn(testResponse)
                 .thenReturn(null);
 
-        assertThrows(MPDConnectionException.class,
-                () -> socket.sendCommand(new MPDCommand("command", "params")));
+        MPDCommand command = new MPDCommand("command", "params");
+
+        assertThrows(MPDConnectionException.class, () -> socket.sendCommand(command));
     }
 
     @Test
@@ -256,8 +257,9 @@ class MPDSocketTest {
                 .thenReturn(testResponse)
                 .thenReturn(null);
 
-        assertThrows(MPDConnectionException.class,
-                () -> socket.sendCommand(new MPDCommand("command", "params")));
+        MPDCommand command = new MPDCommand("command", "params");
+
+        assertThrows(MPDConnectionException.class, () -> socket.sendCommand(command));
     }
 
     @Test
@@ -267,8 +269,8 @@ class MPDSocketTest {
         when(mockedBufferedReader.readLine())
                 .thenThrow(new RuntimeException());
 
-        assertThrows(MPDConnectionException.class,
-                () -> socket.sendCommand(new MPDCommand("command", "params")));
+        MPDCommand command = new MPDCommand("command", "params");
+        assertThrows(MPDConnectionException.class, () -> socket.sendCommand(command));
     }
 
     @Test
@@ -312,8 +314,8 @@ class MPDSocketTest {
                 .thenThrow(new SocketException())
                 .thenReturn("OK");
 
-        assertThrows(MPDConnectionException.class,
-                () -> socket.sendCommand(new MPDCommand("command")));
+        MPDCommand command = new MPDCommand("command");
+        assertThrows(MPDConnectionException.class, () -> socket.sendCommand(command));
     }
 
     @Test

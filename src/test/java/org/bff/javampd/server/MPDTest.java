@@ -108,7 +108,8 @@ class MPDTest {
                 .when(mpdCommandExecutor)
                 .authenticate();
 
-        assertThrows(MPDConnectionException.class, () -> mpdBuilder.password(password).build());
+        MPD.Builder mpd = mpdBuilder.password(password);
+        assertThrows(MPDConnectionException.class, mpd::build);
     }
 
     @Test
