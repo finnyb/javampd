@@ -42,13 +42,6 @@ class MPDArtworkTest {
     }
 
     @Test
-    void testEqualsDifferentObject() {
-        MPDArtwork artwork = new MPDArtwork("name", "path");
-        MPDArtist artist = new MPDArtist("artist");
-        assertNotEquals(artwork, artist);
-    }
-
-    @Test
     void testEqualsNullPath() {
         MPDArtwork artwork1 = new MPDArtwork("name", null);
         MPDArtwork artwork2 = new MPDArtwork("name", "path2");
@@ -56,10 +49,17 @@ class MPDArtworkTest {
     }
 
     @Test
-    void testEqualsNullPathParamater() {
+    void testEqualsNullPathParameter() {
         MPDArtwork artwork1 = new MPDArtwork("name", "path1");
         MPDArtwork artwork2 = new MPDArtwork("name", null);
         assertNotEquals(artwork1, artwork2);
+    }
+
+    @Test
+    void testEqualsDifferentObject() {
+        MPDArtwork artwork = new MPDArtwork("name", "path");
+        MPDArtist artist = new MPDArtist("artist");
+        assertNotEquals(artwork, artist);
     }
 
     @Test

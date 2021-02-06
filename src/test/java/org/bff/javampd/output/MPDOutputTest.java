@@ -2,6 +2,8 @@ package org.bff.javampd.output;
 
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MPDOutputTest {
@@ -11,7 +13,7 @@ class MPDOutputTest {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(1);
 
-        assertEquals(output1, output2);
+        assertThat(output1, is(equalTo(output2)));
     }
 
     @Test
@@ -19,21 +21,21 @@ class MPDOutputTest {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(2);
 
-        assertNotEquals(output1, output2);
+        assertThat(output1, is(not(equalTo(output2))));
     }
 
     @Test
     void testEqualsNull() {
         MPDOutput item = new MPDOutput(1);
 
-        assertNotEquals(item, null);
+        assertThat(item, is(notNullValue()));
     }
 
     @Test
     void testEqualsSameObject() {
         MPDOutput item = new MPDOutput(1);
 
-        assertTrue(item.equals(item));
+        assertThat(item, is(equalTo(item)));
     }
 
     @Test
@@ -41,7 +43,7 @@ class MPDOutputTest {
         MPDOutput output1 = new MPDOutput(1);
         MPDOutput output2 = new MPDOutput(2);
 
-        assertNotEquals(output1.hashCode(), output2.hashCode());
+        assertThat(output1.hashCode(), is(not(equalTo(output2.hashCode()))));
     }
 
 }
