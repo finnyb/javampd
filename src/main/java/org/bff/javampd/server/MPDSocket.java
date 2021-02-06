@@ -209,10 +209,8 @@ public class MPDSocket {
                 }
             }
         } catch (MPDSecurityException se) {
-            LOGGER.error("Response Error from command list", se);
             throw se;
         } catch (Exception e) {
-            LOGGER.error("Response Error from command list", e);
             commandList.forEach(s -> LOGGER.error(s.getCommand()));
             throw new MPDConnectionException(e.getMessage(), e);
         }
