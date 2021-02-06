@@ -5,6 +5,8 @@ import org.bff.javampd.command.MPDCommandExecutor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -155,40 +157,24 @@ class MPDServerStatusTest {
         assertEquals(Integer.parseInt(time.split(":")[0]), serverStatus.getElapsedTime());
     }
 
-    @Test
-    void testInvalidElapsedTime() {
-        statusList.add("time: junk");
+    @ParameterizedTest
+    @ValueSource(strings = {"time: junk", "junk: 0", "time: junk:junk"})
+    void testElapsedTimes(String input) {
+        statusList.add(input);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(0, serverStatus.getElapsedTime());
     }
 
-    @Test
-    void testEmptyElapsedTime() {
-        statusList.add("junk: 0");
+    @ParameterizedTest
+    @ValueSource(strings = {"time: junk:junk", "time: junk", "junk: 0"})
+    void testTotalTimeParseException(String input) {
+        statusList.add(input);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        assertEquals(0, serverStatus.getElapsedTime());
-    }
-
-    @Test
-    void testElapsedTimeParseException() {
-        statusList.add("time: junk:junk");
-        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
-        when(clock.now()).thenReturn(LocalDateTime.now());
-
-        assertEquals(0, serverStatus.getElapsedTime());
-    }
-
-    @Test
-    void testTotalTimeParseException() {
-        statusList.add("time: junk:junk");
-        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
-        when(clock.now()).thenReturn(LocalDateTime.now());
-
-        assertEquals(0, serverStatus.getElapsedTime());
+        assertEquals(0, serverStatus.getTotalTime());
     }
 
     @Test
@@ -199,24 +185,6 @@ class MPDServerStatusTest {
         when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertEquals(Integer.parseInt(time.split(":")[1]), serverStatus.getTotalTime());
-    }
-
-    @Test
-    void testInvalidTotalTime() {
-        statusList.add("time: junk");
-        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
-        when(clock.now()).thenReturn(LocalDateTime.now());
-
-        assertEquals(0, serverStatus.getTotalTime());
-    }
-
-    @Test
-    void testEmptyTotalTime() {
-        statusList.add("junk: 0");
-        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
-        when(clock.now()).thenReturn(LocalDateTime.now());
-
-        assertEquals(0, serverStatus.getTotalTime());
     }
 
     @Test
