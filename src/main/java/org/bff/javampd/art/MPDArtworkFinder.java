@@ -6,8 +6,6 @@ import org.bff.javampd.MPDException;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.song.SongDatabase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +18,6 @@ import java.util.List;
 
 @Singleton
 public class MPDArtworkFinder implements ArtworkFinder {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MPDArtworkFinder.class);
 
     private SongDatabase songDatabase;
 
@@ -81,8 +78,7 @@ public class MPDArtworkFinder implements ArtworkFinder {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(path), "**.{jpg,jpeg,png}")) {
             stream.forEach(file -> artworkList.add(loadArtwork(file)));
         } catch (IOException e) {
-            LOGGER.error("Could not load art in {}", path, e);
-            throw new MPDException("Could not read path: " + path, e);
+            throw new MPDException(String.format("Could not load art in %s", path), e);
         }
 
         return artworkList;
@@ -101,8 +97,7 @@ public class MPDArtworkFinder implements ArtworkFinder {
         try {
             return Files.readAllBytes(path);
         } catch (IOException e) {
-            LOGGER.error("Could not load art in {}", path, e);
-            throw new MPDException("Could not read path: " + path, e);
+            throw new MPDException(String.format("Could not read path: %s", path), e);
         }
     }
 }

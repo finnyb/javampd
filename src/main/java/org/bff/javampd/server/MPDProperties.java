@@ -36,7 +36,6 @@ public abstract class MPDProperties implements PropertyLoader {
         try (InputStream is = MPDProperties.class.getResourceAsStream(propertiesResourceLocation)) {
            loadProperties(is);
         } catch (NullPointerException | IOException e) {
-            LOGGER.error("Could not load properties values", e);
             throw new MPDException("Could not load mpd properties", e);
         }
     }

@@ -115,8 +115,7 @@ public class StandAloneMonitorThread implements Runnable {
             connectionMonitor.checkStatus();
             return !connectionMonitor.isConnected();
         } catch (MPDException e) {
-            LOGGER.error("Error checking connection status.", e);
-            throw e;
+            throw new MPDException("Error checking connection status.", e);
         }
     }
 
@@ -141,8 +140,7 @@ public class StandAloneMonitorThread implements Runnable {
             processResponse(response);
             this.initialized = true;
         } catch (MPDException ex) {
-            LOGGER.error("Problem with initialization", ex);
-            throw ex;
+            throw new MPDException("Problem with initialization", ex);
         }
     }
 
