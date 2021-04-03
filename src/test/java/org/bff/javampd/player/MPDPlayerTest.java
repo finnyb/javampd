@@ -6,6 +6,8 @@ import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
@@ -18,7 +20,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +33,7 @@ class MPDPlayerTest {
 
     @Mock
     private CommandExecutor commandExecutor;
-    
+
     @Mock
     private SongConverter songConverter;
 
@@ -167,7 +169,6 @@ class MPDPlayerTest {
     @Test
     void testSeekSong() {
         int seconds = 100;
-        List<String> responseList = new ArrayList<>();
         String testFile = "testFile";
         String testTitle = "testTitle";
         int id = 5;
@@ -463,6 +464,28 @@ class MPDPlayerTest {
                 .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
         assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getXFade()))));
         assertThat(integerArgumentCaptor.getValue(), is(equalTo(5)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void testSetSingle(boolean single) {
+        when(playerProperties.getSingle()).thenCallRealMethod();
+        mpdPlayer.setSingle(single);
+        verify(commandExecutor)
+                .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
+        assertThat(stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getSingle()))));
+        assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(single ? "1" : "0")));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void testSetConsume(boolean consume) {
+        when(playerProperties.getConsume()).thenCallRealMethod();
+        mpdPlayer.setConsume(consume);
+        verify(commandExecutor)
+                .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
+        assertThat(stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getConsume()))));
+        assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(consume ? "1" : "0")));
     }
 
     @Test
