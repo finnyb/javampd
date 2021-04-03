@@ -11,6 +11,7 @@ import org.bff.javampd.song.SongDatabase;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -62,9 +63,27 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
     public Collection<MPDSong> listPlaylistSongs(String playlistName) {
         List<String> response = commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);
 
-        return songConverter.getSongFileNameList(response)
+        List<MPDSong> songList = songConverter.getSongFileNameList(response)
                 .stream()
                 .map(song -> new ArrayList<>(songDatabase.searchFileName(song)).get(0))
                 .collect(Collectors.toList());
+
+        // Handle web radio streams
+        songList.addAll(
+                songConverter.getSongFileNameList(response)
+                        .stream()
+                        .filter(song -> Pattern.compile("http.+").matcher(song.toLowerCase()).matches())
+                        .map(song -> new MPDSong(song, song))
+                        .collect(Collectors.toList()));
+
+        return songList;
+    }
+
+    @Override
+    public int countPlaylistSongs(String playlistName) {
+        List<String> response = commandExecutor
+                .sendCommand(databaseProperties.getListSongs(), playlistName);
+
+        return response.size();
     }
 }

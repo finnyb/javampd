@@ -20,6 +20,8 @@ public class PlayerProperties extends MPDProperties {
         SEEK("player.seek"),
         SEEKID("player.seek.id"),
         STOP("player.stop"),
+        CONSUME("player.consume"),
+        SINGLE("player.single"),
         SETVOL("player.set.volume");
 
         private final String key;
@@ -83,5 +85,14 @@ public class PlayerProperties extends MPDProperties {
 
     public String getSetVolume() {
         return getPropertyString(Command.SETVOL.getKey());
+    }
+
+
+    public String getConsume() {
+        return getPropertyString(Command.CONSUME.getKey());
+    }
+
+    public String getSingle() {
+        return getPropertyString(Command.SINGLE.getKey());
     }
 }

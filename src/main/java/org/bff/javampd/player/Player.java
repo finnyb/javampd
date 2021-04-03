@@ -24,7 +24,7 @@ public interface Player {
         }
 
         public String getPrefix() {
-            return this.prefix;
+            return prefix;
         }
     }
 
@@ -228,4 +228,19 @@ public interface Player {
      * @return the status of the player
      */
     Status getStatus();
+
+
+    /**
+     * Set 'consume' state of the player.
+     *
+     * @param consume should consume be turned on
+     */
+    void setConsume(boolean consume);
+
+    /**
+     * Set 'single' state of the player.
+     *
+     * @param single should the single mode be turned on
+     */
+    void setSingle(boolean single);
 }

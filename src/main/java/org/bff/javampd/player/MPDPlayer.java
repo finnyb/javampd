@@ -42,7 +42,7 @@ public class MPDPlayer implements Player {
         this.playerProperties = playerProperties;
         this.commandExecutor = commandExecutor;
         this.songConverter = songConverter;
-        this.volumeChangeDelegate = new VolumeChangeDelegate();
+        volumeChangeDelegate = new VolumeChangeDelegate();
     }
 
     @Override
@@ -271,6 +271,29 @@ public class MPDPlayer implements Player {
     @Override
     public long getTotalTime() {
         return serverStatus.getTotalTime();
+    }
+
+
+    @Override
+    public void setConsume(boolean pConsume) {
+        String consume;
+        if (pConsume) {
+            consume = "1";
+        } else {
+            consume = "0";
+        }
+        commandExecutor.sendCommand(playerProperties.getConsume(), consume);
+    }
+
+    @Override
+    public void setSingle(boolean pSingle) {
+        String single;
+        if (pSingle) {
+            single = "1";
+        } else {
+            single = "0";
+        }
+        commandExecutor.sendCommand(playerProperties.getSingle(), single);
     }
 
     @Override
