@@ -37,8 +37,8 @@
         <url>https://github.com/finnyb/javampd</url>
     </scm>
     <ciManagement>
-        <system>jenkins</system>
-        <url>http://bjj.is-a-player.com:8080</url>
+        <system>travis-ci</system>
+        <url>https://travis-ci.org/github/finnyb/javampd</url>
     </ciManagement>
     <distributionManagement>
         <site>
