@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -174,16 +175,16 @@ public class MPDSongDatabase implements SongDatabase {
     }
 
     @Override
-    public MPDSong findSong(String name, String album, String artist) {
+    public Optional<MPDSong> findSong(String name, String album, String artist) {
         List<MPDSong> songs = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album));
 
         for (MPDSong song : songs) {
             if (artist.equals(song.getArtistName())) {
-                return song;
+                return Optional.of(song);
             }
         }
         LOGGER.info("Song not found title --> {}, artist --> {}, album --> {}", name, artist, album);
-        return null;
+        return Optional.empty();
     }
 
     /**

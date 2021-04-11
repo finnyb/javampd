@@ -5,6 +5,7 @@ import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.genre.MPDGenre;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Database for song related items
@@ -234,7 +235,7 @@ public interface SongDatabase {
      * @param name   name of the {@link MPDSong}
      * @param album  name of the album
      * @param artist name of the artist
-     * @return the {@link MPDSong or null if none found}
+     * @return the {@link MPDSong}
      */
-    MPDSong findSong(String name, String album, String artist);
+    Optional<MPDSong> findSong(String name, String album, String artist);
 }

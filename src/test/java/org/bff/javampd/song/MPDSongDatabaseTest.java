@@ -11,9 +11,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -228,11 +231,12 @@ class MPDSongDatabaseTest {
         when(mockedSongSearcher.find(SongSearcher.ScopeType.ALBUM, testAlbumName))
                 .thenReturn(testSongs);
 
-        MPDSong song = songDatabase.findSong(testTitle, testAlbumName, testArtistName);
-
-        assertEquals(testSongs.get(1), song);
-        assertEquals(testSongs.get(1).getAlbumName(), song.getAlbumName());
-        assertEquals(testSongs.get(1).getArtistName(), song.getArtistName());
+        songDatabase.findSong(testTitle, testAlbumName, testArtistName).ifPresentOrElse(s -> {
+                    assertThat(s, is(equalTo(testSongs.get(1))));
+                    assertThat(s.getAlbumName(), is(equalTo(testSongs.get(1).getAlbumName())));
+                    assertThat(s.getArtistName(), is(equalTo(testSongs.get(1).getArtistName())));
+                },
+                () -> fail("song was empty"));
     }
 
     @Test
@@ -248,7 +252,7 @@ class MPDSongDatabaseTest {
         when(mockedSongSearcher.find(SongSearcher.ScopeType.ALBUM, testAlbumName))
                 .thenReturn(testSongs);
 
-        assertNull(songDatabase.findSong(testTitle, testAlbumName, testArtistName));
+        assertThat(songDatabase.findSong(testTitle, testAlbumName, testArtistName), is(equalTo(Optional.empty())));
     }
 
     @Test
