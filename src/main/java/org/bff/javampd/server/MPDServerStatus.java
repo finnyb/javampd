@@ -9,26 +9,26 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * @author bill
- */
+import static java.lang.Integer.parseInt;
+
 public class MPDServerStatus implements ServerStatus {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDServerStatus.class);
 
     private long expiryInterval = 5;
     private List<String> cachedResponse;
-    private Clock clock;
+    private final Clock clock;
     private LocalDateTime responseDate;
 
-    private ServerProperties serverProperties;
-    private CommandExecutor commandExecutor;
+    private final ServerProperties serverProperties;
+    private final CommandExecutor commandExecutor;
 
     private enum TimeType {
         ELAPSED(0),
         TOTAL(1);
 
-        private int index;
+        private final int index;
 
         TimeType(int index) {
             this.index = index;
@@ -83,7 +83,7 @@ public class MPDServerStatus implements ServerStatus {
     public int getPlaylistVersion() {
         String version = getStatus(Status.PLAYLIST);
         try {
-            return Integer.parseInt("".equals(version) ? "0" : version);
+            return parseInt("".equals(version) ? "0" : version);
         } catch (NumberFormatException nfe) {
             LOGGER.error("Could not format playlist version response {}", version, nfe);
             return 0;
@@ -99,7 +99,7 @@ public class MPDServerStatus implements ServerStatus {
     public int getXFade() {
         String xFade = getStatus(Status.XFADE);
         try {
-            return Integer.parseInt("".equals(xFade) ? "0" : xFade);
+            return parseInt("".equals(xFade) ? "0" : xFade);
         } catch (NumberFormatException nfe) {
             LOGGER.error("Could not format xfade response {}", xFade, nfe);
             return 0;
@@ -135,7 +135,7 @@ public class MPDServerStatus implements ServerStatus {
     public int getBitrate() {
         String bitrate = getStatus(Status.BITRATE);
         try {
-            return Integer.parseInt("".equals(bitrate) ? "0" : bitrate);
+            return parseInt("".equals(bitrate) ? "0" : bitrate);
         } catch (NumberFormatException nfe) {
             LOGGER.error("Could not format bitrate response {}", bitrate, nfe);
             return 0;
@@ -146,7 +146,7 @@ public class MPDServerStatus implements ServerStatus {
     public int getVolume() {
         String volume = getStatus(Status.VOLUME);
         try {
-            return Integer.parseInt("".equals(volume) ? "0" : volume);
+            return parseInt("".equals(volume) ? "0" : volume);
         } catch (NumberFormatException nfe) {
             LOGGER.error("Could not format volume response {}", volume, nfe);
             return 0;
@@ -179,6 +179,62 @@ public class MPDServerStatus implements ServerStatus {
     }
 
     @Override
+    public Optional<Integer> playlistSongNumber() {
+        var songNumber = getStatus(Status.CURRENTSONG);
+
+        return "".equals(songNumber) ? Optional.empty() : Optional.of(parseInt(songNumber));
+    }
+
+    @Override
+    public Optional<String> playlistSongId() {
+        var id = getStatus(Status.CURRENTSONGID);
+
+        return "".equals(id) ? Optional.empty() : Optional.ofNullable(id);
+    }
+
+    @Override
+    public Optional<Integer> playlistNextSongNumber() {
+        var songNumber = getStatus(Status.NEXT_SONG);
+
+        return "".equals(songNumber) ? Optional.empty() : Optional.of(parseInt(songNumber));
+    }
+
+    @Override
+    public Optional<String> playlistNextSongId() {
+        var id = getStatus(Status.NEXT_SONG_ID);
+
+        return "".equals(id) ? Optional.empty() : Optional.ofNullable(id);
+    }
+
+    @Override
+    public Optional<Integer> durationCurrentSong() {
+        var duration = getStatus(Status.DURATION);
+
+        return "".equals(duration) ? Optional.empty() : Optional.of(parseInt(duration));
+    }
+
+    @Override
+    public Optional<Integer> elapsedCurrentSong() {
+        var elapsed = getStatus(Status.ELAPSED);
+
+        return "".equals(elapsed) ? Optional.empty() : Optional.of(parseInt(elapsed));
+    }
+
+    @Override
+    public Optional<Integer> getMixRampDb() {
+        var db = getStatus(Status.MIX_RAMP_DB);
+
+        return "".equals(db) ? Optional.empty() : Optional.of(parseInt(db));
+    }
+
+    @Override
+    public Optional<Integer> getMixRampDelay() {
+        var delay = getStatus(Status.MIX_RAMP_DELAY);
+
+        return "".equals(delay) ? Optional.empty() : Optional.of(parseInt(delay));
+    }
+
+    @Override
     public void setExpiryInterval(long seconds) {
         expiryInterval = seconds;
     }
@@ -195,7 +251,7 @@ public class MPDServerStatus implements ServerStatus {
             return 0;
         } else {
             try {
-                return Integer.parseInt(time.trim().split(":")[type.getIndex()]);
+                return parseInt(time.trim().split(":")[type.getIndex()]);
             } catch (NumberFormatException nfe) {
                 LOGGER.error("Could not format time {}", time, nfe);
                 return 0;

@@ -3,6 +3,9 @@ package org.bff.javampd.player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerPropertiesTest {
@@ -71,6 +74,16 @@ class PlayerPropertiesTest {
     @Test
     void getStop() {
         assertEquals("stop", playerProperties.getStop());
+    }
+
+    @Test
+    void getMixRampDb() {
+        assertThat(playerProperties.getMixRampDb(), is(equalTo("mixrampdb")));
+    }
+
+    @Test
+    void getMixRampDelay() {
+        assertThat(playerProperties.getMixRampDelay(), is(equalTo("mixrampdelay")));
     }
 
     @Test

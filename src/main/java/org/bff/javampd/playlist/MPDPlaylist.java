@@ -32,12 +32,13 @@ public class MPDPlaylist implements Playlist {
     private int oldVersion = -1;
     private int version = -1;
 
-    private List<PlaylistChangeListener> listeners;
-    private SongDatabase songDatabase;
-    private ServerStatus serverStatus;
+    private final List<PlaylistChangeListener> listeners;
+    private final SongDatabase songDatabase;
+    private final ServerStatus serverStatus;
+    private final CommandExecutor commandExecutor;
+    private final SongConverter songConverter;
+
     private PlaylistProperties playlistProperties;
-    private CommandExecutor commandExecutor;
-    private SongConverter songConverter;
 
     /**
      * Playlist constructor
@@ -407,11 +408,6 @@ public class MPDPlaylist implements Playlist {
         return version;
     }
 
-    /**
-     * Sets the playlist version.
-     *
-     * @param version the mpd version
-     */
     private void setVersion(int version) {
         this.version = version;
     }

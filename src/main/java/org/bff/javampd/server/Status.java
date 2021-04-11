@@ -41,6 +41,22 @@ public enum Status {
      */
     CURRENTSONGID("songid:"),
     /**
+     * playlist next song number of the next song to be played
+     */
+    NEXT_SONG("nextsong:"),
+    /**
+     * playlist song id of the next song to be played
+     */
+    NEXT_SONG_ID("nextsongid:"),
+    /**
+     * duration of the current song in seconds
+     */
+    DURATION("duration:"),
+    /**
+     * total time elapsed within the current song in seconds, but with higher resolution
+     */
+    ELAPSED("elapsed:"),
+    /**
      * the time of the current playing/paused song
      */
     TIME("time:"),
@@ -73,6 +89,14 @@ public enum Status {
      */
     SINGLE("single:"),
     /**
+     * if 'single' mode is enabled
+     */
+    MIX_RAMP_DB("mixrampdb:"),
+    /**
+     * if 'single' mode is enabled
+     */
+    MIX_RAMP_DELAY("mixrampdelay:"),
+    /**
      * if the status is unknown
      */
     UNKNOWN("unknown");
@@ -80,7 +104,7 @@ public enum Status {
     /**
      * the prefix associated with the status
      */
-    private String prefix;
+    private final String prefix;
     private static final Logger LOGGER = LoggerFactory.getLogger(Status.class);
 
     /**

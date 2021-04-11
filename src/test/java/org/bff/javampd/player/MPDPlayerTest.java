@@ -16,11 +16,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,10 +66,11 @@ class MPDPlayerTest {
                 .thenReturn(responseList);
         when(songConverter.convertResponseToSong(responseList)).thenReturn(testSongResponse);
 
-        MPDSong song = mpdPlayer.getCurrentSong();
-
-        assertThat(song.getFile(), is(equalTo((testSong.getFile()))));
-        assertThat(song.getTitle(), is(equalTo((testSong.getTitle()))));
+        mpdPlayer.getCurrentSong().ifPresentOrElse(song -> {
+                    assertThat(song.getFile(), is(equalTo((testSong.getFile()))));
+                    assertThat(song.getTitle(), is(equalTo((testSong.getTitle()))));
+                },
+                () -> fail("No song found"));
     }
 
     @Test
@@ -83,7 +85,7 @@ class MPDPlayerTest {
 
         when(songConverter.convertResponseToSong(responseList)).thenReturn(testSongResponse);
 
-        assertNull(mpdPlayer.getCurrentSong());
+        assertThat(mpdPlayer.getCurrentSong(), is(Optional.empty()));
     }
 
     @Test
@@ -176,9 +178,6 @@ class MPDPlayerTest {
         MPDSong testSong = new MPDSong(testFile, testTitle);
         testSong.setId(id);
         testSong.setLength(seconds + 1);
-
-        List<MPDSong> testSongResponse = new ArrayList<>();
-        testSongResponse.add(testSong);
 
         when(playerProperties.getSeekId()).thenCallRealMethod();
         mpdPlayer.seekSong(testSong, seconds);
@@ -488,6 +487,28 @@ class MPDPlayerTest {
         assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(consume ? "1" : "0")));
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {5, -5})
+    void testSetMixRampDb(int db) {
+        when(playerProperties.getMixRampDb()).thenCallRealMethod();
+        mpdPlayer.setMixRampDb(db);
+        verify(commandExecutor)
+                .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
+        assertThat(stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getMixRampDb()))));
+        assertThat(integerArgumentCaptor.getValue(), is(equalTo(db)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {5, 0, -5})
+    void testSetMixRampDelay(int delay) {
+        when(playerProperties.getMixRampDelay()).thenCallRealMethod();
+        mpdPlayer.setMixRampDelay(delay);
+        verify(commandExecutor)
+                .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
+        assertThat(stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getMixRampDelay()))));
+        assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(delay < 0 ? "nan" : Integer.toString(delay))));
+    }
+
     @Test
     void testGetElapsedTime() {
         when(serverStatus.getElapsedTime()).thenReturn(1L);
@@ -552,5 +573,32 @@ class MPDPlayerTest {
     void testGetAudioDetailsBadSampleRate() {
         when(serverStatus.getAudio()).thenReturn("bad:5:6");
         assertThat(mpdPlayer.getAudioDetails().getSampleRate(), is(equalTo(-1)));
+    }
+
+    @Test
+    void testGetMixRampDb() {
+        when(serverStatus.getMixRampDb()).thenReturn(Optional.of(1));
+        mpdPlayer.getMixRampDb().ifPresentOrElse( d -> assertThat(d, is(equalTo(1))),
+                () -> fail("Ramp db is empty"));
+    }
+
+    @Test
+    void testGetMixRampDbEmpty() {
+        when(serverStatus.getMixRampDb()).thenReturn(Optional.empty());
+        assertThat(mpdPlayer.getMixRampDb(), is(equalTo(Optional.empty())));
+    }
+
+    @Test
+    void testGetMixRampDelay() {
+        when(serverStatus.getMixRampDelay()).thenReturn(Optional.of(1));
+        mpdPlayer.getMixRampDelay().ifPresentOrElse(d ->
+                        assertThat(d, is(equalTo(1))),
+                () -> fail("No delay"));
+    }
+
+    @Test
+    void testGetMixRampDelayEmpty() {
+        when(serverStatus.getMixRampDelay()).thenReturn(Optional.empty());
+        assertThat(mpdPlayer.getMixRampDelay(), is(equalTo(Optional.empty())));
     }
 }

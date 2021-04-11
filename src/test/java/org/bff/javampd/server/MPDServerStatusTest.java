@@ -14,7 +14,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -243,64 +247,34 @@ class MPDServerStatusTest {
         assertEquals(0, serverStatus.getVolume());
     }
 
-    @Test
-    void testIsRepeat() {
-        String repeat = "1";
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "1"})
+    void testIsRepeat(String repeat) {
         statusList.add("repeat: " + repeat);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        assertTrue(serverStatus.isRepeat());
+        assertThat(serverStatus.isRepeat(), is("1".equals(repeat)));
     }
 
-    @Test
-    void testIsNotRepeat() {
-        String repeat = "0";
-        statusList.add("repeat: " + repeat);
-        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
-        when(clock.now()).thenReturn(LocalDateTime.now());
-
-        assertFalse(serverStatus.isRepeat());
-    }
-
-    @Test
-    void testIsDatabaseUpdating() {
-        String updating = "anything";
+    @ParameterizedTest
+    @ValueSource(strings = {"anything", ""})
+    void testIsDatabaseUpdating(String updating) {
         statusList.add("updating_db: " + updating);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        assertTrue(serverStatus.isDatabaseUpdating());
+        assertThat(serverStatus.isDatabaseUpdating(), is(not("".equals(updating))));
     }
 
-    @Test
-    void testIsDatabaseUpdatingFalse() {
-        String updating = "";
-        statusList.add("updating_db: " + updating);
-        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
-        when(clock.now()).thenReturn(LocalDateTime.now());
-
-        assertFalse(serverStatus.isDatabaseUpdating());
-    }
-
-    @Test
-    void testIsRandom() {
-        String random = "1";
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "1"})
+    void testRandom(String random) {
         statusList.add("random: " + random);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        assertTrue(serverStatus.isRandom());
-    }
-
-    @Test
-    void testIsNotRandom() {
-        String random = "0";
-        statusList.add("random: " + random);
-        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
-        when(clock.now()).thenReturn(LocalDateTime.now());
-
-        assertFalse(serverStatus.isRandom());
+        assertThat(serverStatus.isRandom(), is("1".equals(random)));
     }
 
     @Test
@@ -366,5 +340,177 @@ class MPDServerStatusTest {
         serverStatus.isRandom();
 
         assertEquals(serverStatus.getStatus().size(), statusList.size());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "1"})
+    void testSingle(String single) {
+        statusList.add("single: " + single);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.isSingle(), is("1".equals(single)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "1"})
+    void testConsume(String consume) {
+        statusList.add("consume: " + consume);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.isConsume(), is("1".equals(consume)));
+    }
+
+    @Test
+    void testPlaylistSongNumber() {
+        var id = 464;
+        statusList.add(String.format("song: %s", id));
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        serverStatus.playlistSongNumber().ifPresentOrElse( s -> assertThat(s, is(id)),
+                () -> fail("song was empty"));
+    }
+
+    @Test
+    void testPlaylistSongNumberEmpty() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.playlistSongNumber(), is(Optional.empty()));
+    }
+
+    @Test
+    void testPlaylistSongId() {
+        var id = "464";
+        statusList.add(String.format("songid: %s", id));
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        serverStatus.playlistSongId().ifPresentOrElse( s -> assertThat(s, is(id)),
+                () -> fail("id was empty"));
+    }
+
+    @Test
+    void testPlaylistSongIdEmpty() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.playlistSongId(), is(Optional.empty()));
+    }
+
+    @Test
+    void testPlaylistNextSongNumber() {
+        var id = 464;
+        statusList.add(String.format("nextsong: %s", id));
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        serverStatus.playlistNextSongNumber().ifPresentOrElse( s -> assertThat(s, is(id)),
+                () -> fail("number was empty"));
+    }
+
+    @Test
+    void testPlaylistNextSongNumberEmpty() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.playlistNextSongNumber(), is(Optional.empty()));
+    }
+
+    @Test
+    void testPlaylistNextSongId() {
+        var id = "464";
+        statusList.add(String.format("nextsongid: %s", id));
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        serverStatus.playlistNextSongId().ifPresentOrElse( s -> assertThat(s, is(id)),
+                () -> fail("id was empty"));
+    }
+
+    @Test
+    void testPlaylistNextSongIdEmpty() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.playlistNextSongId(), is(Optional.empty()));
+    }
+
+    @Test
+    void testDurationCurrentSong() {
+        var duration = 235;
+        statusList.add(String.format("duration: %s", duration));
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        serverStatus.durationCurrentSong().ifPresentOrElse( s -> assertThat(s, is(duration)),
+                () -> fail("duration was empty"));
+    }
+
+    @Test
+    void testDurationCurrentSongEmpty() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.durationCurrentSong(), is(Optional.empty()));
+    }
+
+    @Test
+    void testElapsedCurrentSong() {
+        var duration = 235;
+        statusList.add(String.format("elapsed: %s", duration));
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        serverStatus.elapsedCurrentSong().ifPresentOrElse( s -> assertThat(s, is(duration)),
+                () -> fail("duration was empty"));
+    }
+
+    @Test
+    void testElapsedCurrentSongEmpty() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.elapsedCurrentSong(), is(Optional.empty()));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-5, 0, 5})
+    void testMixRampDb(int db) {
+        statusList.add(String.format("mixrampdb: %s", db));
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        serverStatus.getMixRampDb().ifPresentOrElse( s -> assertThat(s, is(db)),
+                () -> fail("db was empty"));
+    }
+
+    @Test
+    void testMixRampDbEmpty() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.getMixRampDb(), is(Optional.empty()));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-5, 0, 5})
+    void testMixRampDelay(int delay) {
+        statusList.add(String.format("mixrampdelay: %s", delay));
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        serverStatus.getMixRampDelay().ifPresentOrElse( s -> assertThat(s, is(delay)),
+                () -> fail("delay was empty"));
+    }
+
+    @Test
+    void testMixRampDelayEmpty() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertThat(serverStatus.getMixRampDelay(), is(Optional.empty()));
     }
 }

@@ -14,9 +14,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @ExtendWith(MockitoExtension.class)
 class MPDPlaylistDatabaseTest {
@@ -123,5 +126,22 @@ class MPDPlaylistDatabaseTest {
                 new ArrayList<>(playlistDatabase.listPlaylists());
 
         assertEquals(testPlaylist, playlists.get(0));
+    }
+
+    @Test
+    void testPlaylistCount() {
+        String testPlaylist = "testPlaylist";
+
+        List<String> mockList = new ArrayList<>();
+        mockList.add(testPlaylist);
+
+        List<String> mockedSongs = new ArrayList<>();
+        IntStream.range(0,5).forEach(i -> mockedSongs.add("file" + i));
+
+        when(databaseProperties.getListSongs()).thenReturn("listplaylist");
+        when(commandExecutor.sendCommand("listplaylist", testPlaylist))
+                .thenReturn(mockedSongs);
+
+        assertThat(playlistDatabase.countPlaylistSongs(testPlaylist), is(5));
     }
 }

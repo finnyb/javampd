@@ -3,6 +3,8 @@ package org.bff.javampd.player;
 import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.song.MPDSong;
 
+import java.util.Optional;
+
 /**
  * @author bill
  */
@@ -33,7 +35,7 @@ public interface Player {
      *
      * @return the current song
      */
-    MPDSong getCurrentSong();
+    Optional<MPDSong> getCurrentSong();
 
     /**
      * Adds a {@link PlayerChangeListener} to this object to receive
@@ -243,4 +245,37 @@ public interface Player {
      * @param single should the single mode be turned on
      */
     void setSingle(boolean single);
+
+    /**
+     * The threshold at which songs will be overlapped. Like crossfading but doesn’t fade the track volume,
+     * just overlaps.
+     *
+     * @return the threshold at which songs will be overlapped
+     */
+    Optional<Integer> getMixRampDb();
+
+    /**
+     * Sets the threshold at which songs will be overlapped. Like crossfading but doesn’t fade the track volume,
+     * just overlaps. The songs need to have MixRamp tags added by an external tool.
+     * 0dB is the normalized maximum volume so use negative values
+     *
+     * @param db the threshold at which songs will be overlapped
+     */
+    void setMixRampDb(int db);
+
+    /**
+     * Additional time subtracted from the overlap calculated by mixrampdb.
+     *
+     * @return additional time subtracted from the overlap calculated by mixrampdb
+     */
+    Optional<Integer> getMixRampDelay();
+
+
+    /**
+     * Additional time subtracted from the overlap calculated by mixrampdb. A value of < 0> disables MixRamp
+     * overlapping and falls back to crossfading.
+     *
+     * @param delay additional time subtracted from the overlap calculated by mixrampdb
+     */
+    void setMixRampDelay(int delay);
 }

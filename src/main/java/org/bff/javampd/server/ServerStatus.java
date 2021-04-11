@@ -1,6 +1,7 @@
 package org.bff.javampd.server;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * ServerStatus represents the server's status at the time it is called.  The status has a default expiry interval
@@ -138,4 +139,62 @@ public interface ServerStatus {
      * @return true if the player plays a single track;
      */
     boolean isSingle();
+
+    /**
+     * Returns the playlist song number of the current song stopped on or playing
+     *
+     * @return the playlist song number of the current song stopped on or playing
+     */
+    Optional<Integer> playlistSongNumber();
+
+    /**
+     * Returns the playlist song id of the current song stopped on or playing, null if not known
+     *
+     * @return the playlist song id of the current song stopped on or playing, null if not known
+     */
+    Optional<String> playlistSongId();
+
+    /**
+     * The playlist song number of the next song to be played
+     *
+     * @return the playlist song number of the next song to be played
+     */
+    Optional<Integer> playlistNextSongNumber();
+
+    /**
+     * The playlist song id of the next song to be played
+     *
+     * @return the playlist song id of the next song to be played
+     */
+    Optional<String> playlistNextSongId();
+
+    /**
+     * Duration of the current song in seconds
+     *
+     * @return duration of the current song in seconds
+     */
+    Optional<Integer> durationCurrentSong();
+
+    /**
+     * Total time elapsed within the current song in seconds, but with higher resolution
+     *
+     * @return total time elapsed within the current song in seconds, but with higher resolution
+     */
+    Optional<Integer> elapsedCurrentSong();
+
+    /**
+     * The threshold at which songs will be overlapped. Like crossfading but doesn’t fade the track volume,
+     * just overlaps.
+     *
+     * @return the threshold at which songs will be overlapped. Like crossfading but doesn’t fade the track volume,
+     * just overlaps.
+     */
+    Optional<Integer> getMixRampDb();
+
+    /**
+     * Additional time subtracted from the overlap calculated by mixrampdb.
+     *
+     * @return additional time subtracted from the overlap calculated by mixrampdb
+     */
+    Optional<Integer> getMixRampDelay();
 }

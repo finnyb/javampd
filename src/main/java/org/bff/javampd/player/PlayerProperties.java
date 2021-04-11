@@ -2,9 +2,6 @@ package org.bff.javampd.player;
 
 import org.bff.javampd.server.MPDProperties;
 
-/**
- * @author bill
- */
 public class PlayerProperties extends MPDProperties {
 
     private enum Command {
@@ -22,7 +19,9 @@ public class PlayerProperties extends MPDProperties {
         STOP("player.stop"),
         CONSUME("player.consume"),
         SINGLE("player.single"),
-        SETVOL("player.set.volume");
+        SETVOL("player.set.volume"),
+        MIX_RAMP_DB("player.mixrampdb"),
+        MIX_RAMP_DELAY("player.mixrampdelay");
 
         private final String key;
 
@@ -94,5 +93,13 @@ public class PlayerProperties extends MPDProperties {
 
     public String getSingle() {
         return getPropertyString(Command.SINGLE.getKey());
+    }
+
+    public String getMixRampDelay() {
+        return getPropertyString(Command.MIX_RAMP_DELAY.getKey());
+    }
+
+    public String getMixRampDb() {
+        return getPropertyString(Command.MIX_RAMP_DB.getKey());
     }
 }

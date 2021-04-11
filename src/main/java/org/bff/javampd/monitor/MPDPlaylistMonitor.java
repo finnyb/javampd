@@ -11,7 +11,7 @@ import java.util.List;
 
 @Singleton
 public class MPDPlaylistMonitor implements PlaylistMonitor {
-    private List<PlaylistBasicChangeListener> playlistListeners;
+    private final List<PlaylistBasicChangeListener> playlistListeners;
 
     private int newPlaylistVersion;
     private int oldPlaylistVersion;
@@ -22,7 +22,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
     private int oldSongId;
     private int newSongId;
 
-    private PlayerMonitor playerMonitor;
+    private final PlayerMonitor playerMonitor;
 
     @Inject
     MPDPlaylistMonitor(PlayerMonitor playerMonitor) {

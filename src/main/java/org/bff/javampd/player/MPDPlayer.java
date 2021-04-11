@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * MPDPlayer represents a player controller to a MPD server.  To obtain
@@ -24,14 +25,14 @@ public class MPDPlayer implements Player {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlayer.class);
 
     private int oldVolume;
-    private List<PlayerChangeListener> listeners = new ArrayList<>();
-    private VolumeChangeDelegate volumeChangeDelegate;
+    private final List<PlayerChangeListener> listeners = new ArrayList<>();
+    private final VolumeChangeDelegate volumeChangeDelegate;
 
     private Status status = Status.STATUS_STOPPED;
-    private ServerStatus serverStatus;
-    private PlayerProperties playerProperties;
-    private CommandExecutor commandExecutor;
-    private SongConverter songConverter;
+    private final ServerStatus serverStatus;
+    private final PlayerProperties playerProperties;
+    private final CommandExecutor commandExecutor;
+    private final SongConverter songConverter;
 
     @Inject
     public MPDPlayer(ServerStatus serverStatus,
@@ -46,14 +47,14 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public MPDSong getCurrentSong() {
+    public Optional<MPDSong> getCurrentSong() {
         List<MPDSong> songList =
                 songConverter.convertResponseToSong(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
 
         if (songList.isEmpty()) {
-            return null;
+            return Optional.empty();
         } else {
-            return songList.get(0);
+            return Optional.ofNullable(songList.get(0));
         }
     }
 
@@ -129,23 +130,17 @@ public class MPDPlayer implements Player {
 
     @Override
     public void seekSong(MPDSong song, long secs) {
-        List<String> response = null;
-        String[] params = new String[2];
-        params[1] = Long.toString(secs);
         if (song == null) {
-            if (getCurrentSong().getLength() > secs) {
-                params[0] = Integer.toString(getCurrentSong().getId());
-                response = commandExecutor.sendCommand(playerProperties.getSeekId(), params);
-            }
+            getCurrentSong().ifPresent(s -> {
+                if (s.getLength() > secs) {
+                    seekMPDSong(s, secs);
+                }
+            });
+
         } else {
             if (song.getLength() >= secs) {
-                params[0] = Integer.toString(song.getId());
-                response = commandExecutor.sendCommand(playerProperties.getSeekId(), params);
+                seekMPDSong(song, secs);
             }
-        }
-
-        if (response != null) {
-            firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_SEEKING);
         }
     }
 
@@ -285,6 +280,26 @@ public class MPDPlayer implements Player {
     }
 
     @Override
+    public Optional<Integer> getMixRampDb() {
+        return this.serverStatus.getMixRampDb();
+    }
+
+    @Override
+    public void setMixRampDb(int db) {
+        commandExecutor.sendCommand(playerProperties.getMixRampDb(), db);
+    }
+
+    @Override
+    public Optional<Integer> getMixRampDelay() {
+        return this.serverStatus.getMixRampDelay();
+    }
+
+    @Override
+    public void setMixRampDelay(int delay) {
+        commandExecutor.sendCommand(playerProperties.getMixRampDelay(), delay < 0 ? "nan" : Integer.toString(delay));
+    }
+
+    @Override
     public MPDAudioInfo getAudioDetails() {
         MPDAudioInfo info = null;
 
@@ -338,5 +353,13 @@ public class MPDPlayer implements Player {
             LOGGER.error("Could not format bits", nfe);
             info.setBits(-1);
         }
+    }
+
+    private void seekMPDSong(MPDSong song, long secs) {
+        String[] params = new String[2];
+        params[1] = Long.toString(secs);
+        params[0] = Integer.toString(song.getId());
+        commandExecutor.sendCommand(playerProperties.getSeekId(), params);
+        firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_SEEKING);
     }
 }

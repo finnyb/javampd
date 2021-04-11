@@ -46,11 +46,11 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
     public Collection<MPDSavedPlaylist> listSavedPlaylists() {
         List<MPDSavedPlaylist> playlists = new ArrayList<>();
 
-        for (String s : listPlaylists()) {
+        listPlaylists().forEach(s -> {
             MPDSavedPlaylist playlist = new MPDSavedPlaylist(s);
             playlist.setSongs(listPlaylistSongs(s));
             playlists.add(playlist);
-        }
+        });
         return playlists;
     }
 

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  */
 public class MPDSongConverter implements SongConverter {
 
-    private static String delimitingPrefix = SongProcessor.getDelimitingPrefix();
+    private static final String DELIMITING_PREFIX = SongProcessor.getDelimitingPrefix();
 
     @Override
     public List<MPDSong> convertResponseToSong(List<String> list) {
@@ -19,12 +19,12 @@ public class MPDSongConverter implements SongConverter {
 
         String line = null;
         while (iterator.hasNext()) {
-            if (line == null || (!line.startsWith(delimitingPrefix))) {
+            if (line == null || (!line.startsWith(DELIMITING_PREFIX))) {
                 line = iterator.next();
             }
 
-            if (line.startsWith(delimitingPrefix)) {
-                line = processSong(line.substring(delimitingPrefix.length()).trim(), iterator, songList);
+            if (line.startsWith(DELIMITING_PREFIX)) {
+                line = processSong(line.substring(DELIMITING_PREFIX.length()).trim(), iterator, songList);
             }
         }
         return songList;
@@ -34,7 +34,7 @@ public class MPDSongConverter implements SongConverter {
         MPDSong song = new MPDSong(file, "");
         initialize(song);
         String line = iterator.next();
-        while (!line.startsWith(delimitingPrefix)) {
+        while (!line.startsWith(DELIMITING_PREFIX)) {
             processLine(song, line);
             if (!iterator.hasNext()) {
                 break;
