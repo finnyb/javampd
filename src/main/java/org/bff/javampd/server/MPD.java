@@ -47,10 +47,10 @@ import java.net.InetAddress;
 public class MPD implements Server {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
 
-    private int port;
-    private InetAddress address;
-    private String password;
-    private int timeout;
+    private final int port;
+    private final InetAddress address;
+    private final String password;
+    private final int timeout;
     private boolean closed;
 
     private static final int DEFAULT_PORT = 6600;
