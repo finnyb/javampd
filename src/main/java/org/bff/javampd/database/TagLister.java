@@ -9,7 +9,6 @@ import java.util.List;
  */
 public interface TagLister {
     enum ListType {
-
         ALBUM("album"),
         ARTIST("artist"),
         GENRE("genre"),
