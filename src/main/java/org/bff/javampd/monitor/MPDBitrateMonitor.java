@@ -32,7 +32,7 @@ public class MPDBitrateMonitor extends MPDVolumeMonitor implements BitrateMonito
     @Override
     public void processResponseStatus(String line) {
         super.processResponseStatus(line);
-        if (Status.lookupStatus(line) == Status.BITRATE) {
+        if (Status.lookup(line) == Status.BITRATE) {
             newBitrate =
                     Integer.parseInt(line.substring(Status.BITRATE.getStatusPrefix().length()).trim());
         }

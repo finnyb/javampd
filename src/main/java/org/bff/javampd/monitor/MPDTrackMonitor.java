@@ -25,7 +25,7 @@ public class MPDTrackMonitor implements TrackMonitor {
 
     @Override
     public void processResponseStatus(String line) {
-        if (Status.lookupStatus(line) == Status.TIME) {
+        if (Status.lookup(line) == Status.TIME) {
             elapsedTime =
                     Long.parseLong(line.substring(Status.TIME.getStatusPrefix().length()).trim().split(":")[0]);
         }

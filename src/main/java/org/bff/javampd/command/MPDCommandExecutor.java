@@ -75,16 +75,6 @@ public class MPDCommandExecutor implements CommandExecutor {
         }
     }
 
-    private void checkSocket() {
-        if (mpd == null) {
-            throw new MPDConnectionException("Socket could not be established.  Was mpd set?");
-        }
-
-        if (mpdSocket == null) {
-            mpdSocket = createSocket();
-        }
-    }
-
     @Override
     public String getMPDVersion() {
         checkSocket();
@@ -129,5 +119,15 @@ public class MPDCommandExecutor implements CommandExecutor {
         return new MPDSocket(mpd.getAddress(),
                 mpd.getPort(),
                 mpd.getTimeout());
+    }
+
+    private void checkSocket() {
+        if (mpd == null) {
+            throw new MPDConnectionException("Socket could not be established.  Was mpd set?");
+        }
+
+        if (mpdSocket == null) {
+            mpdSocket = createSocket();
+        }
     }
 }

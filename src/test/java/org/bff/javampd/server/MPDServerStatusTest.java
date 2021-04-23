@@ -48,12 +48,12 @@ class MPDServerStatusTest {
 
     @Test
     void testLookupStatus() {
-        assertEquals(Status.VOLUME, Status.lookupStatus("volume:"));
+        assertEquals(Status.VOLUME, Status.lookup("volume:"));
     }
 
     @Test
     void testLookupUnknownStatus() {
-        assertEquals(Status.UNKNOWN, Status.lookupStatus("bogus:"));
+        assertEquals(Status.UNKNOWN, Status.lookup("bogus:"));
     }
 
     @Test

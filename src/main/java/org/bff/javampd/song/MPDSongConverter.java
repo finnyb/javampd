@@ -1,13 +1,14 @@
 package org.bff.javampd.song;
 
+import lombok.extern.slf4j.Slf4j;
+import org.bff.javampd.MPDItem;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author bill
- */
+@Slf4j
 public class MPDSongConverter implements SongConverter {
 
     private static final String DELIMITING_PREFIX = SongProcessor.getDelimitingPrefix();
@@ -30,7 +31,7 @@ public class MPDSongConverter implements SongConverter {
         return songList;
     }
 
-    private static String processSong(String file, Iterator<String> iterator, List<MPDSong> songs) {
+    private String processSong(String file, Iterator<String> iterator, List<MPDSong> songs) {
         MPDSong song = new MPDSong(file, "");
         initialize(song);
         String line = iterator.next();
@@ -59,17 +60,18 @@ public class MPDSongConverter implements SongConverter {
 
     @Override
     public List<String> getSongFileNameList(List<String> fileList) {
-        String prefix = SongProcessor.FILE.getProcessor().getPrefix();
-
         return fileList.stream()
-                .filter(s -> s.startsWith(prefix))
-                .map(s -> (s.substring(prefix.length())).trim())
+                .filter(s -> s.startsWith(DELIMITING_PREFIX))
+                .map(s -> (s.substring(DELIMITING_PREFIX.length())).trim())
                 .collect(Collectors.toList());
     }
 
-    private static void processLine(MPDSong song, String line) {
-        for (SongProcessor songProcessor : SongProcessor.values()) {
-            songProcessor.getProcessor().processTag(song, line);
+    private void processLine(MPDItem song, String line) {
+        SongProcessor songProcessor = SongProcessor.lookup(line);
+        if (songProcessor != null) {
+            songProcessor.getProcessor().processTag((MPDSong) song, line);
+        } else {
+            log.warn("Processor not found - {}", line);
         }
     }
 }
