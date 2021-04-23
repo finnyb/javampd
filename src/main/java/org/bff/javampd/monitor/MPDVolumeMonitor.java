@@ -17,7 +17,7 @@ public class MPDVolumeMonitor implements VolumeMonitor {
 
     @Override
     public void processResponseStatus(String line) {
-        if (Status.lookupStatus(line) == Status.VOLUME) {
+        if (Status.lookup(line) == Status.VOLUME) {
             newVolume =
                     Integer.parseInt(line.substring(Status.VOLUME.getStatusPrefix().length()).trim());
         }

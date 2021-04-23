@@ -2,6 +2,9 @@ package org.bff.javampd.song;
 
 import org.bff.javampd.processor.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum SongProcessor {
     FILE(new FileTagProcessor()),
     ARTIST(new ArtistTagProcessor()),
@@ -19,8 +22,20 @@ public enum SongProcessor {
 
     private final transient SongTagResponseProcessor songTagResponseProcessor;
 
+    private static final Map<String, SongProcessor> lookup = new HashMap<>();
+
+    static {
+        for (SongProcessor s : SongProcessor.values()) {
+            lookup.put(s.getProcessor().getPrefix(), s);
+        }
+    }
+
     SongProcessor(SongTagResponseProcessor songTagResponseProcessor) {
         this.songTagResponseProcessor = songTagResponseProcessor;
+    }
+
+    public static SongProcessor lookup(String line) {
+        return lookup.get(line.substring(0, line.indexOf(":") + 1));
     }
 
     public SongTagResponseProcessor getProcessor() {

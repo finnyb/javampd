@@ -1,12 +1,15 @@
 package org.bff.javampd.server;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Enumeration of the available information from the MPD
  * server status.
  */
+@Slf4j
 public enum Status {
     /**
      * The current volume (0-100)
@@ -105,7 +108,13 @@ public enum Status {
      * the prefix associated with the status
      */
     private final String prefix;
-    private static final Logger LOGGER = LoggerFactory.getLogger(Status.class);
+    private static final Map<String, Status> lookup = new HashMap<>();
+
+    static {
+        for (Status s : Status.values()) {
+            lookup.put(s.prefix, s);
+        }
+    }
 
     /**
      * Enum constructor
@@ -129,17 +138,17 @@ public enum Status {
      * Returns the {@link Status} the status line starts with.
      * If no status is found {@link #UNKNOWN} is returned
      *
-     * @param statusLine the line to process
+     * @param line the line to process
      * @return the {@link Status} the lines starts with.  <code>null</code>
      * if there isn't a match
      */
-    public static Status lookupStatus(String statusLine) {
-        for (Status status : Status.values()) {
-            if (statusLine.startsWith(status.getStatusPrefix())) {
-                return status;
-            }
+    public static Status lookup(String line) {
+        Status status = lookup.get(line.substring(0, line.indexOf(":") + 1));
+        if (status != null) {
+            return status;
         }
-        LOGGER.warn("Unknown status {} returned", statusLine);
+
+        log.warn("Unknown status {} returned", line);
         return UNKNOWN;
     }
 }

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class StatusTest {
     @Test
     void lookupUnknownStatus() {
-        assertEquals(Status.UNKNOWN, Status.lookupStatus("junk"));
+        assertEquals(Status.UNKNOWN, Status.lookup("junk"));
     }
 
 }

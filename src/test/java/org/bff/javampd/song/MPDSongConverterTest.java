@@ -5,8 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MPDSongConverterTest {
@@ -137,6 +139,14 @@ class MPDSongConverterTest {
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getFile(), FILE + i);
         }
+    }
+
+    @Test
+    void testUnknownResponse() {
+        List<String> response = createResponses(true);
+        response.add("unknown: I dont know");
+
+        assertDoesNotThrow(() -> this.converter.convertResponseToSong(response));
     }
 
     private List<String> createResponses(boolean includeName) {

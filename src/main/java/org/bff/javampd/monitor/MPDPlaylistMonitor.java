@@ -68,7 +68,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
 
     @Override
     public void processResponseStatus(String line) {
-        Status status = Status.lookupStatus(line);
+        Status status = Status.lookup(line);
 
         switch (status) {
             case PLAYLIST:

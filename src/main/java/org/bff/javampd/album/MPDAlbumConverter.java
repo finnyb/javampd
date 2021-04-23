@@ -1,18 +1,16 @@
 package org.bff.javampd.album;
 
-import org.bff.javampd.MPDItem;
-import org.bff.javampd.artist.MPDConverter;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Converts a response from the server to an {@link MPDAlbum}
  *
  * @author bill
  */
-public class MPDAlbumConverter extends MPDConverter implements AlbumConverter {
+@Slf4j
+public class MPDAlbumConverter implements AlbumConverter {
 
     private static String delimitingPrefix = AlbumProcessor.getDelimitingPrefix();
 
@@ -31,21 +29,36 @@ public class MPDAlbumConverter extends MPDConverter implements AlbumConverter {
                 line = processAlbum(line.substring(delimitingPrefix.length()).trim(), iterator, albumList);
             }
         }
+
         return albumList;
     }
 
     private String processAlbum(String name, Iterator<String> iterator, List<MPDAlbum> albums) {
-        MPDAlbum album = new MPDAlbum(name);
-        String line = processItem(album, iterator, delimitingPrefix);
+        var album = new MPDAlbum(name);
+
+        String line = null;
+        if (iterator.hasNext()) {
+            line = iterator.next();
+            while (!line.startsWith(delimitingPrefix)) {
+                processLine(album, line);
+                if (!iterator.hasNext()) {
+                    break;
+                }
+                line = iterator.next();
+            }
+        }
+
         albums.add(album);
 
         return line;
     }
 
-    @Override
-    public void processLine(MPDItem item, String line) {
-        for (AlbumProcessor albumProcessor : AlbumProcessor.values()) {
-            albumProcessor.getProcessor().processTag((MPDAlbum) item, line);
+    public void processLine(MPDAlbum album, String line) {
+        var albumProcessor = AlbumProcessor.lookup(line);
+        if (albumProcessor != null) {
+            albumProcessor.getProcessor().processTag(album, line);
+        } else {
+            log.warn("Processor not found - {}", line);
         }
     }
 }

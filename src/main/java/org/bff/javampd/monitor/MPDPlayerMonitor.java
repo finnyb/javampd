@@ -28,7 +28,7 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
     @Override
     public void processResponseStatus(String line) {
         super.processResponseStatus(line);
-        if (Status.lookupStatus(line) == Status.STATE) {
+        if (Status.lookup(line) == Status.STATE) {
             state = line.substring(Status.STATE.getStatusPrefix().length()).trim();
         }
     }
