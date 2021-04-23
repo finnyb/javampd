@@ -34,7 +34,7 @@ public class MPDAlbumConverter implements AlbumConverter {
     }
 
     private String processAlbum(String name, Iterator<String> iterator, List<MPDAlbum> albums) {
-        MPDAlbum album = new MPDAlbum(name);
+        var album = new MPDAlbum(name);
 
         String line = null;
         if (iterator.hasNext()) {
@@ -54,7 +54,7 @@ public class MPDAlbumConverter implements AlbumConverter {
     }
 
     public void processLine(MPDAlbum album, String line) {
-        AlbumProcessor albumProcessor = AlbumProcessor.lookup(line);
+        var albumProcessor = AlbumProcessor.lookup(line);
         if (albumProcessor != null) {
             albumProcessor.getProcessor().processTag(album, line);
         } else {

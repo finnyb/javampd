@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class MPDAlbumConverterTest {
 
@@ -28,17 +31,17 @@ class MPDAlbumConverterTest {
 
     @Test
     void testArtist() {
-        assertEquals("", albums.get(0).getArtistName());
+        assertThat("", is(equalTo(albums.get(0).getArtistName())));
         for (int i = 1; i < COUNT + 1; i++) {
-            assertEquals(albums.get(i).getArtistName(), ARTIST + (i - 1));
+            assertThat(albums.get(i).getArtistName(), is(equalTo(ARTIST + (i - 1))));
         }
     }
 
     @Test
     void testAlbum() {
-        assertEquals(albums.get(0).getName(), ALBUM);
+        assertThat(albums.get(0).getName(), is(equalTo(ALBUM)));
         for (int i = 1; i < COUNT + 1; i++) {
-            assertEquals(albums.get(i).getName(), ALBUM + (i - 1));
+            assertThat(albums.get(i).getName(), is(equalTo(ALBUM + (i - 1))));
         }
     }
 
@@ -49,9 +52,9 @@ class MPDAlbumConverterTest {
         albumResponse.add("Album: " + ALBUM + "1");
         albums = converter.convertResponseToAlbum(albumResponse);
 
-        assertEquals(2, albums.size());
-        assertEquals(albums.get(0).getName(), ALBUM);
-        assertEquals(albums.get(1).getName(), ALBUM + "1");
+        assertThat(2, is(equalTo(albums.size())));
+        assertThat(albums.get(0).getName(), is(equalTo(ALBUM)));
+        assertThat(albums.get(1).getName(), is(equalTo(ALBUM + "1")));
     }
 
     @Test
@@ -60,8 +63,16 @@ class MPDAlbumConverterTest {
         albumResponse.add("Album: " + ALBUM);
         albums = converter.convertResponseToAlbum(albumResponse);
 
-        assertEquals(1, albums.size());
-        assertEquals(albums.get(0).getName(), ALBUM);
+        assertThat(1, is(equalTo(albums.size())));
+        assertThat(albums.get(0).getName(), is(equalTo(ALBUM)));
+    }
+
+    @Test
+    void testUnknownResponse() {
+        List<String> response = createResponses();
+        response.add("unknown: I dont know");
+
+        assertDoesNotThrow(() -> this.converter.convertResponseToAlbum(response));
     }
 
     private List<String> createResponses() {
