@@ -143,7 +143,7 @@ public enum Status {
      * if there isn't a match
      */
     public static Status lookup(String line) {
-        Status status = lookup.get(line.substring(0, line.indexOf(":") + 1));
+        var status = lookup.get(line.substring(0, line.indexOf(":") + 1));
         if (status != null) {
             return status;
         }

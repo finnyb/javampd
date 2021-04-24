@@ -43,7 +43,7 @@ public class MPDErrorMonitor implements ErrorMonitor {
 
     @Override
     public void processResponseStatus(String line) {
-        Status status = Status.lookup(line);
+        var status = Status.lookup(line);
         if (status == Status.ERROR) {
             error = line.substring(Status.ERROR.getStatusPrefix().length()).trim();
         }
