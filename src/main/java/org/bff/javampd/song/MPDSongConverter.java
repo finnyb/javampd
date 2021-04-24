@@ -67,7 +67,7 @@ public class MPDSongConverter implements SongConverter {
     }
 
     private void processLine(MPDItem song, String line) {
-        SongProcessor songProcessor = SongProcessor.lookup(line);
+        var songProcessor = SongProcessor.lookup(line);
         if (songProcessor != null) {
             songProcessor.getProcessor().processTag((MPDSong) song, line);
         } else {

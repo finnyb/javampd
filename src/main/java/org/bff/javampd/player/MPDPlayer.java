@@ -356,7 +356,7 @@ public class MPDPlayer implements Player {
     }
 
     private void seekMPDSong(MPDSong song, long secs) {
-        String[] params = new String[2];
+        var params = new String[2];
         params[1] = Long.toString(secs);
         params[0] = Integer.toString(song.getId());
         commandExecutor.sendCommand(playerProperties.getSeekId(), params);
