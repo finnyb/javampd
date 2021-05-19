@@ -68,6 +68,11 @@ public interface Admin {
     void updateDatabase(String path);
 
     /**
+     * Same as update, but also rescans unmodified files.
+     */
+    void rescanDatabase();
+
+    /**
      * Returns the daemon uptime in seconds.
      *
      * @return the daemon uptime in seconds

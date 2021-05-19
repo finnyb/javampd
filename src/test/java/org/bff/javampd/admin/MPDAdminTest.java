@@ -113,6 +113,15 @@ class MPDAdminTest {
     }
 
     @Test
+    void rescanDatabase() {
+        when(adminProperties.getRescan()).thenReturn(realAdminProperties.getRescan());
+
+        admin.rescanDatabase();
+        verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+        assertThat(adminProperties.getRescan(), is(equalTo(commandArgumentCaptor.getValue())));
+    }
+
+    @Test
     void updateDatabaseWithPath() {
         admin.updateDatabase("testPath");
         verify(commandExecutor).sendCommand(commandArgumentCaptor.capture(), stringParamArgumentCaptor.capture());

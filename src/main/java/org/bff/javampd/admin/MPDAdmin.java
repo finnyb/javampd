@@ -144,6 +144,12 @@ public class MPDAdmin implements Admin {
     }
 
     @Override
+    public void rescanDatabase() {
+        commandExecutor.sendCommand(adminProperties.getRescan());
+        fireMPDChangeEvent(MPDChangeEvent.Event.REFRESHED);
+    }
+
+    @Override
     public long getDaemonUpTime() {
         return serverStatistics.getUptime();
     }
