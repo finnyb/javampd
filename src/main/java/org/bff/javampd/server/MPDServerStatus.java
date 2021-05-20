@@ -224,7 +224,7 @@ public class MPDServerStatus implements ServerStatus {
     public Optional<Integer> getMixRampDb() {
         var db = getStatus(Status.MIX_RAMP_DB);
 
-        return "".equals(db) ? Optional.empty() : Optional.of(parseInt(db));
+        return "".equals(db) ? Optional.empty() : Optional.of((int) Float.parseFloat(db));
     }
 
     @Override
