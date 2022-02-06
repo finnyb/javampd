@@ -56,11 +56,11 @@
         </repository>
     </distributionManagement>
     <properties>
-        <logback.version>1.2.3</logback.version>
+        <logback.version>1.2.10</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <junit.jupiter.version>5.6.2</junit.jupiter.version>
-        <mockito.version>3.4.4</mockito.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+        <mockito.version>4.3.1</mockito.version>
         <sonar.projectKey>finnyb_javampd</sonar.projectKey>
         <sonar.organization>finnyb</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -224,12 +224,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.26</version>
+            <version>1.7.35</version>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>4.2.3</version>
+            <version>5.1.0</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -252,7 +252,7 @@
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
-            <version>4.0.3</version>
+            <version>4.1.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -270,7 +270,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.16</version>
+            <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
