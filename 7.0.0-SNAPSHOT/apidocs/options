@@ -1,0 +1,24 @@
+-classpath
+'/Users/bill/.m2/repository/org/slf4j/slf4j-api/1.7.35/slf4j-api-1.7.35.jar:/Users/bill/.m2/repository/com/google/inject/guice/5.1.0/guice-5.1.0.jar:/Users/bill/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar:/Users/bill/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar:/Users/bill/.m2/repository/com/google/guava/guava/30.1-jre/guava-30.1-jre.jar:/Users/bill/.m2/repository/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/Users/bill/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/Users/bill/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/Users/bill/.m2/repository/org/checkerframework/checker-qual/3.5.0/checker-qual-3.5.0.jar:/Users/bill/.m2/repository/com/google/errorprone/error_prone_annotations/2.3.4/error_prone_annotations-2.3.4.jar:/Users/bill/.m2/repository/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar:/Users/bill/.m2/repository/ch/qos/logback/logback-classic/1.2.10/logback-classic-1.2.10.jar:/Users/bill/.m2/repository/ch/qos/logback/logback-core/1.2.10/logback-core-1.2.10.jar:/Users/bill/.m2/repository/org/junit/jupiter/junit-jupiter/5.8.2/junit-jupiter-5.8.2.jar:/Users/bill/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar:/Users/bill/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/bill/.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar:/Users/bill/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/bill/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.8.2/junit-jupiter-params-5.8.2.jar:/Users/bill/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar:/Users/bill/.m2/repository/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar:/Users/bill/.m2/repository/org/awaitility/awaitility/4.1.1/awaitility-4.1.1.jar:/Users/bill/.m2/repository/org/hamcrest/hamcrest/2.1/hamcrest-2.1.jar:/Users/bill/.m2/repository/org/mockito/mockito-core/4.3.1/mockito-core-4.3.1.jar:/Users/bill/.m2/repository/net/bytebuddy/byte-buddy/1.12.7/byte-buddy-1.12.7.jar:/Users/bill/.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.7/byte-buddy-agent-1.12.7.jar:/Users/bill/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:/Users/bill/.m2/repository/org/mockito/mockito-junit-jupiter/4.3.1/mockito-junit-jupiter-4.3.1.jar:/Users/bill/.m2/repository/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/bill/Development/projects/javampd/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2022. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/bill/Development/projects/javampd/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'JavaMPD 7.0.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' '/Users/bill/Development/projects/javampd/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'JavaMPD 7.0.0-SNAPSHOT API'
