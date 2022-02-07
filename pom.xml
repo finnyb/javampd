@@ -182,7 +182,7 @@
                         <goals>
                             <goal>site</goal>
                         </goals>
-                        <phase>site-deploy</phase>
+                        <phase>site</phase>
                         <configuration>
                             <server>github</server>
                             <message>Generated site for ${project.artifactId} ${project.version}</message>
