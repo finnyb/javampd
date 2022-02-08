@@ -272,7 +272,7 @@ public interface Player {
 
 
     /**
-     * Additional time subtracted from the overlap calculated by mixrampdb. A value of < 0> disables MixRamp
+     * Additional time subtracted from the overlap calculated by mixrampdb. A value of <code>0</code> disables MixRamp
      * overlapping and falls back to crossfading.
      *
      * @param delay additional time subtracted from the overlap calculated by mixrampdb

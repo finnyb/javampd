@@ -74,8 +74,8 @@ public interface AlbumDatabase {
 
     /**
      * Returns a windowed list of {@link org.bff.javampd.album.MPDAlbum}s between the specified
-     * <tt>fromIndex</tt>, inclusive, and <tt>toIndex</tt>, exclusive.  (If
-     * <tt>fromIndex</tt> and <tt>toIndex</tt> are equal, the returned list is
+     * <code>fromIndex</code>, inclusive, and <code>toIndex</code>, exclusive.  (If
+     * <code>fromIndex</code> and <code>toIndex</code> are equal, the returned list is
      * empty.)
      *
      * @param start starting number
