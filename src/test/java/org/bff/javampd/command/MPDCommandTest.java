@@ -1,5 +1,6 @@
 package org.bff.javampd.command;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,66 +45,9 @@ class MPDCommandTest {
         assertEquals("parm1", mpdCommand.getParams().get(0));
         assertEquals("parm2", mpdCommand.getParams().get(1));
     }
-
     @Test
-    void testEqualsNoParams() {
-        MPDCommand command1 = new MPDCommand("command1");
-        MPDCommand command2 = new MPDCommand("command1");
-
-        assertEquals(command1, command2);
-    }
-
-    @Test
-    void testEqualsSingleParam() {
-        MPDCommand command1 = new MPDCommand("command1", "param1");
-        MPDCommand command2 = new MPDCommand("command1", "param1");
-
-        assertEquals(command1, command2);
-    }
-
-    @Test
-    void testEqualsMultipleParams() {
-        MPDCommand command1 = new MPDCommand("command1", "param1", "param2");
-        MPDCommand command2 = new MPDCommand("command1", "param1", "param2");
-
-        assertEquals(command1, command2);
-    }
-
-    @Test
-    void testNotEquals() {
-        MPDCommand command1 = new MPDCommand("command1");
-        MPDCommand command2 = new MPDCommand("command2");
-
-        assertNotEquals(command1, command2);
-    }
-
-    @Test
-    void testEqualsNull() {
-        MPDCommand command = new MPDCommand("command");
-
-        assertNotEquals(null, command);
-    }
-
-    @Test
-    void testEqualsSameObject() {
-        MPDCommand item = new MPDCommand("command");
-
-        assertEquals(item, item);
-    }
-
-    @Test
-    void testEqualsDifferentClass() {
-        MPDCommand command = new MPDCommand("command");
-
-        assertNotEquals("", command);
-    }
-
-    @Test
-    void testHashCode() {
-        MPDCommand command1 = new MPDCommand("command1");
-        MPDCommand command2 = new MPDCommand("command1");
-
-        assertEquals(command1.hashCode(), command2.hashCode());
+    void equalsContract() {
+        EqualsVerifier.simple().forClass(MPDCommand.class).verify();
     }
 
     @Test

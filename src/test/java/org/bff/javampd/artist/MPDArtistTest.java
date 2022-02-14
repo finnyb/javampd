@@ -1,12 +1,12 @@
-package org.bff.javampd.output;
+package org.bff.javampd.artist;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
-class MPDOutputTest {
-
+class MPDArtistTest {
     @Test
     void equalsContract() {
-        EqualsVerifier.simple().forClass(MPDOutput.class).verify();
+        EqualsVerifier.simple().forClass(MPDArtist.class).verify();
     }
+
 }

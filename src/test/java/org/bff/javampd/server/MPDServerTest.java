@@ -1,6 +1,7 @@
 package org.bff.javampd.server;
 
 import lombok.Builder;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,5 +1,6 @@
 package org.bff.javampd.album;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,20 +60,6 @@ class MPDAlbumTest {
     }
 
     @Test
-    void testEqualsNull() {
-        MPDAlbum album = MPDAlbum.builder("Album)").artistName("artistName").build();
-
-        assertNotEquals(null, album);
-    }
-
-    @Test
-    void testEqualsSameObject() {
-        MPDAlbum album = MPDAlbum.builder("Album)").artistName("artistName").build();
-
-        assertEquals(album, album);
-    }
-
-    @Test
     void testHashCode() {
         MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
         MPDAlbum album2 = MPDAlbum.builder("Album1").artistName("artistName1").build();
@@ -103,4 +90,10 @@ class MPDAlbumTest {
 
         assertEquals(0, album1.compareTo(album2));
     }
+
+    @Test
+    void equalsContract() {
+        EqualsVerifier.simple().forClass(MPDAlbum.class).verify();
+    }
+
 }

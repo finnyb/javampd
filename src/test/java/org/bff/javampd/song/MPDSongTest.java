@@ -1,50 +1,18 @@
 package org.bff.javampd.song;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MPDSongTest {
-
     @Test
-    void testEquals() {
-        MPDSong song1 = MPDSong.builder().file("file1").title("song1").build();
-        MPDSong song2 = MPDSong.builder().file("file1").title("song1").build();
-
-        assertEquals(song1, song2);
-    }
-
-    @Test
-    void testEqualsNull() {
-        MPDSong song1 = MPDSong.builder().file("file1").title("song1").build();
-
-        assertNotEquals(null, song1);
-    }
-
-    @Test
-    void testEqualsSameObject() {
-        MPDSong song = MPDSong.builder().file("file1").title("song").build();
-
-        assertEquals(song, song);
-    }
-
-    @Test
-    void testNotEquals() {
-        MPDSong song1 = MPDSong.builder().file("file1").title("song1").build();
-        MPDSong song2 = MPDSong.builder().file("file2").title("song2").build();
-
-        assertNotEquals(song1, song2);
-    }
-
-    @Test
-    void testHashCode() {
-        MPDSong song1 = MPDSong.builder().file("file1").title("song1").build();
-        MPDSong song2 = MPDSong.builder().file("file1").title("song1").build();
-
-        assertEquals(song1.hashCode(), song2.hashCode());
+    void equalsContract() {
+        EqualsVerifier.simple().forClass(MPDSong.class).verify();
     }
 
     @Test
