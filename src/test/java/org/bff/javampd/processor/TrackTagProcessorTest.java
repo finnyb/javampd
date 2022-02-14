@@ -11,7 +11,7 @@ class TrackTagProcessorTest {
         String testTrack = "2/10";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
 
         String line = "Track:" + testTrack;
         trackTagProcessor.processTag(song, line);
@@ -24,7 +24,7 @@ class TrackTagProcessorTest {
         String testTrack = "2/10";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
 
         String line = "BadTrack:" + testTrack;
         trackTagProcessor.processTag(song, line);
@@ -37,7 +37,7 @@ class TrackTagProcessorTest {
         String testTrack = "junk";
 
         TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
 
         String line = "Track:" + testTrack;
         trackTagProcessor.processTag(song, line);

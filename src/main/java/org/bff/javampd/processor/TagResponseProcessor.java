@@ -4,7 +4,7 @@ public abstract class TagResponseProcessor {
 
     private String prefix;
 
-    public TagResponseProcessor(String prefix) {
+    protected TagResponseProcessor(String prefix) {
         this.prefix = prefix;
     }
 

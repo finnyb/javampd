@@ -12,7 +12,7 @@ class PositionTagProcessorTest {
         int testPosition = 1;
 
         PositionTagProcessor positionTagProcessor = new PositionTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
 
         String line = "Pos:" + testPosition;
         positionTagProcessor.processTag(song, line);
@@ -25,7 +25,7 @@ class PositionTagProcessorTest {
         int testPosition = 1;
 
         PositionTagProcessor positionTagProcessor = new PositionTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
 
         String line = "BadPos:" + testPosition;
         positionTagProcessor.processTag(song, line);

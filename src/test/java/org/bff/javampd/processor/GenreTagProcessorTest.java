@@ -14,7 +14,7 @@ class GenreTagProcessorTest {
         String testGenre = "testGenre";
 
         GenreTagProcessor genreTagProcessor = new GenreTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "Genre:" + testGenre;
         genreTagProcessor.processTag(song, line);
@@ -27,7 +27,7 @@ class GenreTagProcessorTest {
         String testGenre = "testGenre";
 
         GenreTagProcessor genreTagProcessor = new GenreTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "BadGenre:" + testGenre;
         genreTagProcessor.processTag(song, line);
@@ -43,7 +43,7 @@ class GenreTagProcessorTest {
 
         GenreTagProcessor genreTagProcessor = new GenreTagProcessor();
 
-        MPDAlbum album = new MPDAlbum(testAlbumName, testArtist);
+        MPDAlbum album = MPDAlbum.builder(testAlbumName).artistName(testArtist).build();
 
         String line = "Genre:" + testGenre;
         genreTagProcessor.processTag(album, line);

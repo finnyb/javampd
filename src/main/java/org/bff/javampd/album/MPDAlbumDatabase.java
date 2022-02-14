@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
  */
 public class MPDAlbumDatabase implements AlbumDatabase {
 
-    private TagLister tagLister;
-    private AlbumConverter albumConverter;
+    private final TagLister tagLister;
+    private final AlbumConverter albumConverter;
 
     private static final TagLister.GroupType[] ALBUM_TAGS = {
             TagLister.GroupType.ARTIST,

@@ -12,7 +12,7 @@ class MPDMusicDatabaseTest {
 
     @BeforeEach
     void before() {
-        mpd = new MPD.Builder().build();
+        mpd = MPD.builder().build();
     }
 
     @Test

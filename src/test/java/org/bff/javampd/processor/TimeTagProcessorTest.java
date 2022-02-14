@@ -12,7 +12,7 @@ class TimeTagProcessorTest {
         int testLength = 1;
 
         TimeTagProcessor timeTagProcessor = new TimeTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "Time:" + testLength;
         timeTagProcessor.processTag(song, line);
@@ -25,7 +25,7 @@ class TimeTagProcessorTest {
         int testLength = 1;
 
         TimeTagProcessor timeTagProcessor = new TimeTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "BadTime:" + testLength;
         timeTagProcessor.processTag(song, line);

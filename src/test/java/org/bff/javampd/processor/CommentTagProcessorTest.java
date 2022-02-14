@@ -13,7 +13,7 @@ class CommentTagProcessorTest {
         String testComment = "testComment";
 
         CommentTagProcessor commentTagProcessor = new CommentTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "Comment:" + testComment;
         commentTagProcessor.processTag(song, line);
@@ -26,7 +26,7 @@ class CommentTagProcessorTest {
         String testComment = "testComment";
 
         CommentTagProcessor commentTagProcessor = new CommentTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "BadComment:" + testComment;
         commentTagProcessor.processTag(song, line);

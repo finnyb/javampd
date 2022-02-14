@@ -55,11 +55,11 @@ class MPDPlaylistTestAlbum {
     @Test
     void testInsertAlbumByArtist() {
         MPDArtist artist = new MPDArtist("testArtist");
-        MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
+        MPDAlbum album = MPDAlbum.builder("testAlbum").artistName("testArtist").build();
 
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("file1", "testSong1"));
-        songs.add(new MPDSong("file2", "testSong2"));
+        songs.add(MPDSong.builder().file("file1").title("testSong1").build());
+        songs.add(MPDSong.builder().file("file2").title("testSong2").build());
         when(songDatabase.findAlbumByArtist(artist, album)).thenReturn(songs);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -83,8 +83,9 @@ class MPDPlaylistTestAlbum {
         String album = "testAlbum";
 
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("file1", "testSong1"));
-        songs.add(new MPDSong("file2", "testSong2"));
+
+        songs.add(MPDSong.builder().file("file1").title("testSong1").build());
+        songs.add(MPDSong.builder().file("file2").title("testSong2").build());
         when(songDatabase.findAlbumByArtist(artist, album)).thenReturn(songs);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -107,8 +108,8 @@ class MPDPlaylistTestAlbum {
         String album = "testAlbum";
 
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("file1", "testSong1"));
-        songs.add(new MPDSong("file2", "testSong2"));
+        songs.add(MPDSong.builder().file("file1").title("testSong1").build());
+        songs.add(MPDSong.builder().file("file2").title("testSong2").build());
         when(songDatabase.findAlbum(album)).thenReturn(songs);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -128,11 +129,11 @@ class MPDPlaylistTestAlbum {
 
     @Test
     void testInsertAlbumByAlbum() {
-        MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
+        MPDAlbum album = MPDAlbum.builder("testAlbum").artistName("testArtist").build();
 
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("file1", "testSong1"));
-        songs.add(new MPDSong("file2", "testSong2"));
+        songs.add(MPDSong.builder().file("file1").title("testSong1").build());
+        songs.add(MPDSong.builder().file("file2").title("testSong2").build());
         when(songDatabase.findAlbum(album)).thenReturn(songs);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
@@ -153,18 +154,18 @@ class MPDPlaylistTestAlbum {
     @Test
     void testRemoveAlbumByArtist() {
         MPDArtist artist = new MPDArtist("testArtist");
-        MPDAlbum album = new MPDAlbum("testAlbum", "testArtist");
+        MPDAlbum album = MPDAlbum.builder("testAlbum").artistName("testArtist").build();
 
         List<MPDSong> mockedSongs = new ArrayList<>();
-        MPDSong song1 = new MPDSong("file1", "testSong1");
+        MPDSong song1 = MPDSong.builder().file("file1").title("testSong1").build();
         song1.setArtistName(artist.getName());
         song1.setAlbumName(album.getName());
         song1.setId(1);
-        MPDSong song2 = new MPDSong("file2", "testSong1");
+        MPDSong song2 = MPDSong.builder().file("file2").title("testSong1").build();
         song2.setArtistName(artist.getName());
         song2.setAlbumName(album.getName());
         song2.setId(2);
-        MPDSong song3 = new MPDSong("file3", "testSong1");
+        MPDSong song3 = MPDSong.builder().file("file3").title("testSong1").build();
         song3.setArtistName("bogus");
         song3.setAlbumName("bogus");
 
@@ -175,7 +176,7 @@ class MPDPlaylistTestAlbum {
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
-        when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
+        when(songConverter.convertResponseToSongs(response)).thenReturn(mockedSongs);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
@@ -200,15 +201,15 @@ class MPDPlaylistTestAlbum {
         String album = "testAlbum";
 
         List<MPDSong> mockedSongs = new ArrayList<>();
-        MPDSong song1 = new MPDSong("file1", "testSong1");
+        MPDSong song1 = MPDSong.builder().file("file1").title("testSong1").build();
         song1.setArtistName(artist);
         song1.setAlbumName(album);
         song1.setId(1);
-        MPDSong song2 = new MPDSong("file2", "testSong1");
+        MPDSong song2 = MPDSong.builder().file("file2").title("testSong1").build();
         song2.setArtistName(artist);
         song2.setAlbumName(album);
         song2.setId(2);
-        MPDSong song3 = new MPDSong("file3", "testSong1");
+        MPDSong song3 = MPDSong.builder().file("file3").title("testSong1").build();
         song3.setArtistName("bogus");
         song3.setAlbumName("bogus");
 
@@ -219,7 +220,7 @@ class MPDPlaylistTestAlbum {
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
-        when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
+        when(songConverter.convertResponseToSongs(response)).thenReturn(mockedSongs);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);

@@ -102,7 +102,7 @@ public class MPDSocket {
     public synchronized Collection<String> sendCommand(MPDCommand command) {
         checkConnection();
 
-        int count = 0;
+        var count = 0;
         while (count < TRIES) {
             try {
                 return sendBytes(convertCommand(command.getCommand(), command.getParams()));
@@ -172,7 +172,7 @@ public class MPDSocket {
     }
 
     private static String convertCommand(String command, List<String> params) {
-        StringBuilder sb = new StringBuilder(command);
+        var sb = new StringBuilder(command);
         for (String param : params) {
             param = param.replace("\"", "\\\\\"");
             sb.append(" \"").append(param).append("\"");
@@ -182,7 +182,7 @@ public class MPDSocket {
     }
 
     public synchronized void sendCommands(List<MPDCommand> commandList) {
-        StringBuilder sb = new StringBuilder(convertCommand(serverProperties.getStartBulk()));
+        var sb = new StringBuilder(convertCommand(serverProperties.getStartBulk()));
 
         for (MPDCommand command : commandList) {
             sb.append(convertCommand(command.getCommand(), command.getParams()));
@@ -303,7 +303,7 @@ public class MPDSocket {
     }
 
     private boolean checkPing() {
-        boolean connected = true;
+        var connected = true;
         try {
             writeToStream(convertCommand(serverProperties.getPing()));
             String inLine = reader.readLine();

@@ -71,7 +71,7 @@ public class MPDTagLister implements TagLister {
     private static String[] generateParamList(ListType listType, List<String> params) {
         String[] paramList;
 
-        int i = 0;
+        var i = 0;
 
         if (params != null) {
             paramList = new String[params.size() + 1];

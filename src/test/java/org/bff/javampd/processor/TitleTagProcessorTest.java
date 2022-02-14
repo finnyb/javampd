@@ -13,7 +13,7 @@ class TitleTagProcessorTest {
         String testTitle = "testTitle";
 
         TitleTagProcessor titleTagProcessor = new TitleTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "Title:" + testTitle;
         titleTagProcessor.processTag(song, line);
@@ -26,7 +26,7 @@ class TitleTagProcessorTest {
         String testTitle = "testTitle";
 
         TitleTagProcessor titleTagProcessor = new TitleTagProcessor();
-        MPDSong song = new MPDSong("testFile", null);
+        MPDSong song = MPDSong.builder().file("testFile").title(null).build();
 
         String line = "BadTitle:" + testTitle;
         titleTagProcessor.processTag(song, line);

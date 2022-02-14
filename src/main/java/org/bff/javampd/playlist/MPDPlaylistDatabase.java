@@ -47,7 +47,7 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
         List<MPDSavedPlaylist> playlists = new ArrayList<>();
 
         listPlaylists().forEach(s -> {
-            MPDSavedPlaylist playlist = new MPDSavedPlaylist(s);
+            MPDSavedPlaylist playlist = MPDSavedPlaylist.builder(s).build();
             playlist.setSongs(listPlaylistSongs(s));
             playlists.add(playlist);
         });
@@ -72,8 +72,8 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
         songList.addAll(
                 songConverter.getSongFileNameList(response)
                         .stream()
-                        .filter(song -> Pattern.compile("http.+").matcher(song.toLowerCase()).matches())
-                        .map(song -> new MPDSong(song, song))
+                        .filter(stream -> Pattern.compile("http.+").matcher(stream.toLowerCase()).matches())
+                        .map(song -> MPDSong.builder().file(song).title(song).build())
                         .collect(Collectors.toList()));
 
         return songList;

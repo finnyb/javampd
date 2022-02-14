@@ -81,7 +81,7 @@ class MPDCommandTest {
     void testEqualsNull() {
         MPDCommand command = new MPDCommand("command");
 
-        assertNotEquals(command, null);
+        assertNotEquals(null, command);
     }
 
     @Test

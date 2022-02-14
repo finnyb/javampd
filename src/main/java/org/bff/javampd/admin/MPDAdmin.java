@@ -81,7 +81,9 @@ public class MPDAdmin implements Admin {
     }
 
     private static MPDOutput parseOutput(String startingLine, Iterator<String> iterator) {
-        MPDOutput output = new MPDOutput(Integer.parseInt(startingLine.substring(OUTPUT_PREFIX_ID.length()).trim()));
+        var output =
+                MPDOutput.builder(Integer.parseInt(startingLine.substring(OUTPUT_PREFIX_ID.length()).trim()))
+                        .build();
 
         String line = iterator.next();
 
@@ -118,7 +120,7 @@ public class MPDAdmin implements Admin {
      * @param event the {@link MPDChangeEvent.Event} to send
      */
     protected synchronized void fireMPDChangeEvent(MPDChangeEvent.Event event) {
-        MPDChangeEvent mce = new MPDChangeEvent(this, event);
+        var mce = new MPDChangeEvent(this, event);
 
         for (MPDChangeListener mcl : listeners) {
             mcl.mpdChanged(mce);
@@ -165,7 +167,7 @@ public class MPDAdmin implements Admin {
      * @param event the event id to send
      */
     protected synchronized void fireOutputChangeEvent(OUTPUT_EVENT event) {
-        OutputChangeEvent oce = new OutputChangeEvent(this, event);
+        var oce = new OutputChangeEvent(this, event);
 
         for (OutputChangeListener pcl : outputListeners) {
             pcl.outputChanged(oce);

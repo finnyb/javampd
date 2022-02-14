@@ -12,7 +12,7 @@ class IdTagProcessorTest {
         int testId = 1;
 
         IdTagProcessor idTagProcessor = new IdTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "Id:" + testId;
         idTagProcessor.processTag(song, line);
@@ -25,7 +25,7 @@ class IdTagProcessorTest {
         int testId = 1;
 
         IdTagProcessor idTagProcessor = new IdTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "BadId:" + testId;
         idTagProcessor.processTag(song, line);

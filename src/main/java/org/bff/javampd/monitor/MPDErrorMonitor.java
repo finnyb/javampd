@@ -34,7 +34,7 @@ public class MPDErrorMonitor implements ErrorMonitor {
      * @param message the event message
      */
     protected void fireMPDErrorEvent(String message) {
-        ErrorEvent ee = new ErrorEvent(this, message);
+        var ee = new ErrorEvent(this, message);
 
         for (ErrorListener el : errorListeners) {
             el.errorEventReceived(ee);

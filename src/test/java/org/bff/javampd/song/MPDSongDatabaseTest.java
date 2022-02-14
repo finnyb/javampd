@@ -37,7 +37,7 @@ class MPDSongDatabaseTest {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtistName);
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName(testArtistName).build();
 
         when(mockedSongSearcher.find(SongSearcher.ScopeType.ALBUM, testAlbumName))
                 .thenReturn(testSongs);
@@ -62,7 +62,7 @@ class MPDSongDatabaseTest {
         String testArtistName = "testArtistName";
         List<MPDSong> testSongs = generateSongs();
 
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtistName);
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName(testArtistName).build();
 
         when(mockedSongSearcher.search(SongSearcher.ScopeType.ALBUM, testAlbumName))
                 .thenReturn(testSongs);
@@ -138,7 +138,7 @@ class MPDSongDatabaseTest {
         testSongs.get(0).setArtistName(testArtistName);
         testSongs.get(2).setArtistName(testArtistName);
 
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtistName);
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName(testArtistName).build();
         MPDArtist testArtist = new MPDArtist(testArtistName);
 
         when(mockedSongSearcher.find(SongSearcher.ScopeType.ALBUM, testAlbumName))
@@ -168,7 +168,7 @@ class MPDSongDatabaseTest {
         String testAlbumName = "testAlbumName";
         String testGenreName = "testGenre";
 
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, "testArtist");
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName("testArtist").build();
         MPDGenre testGenre = new MPDGenre(testGenreName);
 
         List<MPDSong> testSongs = generateSongs();
@@ -188,7 +188,7 @@ class MPDSongDatabaseTest {
         List<MPDSong> testSongs = generateSongs();
         testSongs.get(0).setYear(testYear);
         testSongs.get(2).setYear(testYear);
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, "testArtist");
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName("testArtist").build();
 
         when(mockedSongSearcher.find(SongSearcher.ScopeType.ALBUM, testAlbumName))
                 .thenReturn(testSongs);
@@ -409,9 +409,9 @@ class MPDSongDatabaseTest {
     }
 
     private List<MPDSong> generateSongs() {
-        MPDSong mpdSong1 = new MPDSong("file1", "title1");
-        MPDSong mpdSong2 = new MPDSong("file2", "title2");
-        MPDSong mpdSong3 = new MPDSong("file3", "title3");
+        MPDSong mpdSong1 = MPDSong.builder().file("file1").title("title1").build();
+        MPDSong mpdSong2 = MPDSong.builder().file("file2").title("title2").build();
+        MPDSong mpdSong3 = MPDSong.builder().file("file3").title("title3").build();
 
         List<MPDSong> songs = new ArrayList<>();
         songs.add(mpdSong1);

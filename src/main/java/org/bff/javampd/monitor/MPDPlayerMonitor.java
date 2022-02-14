@@ -90,7 +90,7 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
      * @param status the {@link org.bff.javampd.player.PlayerBasicChangeEvent.Status}
      */
     protected synchronized void firePlayerChangeEvent(PlayerBasicChangeEvent.Status status) {
-        PlayerBasicChangeEvent pce = new PlayerBasicChangeEvent(this, status);
+        var pce = new PlayerBasicChangeEvent(this, status);
 
         for (PlayerBasicChangeListener pcl : playerListeners) {
             pcl.playerBasicChange(pce);

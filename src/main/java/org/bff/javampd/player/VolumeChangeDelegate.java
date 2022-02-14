@@ -31,7 +31,7 @@ public class VolumeChangeDelegate {
      * @param volume the new volume
      */
     public synchronized void fireVolumeChangeEvent(Object source, int volume) {
-        VolumeChangeEvent vce = new VolumeChangeEvent(source, volume);
+        var vce = new VolumeChangeEvent(source, volume);
 
         for (VolumeChangeListener vcl : volListeners) {
             vcl.volumeChanged(vce);

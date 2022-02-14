@@ -2,15 +2,12 @@ package org.bff.javampd.server;
 
 import org.bff.javampd.admin.Admin;
 import org.bff.javampd.art.ArtworkFinder;
-import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.MusicDatabase;
 import org.bff.javampd.monitor.StandAloneMonitor;
 import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.Playlist;
 import org.bff.javampd.song.SongSearcher;
 import org.bff.javampd.statistics.ServerStatistics;
-
-import java.net.InetAddress;
 
 /**
  * @author bill
@@ -54,12 +51,6 @@ public interface Server {
      */
     boolean isClosed();
 
-    int getPort();
-
-    InetAddress getAddress();
-
-    int getTimeout();
-
     Player getPlayer();
 
     Playlist getPlaylist();
@@ -74,7 +65,5 @@ public interface Server {
 
     ServerStatus getServerStatus();
 
-    StandAloneMonitor getMonitor();
-
-    CommandExecutor getCommandExecutor();
+    StandAloneMonitor getStandAloneMonitor();
 }

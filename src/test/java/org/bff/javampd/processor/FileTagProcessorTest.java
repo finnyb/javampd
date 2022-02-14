@@ -12,7 +12,7 @@ class FileTagProcessorTest {
         String testFile = "testFile";
 
         FileTagProcessor fileTagProcessor = new FileTagProcessor();
-        MPDSong song = new MPDSong("file", "title");
+        MPDSong song = MPDSong.builder().file("file").title("title").build();
 
         String line = "file:" + testFile;
         fileTagProcessor.processTag(song, line);
@@ -26,7 +26,7 @@ class FileTagProcessorTest {
         String f = "file";
 
         FileTagProcessor fileTagProcessor = new FileTagProcessor();
-        MPDSong song = new MPDSong(f, "title");
+        MPDSong song = MPDSong.builder().file(f).title("title").build();
 
         String line = "BadFile:" + testFile;
         fileTagProcessor.processTag(song, line);

@@ -13,9 +13,9 @@ import java.util.Collection;
  */
 public class MPDSongSearcher implements SongSearcher {
 
-    private SearchProperties searchProperties;
-    private CommandExecutor commandExecutor;
-    private SongConverter songConverter;
+    private final SearchProperties searchProperties;
+    private final CommandExecutor commandExecutor;
+    private final SongConverter songConverter;
 
     @Inject
     public MPDSongSearcher(SearchProperties searchProperties,
@@ -41,7 +41,7 @@ public class MPDSongSearcher implements SongSearcher {
     }
 
     private Collection<MPDSong> search(String[] params) {
-        return songConverter.convertResponseToSong(
+        return songConverter.convertResponseToSongs(
                 commandExecutor.sendCommand(
                         searchProperties.getSearch(),
                         params));
@@ -62,7 +62,7 @@ public class MPDSongSearcher implements SongSearcher {
     }
 
     private Collection<MPDSong> find(String[] params) {
-        return songConverter.convertResponseToSong(
+        return songConverter.convertResponseToSongs(
                 commandExecutor.sendCommand(searchProperties.getFind(),
                         params));
     }

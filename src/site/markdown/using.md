@@ -4,13 +4,13 @@ Create a connection to MPD using the builder.
 Using default values of localhost port 6600
 
 ```
-MPD mpd = new MPD.Builder().build();
+MPD mpd = MPD.builder().build();
 ```
 
 or build to your environment
 
 ```
-MPD mpd = new MPD.Builder()
+MPD mpd = MPD.builder()
         .server("yourserver")
         .port(yourport)
         .password(yourpassword)

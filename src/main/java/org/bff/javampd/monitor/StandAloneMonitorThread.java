@@ -93,7 +93,7 @@ public class StandAloneMonitorThread implements Runnable {
             Thread.currentThread().interrupt();
         } catch (MPDException mpdException) {
             LOGGER.error("Error while checking statuses", mpdException);
-            boolean retry = true;
+            var retry = true;
 
             while (retry) {
                 retry = retry();

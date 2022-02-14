@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -30,7 +29,7 @@ class MPDSongConverterTest {
     @BeforeEach
     void before() {
         converter = new MPDSongConverter();
-        songs = converter.convertResponseToSong(createResponses(true));
+        songs = converter.convertResponseToSongs(createResponses(true));
     }
 
     @Test
@@ -63,7 +62,7 @@ class MPDSongConverterTest {
 
     @Test
     void testNameWithoutResponse() {
-        songs = converter.convertResponseToSong(createResponses(false));
+        songs = converter.convertResponseToSongs(createResponses(false));
         for (int i = 0; i < COUNT; i++) {
             assertEquals(songs.get(i).getName(), TITLE + i);
         }
@@ -146,7 +145,7 @@ class MPDSongConverterTest {
         List<String> response = createResponses(true);
         response.add("unknown: I dont know");
 
-        assertDoesNotThrow(() -> this.converter.convertResponseToSong(response));
+        assertDoesNotThrow(() -> this.converter.convertResponseToSongs(response));
     }
 
     private List<String> createResponses(boolean includeName) {

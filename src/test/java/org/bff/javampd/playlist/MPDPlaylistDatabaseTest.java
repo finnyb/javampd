@@ -49,9 +49,9 @@ class MPDPlaylistDatabaseTest {
 
         List<MPDSavedPlaylist> mockList = new ArrayList<>();
 
-        MPDSavedPlaylist mockedSavedPlaylist1 = new MPDSavedPlaylist(testPlaylistName1);
+        MPDSavedPlaylist mockedSavedPlaylist1 = MPDSavedPlaylist.builder(testPlaylistName1).build();
         mockList.add(mockedSavedPlaylist1);
-        MPDSavedPlaylist mockedSavedPlaylist2 = new MPDSavedPlaylist(testPlaylistName2);
+        MPDSavedPlaylist mockedSavedPlaylist2 = MPDSavedPlaylist.builder(testPlaylistName2).build();
         mockList.add(mockedSavedPlaylist2);
 
         when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST))
@@ -78,18 +78,18 @@ class MPDPlaylistDatabaseTest {
 
         List<MPDSavedPlaylist> mockList = new ArrayList<>();
 
-        MPDSavedPlaylist mockedSavedPlaylist1 = new MPDSavedPlaylist(testPlaylistName1);
+        MPDSavedPlaylist mockedSavedPlaylist1 =  MPDSavedPlaylist.builder(testPlaylistName1).build();
         mockList.add(mockedSavedPlaylist1);
-        MPDSavedPlaylist mockedSavedPlaylist2 = new MPDSavedPlaylist(testPlaylistName2);
+        MPDSavedPlaylist mockedSavedPlaylist2 =  MPDSavedPlaylist.builder(testPlaylistName2).build();
         mockList.add(mockedSavedPlaylist2);
 
         when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST))
                 .thenReturn(mockedResponseList);
 
         List<MPDSong> mockedSongs1 = new ArrayList<>();
-        mockedSongs1.add(new MPDSong("file1", testSongName1));
+        mockedSongs1.add(MPDSong.builder().file("file1").title(testSongName1).build());
         List<MPDSong> mockedSongs2 = new ArrayList<>();
-        mockedSongs2.add(new MPDSong("file2", testSongName2));
+        mockedSongs2.add(MPDSong.builder().file("file2").title(testSongName2).build());
 
         when(databaseProperties.getListSongs()).thenReturn("listplaylist");
         when(commandExecutor.sendCommand("listplaylist", testPlaylistName1))

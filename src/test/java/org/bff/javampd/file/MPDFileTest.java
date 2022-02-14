@@ -10,14 +10,14 @@ class MPDFileTest {
     @Test
     void testGetPath() {
         String path = "/path/to/Name";
-        MPDFile mpdFile = new MPDFile(path);
+        MPDFile mpdFile = MPDFile.builder(path).build();
         mpdFile.setPath(path);
         assertEquals(path, mpdFile.getPath());
     }
 
     @Test
     void testIsDirectory() {
-        MPDFile mpdFile = new MPDFile("");
+        MPDFile mpdFile = MPDFile.builder("").build();
         mpdFile.setDirectory(false);
         assertFalse(mpdFile.isDirectory());
     }
@@ -25,8 +25,8 @@ class MPDFileTest {
     @Test
     void testToString() {
         String path = "/path/to/Name";
-        MPDFile mpdFile = new MPDFile(path);
+        MPDFile mpdFile = MPDFile.builder(path).build();
         mpdFile.setPath(path);
-        assertEquals(path, mpdFile.toString());
+        assertEquals("MPDFile(directory=false, path=/path/to/Name, lastModified=null)", mpdFile.toString());
     }
 }

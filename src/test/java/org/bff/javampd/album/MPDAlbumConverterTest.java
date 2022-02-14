@@ -31,7 +31,7 @@ class MPDAlbumConverterTest {
 
     @Test
     void testArtist() {
-        assertThat("", is(equalTo(albums.get(0).getArtistName())));
+        assertThat(null, is(equalTo(albums.get(0).getArtistName())));
         for (int i = 1; i < COUNT + 1; i++) {
             assertThat(albums.get(i).getArtistName(), is(equalTo(ARTIST + (i - 1))));
         }
