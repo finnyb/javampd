@@ -10,7 +10,7 @@ import java.util.List;
 
 @Singleton
 public class MPDConnectionMonitor implements ConnectionMonitor {
-    private List<ConnectionChangeListener> connectionListeners;
+    private final List<ConnectionChangeListener> connectionListeners;
     private Server server;
     private boolean connected = true;
 
@@ -46,7 +46,7 @@ public class MPDConnectionMonitor implements ConnectionMonitor {
      * @param isConnected the connection status
      */
     protected synchronized void fireConnectionChangeEvent(boolean isConnected) {
-        ConnectionChangeEvent cce = new ConnectionChangeEvent(this, isConnected);
+        var cce = new ConnectionChangeEvent(this, isConnected);
 
         for (ConnectionChangeListener ccl : connectionListeners) {
             ccl.connectionChangeEventReceived(cce);

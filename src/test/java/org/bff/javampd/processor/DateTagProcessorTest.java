@@ -13,7 +13,7 @@ class DateTagProcessorTest {
         String testDate = "1990";
 
         DateTagProcessor dateTagProcessor = new DateTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "Date:" + testDate;
         dateTagProcessor.processTag(song, line);
@@ -26,7 +26,7 @@ class DateTagProcessorTest {
         String testDate = "1990";
 
         DateTagProcessor dateTagProcessor = new DateTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "BadDate:" + testDate;
         dateTagProcessor.processTag(song, line);

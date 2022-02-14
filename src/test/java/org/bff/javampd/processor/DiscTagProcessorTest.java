@@ -13,7 +13,7 @@ class DiscTagProcessorTest {
         String testDisc = "testDisc";
 
         DiscTagProcessor discTagProcessor = new DiscTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "Disc:" + testDisc;
         discTagProcessor.processTag(song, line);
@@ -26,7 +26,7 @@ class DiscTagProcessorTest {
         String testDisc = "testDisc";
 
         DiscTagProcessor discTagProcessor = new DiscTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
 
         String line = "BadDisc:" + testDisc;
         discTagProcessor.processTag(song, line);

@@ -59,7 +59,7 @@ public class MPDPlaylistMonitor implements PlaylistMonitor {
      * @param event the {@link org.bff.javampd.playlist.PlaylistBasicChangeEvent.Event}
      */
     public synchronized void firePlaylistChangeEvent(PlaylistBasicChangeEvent.Event event) {
-        PlaylistBasicChangeEvent pce = new PlaylistBasicChangeEvent(this, event);
+        var pce = new PlaylistBasicChangeEvent(this, event);
 
         for (PlaylistBasicChangeListener pcl : playlistListeners) {
             pcl.playlistBasicChange(pce);

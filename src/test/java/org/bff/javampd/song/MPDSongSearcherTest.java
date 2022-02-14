@@ -42,14 +42,14 @@ class MPDSongSearcherTest {
     void testSearch() {
         String searchCriteria = "testSearch";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+        MPDSong testSong = MPDSong.builder().file("testFile").title("testName").build();
 
         List<MPDSong> testSongList = new ArrayList<>();
         testSongList.add(testSong);
 
         when(mockedCommandExecuter.sendCommand(searchProperties.getSearch(),
                 generateParams(scopeType, searchCriteria))).thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+        when(mockedSongConverter.convertResponseToSongs(new ArrayList<>())).thenReturn(testSongList);
 
         List<MPDSong> songList = new ArrayList<>(songSearcher.search(scopeType, searchCriteria));
 
@@ -68,7 +68,7 @@ class MPDSongSearcherTest {
         int end = 5;
 
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ARTIST;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+        MPDSong testSong = MPDSong.builder().file("testFile").title("testName").build();
 
         List<MPDSong> testSongList = new ArrayList<>();
         testSongList.add(testSong);
@@ -76,7 +76,7 @@ class MPDSongSearcherTest {
         when(mockedCommandExecuter.sendCommand(searchProperties.getSearch(),
                 addWindowedParams(generateParams(scopeType, searchCriteria), start, end)))
                 .thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+        when(mockedSongConverter.convertResponseToSongs(new ArrayList<>())).thenReturn(testSongList);
 
         List<MPDSong> songList = new ArrayList<>(songSearcher.search(scopeType, searchCriteria, start, end));
         verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
@@ -92,14 +92,14 @@ class MPDSongSearcherTest {
     void testFind() {
         String searchCriteria = "testSearch";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+        MPDSong testSong = MPDSong.builder().file("testFile").title("testName").build();
 
         List<MPDSong> testSongList = new ArrayList<>();
         testSongList.add(testSong);
 
         when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
                 generateParams(scopeType, searchCriteria))).thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+        when(mockedSongConverter.convertResponseToSongs(new ArrayList<>())).thenReturn(testSongList);
 
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, searchCriteria));
 
@@ -115,14 +115,14 @@ class MPDSongSearcherTest {
     void testFindNoCriteria() {
         String searchCriteria = "";
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+        MPDSong testSong = MPDSong.builder().file("testFile").title("testName").build();
 
         List<MPDSong> testSongList = new ArrayList<>();
         testSongList.add(testSong);
 
         when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
                 generateParams(scopeType, searchCriteria))).thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+        when(mockedSongConverter.convertResponseToSongs(new ArrayList<>())).thenReturn(testSongList);
 
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, searchCriteria));
 
@@ -137,14 +137,14 @@ class MPDSongSearcherTest {
     @Test
     void testFindNullCriteria() {
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ANY;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+        MPDSong testSong = MPDSong.builder().file("testFile").title("testName").build();
 
         List<MPDSong> testSongList = new ArrayList<>();
         testSongList.add(testSong);
 
         when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
                 generateParams(scopeType, null))).thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+        when(mockedSongConverter.convertResponseToSongs(new ArrayList<>())).thenReturn(testSongList);
 
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, null));
 
@@ -163,7 +163,7 @@ class MPDSongSearcherTest {
         int end = 5;
 
         SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ARTIST;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+        MPDSong testSong = MPDSong.builder().file("testFile").title("testName").build();
 
         List<MPDSong> testSongList = new ArrayList<>();
         testSongList.add(testSong);
@@ -171,7 +171,7 @@ class MPDSongSearcherTest {
         when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
                 addWindowedParams(generateParams(scopeType, searchCriteria), start, end)))
                 .thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+        when(mockedSongConverter.convertResponseToSongs(new ArrayList<>())).thenReturn(testSongList);
 
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, searchCriteria, start, end));
         verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());

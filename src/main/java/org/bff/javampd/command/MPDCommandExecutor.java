@@ -21,8 +21,8 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     private MPDSocket mpdSocket;
     private MPD mpd;
-    private ServerProperties serverProperties;
     private String password;
+    private final ServerProperties serverProperties;
 
     /**
      * You <b>MUST</b> call {@link #setMpd} before
@@ -44,8 +44,8 @@ public class MPDCommandExecutor implements CommandExecutor {
 
     @Override
     public synchronized List<String> sendCommand(String command, Integer... params) {
-        String[] intParms = new String[params.length];
-        for (int i = 0; i < params.length; ++i) {
+        var intParms = new String[params.length];
+        for (var i = 0; i < params.length; ++i) {
             intParms[i] = Integer.toString(params[i]);
         }
         return new ArrayList<>(sendCommand(new MPDCommand(command, intParms)));

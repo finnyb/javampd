@@ -1,7 +1,6 @@
 package org.bff.javampd.song;
 
 import lombok.extern.slf4j.Slf4j;
-import org.bff.javampd.MPDItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,7 +13,7 @@ public class MPDSongConverter implements SongConverter {
     private static final String DELIMITING_PREFIX = SongProcessor.getDelimitingPrefix();
 
     @Override
-    public List<MPDSong> convertResponseToSong(List<String> list) {
+    public List<MPDSong> convertResponseToSongs(List<String> list) {
         List<MPDSong> songList = new ArrayList<>();
         Iterator<String> iterator = list.iterator();
 
@@ -32,8 +31,9 @@ public class MPDSongConverter implements SongConverter {
     }
 
     private String processSong(String file, Iterator<String> iterator, List<MPDSong> songs) {
-        MPDSong song = new MPDSong(file, "");
+        var song = MPDSong.builder().file(file).build();
         initialize(song);
+
         String line = iterator.next();
         while (!line.startsWith(DELIMITING_PREFIX)) {
             processLine(song, line);
@@ -66,10 +66,10 @@ public class MPDSongConverter implements SongConverter {
                 .collect(Collectors.toList());
     }
 
-    private void processLine(MPDItem song, String line) {
+    private void processLine(MPDSong song, String line) {
         var songProcessor = SongProcessor.lookup(line);
         if (songProcessor != null) {
-            songProcessor.getProcessor().processTag((MPDSong) song, line);
+            songProcessor.getProcessor().processTag(song, line);
         } else {
             log.warn("Processor not found - {}", line);
         }

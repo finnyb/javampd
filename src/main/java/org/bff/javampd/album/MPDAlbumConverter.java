@@ -34,7 +34,7 @@ public class MPDAlbumConverter implements AlbumConverter {
     }
 
     private String processAlbum(String name, Iterator<String> iterator, List<MPDAlbum> albums) {
-        var album = new MPDAlbum(name);
+        var album = MPDAlbum.builder(name).build();
 
         String line = null;
         if (iterator.hasNext()) {

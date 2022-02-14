@@ -84,7 +84,7 @@ public class MPDTrackMonitor implements TrackMonitor {
      * @param newTime the new elapsed time
      */
     protected synchronized void fireTrackPositionChangeEvent(long newTime) {
-        TrackPositionChangeEvent tpce = new TrackPositionChangeEvent(this, newTime);
+        var tpce = new TrackPositionChangeEvent(this, newTime);
 
         for (TrackPositionChangeListener tpcl : trackListeners) {
             tpcl.trackPositionChanged(tpce);

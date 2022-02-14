@@ -39,7 +39,7 @@ public class MPDOutputMonitor implements OutputMonitor {
 
     private void compareOutputs(List<MPDOutput> outputs) {
         for (MPDOutput output : outputs) {
-            MPDOutput mpdOutput = outputMap.get(output.getId());
+            var mpdOutput = outputMap.get(output.getId());
 
             if (mpdOutput.isEnabled() != output.isEnabled()) {
                 fireOutputChangeEvent(new OutputChangeEvent(output, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));

@@ -60,7 +60,7 @@ class MPDAlbumDatabaseTest {
                         ALBUM_GROUPS))
                 .thenReturn(mockReturn);
 
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName(testArtist.getName()).build();
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByArtist(testArtist));
         assertEquals(1, albums.size());
@@ -91,8 +91,8 @@ class MPDAlbumDatabaseTest {
                         ALBUM_GROUPS))
                 .thenReturn(mockReturn);
 
-        MPDAlbum testAlbum1 = new MPDAlbum(testAlbumName1, testArtist.getName());
-        MPDAlbum testAlbum2 = new MPDAlbum(testAlbumName2, testArtist.getName());
+        MPDAlbum testAlbum1 = MPDAlbum.builder(testAlbumName1).artistName(testArtist.getName()).build();
+        MPDAlbum testAlbum2 = MPDAlbum.builder(testAlbumName2).artistName(testArtist.getName()).build();
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByArtist(testArtist));
         assertEquals(2, albums.size());
@@ -125,7 +125,7 @@ class MPDAlbumDatabaseTest {
                         ALBUM_GROUPS))
                 .thenReturn(mockReturnGenreList);
 
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName(testArtist.getName()).build();
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByGenre(testGenre));
         assertEquals(1, albums.size());
@@ -154,7 +154,7 @@ class MPDAlbumDatabaseTest {
                         ALBUM_GROUPS))
                 .thenReturn(mockReturn);
 
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName(testArtist.getName()).build();
         testAlbum.setDate(testYear);
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByYear(testYear));
@@ -221,7 +221,7 @@ class MPDAlbumDatabaseTest {
 
         assertEquals(end - start, albums.size());
         for (int i = start; i < end; ++i) {
-            MPDAlbum album = new MPDAlbum(albumPrefix + i, artistPrefix + i);
+            MPDAlbum album = MPDAlbum.builder(albumPrefix + i).artistName(artistPrefix + i).build();
             assertEquals(album, albums.get(i));
         }
     }
@@ -239,7 +239,7 @@ class MPDAlbumDatabaseTest {
 
         assertEquals(end, albums.size());
         for (int i = 0; i < end; ++i) {
-            MPDAlbum album = new MPDAlbum(albumPrefix + i, artistPrefix + i);
+            MPDAlbum album = MPDAlbum.builder(albumPrefix + i).artistName(artistPrefix + i).build();
             assertEquals(album, albums.get(i));
         }
     }
@@ -258,8 +258,9 @@ class MPDAlbumDatabaseTest {
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, requested));
 
         assertEquals(end - start, albums.size());
+
         for (int i = start; i < end; ++i) {
-            MPDAlbum album = new MPDAlbum(albumPrefix + i, artistPrefix + i);
+            MPDAlbum album = MPDAlbum.builder(albumPrefix + i).artistName(artistPrefix + i).build();
             assertEquals(album, albums.get(i));
         }
     }
@@ -311,7 +312,7 @@ class MPDAlbumDatabaseTest {
                         ALBUM_GROUPS))
                 .thenReturn(mockAlbumList);
 
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
+        MPDAlbum testAlbum = MPDAlbum.builder(testAlbumName).artistName(testArtist.getName()).build();
 
         List<MPDAlbum> albums = new ArrayList<>(albumDatabase.findAlbum(testAlbumName));
         assertEquals(1, albums.size());

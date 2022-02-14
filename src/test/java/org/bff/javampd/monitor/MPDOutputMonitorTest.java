@@ -32,7 +32,7 @@ class MPDOutputMonitorTest {
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
         List<MPDOutput> testOutputs = new ArrayList<>();
-        testOutputs.add(new MPDOutput(0));
+        testOutputs.add(MPDOutput.builder(0).build());
         when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
         assertEquals(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED, outputEvent[0].getEvent());
@@ -46,7 +46,7 @@ class MPDOutputMonitorTest {
 
         outputMonitor.addOutputChangeListener(outputChangeListener);
         List<MPDOutput> testOutputs = new ArrayList<>();
-        testOutputs.add(new MPDOutput(0));
+        testOutputs.add(MPDOutput.builder(0).build());
         when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
         assertEquals(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED, outputEvent[0].getEvent());
@@ -63,8 +63,8 @@ class MPDOutputMonitorTest {
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
         List<MPDOutput> testOutputs = new ArrayList<>();
-        testOutputs.add(new MPDOutput(0));
-        testOutputs.add(new MPDOutput(1));
+        testOutputs.add(MPDOutput.builder(0).build());
+        testOutputs.add(MPDOutput.builder(1).build());
         when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
         assertEquals(OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED, outputEvent[0].getEvent());
@@ -76,7 +76,7 @@ class MPDOutputMonitorTest {
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
         List<MPDOutput> testOutputs = new ArrayList<>();
-        testOutputs.add(new MPDOutput(0));
+        testOutputs.add(MPDOutput.builder(0).build());
         when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
 
@@ -93,12 +93,12 @@ class MPDOutputMonitorTest {
 
         outputMonitor.addOutputChangeListener(event -> outputEvent[0] = event);
         List<MPDOutput> testOutputs = new ArrayList<>();
-        testOutputs.add(new MPDOutput(0));
+        testOutputs.add(MPDOutput.builder(0).build());
         when(admin.getOutputs()).thenReturn(testOutputs);
         outputMonitor.checkStatus();
 
         testOutputs = new ArrayList<>();
-        MPDOutput output = new MPDOutput(0);
+        MPDOutput output = MPDOutput.builder(0).build();
         output.setEnabled(true);
         testOutputs.add(output);
         when(admin.getOutputs()).thenReturn(testOutputs);

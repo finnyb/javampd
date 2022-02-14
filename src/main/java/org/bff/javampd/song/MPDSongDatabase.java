@@ -194,8 +194,8 @@ public class MPDSongDatabase implements SongDatabase {
      * @return the string without leading or trailing slashes
      */
     private static String removeSlashes(String path) {
-        String retString = path;
-        String slash = System.getProperty("file.separator");
+        var retString = path;
+        var slash = System.getProperty("file.separator");
 
         //if non-Unix slashes replace
         retString = retString.replace(slash, "/");

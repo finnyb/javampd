@@ -14,7 +14,7 @@ class AlbumTagProcessorTest {
         String testAlbum = "testAlbum";
 
         AlbumTagProcessor albumTagProcessor = new AlbumTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
 
         String line = "Album:" + testAlbum;
         albumTagProcessor.processTag(song, line);
@@ -27,7 +27,7 @@ class AlbumTagProcessorTest {
         String testAlbum = "testAlbum";
 
         AlbumTagProcessor albumTagProcessor = new AlbumTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
 
         String line = "BadAlbum:" + testAlbum;
         albumTagProcessor.processTag(song, line);
@@ -42,11 +42,11 @@ class AlbumTagProcessorTest {
 
         AlbumTagProcessor albumTagProcessor = new AlbumTagProcessor();
 
-        MPDAlbum album = new MPDAlbum(testAlbumName, testArtist);
+        MPDAlbum album = MPDAlbum.builder(testAlbumName).artistName(testArtist).build();
 
         String line = "Album:" + testAlbumName;
         albumTagProcessor.processTag(album, line);
 
-        assertEquals(new MPDAlbum(testAlbumName, testArtist), album);
+        assertEquals(MPDAlbum.builder(testAlbumName).artistName(testArtist).build(), album);
     }
 }

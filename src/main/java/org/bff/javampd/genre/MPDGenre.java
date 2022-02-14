@@ -1,20 +1,19 @@
 package org.bff.javampd.genre;
 
-import org.bff.javampd.MPDItem;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * MPDGenre represents a genre
  *
  * @author Bill
  */
-public class MPDGenre extends MPDItem {
-
-    /**
-     * Creates a MPDGenre object
-     *
-     * @param name the name of the genre
-     */
-    public MPDGenre(String name) {
-        setName(name);
-    }
+@RequiredArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Getter
+public class MPDGenre {
+    private final String name;
 }

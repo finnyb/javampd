@@ -49,7 +49,7 @@ public class MPDPlayer implements Player {
     @Override
     public Optional<MPDSong> getCurrentSong() {
         List<MPDSong> songList =
-                songConverter.convertResponseToSong(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
+                songConverter.convertResponseToSongs(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
 
         if (songList.isEmpty()) {
             return Optional.empty();
@@ -75,7 +75,7 @@ public class MPDPlayer implements Player {
      * @param event the {@link PlayerChangeEvent.Event} to send
      */
     protected synchronized void firePlayerChangeEvent(PlayerChangeEvent.Event event) {
-        PlayerChangeEvent pce = new PlayerChangeEvent(this, event);
+        var pce = new PlayerChangeEvent(this, event);
 
         for (PlayerChangeListener pcl : listeners) {
             pcl.playerChanged(pce);
@@ -305,22 +305,23 @@ public class MPDPlayer implements Player {
 
         String response = serverStatus.getAudio();
         if (!"".equals(response)) {
-            info = new MPDAudioInfo();
             String[] split = response.split(":");
-            parseSampleRate(info, split[0]);
-            parseBitRate(info, split[1]);
-            parseChannels(info, split[2]);
+            info = MPDAudioInfo.builder()
+                    .sampleRate(parseSampleRate(split[0]))
+                    .bits(parseBitRate(split[1]))
+                    .channels(parseChannels(split[2]))
+                    .build();
         }
 
         return info;
     }
 
-    private static void parseSampleRate(MPDAudioInfo info, String sampleRate) {
+    private static int parseSampleRate(String sampleRate) {
         try {
-            info.setSampleRate(Integer.parseInt(sampleRate));
+            return Integer.parseInt(sampleRate);
         } catch (NumberFormatException nfe) {
             LOGGER.error("Could not format sample rate", nfe);
-            info.setSampleRate(-1);
+            return -1;
         }
     }
 
@@ -337,21 +338,21 @@ public class MPDPlayer implements Player {
         }
     }
 
-    private static void parseChannels(MPDAudioInfo info, String channels) {
+    private static int parseChannels(String channels) {
         try {
-            info.setChannels(Integer.parseInt(channels));
+            return Integer.parseInt(channels);
         } catch (NumberFormatException nfe) {
             LOGGER.error("Could not format channels", nfe);
-            info.setChannels(-1);
+            return -1;
         }
     }
 
-    private static void parseBitRate(MPDAudioInfo info, String bitRate) {
+    private static int parseBitRate(String bitRate) {
         try {
-            info.setBits(Integer.parseInt(bitRate));
+            return Integer.parseInt(bitRate);
         } catch (NumberFormatException nfe) {
             LOGGER.error("Could not format bits", nfe);
-            info.setBits(-1);
+            return -1;
         }
     }
 

@@ -54,7 +54,7 @@ class MPDFileDatabaseTest {
     @Test
     void testListDirectory() {
         String dir = "test";
-        MPDFile file = new MPDFile(dir);
+        MPDFile file = MPDFile.builder(dir).build();
         file.setDirectory(true);
         fileDatabase.listDirectory(file);
 
@@ -77,7 +77,7 @@ class MPDFileDatabaseTest {
     @Test
     void testListDirectoryWithFiles() {
         String dir = "test";
-        MPDFile file = new MPDFile(dir);
+        MPDFile file = MPDFile.builder(dir).build();
         file.setDirectory(true);
         fileDatabase.listDirectory(file);
 
@@ -98,7 +98,7 @@ class MPDFileDatabaseTest {
     @Test
     void testListDirectoryWithMultipleFilesSize() {
         String dir = "test";
-        MPDFile file = new MPDFile(dir);
+        MPDFile file = MPDFile.builder(dir).build();
         file.setDirectory(true);
         fileDatabase.listDirectory(file);
 
@@ -111,7 +111,7 @@ class MPDFileDatabaseTest {
     @Test
     void testListDirectoryWithMultipleFiles1() {
         String dir = "test";
-        MPDFile file = new MPDFile(dir);
+        MPDFile file = MPDFile.builder(dir).build();
         file.setDirectory(true);
         fileDatabase.listDirectory(file);
 
@@ -128,7 +128,7 @@ class MPDFileDatabaseTest {
     @Test
     void testListDirectoryWithMultipleFiles2() {
         String dir = "test";
-        MPDFile file = new MPDFile(dir);
+        MPDFile file = MPDFile.builder(dir).build();
         file.setDirectory(true);
         fileDatabase.listDirectory(file);
 
@@ -145,7 +145,7 @@ class MPDFileDatabaseTest {
     @Test
     void testListDirectoryWithMultipleFiles3() {
         String dir = "test";
-        MPDFile file = new MPDFile(dir);
+        MPDFile file = MPDFile.builder(dir).build();
         file.setDirectory(true);
         fileDatabase.listDirectory(file);
 
@@ -162,7 +162,7 @@ class MPDFileDatabaseTest {
     @Test
     void testListDirectoryWithMultipleFiles4() {
         String dir = "test";
-        MPDFile file = new MPDFile(dir);
+        MPDFile file = MPDFile.builder(dir).build();
         file.setDirectory(true);
         fileDatabase.listDirectory(file);
 
@@ -179,7 +179,7 @@ class MPDFileDatabaseTest {
 
     @Test
     void testListDirectoryException() {
-        MPDFile file = new MPDFile("");
+        MPDFile file = MPDFile.builder("").build();
         file.setDirectory(false);
         assertThrows(MPDException.class, () -> fileDatabase.listDirectory(file));
     }

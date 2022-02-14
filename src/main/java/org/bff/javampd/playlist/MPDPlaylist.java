@@ -81,7 +81,7 @@ public class MPDPlaylist implements Playlist {
      * @param event the {@link PlaylistChangeEvent.Event} to send
      */
     protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event) {
-        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, event);
+        var pce = new PlaylistChangeEvent(this, event);
 
         for (PlaylistChangeListener pcl : listeners) {
             pcl.playlistChanged(pce);
@@ -96,7 +96,7 @@ public class MPDPlaylist implements Playlist {
      * @param name  name of the added entity
      */
     protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event, String name) {
-        PlaylistChangeEvent pce = new PlaylistChangeEvent(this, event, name);
+        var pce = new PlaylistChangeEvent(this, event, name);
 
         for (PlaylistChangeListener pcl : listeners) {
             pcl.playlistChanged(pce);
@@ -194,7 +194,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     private List<MPDSong> convertResponseToSong(List<String> response) {
-        return songConverter.convertResponseToSong(response);
+        return songConverter.convertResponseToSongs(response);
     }
 
     @Override

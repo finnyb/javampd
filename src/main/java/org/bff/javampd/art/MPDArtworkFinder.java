@@ -86,8 +86,8 @@ public class MPDArtworkFinder implements ArtworkFinder {
 
     private static MPDArtwork loadArtwork(Path file) {
         file.getFileName();
-        MPDArtwork artwork = new MPDArtwork(file.getFileName().toString(),
-                file.toAbsolutePath().toString());
+        var artwork = MPDArtwork.builder().name(file.getFileName().toString())
+                .path(file.toAbsolutePath().toString()).build();
         artwork.setBytes(loadFile(file));
 
         return artwork;

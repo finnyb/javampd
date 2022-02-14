@@ -54,8 +54,8 @@ class MPDArtworkFinderTest {
         String albumSuffix = "album" + File.separator;
 
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong(prefix + albumSuffix + "song1", "song1"));
-        songs.add(new MPDSong(prefix + albumSuffix + "song2", "song2"));
+        songs.add(MPDSong.builder().file(prefix + albumSuffix + "song1").title("song1").build());
+        songs.add(MPDSong.builder().file(prefix + albumSuffix + "song2").title("song2").build());
 
         when(songDatabase.findArtist(artist)).thenReturn(songs);
 
@@ -107,8 +107,8 @@ class MPDArtworkFinderTest {
 
         String path = decode(new File(this.getClass().getResource("/images/artist/" + artistImages[0]).getFile()).getParent());
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("/album/song1", "song1"));
-        songs.add(new MPDSong("/album/song2", "song2"));
+        songs.add(MPDSong.builder().file("/album/song1").title("song1").build());
+        songs.add(MPDSong.builder().file("/album/song2").title("song2").build());
 
         when(songDatabase.findArtist(artist)).thenReturn(songs);
 
@@ -147,7 +147,7 @@ class MPDArtworkFinderTest {
 
         String path1 = decode(new File(this.getClass().getResource("/images/" + artistImages[0]).getFile()).getParent());
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong(path1, "song1"));
+        songs.add(MPDSong.builder().file(path1).title("song1").build());
 
         when(songDatabase.findArtist(artist)).thenReturn(songs);
 
@@ -163,11 +163,11 @@ class MPDArtworkFinderTest {
                 "album200x200.png"
         };
 
-        MPDAlbum album = new MPDAlbum("album", "artist");
+        MPDAlbum album = MPDAlbum.builder("album").artistName("artist").build();
 
         String path1 = decode(new File(this.getClass().getResource("/images/artist/album/" + albumImages[0]).getFile()).getParent());
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong(path1 + "/song1", "song1"));
+        songs.add(MPDSong.builder().file(path1 + "/song1").title("song1").build());
 
         when(songDatabase.findAlbum(album)).thenReturn(songs);
 
@@ -193,11 +193,11 @@ class MPDArtworkFinderTest {
                 "album200x200.png"
         };
 
-        MPDAlbum album = new MPDAlbum("album", "artist");
+        MPDAlbum album = MPDAlbum.builder("album").artistName("artist").build();
 
         String path = decode(new File(this.getClass().getResource("/images/artist/album/" + albumImages[0]).getFile()).getParent());
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("/song1", "song1"));
+        songs.add(MPDSong.builder().file("/song1").title("song1").build());
 
         when(songDatabase.findAlbum(album)).thenReturn(songs);
 

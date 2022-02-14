@@ -1,6 +1,6 @@
 package org.bff.javampd.album;
 
-import org.bff.javampd.MPDItem;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,42 +12,40 @@ class MPDAlbumTest {
 
     @Test
     void testInEqualityAlbumNames() {
-        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album2").artistName("artistName1").build();
 
         assertNotEquals(album2, album1);
     }
 
     @Test
-    void testInEqualityAlbumArtists() {
-        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum album2 = new MPDAlbum("Album1", "Artist2");
+    void testInEqualityartistNames() {
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album1").artistName("artistName2").build();
 
         assertNotEquals(album2, album1);
     }
 
     @Test
     void testEqualityAlbumNames() {
-        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album1").artistName("artistName1").build();
 
         assertEquals(album2, album1);
     }
 
     @Test
-    void testEqualityAlbumArtists() {
-        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
+    void testEqualityartistNames() {
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album1").artistName("artistName1").build();
 
         assertEquals(album2, album1);
     }
 
     @Test
     void testEqualityDifferentGenres() {
-        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
-        album1.setGenre("genre1");
-        MPDAlbum album2 = new MPDAlbum("Album1", "Artist1");
-        album2.setGenre("genre2");
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").genre("genre1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album1").artistName("artistName1").genre("genre2").build();
 
         assertNotEquals(album2, album1);
     }
@@ -55,55 +53,47 @@ class MPDAlbumTest {
 
     @Test
     void testCompareArtists() {
-        MPDAlbum album1 = new MPDAlbum("Album1", "Artist1");
-        MPDAlbum album2 = new MPDAlbum("Album2", "Artist1");
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album2").artistName("artistName1").build();
 
         assertEquals(album1.getArtistName(), album2.getArtistName());
-    }
-    
-    @Test
-    void testEqualsNull() {
-        MPDAlbum album = new MPDAlbum("Album", "Artist");
-
-        assertNotEquals(album, null);
-    }
-
-    @Test
-    void testEqualsSameObject() {
-        MPDAlbum album = new MPDAlbum("Album", "Artist");
-
-        assertEquals(album, album);
     }
 
     @Test
     void testHashCode() {
-        MPDItem item1 = new MPDAlbum("Album1", "Artist1");
-        MPDItem item2 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album1").artistName("artistName1").build();
 
-        assertEquals(item1.hashCode(), item2.hashCode());
+        assertEquals(album1.hashCode(), album2.hashCode());
     }
 
     @Test
     void testCompareToLessThanZero() {
-        MPDItem item1 = new MPDAlbum("Album1", "Artist1");
-        MPDItem item2 = new MPDAlbum("Album2", "Artist1");
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album2").artistName("artistName1").build();
 
-        assertTrue(item1.compareTo(item2) < 0);
+        assertTrue(album1.compareTo(album2) < 0);
     }
 
     @Test
     void testCompareToGreaterThanZero() {
-        MPDItem item1 = new MPDAlbum("Album2", "Artist1");
-        MPDItem item2 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album1 = MPDAlbum.builder("Album2").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album1").artistName("artistName1").build();
 
-        assertTrue(item1.compareTo(item2) > 0);
+        assertTrue(album1.compareTo(album2) > 0);
     }
 
     @Test
     void testCompareToEquals() {
-        MPDItem item1 = new MPDAlbum("Album1", "Artist1");
-        MPDItem item2 = new MPDAlbum("Album1", "Artist1");
+        MPDAlbum album1 = MPDAlbum.builder("Album1").artistName("artistName1").build();
+        MPDAlbum album2 = MPDAlbum.builder("Album1").artistName("artistName1").build();
 
-        assertEquals(item1.compareTo(item2), 0);
+        assertEquals(0, album1.compareTo(album2));
     }
+
+    @Test
+    void equalsContract() {
+        EqualsVerifier.simple().forClass(MPDAlbum.class).verify();
+    }
+
 }

@@ -56,7 +56,7 @@ class MPDPlayerTest {
         String testFile = "testFile";
         String testTitle = "testTitle";
 
-        MPDSong testSong = new MPDSong(testFile, testTitle);
+        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
         List<MPDSong> testSongResponse = new ArrayList<>();
         testSongResponse.add(testSong);
 
@@ -64,7 +64,7 @@ class MPDPlayerTest {
         when(commandExecutor
                 .sendCommand(playerProperties.getCurrentSong()))
                 .thenReturn(responseList);
-        when(songConverter.convertResponseToSong(responseList)).thenReturn(testSongResponse);
+        when(songConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
         mpdPlayer.getCurrentSong().ifPresentOrElse(song -> {
                     assertThat(song.getFile(), is(equalTo((testSong.getFile()))));
@@ -83,7 +83,7 @@ class MPDPlayerTest {
                 .sendCommand(playerProperties.getCurrentSong()))
                 .thenReturn(responseList);
 
-        when(songConverter.convertResponseToSong(responseList)).thenReturn(testSongResponse);
+        when(songConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
         assertThat(mpdPlayer.getCurrentSong(), is(Optional.empty()));
     }
@@ -102,7 +102,7 @@ class MPDPlayerTest {
         int id = 1;
         String testFile = "testFile";
         String testTitle = "testTitle";
-        MPDSong testSong = new MPDSong(testFile, testTitle);
+        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
         testSong.setId(id);
 
         when(playerProperties.getPlayId()).thenCallRealMethod();
@@ -121,7 +121,7 @@ class MPDPlayerTest {
         String testTitle = "testTitle";
         int id = 5;
 
-        MPDSong testSong = new MPDSong(testFile, testTitle);
+        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
         testSong.setId(id);
         testSong.setLength(seconds + 1);
 
@@ -130,7 +130,7 @@ class MPDPlayerTest {
 
         when(playerProperties.getCurrentSong()).thenCallRealMethod();
         when(commandExecutor.sendCommand(playerProperties.getCurrentSong())).thenReturn(responseList);
-        when(songConverter.convertResponseToSong(responseList)).thenReturn(testSongResponse);
+        when(songConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
         when(playerProperties.getSeekId()).thenCallRealMethod();
         mpdPlayer.seek(seconds);
@@ -151,7 +151,7 @@ class MPDPlayerTest {
         String testTitle = "testTitle";
         int id = 5;
 
-        MPDSong testSong = new MPDSong(testFile, testTitle);
+        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
         testSong.setId(id);
         testSong.setLength(seconds - 1);
 
@@ -160,7 +160,7 @@ class MPDPlayerTest {
 
         when(playerProperties.getCurrentSong()).thenCallRealMethod();
         when(commandExecutor.sendCommand(playerProperties.getCurrentSong())).thenReturn(responseList);
-        when(songConverter.convertResponseToSong(responseList)).thenReturn(testSongResponse);
+        when(songConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
         mpdPlayer.seek(seconds);
 
@@ -175,7 +175,7 @@ class MPDPlayerTest {
         String testTitle = "testTitle";
         int id = 5;
 
-        MPDSong testSong = new MPDSong(testFile, testTitle);
+        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
         testSong.setId(id);
         testSong.setLength(seconds + 1);
 
@@ -206,7 +206,7 @@ class MPDPlayerTest {
         final PlayerChangeEvent.Event[] playerChangeEvent = {null};
         mpdPlayer.addPlayerChangeListener(event -> playerChangeEvent[0] = event.getEvent());
 
-        MPDSong testSong = new MPDSong("", "");
+        MPDSong testSong = MPDSong.builder().file("").title("").build();
 
         when(playerProperties.getPlay()).thenCallRealMethod();
         when(playerProperties.getPlayId()).thenCallRealMethod();

@@ -56,7 +56,7 @@ class MPDPlaylistTestSong {
     void testAddSong() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
-        MPDSong mpdSong = new MPDSong("test", "test");
+        MPDSong mpdSong = MPDSong.builder().file("test").title("test").build();
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
@@ -77,7 +77,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        playlist.addSong(new MPDSong("test", "test"), false);
+        playlist.addSong(MPDSong.builder().file("test").title("test").build(), false);
 
         assertNull(changeEvent[0]);
     }
@@ -86,7 +86,7 @@ class MPDPlaylistTestSong {
     void testAddSongFile() {
         when(serverStatus.getPlaylistVersion()).thenReturn(1);
 
-        MPDSong mpdSong = new MPDSong("testFile", "test");
+        MPDSong mpdSong = MPDSong.builder().file("testFile").title("test").build();
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
@@ -119,8 +119,8 @@ class MPDPlaylistTestSong {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("test1", "test1"));
-        songs.add(new MPDSong("test2", "test2"));
+        songs.add(MPDSong.builder().file("test1").title("test1").build());
+        songs.add(MPDSong.builder().file("test2").title("test2").build());
 
         playlist.addSongs(songs);
 
@@ -140,7 +140,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        playlist.addSong(new MPDSong("test", "test"), false);
+        playlist.addSong(MPDSong.builder().file("test").title("test").build(), false);
 
         assertNull(changeEvent[0]);
     }
@@ -151,7 +151,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        MPDSong mpdSong = new MPDSong("test", "test");
+        MPDSong mpdSong = MPDSong.builder().file("test").title("test").build();
         mpdSong.setPosition(5);
         playlist.removeSong(mpdSong);
 
@@ -171,7 +171,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        MPDSong mpdSong = new MPDSong("test", "test");
+        MPDSong mpdSong = MPDSong.builder().file("test").title("test").build();
         mpdSong.setPosition(position);
         playlist.removeSong(position);
 
@@ -189,7 +189,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        MPDSong mpdSong = new MPDSong("test", "test");
+        MPDSong mpdSong = MPDSong.builder().file("test").title("test").build();
         mpdSong.setPosition(position);
         playlist.removeSong(position);
 
@@ -202,7 +202,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        MPDSong song = new MPDSong("test", "test");
+        MPDSong song = MPDSong.builder().file("test").title("test").build();
         song.setId(5);
         playlist.removeSong(song);
 
@@ -220,8 +220,8 @@ class MPDPlaylistTestSong {
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getCurrentSong())).thenReturn(response);
         List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("test", "test"));
-        when(songConverter.convertResponseToSong(response)).thenReturn(songs);
+        songs.add(MPDSong.builder().file("test").title("test").build());
+        when(songConverter.convertResponseToSongs(response)).thenReturn(songs);
 
         assertEquals("test", playlist.getCurrentSong().getName());
     }
@@ -229,13 +229,13 @@ class MPDPlaylistTestSong {
     @Test
     void testListSongs() {
         List<MPDSong> mockedSongs = new ArrayList<>();
-        mockedSongs.add(new MPDSong("file1", "testSong1"));
-        mockedSongs.add(new MPDSong("file2", "testSong2"));
+        mockedSongs.add(MPDSong.builder().file("test1").title("testSong1").build());
+        mockedSongs.add(MPDSong.builder().file("test2").title("testSong2").build());
 
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
-        when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
+        when(songConverter.convertResponseToSongs(response)).thenReturn(mockedSongs);
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
