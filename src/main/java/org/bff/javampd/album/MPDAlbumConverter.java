@@ -12,53 +12,73 @@ import java.util.*;
 @Slf4j
 public class MPDAlbumConverter implements AlbumConverter {
 
-    private static String delimitingPrefix = AlbumProcessor.getDelimitingPrefix();
+    private static final String DELIMITING_PREFIX = AlbumProcessor.getDelimitingPrefix();
 
     @Override
-    public List<MPDAlbum> convertResponseToAlbum(List<String> list) {
-        List<MPDAlbum> albumList = new ArrayList<>();
+    public Collection<MPDAlbum> convertResponseToAlbum(List<String> list) {
+        var hashMap = new LinkedHashMap<String, MPDAlbum>();
         Iterator<String> iterator = list.iterator();
 
-        String line = null;
+        var artists = new ArrayList<String>();
+        var genres = new ArrayList<String>();
+        var dates = new ArrayList<String>();
+        String albumArtist = null;
+        var album = "";
+
+        String line;
         while (iterator.hasNext()) {
-            if (line == null || (!line.startsWith(delimitingPrefix))) {
-                line = iterator.next();
-            }
-
-            while (line != null && line.startsWith(delimitingPrefix)) {
-                line = processAlbum(line.substring(delimitingPrefix.length()).trim(), iterator, albumList);
-            }
-        }
-
-        return albumList;
-    }
-
-    private String processAlbum(String name, Iterator<String> iterator, List<MPDAlbum> albums) {
-        var album = MPDAlbum.builder(name).build();
-
-        String line = null;
-        if (iterator.hasNext()) {
             line = iterator.next();
-            while (!line.startsWith(delimitingPrefix)) {
-                processLine(album, line);
-                if (!iterator.hasNext()) {
-                    break;
+
+            var albumProcessor = AlbumProcessor.lookup(line);
+            if (albumProcessor != null) {
+                var tag = albumProcessor.getProcessor().processTag(line);
+                switch (albumProcessor.getProcessor().getType()) {
+                    case ALBUM:
+                        album = tag;
+                        break;
+                    case ALBUM_ARTIST:
+                        albumArtist = tag;
+                        break;
+                    case ARTIST:
+                        artists.add(tag);
+                        break;
+                    case GENRE:
+                        genres.add(tag);
+                        break;
+                    case DATE:
+                        dates.add(tag);
+                        break;
+                    default:
+                        log.warn("Unprocessed album type {} found.", tag);
+                        break;
                 }
-                line = iterator.next();
+            } else {
+                log.warn("Processor not found - {}", line);
+            }
+
+            if (line.startsWith(DELIMITING_PREFIX)) {
+                var a = hashMap.get(album);
+                if (a == null) {
+                    hashMap.put(album, MPDAlbum.builder(album)
+                            .albumArtist(albumArtist)
+                            .artistNames(artists)
+                            .genres(genres)
+                            .dates(dates)
+                            .build());
+                } else {
+                    a.addArtists(artists);
+                    a.addGenres(genres);
+                    a.addDates(dates);
+                }
+
+                artists = new ArrayList<>();
+                genres = new ArrayList<>();
+                dates = new ArrayList<>();
+                albumArtist = null;
+                album = "";
             }
         }
 
-        albums.add(album);
-
-        return line;
-    }
-
-    public void processLine(MPDAlbum album, String line) {
-        var albumProcessor = AlbumProcessor.lookup(line);
-        if (albumProcessor != null) {
-            albumProcessor.getProcessor().processTag(album, line);
-        } else {
-            log.warn("Processor not found - {}", line);
-        }
+        return hashMap.values();
     }
 }

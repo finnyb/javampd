@@ -1,6 +1,7 @@
 package org.bff.javampd.command;
 
 import com.google.inject.Singleton;
+import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.server.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import java.util.List;
  * @author bill
  */
 @Singleton
+@Slf4j
 public class MPDCommandExecutor implements CommandExecutor {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDCommandExecutor.class);
 
@@ -55,6 +57,7 @@ public class MPDCommandExecutor implements CommandExecutor {
     public synchronized List<String> sendCommand(MPDCommand command) {
         try {
             checkSocket();
+            log.debug(String.format("Sending command: %s", command));
             return new ArrayList<>(mpdSocket.sendCommand(command));
         } catch (MPDSecurityException se) {
             LOGGER.warn("Connection exception while sending command {}, will retry", command.getCommand(), se);

@@ -1,6 +1,6 @@
 package org.bff.javampd.processor;
 
-public abstract class TagResponseProcessor {
+public abstract class TagResponseProcessor implements ResponseProcessor {
 
     private String prefix;
 
@@ -16,4 +16,12 @@ public abstract class TagResponseProcessor {
         return line.startsWith(getPrefix());
     }
 
+    @Override
+    public String processTag(String line) {
+        if (startsWith(line)) {
+            return line.substring(getPrefix().length()).trim();
+        }
+
+        return null;
+    }
 }

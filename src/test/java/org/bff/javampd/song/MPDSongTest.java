@@ -44,7 +44,7 @@ class MPDSongTest {
         String file = "file1";
         MPDSong song = MPDSong.builder().file("file1").title("song1").build();
 
-        assertThat(song.toString(), is(equalTo("MPDSong(name=song1, title=song1, artistName=null, albumName=null, file=file1, genre=null, comment=null, year=null, discNumber=null, length=0, track=0, position=-1, id=-1)")));
+        assertThat(song.toString(), is(equalTo("MPDSong(name=song1, title=song1, albumArtist=null, artistName=null, albumName=null, file=file1, genre=null, comment=null, date=null, discNumber=null, track=null, length=0)")));
     }
 
     @Test

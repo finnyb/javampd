@@ -1,7 +1,7 @@
 package org.bff.javampd.player;
 
 import org.bff.javampd.audioinfo.MPDAudioInfo;
-import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.playlist.MPDPlaylistSong;
 
 import java.util.Optional;
 
@@ -35,7 +35,7 @@ public interface Player {
      *
      * @return the current song
      */
-    Optional<MPDSong> getCurrentSong();
+    Optional<MPDPlaylistSong> getCurrentSong();
 
     /**
      * Adds a {@link PlayerChangeListener} to this object to receive
@@ -73,11 +73,11 @@ public interface Player {
     void play();
 
     /**
-     * Starts the player with the specified {@link MPDSong}.
+     * Starts the player with the specified {@link MPDPlaylistSong}.
      *
      * @param song the song to start the player with
      */
-    void playSong(MPDSong song);
+    void playSong(MPDPlaylistSong song);
 
     /**
      * Seeks to the desired location in the current song.  If the location is larger
@@ -94,7 +94,7 @@ public interface Player {
      * @param song the song to seek in
      * @param secs the location to seek to
      */
-    void seekSong(MPDSong song, long secs);
+    void seekSong(MPDPlaylistSong song, long secs);
 
     /**
      * Stops the player.

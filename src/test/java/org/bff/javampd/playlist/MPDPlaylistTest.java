@@ -4,7 +4,6 @@ import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.command.MPDCommand;
 import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.server.ServerStatus;
-import org.bff.javampd.song.MPDSong;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -184,8 +183,7 @@ class MPDPlaylistTest {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        MPDSong song = MPDSong.builder().file("test").title("test").build();
-        song.setId(3);
+        MPDPlaylistSong song = MPDPlaylistSong.builder().file("test").title("test").id(3).build();
         playlist.move(song, 5);
 
         verify(commandExecutor)
@@ -206,8 +204,11 @@ class MPDPlaylistTest {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        MPDSong song = MPDSong.builder().file("test").title("test").build();
-        song.setPosition(3);
+        MPDPlaylistSong song = MPDPlaylistSong.builder()
+                .file("test")
+                .title("test")
+                .position(3)
+                .build();
         playlist.move(song, 5);
 
         verify(commandExecutor)
@@ -244,9 +245,7 @@ class MPDPlaylistTest {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        MPDSong song1 = MPDSong.builder().file("test").title("test").build();
-        song1.setId(3);
-
+        MPDPlaylistSong song1 = MPDPlaylistSong.builder().file("test").title("test").id(3).build();
         playlist.swap(song1, 5);
 
         verify(commandExecutor)
@@ -267,10 +266,8 @@ class MPDPlaylistTest {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        MPDSong song1 = MPDSong.builder().file("test").title("test").build();
-        song1.setId(3);
-        MPDSong song2 = MPDSong.builder().file("test").title("test").build();
-        song2.setId(5);
+        MPDPlaylistSong song1 = MPDPlaylistSong.builder().file("test").title("test").id(3).build();
+        MPDPlaylistSong song2 = MPDPlaylistSong.builder().file("test").title("test").id(5).build();
 
         playlist.swap(song1, song2);
 
@@ -290,10 +287,8 @@ class MPDPlaylistTest {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        MPDSong song1 = MPDSong.builder().file("test").title("test").build();
-        song1.setPosition(3);
-        MPDSong song2 = MPDSong.builder().file("test").title("test").build();
-        song2.setPosition(5);
+        MPDPlaylistSong song1 = MPDPlaylistSong.builder().file("test").title("test").position(3).build();
+        MPDPlaylistSong song2 = MPDPlaylistSong.builder().file("test").title("test").position(5).build();
 
         playlist.swap(song1, song2);
 

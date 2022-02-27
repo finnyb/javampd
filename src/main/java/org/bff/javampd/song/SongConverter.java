@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface SongConverter {
     /**
-     * Converts the response from the MPD server into a {@link MPDSong} object.
+     * Converts the response from the MPD server into {@link MPDSong}s.
      *
      * @param list the response from the MPD server
      * @return a MPDSong object

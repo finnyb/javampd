@@ -3,8 +3,9 @@ package org.bff.javampd.player;
 import com.google.inject.Inject;
 import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.playlist.MPDPlaylistSong;
+import org.bff.javampd.playlist.PlaylistSongConverter;
 import org.bff.javampd.server.ServerStatus;
-import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,24 +33,25 @@ public class MPDPlayer implements Player {
     private final ServerStatus serverStatus;
     private final PlayerProperties playerProperties;
     private final CommandExecutor commandExecutor;
-    private final SongConverter songConverter;
+    private final PlaylistSongConverter playlistSongConverter;
 
     @Inject
     public MPDPlayer(ServerStatus serverStatus,
                      PlayerProperties playerProperties,
                      CommandExecutor commandExecutor,
-                     SongConverter songConverter) {
+                     SongConverter songConverter,
+                     PlaylistSongConverter playlistSongConverter) {
         this.serverStatus = serverStatus;
         this.playerProperties = playerProperties;
         this.commandExecutor = commandExecutor;
-        this.songConverter = songConverter;
-        volumeChangeDelegate = new VolumeChangeDelegate();
+        this.playlistSongConverter = playlistSongConverter;
+        this.volumeChangeDelegate = new VolumeChangeDelegate();
     }
 
     @Override
-    public Optional<MPDSong> getCurrentSong() {
-        List<MPDSong> songList =
-                songConverter.convertResponseToSongs(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
+    public Optional<MPDPlaylistSong> getCurrentSong() {
+        List<MPDPlaylistSong> songList =
+                playlistSongConverter.convertResponseToSongs(commandExecutor.sendCommand(playerProperties.getCurrentSong()));
 
         if (songList.isEmpty()) {
             return Optional.empty();
@@ -108,7 +110,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void playSong(MPDSong song) {
+    public void playSong(MPDPlaylistSong song) {
         if (song == null) {
             commandExecutor.sendCommand(playerProperties.getPlay());
         } else {
@@ -129,7 +131,7 @@ public class MPDPlayer implements Player {
     }
 
     @Override
-    public void seekSong(MPDSong song, long secs) {
+    public void seekSong(MPDPlaylistSong song, long secs) {
         if (song == null) {
             getCurrentSong().ifPresent(s -> {
                 if (s.getLength() > secs) {
@@ -356,7 +358,7 @@ public class MPDPlayer implements Player {
         }
     }
 
-    private void seekMPDSong(MPDSong song, long secs) {
+    private void seekMPDSong(MPDPlaylistSong song, long secs) {
         var params = new String[2];
         params[1] = Long.toString(secs);
         params[0] = Integer.toString(song.getId());

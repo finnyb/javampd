@@ -43,14 +43,14 @@ public interface Playlist {
     void addSong(MPDSong song);
 
     /**
-     * Adds a {@link org.bff.javampd.song.MPDSong} to the playlist and fires a {@link PlaylistChangeEvent} for event listeners
+     * Adds a file to the playlist and fires a {@link PlaylistChangeEvent} for event listeners
      *
      * @param file the file to add
      */
     void addSong(String file);
 
     /**
-     * Adds a {@link org.bff.javampd.song.MPDSong} to the playlist.
+     * Adds a file to the playlist.
      *
      * @param file      the song to add
      * @param fireEvent whether to fire song added event for the event listeners
@@ -58,7 +58,7 @@ public interface Playlist {
     void addSong(String file, boolean fireEvent);
 
     /**
-     * Adds a {@link org.bff.javampd.song.MPDSong} to the playlist.
+     * Adds a {@link org.bff.javampd.playlist.MPDPlaylistSong} to the playlist.
      *
      * @param song      the song to add
      * @param fireEvent whether to fire song added event for the event listeners
@@ -90,14 +90,14 @@ public interface Playlist {
     void addFileOrDirectory(MPDFile file);
 
     /**
-     * Removes a {@link org.bff.javampd.song.MPDSong} from the playlist.
+     * Removes a {@link org.bff.javampd.playlist.MPDPlaylistSong} from the playlist.
      *
      * @param song the song to remove
      */
-    void removeSong(MPDSong song);
+    void removeSong(MPDPlaylistSong song);
 
     /**
-     * Removes a {@link org.bff.javampd.song.MPDSong} from the playlist.
+     * Removes a {@link org.bff.javampd.playlist.MPDPlaylistSong} from the playlist.
      *
      * @param position the playlist position to remove
      */
@@ -108,7 +108,7 @@ public interface Playlist {
      *
      * @return the current song
      */
-    MPDSong getCurrentSong();
+    MPDPlaylistSong getCurrentSong();
 
     /**
      * Removes all songs from the playlist.
@@ -135,7 +135,7 @@ public interface Playlist {
      * @param song the song to move
      * @param to   the position to move the song to
      */
-    void move(MPDSong song, int to);
+    void move(MPDPlaylistSong song, int to);
 
     /**
      * Shuffles the songs in the playlist.
@@ -148,7 +148,7 @@ public interface Playlist {
      * @param song1 first song to swap
      * @param song2 second song to swap
      */
-    void swap(MPDSong song1, MPDSong song2);
+    void swap(MPDPlaylistSong song1, MPDPlaylistSong song2);
 
     /**
      * Saves the current playlist as the passed playlist name.
@@ -287,7 +287,7 @@ public interface Playlist {
      *
      * @return the song list
      */
-    List<MPDSong> getSongList();
+    List<MPDPlaylistSong> getSongList();
 
     /**
      * Returns the string representation of this playlist.
@@ -297,5 +297,5 @@ public interface Playlist {
     @Override
     String toString();
 
-    void swap(MPDSong song, int i);
+    void swap(MPDPlaylistSong song, int i);
 }

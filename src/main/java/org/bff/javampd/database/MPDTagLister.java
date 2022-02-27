@@ -13,8 +13,8 @@ import java.util.List;
  * @author Bill
  */
 public class MPDTagLister implements TagLister {
-    private DatabaseProperties databaseProperties;
-    private CommandExecutor commandExecutor;
+    private final DatabaseProperties databaseProperties;
+    private final CommandExecutor commandExecutor;
 
     @Inject
     public MPDTagLister(DatabaseProperties databaseProperties,

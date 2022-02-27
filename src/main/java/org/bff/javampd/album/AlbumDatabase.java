@@ -33,16 +33,6 @@ public interface AlbumDatabase {
     Collection<MPDAlbum> listAlbumsByYear(String year);
 
     /**
-     * Returns a {@link java.util.Collection} of album names of all
-     * albums for a particular year.
-     *
-     * @param year the year to find albums
-     * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all
-     * years
-     */
-    Collection<String> listAlbumNamesByYear(String year);
-
-    /**
      * Returns a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all
      * albums by a particular artist.
      *
@@ -51,6 +41,18 @@ public interface AlbumDatabase {
      * {@link MPDArtist}
      */
     Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist);
+
+    /**
+     * Returns a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all
+     * albums by an album artist.  An album artist denotes the artist for a musical release, as distinct from artists
+     * for the tracks that constitute a release
+     *
+     * @param albumArtist the album artist to find albums
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s by the
+     * {@link MPDArtist}
+     */
+    Collection<MPDAlbum> listAlbumsByAlbumArtist(MPDArtist albumArtist);
+
 
     /**
      * Returns a list of album names.  To hydrate the {@link org.bff.javampd.album.MPDAlbum} call
@@ -64,26 +66,12 @@ public interface AlbumDatabase {
 
     /**
      * Returns a list of all {@link org.bff.javampd.album.MPDAlbum}s.  This could
-     * be very slow for large collections.  A better approach is to use the windowed
-     * method {@link #listAllAlbums(int, int)}
+     * be very slow for large collections.
      *
      * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all
      * albums
      */
     Collection<MPDAlbum> listAllAlbums();
-
-    /**
-     * Returns a windowed list of {@link org.bff.javampd.album.MPDAlbum}s between the specified
-     * <code>fromIndex</code>, inclusive, and <code>toIndex</code>, exclusive.  (If
-     * <code>fromIndex</code> and <code>toIndex</code> are equal, the returned list is
-     * empty.)
-     *
-     * @param start starting number
-     * @param end   ending number
-     * @return a {@link java.util.Collection} of {@link org.bff.javampd.album.MPDAlbum}s of all
-     * albums
-     */
-    Collection<MPDAlbum> listAllAlbums(int start, int end);
 
     /**
      * Returns a list of {@link MPDAlbum}s for the album name.

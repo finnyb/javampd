@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MPDDateDatabaseTest {
-    private static String DATE_PREFIX = new DateTagProcessor().getPrefix();
+    private static final String DATE_PREFIX = new DateTagProcessor().getPrefix();
 
     @Mock
     private TagLister tagLister;

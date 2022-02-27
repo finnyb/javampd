@@ -16,7 +16,7 @@ import java.util.Properties;
 public abstract class MPDProperties implements PropertyLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDProperties.class);
 
-    private Properties prop;
+    private final Properties prop;
 
     private static final String PROP_FILE = "/mpd.properties";
     private static final String PROP_OVERRIDE_FILE = "/javampd.properties";
@@ -34,7 +34,7 @@ public abstract class MPDProperties implements PropertyLoader {
 
     protected void loadValues(String propertiesResourceLocation) {
         try (InputStream is = MPDProperties.class.getResourceAsStream(propertiesResourceLocation)) {
-           loadProperties(is);
+            loadProperties(is);
         } catch (NullPointerException | IOException e) {
             throw new MPDException("Could not load mpd properties", e);
         }
@@ -44,7 +44,7 @@ public abstract class MPDProperties implements PropertyLoader {
         try (InputStream is = MPDProperties.class.getResourceAsStream(MPDProperties.PROP_OVERRIDE_FILE)) {
             loadProperties(is);
         } catch (NullPointerException | IOException e) {
-            LOGGER.info("Override properties file not on classpath", e);
+            LOGGER.info("Override properties file not on classpath");
         }
     }
 

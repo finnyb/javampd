@@ -10,9 +10,9 @@ public class DatabaseProperties extends MPDProperties {
         FIND("db.find"),
         LIST("db.list.tag"),
         GROUP("db.group"),
-        LISTINFO("db.list.info"),
+        LIST_INFO("db.list.info"),
         SEARCH("db.search"),
-        LISTSONGS("db.list.songs");
+        LIST_SONGS("db.list.songs");
 
         private final String key;
 
@@ -38,7 +38,7 @@ public class DatabaseProperties extends MPDProperties {
     }
 
     public String getListInfo() {
-        return getPropertyString(Command.LISTINFO.getKey());
+        return getPropertyString(Command.LIST_INFO.getKey());
     }
 
     public String getSearch() {
@@ -46,6 +46,6 @@ public class DatabaseProperties extends MPDProperties {
     }
 
     public String getListSongs() {
-        return getPropertyString(Command.LISTSONGS.getKey());
+        return getPropertyString(Command.LIST_SONGS.getKey());
     }
 }

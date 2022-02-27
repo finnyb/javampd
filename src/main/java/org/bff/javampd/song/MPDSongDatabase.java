@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class MPDSongDatabase implements SongDatabase {
     private static final Logger LOGGER = LoggerFactory.getLogger(MPDSongDatabase.class);
 
-    private SongSearcher songSearcher;
+    private final SongSearcher songSearcher;
 
     @Inject
     public MPDSongDatabase(SongSearcher songSearcher) {
@@ -70,7 +70,7 @@ public class MPDSongDatabase implements SongDatabase {
         List<MPDSong> songList = new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));
 
         return songList.stream()
-                .filter(song -> song.getYear() != null && song.getYear().equals(year))
+                .filter(song -> song.getDate() != null && song.getDate().equals(year))
                 .collect(Collectors.toList());
     }
 
@@ -137,15 +137,15 @@ public class MPDSongDatabase implements SongDatabase {
             int year;
 
             //Ignore songs that miss the year tag.
-            if (song.getYear() == null) {
+            if (song.getDate() == null) {
                 continue;
             }
 
             try {
-                if (song.getYear().contains("-")) {
-                    year = Integer.parseInt(song.getYear().split("-")[0]);
+                if (song.getDate().contains("-")) {
+                    year = Integer.parseInt(song.getDate().split("-")[0]);
                 } else {
-                    year = Integer.parseInt(song.getYear());
+                    year = Integer.parseInt(song.getDate());
                 }
 
                 if (year >= startYear && year <= endYear) {

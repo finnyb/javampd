@@ -23,18 +23,19 @@ import java.util.stream.Collectors;
  * @author Bill
  */
 public class MPDPlaylistDatabase implements PlaylistDatabase {
-    private SongDatabase songDatabase;
-    private CommandExecutor commandExecutor;
-    private DatabaseProperties databaseProperties;
-    private TagLister tagLister;
-    private SongConverter songConverter;
+    private final SongDatabase songDatabase;
+    private final CommandExecutor commandExecutor;
+    private final DatabaseProperties databaseProperties;
+    private final TagLister tagLister;
+    private final SongConverter songConverter;
 
     @Inject
     public MPDPlaylistDatabase(SongDatabase songDatabase,
                                CommandExecutor commandExecutor,
                                DatabaseProperties databaseProperties,
                                TagLister tagLister,
-                               SongConverter songConverter) {
+                               SongConverter songConverter,
+                               PlaylistSongConverter playlistSongConverter) {
         this.songDatabase = songDatabase;
         this.commandExecutor = commandExecutor;
         this.databaseProperties = databaseProperties;
@@ -73,7 +74,7 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
                 songConverter.getSongFileNameList(response)
                         .stream()
                         .filter(stream -> Pattern.compile("http.+").matcher(stream.toLowerCase()).matches())
-                        .map(song -> MPDSong.builder().file(song).title(song).build())
+                        .map(song -> MPDPlaylistSong.builder().file(song).title(song).build())
                         .collect(Collectors.toList()));
 
         return songList;

@@ -10,10 +10,12 @@ import java.util.List;
 public interface TagLister {
     enum ListType {
         ALBUM("album"),
+        ALBUM_ARTIST("albumartist"),
         ARTIST("artist"),
         GENRE("genre"),
         DATE("date");
-        private String type;
+
+        private final String type;
 
         ListType(String type) {
             this.type = type;
@@ -27,10 +29,12 @@ public interface TagLister {
     enum GroupType {
 
         ALBUM("album"),
+        ALBUM_ARTIST("albumartist"),
         ARTIST("artist"),
         GENRE("genre"),
         DATE("date");
-        private String type;
+
+        private final String type;
 
         GroupType(String type) {
             this.type = type;
@@ -47,7 +51,8 @@ public interface TagLister {
         DIRECTORY("directory:"),
         FILE("file:"),
         LAST_MODIFIED("Last-Modified:");
-        private String prefix;
+
+        private final String prefix;
 
         ListInfoType(String prefix) {
             this.prefix = prefix;

@@ -1,7 +1,5 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.album.MPDAlbum;
-import org.bff.javampd.song.MPDSong;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,44 +8,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class GenreTagProcessorTest {
 
     @Test
-    void testProcessSong() {
+    void testProcess() {
         String testGenre = "testGenre";
-
-        GenreTagProcessor genreTagProcessor = new GenreTagProcessor();
-        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
-
         String line = "Genre:" + testGenre;
-        genreTagProcessor.processTag(song, line);
 
-        assertEquals(testGenre, song.getGenre());
+        assertEquals(testGenre, new GenreTagProcessor().processTag(line));
     }
 
     @Test
-    void testProcessSongBadLine() {
-        String testGenre = "testGenre";
-
-        GenreTagProcessor genreTagProcessor = new GenreTagProcessor();
-        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
-
-        String line = "BadGenre:" + testGenre;
-        genreTagProcessor.processTag(song, line);
-
-        assertNull(song.getGenre());
-    }
-
-    @Test
-    void testProcessAlbum() {
-        String testAlbumName = "testAlbum";
-        String testArtist = "testArtist";
-        String testGenre = "testGenre";
-
-        GenreTagProcessor genreTagProcessor = new GenreTagProcessor();
-
-        MPDAlbum album = MPDAlbum.builder(testAlbumName).artistName(testArtist).build();
-
-        String line = "Genre:" + testGenre;
-        genreTagProcessor.processTag(album, line);
-
-        assertEquals(testGenre, album.getGenre());
+    void testProcessBadLine() {
+        assertNull(new GenreTagProcessor().processTag("BadGenre: test"));
     }
 }

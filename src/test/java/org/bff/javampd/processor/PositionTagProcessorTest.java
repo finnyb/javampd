@@ -1,35 +1,22 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.song.MPDSong;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class PositionTagProcessorTest {
 
     @Test
-    void testProcessSong() {
-        int testPosition = 1;
+    void testProcess() {
+        var testPosition = "1";
+        var line = "Pos:" + testPosition;
 
-        PositionTagProcessor positionTagProcessor = new PositionTagProcessor();
-        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
-
-        String line = "Pos:" + testPosition;
-        positionTagProcessor.processTag(song, line);
-
-        assertEquals(testPosition, song.getPosition());
+        assertEquals(testPosition, new PositionTagProcessor().processTag(line));
     }
 
     @Test
-    void testProcessSongBadLine() {
-        int testPosition = 1;
-
-        PositionTagProcessor positionTagProcessor = new PositionTagProcessor();
-        MPDSong song = MPDSong.builder().file("testFile").title("title").build();
-
-        String line = "BadPos:" + testPosition;
-        positionTagProcessor.processTag(song, line);
-
-        assertEquals(-1, song.getId());
+    void testProcessBadLine() {
+        assertNull(new PositionTagProcessor().processTag("BadPos: test"));
     }
 }

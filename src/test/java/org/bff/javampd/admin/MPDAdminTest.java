@@ -1,6 +1,5 @@
 package org.bff.javampd.admin;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;

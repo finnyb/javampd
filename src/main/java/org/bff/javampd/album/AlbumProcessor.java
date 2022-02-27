@@ -6,29 +6,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum AlbumProcessor {
+    ALBUM_ARTIST(new AlbumArtistTagProcessor()),
     ARTIST(new ArtistTagProcessor()),
     DATE(new DateTagProcessor()),
     ALBUM(new AlbumTagProcessor()),
     GENRE(new GenreTagProcessor());
 
-    private final transient AlbumTagResponseProcessor albumTagResponseProcessor;
+    private final transient TagResponseProcessor albumTagResponseProcessor;
     private static final Map<String, AlbumProcessor> lookup = new HashMap<>();
 
     static {
         for (AlbumProcessor a : AlbumProcessor.values()) {
-            lookup.put(a.getProcessor().getPrefix(), a);
+            lookup.put(a.getProcessor().getPrefix().toLowerCase(), a);
         }
     }
 
-    AlbumProcessor(AlbumTagResponseProcessor albumTagResponseProcessor) {
+    AlbumProcessor(TagResponseProcessor albumTagResponseProcessor) {
         this.albumTagResponseProcessor = albumTagResponseProcessor;
     }
 
     public static AlbumProcessor lookup(String line) {
-        return lookup.get(line.substring(0, line.indexOf(":") + 1));
+        return lookup.get(line.substring(0, line.indexOf(":") + 1).toLowerCase());
     }
 
-    public AlbumTagResponseProcessor getProcessor() {
+    public TagResponseProcessor getProcessor() {
         return this.albumTagResponseProcessor;
     }
 

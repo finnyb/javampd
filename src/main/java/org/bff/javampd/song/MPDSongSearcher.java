@@ -27,20 +27,54 @@ public class MPDSongSearcher implements SongSearcher {
     }
 
     @Override
-    public Collection<MPDSong> search(ScopeType searchType, String criteria) {
-        return search(generateParams(searchType, criteria));
+    public Collection<MPDSong> searchAny(String criteria) {
+        return search(new SearchCriteria(ScopeType.ANY, criteria));
     }
 
     @Override
-    public Collection<MPDSong> search(ScopeType searchType, String criteria, int start, int end) {
-        return search(
-                addWindowedParams(
-                        generateParams(searchType, criteria),
-                        start,
-                        end));
+    public Collection<MPDSong> search(ScopeType searchType, String criteria) {
+        return search(new SearchCriteria(searchType, criteria));
     }
 
-    private Collection<MPDSong> search(String[] params) {
+    @Override
+    public Collection<MPDSong> search(SearchCriteria... criteria) {
+        var command = String.join(" AND ", Arrays.stream(criteria)
+                .map(c -> generateSearchParams(c.getSearchType(), c.getCriteria()))
+                .toArray(String[]::new));
+
+        return criteria.length == 1 ?
+                search(command) :
+                search("(" + command + ")");
+    }
+
+    @Override
+    public Collection<MPDSong> findAny(String criteria) {
+        return find(new SearchCriteria(ScopeType.ANY, criteria));
+    }
+
+    @Override
+    public Collection<MPDSong> find(ScopeType scopeType, String criteria) {
+        return find(new SearchCriteria(scopeType, criteria));
+    }
+
+    @Override
+    public Collection<MPDSong> find(SearchCriteria... criteria) {
+        var command = String.join(" AND ", Arrays.stream(criteria)
+                .map(c -> generateFindParams(c.getSearchType(), c.getCriteria()))
+                .toArray(String[]::new));
+
+        return criteria.length == 1 ?
+                find(command) :
+                find("(" + command + ")");
+    }
+
+    private Collection<MPDSong> find(String params) {
+        return songConverter.convertResponseToSongs(
+                commandExecutor.sendCommand(searchProperties.getFind(),
+                        params));
+    }
+
+    private Collection<MPDSong> search(String params) {
         return songConverter.convertResponseToSongs(
                 commandExecutor.sendCommand(
                         searchProperties.getSearch(),
@@ -48,47 +82,11 @@ public class MPDSongSearcher implements SongSearcher {
 
     }
 
-    @Override
-    public Collection<MPDSong> find(ScopeType scopeType, String criteria) {
-        return find(generateParams(scopeType, criteria));
+    private static String generateFindParams(ScopeType scopeType, String criteria) {
+        return String.format("(%s == '%s')", scopeType.getType(), criteria);
     }
 
-    @Override
-    public Collection<MPDSong> find(ScopeType scopeType, String criteria, int start, int end) {
-        return find(addWindowedParams(
-                generateParams(scopeType, criteria),
-                start,
-                end));
-    }
-
-    private Collection<MPDSong> find(String[] params) {
-        return songConverter.convertResponseToSongs(
-                commandExecutor.sendCommand(searchProperties.getFind(),
-                        params));
-    }
-
-    private static String[] generateParams(ScopeType scopeType,
-                                    String criteria) {
-        String[] paramList;
-
-        if (criteria != null) {
-            paramList = new String[2];
-            paramList[1] = criteria;
-        } else {
-            paramList = new String[1];
-        }
-        paramList[0] = scopeType.getType();
-
-        return paramList;
-    }
-
-    private String[] addWindowedParams(String[] params,
-                                       int start,
-                                       int end) {
-        String[] paramList = Arrays.copyOf(params, params.length + 2);
-        paramList[params.length] = searchProperties.getWindow();
-        paramList[params.length + 1] = start + "." + end;
-
-        return paramList;
+    private static String generateSearchParams(ScopeType scopeType, String criteria) {
+        return String.format("(%s contains '%s')", scopeType.getType(), criteria);
     }
 }
