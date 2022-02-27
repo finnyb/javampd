@@ -99,7 +99,7 @@ class MPDSongSearcherTest {
 
         assertAll(
                 () -> assertEquals("search", commandArgumentCaptor.getValue()),
-                () -> assertEquals(String.format("((title contains '%s') AND (artist contains '%s'))", searchArtist, searchTitle),
+                () -> assertEquals(String.format("((title contains '%s') AND (artist contains '%s'))", searchTitle, searchArtist),
                         paramArgumentCaptor.getValue())
         );
     }
@@ -167,7 +167,7 @@ class MPDSongSearcherTest {
 
         assertAll(
                 () -> assertEquals("find", commandArgumentCaptor.getValue()),
-                () -> assertEquals(String.format("((title == '%s') AND (artist == '%s'))", findArtist, findTitle),
+                () -> assertEquals(String.format("((title == '%s') AND (artist == '%s'))", findTitle, findArtist),
                         paramArgumentCaptor.getValue())
         );
     }
