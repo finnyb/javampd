@@ -1,10 +1,8 @@
 package org.bff.javampd.song;
 
 import lombok.extern.slf4j.Slf4j;
-import org.bff.javampd.playlist.MPDPlaylistSong;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class MPDTagConverter<T extends MPDSong> {
@@ -36,8 +34,8 @@ public abstract class MPDTagConverter<T extends MPDSong> {
     }
 
     protected String processSong(String fileName,
-                               Iterator<String> iterator,
-                               Map<String, String> props) {
+                                 Iterator<String> iterator,
+                                 Map<String, String> props) {
         props.put(SongProcessor.FILE.name(), fileName);
 
         String line = null;
