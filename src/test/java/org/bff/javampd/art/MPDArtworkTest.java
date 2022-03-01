@@ -1,11 +1,9 @@
 package org.bff.javampd.art;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.bff.javampd.artist.MPDArtist;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class MPDArtworkTest {
 

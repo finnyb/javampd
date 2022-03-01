@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MPDPlaylistDatabaseTest {
@@ -76,13 +76,6 @@ class MPDPlaylistDatabaseTest {
         mockedResponseList.add(testPlaylistName1);
         mockedResponseList.add(testPlaylistName2);
 
-        List<MPDSavedPlaylist> mockList = new ArrayList<>();
-
-        MPDSavedPlaylist mockedSavedPlaylist1 =  MPDSavedPlaylist.builder(testPlaylistName1).build();
-        mockList.add(mockedSavedPlaylist1);
-        MPDSavedPlaylist mockedSavedPlaylist2 =  MPDSavedPlaylist.builder(testPlaylistName2).build();
-        mockList.add(mockedSavedPlaylist2);
-
         when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST))
                 .thenReturn(mockedResponseList);
 
@@ -136,7 +129,7 @@ class MPDPlaylistDatabaseTest {
         mockList.add(testPlaylist);
 
         List<String> mockedSongs = new ArrayList<>();
-        IntStream.range(0,5).forEach(i -> mockedSongs.add("file" + i));
+        IntStream.range(0, 5).forEach(i -> mockedSongs.add("file" + i));
 
         when(databaseProperties.getListSongs()).thenReturn("listplaylist");
         when(commandExecutor.sendCommand("listplaylist", testPlaylist))

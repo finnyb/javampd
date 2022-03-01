@@ -1,7 +1,7 @@
 ## Maven
-Get it from maven central [here](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22net.thejavashop%22%20AND%20a%3A%22javampd%22)
 
-
+Get it from maven
+central [here](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22net.thejavashop%22%20AND%20a%3A%22javampd%22)
 
 To use the latest snapshot add this repo
 
@@ -28,5 +28,7 @@ then add the dependency
   <version>6.1.0-SNAPSHOT</version>
 </dependency>
 ```
-##Releases
+
+## Releases
+
 releases can be found on [here](https://github.com/finnyb/javampd/releases)

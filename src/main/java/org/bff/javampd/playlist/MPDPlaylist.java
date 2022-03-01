@@ -9,7 +9,6 @@ import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.genre.MPDGenre;
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
-import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +20,7 @@ import java.util.stream.Collectors;
 /**
  * MPDPlaylist represents a playlist controller to a MPD server.  To obtain
  * an instance of the class you must use the <code>getMPDPlaylist</code> method from
- * the {@link org.bff.javampd.server.MPD} connection class.  This class does not have a public constructor
- * (singleton model) so the object must be obtained from the connection object.
+ * the {@link org.bff.javampd.server.MPD} connection class.
  *
  * @author Bill
  */
@@ -36,7 +34,7 @@ public class MPDPlaylist implements Playlist {
     private final SongDatabase songDatabase;
     private final ServerStatus serverStatus;
     private final CommandExecutor commandExecutor;
-    private final SongConverter songConverter;
+    private final PlaylistSongConverter songConverter;
 
     private PlaylistProperties playlistProperties;
 
@@ -54,7 +52,7 @@ public class MPDPlaylist implements Playlist {
                        ServerStatus serverStatus,
                        PlaylistProperties playlistProperties,
                        CommandExecutor commandExecutor,
-                       SongConverter songConverter) {
+                       PlaylistSongConverter songConverter) {
         this.songDatabase = songDatabase;
         this.serverStatus = serverStatus;
         this.playlistProperties = playlistProperties;
@@ -168,7 +166,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void removeSong(MPDSong song) {
+    public void removeSong(MPDPlaylistSong song) {
         if (song.getId() > -1) {
             updatePlaylist();
             firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_DELETED, song.getName());
@@ -188,12 +186,12 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public MPDSong getCurrentSong() {
-        List<MPDSong> songs = convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getCurrentSong()));
+    public MPDPlaylistSong getCurrentSong() {
+        List<MPDPlaylistSong> songs = convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getCurrentSong()));
         return songs.isEmpty() ? null : songs.get(0);
     }
 
-    private List<MPDSong> convertResponseToSong(List<String> response) {
+    private List<MPDPlaylistSong> convertResponseToSong(List<String> response) {
         return songConverter.convertResponseToSongs(response);
     }
 
@@ -216,7 +214,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void move(MPDSong song, int to) {
+    public void move(MPDPlaylistSong song, int to) {
         if (song.getId() > -1) {
             commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getId(), to);
         } else if (song.getPosition() > -1) {
@@ -233,7 +231,7 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public void swap(MPDSong song1, MPDSong song2) {
+    public void swap(MPDPlaylistSong song1, MPDPlaylistSong song2) {
         if (song1.getId() > -1 && song2.getId() > -1) {
             commandExecutor.sendCommand(playlistProperties.getSwapId(), song1.getId(), song2.getId());
         } else if (song1.getPosition() > -1 && song2.getPosition() > -1) {
@@ -256,9 +254,10 @@ public class MPDPlaylist implements Playlist {
     }
 
     private void updatePlaylist() {
-        setVersion(getPlaylistVersion());
+        int v = getPlaylistVersion();
+        setVersion(v);
 
-        if (getPlaylistVersion() != oldVersion) {
+        if (v != oldVersion) {
             oldVersion = getVersion();
             firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_CHANGED);
         }
@@ -273,7 +272,7 @@ public class MPDPlaylist implements Playlist {
      *
      * @return the list of songs
      */
-    private List<MPDSong> listSongs() {
+    private List<MPDPlaylistSong> listSongs() {
         return convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getInfo()));
     }
 
@@ -316,7 +315,7 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeAlbum(String artistName, String albumName) {
-        List<MPDSong> removeList = getSongList().stream()
+        List<MPDPlaylistSong> removeList = getSongList().stream()
                 .filter(song -> song.getArtistName().equals(artistName) && song.getAlbumName().equals(albumName))
                 .collect(Collectors.toList());
 
@@ -357,7 +356,7 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeGenre(String genreName) {
-        List<MPDSong> removeList =
+        List<MPDPlaylistSong> removeList =
                 getSongList().stream()
                         .filter(song -> song.getGenre().equals(genreName))
                         .collect(Collectors.toList());
@@ -376,9 +375,9 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeYear(String year) {
-        List<MPDSong> removeList = new ArrayList<>();
-        for (MPDSong song : getSongList()) {
-            if (song.getYear().equals(year)) {
+        List<MPDPlaylistSong> removeList = new ArrayList<>();
+        for (MPDPlaylistSong song : getSongList()) {
+            if (song.getDate().equals(year)) {
                 removeList.add(song);
             }
         }
@@ -393,8 +392,8 @@ public class MPDPlaylist implements Playlist {
 
     @Override
     public void removeArtist(String artistName) {
-        List<MPDSong> removeList = new ArrayList<>();
-        for (MPDSong song : getSongList()) {
+        List<MPDPlaylistSong> removeList = new ArrayList<>();
+        for (MPDPlaylistSong song : getSongList()) {
             if (song.getArtistName().equals(artistName)) {
                 removeList.add(song);
             }
@@ -413,12 +412,12 @@ public class MPDPlaylist implements Playlist {
     }
 
     @Override
-    public List<MPDSong> getSongList() {
+    public List<MPDPlaylistSong> getSongList() {
         return listSongs();
     }
 
     @Override
-    public void swap(MPDSong song, int i) {
+    public void swap(MPDPlaylistSong song, int i) {
         commandExecutor.sendCommand(playlistProperties.getSwapId(), song.getId(), i);
         updatePlaylist();
     }

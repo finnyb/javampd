@@ -1,6 +1,6 @@
 package org.bff.javampd.artist;
 
-import lombok.*;
+import lombok.Data;
 
 /**
  * String represents an artist.

@@ -14,7 +14,9 @@ import org.bff.javampd.database.TagLister;
 import org.bff.javampd.player.MPDPlayer;
 import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.MPDPlaylist;
+import org.bff.javampd.playlist.MPDPlaylistSongConverter;
 import org.bff.javampd.playlist.Playlist;
+import org.bff.javampd.playlist.PlaylistSongConverter;
 import org.bff.javampd.server.MPDServerStatus;
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSongConverter;
@@ -39,6 +41,7 @@ public class MPDModule extends AbstractModule {
         bind(CommandExecutor.class).to(MPDCommandExecutor.class);
         bind(TagLister.class).to(MPDTagLister.class);
         bind(SongConverter.class).to(MPDSongConverter.class);
+        bind(PlaylistSongConverter.class).to(MPDPlaylistSongConverter.class);
         bind(AlbumConverter.class).to(MPDAlbumConverter.class);
         bind(ArtworkFinder.class).to(MPDArtworkFinder.class);
         bind(Clock.class).to(MPDSystemClock.class);

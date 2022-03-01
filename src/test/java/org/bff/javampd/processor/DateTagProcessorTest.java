@@ -1,6 +1,5 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.song.MPDSong;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,28 +8,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class DateTagProcessorTest {
 
     @Test
-    void testProcessSong() {
-        String testDate = "1990";
+    void testProcess() {
+        var testDate = "1990";
+        var line = "Date:" + testDate;
 
-        DateTagProcessor dateTagProcessor = new DateTagProcessor();
-        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
-
-        String line = "Date:" + testDate;
-        dateTagProcessor.processTag(song, line);
-
-        assertEquals(testDate, song.getYear());
+        assertEquals(testDate, new DateTagProcessor().processTag(line));
     }
 
     @Test
-    void testProcessSongBadLine() {
-        String testDate = "1990";
-
-        DateTagProcessor dateTagProcessor = new DateTagProcessor();
-        MPDSong song = MPDSong.builder().file("testFile").title("testName").build();
-
-        String line = "BadDate:" + testDate;
-        dateTagProcessor.processTag(song, line);
-
-        assertNull(song.getYear());
+    void testProcessBadLine() {
+        assertNull(new DateTagProcessor().processTag("BadDate: 1990"));
     }
 }

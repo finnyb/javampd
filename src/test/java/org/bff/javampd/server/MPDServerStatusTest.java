@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -145,6 +146,24 @@ class MPDServerStatusTest {
     void testGetError() {
         String error = "true";
         statusList.add("error: " + error);
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertEquals(error, serverStatus.getError());
+    }
+
+    @Test
+    void getErrorWithQuotes() {
+        when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(createStatusList());
+        when(clock.now()).thenReturn(LocalDateTime.now());
+
+        assertEquals("Failed to enable output \"default detected output\" (jack); Failed to connect to JACK server, status=17", serverStatus.getError());
+    }
+
+    @Test
+    void caseInsensitive() {
+        String error = "true";
+        statusList.add("Error: " + error);
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -369,7 +388,7 @@ class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        serverStatus.playlistSongNumber().ifPresentOrElse( s -> assertThat(s, is(id)),
+        serverStatus.playlistSongNumber().ifPresentOrElse(s -> assertThat(s, is(id)),
                 () -> fail("song was empty"));
     }
 
@@ -388,7 +407,7 @@ class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        serverStatus.playlistSongId().ifPresentOrElse( s -> assertThat(s, is(id)),
+        serverStatus.playlistSongId().ifPresentOrElse(s -> assertThat(s, is(id)),
                 () -> fail("id was empty"));
     }
 
@@ -407,7 +426,7 @@ class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        serverStatus.playlistNextSongNumber().ifPresentOrElse( s -> assertThat(s, is(id)),
+        serverStatus.playlistNextSongNumber().ifPresentOrElse(s -> assertThat(s, is(id)),
                 () -> fail("number was empty"));
     }
 
@@ -426,7 +445,7 @@ class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        serverStatus.playlistNextSongId().ifPresentOrElse( s -> assertThat(s, is(id)),
+        serverStatus.playlistNextSongId().ifPresentOrElse(s -> assertThat(s, is(id)),
                 () -> fail("id was empty"));
     }
 
@@ -445,7 +464,7 @@ class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        serverStatus.durationCurrentSong().ifPresentOrElse( s -> assertThat(s, is(duration)),
+        serverStatus.durationCurrentSong().ifPresentOrElse(s -> assertThat(s, is(duration)),
                 () -> fail("duration was empty"));
     }
 
@@ -464,7 +483,7 @@ class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        serverStatus.elapsedCurrentSong().ifPresentOrElse( s -> assertThat(s, is(duration)),
+        serverStatus.elapsedCurrentSong().ifPresentOrElse(s -> assertThat(s, is(duration)),
                 () -> fail("duration was empty"));
     }
 
@@ -483,7 +502,7 @@ class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        serverStatus.getMixRampDb().ifPresentOrElse( s -> assertThat(s, is(db)),
+        serverStatus.getMixRampDb().ifPresentOrElse(s -> assertThat(s, is(db)),
                 () -> fail("db was empty"));
     }
 
@@ -502,7 +521,7 @@ class MPDServerStatusTest {
         when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
         when(clock.now()).thenReturn(LocalDateTime.now());
 
-        serverStatus.getMixRampDelay().ifPresentOrElse( s -> assertThat(s, is(delay)),
+        serverStatus.getMixRampDelay().ifPresentOrElse(s -> assertThat(s, is(delay)),
                 () -> fail("delay was empty"));
     }
 
@@ -512,5 +531,30 @@ class MPDServerStatusTest {
         when(clock.now()).thenReturn(LocalDateTime.now());
 
         assertThat(serverStatus.getMixRampDelay(), is(Optional.empty()));
+    }
+
+    private List<String> createStatusList() {
+        return Arrays.asList(
+                "volume: 100",
+                "repeat: 0",
+                "random: 0",
+                "single: 0",
+                "consume: 0",
+                "playlist: 67",
+                "playlistlength: 66",
+                "mixrampdb: 0.000000",
+                "state: pause",
+                "song: 0",
+                "songid: 1",
+                "time: 0:427",
+                "elapsed: 0.000",
+                "bitrate: 0",
+                "duration: 426.680",
+                "audio: 44100:16:2",
+                "error: Failed to enable output \"default detected output\" (jack); Failed to connect to JACK server, status=17",
+                "nextsong: 1",
+                "nextsongid: 2",
+                "OK"
+        );
     }
 }

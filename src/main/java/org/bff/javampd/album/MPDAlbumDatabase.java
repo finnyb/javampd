@@ -26,7 +26,8 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     private static final TagLister.GroupType[] ALBUM_TAGS = {
             TagLister.GroupType.ARTIST,
             TagLister.GroupType.DATE,
-            TagLister.GroupType.GENRE
+            TagLister.GroupType.GENRE,
+            TagLister.GroupType.ALBUM_ARTIST,
     };
 
     @Inject
@@ -34,6 +35,17 @@ public class MPDAlbumDatabase implements AlbumDatabase {
                             AlbumConverter albumConverter) {
         this.tagLister = tagLister;
         this.albumConverter = albumConverter;
+    }
+
+    @Override
+    public Collection<MPDAlbum> listAlbumsByAlbumArtist(MPDArtist albumArtist) {
+        var p = new ArrayList<String>();
+        p.add(TagLister.ListType.ALBUM_ARTIST.getType());
+        p.add(albumArtist.getName());
+
+        return convertResponseToAlbum(tagLister.list(TagLister.ListType.ALBUM,
+                p,
+                ALBUM_TAGS));
     }
 
     @Override
@@ -59,16 +71,6 @@ public class MPDAlbumDatabase implements AlbumDatabase {
     public Collection<MPDAlbum> listAllAlbums() {
         return convertResponseToAlbum(this.tagLister.list(TagLister.ListType.ALBUM,
                 ALBUM_TAGS));
-    }
-
-    @Override
-    public Collection<MPDAlbum> listAllAlbums(int start, int end) {
-        List<MPDAlbum> albums = new ArrayList<>(listAllAlbums());
-
-        int toIndex = Math.min(end, albums.size());
-        int fromIndex = Math.min(start, end);
-
-        return albums.subList(fromIndex, toIndex);
     }
 
     @Override
@@ -104,15 +106,6 @@ public class MPDAlbumDatabase implements AlbumDatabase {
                 TagLister.ListType.ALBUM,
                 list,
                 ALBUM_TAGS));
-    }
-
-    @Override
-    public Collection<String> listAlbumNamesByYear(String year) {
-        List<String> list = new ArrayList<>();
-        list.add(TagLister.ListType.DATE.getType());
-        list.add(year);
-
-        return tagLister.list(TagLister.ListType.ALBUM, list);
     }
 
     private Collection<MPDAlbum> convertResponseToAlbum(List<String> response) {

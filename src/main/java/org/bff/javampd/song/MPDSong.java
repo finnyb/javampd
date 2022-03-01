@@ -1,6 +1,7 @@
 package org.bff.javampd.song;
 
-import lombok.*;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 /**
  * MPDSong represents a song in the MPD database that can be inserted into
@@ -9,51 +10,30 @@ import lombok.*;
  * @author Bill
  * @version 1.0
  */
-@Builder
+@SuperBuilder
 @Data
-public class MPDSong implements Comparable<MPDSong>{
+public class MPDSong implements Comparable<MPDSong> {
 
-    private String name;
-    private String title;
-    private String artistName;
-    private String albumName;
+    private final String name;
+    private final String title;
+    private final String albumArtist;
+    private final String artistName;
+    private final String albumName;
 
     /**
      * Returns the path of the song without a leading or trailing slash.
-     *
-     * @return the path of the song
      */
-    private String file;
-    private String genre;
-    private String comment;
-    private String year;
-    private String discNumber;
+    private final String file;
+    private final String genre;
+    private final String comment;
+    private final String date;
+    private final String discNumber;
+    private final String track;
 
     /**
      * Returns the length of the song in seconds.
-     *
-     * @return the length of the song
      */
-    private int length;
-    private int track;
-
-    /**
-     * Returns the position of the song in the playlist. Returns
-     * a -1 if the song is not in the playlist.
-     *
-     * @return the position in the playlist
-     */
-    @Builder.Default
-    private int position = -1;
-
-    /**
-     * Returns the playlist song id for the song. Returns
-     * a -1 if the song is not in the playlist.
-     *
-     * @return song id of the song
-     */
-    @Builder.Default
-    private int id = -1;
+    private final int length;
 
     /**
      * Returns the name of the song which can be different than the title if for example listening
@@ -74,18 +54,14 @@ public class MPDSong implements Comparable<MPDSong>{
 
         sb = new StringBuilder(getName());
         sb.append(getAlbumName() == null ? "" : getAlbumName());
-        sb.append(formatToComparableString(getTrack()));
+        sb.append(getTrack());
         var thisSong = sb.toString();
 
         sb = new StringBuilder(song.getName());
         sb.append(song.getAlbumName() == null ? "" : song.getAlbumName());
-        sb.append(formatToComparableString(song.getTrack()));
+        sb.append(getTrack());
         var songToCompare = sb.toString();
 
         return thisSong.compareTo(songToCompare);
-    }
-
-    private static String formatToComparableString(int i) {
-        return String.format("%1$08d", i);
     }
 }

@@ -1,8 +1,11 @@
 package org.bff.javampd.database;
 
 import org.bff.javampd.command.MPDCommandExecutor;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -10,7 +13,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -20,6 +28,8 @@ class MPDTagListerTest {
     private MPDCommandExecutor commandExecutor;
     @Mock
     private DatabaseProperties databaseProperties;
+    @Captor
+    private ArgumentCaptor<String> argumentCaptor;
 
     @InjectMocks
     private MPDTagLister tagLister;
@@ -177,5 +187,51 @@ class MPDTagListerTest {
 
         assertEquals(1, infoList.size());
         assertEquals(testResponse, infoList.get(0));
+    }
+
+    @Test
+    @DisplayName("verify order of group params")
+    void groupOrder() {
+        List<String> list = new ArrayList<>();
+        list.add(TagLister.ListType.ARTIST.getType());
+        list.add("Tool");
+
+        when(databaseProperties.getList()).thenReturn("list");
+        when(databaseProperties.getGroup()).thenReturn("group");
+
+        tagLister.list(TagLister.ListType.ALBUM,
+                list,
+                TagLister.GroupType.ARTIST,
+                TagLister.GroupType.DATE,
+                TagLister.GroupType.GENRE,
+                TagLister.GroupType.ALBUM_ARTIST);
+
+        verify(commandExecutor).sendCommand(argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture(),
+                argumentCaptor.capture());
+
+        assertAll(
+                () -> assertThat(argumentCaptor.getAllValues().get(0), is(equalTo("list"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(1), is(equalTo("album"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(2), is(equalTo("artist"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(3), is(equalTo("Tool"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(4), is(equalTo("group"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(5), is(equalTo("artist"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(6), is(equalTo("group"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(7), is(equalTo("date"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(8), is(equalTo("group"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(9), is(equalTo("genre"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(10), is(equalTo("group"))),
+                () -> assertThat(argumentCaptor.getAllValues().get(11), is(equalTo("albumartist")))
+        );
     }
 }

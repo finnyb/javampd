@@ -66,7 +66,7 @@ public class MPDServerStatus implements ServerStatus {
         }
 
         for (String line : cachedResponse) {
-            if (line.startsWith(status.getStatusPrefix())) {
+            if (line.toLowerCase().startsWith(status.getStatusPrefix())) {
                 return line.substring(status.getStatusPrefix().length()).trim();
             }
         }

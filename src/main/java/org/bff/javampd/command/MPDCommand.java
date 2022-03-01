@@ -1,6 +1,7 @@
 package org.bff.javampd.command;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,9 +16,10 @@ import java.util.List;
  * @version 1.0
  */
 @EqualsAndHashCode
+@ToString
 public class MPDCommand {
-    private String command;
-    private List<String> params;
+    private final String command;
+    private final List<String> params;
 
     /**
      * Constructor for MPD command for a command requiring more than 1 parameter.

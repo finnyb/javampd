@@ -14,6 +14,7 @@ public interface SongSearcher {
     enum ScopeType {
 
         ALBUM("album"),
+        ALBUM_ARTIST("albumartist"),
         ARTIST("artist"),
         TITLE("title"),
         TRACK("track"),
@@ -26,7 +27,7 @@ public interface SongSearcher {
         DISC("disc"),
         FILENAME("filename"),
         ANY("any");
-        private String type;
+        private final String type;
 
         ScopeType(String type) {
             this.type = type;
@@ -38,8 +39,17 @@ public interface SongSearcher {
     }
 
     /**
-     * Returns a {@link java.util.Collection} of {@link MPDSong}s for a searches
-     * matching the scope type any.  Please note this returns a partial match of a title.  To find an
+     * Returns a {@link java.util.Collection} of {@link MPDSong}s for searches matching all tags.  Please note this
+     * returns a partial match of a title.  To find an exact match use {@link #findAny(String)}.
+     *
+     * @param criteria the search criteria
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
+     */
+    Collection<MPDSong> searchAny(String criteria);
+
+    /**
+     * Returns a {@link java.util.Collection} of {@link MPDSong}s for searches
+     * matching the provided scope type.  Please note this returns a partial match of a title.  To find an
      * exact match use {@link #find(ScopeType, String)}.
      *
      * @param searchType the {@link ScopeType}
@@ -49,21 +59,28 @@ public interface SongSearcher {
     Collection<MPDSong> search(ScopeType searchType, String criteria);
 
     /**
-     * Returns a windowed {@link java.util.Collection} of {@link MPDSong}s for a searches
-     * matching the scope type any.  Please note this returns a partial match of a title.  To find an
+     * Returns a {@link java.util.Collection} of {@link MPDSong}s for searches
+     * matching all provided scope types.  Please note this returns a partial match of a title.  To find an
      * exact match use {@link #find(ScopeType, String)}.
      *
-     * @param searchType the {@link ScopeType}
-     * @param criteria   the search criteria
-     * @param start      the starting index
-     * @param end        the ending index
-     * @return a {@link java.util.Collection} of {@link MPDSong}s
+     * @param criteria the search {@link SearchCriteria}
+     * @return a {@link java.util.Collection} of {@link org.bff.javampd.song.MPDSong}s
      */
-    Collection<MPDSong> search(ScopeType searchType, String criteria, int start, int end);
+    Collection<MPDSong> search(SearchCriteria... criteria);
 
     /**
-     * Returns a {@link java.util.Collection} of {@link MPDSong}s for a searches
-     * matching the scope type any.  Please note this only returns an exact match of artist.  To find a partial
+     * Returns a {@link java.util.Collection} of {@link MPDSong}s for searches
+     * matching all scope types.  Please note this only returns an exact match of artist.  To find a partial
+     * match use {@link #search(ScopeType, String)}.
+     *
+     * @param criteria the search criteria
+     * @return a {@link java.util.Collection} of {@link MPDSong}s
+     */
+    Collection<MPDSong> findAny(String criteria);
+
+    /**
+     * Returns a {@link java.util.Collection} of {@link MPDSong}s for searches
+     * matching the provided scope type.  Please note this only returns an exact match of artist.  To find a partial
      * match use {@link #search(ScopeType, String)}.
      *
      * @param scopeType the {@link ScopeType}
@@ -73,15 +90,12 @@ public interface SongSearcher {
     Collection<MPDSong> find(ScopeType scopeType, String criteria);
 
     /**
-     * Returns a windowed {@link java.util.Collection} of {@link MPDSong}s for a searches matching the scope type any.
-     * Please note this only returns an exact match of artist.  To find a partial
+     * Returns a {@link java.util.Collection} of {@link MPDSong}s for searches
+     * matching all the provided scope types.  Please note this only returns an exact match of artist.  To find a partial
      * match use {@link #search(ScopeType, String)}.
      *
-     * @param scopeType the {@link ScopeType}
-     * @param criteria  the search criteria
-     * @param start     the starting index
-     * @param end       the ending index
+     * @param criteria the search {@link SearchCriteria}
      * @return a {@link java.util.Collection} of {@link MPDSong}s
      */
-    Collection<MPDSong> find(ScopeType scopeType, String criteria, int start, int end);
+    Collection<MPDSong> find(SearchCriteria... criteria);
 }

@@ -72,8 +72,8 @@ public class MPDFileDatabase implements FileDatabase {
             if (line.startsWith(PREFIX_FILE) ||
                     line.startsWith(PREFIX_DIRECTORY)) {
                 var mpdFile = MPDFile.builder(line.startsWith(PREFIX_FILE) ?
-                        line.substring(PREFIX_FILE.length()).trim() :
-                        line.substring(PREFIX_DIRECTORY.length()).trim())
+                                line.substring(PREFIX_FILE.length()).trim() :
+                                line.substring(PREFIX_DIRECTORY.length()).trim())
                         .build();
 
                 if (line.startsWith(PREFIX_DIRECTORY)) {

@@ -163,7 +163,9 @@ class MPDArtworkFinderTest {
                 "album200x200.png"
         };
 
-        MPDAlbum album = MPDAlbum.builder("album").artistName("artist").build();
+        MPDAlbum album = MPDAlbum.builder("album")
+                .artistNames(Collections.singletonList("artist"))
+                .build();
 
         String path1 = decode(new File(this.getClass().getResource("/images/artist/album/" + albumImages[0]).getFile()).getParent());
         List<MPDSong> songs = new ArrayList<>();
@@ -193,7 +195,9 @@ class MPDArtworkFinderTest {
                 "album200x200.png"
         };
 
-        MPDAlbum album = MPDAlbum.builder("album").artistName("artist").build();
+        MPDAlbum album = MPDAlbum.builder("album")
+                .artistNames(Collections.singletonList("artist"))
+                .build();
 
         String path = decode(new File(this.getClass().getResource("/images/artist/album/" + albumImages[0]).getFile()).getParent());
         List<MPDSong> songs = new ArrayList<>();

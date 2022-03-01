@@ -3,7 +3,8 @@ package org.bff.javampd.command;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MPDCommandTest {
 
@@ -45,6 +46,7 @@ class MPDCommandTest {
         assertEquals("parm1", mpdCommand.getParams().get(0));
         assertEquals("parm2", mpdCommand.getParams().get(1));
     }
+
     @Test
     void equalsContract() {
         EqualsVerifier.simple().forClass(MPDCommand.class).verify();

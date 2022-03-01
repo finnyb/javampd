@@ -4,7 +4,6 @@ import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.command.MPDCommand;
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
-import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,7 +35,7 @@ class MPDPlaylistTestSong {
     @Mock
     private CommandExecutor commandExecutor;
     @Mock
-    private SongConverter songConverter;
+    private PlaylistSongConverter songConverter;
     @InjectMocks
     private MPDPlaylist playlist;
     @Captor
@@ -151,8 +151,11 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        MPDSong mpdSong = MPDSong.builder().file("test").title("test").build();
-        mpdSong.setPosition(5);
+        var mpdSong = MPDPlaylistSong.builder()
+                .position(5)
+                .file("test")
+                .title("test")
+                .build();
         playlist.removeSong(mpdSong);
 
         verify(commandExecutor)
@@ -171,8 +174,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        MPDSong mpdSong = MPDSong.builder().file("test").title("test").build();
-        mpdSong.setPosition(position);
+        MPDPlaylistSong mpdSong = MPDPlaylistSong.builder().position(position).build();
         playlist.removeSong(position);
 
         verify(commandExecutor)
@@ -189,8 +191,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        MPDSong mpdSong = MPDSong.builder().file("test").title("test").build();
-        mpdSong.setPosition(position);
+        MPDPlaylistSong mpdSong = MPDPlaylistSong.builder().position(position).build();
         playlist.removeSong(position);
 
         assertNull(changeEvent[0]);
@@ -202,8 +203,7 @@ class MPDPlaylistTestSong {
 
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-        MPDSong song = MPDSong.builder().file("test").title("test").build();
-        song.setId(5);
+        MPDPlaylistSong song = MPDPlaylistSong.builder().id(5).build();
         playlist.removeSong(song);
 
         verify(commandExecutor)
@@ -215,22 +215,40 @@ class MPDPlaylistTestSong {
     }
 
     @Test
-    void testGetCurrentSong() {
+    void getCurrentSongCommand() {
+        when(commandExecutor.sendCommand(realPlaylistProperties.getCurrentSong())).thenReturn(new ArrayList<>());
+        when(songConverter.convertResponseToSongs(any())).thenReturn(new ArrayList<>());
+
+        playlist.getCurrentSong();
+
+        verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
+
+        assertEquals(realPlaylistProperties.getCurrentSong(), stringArgumentCaptor.getValue());
+    }
+
+    @Test
+    void getCurrentSongConversion() {
         List<String> response = new ArrayList<>();
         response.add("test");
         when(commandExecutor.sendCommand(realPlaylistProperties.getCurrentSong())).thenReturn(response);
-        List<MPDSong> songs = new ArrayList<>();
-        songs.add(MPDSong.builder().file("test").title("test").build());
+        List<MPDPlaylistSong> songs = new ArrayList<>();
+        songs.add(MPDPlaylistSong.builder().name("Sober").build());
         when(songConverter.convertResponseToSongs(response)).thenReturn(songs);
 
-        assertEquals("test", playlist.getCurrentSong().getName());
+        assertEquals("Sober", playlist.getCurrentSong().getName());
     }
 
     @Test
     void testListSongs() {
-        List<MPDSong> mockedSongs = new ArrayList<>();
-        mockedSongs.add(MPDSong.builder().file("test1").title("testSong1").build());
-        mockedSongs.add(MPDSong.builder().file("test2").title("testSong2").build());
+        List<MPDPlaylistSong> mockedSongs = new ArrayList<>();
+        mockedSongs.add(MPDPlaylistSong.builder()
+                .file("test1")
+                .title("testSong1")
+                .build());
+        mockedSongs.add(MPDPlaylistSong.builder()
+                .file("test2")
+                .title("testSong2")
+                .build());
 
         List<String> response = new ArrayList<>();
         response.add("test");
@@ -240,7 +258,7 @@ class MPDPlaylistTestSong {
         final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
         playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        List<MPDSong> songs = playlist.getSongList();
+        List<MPDPlaylistSong> songs = playlist.getSongList();
 
         assertEquals(mockedSongs.size(), songs.size());
         assertEquals(mockedSongs.get(0), songs.get(0));

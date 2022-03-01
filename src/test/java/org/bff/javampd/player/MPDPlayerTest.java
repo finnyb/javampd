@@ -1,9 +1,9 @@
 package org.bff.javampd.player;
 
 import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.playlist.MPDPlaylistSong;
+import org.bff.javampd.playlist.PlaylistSongConverter;
 import org.bff.javampd.server.ServerStatus;
-import org.bff.javampd.song.MPDSong;
-import org.bff.javampd.song.SongConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,7 +36,7 @@ class MPDPlayerTest {
     private CommandExecutor commandExecutor;
 
     @Mock
-    private SongConverter songConverter;
+    private PlaylistSongConverter playlistSongConverter;
 
     @InjectMocks
     private MPDPlayer mpdPlayer;
@@ -56,15 +56,20 @@ class MPDPlayerTest {
         String testFile = "testFile";
         String testTitle = "testTitle";
 
-        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
-        List<MPDSong> testSongResponse = new ArrayList<>();
+        MPDPlaylistSong testSong = MPDPlaylistSong
+                .builder()
+                .file(testFile)
+                .title(testTitle)
+                .build();
+
+        List<MPDPlaylistSong> testSongResponse = new ArrayList<>();
         testSongResponse.add(testSong);
 
         when(playerProperties.getCurrentSong()).thenCallRealMethod();
         when(commandExecutor
                 .sendCommand(playerProperties.getCurrentSong()))
                 .thenReturn(responseList);
-        when(songConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
+        when(playlistSongConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
         mpdPlayer.getCurrentSong().ifPresentOrElse(song -> {
                     assertThat(song.getFile(), is(equalTo((testSong.getFile()))));
@@ -75,15 +80,15 @@ class MPDPlayerTest {
 
     @Test
     void testGetCurrentSongEmpty() {
-        List<String> responseList = new ArrayList<>();
-        List<MPDSong> testSongResponse = new ArrayList<>();
+        var responseList = new ArrayList<String>();
+        var testSongResponse = new ArrayList<MPDPlaylistSong>();
 
         when(playerProperties.getCurrentSong()).thenCallRealMethod();
         when(commandExecutor
                 .sendCommand(playerProperties.getCurrentSong()))
                 .thenReturn(responseList);
 
-        when(songConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
+        when(playlistSongConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
         assertThat(mpdPlayer.getCurrentSong(), is(Optional.empty()));
     }
@@ -102,8 +107,7 @@ class MPDPlayerTest {
         int id = 1;
         String testFile = "testFile";
         String testTitle = "testTitle";
-        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
-        testSong.setId(id);
+        MPDPlaylistSong testSong = MPDPlaylistSong.builder().file(testFile).title(testTitle).id(id).build();
 
         when(playerProperties.getPlayId()).thenCallRealMethod();
         mpdPlayer.playSong(testSong);
@@ -121,16 +125,14 @@ class MPDPlayerTest {
         String testTitle = "testTitle";
         int id = 5;
 
-        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
-        testSong.setId(id);
-        testSong.setLength(seconds + 1);
+        MPDPlaylistSong testSong = MPDPlaylistSong.builder().file(testFile).title(testTitle).id(id).length(seconds + 1).build();
 
-        List<MPDSong> testSongResponse = new ArrayList<>();
+        List<MPDPlaylistSong> testSongResponse = new ArrayList<>();
         testSongResponse.add(testSong);
 
         when(playerProperties.getCurrentSong()).thenCallRealMethod();
         when(commandExecutor.sendCommand(playerProperties.getCurrentSong())).thenReturn(responseList);
-        when(songConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
+        when(playlistSongConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
         when(playerProperties.getSeekId()).thenCallRealMethod();
         mpdPlayer.seek(seconds);
@@ -151,16 +153,14 @@ class MPDPlayerTest {
         String testTitle = "testTitle";
         int id = 5;
 
-        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
-        testSong.setId(id);
-        testSong.setLength(seconds - 1);
+        MPDPlaylistSong testSong = MPDPlaylistSong.builder().file(testFile).title(testTitle).id(id).length(seconds - 1).build();
 
-        List<MPDSong> testSongResponse = new ArrayList<>();
+        List<MPDPlaylistSong> testSongResponse = new ArrayList<>();
         testSongResponse.add(testSong);
 
         when(playerProperties.getCurrentSong()).thenCallRealMethod();
         when(commandExecutor.sendCommand(playerProperties.getCurrentSong())).thenReturn(responseList);
-        when(songConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
+        when(playlistSongConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
         mpdPlayer.seek(seconds);
 
@@ -175,9 +175,7 @@ class MPDPlayerTest {
         String testTitle = "testTitle";
         int id = 5;
 
-        MPDSong testSong = MPDSong.builder().file(testFile).title(testTitle).build();
-        testSong.setId(id);
-        testSong.setLength(seconds + 1);
+        MPDPlaylistSong testSong = MPDPlaylistSong.builder().file(testFile).title(testTitle).id(id).length(seconds + 1).build();
 
         when(playerProperties.getSeekId()).thenCallRealMethod();
         mpdPlayer.seekSong(testSong, seconds);
@@ -206,7 +204,7 @@ class MPDPlayerTest {
         final PlayerChangeEvent.Event[] playerChangeEvent = {null};
         mpdPlayer.addPlayerChangeListener(event -> playerChangeEvent[0] = event.getEvent());
 
-        MPDSong testSong = MPDSong.builder().file("").title("").build();
+        MPDPlaylistSong testSong = MPDPlaylistSong.builder().file("").title("").build();
 
         when(playerProperties.getPlay()).thenCallRealMethod();
         when(playerProperties.getPlayId()).thenCallRealMethod();
@@ -578,7 +576,7 @@ class MPDPlayerTest {
     @Test
     void testGetMixRampDb() {
         when(serverStatus.getMixRampDb()).thenReturn(Optional.of(1));
-        mpdPlayer.getMixRampDb().ifPresentOrElse( d -> assertThat(d, is(equalTo(1))),
+        mpdPlayer.getMixRampDb().ifPresentOrElse(d -> assertThat(d, is(equalTo(1))),
                 () -> fail("Ramp db is empty"));
     }
 
