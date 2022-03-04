@@ -9,7 +9,7 @@ Fixes # (issue)
 
 ## Checklist:
 
-- [ ] follows style guidelines
+- [ ] follows style guidelines (run mvn spotless:apply to format the code)
 - [ ] commented my code in hard-to-understand areas
 - [ ] made corresponding changes to the documentation
 - [ ] validated static analysis
