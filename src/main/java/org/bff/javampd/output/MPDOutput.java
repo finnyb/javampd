@@ -11,11 +11,11 @@ import lombok.Data;
 @Builder(builderMethodName = "internalBuilder")
 @Data
 public class MPDOutput {
-    private int id;
-    private String name;
-    private boolean enabled;
+  private int id;
+  private String name;
+  private boolean enabled;
 
-    public static MPDOutput.MPDOutputBuilder builder(int id) {
-        return internalBuilder().id(id);
-    }
+  public static MPDOutput.MPDOutputBuilder builder(int id) {
+    return internalBuilder().id(id);
+  }
 }

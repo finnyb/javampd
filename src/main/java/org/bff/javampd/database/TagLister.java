@@ -8,66 +8,64 @@ import java.util.List;
  * @author Bill
  */
 public interface TagLister {
-    enum ListType {
-        ALBUM("album"),
-        ALBUM_ARTIST("albumartist"),
-        ARTIST("artist"),
-        GENRE("genre"),
-        DATE("date");
+  enum ListType {
+    ALBUM("album"),
+    ALBUM_ARTIST("albumartist"),
+    ARTIST("artist"),
+    GENRE("genre"),
+    DATE("date");
 
-        private final String type;
+    private final String type;
 
-        ListType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
+    ListType(String type) {
+      this.type = type;
     }
 
-    enum GroupType {
+    public String getType() {
+      return type;
+    }
+  }
 
-        ALBUM("album"),
-        ALBUM_ARTIST("albumartist"),
-        ARTIST("artist"),
-        GENRE("genre"),
-        DATE("date");
+  enum GroupType {
+    ALBUM("album"),
+    ALBUM_ARTIST("albumartist"),
+    ARTIST("artist"),
+    GENRE("genre"),
+    DATE("date");
 
-        private final String type;
+    private final String type;
 
-        GroupType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
+    GroupType(String type) {
+      this.type = type;
     }
 
-    enum ListInfoType {
+    public String getType() {
+      return type;
+    }
+  }
 
-        PLAYLIST("playlist:"),
-        DIRECTORY("directory:"),
-        FILE("file:"),
-        LAST_MODIFIED("Last-Modified:");
+  enum ListInfoType {
+    PLAYLIST("playlist:"),
+    DIRECTORY("directory:"),
+    FILE("file:"),
+    LAST_MODIFIED("Last-Modified:");
 
-        private final String prefix;
+    private final String prefix;
 
-        ListInfoType(String prefix) {
-            this.prefix = prefix;
-        }
-
-        public String getPrefix() {
-            return prefix;
-        }
+    ListInfoType(String prefix) {
+      this.prefix = prefix;
     }
 
-    List<String> listInfo(ListInfoType... types);
+    public String getPrefix() {
+      return prefix;
+    }
+  }
 
-    List<String> list(ListType listType);
+  List<String> listInfo(ListInfoType... types);
 
-    List<String> list(ListType listType, GroupType... groupTypes);
+  List<String> list(ListType listType);
 
-    List<String> list(ListType listType, List<String> params, GroupType... groupTypes);
+  List<String> list(ListType listType, GroupType... groupTypes);
+
+  List<String> list(ListType listType, List<String> params, GroupType... groupTypes);
 }

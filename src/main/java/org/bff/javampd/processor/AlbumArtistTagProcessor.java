@@ -1,14 +1,13 @@
 package org.bff.javampd.processor;
 
-public class AlbumArtistTagProcessor extends TagResponseProcessor implements
-        ResponseProcessor {
+public class AlbumArtistTagProcessor extends TagResponseProcessor implements ResponseProcessor {
 
-    public AlbumArtistTagProcessor() {
-        super("AlbumArtist:");
-    }
+  public AlbumArtistTagProcessor() {
+    super("AlbumArtist:");
+  }
 
-    @Override
-    public TagType getType() {
-        return TagType.ALBUM_ARTIST;
-    }
+  @Override
+  public TagType getType() {
+    return TagType.ALBUM_ARTIST;
+  }
 }

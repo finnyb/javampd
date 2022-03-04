@@ -11,4 +11,3 @@ JavaMPD
 Java API for controlling the Music Player Daemon (MPD)
 
 Documentation can be found [here](http://finnyb.github.io/javampd/7.0.0-SNAPSHOT)
-

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class SearchCriteria {
-    private final SongSearcher.ScopeType searchType;
-    private final String criteria;
+  private final SongSearcher.ScopeType searchType;
+  private final String criteria;
 }

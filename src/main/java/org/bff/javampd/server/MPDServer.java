@@ -18,110 +18,110 @@ import org.bff.javampd.statistics.ServerStatistics;
 @NoArgsConstructor
 @Slf4j
 public abstract class MPDServer implements Server {
-    protected ServerProperties serverProperties;
-    protected CommandExecutor commandExecutor;
-    protected Player player;
-    protected Playlist playlist;
-    protected Admin admin;
-    protected ServerStatistics serverStatistics;
-    protected ServerStatus serverStatus;
-    protected StandAloneMonitor standAloneMonitor;
-    protected MusicDatabase musicDatabase;
-    protected SongSearcher songSearcher;
-    protected ArtworkFinder artworkFinder;
-    protected boolean closed;
+  protected ServerProperties serverProperties;
+  protected CommandExecutor commandExecutor;
+  protected Player player;
+  protected Playlist playlist;
+  protected Admin admin;
+  protected ServerStatistics serverStatistics;
+  protected ServerStatus serverStatus;
+  protected StandAloneMonitor standAloneMonitor;
+  protected MusicDatabase musicDatabase;
+  protected SongSearcher songSearcher;
+  protected ArtworkFinder artworkFinder;
+  protected boolean closed;
 
-    @Override
-    public void clearError() {
-        commandExecutor.sendCommand(serverProperties.getClearError());
-    }
+  @Override
+  public void clearError() {
+    commandExecutor.sendCommand(serverProperties.getClearError());
+  }
 
-    @Override
-    public void close() {
-        try {
-            commandExecutor.sendCommand(serverProperties.getClose());
-            this.closed = true;
-        } finally {
-            commandExecutor.close();
-        }
+  @Override
+  public void close() {
+    try {
+      commandExecutor.sendCommand(serverProperties.getClose());
+      this.closed = true;
+    } finally {
+      commandExecutor.close();
     }
+  }
 
-    @Override
-    public String getVersion() {
-        return commandExecutor.getMPDVersion();
-    }
+  @Override
+  public String getVersion() {
+    return commandExecutor.getMPDVersion();
+  }
 
-    @Override
-    public boolean isConnected() {
-        return ping();
-    }
+  @Override
+  public boolean isConnected() {
+    return ping();
+  }
 
-    private boolean ping() {
-        try {
-            commandExecutor.sendCommand(serverProperties.getPing());
-        } catch (MPDException e) {
-            log.error("Could not ping MPD", e);
-            return false;
-        }
-        return true;
+  private boolean ping() {
+    try {
+      commandExecutor.sendCommand(serverProperties.getPing());
+    } catch (MPDException e) {
+      log.error("Could not ping MPD", e);
+      return false;
     }
+    return true;
+  }
 
-    public void authenticate(String password) {
-        commandExecutor.usePassword(password);
-        commandExecutor.authenticate();
-    }
+  public void authenticate(String password) {
+    commandExecutor.usePassword(password);
+    commandExecutor.authenticate();
+  }
 
-    public void setMpd(MPD mpd) {
-        this.commandExecutor.setMpd(mpd);
-    }
+  public void setMpd(MPD mpd) {
+    this.commandExecutor.setMpd(mpd);
+  }
 
-    @Override
-    public ArtworkFinder getArtworkFinder() {
-        return this.artworkFinder;
-    }
+  @Override
+  public ArtworkFinder getArtworkFinder() {
+    return this.artworkFinder;
+  }
 
-    @Override
-    public boolean isClosed() {
-        return this.closed;
-    }
+  @Override
+  public boolean isClosed() {
+    return this.closed;
+  }
 
-    @Override
-    public Player getPlayer() {
-        return this.player;
-    }
+  @Override
+  public Player getPlayer() {
+    return this.player;
+  }
 
-    @Override
-    public Playlist getPlaylist() {
-        return this.playlist;
-    }
+  @Override
+  public Playlist getPlaylist() {
+    return this.playlist;
+  }
 
-    @Override
-    public Admin getAdmin() {
-        return this.admin;
-    }
+  @Override
+  public Admin getAdmin() {
+    return this.admin;
+  }
 
-    @Override
-    public MusicDatabase getMusicDatabase() {
-        return this.musicDatabase;
-    }
+  @Override
+  public MusicDatabase getMusicDatabase() {
+    return this.musicDatabase;
+  }
 
-    @Override
-    public SongSearcher getSongSearcher() {
-        return this.songSearcher;
-    }
+  @Override
+  public SongSearcher getSongSearcher() {
+    return this.songSearcher;
+  }
 
-    @Override
-    public ServerStatistics getServerStatistics() {
-        return this.serverStatistics;
-    }
+  @Override
+  public ServerStatistics getServerStatistics() {
+    return this.serverStatistics;
+  }
 
-    @Override
-    public ServerStatus getServerStatus() {
-        return this.serverStatus;
-    }
+  @Override
+  public ServerStatus getServerStatus() {
+    return this.serverStatus;
+  }
 
-    @Override
-    public StandAloneMonitor getStandAloneMonitor() {
-        return this.standAloneMonitor;
-    }
+  @Override
+  public StandAloneMonitor getStandAloneMonitor() {
+    return this.standAloneMonitor;
+  }
 }
