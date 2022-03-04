@@ -9,8 +9,8 @@ Fixes # (issue)
 
 ## Checklist:
 
-- [ ] follows style guidelines
-- [ ] commented my code in hard-to-understand areas
-- [ ] made corresponding changes to the documentation
-- [ ] validated static analysis
-- [ ] added tests that prove my fix or feature works
+- [] follows style guidelines (run mvn spotless:apply to format the code)
+- [] commented my code in hard-to-understand areas
+- [] made corresponding changes to the documentation
+- [] validated static analysis
+- [] added tests that prove my fix or feature works

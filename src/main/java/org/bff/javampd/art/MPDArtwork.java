@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class MPDArtwork {
-    private String name;
-    private String path;
-    private byte[] bytes;
+  private String name;
+  private String path;
+  private byte[] bytes;
 }

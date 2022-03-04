@@ -15,5 +15,5 @@ import lombok.ToString;
 @ToString
 @Getter
 public class MPDGenre {
-    private final String name;
+  private final String name;
 }

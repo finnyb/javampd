@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class MPDArtist {
-    private final String name;
+  private final String name;
 }

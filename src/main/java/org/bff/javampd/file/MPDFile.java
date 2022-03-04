@@ -1,9 +1,8 @@
 package org.bff.javampd.file;
 
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 /**
  * Represents a file within the mpd songs directory.
@@ -13,11 +12,11 @@ import java.time.LocalDateTime;
 @Builder(builderMethodName = "internalBuilder")
 @Data
 public class MPDFile {
-    private boolean directory;
-    private String path;
-    private LocalDateTime lastModified;
+  private boolean directory;
+  private String path;
+  private LocalDateTime lastModified;
 
-    public static MPDFile.MPDFileBuilder builder(String path) {
-        return internalBuilder().path(path);
-    }
+  public static MPDFile.MPDFileBuilder builder(String path) {
+    return internalBuilder().path(path);
+  }
 }

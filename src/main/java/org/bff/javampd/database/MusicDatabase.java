@@ -14,17 +14,17 @@ import org.bff.javampd.year.DateDatabase;
  * @author Bill
  */
 public interface MusicDatabase {
-    ArtistDatabase getArtistDatabase();
+  ArtistDatabase getArtistDatabase();
 
-    AlbumDatabase getAlbumDatabase();
+  AlbumDatabase getAlbumDatabase();
 
-    GenreDatabase getGenreDatabase();
+  GenreDatabase getGenreDatabase();
 
-    PlaylistDatabase getPlaylistDatabase();
+  PlaylistDatabase getPlaylistDatabase();
 
-    FileDatabase getFileDatabase();
+  FileDatabase getFileDatabase();
 
-    DateDatabase getDateDatabase();
+  DateDatabase getDateDatabase();
 
-    SongDatabase getSongDatabase();
+  SongDatabase getSongDatabase();
 }

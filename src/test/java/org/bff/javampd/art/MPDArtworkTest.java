@@ -1,26 +1,24 @@
 package org.bff.javampd.art;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class MPDArtworkTest {
 
-    @Test
-    void testGetBytes() {
-        byte[] bytes = {
-                0
-        };
+  @Test
+  void testGetBytes() {
+    byte[] bytes = {0};
 
-        MPDArtwork artwork = MPDArtwork.builder().name("name").path("path").build();
-        artwork.setBytes(bytes);
+    MPDArtwork artwork = MPDArtwork.builder().name("name").path("path").build();
+    artwork.setBytes(bytes);
 
-        assertEquals(bytes, artwork.getBytes());
-    }
+    assertEquals(bytes, artwork.getBytes());
+  }
 
-    @Test
-    void equalsContract() {
-        EqualsVerifier.simple().forClass(MPDArtwork.class).verify();
-    }
+  @Test
+  void equalsContract() {
+    EqualsVerifier.simple().forClass(MPDArtwork.class).verify();
+  }
 }

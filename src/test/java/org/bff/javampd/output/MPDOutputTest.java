@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 class MPDOutputTest {
 
-    @Test
-    void equalsContract() {
-        EqualsVerifier.simple().forClass(MPDOutput.class).verify();
-    }
+  @Test
+  void equalsContract() {
+    EqualsVerifier.simple().forClass(MPDOutput.class).verify();
+  }
 }
