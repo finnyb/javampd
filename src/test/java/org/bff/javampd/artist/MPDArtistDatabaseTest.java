@@ -1,6 +1,7 @@
 package org.bff.javampd.artist;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -10,12 +11,16 @@ import org.bff.javampd.genre.MPDGenre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class MPDArtistDatabaseTest {
   private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
+
+  @Captor private ArgumentCaptor<TagLister.ListType> captor;
 
   @Mock private TagLister tagLister;
 
@@ -29,6 +34,35 @@ class MPDArtistDatabaseTest {
   @Test
   void testListAllArtists() {
     MPDArtist testArtist = new MPDArtist("testName");
+
+    List<String> mockReturn = new ArrayList<>();
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+
+    when(tagLister.list(TagLister.ListType.ARTIST)).thenReturn(mockReturn);
+
+    List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists());
+    assertEquals(1, artists.size());
+    assertEquals(testArtist, artists.get(0));
+  }
+
+  @Test
+  void listAllAlbumArtistsCommand() {
+    MPDArtist testArtist = new MPDArtist("Tool");
+
+    List<String> mockReturn = new ArrayList<>();
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+
+    when(tagLister.list(TagLister.ListType.ALBUM_ARTIST)).thenReturn(mockReturn);
+
+    artistDatabase.listAllAlbumArtists();
+    verify(tagLister).list(captor.capture());
+
+    assertEquals(TagLister.ListType.ALBUM_ARTIST, captor.getValue());
+  }
+
+  @Test
+  void listAllAlbumArtists() {
+    MPDArtist testArtist = new MPDArtist("Spiritbox");
 
     List<String> mockReturn = new ArrayList<>();
     mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
