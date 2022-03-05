@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class MPDArtistDatabase implements ArtistDatabase {
   private static final Logger LOGGER = LoggerFactory.getLogger(MPDArtistDatabase.class);
 
-  private TagLister tagLister;
+  private final TagLister tagLister;
 
   @Inject
   public MPDArtistDatabase(TagLister tagLister) {
@@ -31,6 +31,13 @@ public class MPDArtistDatabase implements ArtistDatabase {
   @Override
   public Collection<MPDArtist> listAllArtists() {
     return tagLister.list(TagLister.ListType.ARTIST).stream()
+        .map(s -> new MPDArtist(convertResponse(s)))
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public Collection<MPDArtist> listAllAlbumArtists() {
+    return tagLister.list(TagLister.ListType.ALBUM_ARTIST).stream()
         .map(s -> new MPDArtist(convertResponse(s)))
         .collect(Collectors.toList());
   }

@@ -11,12 +11,21 @@ import org.bff.javampd.genre.MPDGenre;
 public interface ArtistDatabase {
   /**
    * Returns a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s of all
-   * artists in the database.
+   * artists.
    *
    * @return a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s containing
    *     the album names
    */
   Collection<MPDArtist> listAllArtists();
+
+  /**
+   * Returns a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s of all
+   * album artists.
+   *
+   * @return a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s containing
+   *     the album names
+   */
+  Collection<MPDArtist> listAllAlbumArtists();
 
   /**
    * Returns a {@link java.util.Collection} of {@link org.bff.javampd.artist.MPDArtist}s of all
