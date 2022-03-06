@@ -9,7 +9,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.bff.javampd.command.MPDCommand;
 import org.junit.jupiter.api.Test;
@@ -191,9 +190,6 @@ class MPDSocketTest {
     createValidSocket();
 
     socket.close();
-
-    List<String> responseList = new ArrayList<>();
-    responseList.add(testResponse);
 
     when(mockedBufferedReader.readLine())
         .thenReturn("OK")
@@ -377,7 +373,7 @@ class MPDSocketTest {
 
     verify(mockedOutputStream, times(2)).write(byteArgumentCaptor.capture());
 
-    assertTrue(Arrays.equals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1)));
+    assertArrayEquals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1));
   }
 
   @Test
@@ -413,7 +409,7 @@ class MPDSocketTest {
 
     verify(mockedOutputStream, times(2)).write(byteArgumentCaptor.capture());
 
-    assertTrue(Arrays.equals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1)));
+    assertArrayEquals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1));
   }
 
   @Test
