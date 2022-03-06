@@ -8,6 +8,7 @@ public abstract class MPDTagConverter<T extends MPDSong> {
 
   protected static final String DELIMITING_PREFIX = SongProcessor.getDelimitingPrefix();
   private static final String TERMINATION = SongProcessor.getTermination();
+  private static final String LINE_DELIMITER = ":";
 
   public List<T> convertResponse(List<String> list) {
     var songList = new ArrayList<T>();
@@ -21,8 +22,10 @@ public abstract class MPDTagConverter<T extends MPDSong> {
 
       if (line != null && isLineDelimiter(line)) {
         var props = new HashMap<String, String>();
-        line = processSong(line.substring(DELIMITING_PREFIX.length()).trim(), iterator, props);
-        songList.add(createSong(props));
+        var tags = new HashMap<String, List<String>>();
+        line =
+            processSong(line.substring(DELIMITING_PREFIX.length()).trim(), iterator, props, tags);
+        songList.add(createSong(props, tags));
       }
     }
 
@@ -30,7 +33,10 @@ public abstract class MPDTagConverter<T extends MPDSong> {
   }
 
   protected String processSong(
-      String fileName, Iterator<String> iterator, Map<String, String> props) {
+      String fileName,
+      Iterator<String> iterator,
+      Map<String, String> props,
+      Map<String, List<String>> tags) {
     props.put(SongProcessor.FILE.name(), fileName);
 
     String line = null;
@@ -39,6 +45,7 @@ public abstract class MPDTagConverter<T extends MPDSong> {
     }
 
     while (!isStreamTerminated(line) && !isLineDelimiter(line)) {
+      addTag(line, tags);
       var processor = SongProcessor.lookup(line);
       if (processor != null) {
         var tag = processor.getProcessor().processTag(line);
@@ -57,7 +64,7 @@ public abstract class MPDTagConverter<T extends MPDSong> {
     return line;
   }
 
-  protected abstract T createSong(Map<String, String> props);
+  protected abstract T createSong(Map<String, String> props, Map<String, List<String>> tags);
 
   protected boolean isLineDelimiter(String line) {
     return line != null && line.toLowerCase().startsWith(DELIMITING_PREFIX.toLowerCase());
@@ -74,5 +81,24 @@ public abstract class MPDTagConverter<T extends MPDSong> {
 
   private boolean isStreamTerminated(String line) {
     return line == null || TERMINATION.equalsIgnoreCase(line) || isLineDelimiter(line);
+  }
+
+  private void addTag(String line, Map<String, List<String>> tags) {
+    var tag = line.split(LINE_DELIMITER);
+    if (tag.length > 1) {
+      addToTagMap(tag, tags);
+      log.debug("added tag to song: {} -> {}", tag[0], tag[1]);
+    } else {
+      log.debug("Not adding to tag map, line is not a tag {}", line);
+    }
+  }
+
+  private void addToTagMap(String[] tag, Map<String, List<String>> tags) {
+    var l = tags.get(tag[0]);
+    if (l == null) {
+      l = new ArrayList<>();
+    }
+    l.add(tag[1].trim());
+    tags.put(tag[0], l);
   }
 }

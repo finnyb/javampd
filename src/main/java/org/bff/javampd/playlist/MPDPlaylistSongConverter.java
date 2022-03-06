@@ -1,6 +1,7 @@
 package org.bff.javampd.playlist;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.song.MPDTagConverter;
 import org.bff.javampd.song.SongProcessor;
@@ -15,7 +16,7 @@ public class MPDPlaylistSongConverter extends MPDTagConverter<MPDPlaylistSong>
   }
 
   @Override
-  public MPDPlaylistSong createSong(Map<String, String> props) {
+  public MPDPlaylistSong createSong(Map<String, String> props, Map<String, List<String>> tags) {
     return MPDPlaylistSong.builder()
         .file(props.get(SongProcessor.FILE.name()))
         .name(
@@ -34,6 +35,7 @@ public class MPDPlaylistSongConverter extends MPDTagConverter<MPDPlaylistSong>
         .length(parseInt(props.get(SongProcessor.TIME.name())))
         .id(parseInt(props.get(SongProcessor.ID.name())))
         .position(parseInt(props.get(SongProcessor.POS.name())))
+        .tagMap(tags)
         .build();
   }
 }

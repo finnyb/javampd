@@ -2,7 +2,7 @@ package org.bff.javampd.processor;
 
 public abstract class TagResponseProcessor implements ResponseProcessor {
 
-  private String prefix;
+  private final String prefix;
 
   protected TagResponseProcessor(String prefix) {
     this.prefix = prefix;

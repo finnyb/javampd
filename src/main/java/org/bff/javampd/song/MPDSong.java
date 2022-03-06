@@ -1,5 +1,7 @@
 package org.bff.javampd.song;
 
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
@@ -30,6 +32,9 @@ public class MPDSong implements Comparable<MPDSong> {
 
   /** Returns the length of the song in seconds. */
   private final int length;
+
+  /** Returns a map of all tags for this song. */
+  private final Map<String, List<String>> tagMap;
 
   /**
    * Returns the name of the song which can be different than the title if for example listening to

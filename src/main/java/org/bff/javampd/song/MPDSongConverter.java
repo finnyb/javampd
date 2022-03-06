@@ -14,7 +14,7 @@ public class MPDSongConverter extends MPDTagConverter<MPDSong> implements SongCo
   }
 
   @Override
-  protected MPDSong createSong(Map<String, String> props) {
+  protected MPDSong createSong(Map<String, String> props, Map<String, List<String>> tags) {
     return MPDSong.builder()
         .file(props.get(SongProcessor.FILE.name()))
         .name(
@@ -31,6 +31,7 @@ public class MPDSongConverter extends MPDTagConverter<MPDSong> implements SongCo
         .albumName(props.get(SongProcessor.ALBUM.name()))
         .track(props.get(SongProcessor.TRACK.name()))
         .length(parseInt(props.get(SongProcessor.TIME.name())))
+        .tagMap(tags)
         .build();
   }
 
