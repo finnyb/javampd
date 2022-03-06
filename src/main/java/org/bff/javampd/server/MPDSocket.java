@@ -10,12 +10,14 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.command.MPDCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** @author bill */
+@Slf4j
 public class MPDSocket {
   private static final Logger LOGGER = LoggerFactory.getLogger(MPDSocket.class);
 
@@ -73,7 +75,7 @@ public class MPDSocket {
   }
 
   private void connectSocket(int timeout) {
-    LOGGER.debug("attempting to connect socket to {} with timeout of {}", server, timeout);
+    log.debug("attempting to connect socket to {} with timeout of {}", server, timeout);
     this.socket = createSocket();
     SocketAddress socketAddress = new InetSocketAddress(server, port);
     try {
@@ -81,7 +83,7 @@ public class MPDSocket {
       setReader(new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding)));
       readVersion();
     } catch (Exception ioe) {
-      LOGGER.error("failed to connect socket to {}", server);
+      log.error("failed to connect socket to {}", server);
       throw new MPDConnectionException(ioe);
     }
   }
@@ -109,21 +111,21 @@ public class MPDSocket {
         try {
           connect();
         } catch (Exception exc) {
-          LOGGER.error("Unable to connect to {} on port {}", server, port, exc);
+          log.error("Unable to connect to {} on port {}", server, port, exc);
         }
         ++count;
-        LOGGER.warn("Retrying command {} for the {} time", command.getCommand(), count);
+        log.warn("Retrying command {} for the {} time", command.getCommand(), count);
       }
     }
 
-    LOGGER.error("Unable to send command {} after {} tries", command, TRIES);
+    log.error("Unable to send command {} after {} tries", command, TRIES);
     throw new MPDConnectionException("Unable to send command " + command);
   }
 
   private static void logCommandError(MPDCommand command, Exception se) {
-    LOGGER.error("Error from: {}", command.getCommand(), se);
+    log.error("Error from: {}", command.getCommand(), se);
     for (String str : command.getParams()) {
-      LOGGER.error("\tparam: {}", str);
+      log.error("\tparam: {}", str);
     }
   }
 
@@ -136,20 +138,18 @@ public class MPDSocket {
   }
 
   private boolean isResponseOK(final String line) {
-    try {
-      if (line.startsWith(responseProperties.getOk())
-          || line.startsWith(responseProperties.getListOk())) {
-        return true;
-      }
-    } catch (Exception e) {
-      LOGGER.error("Could not determine if response is ok", e);
+    if (line == null) {
+      log.info("Response check failed. Line is null");
+      return false;
     }
 
-    return false;
+    return line.startsWith(responseProperties.getOk())
+        || line.startsWith(responseProperties.getListOk());
   }
 
   private boolean isResponseError(final String line) {
     if (line.startsWith(responseProperties.getError())) {
+      log.warn("line contained an error: {}", line);
       this.lastError = line.substring(responseProperties.getError().length()).trim();
       return true;
     } else {
@@ -192,12 +192,12 @@ public class MPDSocket {
       String line = reader.readLine();
       while (line != null) {
         if (!isResponseOK(line)) {
-          LOGGER.warn("some command from a command list failed: {}", line);
+          log.warn("some command from a command list failed: {}", line);
         }
 
         if (reader.ready()) {
           line = reader.readLine();
-          LOGGER.warn("unexpected response line {}", line);
+          log.warn("unexpected response line {}", line);
         } else {
           line = null;
         }
@@ -205,23 +205,22 @@ public class MPDSocket {
     } catch (MPDSecurityException se) {
       throw se;
     } catch (Exception e) {
-      commandList.forEach(s -> LOGGER.error(s.getCommand()));
+      commandList.forEach(s -> log.error(s.getCommand()));
       throw new MPDConnectionException(e.getMessage(), e);
     }
   }
 
   private List<String> sendBytes(String command) throws IOException {
-    LOGGER.debug("start command: {}", command);
-
-    List<String> response = new ArrayList<>();
+    log.debug("start command: {}", command);
+    var response = new ArrayList<String>();
 
     writeToStream(command);
 
-    String inLine = reader.readLine();
-    LOGGER.debug("first response line is: {}", inLine);
+    var inLine = reader.readLine();
+    log.debug("first response line is: {}", inLine);
     while (inLine != null) {
       if (isResponseOK(inLine)) {
-        LOGGER.debug("the response was ok");
+        log.debug("the response was ok");
         break;
       }
 
@@ -229,7 +228,7 @@ public class MPDSocket {
         if (lastError.contains("you don't have permission")) {
           throw new MPDSecurityException(lastError, command);
         } else {
-          LOGGER.error("Got error from command {}", command);
+          log.error("Got error from command {}", command);
           throw new MPDConnectionException(lastError);
         }
       }
@@ -250,19 +249,19 @@ public class MPDSocket {
     }
 
     if (!socket.isConnected()) {
-      LOGGER.warn("socket hasn't been connected yet");
+      log.warn("socket hasn't been connected yet");
       connected = false;
     } else {
       if (!socket.isClosed()) {
         connected = checkPing();
       } else {
-        LOGGER.warn("socket is closed");
+        log.warn("socket is closed");
         connected = false;
       }
     }
 
     if (!connected) {
-      LOGGER.warn("we've lost connectivity, attempting to connect");
+      log.info("we've lost connectivity, attempting to connect");
       try {
         connect();
       } catch (Exception e) {
@@ -306,7 +305,7 @@ public class MPDSocket {
       }
     } catch (Exception e) {
       connected = false;
-      LOGGER.error("lost socket connection", e);
+      log.error("lost socket connection", e);
     }
 
     return connected;

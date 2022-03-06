@@ -192,9 +192,6 @@ class MPDSocketTest {
 
     socket.close();
 
-    List<String> responseList = new ArrayList<>();
-    responseList.add(testResponse);
-
     when(mockedBufferedReader.readLine())
         .thenReturn("OK")
         .thenReturn(testResponse)
@@ -377,7 +374,7 @@ class MPDSocketTest {
 
     verify(mockedOutputStream, times(2)).write(byteArgumentCaptor.capture());
 
-    assertTrue(Arrays.equals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1)));
+    assertArrayEquals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1));
   }
 
   @Test
@@ -413,7 +410,7 @@ class MPDSocketTest {
 
     verify(mockedOutputStream, times(2)).write(byteArgumentCaptor.capture());
 
-    assertTrue(Arrays.equals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1)));
+    assertArrayEquals(sb.toString().getBytes(), byteArgumentCaptor.getAllValues().get(1));
   }
 
   @Test
