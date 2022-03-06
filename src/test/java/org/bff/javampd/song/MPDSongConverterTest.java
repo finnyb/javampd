@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class MPDSongConverterTest {
@@ -83,7 +84,10 @@ class MPDSongConverterTest {
                 "Album: Anthem of the Peaceful Army",
                 "Track: 3"));
     var s = songs.get(1);
-    assertAll(() -> assertNull(s.getDate()), () -> assertNull(s.getGenre()));
+    assertAll(
+        () -> assertNull(s.getDate()),
+        () -> assertNull(s.getGenre()),
+        () -> assertNull(s.getTagMap().get("Genre")));
   }
 
   @Test
@@ -143,6 +147,38 @@ class MPDSongConverterTest {
         () ->
             assertEquals(
                 "Greta Van Fleet/Anthem of the Peaceful Army/02 The Cold Wind.flac", s3.getFile()));
+  }
+
+  @Test
+  void tagMap() {
+    var s = converter.convertResponseToSongs(createSingleResponse()).get(0);
+    var m = s.getTagMap();
+
+    assertAll(
+        () -> assertEquals(24, m.size()), () -> assertEquals("Tool", m.get("AlbumArtist").get(0)));
+  }
+
+  @Test
+  @DisplayName("multiple instances of the same tag")
+  void tagMapMultipleTags() {
+    var s = converter.convertResponseToSongs(createSingleResponse()).get(0);
+    var p = s.getTagMap().get("Performer");
+
+    assertAll(
+        () -> assertEquals(4, p.size()),
+        () -> assertEquals("Danny Carey (membranophone)", p.get(0)),
+        () -> assertEquals("Justin Chancellor (bass guitar)", p.get(1)),
+        () -> assertEquals("Adam Jones (guitar)", p.get(2)),
+        () -> assertEquals("Maynard James Keenan (lead vocals)", p.get(3)));
+  }
+
+  @Test
+  void tagMapNotTagLine() {
+    var songs =
+        converter.convertResponseToSongs(
+            Arrays.asList("file: Tool/10,000 Days/01 Vicarious.flac", "NotATag"));
+    var s = songs.get(0);
+    assertEquals(0, s.getTagMap().size());
   }
 
   @Test

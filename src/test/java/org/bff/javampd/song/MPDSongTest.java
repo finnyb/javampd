@@ -51,7 +51,7 @@ class MPDSongTest {
                 "MPDSong(name=song1, title=song1, albumArtist=null,"
                     + " artistName=null, albumName=null, file=file1, genre=null,"
                     + " comment=null, date=null, discNumber=null, track=null,"
-                    + " length=0)")));
+                    + " length=0, tagMap=null)")));
   }
 
   @Test

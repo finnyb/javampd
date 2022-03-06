@@ -159,12 +159,9 @@ class MPDCommandExecutorTest {
       when(mpd.getPort()).thenReturn(port);
       when(mpd.getTimeout()).thenReturn(5000);
 
-      ServerSocket finalSocket = socket;
       new Thread(
               () -> {
-                Socket clientSocket;
-                try {
-                  clientSocket = finalSocket.accept();
+                try (Socket clientSocket = socket.accept()) {
                   PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true);
                   pw.write("OK MPD Version\r\n");
                   pw.flush();
