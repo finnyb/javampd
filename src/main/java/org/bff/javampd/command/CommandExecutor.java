@@ -6,6 +6,7 @@ import org.bff.javampd.server.MPD;
 
 /** @author bill */
 public interface CommandExecutor {
+  static String COMMAND_TERMINATION = "OK";
   /**
    * Sends a command with no parameters to the {@link org.bff.javampd.server.MPD} server returning
    * the response as a <CODE>List</CODE> of <CODE>Strings</CODE>.

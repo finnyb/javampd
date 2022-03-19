@@ -65,13 +65,6 @@ public interface Admin {
   void updateDatabase(String path);
 
   /**
-   * Returns the daemon uptime in seconds.
-   *
-   * @return the daemon uptime in seconds
-   */
-  long getDaemonUpTime();
-
-  /**
    * Adds a {@link OutputChangeListener} to this object to receive {@link
    * org.bff.javampd.playlist.PlaylistChangeEvent}s.
    *

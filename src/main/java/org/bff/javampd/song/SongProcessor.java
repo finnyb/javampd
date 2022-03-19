@@ -1,5 +1,7 @@
 package org.bff.javampd.song;
 
+import static org.bff.javampd.command.CommandExecutor.COMMAND_TERMINATION;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.bff.javampd.processor.*;
@@ -20,7 +22,6 @@ public enum SongProcessor {
   ID(new IdTagProcessor()),
   DISC(new DiscTagProcessor());
 
-  private static final String TERMINATOR = "OK";
   private final transient ResponseProcessor responseProcessor;
 
   private static final Map<String, SongProcessor> lookup = new HashMap<>();
@@ -53,6 +54,6 @@ public enum SongProcessor {
   }
 
   public static String getTermination() {
-    return TERMINATOR;
+    return COMMAND_TERMINATION;
   }
 }

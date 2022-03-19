@@ -22,7 +22,9 @@ import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSongConverter;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.statistics.MPDServerStatistics;
+import org.bff.javampd.statistics.MPDStatsConverter;
 import org.bff.javampd.statistics.ServerStatistics;
+import org.bff.javampd.statistics.StatsConverter;
 
 /**
  * Initializes the DI bindings
@@ -44,6 +46,8 @@ public class MPDModule extends AbstractModule {
     bind(PlaylistSongConverter.class).to(MPDPlaylistSongConverter.class);
     bind(AlbumConverter.class).to(MPDAlbumConverter.class);
     bind(ArtworkFinder.class).to(MPDArtworkFinder.class);
+    bind(ServerStatistics.class).to(MPDServerStatistics.class);
+    bind(StatsConverter.class).to(MPDStatsConverter.class);
     bind(Clock.class).to(MPDSystemClock.class);
   }
 }
