@@ -34,7 +34,7 @@ class MPDStatsConverterTest {
         this.statsConverter.convertResponseToStats(
             List.of(
                 "uptime: 11262",
-                "playtime: 0",
+                "playtime: 19823",
                 "artists: 2961",
                 "albums: 5671",
                 "songs: 84109",
@@ -49,6 +49,6 @@ class MPDStatsConverterTest {
         () -> assertEquals(84109, stats.getSongCount()),
         () -> assertEquals(1646880222, stats.getLastUpdateTime()),
         () -> assertEquals(20572745, stats.getDatabasePlaytime()),
-        () -> assertEquals(0, stats.getPlaytime()));
+        () -> assertEquals(19823, stats.getPlaytime()));
   }
 }
