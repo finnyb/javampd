@@ -165,8 +165,6 @@ status.forceUpdate();
 load the server statistics by getting the status from MPD.
 
 ```
-ServerStatistics stats = mpd.getServerStatistics();
+var stats = mpd.getServerStatistics().getStatistics()
 long uptime = status.getUptime();
 ```
-
-It has an default expiry interval of 60 seconds. Caching behavior is exactly like the status.

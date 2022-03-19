@@ -11,7 +11,6 @@ import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
-import org.bff.javampd.statistics.ServerStatistics;
 
 /**
  * MPDAdmin represents a administrative controller to a MPD server. To obtain an instance of the
@@ -31,16 +30,11 @@ public class MPDAdmin implements Admin {
   protected static final String OUTPUT_PREFIX_ENABLED = "outputenabled:";
 
   private AdminProperties adminProperties;
-  private ServerStatistics serverStatistics;
   private CommandExecutor commandExecutor;
 
   @Inject
-  public MPDAdmin(
-      AdminProperties adminProperties,
-      ServerStatistics serverStatistics,
-      CommandExecutor commandExecutor) {
+  public MPDAdmin(AdminProperties adminProperties, CommandExecutor commandExecutor) {
     this.adminProperties = adminProperties;
-    this.serverStatistics = serverStatistics;
     this.commandExecutor = commandExecutor;
   }
 
@@ -143,11 +137,6 @@ public class MPDAdmin implements Admin {
   public void updateDatabase(String path) {
     commandExecutor.sendCommand(adminProperties.getRefresh(), path);
     fireMPDChangeEvent(MPDChangeEvent.Event.REFRESHED);
-  }
-
-  @Override
-  public long getDaemonUpTime() {
-    return serverStatistics.getUptime();
   }
 
   @Override

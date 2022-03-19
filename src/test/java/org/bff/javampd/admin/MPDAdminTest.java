@@ -116,12 +116,6 @@ class MPDAdminTest {
   }
 
   @Test
-  void getDaemonUpTime() {
-    admin.getDaemonUpTime();
-    verify(serverStatistics, times(1)).getUptime();
-  }
-
-  @Test
   void testAddChangeListener() {
     final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
 
