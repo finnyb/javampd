@@ -25,9 +25,9 @@ public class MPDStatsConverter implements StatsConverter {
     }
 
     return MPDStatistics.builder()
-        .artistCount(Integer.parseInt(checkProp((props.get(ARTISTS)))))
-        .albumCount(Integer.parseInt(checkProp(props.get(ALBUMS))))
-        .songCount(Integer.parseInt(checkProp(props.get(SONGS))))
+        .artists(Integer.parseInt(checkProp((props.get(ARTISTS)))))
+        .albums(Integer.parseInt(checkProp(props.get(ALBUMS))))
+        .tracks(Integer.parseInt(checkProp(props.get(SONGS))))
         .databasePlaytime(Long.parseLong(checkProp(props.get(DBPLAYTIME))))
         .lastUpdateTime(Long.parseLong(checkProp(props.get(DBUPDATE))))
         .playtime(Long.parseLong(checkProp(props.get(PLAYTIME))))

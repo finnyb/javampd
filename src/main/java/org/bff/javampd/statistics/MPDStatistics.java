@@ -8,9 +8,9 @@ import lombok.Data;
 public class MPDStatistics {
   private long playtime;
   private long uptime;
-  private int artistCount;
-  private int albumCount;
-  private int songCount;
+  private int artists;
+  private int albums;
+  private int tracks;
   private long lastUpdateTime;
   private long databasePlaytime;
 }
