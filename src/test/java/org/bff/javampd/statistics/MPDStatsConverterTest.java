@@ -19,10 +19,10 @@ class MPDStatsConverterTest {
   void convertEmptyResponse() {
     MPDStatistics stats = this.statsConverter.convertResponseToStats(List.of());
     assertAll(
-        () -> assertEquals(0, stats.getAlbumCount()),
+        () -> assertEquals(0, stats.getAlbums()),
         () -> assertEquals(0, stats.getUptime()),
-        () -> assertEquals(0, stats.getArtistCount()),
-        () -> assertEquals(0, stats.getSongCount()),
+        () -> assertEquals(0, stats.getArtists()),
+        () -> assertEquals(0, stats.getTracks()),
         () -> assertEquals(0, stats.getLastUpdateTime()),
         () -> assertEquals(0, stats.getDatabasePlaytime()),
         () -> assertEquals(0, stats.getPlaytime()));
@@ -43,10 +43,10 @@ class MPDStatsConverterTest {
                 "OK"));
 
     assertAll(
-        () -> assertEquals(5671, stats.getAlbumCount()),
+        () -> assertEquals(5671, stats.getAlbums()),
         () -> assertEquals(11262, stats.getUptime()),
-        () -> assertEquals(2961, stats.getArtistCount()),
-        () -> assertEquals(84109, stats.getSongCount()),
+        () -> assertEquals(2961, stats.getArtists()),
+        () -> assertEquals(84109, stats.getTracks()),
         () -> assertEquals(1646880222, stats.getLastUpdateTime()),
         () -> assertEquals(20572745, stats.getDatabasePlaytime()),
         () -> assertEquals(19823, stats.getPlaytime()));
