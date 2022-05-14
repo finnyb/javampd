@@ -23,7 +23,7 @@ then add the dependency
 
 ```
 <dependency>
-  <groupId>net.thejavashop</groupId>
+  <groupId>com.inthebacklog</groupId>
   <artifactId>javampd</artifactId>
   <version>6.1.0-SNAPSHOT</version>
 </dependency>
