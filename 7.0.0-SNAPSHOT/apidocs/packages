@@ -1,10 +1,17 @@
 org.bff.javampd.statistics
 org.bff.javampd.statistics
+org.bff.javampd.statistics
+org.bff.javampd.statistics
+org.bff.javampd.statistics
+org.bff.javampd.statistics
 org.bff.javampd.database
 org.bff.javampd.database
 org.bff.javampd.database
 org.bff.javampd.database
 org.bff.javampd.database
+org.bff.javampd.playlist
+org.bff.javampd.playlist
+org.bff.javampd.playlist
 org.bff.javampd.playlist
 org.bff.javampd.playlist
 org.bff.javampd.playlist
@@ -40,7 +47,6 @@ org.bff.javampd.monitor
 org.bff.javampd.monitor
 org.bff.javampd.monitor
 org.bff.javampd.monitor
-org.bff.javampd
 org.bff.javampd.file
 org.bff.javampd.file
 org.bff.javampd.file
@@ -88,6 +94,9 @@ org.bff.javampd.server
 org.bff.javampd.server
 org.bff.javampd.server
 org.bff.javampd.server
+org.bff.javampd.server
+org.bff.javampd.song
+org.bff.javampd.song
 org.bff.javampd.song
 org.bff.javampd.song
 org.bff.javampd.song
