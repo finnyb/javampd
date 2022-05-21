@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDPlaylistSong.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.playlist</a> &gt; <span class="el_source">MPDPlaylistSong.java</span></div><h1>MPDPlaylistSong.java</h1><pre class="source lang-java linenums">package org.bff.javampd.playlist;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+import org.bff.javampd.song.MPDSong;
+
+<span class="pc bfc" id="L9" title="All 4 branches covered.">@SuperBuilder</span>
+<span class="nc" id="L10">@Data</span>
+<span class="pc bpc" id="L11" title="11 of 12 branches missed.">@EqualsAndHashCode(callSuper = true)</span>
+public class MPDPlaylistSong extends MPDSong {
+
+  /** Returns the position of the song in the playlist. */
+<span class="fc" id="L15">  @Builder.Default private final int position = -1;</span>
+
+  /** Returns the playlist song id for the song. */
+<span class="fc" id="L18">  @Builder.Default private final int id = -1;</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

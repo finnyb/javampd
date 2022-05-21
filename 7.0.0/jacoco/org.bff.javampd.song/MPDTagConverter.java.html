@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDTagConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.song</a> &gt; <span class="el_source">MPDTagConverter.java</span></div><h1>MPDTagConverter.java</h1><pre class="source lang-java linenums">package org.bff.javampd.song;
+
+import java.util.*;
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L6">@Slf4j</span>
+<span class="fc" id="L7">public abstract class MPDTagConverter&lt;T extends MPDSong&gt; {</span>
+
+<span class="fc" id="L9">  protected static final String DELIMITING_PREFIX = SongProcessor.getDelimitingPrefix();</span>
+<span class="fc" id="L10">  private static final String TERMINATION = SongProcessor.getTermination();</span>
+  private static final String LINE_DELIMITER = &quot;:&quot;;
+
+  public List&lt;T&gt; convertResponse(List&lt;String&gt; list) {
+<span class="fc" id="L14">    var songList = new ArrayList&lt;T&gt;();</span>
+<span class="fc" id="L15">    var iterator = list.iterator();</span>
+
+<span class="fc" id="L17">    String line = null;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">    while (iterator.hasNext()) {</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">      if ((!isLineDelimiter(line))) {</span>
+<span class="fc" id="L20">        line = iterator.next();</span>
+      }
+
+<span class="pc bpc" id="L23" title="1 of 4 branches missed.">      if (line != null &amp;&amp; isLineDelimiter(line)) {</span>
+<span class="fc" id="L24">        var props = new HashMap&lt;String, String&gt;();</span>
+<span class="fc" id="L25">        var tags = new HashMap&lt;String, List&lt;String&gt;&gt;();</span>
+<span class="fc" id="L26">        line =</span>
+<span class="fc" id="L27">            processSong(line.substring(DELIMITING_PREFIX.length()).trim(), iterator, props, tags);</span>
+<span class="fc" id="L28">        songList.add(createSong(props, tags));</span>
+<span class="fc" id="L29">      }</span>
+    }
+
+<span class="fc" id="L32">    return songList;</span>
+  }
+
+  protected String processSong(
+      String fileName,
+      Iterator&lt;String&gt; iterator,
+      Map&lt;String, String&gt; props,
+      Map&lt;String, List&lt;String&gt;&gt; tags) {
+<span class="fc" id="L40">    props.put(SongProcessor.FILE.name(), fileName);</span>
+
+<span class="fc" id="L42">    String line = null;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    if (iterator.hasNext()) {</span>
+<span class="fc" id="L44">      line = iterator.next();</span>
+    }
+
+<span class="pc bpc" id="L47" title="1 of 4 branches missed.">    while (!isStreamTerminated(line) &amp;&amp; !isLineDelimiter(line)) {</span>
+<span class="fc" id="L48">      addTag(line, tags);</span>
+<span class="fc" id="L49">      var processor = SongProcessor.lookup(line);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">      if (processor != null) {</span>
+<span class="fc" id="L51">        var tag = processor.getProcessor().processTag(line);</span>
+<span class="fc" id="L52">        props.put(processor.name(), tag);</span>
+<span class="fc" id="L53">      } else {</span>
+<span class="fc" id="L54">        log.warn(&quot;Processor not found - {}&quot;, line);</span>
+      }
+
+<span class="fc bfc" id="L57" title="All 2 branches covered.">      if (iterator.hasNext()) {</span>
+<span class="fc" id="L58">        line = iterator.next();</span>
+      } else {
+        break;
+      }
+<span class="fc" id="L62">    }</span>
+
+<span class="fc" id="L64">    return line;</span>
+  }
+
+  protected abstract T createSong(Map&lt;String, String&gt; props, Map&lt;String, List&lt;String&gt;&gt; tags);
+
+  protected boolean isLineDelimiter(String line) {
+<span class="fc bfc" id="L70" title="All 4 branches covered.">    return line != null &amp;&amp; line.toLowerCase().startsWith(DELIMITING_PREFIX.toLowerCase());</span>
+  }
+
+  protected int parseInt(String tag) {
+    try {
+<span class="fc" id="L75">      return Integer.parseInt(tag);</span>
+<span class="fc" id="L76">    } catch (NumberFormatException e) {</span>
+<span class="fc" id="L77">      log.warn(String.format(&quot;Unable to convert tag to Integer: %s&quot;, tag));</span>
+<span class="fc" id="L78">      return -1;</span>
+    }
+  }
+
+  private boolean isStreamTerminated(String line) {
+<span class="fc bfc" id="L83" title="All 6 branches covered.">    return line == null || TERMINATION.equalsIgnoreCase(line) || isLineDelimiter(line);</span>
+  }
+
+  private void addTag(String line, Map&lt;String, List&lt;String&gt;&gt; tags) {
+<span class="fc" id="L87">    var tag = line.split(LINE_DELIMITER);</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">    if (tag.length &gt; 1) {</span>
+<span class="fc" id="L89">      addToTagMap(tag, tags);</span>
+<span class="fc" id="L90">      log.debug(&quot;added tag to song: {} -&gt; {}&quot;, tag[0], tag[1]);</span>
+    } else {
+<span class="fc" id="L92">      log.debug(&quot;Not adding to tag map, line is not a tag {}&quot;, line);</span>
+    }
+<span class="fc" id="L94">  }</span>
+
+  private void addToTagMap(String[] tag, Map&lt;String, List&lt;String&gt;&gt; tags) {
+<span class="fc" id="L97">    var l = tags.get(tag[0]);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">    if (l == null) {</span>
+<span class="fc" id="L99">      l = new ArrayList&lt;&gt;();</span>
+    }
+<span class="fc" id="L101">    l.add(tag[1].trim());</span>
+<span class="fc" id="L102">    tags.put(tag[0], l);</span>
+<span class="fc" id="L103">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
