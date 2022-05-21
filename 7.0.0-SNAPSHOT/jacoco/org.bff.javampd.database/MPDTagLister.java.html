@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDTagLister.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.database</a> &gt; <span class="el_source">MPDTagLister.java</span></div><h1>MPDTagLister.java</h1><pre class="source lang-java linenums">package org.bff.javampd.database;
+
+import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.bff.javampd.command.CommandExecutor;
+
+/**
+ * Implementation of {@link TagLister} for the MPD database
+ *
+ * @author Bill
+ */
+public class MPDTagLister implements TagLister {
+  private final DatabaseProperties databaseProperties;
+  private final CommandExecutor commandExecutor;
+
+  @Inject
+<span class="fc" id="L19">  public MPDTagLister(DatabaseProperties databaseProperties, CommandExecutor commandExecutor) {</span>
+<span class="fc" id="L20">    this.databaseProperties = databaseProperties;</span>
+<span class="fc" id="L21">    this.commandExecutor = commandExecutor;</span>
+<span class="fc" id="L22">  }</span>
+
+  @Override
+  public List&lt;String&gt; listInfo(ListInfoType... types) {
+<span class="fc" id="L26">    List&lt;String&gt; returnList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L27">    List&lt;String&gt; list = commandExecutor.sendCommand(databaseProperties.getListInfo());</span>
+
+<span class="fc bfc" id="L29" title="All 2 branches covered.">    for (String s : list) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">      for (ListInfoType type : types) {</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (s.startsWith(type.getPrefix())) {</span>
+<span class="fc" id="L32">          returnList.add(s.substring(type.getPrefix().length()).trim());</span>
+        }
+      }
+<span class="fc" id="L35">    }</span>
+
+<span class="fc" id="L37">    return returnList;</span>
+  }
+
+  @Override
+  public List&lt;String&gt; list(ListType listType) {
+<span class="fc" id="L42">    return list(listType, new ArrayList&lt;&gt;());</span>
+  }
+
+  @Override
+  public List&lt;String&gt; list(ListType listType, List&lt;String&gt; params, GroupType... groupTypes) {
+<span class="fc" id="L47">    addGroupParams(params, groupTypes);</span>
+
+<span class="fc" id="L49">    return commandExecutor.sendCommand(</span>
+<span class="fc" id="L50">        databaseProperties.getList(), generateParamList(listType, params));</span>
+  }
+
+  @Override
+  public List&lt;String&gt; list(ListType listType, GroupType... groupTypes) {
+<span class="fc" id="L55">    List&lt;String&gt; params = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L56">    addGroupParams(params, groupTypes);</span>
+
+<span class="fc" id="L58">    return commandExecutor.sendCommand(</span>
+<span class="fc" id="L59">        databaseProperties.getList(), generateParamList(listType, params));</span>
+  }
+
+  private void addGroupParams(List&lt;String&gt; params, GroupType... groupTypes) {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    if (groupTypes.length &gt; 0) {</span>
+<span class="fc" id="L64">      Arrays.stream(groupTypes)</span>
+<span class="fc" id="L65">          .forEach(</span>
+              group -&gt; {
+<span class="fc" id="L67">                params.add(databaseProperties.getGroup());</span>
+<span class="fc" id="L68">                params.add(group.getType());</span>
+<span class="fc" id="L69">              });</span>
+    }
+<span class="fc" id="L71">  }</span>
+
+  private static String[] generateParamList(ListType listType, List&lt;String&gt; params) {
+    String[] paramList;
+
+<span class="fc" id="L76">    var i = 0;</span>
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">    if (params != null) {</span>
+<span class="fc" id="L79">      paramList = new String[params.size() + 1];</span>
+    } else {
+<span class="nc" id="L81">      paramList = new String[1];</span>
+    }
+
+<span class="fc" id="L84">    paramList[i++] = listType.getType();</span>
+
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">    if (params != null) {</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">      for (String s : params) {</span>
+<span class="fc" id="L88">        paramList[i++] = s;</span>
+<span class="fc" id="L89">      }</span>
+    }
+
+<span class="fc" id="L92">    return paramList;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

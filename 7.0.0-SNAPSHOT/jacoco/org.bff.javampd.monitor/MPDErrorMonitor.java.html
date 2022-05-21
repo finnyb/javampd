@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDErrorMonitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.monitor</a> &gt; <span class="el_source">MPDErrorMonitor.java</span></div><h1>MPDErrorMonitor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.monitor;
+
+import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import org.bff.javampd.server.ErrorEvent;
+import org.bff.javampd.server.ErrorListener;
+import org.bff.javampd.server.Status;
+
+@Singleton
+public class MPDErrorMonitor implements ErrorMonitor {
+  private String error;
+  private List&lt;ErrorListener&gt; errorListeners;
+
+<span class="fc" id="L15">  MPDErrorMonitor() {</span>
+<span class="fc" id="L16">    this.errorListeners = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">  }</span>
+
+  @Override
+  public synchronized void addErrorListener(ErrorListener el) {
+<span class="fc" id="L21">    errorListeners.add(el);</span>
+<span class="fc" id="L22">  }</span>
+
+  @Override
+  public synchronized void removeErrorListener(ErrorListener el) {
+<span class="fc" id="L26">    errorListeners.remove(el);</span>
+<span class="fc" id="L27">  }</span>
+
+  /**
+   * Sends the appropriate {@link ErrorListener} to all registered {@link ErrorListener}s.
+   *
+   * @param message the event message
+   */
+  protected void fireMPDErrorEvent(String message) {
+<span class="fc" id="L35">    var ee = new ErrorEvent(this, message);</span>
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">    for (ErrorListener el : errorListeners) {</span>
+<span class="fc" id="L38">      el.errorEventReceived(ee);</span>
+<span class="fc" id="L39">    }</span>
+<span class="fc" id="L40">  }</span>
+
+  @Override
+  public void processResponseStatus(String line) {
+<span class="fc" id="L44">    var status = Status.lookup(line);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    if (status == Status.ERROR) {</span>
+<span class="fc" id="L46">      error = line.substring(Status.ERROR.getStatusPrefix().length()).trim();</span>
+    }
+<span class="fc" id="L48">  }</span>
+
+  @Override
+  public void reset() {
+<span class="fc" id="L52">    error = null;</span>
+<span class="fc" id="L53">  }</span>
+
+  @Override
+  public void checkStatus() {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (error != null) {</span>
+<span class="fc" id="L58">      fireMPDErrorEvent(error);</span>
+<span class="fc" id="L59">      error = null;</span>
+    }
+<span class="fc" id="L61">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

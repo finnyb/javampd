@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDPlayer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.player</a> &gt; <span class="el_source">MPDPlayer.java</span></div><h1>MPDPlayer.java</h1><pre class="source lang-java linenums">package org.bff.javampd.player;
+
+import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import org.bff.javampd.audioinfo.MPDAudioInfo;
+import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.playlist.MPDPlaylistSong;
+import org.bff.javampd.playlist.PlaylistSongConverter;
+import org.bff.javampd.server.ServerStatus;
+import org.bff.javampd.song.SongConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * MPDPlayer represents a player controller to a MPD server. To obtain an instance of the class you
+ * must use the &lt;code&gt;getMPDPlayer&lt;/code&gt; method from the {@link org.bff.javampd.server.MPD}
+ * connection class. This class does not have a public constructor (singleton model) so the object
+ * must be obtained from the connection object.
+ *
+ * @author Bill
+ */
+public class MPDPlayer implements Player {
+<span class="fc" id="L25">  private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlayer.class);</span>
+
+  private int oldVolume;
+<span class="fc" id="L28">  private final List&lt;PlayerChangeListener&gt; listeners = new ArrayList&lt;&gt;();</span>
+  private final VolumeChangeDelegate volumeChangeDelegate;
+
+<span class="fc" id="L31">  private Status status = Status.STATUS_STOPPED;</span>
+  private final ServerStatus serverStatus;
+  private final PlayerProperties playerProperties;
+  private final CommandExecutor commandExecutor;
+  private final PlaylistSongConverter playlistSongConverter;
+
+  @Inject
+  public MPDPlayer(
+      ServerStatus serverStatus,
+      PlayerProperties playerProperties,
+      CommandExecutor commandExecutor,
+      SongConverter songConverter,
+<span class="fc" id="L43">      PlaylistSongConverter playlistSongConverter) {</span>
+<span class="fc" id="L44">    this.serverStatus = serverStatus;</span>
+<span class="fc" id="L45">    this.playerProperties = playerProperties;</span>
+<span class="fc" id="L46">    this.commandExecutor = commandExecutor;</span>
+<span class="fc" id="L47">    this.playlistSongConverter = playlistSongConverter;</span>
+<span class="fc" id="L48">    this.volumeChangeDelegate = new VolumeChangeDelegate();</span>
+<span class="fc" id="L49">  }</span>
+
+  @Override
+  public Optional&lt;MPDPlaylistSong&gt; getCurrentSong() {
+<span class="fc" id="L53">    List&lt;MPDPlaylistSong&gt; songList =</span>
+<span class="fc" id="L54">        playlistSongConverter.convertResponseToSongs(</span>
+<span class="fc" id="L55">            commandExecutor.sendCommand(playerProperties.getCurrentSong()));</span>
+
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (songList.isEmpty()) {</span>
+<span class="fc" id="L58">      return Optional.empty();</span>
+    } else {
+<span class="fc" id="L60">      return Optional.ofNullable(songList.get(0));</span>
+    }
+  }
+
+  @Override
+  public synchronized void addPlayerChangeListener(PlayerChangeListener pcl) {
+<span class="fc" id="L66">    listeners.add(pcl);</span>
+<span class="fc" id="L67">  }</span>
+
+  @Override
+  public synchronized void removePlayerChangedListener(PlayerChangeListener pcl) {
+<span class="fc" id="L71">    listeners.remove(pcl);</span>
+<span class="fc" id="L72">  }</span>
+
+  /**
+   * Sends the appropriate {@link PlayerChangeEvent} to all registered {@link
+   * PlayerChangeListener}s.
+   *
+   * @param event the {@link PlayerChangeEvent.Event} to send
+   */
+  protected synchronized void firePlayerChangeEvent(PlayerChangeEvent.Event event) {
+<span class="fc" id="L81">    var pce = new PlayerChangeEvent(this, event);</span>
+
+<span class="fc bfc" id="L83" title="All 2 branches covered.">    for (PlayerChangeListener pcl : listeners) {</span>
+<span class="fc" id="L84">      pcl.playerChanged(pce);</span>
+<span class="fc" id="L85">    }</span>
+<span class="fc" id="L86">  }</span>
+
+  @Override
+  public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
+<span class="fc" id="L90">    volumeChangeDelegate.addVolumeChangeListener(vcl);</span>
+<span class="fc" id="L91">  }</span>
+
+  @Override
+  public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
+<span class="fc" id="L95">    volumeChangeDelegate.removeVolumeChangedListener(vcl);</span>
+<span class="fc" id="L96">  }</span>
+
+  /**
+   * Sends the appropriate {@link VolumeChangeEvent} to all registered {@link VolumeChangeListener}.
+   *
+   * @param volume the new volume
+   */
+  protected synchronized void fireVolumeChangeEvent(int volume) {
+<span class="fc" id="L104">    volumeChangeDelegate.fireVolumeChangeEvent(this, volume);</span>
+<span class="fc" id="L105">  }</span>
+
+  @Override
+  public void play() {
+<span class="fc" id="L109">    playSong(null);</span>
+<span class="fc" id="L110">  }</span>
+
+  @Override
+  public void playSong(MPDPlaylistSong song) {
+<span class="fc bfc" id="L114" title="All 2 branches covered.">    if (song == null) {</span>
+<span class="fc" id="L115">      commandExecutor.sendCommand(playerProperties.getPlay());</span>
+    } else {
+<span class="fc" id="L117">      commandExecutor.sendCommand(playerProperties.getPlayId(), song.getId());</span>
+    }
+
+<span class="pc bpc" id="L120" title="1 of 4 branches missed.">    if (status == Status.STATUS_STOPPED || status == Status.STATUS_PAUSED) {</span>
+<span class="fc" id="L121">      status = Status.STATUS_PLAYING;</span>
+<span class="fc" id="L122">      firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_STARTED);</span>
+    } else {
+<span class="fc" id="L124">      firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_SONG_SET);</span>
+    }
+<span class="fc" id="L126">  }</span>
+
+  @Override
+  public void seek(long secs) {
+<span class="fc" id="L130">    seekSong(null, secs);</span>
+<span class="fc" id="L131">  }</span>
+
+  @Override
+  public void seekSong(MPDPlaylistSong song, long secs) {
+<span class="fc bfc" id="L135" title="All 2 branches covered.">    if (song == null) {</span>
+<span class="fc" id="L136">      getCurrentSong()</span>
+<span class="fc" id="L137">          .ifPresent(</span>
+              s -&gt; {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">                if (s.getLength() &gt; secs) {</span>
+<span class="fc" id="L140">                  seekMPDSong(s, secs);</span>
+                }
+<span class="fc" id="L142">              });</span>
+
+    } else {
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">      if (song.getLength() &gt;= secs) {</span>
+<span class="fc" id="L146">        seekMPDSong(song, secs);</span>
+      }
+    }
+<span class="fc" id="L149">  }</span>
+
+  @Override
+  public void stop() {
+<span class="fc" id="L153">    commandExecutor.sendCommand(playerProperties.getStop());</span>
+<span class="fc" id="L154">    status = Status.STATUS_STOPPED;</span>
+<span class="fc" id="L155">    firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_STOPPED);</span>
+<span class="fc" id="L156">  }</span>
+
+  @Override
+  public void pause() {
+<span class="fc" id="L160">    commandExecutor.sendCommand(playerProperties.getPause());</span>
+<span class="fc" id="L161">    status = Status.STATUS_PAUSED;</span>
+<span class="fc" id="L162">    firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_PAUSED);</span>
+<span class="fc" id="L163">  }</span>
+
+  @Override
+  public void playNext() {
+<span class="fc" id="L167">    commandExecutor.sendCommand(playerProperties.getNext());</span>
+<span class="fc" id="L168">    firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_NEXT);</span>
+<span class="fc" id="L169">  }</span>
+
+  @Override
+  public void playPrevious() {
+<span class="fc" id="L173">    commandExecutor.sendCommand(playerProperties.getPrevious());</span>
+<span class="fc" id="L174">    firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_PREVIOUS);</span>
+<span class="fc" id="L175">  }</span>
+
+  @Override
+  public void mute() {
+<span class="fc" id="L179">    oldVolume = getVolume();</span>
+<span class="fc" id="L180">    setVolume(0);</span>
+<span class="fc" id="L181">    firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_MUTED);</span>
+<span class="fc" id="L182">  }</span>
+
+  @Override
+  public void unMute() {
+<span class="fc" id="L186">    setVolume(oldVolume);</span>
+<span class="fc" id="L187">    firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_UNMUTED);</span>
+<span class="fc" id="L188">  }</span>
+
+  @Override
+  public int getBitrate() {
+<span class="fc" id="L192">    return serverStatus.getBitrate();</span>
+  }
+
+  @Override
+  public int getVolume() {
+<span class="fc" id="L197">    return serverStatus.getVolume();</span>
+  }
+
+  @Override
+  public void setVolume(int volume) {
+<span class="fc bfc" id="L202" title="All 4 branches covered.">    if (volume &lt; 0 || volume &gt; 100) {</span>
+<span class="fc" id="L203">      LOGGER.warn(&quot;Not changing volume to {}&quot;, volume);</span>
+    } else {
+<span class="fc" id="L205">      commandExecutor.sendCommand(playerProperties.getSetVolume(), volume);</span>
+<span class="fc" id="L206">      fireVolumeChangeEvent(volume);</span>
+    }
+<span class="fc" id="L208">  }</span>
+
+  @Override
+  public boolean isRepeat() {
+<span class="fc" id="L212">    return serverStatus.isRepeat();</span>
+  }
+
+  @Override
+  public void setRepeat(boolean shouldRepeat) {
+    String repeat;
+<span class="fc bfc" id="L218" title="All 2 branches covered.">    if (shouldRepeat) {</span>
+<span class="fc" id="L219">      repeat = &quot;1&quot;;</span>
+    } else {
+<span class="fc" id="L221">      repeat = &quot;0&quot;;</span>
+    }
+<span class="fc" id="L223">    commandExecutor.sendCommand(playerProperties.getRepeat(), repeat);</span>
+<span class="fc" id="L224">  }</span>
+
+  @Override
+  public boolean isRandom() {
+<span class="fc" id="L228">    return serverStatus.isRandom();</span>
+  }
+
+  @Override
+  public void setRandom(boolean shouldRandom) {
+    String random;
+<span class="fc bfc" id="L234" title="All 2 branches covered.">    if (shouldRandom) {</span>
+<span class="fc" id="L235">      random = &quot;1&quot;;</span>
+    } else {
+<span class="fc" id="L237">      random = &quot;0&quot;;</span>
+    }
+<span class="fc" id="L239">    commandExecutor.sendCommand(playerProperties.getRandom(), random);</span>
+<span class="fc" id="L240">  }</span>
+
+  @Override
+  public void randomizePlay() {
+<span class="fc" id="L244">    setRandom(true);</span>
+<span class="fc" id="L245">  }</span>
+
+  @Override
+  public void unRandomizePlay() {
+<span class="fc" id="L249">    setRandom(false);</span>
+<span class="fc" id="L250">  }</span>
+
+  @Override
+  public int getXFade() {
+<span class="fc" id="L254">    return serverStatus.getXFade();</span>
+  }
+
+  @Override
+  public void setXFade(int xFade) {
+<span class="fc" id="L259">    commandExecutor.sendCommand(playerProperties.getXFade(), xFade);</span>
+<span class="fc" id="L260">  }</span>
+
+  @Override
+  public long getElapsedTime() {
+<span class="fc" id="L264">    return serverStatus.getElapsedTime();</span>
+  }
+
+  @Override
+  public long getTotalTime() {
+<span class="fc" id="L269">    return serverStatus.getTotalTime();</span>
+  }
+
+  @Override
+  public void setConsume(boolean consume) {
+<span class="fc bfc" id="L274" title="All 2 branches covered.">    commandExecutor.sendCommand(playerProperties.getConsume(), consume ? &quot;1&quot; : &quot;0&quot;);</span>
+<span class="fc" id="L275">  }</span>
+
+  @Override
+  public void setSingle(boolean single) {
+<span class="fc bfc" id="L279" title="All 2 branches covered.">    commandExecutor.sendCommand(playerProperties.getSingle(), single ? &quot;1&quot; : &quot;0&quot;);</span>
+<span class="fc" id="L280">  }</span>
+
+  @Override
+  public Optional&lt;Integer&gt; getMixRampDb() {
+<span class="fc" id="L284">    return this.serverStatus.getMixRampDb();</span>
+  }
+
+  @Override
+  public void setMixRampDb(int db) {
+<span class="fc" id="L289">    commandExecutor.sendCommand(playerProperties.getMixRampDb(), db);</span>
+<span class="fc" id="L290">  }</span>
+
+  @Override
+  public Optional&lt;Integer&gt; getMixRampDelay() {
+<span class="fc" id="L294">    return this.serverStatus.getMixRampDelay();</span>
+  }
+
+  @Override
+  public void setMixRampDelay(int delay) {
+<span class="fc" id="L299">    commandExecutor.sendCommand(</span>
+<span class="fc bfc" id="L300" title="All 2 branches covered.">        playerProperties.getMixRampDelay(), delay &lt; 0 ? &quot;nan&quot; : Integer.toString(delay));</span>
+<span class="fc" id="L301">  }</span>
+
+  @Override
+  public MPDAudioInfo getAudioDetails() {
+<span class="fc" id="L305">    MPDAudioInfo info = null;</span>
+
+<span class="fc" id="L307">    String response = serverStatus.getAudio();</span>
+<span class="pc bpc" id="L308" title="1 of 2 branches missed.">    if (!&quot;&quot;.equals(response)) {</span>
+<span class="fc" id="L309">      String[] split = response.split(&quot;:&quot;);</span>
+      info =
+<span class="fc" id="L311">          MPDAudioInfo.builder()</span>
+<span class="fc" id="L312">              .sampleRate(parseSampleRate(split[0]))</span>
+<span class="fc" id="L313">              .bits(parseBitRate(split[1]))</span>
+<span class="fc" id="L314">              .channels(parseChannels(split[2]))</span>
+<span class="fc" id="L315">              .build();</span>
+    }
+
+<span class="fc" id="L318">    return info;</span>
+  }
+
+  private static int parseSampleRate(String sampleRate) {
+    try {
+<span class="fc" id="L323">      return Integer.parseInt(sampleRate);</span>
+<span class="fc" id="L324">    } catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L325">      LOGGER.error(&quot;Could not format sample rate&quot;, nfe);</span>
+<span class="fc" id="L326">      return -1;</span>
+    }
+  }
+
+  @Override
+  public Status getStatus() {
+<span class="fc" id="L332">    String currentStatus = serverStatus.getState();</span>
+
+<span class="fc bfc" id="L334" title="All 2 branches covered.">    if (currentStatus.equalsIgnoreCase(Status.STATUS_PLAYING.getPrefix())) {</span>
+<span class="fc" id="L335">      return Status.STATUS_PLAYING;</span>
+<span class="fc bfc" id="L336" title="All 2 branches covered.">    } else if (currentStatus.equalsIgnoreCase(Status.STATUS_PAUSED.getPrefix())) {</span>
+<span class="fc" id="L337">      return Status.STATUS_PAUSED;</span>
+    } else {
+<span class="fc" id="L339">      return Status.STATUS_STOPPED;</span>
+    }
+  }
+
+  private static int parseChannels(String channels) {
+    try {
+<span class="fc" id="L345">      return Integer.parseInt(channels);</span>
+<span class="fc" id="L346">    } catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L347">      LOGGER.error(&quot;Could not format channels&quot;, nfe);</span>
+<span class="fc" id="L348">      return -1;</span>
+    }
+  }
+
+  private static int parseBitRate(String bitRate) {
+    try {
+<span class="fc" id="L354">      return Integer.parseInt(bitRate);</span>
+<span class="fc" id="L355">    } catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L356">      LOGGER.error(&quot;Could not format bits&quot;, nfe);</span>
+<span class="fc" id="L357">      return -1;</span>
+    }
+  }
+
+  private void seekMPDSong(MPDPlaylistSong song, long secs) {
+<span class="fc" id="L362">    var params = new String[2];</span>
+<span class="fc" id="L363">    params[1] = Long.toString(secs);</span>
+<span class="fc" id="L364">    params[0] = Integer.toString(song.getId());</span>
+<span class="fc" id="L365">    commandExecutor.sendCommand(playerProperties.getSeekId(), params);</span>
+<span class="fc" id="L366">    firePlayerChangeEvent(PlayerChangeEvent.Event.PLAYER_SEEKING);</span>
+<span class="fc" id="L367">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDOutputMonitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.monitor</a> &gt; <span class="el_source">MPDOutputMonitor.java</span></div><h1>MPDOutputMonitor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.monitor;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import java.util.*;
+import org.bff.javampd.admin.Admin;
+import org.bff.javampd.output.MPDOutput;
+import org.bff.javampd.output.OutputChangeEvent;
+import org.bff.javampd.output.OutputChangeListener;
+
+@Singleton
+public class MPDOutputMonitor implements OutputMonitor {
+  private Map&lt;Integer, MPDOutput&gt; outputMap;
+  private List&lt;OutputChangeListener&gt; outputListeners;
+
+  private Admin admin;
+
+  @Inject
+<span class="fc" id="L19">  MPDOutputMonitor(Admin admin) {</span>
+<span class="fc" id="L20">    this.admin = admin;</span>
+<span class="fc" id="L21">    this.outputMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L22">    this.outputListeners = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L23">  }</span>
+
+  @Override
+  public void checkStatus() {
+<span class="fc" id="L27">    List&lt;MPDOutput&gt; outputs = new ArrayList&lt;&gt;(admin.getOutputs());</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">    if (outputs.size() &gt; outputMap.size()) {</span>
+<span class="fc" id="L29">      fireOutputChangeEvent(</span>
+          new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED));
+<span class="fc" id="L31">      loadOutputs(outputs);</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">    } else if (outputs.size() &lt; outputMap.size()) {</span>
+<span class="fc" id="L33">      fireOutputChangeEvent(</span>
+          new OutputChangeEvent(this, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_DELETED));
+<span class="fc" id="L35">      loadOutputs(outputs);</span>
+    } else {
+<span class="fc" id="L37">      compareOutputs(outputs);</span>
+    }
+<span class="fc" id="L39">  }</span>
+
+  private void compareOutputs(List&lt;MPDOutput&gt; outputs) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">    for (MPDOutput output : outputs) {</span>
+<span class="fc" id="L43">      var mpdOutput = outputMap.get(output.getId());</span>
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">      if (mpdOutput.isEnabled() != output.isEnabled()) {</span>
+<span class="fc" id="L46">        fireOutputChangeEvent(</span>
+            new OutputChangeEvent(output, OutputChangeEvent.OUTPUT_EVENT.OUTPUT_CHANGED));
+<span class="fc" id="L48">        loadOutputs(outputs);</span>
+<span class="fc" id="L49">        return;</span>
+      }
+<span class="fc" id="L51">    }</span>
+<span class="fc" id="L52">  }</span>
+
+  @Override
+  public synchronized void addOutputChangeListener(OutputChangeListener vcl) {
+<span class="fc" id="L56">    outputListeners.add(vcl);</span>
+<span class="fc" id="L57">  }</span>
+
+  @Override
+  public synchronized void removeOutputChangeListener(OutputChangeListener vcl) {
+<span class="fc" id="L61">    outputListeners.remove(vcl);</span>
+<span class="fc" id="L62">  }</span>
+
+  /**
+   * Sends the appropriate {@link OutputChangeEvent} to all registered {@link
+   * org.bff.javampd.output.OutputChangeListener}s.
+   *
+   * @param event the event id to send
+   */
+  protected synchronized void fireOutputChangeEvent(OutputChangeEvent event) {
+<span class="fc bfc" id="L71" title="All 2 branches covered.">    for (OutputChangeListener ocl : outputListeners) {</span>
+<span class="fc" id="L72">      ocl.outputChanged(event);</span>
+<span class="fc" id="L73">    }</span>
+<span class="fc" id="L74">  }</span>
+
+  private void loadOutputs(Collection&lt;MPDOutput&gt; outputs) {
+<span class="fc" id="L77">    outputMap.clear();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">    for (MPDOutput output : outputs) {</span>
+<span class="fc" id="L79">      outputMap.put(output.getId(), output);</span>
+<span class="fc" id="L80">    }</span>
+<span class="fc" id="L81">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

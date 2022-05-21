@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDTrackMonitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.monitor</a> &gt; <span class="el_source">MPDTrackMonitor.java</span></div><h1>MPDTrackMonitor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.monitor;
+
+import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import org.bff.javampd.player.TrackPositionChangeEvent;
+import org.bff.javampd.player.TrackPositionChangeListener;
+import org.bff.javampd.server.Status;
+
+@Singleton
+public class MPDTrackMonitor implements TrackMonitor {
+  private List&lt;TrackPositionChangeListener&gt; trackListeners;
+  private long oldPos;
+  private long elapsedTime;
+
+<span class="fc" id="L16">  MPDTrackMonitor() {</span>
+<span class="fc" id="L17">    this.trackListeners = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L18">  }</span>
+
+  @Override
+  public void checkStatus() {
+<span class="fc" id="L22">    checkTrackPosition(elapsedTime);</span>
+<span class="fc" id="L23">  }</span>
+
+  @Override
+  public void processResponseStatus(String line) {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">    if (Status.lookup(line) == Status.TIME) {</span>
+<span class="fc" id="L28">      elapsedTime =</span>
+<span class="fc" id="L29">          Long.parseLong(</span>
+<span class="fc" id="L30">              line.substring(Status.TIME.getStatusPrefix().length()).trim().split(&quot;:&quot;)[0]);</span>
+    }
+<span class="fc" id="L32">  }</span>
+
+  @Override
+  public void reset() {
+<span class="fc" id="L36">    oldPos = 0;</span>
+<span class="fc" id="L37">    elapsedTime = 0;</span>
+<span class="fc" id="L38">  }</span>
+
+  /**
+   * Checks the track position and fires a {@link TrackPositionChangeEvent} if there has been a
+   * change in track position.
+   *
+   * @param newPos the new elapsed time to check
+   */
+  protected final void checkTrackPosition(long newPos) {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">    if (oldPos != newPos) {</span>
+<span class="fc" id="L48">      oldPos = newPos;</span>
+<span class="fc" id="L49">      fireTrackPositionChangeEvent(newPos);</span>
+    }
+<span class="fc" id="L51">  }</span>
+
+  /**
+   * Adds a {@link TrackPositionChangeListener} to this object to receive {@link
+   * org.bff.javampd.player.TrackPositionChangeEvent}s.
+   *
+   * @param tpcl the TrackPositionChangeListener to add
+   */
+  @Override
+  public synchronized void addTrackPositionChangeListener(TrackPositionChangeListener tpcl) {
+<span class="fc" id="L61">    trackListeners.add(tpcl);</span>
+<span class="fc" id="L62">  }</span>
+
+  /**
+   * Removes a {@link TrackPositionChangeListener} from this object.
+   *
+   * @param tpcl the TrackPositionChangeListener to remove
+   */
+  @Override
+  public synchronized void removeTrackPositionChangeListener(TrackPositionChangeListener tpcl) {
+<span class="fc" id="L71">    trackListeners.remove(tpcl);</span>
+<span class="fc" id="L72">  }</span>
+
+  @Override
+  public void resetElapsedTime() {
+<span class="fc" id="L76">    elapsedTime = 0;</span>
+<span class="fc" id="L77">    oldPos = 0;</span>
+<span class="fc" id="L78">  }</span>
+
+  /**
+   * Sends the appropriate {@link org.bff.javampd.player.TrackPositionChangeEvent} to all registered
+   * {@link TrackPositionChangeListener}s.
+   *
+   * @param newTime the new elapsed time
+   */
+  protected synchronized void fireTrackPositionChangeEvent(long newTime) {
+<span class="fc" id="L87">    var tpce = new TrackPositionChangeEvent(this, newTime);</span>
+
+<span class="fc bfc" id="L89" title="All 2 branches covered.">    for (TrackPositionChangeListener tpcl : trackListeners) {</span>
+<span class="fc" id="L90">      tpcl.trackPositionChanged(tpce);</span>
+<span class="fc" id="L91">    }</span>
+<span class="fc" id="L92">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

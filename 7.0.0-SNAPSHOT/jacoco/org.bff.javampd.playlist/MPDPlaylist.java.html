@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDPlaylist.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.playlist</a> &gt; <span class="el_source">MPDPlaylist.java</span></div><h1>MPDPlaylist.java</h1><pre class="source lang-java linenums">package org.bff.javampd.playlist;
+
+import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.bff.javampd.album.MPDAlbum;
+import org.bff.javampd.artist.MPDArtist;
+import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.command.MPDCommand;
+import org.bff.javampd.file.MPDFile;
+import org.bff.javampd.genre.MPDGenre;
+import org.bff.javampd.server.ServerStatus;
+import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.song.SongDatabase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * MPDPlaylist represents a playlist controller to a MPD server. To obtain an instance of the class
+ * you must use the &lt;code&gt;getMPDPlaylist&lt;/code&gt; method from the {@link org.bff.javampd.server.MPD}
+ * connection class.
+ *
+ * @author Bill
+ */
+public class MPDPlaylist implements Playlist {
+<span class="fc" id="L27">  private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlaylist.class);</span>
+
+<span class="fc" id="L29">  private int oldVersion = -1;</span>
+<span class="fc" id="L30">  private int version = -1;</span>
+
+  private final List&lt;PlaylistChangeListener&gt; listeners;
+  private final SongDatabase songDatabase;
+  private final ServerStatus serverStatus;
+  private final CommandExecutor commandExecutor;
+  private final PlaylistSongConverter songConverter;
+
+  private PlaylistProperties playlistProperties;
+
+  /**
+   * Playlist constructor
+   *
+   * @param songDatabase the song database
+   * @param serverStatus the server status
+   * @param playlistProperties playlist properties
+   * @param commandExecutor command runner
+   * @param songConverter song marshaller
+   */
+  @Inject
+  public MPDPlaylist(
+      SongDatabase songDatabase,
+      ServerStatus serverStatus,
+      PlaylistProperties playlistProperties,
+      CommandExecutor commandExecutor,
+<span class="fc" id="L55">      PlaylistSongConverter songConverter) {</span>
+<span class="fc" id="L56">    this.songDatabase = songDatabase;</span>
+<span class="fc" id="L57">    this.serverStatus = serverStatus;</span>
+<span class="fc" id="L58">    this.playlistProperties = playlistProperties;</span>
+<span class="fc" id="L59">    this.commandExecutor = commandExecutor;</span>
+<span class="fc" id="L60">    this.songConverter = songConverter;</span>
+<span class="fc" id="L61">    this.listeners = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L62">    this.playlistProperties = new PlaylistProperties();</span>
+<span class="fc" id="L63">  }</span>
+
+  @Override
+  public synchronized void addPlaylistChangeListener(PlaylistChangeListener pcl) {
+<span class="fc" id="L67">    listeners.add(pcl);</span>
+<span class="fc" id="L68">  }</span>
+
+  @Override
+  public synchronized void removePlaylistStatusChangedListener(PlaylistChangeListener pcl) {
+<span class="fc" id="L72">    listeners.remove(pcl);</span>
+<span class="fc" id="L73">  }</span>
+
+  /**
+   * Sends the appropriate {@link PlaylistChangeEvent} to all registered {@link
+   * PlaylistChangeListener}.
+   *
+   * @param event the {@link PlaylistChangeEvent.Event} to send
+   */
+  protected synchronized void firePlaylistChangeEvent(PlaylistChangeEvent.Event event) {
+<span class="fc" id="L82">    var pce = new PlaylistChangeEvent(this, event);</span>
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">    for (PlaylistChangeListener pcl : listeners) {</span>
+<span class="fc" id="L85">      pcl.playlistChanged(pce);</span>
+<span class="fc" id="L86">    }</span>
+<span class="fc" id="L87">  }</span>
+
+  /**
+   * Sends the appropriate {@link PlaylistChangeEvent} to all registered {@link
+   * PlaylistChangeListener}.
+   *
+   * @param event the {@link PlaylistChangeEvent.Event} to send
+   * @param name name of the added entity
+   */
+  protected synchronized void firePlaylistChangeEvent(
+      PlaylistChangeEvent.Event event, String name) {
+<span class="fc" id="L98">    var pce = new PlaylistChangeEvent(this, event, name);</span>
+
+<span class="fc bfc" id="L100" title="All 2 branches covered.">    for (PlaylistChangeListener pcl : listeners) {</span>
+<span class="fc" id="L101">      pcl.playlistChanged(pce);</span>
+<span class="fc" id="L102">    }</span>
+<span class="fc" id="L103">  }</span>
+
+  @Override
+  public void loadPlaylist(String playlistName) {
+<span class="fc" id="L107">    String name = playlistName;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">    if (name.endsWith(&quot;.m3u&quot;)) {</span>
+<span class="fc" id="L109">      name = name.substring(0, name.length() - 4);</span>
+    }
+
+<span class="fc" id="L112">    commandExecutor.sendCommand(playlistProperties.getLoad(), name);</span>
+<span class="fc" id="L113">    updatePlaylist();</span>
+<span class="fc" id="L114">  }</span>
+
+  @Override
+  public void addSong(MPDSong song) {
+<span class="fc" id="L118">    addSong(song, true);</span>
+<span class="fc" id="L119">  }</span>
+
+  @Override
+  public void addSong(MPDSong song, boolean fireEvent) {
+<span class="fc" id="L123">    addSong(song.getFile(), fireEvent);</span>
+<span class="fc" id="L124">  }</span>
+
+  @Override
+  public void addSong(String file) {
+<span class="fc" id="L128">    this.addSong(file, true);</span>
+<span class="fc" id="L129">  }</span>
+
+  @Override
+  public void addSong(String file, boolean fireEvent) {
+<span class="fc" id="L133">    commandExecutor.sendCommand(playlistProperties.getAdd(), file);</span>
+<span class="fc" id="L134">    updatePlaylist();</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">    if (fireEvent) {</span>
+<span class="fc" id="L136">      firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_ADDED, file);</span>
+    }
+<span class="fc" id="L138">  }</span>
+
+  @Override
+  public boolean addSongs(List&lt;MPDSong&gt; songList) {
+<span class="fc" id="L142">    return addSongs(songList, true);</span>
+  }
+
+  @Override
+  public boolean addSongs(List&lt;MPDSong&gt; songList, boolean fireEvent) {
+<span class="fc" id="L147">    commandExecutor.sendCommands(</span>
+<span class="fc" id="L148">        songList.stream()</span>
+<span class="fc" id="L149">            .map(song -&gt; new MPDCommand(playlistProperties.getAdd(), song.getFile()))</span>
+<span class="fc" id="L150">            .collect(Collectors.toList()));</span>
+
+<span class="fc" id="L152">    int oldCount = songList.size();</span>
+<span class="fc" id="L153">    updatePlaylist();</span>
+
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">    if (fireEvent) {</span>
+<span class="fc" id="L156">      firePlaylistChangeEvent(</span>
+<span class="fc" id="L157">          PlaylistChangeEvent.Event.MULTIPLE_SONGS_ADDED, Integer.toString(songList.size()));</span>
+    }
+
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">    return oldCount &lt; songList.size();</span>
+  }
+
+  @Override
+  public void addFileOrDirectory(MPDFile file) {
+<span class="fc" id="L165">    commandExecutor.sendCommand(playlistProperties.getAdd(), file.getPath());</span>
+<span class="fc" id="L166">    updatePlaylist();</span>
+<span class="fc" id="L167">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.FILE_ADDED, file.getPath());</span>
+<span class="fc" id="L168">  }</span>
+
+  @Override
+  public void removeSong(MPDPlaylistSong song) {
+<span class="fc bfc" id="L172" title="All 2 branches covered.">    if (song.getId() &gt; -1) {</span>
+<span class="fc" id="L173">      updatePlaylist();</span>
+<span class="fc" id="L174">      firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_DELETED, song.getName());</span>
+<span class="fc" id="L175">      commandExecutor.sendCommand(playlistProperties.getRemoveId(), song.getId());</span>
+    } else {
+<span class="fc" id="L177">      removeSong(song.getPosition());</span>
+    }
+<span class="fc" id="L179">  }</span>
+
+  @Override
+  public void removeSong(int position) {
+<span class="fc bfc" id="L183" title="All 2 branches covered.">    if (position &gt; -1) {</span>
+<span class="fc" id="L184">      commandExecutor.sendCommand(playlistProperties.getRemove(), position);</span>
+<span class="fc" id="L185">      updatePlaylist();</span>
+<span class="fc" id="L186">      firePlaylistChangeEvent(PlaylistChangeEvent.Event.SONG_DELETED);</span>
+    }
+<span class="fc" id="L188">  }</span>
+
+  @Override
+  public MPDPlaylistSong getCurrentSong() {
+<span class="fc" id="L192">    List&lt;MPDPlaylistSong&gt; songs =</span>
+<span class="fc" id="L193">        convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getCurrentSong()));</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">    return songs.isEmpty() ? null : songs.get(0);</span>
+  }
+
+  private List&lt;MPDPlaylistSong&gt; convertResponseToSong(List&lt;String&gt; response) {
+<span class="fc" id="L198">    return songConverter.convertResponseToSongs(response);</span>
+  }
+
+  @Override
+  public void clearPlaylist() {
+<span class="fc" id="L203">    commandExecutor.sendCommand(playlistProperties.getClear());</span>
+<span class="fc" id="L204">    updatePlaylist();</span>
+<span class="fc" id="L205">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_CLEARED);</span>
+<span class="fc" id="L206">  }</span>
+
+  @Override
+  public void deletePlaylist(MPDSavedPlaylist playlist) {
+<span class="fc" id="L210">    deletePlaylist(playlist.getName());</span>
+<span class="fc" id="L211">  }</span>
+
+  @Override
+  public void deletePlaylist(String playlistName) {
+<span class="fc" id="L215">    commandExecutor.sendCommand(playlistProperties.getDelete(), playlistName);</span>
+<span class="fc" id="L216">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_DELETED);</span>
+<span class="fc" id="L217">  }</span>
+
+  @Override
+  public void move(MPDPlaylistSong song, int to) {
+<span class="fc bfc" id="L221" title="All 2 branches covered.">    if (song.getId() &gt; -1) {</span>
+<span class="fc" id="L222">      commandExecutor.sendCommand(playlistProperties.getMoveId(), song.getId(), to);</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">    } else if (song.getPosition() &gt; -1) {</span>
+<span class="fc" id="L224">      commandExecutor.sendCommand(playlistProperties.getMove(), song.getPosition(), to);</span>
+    }
+
+<span class="fc" id="L227">    updatePlaylist();</span>
+<span class="fc" id="L228">  }</span>
+
+  @Override
+  public void shuffle() {
+<span class="fc" id="L232">    commandExecutor.sendCommand(playlistProperties.getShuffle());</span>
+<span class="fc" id="L233">    updatePlaylist();</span>
+<span class="fc" id="L234">  }</span>
+
+  @Override
+  public void swap(MPDPlaylistSong song1, MPDPlaylistSong song2) {
+<span class="pc bpc" id="L238" title="1 of 4 branches missed.">    if (song1.getId() &gt; -1 &amp;&amp; song2.getId() &gt; -1) {</span>
+<span class="fc" id="L239">      commandExecutor.sendCommand(playlistProperties.getSwapId(), song1.getId(), song2.getId());</span>
+<span class="pc bpc" id="L240" title="2 of 4 branches missed.">    } else if (song1.getPosition() &gt; -1 &amp;&amp; song2.getPosition() &gt; -1) {</span>
+<span class="fc" id="L241">      commandExecutor.sendCommand(</span>
+<span class="fc" id="L242">          playlistProperties.getSwap(), song1.getPosition(), song2.getPosition());</span>
+    }
+<span class="fc" id="L244">    updatePlaylist();</span>
+<span class="fc" id="L245">  }</span>
+
+  @Override
+  public boolean savePlaylist(String playlistName) {
+<span class="fc bfc" id="L249" title="All 2 branches covered.">    if (playlistName != null) {</span>
+<span class="fc" id="L250">      commandExecutor.sendCommand(playlistProperties.getSave(), playlistName);</span>
+<span class="fc" id="L251">      firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_SAVED);</span>
+
+<span class="fc" id="L253">      return true;</span>
+    } else {
+<span class="fc" id="L255">      LOGGER.error(&quot;Playlist not saved since name was null&quot;);</span>
+<span class="fc" id="L256">      return false;</span>
+    }
+  }
+
+  private void updatePlaylist() {
+<span class="fc" id="L261">    int v = getPlaylistVersion();</span>
+<span class="fc" id="L262">    setVersion(v);</span>
+
+<span class="fc bfc" id="L264" title="All 2 branches covered.">    if (v != oldVersion) {</span>
+<span class="fc" id="L265">      oldVersion = getVersion();</span>
+<span class="fc" id="L266">      firePlaylistChangeEvent(PlaylistChangeEvent.Event.PLAYLIST_CHANGED);</span>
+    }
+<span class="fc" id="L268">  }</span>
+
+  private int getPlaylistVersion() {
+<span class="fc" id="L271">    return serverStatus.getPlaylistVersion();</span>
+  }
+
+  /**
+   * Returns the list of songs in the playlist.
+   *
+   * @return the list of songs
+   */
+  private List&lt;MPDPlaylistSong&gt; listSongs() {
+<span class="fc" id="L280">    return convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getInfo()));</span>
+  }
+
+  @Override
+  public void insertAlbum(MPDArtist artist, MPDAlbum album) {
+<span class="fc bfc" id="L285" title="All 2 branches covered.">    for (MPDSong song : songDatabase.findAlbumByArtist(artist, album)) {</span>
+<span class="fc" id="L286">      addSong(song, false);</span>
+<span class="fc" id="L287">    }</span>
+<span class="fc" id="L288">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album.getName());</span>
+<span class="fc" id="L289">  }</span>
+
+  @Override
+  public void insertAlbum(String artist, String album) {
+<span class="fc bfc" id="L293" title="All 2 branches covered.">    for (MPDSong song : songDatabase.findAlbumByArtist(artist, album)) {</span>
+<span class="fc" id="L294">      addSong(song, false);</span>
+<span class="fc" id="L295">    }</span>
+<span class="fc" id="L296">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album);</span>
+<span class="fc" id="L297">  }</span>
+
+  @Override
+  public void insertAlbum(MPDAlbum album) {
+<span class="fc bfc" id="L301" title="All 2 branches covered.">    for (MPDSong song : songDatabase.findAlbum(album)) {</span>
+<span class="fc" id="L302">      addSong(song, false);</span>
+<span class="fc" id="L303">    }</span>
+<span class="fc" id="L304">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album.getName());</span>
+<span class="fc" id="L305">  }</span>
+
+  @Override
+  public void insertAlbum(String album) {
+<span class="fc bfc" id="L309" title="All 2 branches covered.">    for (MPDSong song : songDatabase.findAlbum(album)) {</span>
+<span class="fc" id="L310">      addSong(song, false);</span>
+<span class="fc" id="L311">    }</span>
+<span class="fc" id="L312">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.ALBUM_ADDED, album);</span>
+<span class="fc" id="L313">  }</span>
+
+  @Override
+  public void removeAlbum(MPDArtist artist, MPDAlbum album) {
+<span class="fc" id="L317">    removeAlbum(artist.getName(), album.getName());</span>
+<span class="fc" id="L318">  }</span>
+
+  @Override
+  public void removeAlbum(String artistName, String albumName) {
+<span class="fc" id="L322">    List&lt;MPDPlaylistSong&gt; removeList =</span>
+<span class="fc" id="L323">        getSongList().stream()</span>
+<span class="fc" id="L324">            .filter(</span>
+                song -&gt;
+<span class="fc bfc" id="L326" title="All 2 branches covered.">                    song.getArtistName().equals(artistName)</span>
+<span class="pc bpc" id="L327" title="1 of 2 branches missed.">                        &amp;&amp; song.getAlbumName().equals(albumName))</span>
+<span class="fc" id="L328">            .collect(Collectors.toList());</span>
+
+<span class="fc" id="L330">    removeList.forEach(this::removeSong);</span>
+<span class="fc" id="L331">  }</span>
+
+  @Override
+  public void insertArtist(MPDArtist artist) {
+<span class="fc" id="L335">    insertArtist(artist.getName());</span>
+<span class="fc" id="L336">  }</span>
+
+  @Override
+  public void insertArtist(String artistName) {
+<span class="fc bfc" id="L340" title="All 2 branches covered.">    for (MPDSong song : songDatabase.findArtist(artistName)) {</span>
+<span class="fc" id="L341">      addSong(song, false);</span>
+<span class="fc" id="L342">    }</span>
+
+<span class="fc" id="L344">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.ARTIST_ADDED, artistName);</span>
+<span class="fc" id="L345">  }</span>
+
+  @Override
+  public void insertGenre(MPDGenre genre) {
+<span class="fc" id="L349">    insertGenre(genre.getName());</span>
+<span class="fc" id="L350">  }</span>
+
+  @Override
+  public void insertGenre(String genreName) {
+<span class="fc bfc" id="L354" title="All 2 branches covered.">    for (MPDSong song : songDatabase.findGenre(genreName)) {</span>
+<span class="fc" id="L355">      addSong(song, false);</span>
+<span class="fc" id="L356">    }</span>
+<span class="fc" id="L357">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.GENRE_ADDED, genreName);</span>
+<span class="fc" id="L358">  }</span>
+
+  @Override
+  public void removeGenre(MPDGenre genre) {
+<span class="fc" id="L362">    removeGenre(genre.getName());</span>
+<span class="fc" id="L363">  }</span>
+
+  @Override
+  public void removeGenre(String genreName) {
+<span class="fc" id="L367">    List&lt;MPDPlaylistSong&gt; removeList =</span>
+<span class="fc" id="L368">        getSongList().stream()</span>
+<span class="fc" id="L369">            .filter(song -&gt; song.getGenre().equals(genreName))</span>
+<span class="fc" id="L370">            .collect(Collectors.toList());</span>
+
+<span class="fc" id="L372">    removeList.forEach(this::removeSong);</span>
+<span class="fc" id="L373">  }</span>
+
+  @Override
+  public void insertYear(String year) {
+<span class="fc bfc" id="L377" title="All 2 branches covered.">    for (MPDSong song : songDatabase.findYear(year)) {</span>
+<span class="fc" id="L378">      addSong(song, false);</span>
+<span class="fc" id="L379">    }</span>
+
+<span class="fc" id="L381">    firePlaylistChangeEvent(PlaylistChangeEvent.Event.YEAR_ADDED, year);</span>
+<span class="fc" id="L382">  }</span>
+
+  @Override
+  public void removeYear(String year) {
+<span class="fc" id="L386">    List&lt;MPDPlaylistSong&gt; removeList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L387" title="All 2 branches covered.">    for (MPDPlaylistSong song : getSongList()) {</span>
+<span class="fc bfc" id="L388" title="All 2 branches covered.">      if (song.getDate().equals(year)) {</span>
+<span class="fc" id="L389">        removeList.add(song);</span>
+      }
+<span class="fc" id="L391">    }</span>
+
+<span class="fc" id="L393">    removeList.forEach(this::removeSong);</span>
+<span class="fc" id="L394">  }</span>
+
+  @Override
+  public void removeArtist(MPDArtist artist) {
+<span class="fc" id="L398">    removeArtist(artist.getName());</span>
+<span class="fc" id="L399">  }</span>
+
+  @Override
+  public void removeArtist(String artistName) {
+<span class="fc" id="L403">    List&lt;MPDPlaylistSong&gt; removeList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L404" title="All 2 branches covered.">    for (MPDPlaylistSong song : getSongList()) {</span>
+<span class="fc bfc" id="L405" title="All 2 branches covered.">      if (song.getArtistName().equals(artistName)) {</span>
+<span class="fc" id="L406">        removeList.add(song);</span>
+      }
+<span class="fc" id="L408">    }</span>
+
+<span class="fc" id="L410">    removeList.forEach(this::removeSong);</span>
+<span class="fc" id="L411">  }</span>
+
+  @Override
+  public int getVersion() {
+<span class="fc" id="L415">    return version;</span>
+  }
+
+  private void setVersion(int version) {
+<span class="fc" id="L419">    this.version = version;</span>
+<span class="fc" id="L420">  }</span>
+
+  @Override
+  public List&lt;MPDPlaylistSong&gt; getSongList() {
+<span class="fc" id="L424">    return listSongs();</span>
+  }
+
+  @Override
+  public void swap(MPDPlaylistSong song, int i) {
+<span class="fc" id="L429">    commandExecutor.sendCommand(playlistProperties.getSwapId(), song.getId(), i);</span>
+<span class="fc" id="L430">    updatePlaylist();</span>
+<span class="fc" id="L431">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

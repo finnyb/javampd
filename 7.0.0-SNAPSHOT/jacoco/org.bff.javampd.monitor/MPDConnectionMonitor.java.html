@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDConnectionMonitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.monitor</a> &gt; <span class="el_source">MPDConnectionMonitor.java</span></div><h1>MPDConnectionMonitor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.monitor;
+
+import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import org.bff.javampd.server.ConnectionChangeEvent;
+import org.bff.javampd.server.ConnectionChangeListener;
+import org.bff.javampd.server.Server;
+
+@Singleton
+public class MPDConnectionMonitor implements ConnectionMonitor {
+  private final List&lt;ConnectionChangeListener&gt; connectionListeners;
+  private Server server;
+<span class="fc" id="L14">  private boolean connected = true;</span>
+
+<span class="fc" id="L16">  MPDConnectionMonitor() {</span>
+<span class="fc" id="L17">    this.connectionListeners = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L18">  }</span>
+
+  /**
+   * Adds a {@link org.bff.javampd.server.ConnectionChangeListener} to this object to receive {@link
+   * org.bff.javampd.server.ConnectionChangeEvent}s.
+   *
+   * @param ccl the ConnectionChangeListener to add
+   */
+  @Override
+  public synchronized void addConnectionChangeListener(ConnectionChangeListener ccl) {
+<span class="fc" id="L28">    connectionListeners.add(ccl);</span>
+<span class="fc" id="L29">  }</span>
+
+  /**
+   * Removes a {@link ConnectionChangeListener} from this object.
+   *
+   * @param ccl the ConnectionChangeListener to remove
+   */
+  @Override
+  public synchronized void removeConnectionChangeListener(ConnectionChangeListener ccl) {
+<span class="fc" id="L38">    connectionListeners.remove(ccl);</span>
+<span class="fc" id="L39">  }</span>
+
+  /**
+   * Sends the appropriate {@link org.bff.javampd.server.ConnectionChangeEvent} to all registered
+   * {@link ConnectionChangeListener}s.
+   *
+   * @param isConnected the connection status
+   */
+  protected synchronized void fireConnectionChangeEvent(boolean isConnected) {
+<span class="fc" id="L48">    var cce = new ConnectionChangeEvent(this, isConnected);</span>
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    for (ConnectionChangeListener ccl : connectionListeners) {</span>
+<span class="fc" id="L51">      ccl.connectionChangeEventReceived(cce);</span>
+<span class="fc" id="L52">    }</span>
+<span class="fc" id="L53">  }</span>
+
+  @Override
+  public void checkStatus() {
+<span class="fc" id="L57">    boolean conn = this.server.isConnected();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">    if (connected != conn) {</span>
+<span class="fc" id="L59">      connected = conn;</span>
+<span class="fc" id="L60">      fireConnectionChangeEvent(conn);</span>
+    }
+<span class="fc" id="L62">  }</span>
+
+  @Override
+  public void setServer(Server server) {
+<span class="fc" id="L66">    this.server = server;</span>
+<span class="fc" id="L67">  }</span>
+
+  @Override
+  public boolean isConnected() {
+<span class="fc" id="L71">    return this.connected;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
