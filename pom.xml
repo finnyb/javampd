@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.inthebacklog</groupId>
     <artifactId>javampd</artifactId>
     <packaging>jar</packaging>
-    <version>7.0.0-SNAPSHOT</version>
+    <version>7.1.0-SNAPSHOT</version>
     <name>JavaMPD</name>
     <description>A Java API for controlling the Music Player Daemon (MPD)</description>
     <url>https://github.com/finnyb/javampd/</url>
@@ -35,7 +34,8 @@
         <connection>scm:git:https://github.com/finnyb/javampd.git</connection>
         <developerConnection>scm:git:https://github.com/finnyb/javampd.git</developerConnection>
         <url>https://github.com/finnyb/javampd</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
     <ciManagement>
         <system>travis-ci</system>
         <url>https://travis-ci.org/github/finnyb/javampd</url>
@@ -193,8 +193,8 @@
                             <includes>
                                 <include>.gitignore</include>
                             </includes>
-                            <trimTrailingWhitespace/>
-                            <endWithNewline/>
+                            <trimTrailingWhitespace />
+                            <endWithNewline />
                             <indent>
                                 <tabs>true</tabs>
                                 <spacesPerTab>4</spacesPerTab>
