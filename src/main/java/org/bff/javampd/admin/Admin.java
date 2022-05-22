@@ -51,18 +51,29 @@ public interface Admin {
   void killMPD();
 
   /**
-   * Updates the MPD database by searching the mp3 directory for new music and removing the old
-   * music.
+   * Updates the music database: finds new files, removes deleted files, updates modified files.
+   *
+   * @return a positive number identifying the update job. You can read the current job id in the *
+   *     {@link org.bff.javampd.server.Status} response.
    */
-  void updateDatabase();
+  int updateDatabase();
 
   /**
-   * Updates the MPD database by searching a specific mp3 directory for new music and removing the
-   * old music.
+   * Updates the music database: finds new files, removes deleted files, updates modified files.
    *
-   * @param path the path
+   * @param path a particular directory or song/file to update
+   * @return a positive number identifying the update job. You can read the current job id in the
+   *     {@link org.bff.javampd.server.Status} response.
    */
-  void updateDatabase(String path);
+  int updateDatabase(String path);
+
+  /**
+   * Same as {@link #updateDatabase()}, but also rescans unmodified files.
+   *
+   * @return a positive number identifying the update job. You can read the current job id in the
+   *     {@link org.bff.javampd.server.Status} response.
+   */
+  int rescan();
 
   /**
    * Adds a {@link OutputChangeListener} to this object to receive {@link
