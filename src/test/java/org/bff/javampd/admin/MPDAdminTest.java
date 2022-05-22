@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.output.MPDOutput;
@@ -14,6 +15,7 @@ import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
 import org.bff.javampd.statistics.ServerStatistics;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -100,19 +102,59 @@ class MPDAdminTest {
   @Test
   void updateDatabase() {
     when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
-
-    admin.updateDatabase();
+    when(commandExecutor.sendCommand("update"))
+        .thenReturn(Collections.singletonList("updating_db: 3"));
+    var id = admin.updateDatabase();
     verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
     assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(3)));
+  }
+
+  @Test
+  @DisplayName("handle missing id in response")
+  void updateDatabaseMissingId() {
+    when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
+    when(commandExecutor.sendCommand("update"))
+        .thenReturn(Collections.singletonList("updating_db: foo"));
+    var id = admin.updateDatabase();
+    verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+    assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(-1)));
+  }
+
+  @Test
+  @DisplayName("handle un-parseable id in response")
+  void updateDatabaseUnparseableId() {
+    when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
+    when(commandExecutor.sendCommand("update")).thenReturn(Collections.singletonList(""));
+    var id = admin.updateDatabase();
+    verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+    assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(-1)));
   }
 
   @Test
   void updateDatabaseWithPath() {
-    admin.updateDatabase("testPath");
+    when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
+    when(commandExecutor.sendCommand("update", "testPath"))
+        .thenReturn(Collections.singletonList("updating_db: 3"));
+    var id = admin.updateDatabase("testPath");
     verify(commandExecutor)
         .sendCommand(commandArgumentCaptor.capture(), stringParamArgumentCaptor.capture());
     assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
     assertThat("testPath", is(equalTo(stringParamArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(3)));
+  }
+
+  @Test
+  void rescanDatabase() {
+    when(adminProperties.getRescan()).thenReturn(realAdminProperties.getRescan());
+    when(commandExecutor.sendCommand("rescan"))
+        .thenReturn(Collections.singletonList("updating_db: 3"));
+    var id = admin.rescan();
+    verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+    assertThat(adminProperties.getRescan(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(3)));
   }
 
   @Test

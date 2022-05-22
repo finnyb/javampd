@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;
@@ -20,17 +21,19 @@ import org.bff.javampd.output.OutputChangeListener;
  *
  * @author Bill
  */
+@Slf4j
 public class MPDAdmin implements Admin {
 
-  private List<MPDChangeListener> listeners = new ArrayList<>();
-  private List<OutputChangeListener> outputListeners = new ArrayList<>();
+  private final List<MPDChangeListener> listeners = new ArrayList<>();
+  private final List<OutputChangeListener> outputListeners = new ArrayList<>();
 
   protected static final String OUTPUT_PREFIX_ID = "outputid:";
   protected static final String OUTPUT_PREFIX_NAME = "outputname:";
   protected static final String OUTPUT_PREFIX_ENABLED = "outputenabled:";
+  protected static final String UPDATE_PREFIX = "updating_db:";
 
-  private AdminProperties adminProperties;
-  private CommandExecutor commandExecutor;
+  private final AdminProperties adminProperties;
+  private final CommandExecutor commandExecutor;
 
   @Inject
   public MPDAdmin(AdminProperties adminProperties, CommandExecutor commandExecutor) {
@@ -55,47 +58,6 @@ public class MPDAdmin implements Admin {
   public boolean enableOutput(MPDOutput output) {
     fireOutputChangeEvent(OUTPUT_EVENT.OUTPUT_CHANGED);
     return commandExecutor.sendCommand(adminProperties.getOutputEnable(), output.getId()).isEmpty();
-  }
-
-  private static Collection<MPDOutput> parseOutputs(Collection<String> response) {
-    List<MPDOutput> outputs = new ArrayList<>();
-    Iterator<String> iterator = response.iterator();
-    String line = null;
-
-    while (iterator.hasNext()) {
-      if (line == null || (!line.startsWith(OUTPUT_PREFIX_ID))) {
-        line = iterator.next();
-      }
-
-      if (line.startsWith(OUTPUT_PREFIX_ID)) {
-        outputs.add(parseOutput(line, iterator));
-      }
-    }
-    return outputs;
-  }
-
-  private static MPDOutput parseOutput(String startingLine, Iterator<String> iterator) {
-    var output =
-        MPDOutput.builder(
-                Integer.parseInt(startingLine.substring(OUTPUT_PREFIX_ID.length()).trim()))
-            .build();
-
-    String line = iterator.next();
-
-    while (!line.startsWith(OUTPUT_PREFIX_ID)) {
-
-      if (line.startsWith(OUTPUT_PREFIX_NAME)) {
-        output.setName(line.replace(OUTPUT_PREFIX_NAME, "").trim());
-      } else if (line.startsWith(OUTPUT_PREFIX_ENABLED)) {
-        output.setEnabled("1".equals(line.replace(OUTPUT_PREFIX_ENABLED, "").trim()));
-      }
-      if (!iterator.hasNext()) {
-        break;
-      }
-      line = iterator.next();
-    }
-
-    return output;
   }
 
   @Override
@@ -128,15 +90,27 @@ public class MPDAdmin implements Admin {
   }
 
   @Override
-  public void updateDatabase() {
-    commandExecutor.sendCommand(adminProperties.getRefresh());
+  public int updateDatabase() {
+    var response = commandExecutor.sendCommand(adminProperties.getRefresh());
     fireMPDChangeEvent(MPDChangeEvent.Event.REFRESHED);
+
+    return parseUpdate(response);
   }
 
   @Override
-  public void updateDatabase(String path) {
-    commandExecutor.sendCommand(adminProperties.getRefresh(), path);
+  public int updateDatabase(String path) {
+    var response = commandExecutor.sendCommand(adminProperties.getRefresh(), path);
     fireMPDChangeEvent(MPDChangeEvent.Event.REFRESHED);
+
+    return parseUpdate(response);
+  }
+
+  @Override
+  public int rescan() {
+    var response = commandExecutor.sendCommand(adminProperties.getRescan());
+    fireMPDChangeEvent(MPDChangeEvent.Event.REFRESHED);
+
+    return parseUpdate(response);
   }
 
   @Override
@@ -161,5 +135,69 @@ public class MPDAdmin implements Admin {
     for (OutputChangeListener pcl : outputListeners) {
       pcl.outputChanged(oce);
     }
+  }
+
+  private int parseUpdate(List<String> response) {
+    var iterator = response.iterator();
+    String line = null;
+
+    while (iterator.hasNext()) {
+      if (line == null || (!line.startsWith(UPDATE_PREFIX))) {
+        line = iterator.next();
+      }
+
+      if (line.startsWith(UPDATE_PREFIX)) {
+        try {
+          return Integer.parseInt(line.replace(UPDATE_PREFIX, "").trim());
+        } catch (NumberFormatException e) {
+          log.error("Unable to parse jod id from update", e);
+        }
+      }
+    }
+
+    log.warn("No update jod id returned");
+    return -1;
+  }
+
+  private static Collection<MPDOutput> parseOutputs(Collection<String> response) {
+    List<MPDOutput> outputs = new ArrayList<>();
+    var iterator = response.iterator();
+    String line = null;
+
+    while (iterator.hasNext()) {
+      if (line == null || (!line.startsWith(OUTPUT_PREFIX_ID))) {
+        line = iterator.next();
+      }
+
+      if (line.startsWith(OUTPUT_PREFIX_ID)) {
+        outputs.add(parseOutput(line, iterator));
+      }
+    }
+
+    return outputs;
+  }
+
+  private static MPDOutput parseOutput(String startingLine, Iterator<String> iterator) {
+    var output =
+        MPDOutput.builder(
+                Integer.parseInt(startingLine.substring(OUTPUT_PREFIX_ID.length()).trim()))
+            .build();
+
+    String line = iterator.next();
+
+    while (!line.startsWith(OUTPUT_PREFIX_ID)) {
+
+      if (line.startsWith(OUTPUT_PREFIX_NAME)) {
+        output.setName(line.replace(OUTPUT_PREFIX_NAME, "").trim());
+      } else if (line.startsWith(OUTPUT_PREFIX_ENABLED)) {
+        output.setEnabled("1".equals(line.replace(OUTPUT_PREFIX_ENABLED, "").trim()));
+      }
+      if (!iterator.hasNext()) {
+        break;
+      }
+      line = iterator.next();
+    }
+
+    return output;
   }
 }

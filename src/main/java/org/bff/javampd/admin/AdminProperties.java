@@ -6,7 +6,8 @@ public class AdminProperties extends MPDProperties {
 
   private enum Command {
     KILL("admin.kill"),
-    REFRESH("admin.refresh"),
+    REFRESH("admin.update"),
+    RESCAN("admin.rescan"),
     OUTPUTS("admin.outputs"),
     OUTPUT_ENABLE("admin.enable.out"),
     OUTPUT_DISABLE("admin.disable.out");
@@ -28,6 +29,10 @@ public class AdminProperties extends MPDProperties {
 
   public String getRefresh() {
     return getPropertyString(Command.REFRESH.getKey());
+  }
+
+  public String getRescan() {
+    return getPropertyString(Command.RESCAN.getKey());
   }
 
   public String getOutputs() {
