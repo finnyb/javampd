@@ -1,92 +1,92 @@
 package org.bff.javampd.monitor;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-public class ThreadedMonitorTest {
-    private boolean checked;
-    private boolean processedResponse;
-    private boolean reset;
+class ThreadedMonitorTest {
+  private boolean checked;
+  private boolean processedResponse;
+  private boolean reset;
 
-    private ThreadedMonitor threadedMonitor;
+  private ThreadedMonitor threadedMonitor;
 
-    @Test
-    public void testCheckStatusDelayed() throws Exception {
-        Monitor testMonitor = new TestMonitor();
+  @Test
+  void testCheckStatusDelayed() {
+    Monitor testMonitor = new TestMonitor();
 
-        threadedMonitor = new ThreadedMonitor(testMonitor, 1);
+    threadedMonitor = new ThreadedMonitor(testMonitor, 1);
 
-        threadedMonitor.checkStatus();
-        assertFalse(checked);
+    threadedMonitor.checkStatus();
+    assertFalse(checked);
+  }
+
+  @Test
+  void testCheckStatus() {
+    Monitor testMonitor = new TestMonitor();
+
+    threadedMonitor = new ThreadedMonitor(testMonitor, 1);
+
+    threadedMonitor.checkStatus();
+    threadedMonitor.checkStatus();
+
+    assertTrue(checked);
+  }
+
+  @Test
+  void testShouldntProcessResponseLine() {
+    Monitor testMonitor = new TestMonitor();
+
+    threadedMonitor = new ThreadedMonitor(testMonitor, 1);
+    threadedMonitor.processResponseLine("");
+
+    assertFalse(processedResponse);
+  }
+
+  @Test
+  void testProcessResponseLine() {
+    Monitor testMonitor = new TestStatusMonitor();
+
+    threadedMonitor = new ThreadedMonitor(testMonitor, 1);
+    threadedMonitor.processResponseLine("");
+
+    assertTrue(processedResponse);
+  }
+
+  @Test
+  void testReset() {
+    Monitor testMonitor = new TestStatusMonitor();
+
+    threadedMonitor = new ThreadedMonitor(testMonitor, 1);
+    threadedMonitor.reset();
+
+    assertTrue(reset);
+  }
+
+  private class TestMonitor implements Monitor {
+
+    @Override
+    public void checkStatus() {
+      checked = true;
+    }
+  }
+
+  private class TestStatusMonitor implements StatusMonitor {
+
+    @Override
+    public void checkStatus() {
+      checked = true;
     }
 
-    @Test
-    public void testCheckStatus() throws Exception {
-        Monitor testMonitor = new TestMonitor();
-
-        threadedMonitor = new ThreadedMonitor(testMonitor, 1);
-
-        threadedMonitor.checkStatus();
-        threadedMonitor.checkStatus();
-
-        assertTrue(checked);
+    @Override
+    public void processResponseStatus(String line) {
+      processedResponse = true;
     }
 
-    @Test
-    public void testShouldntProcessResponseLine() throws Exception {
-        Monitor testMonitor = new TestMonitor();
-
-        threadedMonitor = new ThreadedMonitor(testMonitor, 1);
-        threadedMonitor.processResponseLine("");
-
-        assertFalse(processedResponse);
+    @Override
+    public void reset() {
+      reset = true;
     }
-
-    @Test
-    public void testProcessResponseLine() throws Exception {
-        Monitor testMonitor = new TestStatusMonitor();
-
-        threadedMonitor = new ThreadedMonitor(testMonitor, 1);
-        threadedMonitor.processResponseLine("");
-
-        assertTrue(processedResponse);
-    }
-
-    @Test
-    public void testReset() throws Exception {
-        Monitor testMonitor = new TestStatusMonitor();
-
-        threadedMonitor = new ThreadedMonitor(testMonitor, 1);
-        threadedMonitor.reset();
-
-        assertTrue(reset);
-    }
-
-    private class TestMonitor implements Monitor {
-
-        @Override
-        public void checkStatus() {
-            checked = true;
-        }
-    }
-
-    private class TestStatusMonitor implements StatusMonitor {
-
-        @Override
-        public void checkStatus() {
-            checked = true;
-        }
-
-        @Override
-        public void processResponseStatus(String line) {
-            processedResponse = true;
-        }
-
-        @Override
-        public void reset() {
-            reset = true;
-        }
-    }
+  }
 }

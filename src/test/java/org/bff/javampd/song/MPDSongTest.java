@@ -1,101 +1,74 @@
 package org.bff.javampd.song;
 
-import org.bff.javampd.MPDItem;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.*;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import org.junit.jupiter.api.Test;
 
-public class MPDSongTest {
+class MPDSongTest {
+  @Test
+  void equalsContract() {
+    EqualsVerifier.simple().forClass(MPDSong.class).verify();
+  }
 
-    @Test
-    public void testEquals() throws Exception {
-        MPDItem song1 = new MPDSong("file1", "song1");
-        MPDItem song2 = new MPDSong("file1", "song1");
+  @Test
+  void testCompareToLessThanZero() {
+    MPDSong song1 = MPDSong.builder().file("file1").title("song1").build();
+    MPDSong song2 = MPDSong.builder().file("file2").title("song2").build();
 
-        assertEquals(song1, song2);
-    }
+    assertTrue(song1.compareTo(song2) < 0);
+  }
 
-    @Test
-    public void testEqualsNull() throws Exception {
-        MPDItem song1 = new MPDSong("file1", "song1");
+  @Test
+  void testCompareToGreaterThanZero() {
+    MPDSong song1 = MPDSong.builder().file("file2").title("song2").build();
+    MPDSong song2 = MPDSong.builder().file("file1").title("song1").build();
 
-        assertNotEquals(song1, null);
-    }
+    assertTrue(song1.compareTo(song2) > 0);
+  }
 
-    @Test
-    public void testEqualsSameObject() throws Exception {
-        MPDItem song = new MPDSong("file1", "song");
+  @Test
+  void testCompareToEquals() {
+    MPDSong song1 = MPDSong.builder().file("file1").title("song1").build();
+    MPDSong song2 = MPDSong.builder().file("file1").title("song1").build();
 
-        assertTrue(song.equals(song));
-    }
+    assertEquals(0, song1.compareTo(song2));
+  }
 
-    @Test
-    public void testNotEquals() throws Exception {
-        MPDItem song1 = new MPDSong("file1", "song1");
-        MPDItem song2 = new MPDSong("file2", "song2");
+  @Test
+  void testToString() {
+    String file = "file1";
+    MPDSong song = MPDSong.builder().file("file1").title("song1").build();
 
-        assertNotEquals(song1, song2);
-    }
+    assertThat(
+        song.toString(),
+        is(
+            equalTo(
+                "MPDSong(name=song1, title=song1, albumArtist=null,"
+                    + " artistName=null, albumName=null, file=file1, genre=null,"
+                    + " comment=null, date=null, discNumber=null, track=null,"
+                    + " length=0, tagMap=null)")));
+  }
 
-    @Test
-    public void testHashCode() throws Exception {
-        MPDItem song1 = new MPDSong("file1", "song1");
-        MPDItem song2 = new MPDSong("file1", "song1");
+  @Test
+  void testGetName() {
+    MPDSong song = MPDSong.builder().file("file1").title("song1").name("name1").build();
+    assertEquals("name1", song.getName());
+  }
 
-        assertEquals(song1.hashCode(), song2.hashCode());
-    }
+  @Test
+  void testGetNameNullName() {
+    MPDSong song = MPDSong.builder().file("file1").title("song1").build();
+    assertEquals("song1", song.getName());
+  }
 
-    @Test
-    public void testCompareToLessThanZero() throws Exception {
-        MPDItem song1 = new MPDSong("file1", "song1");
-        MPDItem song2 = new MPDSong("file2", "song2");
-
-        assertTrue(song1.compareTo(song2) < 0);
-    }
-
-    @Test
-    public void testCompareToGreaterThanZero() throws Exception {
-        MPDItem song1 = new MPDSong("file2", "song2");
-        MPDItem song2 = new MPDSong("file1", "song1");
-
-        assertTrue(song1.compareTo(song2) > 0);
-    }
-
-    @Test
-    public void testCompareToEquals() throws Exception {
-        MPDItem song1 = new MPDSong("file1", "song1");
-        MPDItem song2 = new MPDSong("file1", "song1");
-
-        assertTrue(song1.compareTo(song2) == 0);
-    }
-
-    @Test
-    public void testToString() {
-        String file = "file1";
-        MPDItem song = new MPDSong("file1", "song1");
-
-        assertEquals(file, song.toString());
-    }
-
-    @Test
-    public void testGetName() {
-        MPDItem song = new MPDSong("file1", "song1");
-        song.setName("name1");
-
-        assertEquals("name1", song.getName());
-    }
-
-    @Test
-    public void testGetNameNullName() {
-        MPDItem song = new MPDSong("file1", "song1");
-        song.setName(null);
-        assertEquals("song1", song.getName());
-    }
-
-    @Test
-    public void testGetNameEmptyName() {
-        MPDItem song = new MPDSong("file1", "song1");
-        song.setName("");
-        assertEquals("song1", song.getName());
-    }
+  @Test
+  void testGetNameEmptyName() {
+    MPDSong song = MPDSong.builder().file("file1").title("song1").name("").build();
+    assertEquals("song1", song.getName());
+  }
 }

@@ -1,96 +1,95 @@
 package org.bff.javampd.playlist;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class PlaylistPropertiesTest {
-    private PlaylistProperties playlistProperties;
+class PlaylistPropertiesTest {
+  private PlaylistProperties playlistProperties;
 
-    @Before
-    public void setUp() throws Exception {
-        playlistProperties = new PlaylistProperties();
-    }
+  @BeforeEach
+  void setUp() {
+    playlistProperties = new PlaylistProperties();
+  }
 
-    @Test
-    public void getAdd() throws Exception {
-        assertEquals("add", playlistProperties.getAdd());
-    }
+  @Test
+  void getAdd() {
+    assertEquals("add", playlistProperties.getAdd());
+  }
 
-    @Test
-    public void getClear() throws Exception {
-        assertEquals("clear", playlistProperties.getClear());
-    }
+  @Test
+  void getClear() {
+    assertEquals("clear", playlistProperties.getClear());
+  }
 
-    @Test
-    public void getCurrentSong() throws Exception {
-        assertEquals("currentsong", playlistProperties.getCurrentSong());
-    }
+  @Test
+  void getCurrentSong() {
+    assertEquals("currentsong", playlistProperties.getCurrentSong());
+  }
 
-    @Test
-    public void getDelete() throws Exception {
-        assertEquals("rm", playlistProperties.getDelete());
-    }
+  @Test
+  void getDelete() {
+    assertEquals("rm", playlistProperties.getDelete());
+  }
 
-    @Test
-    public void getChanges() throws Exception {
-        assertEquals("plchanges", playlistProperties.getChanges());
-    }
+  @Test
+  void getChanges() {
+    assertEquals("plchanges", playlistProperties.getChanges());
+  }
 
-    @Test
-    public void getId() throws Exception {
-        assertEquals("playlistid", playlistProperties.getId());
-    }
+  @Test
+  void getId() {
+    assertEquals("playlistid", playlistProperties.getId());
+  }
 
-    @Test
-    public void getInfo() throws Exception {
-        assertEquals("playlistinfo", playlistProperties.getInfo());
-    }
+  @Test
+  void getInfo() {
+    assertEquals("playlistinfo", playlistProperties.getInfo());
+  }
 
-    @Test
-    public void getLoad() throws Exception {
-        assertEquals("load", playlistProperties.getLoad());
-    }
+  @Test
+  void getLoad() {
+    assertEquals("load", playlistProperties.getLoad());
+  }
 
-    @Test
-    public void getMove() throws Exception {
-        assertEquals("move", playlistProperties.getMove());
-    }
+  @Test
+  void getMove() {
+    assertEquals("move", playlistProperties.getMove());
+  }
 
-    @Test
-    public void getMoveId() throws Exception {
-        assertEquals("moveid", playlistProperties.getMoveId());
-    }
+  @Test
+  void getMoveId() {
+    assertEquals("moveid", playlistProperties.getMoveId());
+  }
 
-    @Test
-    public void getRemove() throws Exception {
-        assertEquals("delete", playlistProperties.getRemove());
-    }
+  @Test
+  void getRemove() {
+    assertEquals("delete", playlistProperties.getRemove());
+  }
 
-    @Test
-    public void getRemoveId() throws Exception {
-        assertEquals("deleteid", playlistProperties.getRemoveId());
-    }
+  @Test
+  void getRemoveId() {
+    assertEquals("deleteid", playlistProperties.getRemoveId());
+  }
 
-    @Test
-    public void getSave() throws Exception {
-        assertEquals("save", playlistProperties.getSave());
-    }
+  @Test
+  void getSave() {
+    assertEquals("save", playlistProperties.getSave());
+  }
 
-    @Test
-    public void getShuffle() throws Exception {
-        assertEquals("shuffle", playlistProperties.getShuffle());
-    }
+  @Test
+  void getShuffle() {
+    assertEquals("shuffle", playlistProperties.getShuffle());
+  }
 
-    @Test
-    public void getSwap() throws Exception {
-        assertEquals("swap", playlistProperties.getSwap());
-    }
+  @Test
+  void getSwap() {
+    assertEquals("swap", playlistProperties.getSwap());
+  }
 
-    @Test
-    public void getSwapId() throws Exception {
-        assertEquals("swapid", playlistProperties.getSwapId());
-    }
-
+  @Test
+  void getSwapId() {
+    assertEquals("swapid", playlistProperties.getSwapId());
+  }
 }

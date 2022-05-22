@@ -1,123 +1,147 @@
 package org.bff.javampd.artist;
 
-import org.bff.javampd.database.TagLister;
-import org.bff.javampd.genre.MPDGenre;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bff.javampd.database.TagLister;
+import org.bff.javampd.genre.MPDGenre;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+@ExtendWith(MockitoExtension.class)
+class MPDArtistDatabaseTest {
+  private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
 
-@RunWith(MockitoJUnitRunner.class)
-public class MPDArtistDatabaseTest {
-    private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
+  @Captor private ArgumentCaptor<TagLister.ListType> captor;
 
-    @Mock
-    private TagLister tagLister;
+  @Mock private TagLister tagLister;
 
-    private MPDArtistDatabase artistDatabase;
+  private MPDArtistDatabase artistDatabase;
 
-    @Before
-    public void before() {
-        artistDatabase = new MPDArtistDatabase(tagLister);
-    }
+  @BeforeEach
+  void before() {
+    artistDatabase = new MPDArtistDatabase(tagLister);
+  }
 
-    @Test
-    public void testListAllArtists() throws Exception {
-        MPDArtist testArtist = new MPDArtist("testName");
+  @Test
+  void testListAllArtists() {
+    MPDArtist testArtist = new MPDArtist("testName");
 
-        List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+    List<String> mockReturn = new ArrayList<>();
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
 
-        when(tagLister
-                .list(TagLister.ListType.ARTIST))
-                .thenReturn(mockReturn);
+    when(tagLister.list(TagLister.ListType.ARTIST)).thenReturn(mockReturn);
 
-        List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists());
-        assertEquals(1, artists.size());
-        assertEquals(testArtist, artists.get(0));
-    }
+    List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists());
+    assertEquals(1, artists.size());
+    assertEquals(testArtist, artists.get(0));
+  }
 
-    @Test
-    public void testListArtistsByGenre() throws Exception {
-        MPDGenre testGenre = new MPDGenre("testGenreName");
+  @Test
+  void listAllAlbumArtistsCommand() {
+    MPDArtist testArtist = new MPDArtist("Tool");
 
-        String testArtistName = "testArtist";
+    List<String> mockReturn = new ArrayList<>();
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
 
-        List<String> mockGenreList = new ArrayList<>();
-        mockGenreList.add(TagLister.ListType.GENRE.getType());
-        mockGenreList.add(testGenre.getName());
+    when(tagLister.list(TagLister.ListType.ALBUM_ARTIST)).thenReturn(mockReturn);
 
-        List<String> mockReturnGenreList = new ArrayList<>();
-        mockReturnGenreList.add(testArtistName);
+    artistDatabase.listAllAlbumArtists();
+    verify(tagLister).list(captor.capture());
 
-        List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
+    assertEquals(TagLister.ListType.ALBUM_ARTIST, captor.getValue());
+  }
 
-        when(tagLister
-                .list(TagLister.ListType.ARTIST, mockGenreList))
-                .thenReturn(mockReturnArtist);
+  @Test
+  void listAllAlbumArtists() {
+    MPDArtist testArtist = new MPDArtist("Spiritbox");
 
-        MPDArtist testArtist = new MPDArtist(testArtistName);
+    List<String> mockReturn = new ArrayList<>();
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
 
-        List<MPDArtist> artists = new ArrayList<>(artistDatabase.listArtistsByGenre(testGenre));
-        assertEquals(1, artists.size());
-        assertEquals(testArtist, artists.get(0));
-    }
+    when(tagLister.list(TagLister.ListType.ARTIST)).thenReturn(mockReturn);
 
-    @Test
-    public void testListArtistByName() throws Exception {
-        String testArtistName = "testArtist";
+    List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists());
+    assertEquals(1, artists.size());
+    assertEquals(testArtist, artists.get(0));
+  }
 
-        List<String> mockReturnName = new ArrayList<>();
-        mockReturnName.add(TagLister.ListType.ARTIST.getType());
-        mockReturnName.add(testArtistName);
+  @Test
+  void testListArtistsByGenre() {
+    MPDGenre testGenre = new MPDGenre("testGenreName");
 
-        List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
+    String testArtistName = "testArtist";
 
-        when(tagLister
-                .list(TagLister.ListType.ARTIST, mockReturnName))
-                .thenReturn(mockReturnArtist);
+    List<String> mockGenreList = new ArrayList<>();
+    mockGenreList.add(TagLister.ListType.GENRE.getType());
+    mockGenreList.add(testGenre.getName());
 
-        MPDArtist testArtist = new MPDArtist(testArtistName);
+    List<String> mockReturnGenreList = new ArrayList<>();
+    mockReturnGenreList.add(testArtistName);
 
-        List<MPDArtist> artists = new ArrayList<>();
-        artists.add(artistDatabase.listArtistByName(testArtistName));
+    List<String> mockReturnArtist = new ArrayList<>();
+    mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
 
-        assertEquals(1, artists.size());
-        assertEquals(testArtist, artists.get(0));
-    }
+    when(tagLister.list(TagLister.ListType.ARTIST, mockGenreList)).thenReturn(mockReturnArtist);
 
-    @Test
-    public void testListMultipleArtistByName() throws Exception {
-        String testArtistName = "testArtist";
-        String testArtistName2 = "testArtist";
+    MPDArtist testArtist = new MPDArtist(testArtistName);
 
-        List<String> mockReturnName = new ArrayList<>();
-        mockReturnName.add(TagLister.ListType.ARTIST.getType());
-        mockReturnName.add(testArtistName);
+    List<MPDArtist> artists = new ArrayList<>(artistDatabase.listArtistsByGenre(testGenre));
+    assertEquals(1, artists.size());
+    assertEquals(testArtist, artists.get(0));
+  }
 
-        List<String> mockReturnArtist = new ArrayList<>();
-        mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
-        mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName2);
+  @Test
+  void testListArtistByName() {
+    String testArtistName = "testArtist";
 
-        when(tagLister
-                .list(TagLister.ListType.ARTIST, mockReturnName))
-                .thenReturn(mockReturnArtist);
+    List<String> mockReturnName = new ArrayList<>();
+    mockReturnName.add(TagLister.ListType.ARTIST.getType());
+    mockReturnName.add(testArtistName);
 
-        MPDArtist testArtist = new MPDArtist(testArtistName);
+    List<String> mockReturnArtist = new ArrayList<>();
+    mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
 
-        List<MPDArtist> artists = new ArrayList<>();
-        artists.add(artistDatabase.listArtistByName(testArtistName));
+    when(tagLister.list(TagLister.ListType.ARTIST, mockReturnName)).thenReturn(mockReturnArtist);
 
-        assertEquals(1, artists.size());
-        assertEquals(testArtist, artists.get(0));
-    }
+    MPDArtist testArtist = new MPDArtist(testArtistName);
+
+    List<MPDArtist> artists = new ArrayList<>();
+    artists.add(artistDatabase.listArtistByName(testArtistName));
+
+    assertEquals(1, artists.size());
+    assertEquals(testArtist, artists.get(0));
+  }
+
+  @Test
+  void testListMultipleArtistByName() {
+    String testArtistName = "testArtist";
+    String testArtistName2 = "testArtist";
+
+    List<String> mockReturnName = new ArrayList<>();
+    mockReturnName.add(TagLister.ListType.ARTIST.getType());
+    mockReturnName.add(testArtistName);
+
+    List<String> mockReturnArtist = new ArrayList<>();
+    mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName);
+    mockReturnArtist.add(ARTIST_RESPONSE_PREFIX + testArtistName2);
+
+    when(tagLister.list(TagLister.ListType.ARTIST, mockReturnName)).thenReturn(mockReturnArtist);
+
+    MPDArtist testArtist = new MPDArtist(testArtistName);
+
+    List<MPDArtist> artists = new ArrayList<>();
+    artists.add(artistDatabase.listArtistByName(testArtistName));
+
+    assertEquals(1, artists.size());
+    assertEquals(testArtist, artists.get(0));
+  }
 }

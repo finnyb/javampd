@@ -14,13 +14,17 @@ import org.bff.javampd.database.TagLister;
 import org.bff.javampd.player.MPDPlayer;
 import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.MPDPlaylist;
+import org.bff.javampd.playlist.MPDPlaylistSongConverter;
 import org.bff.javampd.playlist.Playlist;
+import org.bff.javampd.playlist.PlaylistSongConverter;
 import org.bff.javampd.server.MPDServerStatus;
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSongConverter;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.statistics.MPDServerStatistics;
+import org.bff.javampd.statistics.MPDStatsConverter;
 import org.bff.javampd.statistics.ServerStatistics;
+import org.bff.javampd.statistics.StatsConverter;
 
 /**
  * Initializes the DI bindings
@@ -28,19 +32,22 @@ import org.bff.javampd.statistics.ServerStatistics;
  * @author bill
  */
 public class MPDModule extends AbstractModule {
-    @Override
-    protected void configure() {
-        bind(Admin.class).to(MPDAdmin.class);
-        bind(Player.class).to(MPDPlayer.class);
-        bind(Playlist.class).to(MPDPlaylist.class);
-        bind(ServerStatus.class).to(MPDServerStatus.class);
-        bind(ServerStatistics.class).to(MPDServerStatistics.class);
-        bind(Player.class).to(MPDPlayer.class);
-        bind(CommandExecutor.class).to(MPDCommandExecutor.class);
-        bind(TagLister.class).to(MPDTagLister.class);
-        bind(SongConverter.class).to(MPDSongConverter.class);
-        bind(AlbumConverter.class).to(MPDAlbumConverter.class);
-        bind(ArtworkFinder.class).to(MPDArtworkFinder.class);
-        bind(Clock.class).to(MPDSystemClock.class);
-    }
+  @Override
+  protected void configure() {
+    bind(Admin.class).to(MPDAdmin.class);
+    bind(Player.class).to(MPDPlayer.class);
+    bind(Playlist.class).to(MPDPlaylist.class);
+    bind(ServerStatus.class).to(MPDServerStatus.class);
+    bind(ServerStatistics.class).to(MPDServerStatistics.class);
+    bind(Player.class).to(MPDPlayer.class);
+    bind(CommandExecutor.class).to(MPDCommandExecutor.class);
+    bind(TagLister.class).to(MPDTagLister.class);
+    bind(SongConverter.class).to(MPDSongConverter.class);
+    bind(PlaylistSongConverter.class).to(MPDPlaylistSongConverter.class);
+    bind(AlbumConverter.class).to(MPDAlbumConverter.class);
+    bind(ArtworkFinder.class).to(MPDArtworkFinder.class);
+    bind(ServerStatistics.class).to(MPDServerStatistics.class);
+    bind(StatsConverter.class).to(MPDStatsConverter.class);
+    bind(Clock.class).to(MPDSystemClock.class);
+  }
 }

@@ -1,134 +1,55 @@
 package org.bff.javampd.album;
 
-import org.bff.javampd.MPDItem;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
 
 /**
  * MPDAlbum represents an album
  *
  * @author Bill
  */
-public class MPDAlbum extends MPDItem {
+@Builder(builderMethodName = "internalBuilder")
+@Data
+public class MPDAlbum implements Comparable<MPDAlbum> {
+  @NonNull private String name;
+  private String albumArtist;
+  @Builder.Default private List<String> artistNames = new ArrayList<>();
+  @Builder.Default private List<String> dates = new ArrayList<>();
+  @Builder.Default private List<String> genres = new ArrayList<>();
 
-    private String artistName;
-    private String date;
-    private String genre;
+  public static MPDAlbumBuilder builder(String name) {
+    return internalBuilder().name(name);
+  }
 
-    /**
-     * Constructs an album
-     *
-     * @param name name of the album
-     */
-    public MPDAlbum(String name) {
-        super(name);
-        this.artistName = "";
-        this.date = "";
-        this.genre = "";
-    }
+  public void addArtist(String artist) {
+    this.artistNames.add(artist);
+  }
 
-    /**
-     * Constructs an album with an artist name
-     *
-     * @param name       name of the album
-     * @param artistName artist of the album
-     */
-    public MPDAlbum(String name, String artistName) {
-        super(name);
-        this.artistName = artistName;
-        this.date = "";
-        this.genre = "";
-    }
+  public void addArtists(List<String> artists) {
+    this.artistNames.addAll(artists);
+  }
 
-    /**
-     * Returns the {@link String} for the album.
-     *
-     * @return the {@link String} for the album
-     */
-    public String getArtistName() {
-        return artistName;
-    }
+  public void addDate(String date) {
+    this.dates.add(date);
+  }
 
-    /**
-     * Sets the artist name for this album
-     *
-     * @param artistName the artist's name
-     */
-    public void setArtistName(String artistName) {
-        this.artistName = artistName;
-    }
+  public void addDates(List<String> dates) {
+    this.dates.addAll(dates);
+  }
 
+  public void addGenre(String genre) {
+    this.genres.add(genre);
+  }
 
-    /**
-     * the date of the album
-     *
-     * @return the date of the album
-     */
-    public String getDate() {
-        return date;
-    }
+  public void addGenres(List<String> genres) {
+    this.genres.addAll(genres);
+  }
 
-    /**
-     * Sets the date of the album
-     *
-     * @param date the date of the album
-     */
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    /**
-     * We consider two albums to be equal if the {@link MPDAlbum}
-     * names match and if the {@link org.bff.javampd.artist.MPDArtist}
-     * name matches and the Date matches
-     *
-     * @param object the {@link MPDAlbum} to compare
-     * @return true or false
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if ((object == null) || (object.getClass() != this.getClass())) {
-            return false;
-        }
-
-        if (!super.equals(object)) {
-            return false;
-        }
-
-        MPDAlbum album = (MPDAlbum) object;
-
-        return this.getName().equals(album.getName()) &&
-                this.getGenre().equals(album.getGenre()) &&
-                compareArtists(album) &&
-                compareDates(album);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + artistName.hashCode();
-        result = 31 * result + date.hashCode();
-        result = 31 * result + genre.hashCode();
-        return result;
-    }
-
-    private boolean compareDates(MPDAlbum album) {
-        return getDate() != null && getDate().equals(album.getDate());
-    }
-
-
-    private boolean compareArtists(MPDAlbum album) {
-        return getArtistName() != null && getArtistName().equals(album.getArtistName());
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
+  @Override
+  public int compareTo(MPDAlbum album) {
+    return this.getName().compareTo(album.getName());
+  }
 }

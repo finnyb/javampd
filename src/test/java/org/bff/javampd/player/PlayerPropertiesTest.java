@@ -1,81 +1,93 @@
 package org.bff.javampd.player;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class PlayerPropertiesTest {
-    private PlayerProperties playerProperties;
+class PlayerPropertiesTest {
+  private PlayerProperties playerProperties;
 
-    @Before
-    public void setUp() throws Exception {
-        playerProperties = new PlayerProperties();
-    }
+  @BeforeEach
+  void setUp() {
+    playerProperties = new PlayerProperties();
+  }
 
-    @Test
-    public void getXFade() throws Exception {
-        assertEquals("crossfade", playerProperties.getXFade());
-    }
+  @Test
+  void getXFade() {
+    assertEquals("crossfade", playerProperties.getXFade());
+  }
 
-    @Test
-    public void getCurrentSong() throws Exception {
-        assertEquals("currentsong", playerProperties.getCurrentSong());
-    }
+  @Test
+  void getCurrentSong() {
+    assertEquals("currentsong", playerProperties.getCurrentSong());
+  }
 
-    @Test
-    public void getNext() throws Exception {
-        assertEquals("next", playerProperties.getNext());
-    }
+  @Test
+  void getNext() {
+    assertEquals("next", playerProperties.getNext());
+  }
 
-    @Test
-    public void getPause() throws Exception {
-        assertEquals("pause", playerProperties.getPause());
-    }
+  @Test
+  void getPause() {
+    assertEquals("pause", playerProperties.getPause());
+  }
 
-    @Test
-    public void getPlay() throws Exception {
-        assertEquals("play", playerProperties.getPlay());
-    }
+  @Test
+  void getPlay() {
+    assertEquals("play", playerProperties.getPlay());
+  }
 
-    @Test
-    public void getPlayId() throws Exception {
-        assertEquals("playid", playerProperties.getPlayId());
-    }
+  @Test
+  void getPlayId() {
+    assertEquals("playid", playerProperties.getPlayId());
+  }
 
-    @Test
-    public void getPrevious() throws Exception {
-        assertEquals("previous", playerProperties.getPrevious());
-    }
+  @Test
+  void getPrevious() {
+    assertEquals("previous", playerProperties.getPrevious());
+  }
 
-    @Test
-    public void getRepeat() throws Exception {
-        assertEquals("repeat", playerProperties.getRepeat());
-    }
+  @Test
+  void getRepeat() {
+    assertEquals("repeat", playerProperties.getRepeat());
+  }
 
-    @Test
-    public void getRandom() throws Exception {
-        assertEquals("random", playerProperties.getRandom());
-    }
+  @Test
+  void getRandom() {
+    assertEquals("random", playerProperties.getRandom());
+  }
 
-    @Test
-    public void getSeek() throws Exception {
-        assertEquals("seek", playerProperties.getSeek());
-    }
+  @Test
+  void getSeek() {
+    assertEquals("seek", playerProperties.getSeek());
+  }
 
-    @Test
-    public void getSeekId() throws Exception {
-        assertEquals("seekid", playerProperties.getSeekId());
-    }
+  @Test
+  void getSeekId() {
+    assertEquals("seekid", playerProperties.getSeekId());
+  }
 
-    @Test
-    public void getStop() throws Exception {
-        assertEquals("stop", playerProperties.getStop());
-    }
+  @Test
+  void getStop() {
+    assertEquals("stop", playerProperties.getStop());
+  }
 
-    @Test
-    public void getSetVolume() throws Exception {
-        assertEquals("setvol", playerProperties.getSetVolume());
-    }
+  @Test
+  void getMixRampDb() {
+    assertThat(playerProperties.getMixRampDb(), is(equalTo("mixrampdb")));
+  }
 
+  @Test
+  void getMixRampDelay() {
+    assertThat(playerProperties.getMixRampDelay(), is(equalTo("mixrampdelay")));
+  }
+
+  @Test
+  void getSetVolume() {
+    assertEquals("setvol", playerProperties.getSetVolume());
+  }
 }

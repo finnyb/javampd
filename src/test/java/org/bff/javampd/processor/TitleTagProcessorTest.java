@@ -1,36 +1,22 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.jupiter.api.Test;
 
-public class TitleTagProcessorTest {
+class TitleTagProcessorTest {
 
-    @Test
-    public void testProcessSong() throws Exception {
-        String testTitle = "testTitle";
+  @Test
+  void testProcess() {
+    var testTitle = "testTitle";
+    var line = "Title:" + testTitle;
 
-        TitleTagProcessor titleTagProcessor = new TitleTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+    assertEquals(testTitle, new TitleTagProcessor().processTag(line));
+  }
 
-        String line = "Title:" + testTitle;
-        titleTagProcessor.processTag(song, line);
-
-        assertEquals(testTitle, song.getTitle());
-    }
-
-    @Test
-    public void testProcessSongBadLine() throws Exception {
-        String testTitle = "testTitle";
-
-        TitleTagProcessor titleTagProcessor = new TitleTagProcessor();
-        MPDSong song = new MPDSong("testFile", null);
-
-        String line = "BadTitle:" + testTitle;
-        titleTagProcessor.processTag(song, line);
-
-        assertNull(song.getTitle());
-    }
+  @Test
+  void testProcessBadLine() {
+    assertNull(new TitleTagProcessor().processTag("BadTitle: test"));
+  }
 }

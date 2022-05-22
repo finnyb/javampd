@@ -1,76 +1,75 @@
 package org.bff.javampd.monitor;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.bff.javampd.server.ErrorEvent;
 import org.bff.javampd.server.ErrorListener;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+class MPDErrorMonitorTest {
+  private ErrorMonitor errorMonitor;
 
-public class MPDErrorMonitorTest {
-    private ErrorMonitor errorMonitor;
+  @BeforeEach
+  void setUp() {
+    errorMonitor = new MPDErrorMonitor();
+  }
 
-    @Before
-    public void setUp() throws Exception {
-        errorMonitor = new MPDErrorMonitor();
-    }
+  @Test
+  void testAddErrorListener() {
+    final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
-    @Test
-    public void testAddErrorListener() throws Exception {
-        final ErrorEvent[] errorEvent = new ErrorEvent[1];
+    errorMonitor.addErrorListener(event -> errorEvent[0] = event);
+    errorMonitor.processResponseStatus("error: message");
+    errorMonitor.checkStatus();
+    assertEquals("message", errorEvent[0].getMessage());
+  }
 
-        errorMonitor.addErrorListener(event -> errorEvent[0] = event);
-        errorMonitor.processResponseStatus("error: message");
-        errorMonitor.checkStatus();
-        assertEquals("message", errorEvent[0].getMessage());
-    }
+  @Test
+  void testRemoveErrorListener() {
+    final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
-    @Test
-    public void testRemoveErrorListener() throws Exception {
-        final ErrorEvent[] errorEvent = new ErrorEvent[1];
+    ErrorListener errorListener = event -> errorEvent[0] = event;
 
-        ErrorListener errorListener = event -> errorEvent[0] = event;
+    errorMonitor.addErrorListener(errorListener);
+    errorMonitor.processResponseStatus("error: message");
+    errorMonitor.checkStatus();
+    assertEquals("message", errorEvent[0].getMessage());
 
-        errorMonitor.addErrorListener(errorListener);
-        errorMonitor.processResponseStatus("error: message");
-        errorMonitor.checkStatus();
-        assertEquals("message", errorEvent[0].getMessage());
+    errorEvent[0] = null;
+    errorMonitor.removeErrorListener(errorListener);
+    errorMonitor.processResponseStatus("error: message2");
+    errorMonitor.checkStatus();
+    assertNull(errorEvent[0]);
+  }
 
-        errorEvent[0] = null;
-        errorMonitor.removeErrorListener(errorListener);
-        errorMonitor.processResponseStatus("error: message2");
-        errorMonitor.checkStatus();
-        assertNull(errorEvent[0]);
-    }
+  @Test
+  void testInvalidStatus() {
+    final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
-    @Test
-    public void testInvalidStatus() throws Exception {
-        final ErrorEvent[] errorEvent = new ErrorEvent[1];
+    errorMonitor.addErrorListener(event -> errorEvent[0] = event);
+    errorMonitor.processResponseStatus("bogus: message");
+    errorMonitor.checkStatus();
 
-        errorMonitor.addErrorListener(event -> errorEvent[0] = event);
-        errorMonitor.processResponseStatus("bogus: message");
-        errorMonitor.checkStatus();
+    assertNull(errorEvent[0]);
+  }
 
-        assertNull(errorEvent[0]);
-    }
+  @Test
+  void testResetError() {
+    String line = "error: message";
+    final ErrorEvent[] errorEvent = new ErrorEvent[1];
 
-    @Test
-    public void testResetError() throws Exception {
-        String line = "error: message";
-        final ErrorEvent[] errorEvent = new ErrorEvent[1];
+    errorMonitor.addErrorListener(event -> errorEvent[0] = event);
+    errorMonitor.processResponseStatus(line);
+    errorMonitor.checkStatus();
+    assertEquals("message", errorEvent[0].getMessage());
 
-        errorMonitor.addErrorListener(event -> errorEvent[0] = event);
-        errorMonitor.processResponseStatus(line);
-        errorMonitor.checkStatus();
-        assertEquals("message", errorEvent[0].getMessage());
+    errorMonitor.reset();
+    errorEvent[0] = null;
 
-        errorMonitor.reset();
-        errorEvent[0] = null;
-
-        errorMonitor.processResponseStatus(line);
-        errorMonitor.checkStatus();
-        assertEquals("message", errorEvent[0].getMessage());
-
-    }
+    errorMonitor.processResponseStatus(line);
+    errorMonitor.checkStatus();
+    assertEquals("message", errorEvent[0].getMessage());
+  }
 }

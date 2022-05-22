@@ -1,5 +1,10 @@
 package org.bff.javampd.playlist;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.command.MPDCommand;
 import org.bff.javampd.genre.MPDGenre;
@@ -7,255 +12,233 @@ import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongConverter;
 import org.bff.javampd.song.SongDatabase;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
+@ExtendWith(MockitoExtension.class)
+class MPDPlaylistTestGenreAndYear {
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+  @Mock private SongDatabase songDatabase;
+  @Mock private ServerStatus serverStatus;
+  @Mock private PlaylistProperties playlistProperties;
+  @Mock private CommandExecutor commandExecutor;
+  @Mock private SongConverter songConverter;
+  @Mock private PlaylistSongConverter playlistSongConverter;
+  @InjectMocks private MPDPlaylist playlist;
+  @Captor private ArgumentCaptor<String> stringArgumentCaptor;
+  @Captor private ArgumentCaptor<Integer> integerArgumentCaptor;
+  @Captor private ArgumentCaptor<List<MPDCommand>> commandArgumentCaptor;
 
-@RunWith(MockitoJUnitRunner.class)
-public class MPDPlaylistTestGenreAndYear {
+  private PlaylistProperties realPlaylistProperties;
 
-    @Mock
-    private SongDatabase songDatabase;
-    @Mock
-    private ServerStatus serverStatus;
-    @Mock
-    private PlaylistProperties playlistProperties;
-    @Mock
-    private CommandExecutor commandExecutor;
-    @Mock
-    private SongConverter songConverter;
-    @InjectMocks
-    private MPDPlaylist playlist;
-    @Captor
-    private ArgumentCaptor<String> stringArgumentCaptor;
-    @Captor
-    private ArgumentCaptor<Integer> integerArgumentCaptor;
-    @Captor
-    private ArgumentCaptor<List<MPDCommand>> commandArgumentCaptor;
+  @BeforeEach
+  void setup() {
+    realPlaylistProperties = new PlaylistProperties();
+  }
 
-    private PlaylistProperties realPlaylistProperties;
+  @Test
+  void testInsertGenre() {
+    MPDGenre genre = new MPDGenre("testGenre");
 
-    @Before
-    public void setup() {
-        realPlaylistProperties = new PlaylistProperties();
-    }
+    List<MPDSong> songs = new ArrayList<>();
+    songs.add(MPDSong.builder().file("file1").title("testSong1").build());
+    songs.add(MPDSong.builder().file("file2").title("testSong2").build());
 
-    @Test
-    public void testInsertGenre() throws Exception {
-        MPDGenre genre = new MPDGenre("testGenre");
+    when(songDatabase.findGenre(genre.getName())).thenReturn(songs);
 
-        List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("file1", "testSong1"));
-        songs.add(new MPDSong("file2", "testSong2"));
+    final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+    playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        when(songDatabase.findGenre(genre.getName())).thenReturn(songs);
+    playlist.insertGenre(genre);
 
-        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
-        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+    verify(commandExecutor, times(2))
+        .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-        playlist.insertGenre(genre);
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
+    assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
+    assertEquals(PlaylistChangeEvent.Event.GENRE_ADDED, changeEvent[0].getEvent());
+  }
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
+  @Test
+  void testInsertGenreByName() {
+    String genre = "testGenre";
 
-        verify(commandExecutor, times(2))
-                .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
+    List<MPDSong> songs = new ArrayList<>();
+    songs.add(MPDSong.builder().file("file1").title("testSong1").build());
+    songs.add(MPDSong.builder().file("file2").title("testSong2").build());
+    when(songDatabase.findGenre(genre)).thenReturn(songs);
 
-        assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
-        assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
-        assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
-        assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
-        assertEquals(PlaylistChangeEvent.Event.GENRE_ADDED, changeEvent[0].getEvent());
-    }
+    final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+    playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-    @Test
-    public void testInsertGenreByName() throws Exception {
-        String genre = "testGenre";
+    playlist.insertGenre(genre);
 
-        List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("file1", "testSong1"));
-        songs.add(new MPDSong("file2", "testSong2"));
-        when(songDatabase.findGenre(genre)).thenReturn(songs);
+    verify(commandExecutor, times(2))
+        .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
-        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
+    assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
+    assertEquals(PlaylistChangeEvent.Event.GENRE_ADDED, changeEvent[0].getEvent());
+  }
 
-        playlist.insertGenre(genre);
+  @Test
+  void testRemoveGenre() {
+    MPDGenre genre = new MPDGenre("testGenre");
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
+    var mockedSongs = new ArrayList<MPDPlaylistSong>();
+    MPDPlaylistSong song1 =
+        MPDPlaylistSong.builder()
+            .file("file1")
+            .title("testSong1")
+            .genre(genre.getName())
+            .id(1)
+            .build();
 
-        verify(commandExecutor, times(2))
-                .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
+    MPDPlaylistSong song2 =
+        MPDPlaylistSong.builder()
+            .file("file2")
+            .title("testSong1")
+            .genre(genre.getName())
+            .id(2)
+            .build();
 
-        assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
-        assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
-        assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
-        assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
-        assertEquals(PlaylistChangeEvent.Event.GENRE_ADDED, changeEvent[0].getEvent());
-    }
+    MPDPlaylistSong song3 =
+        MPDPlaylistSong.builder().file("file3").title("testSong1").genre("bogus").build();
 
-    @Test
-    public void testRemoveGenre() throws Exception {
-        MPDGenre genre = new MPDGenre("testGenre");
+    mockedSongs.add(song1);
+    mockedSongs.add(song2);
+    mockedSongs.add(song3);
 
-        List<MPDSong> mockedSongs = new ArrayList<>();
-        MPDSong song1 = new MPDSong("file1", "testSong1");
-        song1.setGenre(genre.getName());
-        song1.setId(1);
-        MPDSong song2 = new MPDSong("file2", "testSong1");
-        song2.setGenre(genre.getName());
-        song2.setId(2);
-        MPDSong song3 = new MPDSong("file3", "testSong1");
-        song3.setGenre("bogus");
+    List<String> response = new ArrayList<>();
+    response.add("test");
+    when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
+    when(playlistSongConverter.convertResponseToSongs(response)).thenReturn(mockedSongs);
 
-        mockedSongs.add(song1);
-        mockedSongs.add(song2);
-        mockedSongs.add(song3);
+    final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+    playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        when(playlistProperties.getInfo()).thenReturn(realPlaylistProperties.getInfo());
+    playlist.removeGenre(genre);
 
-        List<String> response = new ArrayList<>();
-        response.add("test");
-        when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
-        when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
+    verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
+    verify(commandExecutor, times(2))
+        .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
 
-        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
-        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+    assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(1));
+    assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(2));
+    assertEquals((Integer) song2.getId(), integerArgumentCaptor.getAllValues().get(1));
+    assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());
+  }
 
-        playlist.removeGenre(genre);
+  @Test
+  void testRemoveGenreByName() {
+    String genre = "testGenre";
 
-        when(playlistProperties.getRemoveId()).thenReturn(realPlaylistProperties.getRemoveId());
-        verify(commandExecutor)
-                .sendCommand(stringArgumentCaptor.capture());
-        verify(commandExecutor, times(2))
-                .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
+    var mockedSongs = new ArrayList<MPDPlaylistSong>();
+    MPDPlaylistSong song1 =
+        MPDPlaylistSong.builder().file("file1").title("testSong1").genre(genre).id(1).build();
 
-        assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(1));
-        assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().get(0));
-        assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(2));
-        assertEquals((Integer) song2.getId(), integerArgumentCaptor.getAllValues().get(1));
-        assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());
-    }
+    MPDPlaylistSong song2 =
+        MPDPlaylistSong.builder().file("file2").title("testSong1").genre(genre).id(2).build();
 
-    @Test
-    public void testRemoveGenreByName() throws Exception {
-        String genre = "testGenre";
+    MPDPlaylistSong song3 =
+        MPDPlaylistSong.builder().file("file3").title("testSong1").genre("bogus").build();
 
-        List<MPDSong> mockedSongs = new ArrayList<>();
-        MPDSong song1 = new MPDSong("file1", "testSong1");
-        song1.setGenre(genre);
-        song1.setId(1);
-        MPDSong song2 = new MPDSong("file2", "testSong1");
-        song2.setGenre(genre);
-        song2.setId(2);
-        MPDSong song3 = new MPDSong("file3", "testSong1");
-        song3.setGenre("bogus");
+    mockedSongs.add(song1);
+    mockedSongs.add(song2);
+    mockedSongs.add(song3);
 
-        mockedSongs.add(song1);
-        mockedSongs.add(song2);
-        mockedSongs.add(song3);
+    List<String> response = new ArrayList<>();
+    response.add("test");
+    when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
+    when(playlistSongConverter.convertResponseToSongs(response)).thenReturn(mockedSongs);
 
-        when(playlistProperties.getInfo()).thenReturn(realPlaylistProperties.getInfo());
+    final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+    playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        List<String> response = new ArrayList<>();
-        response.add("test");
-        when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
-        when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
+    playlist.removeGenre(genre);
 
-        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
-        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+    verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
+    verify(commandExecutor, times(2))
+        .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
 
-        playlist.removeGenre(genre);
+    assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(1));
+    assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(2));
+    assertEquals((Integer) song2.getId(), integerArgumentCaptor.getAllValues().get(1));
+    assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());
+  }
 
-        when(playlistProperties.getRemoveId()).thenReturn(realPlaylistProperties.getRemoveId());
-        verify(commandExecutor)
-                .sendCommand(stringArgumentCaptor.capture());
-        verify(commandExecutor, times(2))
-                .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
+  @Test
+  void testInsertYear() {
+    String year = "testYear";
 
-        assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(1));
-        assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().get(0));
-        assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(2));
-        assertEquals((Integer) song2.getId(), integerArgumentCaptor.getAllValues().get(1));
-        assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());
-    }
+    List<MPDSong> songs = new ArrayList<>();
+    songs.add(MPDSong.builder().file("file1").title("testSong1").build());
+    songs.add(MPDSong.builder().file("file2").title("testSong2").build());
+    when(songDatabase.findYear(year)).thenReturn(songs);
 
-    @Test
-    public void testInsertYear() throws Exception {
-        String year = "testYear";
+    final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+    playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        List<MPDSong> songs = new ArrayList<>();
-        songs.add(new MPDSong("file1", "testSong1"));
-        songs.add(new MPDSong("file2", "testSong2"));
-        when(songDatabase.findYear(year)).thenReturn(songs);
+    playlist.insertYear(year);
 
-        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
-        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+    verify(commandExecutor, times(2))
+        .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-        playlist.insertYear(year);
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
+    assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
+    assertEquals(PlaylistChangeEvent.Event.YEAR_ADDED, changeEvent[0].getEvent());
+  }
 
-        when(playlistProperties.getAdd()).thenReturn(realPlaylistProperties.getAdd());
+  @Test
+  void testRemoveYear() {
+    String year = "testYear";
 
-        verify(commandExecutor, times(2))
-                .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
+    var mockedSongs = new ArrayList<MPDPlaylistSong>();
+    MPDPlaylistSong song1 =
+        MPDPlaylistSong.builder().file("file1").title("testSong1").date(year).id(1).build();
 
-        assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
-        assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
-        assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
-        assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
-        assertEquals(PlaylistChangeEvent.Event.YEAR_ADDED, changeEvent[0].getEvent());
-    }
+    MPDPlaylistSong song2 =
+        MPDPlaylistSong.builder().file("file2").title("testSong1").date(year).id(2).build();
 
-    @Test
-    public void testRemoveYear() throws Exception {
-        String year = "testYear";
+    MPDPlaylistSong song3 =
+        MPDPlaylistSong.builder().file("file3").title("testSong1").date("bogus").build();
 
-        List<MPDSong> mockedSongs = new ArrayList<>();
-        MPDSong song1 = new MPDSong("file1", "testSong1");
-        song1.setYear(year);
-        song1.setId(1);
-        MPDSong song2 = new MPDSong("file2", "testSong1");
-        song2.setYear(year);
-        song2.setId(2);
-        MPDSong song3 = new MPDSong("file3", "testSong1");
-        song3.setYear("bogus");
+    mockedSongs.add(song1);
+    mockedSongs.add(song2);
+    mockedSongs.add(song3);
 
-        mockedSongs.add(song1);
-        mockedSongs.add(song2);
-        mockedSongs.add(song3);
+    List<String> response = new ArrayList<>();
+    response.add("test");
+    when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
+    when(playlistSongConverter.convertResponseToSongs(response)).thenReturn(mockedSongs);
 
-        when(playlistProperties.getInfo()).thenReturn(realPlaylistProperties.getInfo());
+    final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
+    playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
 
-        List<String> response = new ArrayList<>();
-        response.add("test");
-        when(commandExecutor.sendCommand(realPlaylistProperties.getInfo())).thenReturn(response);
-        when(songConverter.convertResponseToSong(response)).thenReturn(mockedSongs);
+    playlist.removeYear(year);
 
-        final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
-        playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
+    verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
+    verify(commandExecutor, times(2))
+        .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
 
-        playlist.removeYear(year);
-
-        when(playlistProperties.getRemoveId()).thenReturn(realPlaylistProperties.getRemoveId());
-        verify(commandExecutor)
-                .sendCommand(stringArgumentCaptor.capture());
-        verify(commandExecutor, times(2))
-                .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
-
-        assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(1));
-        assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().get(0));
-        assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(2));
-        assertEquals((Integer) song2.getId(), integerArgumentCaptor.getAllValues().get(1));
-        assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());
-    }
+    assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(1));
+    assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(2));
+    assertEquals((Integer) song2.getId(), integerArgumentCaptor.getAllValues().get(1));
+    assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());
+  }
 }

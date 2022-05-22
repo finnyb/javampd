@@ -1,36 +1,22 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.jupiter.api.Test;
 
-public class DiscTagProcessorTest {
+class DiscTagProcessorTest {
 
-    @Test
-    public void testProcessSong() throws Exception {
-        String testDisc = "testDisc";
+  @Test
+  void testProcess() {
+    var testDisc = "testDisc";
+    var line = "Disc:" + testDisc;
 
-        DiscTagProcessor discTagProcessor = new DiscTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+    assertEquals(testDisc, new DiscTagProcessor().processTag(line));
+  }
 
-        String line = "Disc:" + testDisc;
-        discTagProcessor.processTag(song, line);
-
-        assertEquals(testDisc, song.getDiscNumber());
-    }
-
-    @Test
-    public void testProcessSongBadLine() throws Exception {
-        String testDisc = "testDisc";
-
-        DiscTagProcessor discTagProcessor = new DiscTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
-
-        String line = "BadDisc:" + testDisc;
-        discTagProcessor.processTag(song, line);
-
-        assertNull(song.getDiscNumber());
-    }
+  @Test
+  void testProcessBadLine() {
+    assertNull(new DiscTagProcessor().processTag("BadDisc: test"));
+  }
 }

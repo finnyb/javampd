@@ -19,8 +19,9 @@
     <body>
         <links>
             <item name="GitHub" href="http://github.com/finnyb/javampd"/>
-            <item name="Travis" href="http://bjj.is-a-player.com:8080"/>
-            <item name="Sonar" href="http://bjj.is-a-player.com:9000/dashboard/index/1"/>
+            <item name="Sonar" href="https://sonarcloud.io/project/overview?id=finnyb_javampd"/>
+            <item name="Travis" href="https://travis-ci.org/github/finnyb/javampd"/>
+            <item name="Coverage" href="https://coveralls.io/github/finnyb/javampd?branch=develop"/>
         </links>
         <menu name="Download" inherit="bottom">
             <item name="Download" href="download.html"/>

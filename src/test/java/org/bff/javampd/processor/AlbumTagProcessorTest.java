@@ -1,52 +1,22 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.album.MPDAlbum;
-import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.jupiter.api.Test;
 
-public class AlbumTagProcessorTest {
+class AlbumTagProcessorTest {
 
-    @Test
-    public void testProcessSong() throws Exception {
-        String testAlbum = "testAlbum";
+  @Test
+  void testProcess() {
+    String testAlbum = "testAlbum";
+    String line = "Album:" + testAlbum;
 
-        AlbumTagProcessor albumTagProcessor = new AlbumTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+    assertEquals(testAlbum, new AlbumTagProcessor().processTag(line));
+  }
 
-        String line = "Album:" + testAlbum;
-        albumTagProcessor.processTag(song, line);
-
-        assertEquals(testAlbum, song.getAlbumName());
-    }
-
-    @Test
-    public void testProcessSongBadLine() throws Exception {
-        String testAlbum = "testAlbum";
-
-        AlbumTagProcessor albumTagProcessor = new AlbumTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
-
-        String line = "BadAlbum:" + testAlbum;
-        albumTagProcessor.processTag(song, line);
-
-        assertNull(song.getAlbumName());
-    }
-
-    @Test
-    public void testProcessAlbum() throws Exception {
-        String testAlbumName = "testAlbum";
-        String testArtist = "testArtist";
-
-        AlbumTagProcessor albumTagProcessor = new AlbumTagProcessor();
-
-        MPDAlbum album = new MPDAlbum(testAlbumName, testArtist);
-
-        String line = "Album:" + testAlbumName;
-        albumTagProcessor.processTag(album, line);
-
-        assertEquals(new MPDAlbum(testAlbumName, testArtist), album);
-    }
+  @Test
+  void testProcessSongBadLine() {
+    assertNull(new AlbumTagProcessor().processTag("BadAlbum: test"));
+  }
 }

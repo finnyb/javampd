@@ -1,61 +1,60 @@
 package org.bff.javampd.server;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ServerPropertiesTest {
-    private ServerProperties serverProperties;
+class ServerPropertiesTest {
+  private ServerProperties serverProperties;
 
-    @Before
-    public void setUp() throws Exception {
-        serverProperties = new ServerProperties();
-    }
+  @BeforeEach
+  void setUp() {
+    serverProperties = new ServerProperties();
+  }
 
-    @Test
-    public void getClearError() throws Exception {
-        assertEquals("clearerror", serverProperties.getClearError());
-    }
+  @Test
+  void getClearError() {
+    assertEquals("clearerror", serverProperties.getClearError());
+  }
 
-    @Test
-    public void getStatus() throws Exception {
-        assertEquals("status", serverProperties.getStatus());
-    }
+  @Test
+  void getStatus() {
+    assertEquals("status", serverProperties.getStatus());
+  }
 
-    @Test
-    public void getStats() throws Exception {
-        assertEquals("stats", serverProperties.getStats());
-    }
+  @Test
+  void getStats() {
+    assertEquals("stats", serverProperties.getStats());
+  }
 
-    @Test
-    public void getPing() throws Exception {
-        assertEquals("ping", serverProperties.getPing());
-    }
+  @Test
+  void getPing() {
+    assertEquals("ping", serverProperties.getPing());
+  }
 
-    @Test
-    public void getPassword() throws Exception {
-        assertEquals("password", serverProperties.getPassword());
-    }
+  @Test
+  void getPassword() {
+    assertEquals("password", serverProperties.getPassword());
+  }
 
-    @Test
-    public void getClose() throws Exception {
-        assertEquals("close", serverProperties.getClose());
-    }
+  @Test
+  void getClose() {
+    assertEquals("close", serverProperties.getClose());
+  }
 
-    @Test
-    public void getStartBulk() throws Exception {
-        assertEquals("command_list_ok_begin", serverProperties.getStartBulk());
-    }
+  @Test
+  void getStartBulk() {
+    assertEquals("command_list_ok_begin", serverProperties.getStartBulk());
+  }
 
-    @Test
-    public void getEndBulk() throws Exception {
-        assertEquals("command_list_end", serverProperties.getEndBulk());
-    }
+  @Test
+  void getEndBulk() {
+    assertEquals("command_list_end", serverProperties.getEndBulk());
+  }
 
-    @Test
-    public void getEncoding() throws Exception {
-        assertEquals("UTF-8", serverProperties.getEncoding());
-    }
-
+  @Test
+  void getEncoding() {
+    assertEquals("UTF-8", serverProperties.getEncoding());
+  }
 }

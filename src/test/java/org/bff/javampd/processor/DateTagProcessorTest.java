@@ -1,36 +1,22 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.song.MPDSong;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.jupiter.api.Test;
 
-public class DateTagProcessorTest {
+class DateTagProcessorTest {
 
-    @Test
-    public void testProcessSong() throws Exception {
-        String testDate = "1990";
+  @Test
+  void testProcess() {
+    var testDate = "1990";
+    var line = "Date:" + testDate;
 
-        DateTagProcessor dateTagProcessor = new DateTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
+    assertEquals(testDate, new DateTagProcessor().processTag(line));
+  }
 
-        String line = "Date:" + testDate;
-        dateTagProcessor.processTag(song, line);
-
-        assertEquals(testDate, song.getYear());
-    }
-
-    @Test
-    public void testProcessSongBadLine() throws Exception {
-        String testDate = "1990";
-
-        DateTagProcessor dateTagProcessor = new DateTagProcessor();
-        MPDSong song = new MPDSong("testFile", "testName");
-
-        String line = "BadDate:" + testDate;
-        dateTagProcessor.processTag(song, line);
-
-        assertNull(song.getYear());
-    }
+  @Test
+  void testProcessBadLine() {
+    assertNull(new DateTagProcessor().processTag("BadDate: 1990"));
+  }
 }

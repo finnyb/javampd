@@ -1,203 +1,194 @@
 package org.bff.javampd.admin;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
 import org.bff.javampd.statistics.ServerStatistics;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
+@ExtendWith(MockitoExtension.class)
+class MPDAdminTest {
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
+  @Mock private MPDCommandExecutor commandExecutor;
 
-@RunWith(MockitoJUnitRunner.class)
-public class MPDAdminTest {
+  @Mock private AdminProperties adminProperties;
 
-    @Mock
-    private MPDCommandExecutor commandExecutor;
+  @Mock private ServerStatistics serverStatistics;
 
-    @Mock
-    private AdminProperties adminProperties;
+  @Captor private ArgumentCaptor<String> commandArgumentCaptor;
 
-    @Mock
-    private ServerStatistics serverStatistics;
+  @Captor private ArgumentCaptor<Integer> integerParamArgumentCaptor;
 
-    @Captor
-    private ArgumentCaptor<String> commandArgumentCaptor;
+  @Captor private ArgumentCaptor<String> stringParamArgumentCaptor;
 
-    @Captor
-    private ArgumentCaptor<Integer[]> integerParamArgumentCaptor;
+  @InjectMocks private MPDAdmin admin;
 
-    @Captor
-    private ArgumentCaptor<String[]> stringParamArgumentCaptor;
+  private AdminProperties realAdminProperties;
 
-    @InjectMocks
-    private MPDAdmin admin;
+  @BeforeEach
+  void before() {
+    realAdminProperties = new AdminProperties();
+  }
 
-    private AdminProperties realAdminProperties;
+  @Test
+  void getOutputs() {
+    when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
 
-    @Before
-    public void before() {
-        realAdminProperties = new AdminProperties();
-    }
+    MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
+    assertThat(output.getName(), is(equalTo("My ALSA Device")));
+    assertThat(output.getId(), is(equalTo(0)));
 
-    @Test
-    public void getOutputs() {
-        when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-        when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    output = new ArrayList<>(admin.getOutputs()).get(1);
+    assertThat(output.getName(), is(equalTo("My ALSA Device 2")));
+    assertThat(output.getId(), is(equalTo(0)));
+  }
 
-        MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
-        assertEquals(output.getName(), "My ALSA Device");
-        assertEquals(output.getId(), 0);
+  @Test
+  void disableOutput() {
+    when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    when(adminProperties.getOutputDisable()).thenReturn(realAdminProperties.getOutputDisable());
 
-        output = new ArrayList<>(admin.getOutputs()).get(1);
-        assertEquals(output.getName(), "My ALSA Device 2");
-        assertEquals(output.getId(), 0);
-    }
+    MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
+    admin.disableOutput(output);
+    verify(commandExecutor)
+        .sendCommand(commandArgumentCaptor.capture(), integerParamArgumentCaptor.capture());
+    assertThat(adminProperties.getOutputDisable(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(0, is(equalTo(integerParamArgumentCaptor.getValue())));
+  }
 
-    @Test
-    public void disableOutput() {
-        when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-        when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
-        when(adminProperties.getOutputDisable()).thenReturn(realAdminProperties.getOutputDisable());
+  @Test
+  void enableOutput() {
+    when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    when(adminProperties.getOutputEnable()).thenReturn(realAdminProperties.getOutputEnable());
 
-        MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
-        admin.disableOutput(output);
-        verify(commandExecutor).sendCommand(commandArgumentCaptor.capture(), integerParamArgumentCaptor.capture());
-        assertEquals(adminProperties.getOutputDisable(), commandArgumentCaptor.getValue());
-        assertEquals(0, integerParamArgumentCaptor.getValue());
-    }
+    MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
+    admin.enableOutput(output);
+    verify(commandExecutor)
+        .sendCommand(commandArgumentCaptor.capture(), integerParamArgumentCaptor.capture());
+    assertThat(adminProperties.getOutputEnable(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(0, is(equalTo(integerParamArgumentCaptor.getValue())));
+  }
 
-    @Test
-    public void enableOutput() {
-        when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-        when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
-        when(adminProperties.getOutputEnable()).thenReturn(realAdminProperties.getOutputEnable());
+  @Test
+  void killMPD() {
+    when(adminProperties.getKill()).thenReturn(realAdminProperties.getKill());
 
-        MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
-        admin.enableOutput(output);
-        verify(commandExecutor).sendCommand(commandArgumentCaptor.capture(), integerParamArgumentCaptor.capture());
-        assertEquals(adminProperties.getOutputEnable(), commandArgumentCaptor.getValue());
-        assertEquals(0, integerParamArgumentCaptor.getValue());
-    }
+    admin.killMPD();
+    verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+    assertThat(adminProperties.getKill(), is(equalTo(commandArgumentCaptor.getValue())));
+  }
 
-    @Test
-    public void killMPD() {
-        when(adminProperties.getKill()).thenReturn(realAdminProperties.getKill());
+  @Test
+  void updateDatabase() {
+    when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
 
-        admin.killMPD();
-        verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
-        assertEquals(adminProperties.getKill(), commandArgumentCaptor.getValue());
-    }
+    admin.updateDatabase();
+    verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+    assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
+  }
 
-    @Test
-    public void updateDatabase() {
-        when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
+  @Test
+  void updateDatabaseWithPath() {
+    admin.updateDatabase("testPath");
+    verify(commandExecutor)
+        .sendCommand(commandArgumentCaptor.capture(), stringParamArgumentCaptor.capture());
+    assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat("testPath", is(equalTo(stringParamArgumentCaptor.getValue())));
+  }
 
-        admin.updateDatabase();
-        verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
-        assertEquals(adminProperties.getRefresh(), commandArgumentCaptor.getValue());
-    }
+  @Test
+  void testAddChangeListener() {
+    final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
 
-    @Test
-    public void updateDatabaseWithPath() {
-        admin.updateDatabase("testPath");
-        verify(commandExecutor).sendCommand(commandArgumentCaptor.capture(), stringParamArgumentCaptor.capture());
-        assertEquals(adminProperties.getRefresh(), commandArgumentCaptor.getValue());
-        assertEquals("testPath", stringParamArgumentCaptor.getValue());
-    }
+    MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.KILLED;
+    MPDChangeListener changeListener = event -> eventReceived[0] = event;
 
-    @Test
-    public void getDaemonUpTime() {
-        admin.getDaemonUpTime();
-        verify(serverStatistics, times(1)).getUptime();
-    }
+    admin.addMPDChangeListener(changeListener);
+    admin.fireMPDChangeEvent(changeEvent);
 
-    @Test
-    public void testAddChangeListener() {
-        final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
+    assertThat(changeEvent, is(equalTo(eventReceived[0].getEvent())));
+  }
 
-        MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.KILLED;
-        MPDChangeListener changeListener = event -> eventReceived[0] = event;
+  @Test
+  void testRemoveListener() {
+    final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
 
-        admin.addMPDChangeListener(changeListener);
-        admin.fireMPDChangeEvent(changeEvent);
+    MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.KILLED;
+    MPDChangeListener changeListener = event -> eventReceived[0] = event;
 
-        assertEquals(changeEvent, eventReceived[0].getEvent());
-    }
+    admin.addMPDChangeListener(changeListener);
+    admin.fireMPDChangeEvent(changeEvent);
 
-    @Test
-    public void testRemoveListener() {
-        final MPDChangeEvent[] eventReceived = new MPDChangeEvent[1];
+    assertThat(changeEvent, is(equalTo(eventReceived[0].getEvent())));
 
-        MPDChangeEvent.Event changeEvent = MPDChangeEvent.Event.KILLED;
-        MPDChangeListener changeListener = event -> eventReceived[0] = event;
+    eventReceived[0] = null;
+    admin.removeMPDChangeListener(changeListener);
+    admin.fireMPDChangeEvent(changeEvent);
 
-        admin.addMPDChangeListener(changeListener);
-        admin.fireMPDChangeEvent(changeEvent);
+    assertNull(eventReceived[0]);
+  }
 
-        assertEquals(changeEvent, eventReceived[0].getEvent());
+  @Test
+  void testAddOutputChangeListener() {
+    final OutputChangeEvent[] eventReceived = new OutputChangeEvent[1];
 
-        eventReceived[0] = null;
-        admin.removeMPDChangeListener(changeListener);
-        admin.fireMPDChangeEvent(changeEvent);
+    OutputChangeEvent.OUTPUT_EVENT changeEvent = OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED;
+    OutputChangeListener changeListener = event -> eventReceived[0] = event;
 
-        assertNull(eventReceived[0]);
-    }
+    admin.addOutputChangeListener(changeListener);
+    admin.fireOutputChangeEvent(changeEvent);
 
-    @Test
-    public void testAddOutputChangeListener() {
-        final OutputChangeEvent[] eventReceived = new OutputChangeEvent[1];
+    assertThat(changeEvent, is(equalTo(eventReceived[0].getEvent())));
+  }
 
-        OutputChangeEvent.OUTPUT_EVENT changeEvent = OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED;
-        OutputChangeListener changeListener = event -> eventReceived[0] = event;
+  @Test
+  void testRemoveOutputListener() {
+    final OutputChangeEvent[] eventReceived = new OutputChangeEvent[1];
 
-        admin.addOutputChangeListener(changeListener);
-        admin.fireOutputChangeEvent(changeEvent);
+    OutputChangeEvent.OUTPUT_EVENT changeEvent = OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED;
+    OutputChangeListener changeListener = event -> eventReceived[0] = event;
 
-        assertEquals(changeEvent, eventReceived[0].getEvent());
-    }
+    admin.addOutputChangeListener(changeListener);
+    admin.fireOutputChangeEvent(changeEvent);
 
-    @Test
-    public void testRemoveOutputListener() {
-        final OutputChangeEvent[] eventReceived = new OutputChangeEvent[1];
+    assertThat(changeEvent, is(equalTo(eventReceived[0].getEvent())));
 
-        OutputChangeEvent.OUTPUT_EVENT changeEvent = OutputChangeEvent.OUTPUT_EVENT.OUTPUT_ADDED;
-        OutputChangeListener changeListener = event -> eventReceived[0] = event;
+    eventReceived[0] = null;
+    admin.removeOutputChangeListener(changeListener);
+    admin.fireOutputChangeEvent(changeEvent);
 
-        admin.addOutputChangeListener(changeListener);
-        admin.fireOutputChangeEvent(changeEvent);
+    assertNull(eventReceived[0]);
+  }
 
-        assertEquals(changeEvent, eventReceived[0].getEvent());
+  private List<String> getOutputResponse() {
+    List<String> responseList = new ArrayList<>();
+    responseList.add("outputid: 0");
+    responseList.add("outputname: My ALSA Device");
+    responseList.add("outputenabled: 0");
 
-        eventReceived[0] = null;
-        admin.removeOutputChangeListener(changeListener);
-        admin.fireOutputChangeEvent(changeEvent);
+    responseList.add("outputid: 1");
+    responseList.add("outputname: My ALSA Device 2");
+    responseList.add("outputenabled: 0");
 
-        assertNull(eventReceived[0]);
-    }
-
-    private List<String> getOutputResponse() {
-        List<String> responseList = new ArrayList<>();
-        responseList.add("outputid: 0");
-        responseList.add("outputname: My ALSA Device");
-        responseList.add("outputenabled: 0");
-
-        responseList.add("outputid: 1");
-        responseList.add("outputname: My ALSA Device 2");
-        responseList.add("outputenabled: 0");
-
-        return responseList;
-    }
+    return responseList;
+  }
 }

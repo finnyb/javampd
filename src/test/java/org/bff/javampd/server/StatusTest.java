@@ -1,13 +1,12 @@
 package org.bff.javampd.server;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-public class StatusTest {
-    @Test
-    public void lookupUnknownStatus() throws Exception {
-        assertEquals(Status.UNKNOWN, Status.lookupStatus("junk"));
-    }
-
+class StatusTest {
+  @Test
+  void lookupUnknownStatus() {
+    assertEquals(Status.UNKNOWN, Status.lookup("junk"));
+  }
 }

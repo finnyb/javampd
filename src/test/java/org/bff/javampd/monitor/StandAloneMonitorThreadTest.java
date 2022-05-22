@@ -1,171 +1,169 @@
 package org.bff.javampd.monitor;
 
-import org.bff.javampd.MPDException;
-import org.bff.javampd.server.ServerStatus;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.server.ServerStatus;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.when;
+@ExtendWith(MockitoExtension.class)
+class StandAloneMonitorThreadTest {
 
-@RunWith(MockitoJUnitRunner.class)
-public class StandAloneMonitorThreadTest {
+  @Mock private ServerStatus serverStatus;
+  @Mock private ConnectionMonitor connectionMonitor;
 
-    @Mock
-    private ServerStatus serverStatus;
-    @Mock
-    private ConnectionMonitor connectionMonitor;
+  private StandAloneMonitorThread standAloneMonitorThread;
 
-    private StandAloneMonitorThread standAloneMonitorThread;
+  @AfterEach
+  void tearDown() {
+    standAloneMonitorThread.setStopped(true);
+  }
 
-    @After
-    public void tearDown() throws Exception {
-        standAloneMonitorThread.setStopped(true);
-    }
+  @Test
+  void testInitialStatus() {
+    final boolean[] called = new boolean[1];
+    List<String> returnStatus1 = new ArrayList<>();
+    returnStatus1.add("volume: 1");
 
-    @Test
-    public void testInitialStatus() throws Exception {
-        final boolean[] called = new boolean[1];
-        List<String> returnStatus1 = new ArrayList<>();
-        returnStatus1.add("volume: 1");
+    List<String> returnStatus2 = new ArrayList<>();
+    returnStatus2.add("volume: 2");
 
-        List<String> returnStatus2 = new ArrayList<>();
-        returnStatus2.add("volume: 2");
+    when(serverStatus.getStatus()).thenReturn(returnStatus1).thenReturn(returnStatus2);
+    VolumeMonitor volumeMonitor = new MPDVolumeMonitor();
+    volumeMonitor.addVolumeChangeListener(event -> called[0] = true);
+    createMonitor(0, 0).addMonitor(new ThreadedMonitor(volumeMonitor, 0));
+    runMonitor();
 
-        when(serverStatus.getStatus()).thenReturn(returnStatus1).thenReturn(returnStatus2);
-        VolumeMonitor volumeMonitor = new MPDVolumeMonitor();
-        volumeMonitor.addVolumeChangeListener(event -> called[0] = true);
-        createMonitor(0, 0).addMonitor(new ThreadedMonitor(volumeMonitor, 0));
-        runMonitor();
+    await().until(() -> called[0]);
+  }
 
-        await().until(() -> called[0]);
-    }
+  @Test
+  void testAddMonitor() {
+    final boolean[] called = new boolean[1];
+    Monitor monitor = () -> called[0] = true;
+    createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
+    runMonitor();
 
-    @Test
-    public void testAddMonitor() throws Exception {
-        final boolean[] called = new boolean[1];
-        Monitor monitor = () -> called[0] = true;
-        createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
-        runMonitor();
+    await().until(() -> called[0]);
+  }
 
-        await().until(() -> called[0]);
-    }
+  @Test
+  void testRemoveMonitor() {
+    final boolean[] called = new boolean[1];
+    Monitor monitor = () -> called[0] = true;
+    ThreadedMonitor threadedMonitor = new ThreadedMonitor(monitor, 0);
+    StandAloneMonitorThread monitorThread = createMonitor(0, 0);
+    monitorThread.addMonitor(threadedMonitor);
+    runMonitor();
 
-    @Test
-    public void testRemoveMonitor() throws Exception {
-        final boolean[] called = new boolean[1];
-        Monitor monitor = () -> called[0] = true;
-        ThreadedMonitor threadedMonitor = new ThreadedMonitor(monitor, 0);
-        StandAloneMonitorThread monitorThread = createMonitor(0, 0);
-        monitorThread.addMonitor(threadedMonitor);
-        runMonitor();
+    await().until(() -> called[0]);
+    monitorThread.removeMonitor(threadedMonitor);
 
-        await().until(() -> called[0]);
-        monitorThread.removeMonitor(threadedMonitor);
+    called[0] = false;
+    await().until(() -> !called[0]);
+  }
 
-        called[0] = false;
-        await().until(() -> !called[0]);
-    }
+  @Test
+  void testRunInterupted() {
+    createMonitor(1, 1);
+    Thread thread = new Thread(standAloneMonitorThread);
+    thread.start();
 
-    @Test
-    public void testRunInterupted() throws Exception {
-        createMonitor(1, 1);
-        Thread thread = new Thread(standAloneMonitorThread);
-        thread.start();
+    thread.interrupt();
 
-        thread.interrupt();
+    await().until(() -> !thread.isAlive());
+  }
 
-        await().until(() -> !thread.isAlive());
-    }
-
-    @Test
-    public void testRunConnectionErrorWithInterrupt() throws Exception {
-        final int[] count = {0};
-        Monitor monitor = () -> {
-            ++count[0];
-            throw new MPDException("Test Exception");
+  @Test
+  void testRunConnectionErrorWithInterrupt() {
+    final int[] count = {0};
+    Monitor monitor =
+        () -> {
+          ++count[0];
+          throw new MPDException("Test Exception");
         };
 
-        when(connectionMonitor.isConnected()).thenReturn(true);
-        createMonitor(0, 5000).addMonitor(new ThreadedMonitor(monitor, 0));
-        Thread thread = runMonitor();
+    createMonitor(0, 5000).addMonitor(new ThreadedMonitor(monitor, 0));
+    Thread thread = runMonitor();
 
-        thread.interrupt();
+    thread.interrupt();
 
-        await().until(() -> !thread.isAlive());
-    }
+    await().until(() -> !thread.isAlive());
+  }
 
-    @Test
-    public void testRunError() throws Exception {
-        final int[] count = {0};
-        Monitor monitor = () -> {
-            ++count[0];
-            throw new MPDException("Test Exception");
+  @Test
+  void testRunError() {
+    final int[] count = {0};
+    Monitor monitor =
+        () -> {
+          ++count[0];
+          throw new MPDException("Test Exception");
         };
-        when(connectionMonitor.isConnected()).thenReturn(true);
-        createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
-        runMonitor();
+    when(connectionMonitor.isConnected()).thenReturn(true);
+    createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
+    runMonitor();
 
-        await().until(() -> count[0] > 1);
-    }
+    await().until(() -> count[0] > 1);
+  }
 
-    @Test(expected = MPDException.class)
-    public void testRunConnectionError() throws Exception {
-        Monitor monitor = () -> {
-            throw new MPDException();
+  @Test
+  void testRunConnectionError() {
+    Monitor monitor =
+        () -> {
+          throw new MPDException();
         };
-        when(connectionMonitor.isConnected()).thenThrow(new MPDException());
-        createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
-        standAloneMonitorThread.run();
-    }
+    when(connectionMonitor.isConnected()).thenThrow(new MPDException());
+    createMonitor(0, 0).addMonitor(new ThreadedMonitor(monitor, 0));
+    assertThrows(MPDException.class, () -> standAloneMonitorThread.run());
+  }
 
-    @Test(expected = MPDException.class)
-    public void testLoadInitialStatusException() throws Exception {
-        when(serverStatus.getStatus()).thenThrow(new MPDException());
-        createMonitor(0, 0);
-        standAloneMonitorThread.run();
-    }
+  @Test
+  void testLoadInitialStatusException() {
+    when(serverStatus.getStatus()).thenThrow(new MPDException());
+    createMonitor(0, 0);
+    assertThrows(MPDException.class, () -> standAloneMonitorThread.run());
+  }
 
-    @Test
-    public void testIsStopped() throws Exception {
-        createMonitor(0, 0);
-        runMonitor();
+  @Test
+  void testIsStopped() {
+    createMonitor(0, 0);
+    runMonitor();
 
-        await().until(() -> !standAloneMonitorThread.isDone());
+    await().until(() -> !standAloneMonitorThread.isDone());
 
-        standAloneMonitorThread.setStopped(true);
+    standAloneMonitorThread.setStopped(true);
 
-        await().until(() -> standAloneMonitorThread.isDone());
-    }
+    await().until(() -> standAloneMonitorThread.isDone());
+  }
 
-    @Test
-    public void testIsLoaded() throws Exception {
-        createMonitor(0, 0);
-        assertFalse(standAloneMonitorThread.isInitialized());
-        runMonitor();
-        await().until(() -> standAloneMonitorThread.isInitialized());
-    }
+  @Test
+  void testIsLoaded() {
+    createMonitor(0, 0);
+    assertFalse(standAloneMonitorThread.isInitialized());
+    runMonitor();
+    await().until(() -> standAloneMonitorThread.isInitialized());
+  }
 
-    private StandAloneMonitorThread createMonitor(int delay, int exceptionDelay) {
-        standAloneMonitorThread = new StandAloneMonitorThread(serverStatus,
-                connectionMonitor,
-                delay,
-                exceptionDelay);
+  private StandAloneMonitorThread createMonitor(int delay, int exceptionDelay) {
+    standAloneMonitorThread =
+        new StandAloneMonitorThread(serverStatus, connectionMonitor, delay, exceptionDelay);
 
-        return standAloneMonitorThread;
-    }
+    return standAloneMonitorThread;
+  }
 
-    private Thread runMonitor() throws Exception {
-        Thread thread = new Thread(standAloneMonitorThread);
-        thread.start();
+  private Thread runMonitor() {
+    Thread thread = new Thread(standAloneMonitorThread);
+    thread.start();
 
-        return thread;
-    }
+    return thread;
+  }
 }

@@ -1,210 +1,177 @@
 package org.bff.javampd.song;
 
-import org.bff.javampd.command.CommandExecutor;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class MPDSongSearcherTest {
+import java.util.ArrayList;
+import org.bff.javampd.command.CommandExecutor;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-    private SongSearcher songSearcher;
-    private CommandExecutor mockedCommandExecuter;
-    private SongConverter mockedSongConverter;
-    private SearchProperties searchProperties;
+@ExtendWith(MockitoExtension.class)
+class MPDSongSearcherTest {
 
-    @Captor
-    private ArgumentCaptor<String> commandArgumentCaptor;
-    @Captor
-    private ArgumentCaptor<String[]> paramArgumentCaptor;
+  private SongSearcher songSearcher;
+  private CommandExecutor mockedCommandExecuter;
+  private SongConverter mockedSongConverter;
+  private SearchProperties searchProperties;
 
-    @Before
-    public void setup() {
-        searchProperties = new SearchProperties();
-        mockedSongConverter = mock(SongConverter.class);
-        mockedCommandExecuter = mock(CommandExecutor.class);
-        songSearcher = new MPDSongSearcher(searchProperties,
-                mockedCommandExecuter,
-                mockedSongConverter);
-    }
+  @Captor private ArgumentCaptor<String> commandArgumentCaptor;
+  @Captor private ArgumentCaptor<String> paramArgumentCaptor;
 
-    @Test
-    public void testSearch() throws Exception {
-        String searchCriteria = "testSearch";
-        SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+  @BeforeEach
+  void setup() {
+    searchProperties = new SearchProperties();
+    mockedSongConverter = mock(SongConverter.class);
+    mockedCommandExecuter = mock(CommandExecutor.class);
+    songSearcher =
+        new MPDSongSearcher(searchProperties, mockedCommandExecuter, mockedSongConverter);
+  }
 
-        List<MPDSong> testSongList = new ArrayList<>();
-        testSongList.add(testSong);
+  @Test
+  void searchAny() {
+    var search = "test";
+    when(mockedCommandExecuter.sendCommand(any(), anyString())).thenReturn(new ArrayList<>());
 
-        when(mockedCommandExecuter.sendCommand(searchProperties.getSearch(),
-                generateParams(scopeType, searchCriteria))).thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+    this.songSearcher.searchAny(search);
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
-        List<MPDSong> songList = new ArrayList<>(songSearcher.search(scopeType, searchCriteria));
+    assertAll(
+        () -> assertEquals("search", commandArgumentCaptor.getValue()),
+        () ->
+            assertEquals(
+                String.format("(any contains '%s')", search), paramArgumentCaptor.getValue()));
+  }
 
-        verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
+  @Test
+  void searchByScopeAndString() {
+    var search = "test";
+    when(mockedCommandExecuter.sendCommand(anyString(), anyString())).thenReturn(new ArrayList<>());
 
-        assertEquals(testSongList.size(), songList.size());
-        assertEquals(searchProperties.getSearch(), commandArgumentCaptor.getValue());
-        assertEquals(Arrays.asList(generateParams(scopeType, searchCriteria)), paramArgumentCaptor.getAllValues());
-        assertEquals(testSongList.get(0), songList.get(0));
-    }
+    this.songSearcher.search(SongSearcher.ScopeType.ALBUM, search);
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
-    @Test
-    public void testSearchWindowed() throws Exception {
-        String searchCriteria = "testSearch";
-        int start = 1;
-        int end = 5;
+    assertAll(
+        () -> assertEquals("search", commandArgumentCaptor.getValue()),
+        () ->
+            assertEquals(
+                String.format("(album contains '%s')", search), paramArgumentCaptor.getValue()));
+  }
 
-        SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ARTIST;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+  @Test
+  void searchBySingleCriteria() {
+    var search = "test";
+    when(mockedCommandExecuter.sendCommand(anyString(), anyString())).thenReturn(new ArrayList<>());
 
-        List<MPDSong> testSongList = new ArrayList<>();
-        testSongList.add(testSong);
+    this.songSearcher.search(new SearchCriteria(SongSearcher.ScopeType.TITLE, search));
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
-        when(mockedCommandExecuter.sendCommand(searchProperties.getSearch(),
-                addWindowedParams(generateParams(scopeType, searchCriteria), start, end)))
-                .thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+    assertAll(
+        () -> assertEquals("search", commandArgumentCaptor.getValue()),
+        () ->
+            assertEquals(
+                String.format("(title contains '%s')", search), paramArgumentCaptor.getValue()));
+  }
 
-        List<MPDSong> songList = new ArrayList<>(songSearcher.search(scopeType, searchCriteria, start, end));
-        verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
+  @Test
+  void searchByMultipleCriteria() {
+    var searchArtist = "Tool";
+    var searchTitle = "Vic";
 
-        assertEquals(testSongList.size(), songList.size());
-        assertEquals(searchProperties.getSearch(), commandArgumentCaptor.getValue());
-        assertEquals(Arrays.asList(addWindowedParams(generateParams(scopeType, searchCriteria), start, end)),
-                paramArgumentCaptor.getAllValues());
-        assertEquals(testSongList.get(0), songList.get(0));
-    }
+    when(mockedCommandExecuter.sendCommand(anyString(), anyString())).thenReturn(new ArrayList<>());
 
-    @Test
-    public void testFind() throws Exception {
-        String searchCriteria = "testSearch";
-        SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+    this.songSearcher.search(
+        new SearchCriteria(SongSearcher.ScopeType.TITLE, searchTitle),
+        new SearchCriteria(SongSearcher.ScopeType.ARTIST, searchArtist));
 
-        List<MPDSong> testSongList = new ArrayList<>();
-        testSongList.add(testSong);
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
-        when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
-                generateParams(scopeType, searchCriteria))).thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+    assertAll(
+        () -> assertEquals("search", commandArgumentCaptor.getValue()),
+        () ->
+            assertEquals(
+                String.format(
+                    "((title contains '%s') AND (artist contains '%s'))",
+                    searchTitle, searchArtist),
+                paramArgumentCaptor.getValue()));
+  }
 
-        List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, searchCriteria));
+  @Test
+  void findAny() {
+    var find = "test";
+    when(mockedCommandExecuter.sendCommand(
+            searchProperties.getFind(), generateParams(SongSearcher.ScopeType.ANY, find)))
+        .thenReturn(new ArrayList<>());
 
-        verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
+    this.songSearcher.findAny(find);
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
-        assertEquals(testSongList.size(), songList.size());
-        assertEquals(searchProperties.getFind(), commandArgumentCaptor.getValue());
-        assertEquals(Arrays.asList(generateParams(scopeType, searchCriteria)), paramArgumentCaptor.getAllValues());
-        assertEquals(testSongList.get(0), songList.get(0));
-    }
+    assertAll(
+        () -> assertEquals("find", commandArgumentCaptor.getValue()),
+        () -> assertEquals(String.format("(any == '%s')", find), paramArgumentCaptor.getValue()));
+  }
 
-    @Test
-    public void testFindNoCriteria() throws Exception {
-        String searchCriteria = "";
-        SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ALBUM;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+  @Test
+  void findByScopeAndString() {
+    var find = "test";
+    when(mockedCommandExecuter.sendCommand(anyString(), anyString())).thenReturn(new ArrayList<>());
 
-        List<MPDSong> testSongList = new ArrayList<>();
-        testSongList.add(testSong);
+    this.songSearcher.find(SongSearcher.ScopeType.ALBUM, find);
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
-        when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
-                generateParams(scopeType, searchCriteria))).thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+    assertAll(
+        () -> assertEquals("find", commandArgumentCaptor.getValue()),
+        () -> assertEquals(String.format("(album == '%s')", find), paramArgumentCaptor.getValue()));
+  }
 
-        List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, searchCriteria));
+  @Test
+  void findBySingleCriteria() {
+    var find = "test";
+    when(mockedCommandExecuter.sendCommand(anyString(), anyString())).thenReturn(new ArrayList<>());
 
-        verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
+    this.songSearcher.find(new SearchCriteria(SongSearcher.ScopeType.TITLE, find));
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
-        assertEquals(testSongList.size(), songList.size());
-        assertEquals(searchProperties.getFind(), commandArgumentCaptor.getValue());
-        assertEquals(Arrays.asList(generateParams(scopeType, searchCriteria)), paramArgumentCaptor.getAllValues());
-        assertEquals(testSongList.get(0), songList.get(0));
-    }
+    assertAll(
+        () -> assertEquals("find", commandArgumentCaptor.getValue()),
+        () -> assertEquals(String.format("(title == '%s')", find), paramArgumentCaptor.getValue()));
+  }
 
-    @Test
-    public void testFindNullCriteria() throws Exception {
-        SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ANY;
-        MPDSong testSong = new MPDSong("testFile", "testName");
+  @Test
+  void findByMultipleCriteria() {
+    var findArtist = "Tool";
+    var findTitle = "Vicarious";
 
-        List<MPDSong> testSongList = new ArrayList<>();
-        testSongList.add(testSong);
+    when(mockedCommandExecuter.sendCommand(anyString(), anyString())).thenReturn(new ArrayList<>());
 
-        when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
-                generateParams(scopeType, null))).thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
+    this.songSearcher.find(
+        new SearchCriteria(SongSearcher.ScopeType.TITLE, findTitle),
+        new SearchCriteria(SongSearcher.ScopeType.ARTIST, findArtist));
 
-        List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, null));
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
 
-        verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
+    assertAll(
+        () -> assertEquals("find", commandArgumentCaptor.getValue()),
+        () ->
+            assertEquals(
+                String.format("((title == '%s') AND (artist == '%s'))", findTitle, findArtist),
+                paramArgumentCaptor.getValue()));
+  }
 
-        assertEquals(testSongList.size(), songList.size());
-        assertEquals(searchProperties.getFind(), commandArgumentCaptor.getValue());
-        assertEquals(Arrays.asList(generateParams(scopeType, null)), paramArgumentCaptor.getAllValues());
-        assertEquals(testSongList.get(0), songList.get(0));
-    }
-
-    @Test
-    public void testFindWindowed() throws Exception {
-        String searchCriteria = "testSearch";
-        int start = 1;
-        int end = 5;
-
-        SongSearcher.ScopeType scopeType = SongSearcher.ScopeType.ARTIST;
-        MPDSong testSong = new MPDSong("testFile", "testName");
-
-        List<MPDSong> testSongList = new ArrayList<>();
-        testSongList.add(testSong);
-
-        when(mockedCommandExecuter.sendCommand(searchProperties.getFind(),
-                addWindowedParams(generateParams(scopeType, searchCriteria), start, end)))
-                .thenReturn(new ArrayList<>());
-        when(mockedSongConverter.convertResponseToSong(new ArrayList<>())).thenReturn(testSongList);
-
-        List<MPDSong> songList = new ArrayList<>(songSearcher.find(scopeType, searchCriteria, start, end));
-        verify(mockedCommandExecuter).sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
-
-        assertEquals(testSongList.size(), songList.size());
-        assertEquals(searchProperties.getFind(), commandArgumentCaptor.getValue());
-        assertEquals(Arrays.asList(addWindowedParams(generateParams(scopeType, searchCriteria), start, end)),
-                paramArgumentCaptor.getAllValues());
-        assertEquals(testSongList.get(0), songList.get(0));
-    }
-
-    private String[] addWindowedParams(String[] params,
-                                       int start,
-                                       int end) {
-        String[] paramList = Arrays.copyOf(params, params.length + 2);
-        paramList[params.length] = searchProperties.getWindow();
-        paramList[params.length + 1] = start + "." + end;
-
-        return paramList;
-    }
-
-    private String[] generateParams(SongSearcher.ScopeType scopeType,
-                                    String criteria) {
-        String[] paramList;
-
-        if (criteria != null) {
-            paramList = new String[2];
-            paramList[1] = criteria;
-        } else {
-            paramList = new String[1];
-        }
-        paramList[0] = scopeType.getType();
-
-        return paramList;
-    }
+  private String generateParams(SongSearcher.ScopeType scopeType, String criteria) {
+    return String.format("(%s == '%s')", scopeType.getType(), criteria);
+  }
 }

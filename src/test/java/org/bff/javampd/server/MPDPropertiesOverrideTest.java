@@ -1,57 +1,70 @@
 package org.bff.javampd.server;
 
-import org.bff.javampd.monitor.MonitorProperties;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
+import org.bff.javampd.monitor.MonitorProperties;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertNotEquals;
+class MPDPropertiesOverrideTest {
+  private static final Logger LOGGER = LoggerFactory.getLogger(MPDPropertiesOverrideTest.class);
 
-public class MPDPropertiesOverrideTest {
-    private static File propertiesFile;
-    private MPDProperties properties;
+  private static File propertiesFile;
+  private MPDProperties properties;
 
-    @BeforeClass
-    public static void beforeClass() throws IOException {
-        InputStream is = MPDPropertiesOverrideTest.class.getResourceAsStream("/overrides/javampd.properties");
-        Properties properties = new Properties();
-        properties.load(is);
+  @BeforeAll
+  static void beforeAll() throws IOException, URISyntaxException {
+    InputStream is =
+        MPDPropertiesOverrideTest.class.getResourceAsStream("/overrides/javampd.properties");
+    Properties properties = new Properties();
+    properties.load(is);
 
-        String propPath = MPDPropertiesOverrideTest.class.getResource("/")
-                .toString()
-                .replace("file:", "");
+    URI propPath = MPDPropertiesOverrideTest.class.getResource("/").toURI();
 
-        propertiesFile = new File(propPath + "javampd.properties");
-        propertiesFile.createNewFile();
+    propertiesFile = new File(new File(propPath).getPath() + "/javampd.properties");
 
-        properties.store(new FileWriter(propertiesFile), "");
+    try {
+      propertiesFile.createNewFile();
+    } catch (IOException e) {
+      LOGGER.error("unable to create file in {}", propPath, e);
+      throw e;
     }
 
-    @AfterClass
-    public static void afterClass() {
-        propertiesFile.delete();
-    }
+    properties.store(new FileWriter(propertiesFile), "");
+  }
 
-    @Before
-    public void before() {
-        properties = new MonitorProperties();
-    }
+  @AfterAll
+  static void afterAll() {
+    propertiesFile.delete();
+  }
 
-    @Test
-    public void testAllMonitorOverrides() throws Exception {
-        Properties originalProperties = new Properties();
-        InputStream is = MPDProperties.class.getResourceAsStream("/mpd.properties");
-        originalProperties.load(is);
-        originalProperties.keySet()
-                .stream()
-                .filter(key -> ((String) key).startsWith("monitor"))
-                .forEach(key -> assertNotEquals(originalProperties.getProperty((String) key), properties.getPropertyString((String) key)));
-    }
+  @BeforeEach
+  void before() {
+    properties = new MonitorProperties();
+  }
+
+  @Test
+  void testAllMonitorOverrides() throws IOException {
+    Properties originalProperties = new Properties();
+    InputStream is = MPDProperties.class.getResourceAsStream("/mpd.properties");
+    originalProperties.load(is);
+    originalProperties.keySet().stream()
+        .filter(key -> ((String) key).startsWith("monitor"))
+        .forEach(
+            key ->
+                assertNotEquals(
+                    originalProperties.getProperty((String) key),
+                    properties.getPropertyString((String) key)));
+  }
 }

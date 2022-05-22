@@ -1,59 +1,22 @@
 package org.bff.javampd.file;
 
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * Represents a file within the mpd songs directory.
  *
  * @author Bill
  */
+@Builder(builderMethodName = "internalBuilder")
+@Data
 public class MPDFile {
-    private boolean directory;
-    private String path;
-    private LocalDateTime lastModified;
+  private boolean directory;
+  private String path;
+  private LocalDateTime lastModified;
 
-    public MPDFile(String path) {
-        this.path = path;
-    }
-
-    /**
-     * @return the directory
-     */
-    public boolean isDirectory() {
-        return directory;
-    }
-
-    /**
-     * @param directory the directory to set
-     */
-    public void setDirectory(boolean directory) {
-        this.directory = directory;
-    }
-
-    /**
-     * @return the path
-     */
-    public String getPath() {
-        return path;
-    }
-
-    /**
-     * @param path the path to set
-     */
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    @Override
-    public String toString() {
-        return getPath();
-    }
-
-    public LocalDateTime getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(LocalDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
+  public static MPDFile.MPDFileBuilder builder(String path) {
+    return internalBuilder().path(path);
+  }
 }
