@@ -12,7 +12,7 @@ Java API for controlling the Music Player Daemon (MPD)
 
 Maven Dependency:
 
-```
+```xml
 <dependency>
   <groupId>com.inthebacklog</groupId>
   <artifactId>javampd</artifactId>
@@ -20,14 +20,30 @@ Maven Dependency:
 </dependency>
 ```
 
-To connect to mpd using the defaults of localhost and port 6600 
+Snapshot repo:
+```xml
+<repositories>
+    <repository>
+        <id>oss.sonatype.org-snapshot</id>
+        <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
 ```
+
+To connect to mpd using the defaults of localhost and port 6600 
+```java
 MPD mpd = MPD.builder().build();
 ```
 
 or build to your environment
 
-```
+```java
 MPD mpd = MPD.builder()
         .server("yourserver")
         .port(yourport)
