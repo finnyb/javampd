@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SongProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.song</a> &gt; <span class="el_source">SongProcessor.java</span></div><h1>SongProcessor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.song;
+
+import static org.bff.javampd.command.CommandExecutor.COMMAND_TERMINATION;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.bff.javampd.processor.*;
+
+<span class="fc" id="L9">public enum SongProcessor {</span>
+<span class="fc" id="L10">  FILE(new FileTagProcessor()),</span>
+<span class="fc" id="L11">  ARTIST(new ArtistTagProcessor()),</span>
+<span class="fc" id="L12">  ALBUM_ARTIST(new AlbumArtistTagProcessor()),</span>
+<span class="fc" id="L13">  ALBUM(new AlbumTagProcessor()),</span>
+<span class="fc" id="L14">  TRACK(new TrackTagProcessor()),</span>
+<span class="fc" id="L15">  TITLE(new TitleTagProcessor()),</span>
+<span class="fc" id="L16">  NAME(new NameTagProcessor()),</span>
+<span class="fc" id="L17">  DATE(new DateTagProcessor()),</span>
+<span class="fc" id="L18">  GENRE(new GenreTagProcessor()),</span>
+<span class="fc" id="L19">  COMMENT(new CommentTagProcessor()),</span>
+<span class="fc" id="L20">  TIME(new TimeTagProcessor()),</span>
+<span class="fc" id="L21">  POS(new PositionTagProcessor()),</span>
+<span class="fc" id="L22">  ID(new IdTagProcessor()),</span>
+<span class="fc" id="L23">  DISC(new DiscTagProcessor());</span>
+
+  private final transient ResponseProcessor responseProcessor;
+
+<span class="fc" id="L27">  private static final Map&lt;String, SongProcessor&gt; lookup = new HashMap&lt;&gt;();</span>
+
+  static {
+<span class="fc bfc" id="L30" title="All 2 branches covered.">    for (SongProcessor s : SongProcessor.values()) {</span>
+<span class="fc" id="L31">      lookup.put(s.getProcessor().getPrefix().toLowerCase(), s);</span>
+    }
+<span class="fc" id="L33">  }</span>
+
+<span class="fc" id="L35">  SongProcessor(ResponseProcessor responseProcessor) {</span>
+<span class="fc" id="L36">    this.responseProcessor = responseProcessor;</span>
+<span class="fc" id="L37">  }</span>
+
+  public static SongProcessor lookup(String line) {
+<span class="fc" id="L40">    return lookup.get(line.substring(0, line.indexOf(&quot;:&quot;) + 1).toLowerCase());</span>
+  }
+
+  public ResponseProcessor getProcessor() {
+<span class="fc" id="L44">    return responseProcessor;</span>
+  }
+
+  /**
+   * Returns the line prefix that delimits songs in the response list
+   *
+   * @return the prefix that breaks songs in the list
+   */
+  public static String getDelimitingPrefix() {
+<span class="fc" id="L53">    return FILE.getProcessor().getPrefix();</span>
+  }
+
+  public static String getTermination() {
+<span class="fc" id="L57">    return COMMAND_TERMINATION;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

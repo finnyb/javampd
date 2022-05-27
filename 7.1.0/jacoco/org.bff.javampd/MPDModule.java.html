@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDModule.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd</a> &gt; <span class="el_source">MPDModule.java</span></div><h1>MPDModule.java</h1><pre class="source lang-java linenums">package org.bff.javampd;
+
+import com.google.inject.AbstractModule;
+import org.bff.javampd.admin.Admin;
+import org.bff.javampd.admin.MPDAdmin;
+import org.bff.javampd.album.AlbumConverter;
+import org.bff.javampd.album.MPDAlbumConverter;
+import org.bff.javampd.art.ArtworkFinder;
+import org.bff.javampd.art.MPDArtworkFinder;
+import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.command.MPDCommandExecutor;
+import org.bff.javampd.database.MPDTagLister;
+import org.bff.javampd.database.TagLister;
+import org.bff.javampd.player.MPDPlayer;
+import org.bff.javampd.player.Player;
+import org.bff.javampd.playlist.MPDPlaylist;
+import org.bff.javampd.playlist.MPDPlaylistSongConverter;
+import org.bff.javampd.playlist.Playlist;
+import org.bff.javampd.playlist.PlaylistSongConverter;
+import org.bff.javampd.server.MPDServerStatus;
+import org.bff.javampd.server.ServerStatus;
+import org.bff.javampd.song.MPDSongConverter;
+import org.bff.javampd.song.SongConverter;
+import org.bff.javampd.statistics.MPDServerStatistics;
+import org.bff.javampd.statistics.MPDStatsConverter;
+import org.bff.javampd.statistics.ServerStatistics;
+import org.bff.javampd.statistics.StatsConverter;
+
+/**
+ * Initializes the DI bindings
+ *
+ * @author bill
+ */
+<span class="fc" id="L34">public class MPDModule extends AbstractModule {</span>
+  @Override
+  protected void configure() {
+<span class="fc" id="L37">    bind(Admin.class).to(MPDAdmin.class);</span>
+<span class="fc" id="L38">    bind(Player.class).to(MPDPlayer.class);</span>
+<span class="fc" id="L39">    bind(Playlist.class).to(MPDPlaylist.class);</span>
+<span class="fc" id="L40">    bind(ServerStatus.class).to(MPDServerStatus.class);</span>
+<span class="fc" id="L41">    bind(ServerStatistics.class).to(MPDServerStatistics.class);</span>
+<span class="fc" id="L42">    bind(Player.class).to(MPDPlayer.class);</span>
+<span class="fc" id="L43">    bind(CommandExecutor.class).to(MPDCommandExecutor.class);</span>
+<span class="fc" id="L44">    bind(TagLister.class).to(MPDTagLister.class);</span>
+<span class="fc" id="L45">    bind(SongConverter.class).to(MPDSongConverter.class);</span>
+<span class="fc" id="L46">    bind(PlaylistSongConverter.class).to(MPDPlaylistSongConverter.class);</span>
+<span class="fc" id="L47">    bind(AlbumConverter.class).to(MPDAlbumConverter.class);</span>
+<span class="fc" id="L48">    bind(ArtworkFinder.class).to(MPDArtworkFinder.class);</span>
+<span class="fc" id="L49">    bind(ServerStatistics.class).to(MPDServerStatistics.class);</span>
+<span class="fc" id="L50">    bind(StatsConverter.class).to(MPDStatsConverter.class);</span>
+<span class="fc" id="L51">    bind(Clock.class).to(MPDSystemClock.class);</span>
+<span class="fc" id="L52">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

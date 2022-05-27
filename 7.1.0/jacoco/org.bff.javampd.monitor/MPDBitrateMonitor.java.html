@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDBitrateMonitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.monitor</a> &gt; <span class="el_source">MPDBitrateMonitor.java</span></div><h1>MPDBitrateMonitor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.monitor;
+
+import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import org.bff.javampd.player.BitrateChangeEvent;
+import org.bff.javampd.player.BitrateChangeListener;
+import org.bff.javampd.server.Status;
+
+@Singleton
+public class MPDBitrateMonitor extends MPDVolumeMonitor implements BitrateMonitor {
+  private int oldBitrate;
+  private int newBitrate;
+
+  private List&lt;BitrateChangeListener&gt; bitrateListeners;
+
+<span class="fc" id="L17">  MPDBitrateMonitor() {</span>
+<span class="fc" id="L18">    bitrateListeners = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L19">  }</span>
+
+  @Override
+  public synchronized void addBitrateChangeListener(BitrateChangeListener bcl) {
+<span class="fc" id="L23">    bitrateListeners.add(bcl);</span>
+<span class="fc" id="L24">  }</span>
+
+  @Override
+  public synchronized void removeBitrateChangeListener(BitrateChangeListener bcl) {
+<span class="fc" id="L28">    bitrateListeners.remove(bcl);</span>
+<span class="fc" id="L29">  }</span>
+
+  @Override
+  public void processResponseStatus(String line) {
+<span class="fc" id="L33">    super.processResponseStatus(line);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">    if (Status.lookup(line) == Status.BITRATE) {</span>
+<span class="fc" id="L35">      newBitrate =</span>
+<span class="fc" id="L36">          Integer.parseInt(line.substring(Status.BITRATE.getStatusPrefix().length()).trim());</span>
+    }
+<span class="fc" id="L38">  }</span>
+
+  @Override
+  public void checkStatus() {
+<span class="fc" id="L42">    super.checkStatus();</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    if (oldBitrate != newBitrate) {</span>
+<span class="fc" id="L44">      fireBitrateChangeEvent(new BitrateChangeEvent(this, oldBitrate, newBitrate));</span>
+<span class="fc" id="L45">      oldBitrate = newBitrate;</span>
+    }
+<span class="fc" id="L47">  }</span>
+
+  private void fireBitrateChangeEvent(BitrateChangeEvent bitrateChangeEvent) {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    for (BitrateChangeListener bcl : bitrateListeners) {</span>
+<span class="fc" id="L51">      bcl.bitrateChanged(bitrateChangeEvent);</span>
+<span class="fc" id="L52">    }</span>
+<span class="fc" id="L53">  }</span>
+
+  @Override
+  public void reset() {
+<span class="fc" id="L57">    oldBitrate = 0;</span>
+<span class="fc" id="L58">    newBitrate = 0;</span>
+<span class="fc" id="L59">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

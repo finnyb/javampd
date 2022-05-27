@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDAlbumConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.album</a> &gt; <span class="el_source">MPDAlbumConverter.java</span></div><h1>MPDAlbumConverter.java</h1><pre class="source lang-java linenums">package org.bff.javampd.album;
+
+import java.util.*;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Converts a response from the server to an {@link MPDAlbum}
+ *
+ * @author bill
+ */
+<span class="fc" id="L11">@Slf4j</span>
+<span class="fc" id="L12">public class MPDAlbumConverter implements AlbumConverter {</span>
+
+<span class="fc" id="L14">  private static final String DELIMITING_PREFIX = AlbumProcessor.getDelimitingPrefix();</span>
+
+  @Override
+  public Collection&lt;MPDAlbum&gt; convertResponseToAlbum(List&lt;String&gt; list) {
+<span class="fc" id="L18">    var hashMap = new LinkedHashMap&lt;String, MPDAlbum&gt;();</span>
+<span class="fc" id="L19">    Iterator&lt;String&gt; iterator = list.iterator();</span>
+
+<span class="fc" id="L21">    var artists = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L22">    var genres = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L23">    var dates = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L24">    String albumArtist = null;</span>
+<span class="fc" id="L25">    var album = &quot;&quot;;</span>
+
+    String line;
+<span class="fc bfc" id="L28" title="All 2 branches covered.">    while (iterator.hasNext()) {</span>
+<span class="fc" id="L29">      line = iterator.next();</span>
+
+<span class="fc" id="L31">      var albumProcessor = AlbumProcessor.lookup(line);</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">      if (albumProcessor != null) {</span>
+<span class="fc" id="L33">        var tag = albumProcessor.getProcessor().processTag(line);</span>
+<span class="pc bpc" id="L34" title="1 of 6 branches missed.">        switch (albumProcessor.getProcessor().getType()) {</span>
+          case ALBUM:
+<span class="fc" id="L36">            album = tag;</span>
+<span class="fc" id="L37">            break;</span>
+          case ALBUM_ARTIST:
+<span class="fc" id="L39">            albumArtist = tag;</span>
+<span class="fc" id="L40">            break;</span>
+          case ARTIST:
+<span class="fc" id="L42">            artists.add(tag);</span>
+<span class="fc" id="L43">            break;</span>
+          case GENRE:
+<span class="fc" id="L45">            genres.add(tag);</span>
+<span class="fc" id="L46">            break;</span>
+          case DATE:
+<span class="fc" id="L48">            dates.add(tag);</span>
+<span class="fc" id="L49">            break;</span>
+          default:
+<span class="nc" id="L51">            log.warn(&quot;Unprocessed album type {} found.&quot;, tag);</span>
+            break;
+        }
+<span class="fc" id="L54">      } else {</span>
+<span class="fc" id="L55">        log.warn(&quot;Processor not found - {}&quot;, line);</span>
+      }
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">      if (line.startsWith(DELIMITING_PREFIX)) {</span>
+<span class="fc" id="L59">        var a = hashMap.get(album);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (a == null) {</span>
+<span class="fc" id="L61">          hashMap.put(</span>
+              album,
+<span class="fc" id="L63">              MPDAlbum.builder(album)</span>
+<span class="fc" id="L64">                  .albumArtist(albumArtist)</span>
+<span class="fc" id="L65">                  .artistNames(artists)</span>
+<span class="fc" id="L66">                  .genres(genres)</span>
+<span class="fc" id="L67">                  .dates(dates)</span>
+<span class="fc" id="L68">                  .build());</span>
+        } else {
+<span class="fc" id="L70">          a.addArtists(artists);</span>
+<span class="fc" id="L71">          a.addGenres(genres);</span>
+<span class="fc" id="L72">          a.addDates(dates);</span>
+        }
+
+<span class="fc" id="L75">        artists = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L76">        genres = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L77">        dates = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L78">        albumArtist = null;</span>
+<span class="fc" id="L79">        album = &quot;&quot;;</span>
+      }
+<span class="fc" id="L81">    }</span>
+
+<span class="fc" id="L83">    return hashMap.values();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

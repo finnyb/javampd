@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDSocket.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.server</a> &gt; <span class="el_source">MPDSocket.java</span></div><h1>MPDSocket.java</h1><pre class="source lang-java linenums">package org.bff.javampd.server;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.command.MPDCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/** @author bill */
+<span class="fc" id="L20">@Slf4j</span>
+public class MPDSocket {
+<span class="fc" id="L22">  private static final Logger LOGGER = LoggerFactory.getLogger(MPDSocket.class);</span>
+
+  private Socket socket;
+  private BufferedReader reader;
+
+  private final ResponseProperties responseProperties;
+  private final ServerProperties serverProperties;
+  private final String encoding;
+  private String lastError;
+  private String version;
+
+  private final String server;
+  private final int port;
+  private boolean closed;
+
+  private static final int TRIES = 3;
+
+<span class="fc" id="L39">  public MPDSocket(InetAddress server, int port, int timeout) {</span>
+<span class="fc" id="L40">    this.server = server.getHostAddress();</span>
+<span class="fc" id="L41">    this.port = port;</span>
+<span class="fc" id="L42">    this.responseProperties = new ResponseProperties();</span>
+<span class="fc" id="L43">    this.serverProperties = new ServerProperties();</span>
+<span class="fc" id="L44">    this.encoding = serverProperties.getEncoding();</span>
+<span class="fc" id="L45">    connect(timeout);</span>
+<span class="fc" id="L46">  }</span>
+
+  /**
+   * If MPD is already connected no attempt will be made to connect and the mpdVersion is returned.
+   *
+   * &lt;p&gt;A timeout of 0 means an infinite wait.
+   *
+   * @param timeout socket timeout, 0 for infinite wait
+   * @throws MPDConnectionException if there is a socked io problem
+   */
+  private synchronized void connect(int timeout) {
+<span class="fc" id="L57">    connectSocket(timeout);</span>
+<span class="fc" id="L58">  }</span>
+
+  private void readVersion() {
+    String line;
+    try {
+<span class="fc" id="L63">      line = reader.readLine();</span>
+<span class="fc" id="L64">    } catch (IOException e) {</span>
+<span class="fc" id="L65">      throw new MPDConnectionException(e);</span>
+<span class="fc" id="L66">    }</span>
+
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">    if (line != null &amp;&amp; isResponseOK(line)) {</span>
+<span class="fc" id="L69">      this.version = stripResponse(responseProperties.getOk(), line).trim();</span>
+    } else {
+<span class="fc" id="L71">      throw new MPDConnectionException(</span>
+          &quot;Command from server: &quot;
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">              + ((line == null) ? &quot;null&quot; : stripResponse(responseProperties.getError(), line)));</span>
+    }
+<span class="fc" id="L75">  }</span>
+
+  private void connectSocket(int timeout) {
+<span class="fc" id="L78">    log.debug(&quot;attempting to connect socket to {} with timeout of {}&quot;, server, timeout);</span>
+<span class="fc" id="L79">    this.socket = createSocket();</span>
+<span class="fc" id="L80">    SocketAddress socketAddress = new InetSocketAddress(server, port);</span>
+    try {
+<span class="fc" id="L82">      this.socket.connect(socketAddress, timeout);</span>
+<span class="fc" id="L83">      setReader(new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding)));</span>
+<span class="fc" id="L84">      readVersion();</span>
+<span class="fc" id="L85">    } catch (Exception ioe) {</span>
+<span class="fc" id="L86">      log.error(&quot;failed to connect socket to {}&quot;, server);</span>
+<span class="fc" id="L87">      throw new MPDConnectionException(ioe);</span>
+<span class="fc" id="L88">    }</span>
+<span class="fc" id="L89">  }</span>
+
+  protected void setReader(BufferedReader reader) {
+<span class="fc" id="L92">    this.reader = reader;</span>
+<span class="fc" id="L93">  }</span>
+
+  protected Socket createSocket() {
+<span class="fc" id="L96">    return new Socket();</span>
+  }
+
+  public synchronized Collection&lt;String&gt; sendCommand(MPDCommand command) {
+<span class="fc" id="L100">    checkConnection();</span>
+
+<span class="fc" id="L102">    var count = 0;</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">    while (count &lt; TRIES) {</span>
+      try {
+<span class="fc" id="L105">        return sendBytes(convertCommand(command.getCommand(), command.getParams()));</span>
+<span class="fc" id="L106">      } catch (MPDException mpdException) {</span>
+<span class="fc" id="L107">        logCommandError(command, mpdException);</span>
+<span class="fc" id="L108">        throw mpdException;</span>
+<span class="fc" id="L109">      } catch (Exception ex) {</span>
+<span class="fc" id="L110">        logCommandError(command, ex);</span>
+        try {
+<span class="fc" id="L112">          connect();</span>
+<span class="fc" id="L113">        } catch (Exception exc) {</span>
+<span class="fc" id="L114">          log.error(&quot;Unable to connect to {} on port {}&quot;, server, port, exc);</span>
+<span class="fc" id="L115">        }</span>
+<span class="fc" id="L116">        ++count;</span>
+<span class="fc" id="L117">        log.warn(&quot;Retrying command {} for the {} time&quot;, command.getCommand(), count);</span>
+<span class="fc" id="L118">      }</span>
+    }
+
+<span class="fc" id="L121">    log.error(&quot;Unable to send command {} after {} tries&quot;, command, TRIES);</span>
+<span class="fc" id="L122">    throw new MPDConnectionException(&quot;Unable to send command &quot; + command);</span>
+  }
+
+  private static void logCommandError(MPDCommand command, Exception se) {
+<span class="fc" id="L126">    log.error(&quot;Error from: {}&quot;, command.getCommand(), se);</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">    for (String str : command.getParams()) {</span>
+<span class="fc" id="L128">      log.error(&quot;\tparam: {}&quot;, str);</span>
+<span class="fc" id="L129">    }</span>
+<span class="fc" id="L130">  }</span>
+
+  /**
+   * Attempts to connect to MPD with an infinite timeout value. If MPD is already connected no
+   * attempt will be made to connect and the mpdVersion is returned.
+   */
+  private synchronized void connect() {
+<span class="fc" id="L137">    connect(0);</span>
+<span class="fc" id="L138">  }</span>
+
+  private boolean isResponseOK(final String line) {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">    if (line == null) {</span>
+<span class="fc" id="L142">      log.info(&quot;Response check failed. Line is null&quot;);</span>
+<span class="fc" id="L143">      return false;</span>
+    }
+
+<span class="fc bfc" id="L146" title="All 2 branches covered.">    return line.startsWith(responseProperties.getOk())</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">        || line.startsWith(responseProperties.getListOk());</span>
+  }
+
+  private boolean isResponseError(final String line) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">    if (line.startsWith(responseProperties.getError())) {</span>
+<span class="fc" id="L152">      log.warn(&quot;line contained an error: {}&quot;, line);</span>
+<span class="fc" id="L153">      this.lastError = line.substring(responseProperties.getError().length()).trim();</span>
+<span class="fc" id="L154">      return true;</span>
+    } else {
+<span class="fc" id="L156">      return false;</span>
+    }
+  }
+
+  private static String stripResponse(String response, String line) {
+<span class="fc" id="L161">    return line.substring(response.length());</span>
+  }
+
+  private static String convertCommand(String command) {
+<span class="fc" id="L165">    return convertCommand(command, new ArrayList&lt;&gt;());</span>
+  }
+
+  private static String convertCommand(String command, List&lt;String&gt; params) {
+<span class="fc" id="L169">    var sb = new StringBuilder(command);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">    for (String param : params) {</span>
+<span class="fc" id="L171">      param = param.replace(&quot;\&quot;&quot;, &quot;\\\\\&quot;&quot;);</span>
+<span class="fc" id="L172">      sb.append(&quot; \&quot;&quot;).append(param).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L173">    }</span>
+
+<span class="fc" id="L175">    return sb.append(&quot;\n&quot;).toString();</span>
+  }
+
+  public synchronized void sendCommands(List&lt;MPDCommand&gt; commandList) {
+<span class="fc" id="L179">    var sb = new StringBuilder(convertCommand(serverProperties.getStartBulk()));</span>
+
+<span class="fc bfc" id="L181" title="All 2 branches covered.">    for (MPDCommand command : commandList) {</span>
+<span class="fc" id="L182">      sb.append(convertCommand(command.getCommand(), command.getParams()));</span>
+<span class="fc" id="L183">    }</span>
+
+<span class="fc" id="L185">    sb.append(convertCommand(serverProperties.getEndBulk()));</span>
+
+<span class="fc" id="L187">    checkConnection();</span>
+
+    try {
+<span class="fc" id="L190">      sendBytes(sb.toString());</span>
+
+<span class="fc" id="L192">      String line = reader.readLine();</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">      while (line != null) {</span>
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">        if (!isResponseOK(line)) {</span>
+<span class="fc" id="L195">          log.warn(&quot;some command from a command list failed: {}&quot;, line);</span>
+        }
+
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (reader.ready()) {</span>
+<span class="fc" id="L199">          line = reader.readLine();</span>
+<span class="fc" id="L200">          log.warn(&quot;unexpected response line {}&quot;, line);</span>
+        } else {
+<span class="fc" id="L202">          line = null;</span>
+        }
+      }
+<span class="fc" id="L205">    } catch (MPDSecurityException se) {</span>
+<span class="fc" id="L206">      throw se;</span>
+<span class="fc" id="L207">    } catch (Exception e) {</span>
+<span class="fc" id="L208">      commandList.forEach(s -&gt; log.error(s.getCommand()));</span>
+<span class="fc" id="L209">      throw new MPDConnectionException(e.getMessage(), e);</span>
+<span class="fc" id="L210">    }</span>
+<span class="fc" id="L211">  }</span>
+
+  private List&lt;String&gt; sendBytes(String command) throws IOException {
+<span class="fc" id="L214">    log.debug(&quot;start command: {}&quot;, command);</span>
+<span class="fc" id="L215">    var response = new ArrayList&lt;String&gt;();</span>
+
+<span class="fc" id="L217">    writeToStream(command);</span>
+
+<span class="fc" id="L219">    var inLine = reader.readLine();</span>
+<span class="fc" id="L220">    log.debug(&quot;first response line is: {}&quot;, inLine);</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">    while (inLine != null) {</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">      if (isResponseOK(inLine)) {</span>
+<span class="fc" id="L223">        log.debug(&quot;the response was ok&quot;);</span>
+<span class="fc" id="L224">        break;</span>
+      }
+
+<span class="fc bfc" id="L227" title="All 2 branches covered.">      if (isResponseError(inLine)) {</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        if (lastError.contains(&quot;you don't have permission&quot;)) {</span>
+<span class="fc" id="L229">          throw new MPDSecurityException(lastError, command);</span>
+        } else {
+<span class="fc" id="L231">          log.error(&quot;Got error from command {}&quot;, command);</span>
+<span class="fc" id="L232">          throw new MPDConnectionException(lastError);</span>
+        }
+      }
+<span class="fc" id="L235">      response.add(inLine);</span>
+<span class="fc" id="L236">      inLine = reader.readLine();</span>
+    }
+
+<span class="fc" id="L239">    response.forEach(LOGGER::debug);</span>
+
+<span class="fc" id="L241">    return response;</span>
+  }
+
+  private void checkConnection() {
+    boolean connected;
+
+<span class="fc bfc" id="L247" title="All 2 branches covered.">    if (this.closed) {</span>
+<span class="fc" id="L248">      throw new MPDConnectionException(&quot;Close has been called on MPD.  Create a new MPD.&quot;);</span>
+    }
+
+<span class="fc bfc" id="L251" title="All 2 branches covered.">    if (!socket.isConnected()) {</span>
+<span class="fc" id="L252">      log.warn(&quot;socket hasn't been connected yet&quot;);</span>
+<span class="fc" id="L253">      connected = false;</span>
+    } else {
+<span class="fc bfc" id="L255" title="All 2 branches covered.">      if (!socket.isClosed()) {</span>
+<span class="fc" id="L256">        connected = checkPing();</span>
+      } else {
+<span class="fc" id="L258">        log.warn(&quot;socket is closed&quot;);</span>
+<span class="fc" id="L259">        connected = false;</span>
+      }
+    }
+
+<span class="fc bfc" id="L263" title="All 2 branches covered.">    if (!connected) {</span>
+<span class="fc" id="L264">      log.info(&quot;we've lost connectivity, attempting to connect&quot;);</span>
+      try {
+<span class="fc" id="L266">        connect();</span>
+<span class="fc" id="L267">      } catch (Exception e) {</span>
+<span class="fc" id="L268">        throw new MPDConnectionException(&quot;Connection to server lost: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L269">      }</span>
+    }
+<span class="fc" id="L271">  }</span>
+
+  public void close() {
+<span class="fc" id="L274">    this.closed = true;</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">    if (!this.socket.isClosed()) {</span>
+      try {
+<span class="fc" id="L277">        this.reader.close();</span>
+<span class="fc" id="L278">      } catch (IOException e) {</span>
+<span class="fc" id="L279">        throw new MPDConnectionException(&quot;Unable to close socket&quot;, e);</span>
+<span class="fc" id="L280">      }</span>
+
+      try {
+<span class="fc" id="L283">        this.socket.close();</span>
+<span class="fc" id="L284">      } catch (IOException e) {</span>
+<span class="fc" id="L285">        throw new MPDConnectionException(&quot;Unable to close socket&quot;, e);</span>
+<span class="fc" id="L286">      }</span>
+    }
+<span class="fc" id="L288">  }</span>
+
+  private void writeToStream(String command) throws IOException {
+<span class="fc" id="L291">    socket.getOutputStream().write(command.getBytes(serverProperties.getEncoding()));</span>
+<span class="fc" id="L292">  }</span>
+
+  public String getVersion() {
+<span class="fc" id="L295">    return this.version;</span>
+  }
+
+  private boolean checkPing() {
+<span class="fc" id="L299">    var connected = true;</span>
+    try {
+<span class="fc" id="L301">      writeToStream(convertCommand(serverProperties.getPing()));</span>
+<span class="fc" id="L302">      String inLine = reader.readLine();</span>
+<span class="fc bfc" id="L303" title="All 2 branches covered.">      if (!isResponseOK(inLine)) {</span>
+<span class="fc" id="L304">        connected = false;</span>
+      }
+<span class="fc" id="L306">    } catch (Exception e) {</span>
+<span class="fc" id="L307">      connected = false;</span>
+<span class="fc" id="L308">      log.error(&quot;lost socket connection&quot;, e);</span>
+<span class="fc" id="L309">    }</span>
+
+<span class="fc" id="L311">    return connected;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseProperties.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.database</a> &gt; <span class="el_source">DatabaseProperties.java</span></div><h1>DatabaseProperties.java</h1><pre class="source lang-java linenums">package org.bff.javampd.database;
+
+import org.bff.javampd.server.MPDProperties;
+
+/** @author bill */
+<span class="fc" id="L6">public class DatabaseProperties extends MPDProperties {</span>
+<span class="fc" id="L7">  private enum Command {</span>
+<span class="fc" id="L8">    FIND(&quot;db.find&quot;),</span>
+<span class="fc" id="L9">    LIST(&quot;db.list.tag&quot;),</span>
+<span class="fc" id="L10">    GROUP(&quot;db.group&quot;),</span>
+<span class="fc" id="L11">    LIST_INFO(&quot;db.list.info&quot;),</span>
+<span class="fc" id="L12">    SEARCH(&quot;db.search&quot;),</span>
+<span class="fc" id="L13">    LIST_SONGS(&quot;db.list.songs&quot;);</span>
+
+    private final String key;
+
+<span class="fc" id="L17">    Command(String key) {</span>
+<span class="fc" id="L18">      this.key = key;</span>
+<span class="fc" id="L19">    }</span>
+
+    public String getKey() {
+<span class="fc" id="L22">      return key;</span>
+    }
+  }
+
+  public String getFind() {
+<span class="fc" id="L27">    return getPropertyString(Command.FIND.getKey());</span>
+  }
+
+  public String getList() {
+<span class="fc" id="L31">    return getPropertyString(Command.LIST.getKey());</span>
+  }
+
+  public String getGroup() {
+<span class="fc" id="L35">    return getPropertyString(Command.GROUP.getKey());</span>
+  }
+
+  public String getListInfo() {
+<span class="fc" id="L39">    return getPropertyString(Command.LIST_INFO.getKey());</span>
+  }
+
+  public String getSearch() {
+<span class="fc" id="L43">    return getPropertyString(Command.SEARCH.getKey());</span>
+  }
+
+  public String getListSongs() {
+<span class="fc" id="L47">    return getPropertyString(Command.LIST_SONGS.getKey());</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

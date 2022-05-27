@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDCommandExecutor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.command</a> &gt; <span class="el_source">MPDCommandExecutor.java</span></div><h1>MPDCommandExecutor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.command;
+
+import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.bff.javampd.server.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Executes commands to the {@link org.bff.javampd.server.MPD}. You &lt;b&gt;MUST&lt;/b&gt; call {@link #setMpd}
+ * before making any calls to the server
+ *
+ * @author bill
+ */
+@Singleton
+<span class="fc" id="L18">@Slf4j</span>
+public class MPDCommandExecutor implements CommandExecutor {
+<span class="fc" id="L20">  private static final Logger LOGGER = LoggerFactory.getLogger(MPDCommandExecutor.class);</span>
+
+  private MPDSocket mpdSocket;
+  private MPD mpd;
+  private String password;
+  private final ServerProperties serverProperties;
+
+  /** You &lt;b&gt;MUST&lt;/b&gt; call {@link #setMpd} before making any calls to the server */
+<span class="fc" id="L28">  public MPDCommandExecutor() {</span>
+<span class="fc" id="L29">    serverProperties = new ServerProperties();</span>
+<span class="fc" id="L30">  }</span>
+
+  @Override
+  public synchronized List&lt;String&gt; sendCommand(String command) {
+<span class="fc" id="L34">    return sendCommand(new MPDCommand(command));</span>
+  }
+
+  @Override
+  public synchronized List&lt;String&gt; sendCommand(String command, String... params) {
+<span class="fc" id="L39">    return sendCommand(new MPDCommand(command, params));</span>
+  }
+
+  @Override
+  public synchronized List&lt;String&gt; sendCommand(String command, Integer... params) {
+<span class="fc" id="L44">    var intParms = new String[params.length];</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    for (var i = 0; i &lt; params.length; ++i) {</span>
+<span class="fc" id="L46">      intParms[i] = Integer.toString(params[i]);</span>
+    }
+<span class="fc" id="L48">    return new ArrayList&lt;&gt;(sendCommand(new MPDCommand(command, intParms)));</span>
+  }
+
+  @Override
+  public synchronized List&lt;String&gt; sendCommand(MPDCommand command) {
+    try {
+<span class="fc" id="L54">      checkSocket();</span>
+<span class="fc" id="L55">      log.debug(&quot;Sending command: {}&quot;, command);</span>
+<span class="fc" id="L56">      return new ArrayList&lt;&gt;(mpdSocket.sendCommand(command));</span>
+<span class="fc" id="L57">    } catch (MPDSecurityException se) {</span>
+<span class="fc" id="L58">      LOGGER.warn(</span>
+<span class="fc" id="L59">          &quot;Connection exception while sending command {}, will retry&quot;, command.getCommand(), se);</span>
+<span class="fc" id="L60">      authenticate();</span>
+<span class="fc" id="L61">      return new ArrayList&lt;&gt;(mpdSocket.sendCommand(command));</span>
+    }
+  }
+
+  @Override
+  public synchronized void sendCommands(List&lt;MPDCommand&gt; commandList) {
+    try {
+<span class="fc" id="L68">      checkSocket();</span>
+<span class="fc" id="L69">      mpdSocket.sendCommands(commandList);</span>
+<span class="fc" id="L70">    } catch (MPDSecurityException se) {</span>
+<span class="fc" id="L71">      LOGGER.warn(&quot;Connection exception while sending commands, will retry&quot;, se);</span>
+<span class="fc" id="L72">      authenticate();</span>
+<span class="fc" id="L73">      mpdSocket.sendCommands(commandList);</span>
+<span class="fc" id="L74">    }</span>
+<span class="fc" id="L75">  }</span>
+
+  @Override
+  public String getMPDVersion() {
+<span class="fc" id="L79">    checkSocket();</span>
+<span class="fc" id="L80">    return mpdSocket.getVersion();</span>
+  }
+
+  @Override
+  public void setMpd(MPD mpd) {
+<span class="fc" id="L85">    this.mpd = mpd;</span>
+<span class="fc" id="L86">  }</span>
+
+  @Override
+  public void authenticate() {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">    if (password != null) {</span>
+      try {
+<span class="fc" id="L92">        sendCommand(new MPDCommand(serverProperties.getPassword(), password));</span>
+<span class="fc" id="L93">      } catch (Exception e) {</span>
+<span class="pc bpc" id="L94" title="1 of 4 branches missed.">        if (e.getMessage() != null &amp;&amp; e.getMessage().contains(&quot;incorrect password&quot;)) {</span>
+<span class="fc" id="L95">          throw new MPDSecurityException(&quot;Incorrect password&quot;);</span>
+        }
+
+<span class="fc" id="L98">        throw new MPDConnectionException(&quot;Could not authenticate&quot;, e);</span>
+<span class="fc" id="L99">      }</span>
+    }
+<span class="fc" id="L101">  }</span>
+
+  @Override
+  public void usePassword(String password) {
+<span class="pc bpc" id="L105" title="1 of 4 branches missed.">    if (password == null || password.isEmpty()) {</span>
+<span class="fc" id="L106">      throw new IllegalArgumentException(&quot;Password cannot be null or empty&quot;);</span>
+    }
+
+<span class="fc" id="L109">    this.password = password;</span>
+<span class="fc" id="L110">  }</span>
+
+  @Override
+  public void close() {
+<span class="fc" id="L114">    this.mpdSocket.close();</span>
+<span class="fc" id="L115">  }</span>
+
+  protected MPDSocket createSocket() {
+<span class="fc" id="L118">    return new MPDSocket(mpd.getAddress(), mpd.getPort(), mpd.getTimeout());</span>
+  }
+
+  private void checkSocket() {
+<span class="fc bfc" id="L122" title="All 2 branches covered.">    if (mpd == null) {</span>
+<span class="fc" id="L123">      throw new MPDConnectionException(&quot;Socket could not be established.  Was mpd set?&quot;);</span>
+    }
+
+<span class="fc bfc" id="L126" title="All 2 branches covered.">    if (mpdSocket == null) {</span>
+<span class="fc" id="L127">      mpdSocket = createSocket();</span>
+    }
+<span class="fc" id="L129">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
