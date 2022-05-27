@@ -341,6 +341,21 @@ class MPDSocketTest {
   }
 
   @Test
+  void ping() throws IOException {
+    createValidSocket();
+
+    when(mockedBufferedReader.readLine()).thenReturn("OK");
+
+    MPDCommand command = new MPDCommand("status");
+    mockedOutputStream = mock(OutputStream.class);
+    when(mockSocket.getOutputStream()).thenReturn(mockedOutputStream);
+    socket.sendCommand(command);
+    verify(mockedOutputStream, times(2)).write(byteArgumentCaptor.capture());
+
+    assertArrayEquals("ping\n".getBytes(), byteArgumentCaptor.getAllValues().get(0));
+  }
+
+  @Test
   void testSendCommandsExtraResponses() throws IOException {
     createValidSocket();
 

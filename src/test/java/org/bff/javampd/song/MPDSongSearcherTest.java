@@ -1,5 +1,8 @@
 package org.bff.javampd.song;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -18,7 +21,6 @@ class MPDSongSearcherTest {
 
   private SongSearcher songSearcher;
   private CommandExecutor mockedCommandExecuter;
-  private SongConverter mockedSongConverter;
   private SearchProperties searchProperties;
 
   @Captor private ArgumentCaptor<String> commandArgumentCaptor;
@@ -27,7 +29,7 @@ class MPDSongSearcherTest {
   @BeforeEach
   void setup() {
     searchProperties = new SearchProperties();
-    mockedSongConverter = mock(SongConverter.class);
+    SongConverter mockedSongConverter = mock(SongConverter.class);
     mockedCommandExecuter = mock(CommandExecutor.class);
     songSearcher =
         new MPDSongSearcher(searchProperties, mockedCommandExecuter, mockedSongConverter);
@@ -169,6 +171,38 @@ class MPDSongSearcherTest {
             assertEquals(
                 String.format("((title == '%s') AND (artist == '%s'))", findTitle, findArtist),
                 paramArgumentCaptor.getValue()));
+  }
+
+  @Test
+  void testFindEscapeSingleQuote() {
+    var find = "I Ain't Mad at Cha";
+    when(mockedCommandExecuter.sendCommand(anyString(), anyString())).thenReturn(new ArrayList<>());
+
+    this.songSearcher.find(new SearchCriteria(SongSearcher.ScopeType.TITLE, find));
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
+    assertAll(
+        () -> assertEquals("find", commandArgumentCaptor.getValue()),
+        () ->
+            assertThat(
+                paramArgumentCaptor.getValue(),
+                is(equalTo("(title == 'I Ain\\\\'t Mad at Cha')"))));
+  }
+
+  @Test
+  void testSearchEscapeSingleQuote() {
+    var search = "Mama's Just a Little Girl";
+    when(mockedCommandExecuter.sendCommand(anyString(), anyString())).thenReturn(new ArrayList<>());
+
+    this.songSearcher.search(new SearchCriteria(SongSearcher.ScopeType.TITLE, search));
+    verify(mockedCommandExecuter)
+        .sendCommand(commandArgumentCaptor.capture(), paramArgumentCaptor.capture());
+    assertAll(
+        () -> assertThat(commandArgumentCaptor.getValue(), is(equalTo("search"))),
+        () ->
+            assertThat(
+                paramArgumentCaptor.getValue(),
+                is(equalTo("(title contains 'Mama\\\\'s Just a Little Girl')"))));
   }
 
   private String generateParams(SongSearcher.ScopeType scopeType, String criteria) {

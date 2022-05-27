@@ -52,7 +52,7 @@ public class MPDCommandExecutor implements CommandExecutor {
   public synchronized List<String> sendCommand(MPDCommand command) {
     try {
       checkSocket();
-      log.debug(String.format("Sending command: %s", command));
+      log.debug("Sending command: {}", command);
       return new ArrayList<>(mpdSocket.sendCommand(command));
     } catch (MPDSecurityException se) {
       LOGGER.warn(
