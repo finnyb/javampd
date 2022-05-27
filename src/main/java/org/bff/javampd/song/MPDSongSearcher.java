@@ -81,10 +81,14 @@ public class MPDSongSearcher implements SongSearcher {
   }
 
   private static String generateFindParams(ScopeType scopeType, String criteria) {
-    return String.format("(%s == '%s')", scopeType.getType(), criteria);
+    return String.format("(%s == '%s')", scopeType.getType(), escape(criteria));
   }
 
   private static String generateSearchParams(ScopeType scopeType, String criteria) {
-    return String.format("(%s contains '%s')", scopeType.getType(), criteria);
+    return String.format("(%s contains '%s')", scopeType.getType(), escape(criteria));
+  }
+
+  private static String escape(String s) {
+    return s.replace("'", "\\\\'");
   }
 }
