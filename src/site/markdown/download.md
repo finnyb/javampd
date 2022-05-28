@@ -1,7 +1,7 @@
 ## Maven
 
 Get it from maven
-central [here](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.inthebacklop%22%20AND%20a%3A%22javampd%22)
+central [here](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.inthebacklog%22%20AND%20a%3A%22javampd%22)
 
 To use the latest snapshot add this repo
 
