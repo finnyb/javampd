@@ -1,53 +1,59 @@
 package org.bff.javampd.song;
 
-import org.bff.javampd.processor.*;
+import static org.bff.javampd.command.CommandExecutor.COMMAND_TERMINATION;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.bff.javampd.processor.*;
 
 public enum SongProcessor {
-    FILE(new FileTagProcessor()),
-    ARTIST(new ArtistTagProcessor()),
-    ALBUM(new AlbumTagProcessor()),
-    TRACK(new TrackTagProcessor()),
-    TITLE(new TitleTagProcessor()),
-    NAME(new NameTagProcessor()),
-    DATE(new DateTagProcessor()),
-    GENRE(new GenreTagProcessor()),
-    COMMENT(new CommentTagProcessor()),
-    TIME(new TimeTagProcessor()),
-    POS(new PositionTagProcessor()),
-    ID(new IdTagProcessor()),
-    DISC(new DiscTagProcessor());
+  FILE(new FileTagProcessor()),
+  ARTIST(new ArtistTagProcessor()),
+  ALBUM_ARTIST(new AlbumArtistTagProcessor()),
+  ALBUM(new AlbumTagProcessor()),
+  TRACK(new TrackTagProcessor()),
+  TITLE(new TitleTagProcessor()),
+  NAME(new NameTagProcessor()),
+  DATE(new DateTagProcessor()),
+  GENRE(new GenreTagProcessor()),
+  COMMENT(new CommentTagProcessor()),
+  TIME(new TimeTagProcessor()),
+  POS(new PositionTagProcessor()),
+  ID(new IdTagProcessor()),
+  DISC(new DiscTagProcessor());
 
-    private final transient SongTagResponseProcessor songTagResponseProcessor;
+  private final transient ResponseProcessor responseProcessor;
 
-    private static final Map<String, SongProcessor> lookup = new HashMap<>();
+  private static final Map<String, SongProcessor> lookup = new HashMap<>();
 
-    static {
-        for (SongProcessor s : SongProcessor.values()) {
-            lookup.put(s.getProcessor().getPrefix(), s);
-        }
+  static {
+    for (SongProcessor s : SongProcessor.values()) {
+      lookup.put(s.getProcessor().getPrefix().toLowerCase(), s);
     }
+  }
 
-    SongProcessor(SongTagResponseProcessor songTagResponseProcessor) {
-        this.songTagResponseProcessor = songTagResponseProcessor;
-    }
+  SongProcessor(ResponseProcessor responseProcessor) {
+    this.responseProcessor = responseProcessor;
+  }
 
-    public static SongProcessor lookup(String line) {
-        return lookup.get(line.substring(0, line.indexOf(":") + 1));
-    }
+  public static SongProcessor lookup(String line) {
+    return lookup.get(line.substring(0, line.indexOf(":") + 1).toLowerCase());
+  }
 
-    public SongTagResponseProcessor getProcessor() {
-        return songTagResponseProcessor;
-    }
+  public ResponseProcessor getProcessor() {
+    return responseProcessor;
+  }
 
-    /**
-     * Returns the line prefix that delimits songs in the response list
-     *
-     * @return the prefix that breaks songs in the list
-     */
-    public static String getDelimitingPrefix() {
-        return FILE.getProcessor().getPrefix();
-    }
+  /**
+   * Returns the line prefix that delimits songs in the response list
+   *
+   * @return the prefix that breaks songs in the list
+   */
+  public static String getDelimitingPrefix() {
+    return FILE.getProcessor().getPrefix();
+  }
+
+  public static String getTermination() {
+    return COMMAND_TERMINATION;
+  }
 }

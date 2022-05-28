@@ -1,77 +1,46 @@
 package org.bff.javampd.song;
 
-import lombok.extern.slf4j.Slf4j;
-import org.bff.javampd.MPDItem;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MPDSongConverter implements SongConverter {
+public class MPDSongConverter extends MPDTagConverter<MPDSong> implements SongConverter {
 
-    private static final String DELIMITING_PREFIX = SongProcessor.getDelimitingPrefix();
+  @Override
+  public List<MPDSong> convertResponseToSongs(List<String> list) {
+    return super.convertResponse(list);
+  }
 
-    @Override
-    public List<MPDSong> convertResponseToSong(List<String> list) {
-        List<MPDSong> songList = new ArrayList<>();
-        Iterator<String> iterator = list.iterator();
+  @Override
+  protected MPDSong createSong(Map<String, String> props, Map<String, List<String>> tags) {
+    return MPDSong.builder()
+        .file(props.get(SongProcessor.FILE.name()))
+        .name(
+            props.get(SongProcessor.NAME.name()) == null
+                ? props.get(SongProcessor.TITLE.name())
+                : props.get(SongProcessor.NAME.name()))
+        .title(props.get(SongProcessor.TITLE.name()))
+        .albumArtist(props.get(SongProcessor.ALBUM_ARTIST.name()))
+        .artistName(props.get(SongProcessor.ARTIST.name()))
+        .genre(props.get(SongProcessor.GENRE.name()))
+        .date(props.get(SongProcessor.DATE.name()))
+        .comment(props.get(SongProcessor.COMMENT.name()))
+        .discNumber(props.get(SongProcessor.DISC.name()))
+        .albumName(props.get(SongProcessor.ALBUM.name()))
+        .track(props.get(SongProcessor.TRACK.name()))
+        .length(parseInt(props.get(SongProcessor.TIME.name())))
+        .tagMap(tags)
+        .build();
+  }
 
-        String line = null;
-        while (iterator.hasNext()) {
-            if (line == null || (!line.startsWith(DELIMITING_PREFIX))) {
-                line = iterator.next();
-            }
-
-            if (line.startsWith(DELIMITING_PREFIX)) {
-                line = processSong(line.substring(DELIMITING_PREFIX.length()).trim(), iterator, songList);
-            }
-        }
-        return songList;
-    }
-
-    private String processSong(String file, Iterator<String> iterator, List<MPDSong> songs) {
-        MPDSong song = new MPDSong(file, "");
-        initialize(song);
-        String line = iterator.next();
-        while (!line.startsWith(DELIMITING_PREFIX)) {
-            processLine(song, line);
-            if (!iterator.hasNext()) {
-                break;
-            }
-            line = iterator.next();
-        }
-        songs.add(song);
-
-        return line;
-    }
-
-    private static void initialize(MPDSong song) {
-        song.setName("");
-        song.setAlbumName("");
-        song.setArtistName("");
-        song.setComment("");
-        song.setDiscNumber("");
-        song.setGenre("");
-        song.setTitle("");
-        song.setYear("");
-    }
-
-    @Override
-    public List<String> getSongFileNameList(List<String> fileList) {
-        return fileList.stream()
-                .filter(s -> s.startsWith(DELIMITING_PREFIX))
-                .map(s -> (s.substring(DELIMITING_PREFIX.length())).trim())
-                .collect(Collectors.toList());
-    }
-
-    private void processLine(MPDItem song, String line) {
-        var songProcessor = SongProcessor.lookup(line);
-        if (songProcessor != null) {
-            songProcessor.getProcessor().processTag((MPDSong) song, line);
-        } else {
-            log.warn("Processor not found - {}", line);
-        }
-    }
+  @Override
+  public List<String> getSongFileNameList(List<String> fileList) {
+    var delimiter = SongProcessor.FILE.getProcessor().getPrefix().toLowerCase();
+    return fileList.stream()
+        .filter(s -> s.toLowerCase().startsWith(delimiter))
+        .map(s -> (s.substring(delimiter.length())).trim())
+        .collect(Collectors.toList());
+  }
 }

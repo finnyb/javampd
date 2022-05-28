@@ -7,31 +7,31 @@ package org.bff.javampd.server;
  */
 public class ResponseProperties extends MPDProperties {
 
-    private enum Command {
-        OK("cmd.response.ok"),
-        LIST_OK("cmd.response.list.ok"),
-        ERR("cmd.response.err");
+  private enum Command {
+    OK("cmd.response.ok"),
+    LIST_OK("cmd.response.list.ok"),
+    ERR("cmd.response.err");
 
-        private final String key;
+    private final String key;
 
-        Command(String key) {
-            this.key = key;
-        }
-
-        public String getKey() {
-            return key;
-        }
+    Command(String key) {
+      this.key = key;
     }
 
-    public String getOk() {
-        return getPropertyString(Command.OK.getKey());
+    public String getKey() {
+      return key;
     }
+  }
 
-    public String getListOk() {
-        return getPropertyString(Command.LIST_OK.getKey());
-    }
+  public String getOk() {
+    return getPropertyString(Command.OK.getKey());
+  }
 
-    public String getError() {
-        return getPropertyString(Command.ERR.getKey());
-    }
+  public String getListOk() {
+    return getPropertyString(Command.LIST_OK.getKey());
+  }
+
+  public String getError() {
+    return getPropertyString(Command.ERR.getKey());
+  }
 }

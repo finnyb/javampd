@@ -1,16 +1,17 @@
 ## Connecting
+
 Create a connection to MPD using the builder.
 
 Using default values of localhost port 6600
 
 ```
-MPD mpd = new MPD.Builder().build();
+MPD mpd = MPD.builder().build();
 ```
 
 or build to your environment
 
 ```
-MPD mpd = new MPD.Builder()
+MPD mpd = MPD.builder()
         .server("yourserver")
         .port(yourport)
         .password(yourpassword)
@@ -19,39 +20,39 @@ MPD mpd = new MPD.Builder()
 
 Almost everything you'll need will be gotten from this object.
 
-The connection remains open for the life of the MPD object so take 
-care not to create new MPD objects each time you want to do something.
-Call close on the object when you are done.
+The connection remains open for the life of the MPD object so take care not to create new MPD objects each time you want
+to do something. Call close on the object when you are done.
 
-##Art
-When running on the same server as MPD a list of artwork can be obtained for an artist or album.  If not running on the
-same server but hosting the images locally a path prefix can be passed to locate the images. 
+## Art
 
-A list of all images in the directory can be returned if those files are readable by whatever user is running JavaMPD.  
+When running on the same server as MPD a list of artwork can be obtained for an artist or album. If not running on the
+same server but hosting the images locally a path prefix can be passed to locate the images.
 
-Ideally you should have some directory structure like
-/Artist/Album/song.flac
-/Artist/Album/cover.jpg
+A list of all images in the directory can be returned if those files are readable by whatever user is running JavaMPD.
 
-When searching for artist images assumptions are made that the artist lives in her own directory.  Images in the artist
+Ideally you should have some directory structure like /Artist/Album/song.flac /Artist/Album/cover.jpg
+
+When searching for artist images assumptions are made that the artist lives in her own directory. Images in the artist
 directory are returned first then images for each album are returned.
 
 supported image types:
-    _jpg_ and _png_
-    
+_jpg_ and _png_
+
 ```
 ArtworkFinder artworkFinder = mpd.getArtworkFinder();
 List<MPDArtwork> artworkList = artworkFinder.find(album);
 ```
 
-##Searching
+## Searching
+
 Searching for songs is done via the SongSearcher class.
 
 ```
 mpd.getSongSearcher();
 ```
 
-##Querying
+## Querying
+
 MPD database access is accomplished using the appropriate access object from the MPDMusicDatabase.
 
 Get the database from MPD.
@@ -70,10 +71,10 @@ There is a database for the following:
 - Playlists
 - Files
 
+## Logging
 
-##Logging
-[slf4j](http://www.slf4j.org/) is used for logging allowing you to use any compatible logging framework.
-The following examples use [logback](http://logback.qos.ch/).
+[slf4j](http://www.slf4j.org/) is used for logging allowing you to use any compatible logging framework. The following
+examples use [logback](http://logback.qos.ch/).
 
 Lots of debugging information can be obtained from debug level logging.
 
@@ -85,12 +86,15 @@ Lots of debugging information can be obtained from debug level logging.
 ...
 ```
 
-##Monitoring
+## Monitoring
+
 MPDStandAloneMonitor to monitor events
-####Refresh Intervals
-The monitor.delay property is the length of time (in seconds) that the monitor sleeps between rounds.
-Each monitor has a multiplier that can be overridden depending on the desired check frequency.  Setting the
-multiplier value to 0 means checking every time the monitor runs (0 based).
+
+#### Refresh Intervals
+
+The monitor.delay property is the length of time (in seconds) that the monitor sleeps between rounds. Each monitor has a
+multiplier that can be overridden depending on the desired check frequency. Setting the multiplier value to 0 means
+checking every time the monitor runs (0 based).
 
 The following properties can be overridden:
 
@@ -130,15 +134,17 @@ monitor.track.multiplier=2
 
 would run the monitor every ~10 seconds checking the playlist every ~10 seconds and the track every ~30
 
-##Server status
-load the server status by getting the status from MPD.  
+## Server status
+
+load the server status by getting the status from MPD.
 
 ```
 ServerStatus status = mpd.getServerStatus();
 int volume = status.getVolume();
 ```
 
-There is a default expiry interval of 5 seconds. This can be overridden by setting the interval using setExpiryInterval, use 0 to always call the server for each method.  
+There is a default expiry interval of 5 seconds. This can be overridden by setting the interval using setExpiryInterval,
+use 0 to always call the server for each method.
 
 ```
 ServerStatus status = mpd.getServerStatus();
@@ -154,12 +160,11 @@ ServerStatus status = mpd.getServerStatus();
 status.forceUpdate();
 ```
 
-##Server statistics
-load the server statistics by getting the status from MPD.  
+## Server statistics
+
+load the server statistics by getting the status from MPD.
 
 ```
-ServerStatistics stats = mpd.getServerStatistics();
+var stats = mpd.getServerStatistics().getStatistics()
 long uptime = status.getUptime();
 ```
-
-It has an default expiry interval of 60 seconds.  Caching behavior is exactly like the status.

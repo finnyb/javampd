@@ -1,334 +1,224 @@
 package org.bff.javampd.album;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
-import org.bff.javampd.processor.AlbumTagProcessor;
-import org.bff.javampd.processor.ArtistTagProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class MPDAlbumDatabaseTest {
-    private static final String ARTIST_RESPONSE_PREFIX = "Artist: ";
-    private static final String ALBUM_RESPONSE_PREFIX = "Album: ";
-    private static final String DATE_RESPONSE_PREFIX = "Date: ";
-    private static final String GENRE_RESPONSE_PREFIX = "Genre: ";
-
-    private static final TagLister.GroupType[] ALBUM_GROUPS = {
-            TagLister.GroupType.ARTIST,
-            TagLister.GroupType.DATE,
-            TagLister.GroupType.GENRE
-    };
-
-    @Mock
-    private TagLister tagLister;
-
-    private MPDAlbumDatabase albumDatabase;
-
-    @BeforeEach
-    void before() {
-        albumDatabase = new MPDAlbumDatabase(tagLister, new MPDAlbumConverter());
-    }
-
-    @Test
-    void testListSingleAlbumsByArtist() {
-        MPDArtist testArtist = new MPDArtist("testName");
 
-        String testAlbumName = "testAlbum";
-
-        List<String> mockList = new ArrayList<>();
-        mockList.add(TagLister.ListType.ARTIST.getType());
-        mockList.add(testArtist.getName());
-
-        List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(ALBUM_RESPONSE_PREFIX + testAlbumName);
-        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM,
-                        mockList,
-                        ALBUM_GROUPS))
-                .thenReturn(mockReturn);
-
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByArtist(testArtist));
-        assertEquals(1, albums.size());
-        assertEquals(testAlbum, albums.get(0));
-    }
-
-    @Test
-    void testListMultipleAlbumsByArtist() {
-        MPDArtist testArtist = new MPDArtist("testName");
-
-        String testAlbumName1 = "testAlbum1";
-        String testAlbumName2 = "testAlbum2";
-
-        List<String> mockList = new ArrayList<>();
-        mockList.add(TagLister.ListType.ARTIST.getType());
-        mockList.add(testArtist.getName());
-
-        List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(ALBUM_RESPONSE_PREFIX + testAlbumName1);
-        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
-
-        mockReturn.add(ALBUM_RESPONSE_PREFIX + testAlbumName2);
-        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM,
-                        mockList,
-                        ALBUM_GROUPS))
-                .thenReturn(mockReturn);
-
-        MPDAlbum testAlbum1 = new MPDAlbum(testAlbumName1, testArtist.getName());
-        MPDAlbum testAlbum2 = new MPDAlbum(testAlbumName2, testArtist.getName());
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByArtist(testArtist));
-        assertEquals(2, albums.size());
-        assertEquals(testAlbum1, albums.get(0));
-        assertEquals(testAlbum2, albums.get(1));
-    }
-
-    @Test
-    void testListAlbumsByGenre() {
-        MPDArtist testArtist = new MPDArtist("testArtistName");
-        MPDGenre testGenre = new MPDGenre("testGenreName");
-
-        String testAlbumName = "testAlbum";
-
-        List<String> mockList = new ArrayList<>();
-        mockList.add(TagLister.ListType.GENRE.getType());
-        mockList.add(testGenre.getName());
-
-        List<String> mockReturnGenreList = new ArrayList<>();
-        mockReturnGenreList.add(ALBUM_RESPONSE_PREFIX + testAlbumName);
-        mockReturnGenreList.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
-
-        List<String> mockAlbumList = new ArrayList<>();
-        mockAlbumList.add(TagLister.ListType.ALBUM.getType());
-        mockAlbumList.add(testAlbumName);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM,
-                        mockList,
-                        ALBUM_GROUPS))
-                .thenReturn(mockReturnGenreList);
-
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByGenre(testGenre));
-        assertEquals(1, albums.size());
-        assertEquals(testAlbum, albums.get(0));
-    }
-
-    @Test
-    void testListAlbumsByYear() {
-        MPDArtist testArtist = new MPDArtist("testArtistName");
-        String testYear = "testYear";
-        String testAlbumName = "testAlbum";
-
-        List<String> mockList = new ArrayList<>();
-        mockList.add(TagLister.ListType.DATE.getType());
-        mockList.add(testYear);
-
-
-        List<String> mockReturn = new ArrayList<>();
-        mockReturn.add(ALBUM_RESPONSE_PREFIX + testAlbumName);
-        mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
-        mockReturn.add(DATE_RESPONSE_PREFIX + testYear);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM,
-                        mockList,
-                        ALBUM_GROUPS))
-                .thenReturn(mockReturn);
-
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
-        testAlbum.setDate(testYear);
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAlbumsByYear(testYear));
-        assertEquals(1, albums.size());
-        assertEquals(testAlbum, albums.get(0));
-    }
-
-    @Test
-    void testListAlbumNamesByYear() {
-        String testYear = "testYear";
-        String testAlbumName = "testAlbum";
-
-        List<String> mockYearList = new ArrayList<>();
-        mockYearList.add(TagLister.ListType.DATE.getType());
-        mockYearList.add(testYear);
-
-        List<String> mockReturnAlbumList = new ArrayList<>();
-        mockReturnAlbumList.add(testAlbumName);
-
-        List<String> mockAlbumList = new ArrayList<>();
-        mockAlbumList.add(TagLister.ListType.ALBUM.getType());
-        mockAlbumList.add(testAlbumName);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM,
-                        mockYearList))
-                .thenReturn(mockReturnAlbumList);
-
-        List<String> albums = new ArrayList<>(albumDatabase.listAlbumNamesByYear(testYear));
-        assertEquals(1, albums.size());
-        assertEquals(testAlbumName, albums.get(0));
-    }
-
-    @Test
-    void testListAllAlbumNames() {
-        String testAlbumName1 = "testAlbum1";
-        String testAlbumName2 = "testAlbum2";
-
-        List<String> mockAlbumNameList = new ArrayList<>();
-        mockAlbumNameList.add(ALBUM_RESPONSE_PREFIX + testAlbumName1);
-        mockAlbumNameList.add(ALBUM_RESPONSE_PREFIX + testAlbumName2);
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM))
-                .thenReturn(mockAlbumNameList);
-
-        List<String> albums = new ArrayList<>(albumDatabase.listAllAlbumNames());
-        assertEquals(2, albums.size());
-        assertEquals(testAlbumName1, albums.get(0));
-        assertEquals(testAlbumName2, albums.get(1));
-    }
-
-    @Test
-    void testListAllAlbumsWindowed() {
-        int start = 0;
-        int end = 100;
-
-        String albumPrefix = "testAlbum";
-        String artistPrefix = "testArtist";
-
-        loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, end));
-
-        assertEquals(end - start, albums.size());
-        for (int i = start; i < end; ++i) {
-            MPDAlbum album = new MPDAlbum(albumPrefix + i, artistPrefix + i);
-            assertEquals(album, albums.get(i));
-        }
-    }
-
-    @Test
-    void testListAllAlbums() {
-        int end = 100;
-
-        String albumPrefix = "testAlbum";
-        String artistPrefix = "testArtist";
-
-        loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums());
-
-        assertEquals(end, albums.size());
-        for (int i = 0; i < end; ++i) {
-            MPDAlbum album = new MPDAlbum(albumPrefix + i, artistPrefix + i);
-            assertEquals(album, albums.get(i));
-        }
-    }
-
-    @Test
-    void testListAllAlbumsBelowMinimum() {
-        int start = 0;
-        int end = 50;
-        int requested = 100;
-
-        String albumPrefix = "testAlbum";
-        String artistPrefix = "testArtist";
-
-        loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, requested));
-
-        assertEquals(end - start, albums.size());
-        for (int i = start; i < end; ++i) {
-            MPDAlbum album = new MPDAlbum(albumPrefix + i, artistPrefix + i);
-            assertEquals(album, albums.get(i));
-        }
-    }
-
-    @Test
-    void testListAllAlbumsEmpty() {
-        int start = 0;
-        int end = 50;
-        String albumPrefix = "testAlbum";
-        String artistPrefix = "testArtist";
-
-        loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(start, start));
-
-        assertEquals(0, albums.size());
-    }
-
-    @Test
-    void testListAllAlbumsStartBelowEnd() {
-        int end = 50;
-        String albumPrefix = "testAlbum";
-        String artistPrefix = "testArtist";
-
-        loadMockAlbums(albumPrefix, artistPrefix, end);
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.listAllAlbums(end + 1, end));
-
-        assertEquals(0, albums.size());
-    }
-
-    @Test
-    void testFindAlbumByName() {
-        MPDArtist testArtist = new MPDArtist("testArtistName");
-        String testAlbumName = "testAlbum1";
-
-        List<String> mockList = new ArrayList<>();
-        mockList.add(TagLister.ListType.ALBUM.getType());
-        mockList.add(testAlbumName);
-
-        List<String> mockAlbumList = new ArrayList<>();
-        mockAlbumList.add(TagLister.ListType.ALBUM.getType());
-        mockAlbumList.add(ALBUM_RESPONSE_PREFIX + testAlbumName);
-        mockAlbumList.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM,
-                        mockList,
-                        ALBUM_GROUPS))
-                .thenReturn(mockAlbumList);
-
-        MPDAlbum testAlbum = new MPDAlbum(testAlbumName, testArtist.getName());
-
-        List<MPDAlbum> albums = new ArrayList<>(albumDatabase.findAlbum(testAlbumName));
-        assertEquals(1, albums.size());
-        assertEquals(testAlbum, albums.get(0));
-    }
-
-    private void loadMockAlbums(String albumPrefix, String artistPrefix, int count) {
-        List<String> mockAlbumList = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            mockAlbumList.add(new AlbumTagProcessor().getPrefix() + " " + albumPrefix + i);
-            mockAlbumList.add(new ArtistTagProcessor().getPrefix() + " " + artistPrefix + i);
-        }
-
-        when(tagLister
-                .list(TagLister.ListType.ALBUM,
-                        ALBUM_GROUPS))
-                .thenReturn(mockAlbumList);
-    }
+  @Captor private ArgumentCaptor<List<String>> argumentCaptor;
+  @Captor private ArgumentCaptor<TagLister.GroupType> groupCaptor;
+  @Captor private ArgumentCaptor<TagLister.ListType> listCaptor;
+
+  @Mock private TagLister tagLister;
+
+  private MPDAlbumDatabase albumDatabase;
+
+  @BeforeEach
+  void before() {
+    albumDatabase = new MPDAlbumDatabase(tagLister, new MPDAlbumConverter());
+  }
+
+  @Test
+  void albumsByAlbumArtist() {
+    String albumArtist = "Tool";
+
+    when(tagLister.list(any(), (List<String>) any(), any(), any(), any(), any()))
+        .thenReturn(new ArrayList<>());
+
+    albumDatabase.listAlbumsByAlbumArtist(new MPDArtist(albumArtist));
+
+    verify(tagLister)
+        .list(
+            listCaptor.capture(),
+            argumentCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture());
+
+    assertAll(
+        () -> assertEquals("albumartist", argumentCaptor.getValue().get(0)),
+        () -> assertEquals(albumArtist, argumentCaptor.getValue().get(1)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
+        () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
+        () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
+  }
+
+  @Test
+  void albumsByArtist() {
+    String artist = "Tool";
+
+    when(tagLister.list(any(), (List<String>) any(), any(), any(), any(), any()))
+        .thenReturn(new ArrayList<>());
+
+    albumDatabase.listAlbumsByArtist(new MPDArtist(artist));
+
+    verify(tagLister)
+        .list(
+            listCaptor.capture(),
+            argumentCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture());
+
+    assertAll(
+        () -> assertEquals("artist", argumentCaptor.getValue().get(0)),
+        () -> assertEquals(artist, argumentCaptor.getValue().get(1)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
+        () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
+        () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
+  }
+
+  @Test
+  void allAlbums() {
+    when(tagLister.list(any(), (TagLister.GroupType) any(), any(), any(), any()))
+        .thenReturn(new ArrayList<>());
+
+    albumDatabase.listAllAlbums();
+
+    verify(tagLister)
+        .list(
+            listCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture());
+
+    assertAll(
+        () -> assertEquals(TagLister.ListType.ALBUM, listCaptor.getValue()),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
+        () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
+        () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
+  }
+
+  @Test
+  void allAlbumNames() {
+    when(tagLister.list(any())).thenReturn(new ArrayList<>());
+
+    albumDatabase.listAllAlbumNames();
+
+    verify(tagLister).list(listCaptor.capture());
+
+    assertEquals(TagLister.ListType.ALBUM, listCaptor.getValue());
+  }
+
+  @Test
+  void allAlbumNamesParsing() {
+    when(tagLister.list(any()))
+        .thenReturn(
+            Arrays.asList(
+                "Album: 10,000 Days",
+                "Album: 72826",
+                "Album: Anthem of the Peaceful Army",
+                "Album: Dark Before Dawn"));
+
+    var albums = new ArrayList<>(albumDatabase.listAllAlbumNames());
+
+    assertAll(
+        () -> assertEquals("10,000 Days", albums.get(0)),
+        () -> assertEquals("72826", albums.get(1)),
+        () -> assertEquals("Anthem of the Peaceful Army", albums.get(2)),
+        () -> assertEquals("Dark Before Dawn", albums.get(3)));
+  }
+
+  @Test
+  void findAlbumsByName() {
+    String album = "Saturate";
+
+    when(tagLister.list(any(), (List<String>) any(), any(), any(), any(), any()))
+        .thenReturn(new ArrayList<>());
+
+    albumDatabase.findAlbum(album);
+
+    verify(tagLister)
+        .list(
+            listCaptor.capture(),
+            argumentCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture());
+
+    assertAll(
+        () -> assertEquals("album", argumentCaptor.getValue().get(0)),
+        () -> assertEquals(album, argumentCaptor.getValue().get(1)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
+        () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
+        () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
+  }
+
+  @Test
+  void albumsByGenre() {
+    String genre = "Heavy Metal";
+
+    when(tagLister.list(any(), (List<String>) any(), any(), any(), any(), any()))
+        .thenReturn(new ArrayList<>());
+
+    albumDatabase.listAlbumsByGenre(new MPDGenre(genre));
+
+    verify(tagLister)
+        .list(
+            listCaptor.capture(),
+            argumentCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture());
+
+    assertAll(
+        () -> assertEquals("genre", argumentCaptor.getValue().get(0)),
+        () -> assertEquals(genre, argumentCaptor.getValue().get(1)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
+        () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
+        () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
+  }
+
+  @Test
+  void albumsByYear() {
+    String year = "1990";
+
+    when(tagLister.list(any(), (List<String>) any(), any(), any(), any(), any()))
+        .thenReturn(new ArrayList<>());
+
+    albumDatabase.listAlbumsByYear(year);
+
+    verify(tagLister)
+        .list(
+            listCaptor.capture(),
+            argumentCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture(),
+            groupCaptor.capture());
+
+    assertAll(
+        () -> assertEquals("date", argumentCaptor.getValue().get(0)),
+        () -> assertEquals(year, argumentCaptor.getValue().get(1)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
+        () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
+        () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
+  }
 }

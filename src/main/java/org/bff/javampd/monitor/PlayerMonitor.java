@@ -5,17 +5,17 @@ import org.bff.javampd.player.PlayerBasicChangeListener;
 import org.bff.javampd.player.VolumeChangeListener;
 
 public interface PlayerMonitor extends StatusMonitor {
-    void addPlayerChangeListener(PlayerBasicChangeListener pcl);
+  void addPlayerChangeListener(PlayerBasicChangeListener pcl);
 
-    void removePlayerChangeListener(PlayerBasicChangeListener pcl);
+  void removePlayerChangeListener(PlayerBasicChangeListener pcl);
 
-    void addBitrateChangeListener(BitrateChangeListener bcl);
+  void addBitrateChangeListener(BitrateChangeListener bcl);
 
-    void removeBitrateChangeListener(BitrateChangeListener bcl);
+  void removeBitrateChangeListener(BitrateChangeListener bcl);
 
-    void addVolumeChangeListener(VolumeChangeListener vcl);
+  void addVolumeChangeListener(VolumeChangeListener vcl);
 
-    void removeVolumeChangeListener(VolumeChangeListener vcl);
+  void removeVolumeChangeListener(VolumeChangeListener vcl);
 
-    PlayerStatus getStatus();
+  PlayerStatus getStatus();
 }

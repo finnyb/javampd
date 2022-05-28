@@ -1,89 +1,130 @@
 package org.bff.javampd.album;
 
-import org.bff.javampd.processor.AlbumTagProcessor;
-import org.bff.javampd.processor.ArtistTagProcessor;
-import org.bff.javampd.processor.DateTagProcessor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class MPDAlbumConverterTest {
 
-    private static final String ALBUM = "album";
-    private static final String ARTIST = "artist";
-    private static final int COUNT = 3;
+  private AlbumConverter converter;
 
-    private AlbumConverter converter;
-    private List<MPDAlbum> albums;
+  @BeforeEach
+  void before() {
+    converter = new MPDAlbumConverter();
+  }
 
-    @BeforeEach
-    void before() {
-        converter = new MPDAlbumConverter();
-        albums = converter.convertResponseToAlbum(createResponses());
-    }
+  @Test
+  @DisplayName("list of one album with single tags")
+  void simpleAlbum() {
 
-    @Test
-    void testArtist() {
-        assertThat("", is(equalTo(albums.get(0).getArtistName())));
-        for (int i = 1; i < COUNT + 1; i++) {
-            assertThat(albums.get(i).getArtistName(), is(equalTo(ARTIST + (i - 1))));
-        }
-    }
+    var response =
+        Arrays.asList(
+            "AlbumArtist: Greta Van Fleet",
+            "Genre: Rock",
+            "Date: 2018",
+            "Artist: Greta Van Fleet",
+            "Album: Anthem of the Peaceful Army");
 
-    @Test
-    void testAlbum() {
-        assertThat(albums.get(0).getName(), is(equalTo(ALBUM)));
-        for (int i = 1; i < COUNT + 1; i++) {
-            assertThat(albums.get(i).getName(), is(equalTo(ALBUM + (i - 1))));
-        }
-    }
+    var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
+    var a = albums.get(0);
 
-    @Test
-    void testAlbumSingleTag() {
-        List<String> albumResponse = new ArrayList<>();
-        albumResponse.add("Album: " + ALBUM);
-        albumResponse.add("Album: " + ALBUM + "1");
-        albums = converter.convertResponseToAlbum(albumResponse);
+    assertAll(
+        () -> assertThat(a.getName(), is(equalTo("Anthem of the Peaceful Army"))),
+        () -> assertThat(albums.size(), is(equalTo(1))),
+        () -> assertThat(a.getAlbumArtist(), is(equalTo("Greta Van Fleet"))),
+        () -> assertThat(a.getArtistNames().size(), is(equalTo(1))),
+        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Greta Van Fleet"))),
+        () -> assertThat(a.getGenres().size(), is(equalTo(1))),
+        () -> assertThat(a.getGenres().get(0), is(equalTo("Rock"))),
+        () -> assertThat(a.getDates().size(), is(equalTo(1))),
+        () -> assertThat(a.getDates().get(0), is(equalTo("2018"))));
+  }
 
-        assertThat(2, is(equalTo(albums.size())));
-        assertThat(albums.get(0).getName(), is(equalTo(ALBUM)));
-        assertThat(albums.get(1).getName(), is(equalTo(ALBUM + "1")));
-    }
+  @Test
+  @DisplayName("list of one album with single tags")
+  void unknownAttribute() {
 
-    @Test
-    void testAlbumSingleTagSingleAlbum() {
-        List<String> albumResponse = new ArrayList<>();
-        albumResponse.add("Album: " + ALBUM);
-        albums = converter.convertResponseToAlbum(albumResponse);
+    var response =
+        Arrays.asList(
+            "AlbumArtist: Greta Van Fleet",
+            "Genre: Rock",
+            "Date: 2018",
+            "Artist: Greta Van Fleet",
+            "Unknown: something unexpected",
+            "Album: Anthem of the Peaceful Army");
 
-        assertThat(1, is(equalTo(albums.size())));
-        assertThat(albums.get(0).getName(), is(equalTo(ALBUM)));
-    }
+    var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
+    var a = albums.get(0);
 
-    @Test
-    void testUnknownResponse() {
-        List<String> response = createResponses();
-        response.add("unknown: I dont know");
+    assertAll(
+        () -> assertThat(a.getName(), is(equalTo("Anthem of the Peaceful Army"))),
+        () -> assertThat(albums.size(), is(equalTo(1))),
+        () -> assertThat(a.getAlbumArtist(), is(equalTo("Greta Van Fleet"))),
+        () -> assertThat(a.getArtistNames().size(), is(equalTo(1))),
+        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Greta Van Fleet"))),
+        () -> assertThat(a.getGenres().size(), is(equalTo(1))),
+        () -> assertThat(a.getGenres().get(0), is(equalTo("Rock"))),
+        () -> assertThat(a.getDates().size(), is(equalTo(1))),
+        () -> assertThat(a.getDates().get(0), is(equalTo("2018"))));
+  }
 
-        assertDoesNotThrow(() -> this.converter.convertResponseToAlbum(response));
-    }
+  @Test
+  void clearAttributes() {
+    var response =
+        Arrays.asList(
+            "AlbumArtist: Spiritbox",
+            "Genre: Metal",
+            "Date: 2021",
+            "Artist: Spiritbox",
+            "Album: Eternal Blue",
+            "Artist: Tool",
+            "Album: Lateralus");
 
-    private List<String> createResponses() {
-        List<String> response = new ArrayList<>();
+    var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
+    var a = albums.get(1);
 
-        response.add(new AlbumTagProcessor().getPrefix() + ALBUM);
-        for (int i = 0; i < COUNT; i++) {
-            response.add(new AlbumTagProcessor().getPrefix() + ALBUM + i);
-            response.add(new ArtistTagProcessor().getPrefix() + ARTIST + i);
-            response.add(new DateTagProcessor().getPrefix() + 1990 + i);
-        }
-        return response;
-    }
+    assertAll(
+        () -> assertThat(a.getName(), is(equalTo("Lateralus"))),
+        () -> assertNull(a.getAlbumArtist()),
+        () -> assertThat(a.getArtistNames().size(), is(equalTo(1))),
+        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Tool"))),
+        () -> assertThat(a.getGenres().size(), is(equalTo(0))),
+        () -> assertThat(a.getDates().size(), is(equalTo(0))));
+  }
+
+  @Test
+  void multipleArtists() {
+    var response =
+        Arrays.asList(
+            "AlbumArtist: Spiritbox",
+            "Genre: Metal",
+            "Date: 2021",
+            "Artist: Spiritbox",
+            "Album: Eternal Blue",
+            "Artist: Spiritbox feat. Sam Carter",
+            "Album: Eternal Blue");
+
+    var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
+    var a = albums.get(0);
+
+    assertAll(
+        () -> assertThat(albums.size(), is(equalTo(1))),
+        () -> assertThat(a.getName(), is(equalTo("Eternal Blue"))),
+        () -> assertThat(a.getAlbumArtist(), is(equalTo("Spiritbox"))),
+        () -> assertThat(a.getArtistNames().size(), is(equalTo(2))),
+        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Spiritbox"))),
+        () -> assertThat(a.getArtistNames().get(1), is(equalTo("Spiritbox feat. Sam Carter"))),
+        () -> assertThat(a.getGenres().size(), is(equalTo(1))),
+        () -> assertThat(a.getGenres().get(0), is(equalTo("Metal"))),
+        () -> assertThat(a.getDates().size(), is(equalTo(1))),
+        () -> assertThat(a.getDates().get(0), is(equalTo("2021"))));
+  }
 }

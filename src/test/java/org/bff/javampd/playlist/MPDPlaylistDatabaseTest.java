@@ -1,5 +1,13 @@
 package org.bff.javampd.playlist;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.database.DatabaseProperties;
 import org.bff.javampd.database.TagLister;
@@ -12,136 +20,108 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 @ExtendWith(MockitoExtension.class)
 class MPDPlaylistDatabaseTest {
 
-    @Mock
-    private SongDatabase songDatabase;
-    @Mock
-    private CommandExecutor commandExecutor;
-    @Mock
-    private DatabaseProperties databaseProperties;
-    @Mock
-    private TagLister tagLister;
-    @Mock
-    private SongConverter songConverter;
+  @Mock private SongDatabase songDatabase;
+  @Mock private CommandExecutor commandExecutor;
+  @Mock private DatabaseProperties databaseProperties;
+  @Mock private TagLister tagLister;
+  @Mock private SongConverter songConverter;
 
-    @InjectMocks
-    private MPDPlaylistDatabase playlistDatabase;
+  @InjectMocks private MPDPlaylistDatabase playlistDatabase;
 
-    @Test
-    void testListSavedPlaylists() {
-        String testPlaylistName1 = "testName1";
-        String testPlaylistName2 = "testName2";
+  @Test
+  void testListSavedPlaylists() {
+    String testPlaylistName1 = "testName1";
+    String testPlaylistName2 = "testName2";
 
-        List<String> mockedResponseList = new ArrayList<>();
-        mockedResponseList.add(testPlaylistName1);
-        mockedResponseList.add(testPlaylistName2);
+    List<String> mockedResponseList = new ArrayList<>();
+    mockedResponseList.add(testPlaylistName1);
+    mockedResponseList.add(testPlaylistName2);
 
-        List<MPDSavedPlaylist> mockList = new ArrayList<>();
+    List<MPDSavedPlaylist> mockList = new ArrayList<>();
 
-        MPDSavedPlaylist mockedSavedPlaylist1 = new MPDSavedPlaylist(testPlaylistName1);
-        mockList.add(mockedSavedPlaylist1);
-        MPDSavedPlaylist mockedSavedPlaylist2 = new MPDSavedPlaylist(testPlaylistName2);
-        mockList.add(mockedSavedPlaylist2);
+    MPDSavedPlaylist mockedSavedPlaylist1 = MPDSavedPlaylist.builder(testPlaylistName1).build();
+    mockList.add(mockedSavedPlaylist1);
+    MPDSavedPlaylist mockedSavedPlaylist2 = MPDSavedPlaylist.builder(testPlaylistName2).build();
+    mockList.add(mockedSavedPlaylist2);
 
-        when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST))
-                .thenReturn(mockedResponseList);
+    when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST)).thenReturn(mockedResponseList);
 
-        List<MPDSavedPlaylist> playlists =
-                new ArrayList<>(playlistDatabase.listSavedPlaylists());
+    List<MPDSavedPlaylist> playlists = new ArrayList<>(playlistDatabase.listSavedPlaylists());
 
-        assertEquals(testPlaylistName1, playlists.get(0).getName());
-        assertEquals(testPlaylistName2, playlists.get(1).getName());
-    }
+    assertEquals(testPlaylistName1, playlists.get(0).getName());
+    assertEquals(testPlaylistName2, playlists.get(1).getName());
+  }
 
-    @Test
-    void testListSavedPlaylistsSongs() {
-        String testPlaylistName1 = "testName1";
-        String testPlaylistName2 = "testName2";
+  @Test
+  void testListSavedPlaylistsSongs() {
+    String testPlaylistName1 = "testName1";
+    String testPlaylistName2 = "testName2";
 
-        String testSongName1 = "testSong1";
-        String testSongName2 = "testSong2";
+    String testSongName1 = "testSong1";
+    String testSongName2 = "testSong2";
 
-        List<String> mockedResponseList = new ArrayList<>();
-        mockedResponseList.add(testPlaylistName1);
-        mockedResponseList.add(testPlaylistName2);
+    List<String> mockedResponseList = new ArrayList<>();
+    mockedResponseList.add(testPlaylistName1);
+    mockedResponseList.add(testPlaylistName2);
 
-        List<MPDSavedPlaylist> mockList = new ArrayList<>();
+    when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST)).thenReturn(mockedResponseList);
 
-        MPDSavedPlaylist mockedSavedPlaylist1 = new MPDSavedPlaylist(testPlaylistName1);
-        mockList.add(mockedSavedPlaylist1);
-        MPDSavedPlaylist mockedSavedPlaylist2 = new MPDSavedPlaylist(testPlaylistName2);
-        mockList.add(mockedSavedPlaylist2);
+    List<MPDSong> mockedSongs1 = new ArrayList<>();
+    mockedSongs1.add(MPDSong.builder().file("file1").title(testSongName1).build());
+    List<MPDSong> mockedSongs2 = new ArrayList<>();
+    mockedSongs2.add(MPDSong.builder().file("file2").title(testSongName2).build());
 
-        when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST))
-                .thenReturn(mockedResponseList);
+    when(databaseProperties.getListSongs()).thenReturn("listplaylist");
+    when(commandExecutor.sendCommand("listplaylist", testPlaylistName1))
+        .thenReturn(mockedResponseList);
+    when(commandExecutor.sendCommand("listplaylist", testPlaylistName2))
+        .thenReturn(mockedResponseList);
 
-        List<MPDSong> mockedSongs1 = new ArrayList<>();
-        mockedSongs1.add(new MPDSong("file1", testSongName1));
-        List<MPDSong> mockedSongs2 = new ArrayList<>();
-        mockedSongs2.add(new MPDSong("file2", testSongName2));
+    when(songConverter.getSongFileNameList(mockedResponseList)).thenReturn(mockedResponseList);
 
-        when(databaseProperties.getListSongs()).thenReturn("listplaylist");
-        when(commandExecutor.sendCommand("listplaylist", testPlaylistName1))
-                .thenReturn(mockedResponseList);
-        when(commandExecutor.sendCommand("listplaylist", testPlaylistName2))
-                .thenReturn(mockedResponseList);
+    when(songDatabase.searchFileName(testPlaylistName1)).thenReturn(mockedSongs1);
+    when(songDatabase.searchFileName(testPlaylistName2)).thenReturn(mockedSongs2);
 
-        when(songConverter.getSongFileNameList(mockedResponseList)).thenReturn(mockedResponseList);
+    List<MPDSavedPlaylist> playlists = new ArrayList<>(playlistDatabase.listSavedPlaylists());
 
-        when(songDatabase.searchFileName(testPlaylistName1)).thenReturn(mockedSongs1);
-        when(songDatabase.searchFileName(testPlaylistName2)).thenReturn(mockedSongs2);
-
-        List<MPDSavedPlaylist> playlists =
-                new ArrayList<>(playlistDatabase.listSavedPlaylists());
-
-        playlists.forEach(playlist -> {
-            List<MPDSong> playlistSongs = new ArrayList<>(playlist.getSongs());
-            assertEquals(testSongName1, playlistSongs.get(0).getName());
-            assertEquals(testSongName2, playlistSongs.get(1).getName());
+    playlists.forEach(
+        playlist -> {
+          List<MPDSong> playlistSongs = new ArrayList<>(playlist.getSongs());
+          assertEquals(testSongName1, playlistSongs.get(0).getName());
+          assertEquals(testSongName2, playlistSongs.get(1).getName());
         });
-    }
+  }
 
-    @Test
-    void testListPlaylists() {
-        String testPlaylist = "testPlaylist";
+  @Test
+  void testListPlaylists() {
+    String testPlaylist = "testPlaylist";
 
-        List<String> mockList = new ArrayList<>();
-        mockList.add(testPlaylist);
+    List<String> mockList = new ArrayList<>();
+    mockList.add(testPlaylist);
 
-        when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST))
-                .thenReturn(mockList);
+    when(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST)).thenReturn(mockList);
 
-        List<String> playlists =
-                new ArrayList<>(playlistDatabase.listPlaylists());
+    List<String> playlists = new ArrayList<>(playlistDatabase.listPlaylists());
 
-        assertEquals(testPlaylist, playlists.get(0));
-    }
+    assertEquals(testPlaylist, playlists.get(0));
+  }
 
-    @Test
-    void testPlaylistCount() {
-        String testPlaylist = "testPlaylist";
+  @Test
+  void testPlaylistCount() {
+    String testPlaylist = "testPlaylist";
 
-        List<String> mockList = new ArrayList<>();
-        mockList.add(testPlaylist);
+    List<String> mockList = new ArrayList<>();
+    mockList.add(testPlaylist);
 
-        List<String> mockedSongs = new ArrayList<>();
-        IntStream.range(0,5).forEach(i -> mockedSongs.add("file" + i));
+    List<String> mockedSongs = new ArrayList<>();
+    IntStream.range(0, 5).forEach(i -> mockedSongs.add("file" + i));
 
-        when(databaseProperties.getListSongs()).thenReturn("listplaylist");
-        when(commandExecutor.sendCommand("listplaylist", testPlaylist))
-                .thenReturn(mockedSongs);
+    when(databaseProperties.getListSongs()).thenReturn("listplaylist");
+    when(commandExecutor.sendCommand("listplaylist", testPlaylist)).thenReturn(mockedSongs);
 
-        assertThat(playlistDatabase.countPlaylistSongs(testPlaylist), is(5));
-    }
+    assertThat(playlistDatabase.countPlaylistSongs(testPlaylist), is(5));
+  }
 }

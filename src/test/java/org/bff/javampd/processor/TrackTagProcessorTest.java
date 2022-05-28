@@ -1,47 +1,22 @@
 package org.bff.javampd.processor;
 
-import org.bff.javampd.song.MPDSong;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class TrackTagProcessorTest {
-    @Test
-    void testProcessSong() {
-        String testTrack = "2/10";
 
-        TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
+  @Test
+  void testProcess() {
+    var testTrack = "2/10";
+    var line = "Track:" + testTrack;
 
-        String line = "Track:" + testTrack;
-        trackTagProcessor.processTag(song, line);
+    assertEquals(testTrack, new TrackTagProcessor().processTag(line));
+  }
 
-        assertEquals(2, song.getTrack());
-    }
-
-    @Test
-    void testProcessSongBadLine() {
-        String testTrack = "2/10";
-
-        TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
-
-        String line = "BadTrack:" + testTrack;
-        trackTagProcessor.processTag(song, line);
-
-        assertEquals(0, song.getTrack());
-    }
-
-    @Test
-    void testProcessSongUnparseable() {
-        String testTrack = "junk";
-
-        TrackTagProcessor trackTagProcessor = new TrackTagProcessor();
-        MPDSong song = new MPDSong("testFile", "title");
-
-        String line = "Track:" + testTrack;
-        trackTagProcessor.processTag(song, line);
-
-        assertEquals(0, song.getTrack());
-    }
+  @Test
+  void testProcessBadLine() {
+    assertNull(new TrackTagProcessor().processTag("BadTrack: 2/10"));
+  }
 }
