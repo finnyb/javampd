@@ -9,7 +9,9 @@ import org.bff.javampd.playlist.PlaylistBasicChangeListener;
 import org.bff.javampd.server.ConnectionChangeListener;
 import org.bff.javampd.server.ErrorListener;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public interface StandAloneMonitor {
   /**
    * Adds a {@link org.bff.javampd.player.TrackPositionChangeListener} to this object to receive

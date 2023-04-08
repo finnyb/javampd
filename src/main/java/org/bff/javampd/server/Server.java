@@ -9,7 +9,9 @@ import org.bff.javampd.playlist.Playlist;
 import org.bff.javampd.song.SongSearcher;
 import org.bff.javampd.statistics.ServerStatistics;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public interface Server {
   /**
    * Clears the current error message in the MPD status

@@ -4,7 +4,9 @@ import java.util.Optional;
 import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public interface Player {
 
   /** The status of the player. */
@@ -13,7 +15,7 @@ public interface Player {
     STATUS_PLAYING("play"),
     STATUS_PAUSED("pause");
 
-    private String prefix;
+    private final String prefix;
 
     Status(String prefix) {
       this.prefix = prefix;

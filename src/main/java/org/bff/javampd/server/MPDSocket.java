@@ -16,7 +16,9 @@ import org.bff.javampd.command.MPDCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 @Slf4j
 public class MPDSocket {
   private static final Logger LOGGER = LoggerFactory.getLogger(MPDSocket.class);

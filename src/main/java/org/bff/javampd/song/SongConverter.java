@@ -2,7 +2,9 @@ package org.bff.javampd.song;
 
 import java.util.List;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public interface SongConverter {
   /**
    * Converts the response from the MPD server into {@link MPDSong}s.

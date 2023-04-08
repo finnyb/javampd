@@ -7,7 +7,9 @@ import org.bff.javampd.file.MPDFile;
 import org.bff.javampd.genre.MPDGenre;
 import org.bff.javampd.song.MPDSong;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public interface Playlist {
   /**
    * Adds a {@link PlaylistChangeListener} to this object to receive {@link PlaylistChangeEvent}s.

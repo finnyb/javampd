@@ -1,6 +1,8 @@
 package org.bff.javampd.server;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public class ServerProperties extends MPDProperties {
 
   private enum Command {
