@@ -1,6 +1,8 @@
 package org.bff.javampd.statistics;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public interface ServerStatistics {
   MPDStatistics getStatistics();
 }
