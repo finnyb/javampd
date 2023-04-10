@@ -60,7 +60,7 @@
         <logback.version>1.2.11</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+        <junit.jupiter.version>5.9.2</junit.jupiter.version>
         <mockito.version>4.6.1</mockito.version>
         <sonar.projectKey>finnyb_javampd</sonar.projectKey>
         <sonar.organization>finnyb</sonar.organization>
