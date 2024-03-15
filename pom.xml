@@ -57,7 +57,7 @@
         </repository>
     </distributionManagement>
     <properties>
-        <logback.version>1.4.12</logback.version>
+        <logback.version>1.5.3</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <junit.jupiter.version>5.9.2</junit.jupiter.version>
