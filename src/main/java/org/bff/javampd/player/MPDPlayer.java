@@ -9,7 +9,6 @@ import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.playlist.PlaylistSongConverter;
 import org.bff.javampd.server.ServerStatus;
-import org.bff.javampd.song.SongConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +38,6 @@ public class MPDPlayer implements Player {
       ServerStatus serverStatus,
       PlayerProperties playerProperties,
       CommandExecutor commandExecutor,
-      SongConverter songConverter,
       PlaylistSongConverter playlistSongConverter) {
     this.serverStatus = serverStatus;
     this.playerProperties = playerProperties;
