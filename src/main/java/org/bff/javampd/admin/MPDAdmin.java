@@ -14,7 +14,7 @@ import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
 
 /**
- * MPDAdmin represents a administrative controller to a MPD server. To obtain an instance of the
+ * MPDAdmin represents an administrative controller to a MPD server. To obtain an instance of the
  * class you must use the <code>getMPDAdmin</code> method from the {@link
  * org.bff.javampd.server.MPD} connection class. This class does not have a public constructor
  * (singleton model) so the object must be obtained from the connection object.
@@ -159,7 +159,7 @@ public class MPDAdmin implements Admin {
     return -1;
   }
 
-  private static Collection<MPDOutput> parseOutputs(Collection<String> response) {
+  private static Collection<MPDOutput> parseOutputs(List<String> response) {
     List<MPDOutput> outputs = new ArrayList<>();
     var iterator = response.iterator();
     String line = null;
@@ -170,14 +170,15 @@ public class MPDAdmin implements Admin {
       }
 
       if (line.startsWith(OUTPUT_PREFIX_ID)) {
-        outputs.add(parseOutput(line, iterator));
+        line = parseOutput(line, iterator, outputs);
       }
     }
 
     return outputs;
   }
 
-  private static MPDOutput parseOutput(String startingLine, Iterator<String> iterator) {
+  private static String parseOutput(
+      String startingLine, Iterator<String> iterator, List<MPDOutput> outputs) {
     var output =
         MPDOutput.builder(
                 Integer.parseInt(startingLine.substring(OUTPUT_PREFIX_ID.length()).trim()))
@@ -192,12 +193,16 @@ public class MPDAdmin implements Admin {
       } else if (line.startsWith(OUTPUT_PREFIX_ENABLED)) {
         output.setEnabled("1".equals(line.replace(OUTPUT_PREFIX_ENABLED, "").trim()));
       }
+
       if (!iterator.hasNext()) {
         break;
       }
+
       line = iterator.next();
     }
 
-    return output;
+    outputs.add(output);
+
+    return line;
   }
 }
