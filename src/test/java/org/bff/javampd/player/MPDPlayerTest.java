@@ -3,6 +3,7 @@ package org.bff.javampd.player;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
@@ -13,13 +14,13 @@ import org.bff.javampd.command.CommandExecutor;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 import org.bff.javampd.playlist.PlaylistSongConverter;
 import org.bff.javampd.server.ServerStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -27,19 +28,26 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class MPDPlayerTest {
 
   @Mock private ServerStatus serverStatus;
-  @Mock private PlayerProperties playerProperties;
+  private PlayerProperties playerProperties;
 
   @Mock private CommandExecutor commandExecutor;
 
   @Mock private PlaylistSongConverter playlistSongConverter;
 
-  @InjectMocks private MPDPlayer mpdPlayer;
+  private MPDPlayer mpdPlayer;
 
   @Captor private ArgumentCaptor<String> stringArgumentCaptor;
 
   @Captor private ArgumentCaptor<Integer> integerArgumentCaptor;
 
   @Captor private ArgumentCaptor<String> paramArgumentCaptor;
+
+  @BeforeEach
+  void setUp() {
+    this.playerProperties = new PlayerProperties();
+    this.mpdPlayer =
+        new MPDPlayer(serverStatus, playerProperties, commandExecutor, playlistSongConverter);
+  }
 
   @Test
   void testGetCurrentSong() {
@@ -52,7 +60,6 @@ class MPDPlayerTest {
     List<MPDPlaylistSong> testSongResponse = new ArrayList<>();
     testSongResponse.add(testSong);
 
-    when(playerProperties.getCurrentSong()).thenCallRealMethod();
     when(commandExecutor.sendCommand(playerProperties.getCurrentSong())).thenReturn(responseList);
     when(playlistSongConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
@@ -71,7 +78,6 @@ class MPDPlayerTest {
     var responseList = new ArrayList<String>();
     var testSongResponse = new ArrayList<MPDPlaylistSong>();
 
-    when(playerProperties.getCurrentSong()).thenCallRealMethod();
     when(commandExecutor.sendCommand(playerProperties.getCurrentSong())).thenReturn(responseList);
 
     when(playlistSongConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
@@ -81,7 +87,6 @@ class MPDPlayerTest {
 
   @Test
   void testPlay() {
-    when(playerProperties.getPlay()).thenCallRealMethod();
     mpdPlayer.play();
     verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
     assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getPlay()))));
@@ -95,7 +100,6 @@ class MPDPlayerTest {
     MPDPlaylistSong testSong =
         MPDPlaylistSong.builder().file(testFile).title(testTitle).id(id).build();
 
-    when(playerProperties.getPlayId()).thenCallRealMethod();
     mpdPlayer.playSong(testSong);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
@@ -122,21 +126,35 @@ class MPDPlayerTest {
     List<MPDPlaylistSong> testSongResponse = new ArrayList<>();
     testSongResponse.add(testSong);
 
-    when(playerProperties.getCurrentSong()).thenCallRealMethod();
     when(commandExecutor.sendCommand(playerProperties.getCurrentSong())).thenReturn(responseList);
     when(playlistSongConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
-    when(playerProperties.getSeekId()).thenCallRealMethod();
     mpdPlayer.seek(seconds);
 
+    verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
     verify(commandExecutor)
-        .sendCommand(stringArgumentCaptor.capture(), paramArgumentCaptor.capture());
+        .sendCommand(
+            stringArgumentCaptor.capture(),
+            paramArgumentCaptor.capture(),
+            paramArgumentCaptor.capture());
 
-    assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getSeekId()))));
-    assertThat(
-        paramArgumentCaptor.getAllValues().get(0),
-        is(equalTo((Integer.toString(testSong.getId())))));
-    assertThat(paramArgumentCaptor.getAllValues().get(1), is(equalTo((Integer.toString(seconds)))));
+    assertAll(
+        () ->
+            assertThat(
+                stringArgumentCaptor.getAllValues().get(0),
+                is(equalTo((playerProperties.getCurrentSong())))),
+        () ->
+            assertThat(
+                stringArgumentCaptor.getAllValues().get(1),
+                is(equalTo((playerProperties.getSeekId())))),
+        () ->
+            assertThat(
+                paramArgumentCaptor.getAllValues().get(0),
+                is(equalTo((Integer.toString(testSong.getId()))))),
+        () ->
+            assertThat(
+                paramArgumentCaptor.getAllValues().get(1),
+                is(equalTo((Integer.toString(seconds))))));
   }
 
   @Test
@@ -158,7 +176,6 @@ class MPDPlayerTest {
     List<MPDPlaylistSong> testSongResponse = new ArrayList<>();
     testSongResponse.add(testSong);
 
-    when(playerProperties.getCurrentSong()).thenCallRealMethod();
     when(commandExecutor.sendCommand(playerProperties.getCurrentSong())).thenReturn(responseList);
     when(playlistSongConverter.convertResponseToSongs(responseList)).thenReturn(testSongResponse);
 
@@ -183,17 +200,26 @@ class MPDPlayerTest {
             .length(seconds + 1)
             .build();
 
-    when(playerProperties.getSeekId()).thenCallRealMethod();
     mpdPlayer.seekSong(testSong, seconds);
 
     verify(commandExecutor)
-        .sendCommand(stringArgumentCaptor.capture(), paramArgumentCaptor.capture());
+        .sendCommand(
+            stringArgumentCaptor.capture(),
+            paramArgumentCaptor.capture(),
+            paramArgumentCaptor.capture());
 
-    assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getSeekId()))));
-    assertThat(
-        paramArgumentCaptor.getAllValues().get(0),
-        is(equalTo((Integer.toString(testSong.getId())))));
-    assertThat(paramArgumentCaptor.getAllValues().get(1), is(equalTo((Integer.toString(seconds)))));
+    assertAll(
+        () ->
+            assertThat(
+                stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getSeekId())))),
+        () ->
+            assertThat(
+                paramArgumentCaptor.getAllValues().get(0),
+                is(equalTo((Integer.toString(testSong.getId()))))),
+        () ->
+            assertThat(
+                paramArgumentCaptor.getAllValues().get(1),
+                is(equalTo((Integer.toString(seconds))))));
   }
 
   @Test
@@ -201,7 +227,6 @@ class MPDPlayerTest {
     final PlayerChangeEvent.Event[] playerChangeEvent = {null};
     mpdPlayer.addPlayerChangeListener(event -> playerChangeEvent[0] = event.getEvent());
 
-    when(playerProperties.getPlay()).thenCallRealMethod();
     mpdPlayer.play();
 
     assertThat(playerChangeEvent[0], is(equalTo((PlayerChangeEvent.Event.PLAYER_STARTED))));
@@ -214,8 +239,6 @@ class MPDPlayerTest {
 
     MPDPlaylistSong testSong = MPDPlaylistSong.builder().file("").title("").build();
 
-    when(playerProperties.getPlay()).thenCallRealMethod();
-    when(playerProperties.getPlayId()).thenCallRealMethod();
     mpdPlayer.play();
     mpdPlayer.playSong(testSong);
 
@@ -230,12 +253,10 @@ class MPDPlayerTest {
 
     mpdPlayer.addPlayerChangeListener(playerChangeListener);
 
-    when(playerProperties.getPlay()).thenCallRealMethod();
     mpdPlayer.play();
 
     assertThat(playerChangeEvent[0], is(equalTo((PlayerChangeEvent.Event.PLAYER_STARTED))));
 
-    when(playerProperties.getStop()).thenCallRealMethod();
     mpdPlayer.stop();
     assertThat(playerChangeEvent[0], is(equalTo((PlayerChangeEvent.Event.PLAYER_STOPPED))));
 
@@ -246,7 +267,6 @@ class MPDPlayerTest {
 
   @Test
   void testStop() {
-    when(playerProperties.getStop()).thenCallRealMethod();
     mpdPlayer.stop();
     verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
     assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getStop()))));
@@ -254,7 +274,6 @@ class MPDPlayerTest {
 
   @Test
   void testPause() {
-    when(playerProperties.getPause()).thenCallRealMethod();
     mpdPlayer.pause();
     verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
     assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getPause()))));
@@ -262,7 +281,6 @@ class MPDPlayerTest {
 
   @Test
   void testPlayNext() {
-    when(playerProperties.getNext()).thenCallRealMethod();
     mpdPlayer.playNext();
     verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
     assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getNext()))));
@@ -270,7 +288,6 @@ class MPDPlayerTest {
 
   @Test
   void testPlayPrevious() {
-    when(playerProperties.getPrevious()).thenCallRealMethod();
     mpdPlayer.playPrevious();
     verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
     assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getPrevious()))));
@@ -278,7 +295,6 @@ class MPDPlayerTest {
 
   @Test
   void testMute() {
-    when(playerProperties.getSetVolume()).thenCallRealMethod();
     mpdPlayer.mute();
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
@@ -288,7 +304,6 @@ class MPDPlayerTest {
 
   @Test
   void testUnMute() {
-    when(playerProperties.getSetVolume()).thenCallRealMethod();
     mpdPlayer.setVolume(1);
     mpdPlayer.unMute();
     verify(commandExecutor, times(2))
@@ -303,7 +318,6 @@ class MPDPlayerTest {
     final VolumeChangeEvent[] volumeChangeEvent = {null};
     mpdPlayer.addVolumeChangeListener(event -> volumeChangeEvent[0] = event);
 
-    when(playerProperties.getSetVolume()).thenCallRealMethod();
     mpdPlayer.setVolume(5);
 
     assertThat(volumeChangeEvent[0].getVolume(), is(equalTo((5))));
@@ -314,7 +328,6 @@ class MPDPlayerTest {
     final VolumeChangeEvent[] volumeChangeEvent = {null};
     mpdPlayer.addVolumeChangeListener(event -> volumeChangeEvent[0] = event);
 
-    when(playerProperties.getSetVolume()).thenCallRealMethod();
     mpdPlayer.setVolume(0);
     mpdPlayer.setVolume(101);
 
@@ -329,7 +342,6 @@ class MPDPlayerTest {
 
     mpdPlayer.addVolumeChangeListener(volumeChangeListener);
 
-    when(playerProperties.getSetVolume()).thenCallRealMethod();
     mpdPlayer.setVolume(5);
 
     assertThat(volumeChangeEvent[0].getVolume(), (is(equalTo((5)))));
@@ -342,7 +354,6 @@ class MPDPlayerTest {
 
   @Test
   void testRandomizePlay() {
-    when(playerProperties.getRandom()).thenCallRealMethod();
     mpdPlayer.randomizePlay();
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -353,7 +364,6 @@ class MPDPlayerTest {
 
   @Test
   void testUnrandomizePlay() {
-    when(playerProperties.getRandom()).thenCallRealMethod();
     mpdPlayer.unRandomizePlay();
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -365,7 +375,6 @@ class MPDPlayerTest {
 
   @Test
   void testSetRandomTrue() {
-    when(playerProperties.getRandom()).thenCallRealMethod();
     mpdPlayer.setRandom(true);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -376,7 +385,6 @@ class MPDPlayerTest {
 
   @Test
   void testSetRandomFalse() {
-    when(playerProperties.getRandom()).thenCallRealMethod();
     mpdPlayer.setRandom(false);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -393,7 +401,6 @@ class MPDPlayerTest {
 
   @Test
   void testSetRepeatTrue() {
-    when(playerProperties.getRepeat()).thenCallRealMethod();
     mpdPlayer.setRepeat(true);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -404,7 +411,6 @@ class MPDPlayerTest {
 
   @Test
   void testSetRepeatFalse() {
-    when(playerProperties.getRepeat()).thenCallRealMethod();
     mpdPlayer.setRepeat(false);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -433,7 +439,6 @@ class MPDPlayerTest {
 
   @Test
   void testSetVolume() {
-    when(playerProperties.getSetVolume()).thenCallRealMethod();
     mpdPlayer.setVolume(0);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
@@ -463,7 +468,6 @@ class MPDPlayerTest {
 
   @Test
   void testSetXFade() {
-    when(playerProperties.getXFade()).thenCallRealMethod();
     mpdPlayer.setXFade(5);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
@@ -474,7 +478,6 @@ class MPDPlayerTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void testSetSingle(boolean single) {
-    when(playerProperties.getSingle()).thenCallRealMethod();
     mpdPlayer.setSingle(single);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -486,7 +489,6 @@ class MPDPlayerTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void testSetConsume(boolean consume) {
-    when(playerProperties.getConsume()).thenCallRealMethod();
     mpdPlayer.setConsume(consume);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
@@ -498,7 +500,6 @@ class MPDPlayerTest {
   @ParameterizedTest
   @ValueSource(ints = {5, -5})
   void testSetMixRampDb(int db) {
-    when(playerProperties.getMixRampDb()).thenCallRealMethod();
     mpdPlayer.setMixRampDb(db);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
@@ -510,7 +511,6 @@ class MPDPlayerTest {
   @ParameterizedTest
   @ValueSource(ints = {5, 0, -5})
   void testSetMixRampDelay(int delay) {
-    when(playerProperties.getMixRampDelay()).thenCallRealMethod();
     mpdPlayer.setMixRampDelay(delay);
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
