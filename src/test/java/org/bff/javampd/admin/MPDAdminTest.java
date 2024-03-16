@@ -3,7 +3,7 @@ package org.bff.javampd.admin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
-import org.bff.javampd.statistics.ServerStatistics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,8 +30,6 @@ class MPDAdminTest {
 
   @Mock private AdminProperties adminProperties;
 
-  @Mock private ServerStatistics serverStatistics;
-
   @Captor private ArgumentCaptor<String> commandArgumentCaptor;
 
   @Captor private ArgumentCaptor<Integer> integerParamArgumentCaptor;
@@ -49,23 +46,40 @@ class MPDAdminTest {
   }
 
   @Test
+  void getSingleOutput() {
+    when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputSingleResponse());
+
+    var output1 = new ArrayList<>(admin.getOutputs()).get(0);
+
+    assertAll(
+        () -> assertThat(output1.getName(), is(equalTo("My ALSA Device"))),
+        () -> assertThat(output1.getId(), is(equalTo(0))),
+        () -> assertFalse(output1.isEnabled()));
+  }
+
+  @Test
   void getOutputs() {
     when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
 
-    MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
-    assertThat(output.getName(), is(equalTo("My ALSA Device")));
-    assertThat(output.getId(), is(equalTo(0)));
+    var outputs = admin.getOutputs();
+    var output1 = new ArrayList<>(outputs).get(0);
+    var output2 = new ArrayList<>(outputs).get(1);
 
-    output = new ArrayList<>(admin.getOutputs()).get(1);
-    assertThat(output.getName(), is(equalTo("My ALSA Device 2")));
-    assertThat(output.getId(), is(equalTo(0)));
+    assertAll(
+        () -> assertThat(output1.getName(), is(equalTo("My ALSA Device"))),
+        () -> assertThat(output1.getId(), is(equalTo(0))),
+        () -> assertFalse(output1.isEnabled()),
+        () -> assertThat(output2.getName(), is(equalTo("My ALSA Device 2"))),
+        () -> assertThat(output2.getId(), is(equalTo(1))),
+        () -> assertTrue(output2.isEnabled()));
   }
 
   @Test
   void disableOutput() {
     when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
     when(adminProperties.getOutputDisable()).thenReturn(realAdminProperties.getOutputDisable());
 
     MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
@@ -79,7 +93,7 @@ class MPDAdminTest {
   @Test
   void enableOutput() {
     when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
     when(adminProperties.getOutputEnable()).thenReturn(realAdminProperties.getOutputEnable());
 
     MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
@@ -221,7 +235,16 @@ class MPDAdminTest {
     assertNull(eventReceived[0]);
   }
 
-  private List<String> getOutputResponse() {
+  private List<String> getOutputSingleResponse() {
+    List<String> responseList = new ArrayList<>();
+    responseList.add("outputid: 0");
+    responseList.add("outputname: My ALSA Device");
+    responseList.add("outputenabled: 0");
+
+    return responseList;
+  }
+
+  private List<String> getOutputMultipleResponse() {
     List<String> responseList = new ArrayList<>();
     responseList.add("outputid: 0");
     responseList.add("outputname: My ALSA Device");
@@ -229,7 +252,7 @@ class MPDAdminTest {
 
     responseList.add("outputid: 1");
     responseList.add("outputname: My ALSA Device 2");
-    responseList.add("outputenabled: 0");
+    responseList.add("outputenabled: 1");
 
     return responseList;
   }
