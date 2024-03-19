@@ -50,4 +50,4 @@ MPD mpd = MPD.builder()
         .build();
 ```
 
-Full documentation can be found [here](http://finnyb.github.io/javampd/7.1.0)
+Full documentation can be found [here](http://finnyb.github.io/javampd/7.2.0)
