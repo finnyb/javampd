@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDProperties.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.server</a> &gt; <span class="el_source">MPDProperties.java</span></div><h1>MPDProperties.java</h1><pre class="source lang-java linenums">package org.bff.javampd.server;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import org.bff.javampd.MPDException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * I handle loading the properties from the properties file
+ *
+ * @author bill
+ */
+public abstract class MPDProperties implements PropertyLoader {
+<span class="fc" id="L16">  private static final Logger LOGGER = LoggerFactory.getLogger(MPDProperties.class);</span>
+
+  private final Properties prop;
+
+  private static final String PROP_FILE = &quot;/mpd.properties&quot;;
+  private static final String PROP_OVERRIDE_FILE = &quot;/javampd.properties&quot;;
+
+<span class="fc" id="L23">  protected MPDProperties() {</span>
+<span class="fc" id="L24">    prop = new Properties();</span>
+<span class="fc" id="L25">    loadValues(PROP_FILE);</span>
+<span class="fc" id="L26">    loadOverrideValues();</span>
+<span class="fc" id="L27">  }</span>
+
+  @Override
+  public String getPropertyString(String property) {
+<span class="fc" id="L31">    return prop.getProperty(property);</span>
+  }
+
+  protected void loadValues(String propertiesResourceLocation) {
+<span class="fc" id="L35">    try (InputStream is = MPDProperties.class.getResourceAsStream(propertiesResourceLocation)) {</span>
+<span class="fc" id="L36">      loadProperties(is);</span>
+<span class="fc" id="L37">    } catch (NullPointerException | IOException e) {</span>
+<span class="fc" id="L38">      throw new MPDException(&quot;Could not load mpd properties&quot;, e);</span>
+<span class="fc" id="L39">    }</span>
+<span class="fc" id="L40">  }</span>
+
+  protected void loadOverrideValues() {
+<span class="fc" id="L43">    try (InputStream is =</span>
+<span class="fc" id="L44">        MPDProperties.class.getResourceAsStream(MPDProperties.PROP_OVERRIDE_FILE)) {</span>
+<span class="fc" id="L45">      loadProperties(is);</span>
+<span class="fc" id="L46">    } catch (NullPointerException | IOException e) {</span>
+<span class="fc" id="L47">      LOGGER.info(&quot;Override properties file not on classpath&quot;);</span>
+<span class="fc" id="L48">    }</span>
+<span class="fc" id="L49">  }</span>
+
+  protected void loadProperties(InputStream inputStream) throws IOException {
+<span class="fc" id="L52">    prop.load(inputStream);</span>
+<span class="fc" id="L53">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

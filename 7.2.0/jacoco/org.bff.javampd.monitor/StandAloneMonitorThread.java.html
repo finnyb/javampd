@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StandAloneMonitorThread.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.monitor</a> &gt; <span class="el_source">StandAloneMonitorThread.java</span></div><h1>StandAloneMonitorThread.java</h1><pre class="source lang-java linenums">package org.bff.javampd.monitor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.server.ServerStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class StandAloneMonitorThread implements Runnable {
+<span class="fc" id="L12">  private static final Logger LOGGER = LoggerFactory.getLogger(StandAloneMonitorThread.class);</span>
+
+  private List&lt;ThreadedMonitor&gt; monitors;
+  private ServerStatus serverStatus;
+  private ConnectionMonitor connectionMonitor;
+
+  private int delay;
+  private int exceptionDelay;
+  private boolean stopped;
+  private boolean done;
+  private boolean initialized;
+
+  /**
+   * Creates the monitor thread with the given delay seconds.
+   *
+   * @param serverStatus server status
+   * @param connectionMonitor connection monitor
+   * @param delay the number of seconds between each poll
+   * @param exceptionDelay the number of seconds to wait should an error occur
+   */
+  public StandAloneMonitorThread(
+      ServerStatus serverStatus,
+      ConnectionMonitor connectionMonitor,
+      int delay,
+<span class="fc" id="L36">      int exceptionDelay) {</span>
+<span class="fc" id="L37">    this.serverStatus = serverStatus;</span>
+<span class="fc" id="L38">    this.connectionMonitor = connectionMonitor;</span>
+<span class="fc" id="L39">    this.delay = delay;</span>
+<span class="fc" id="L40">    this.exceptionDelay = exceptionDelay;</span>
+<span class="fc" id="L41">    this.monitors = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L42">  }</span>
+
+  /**
+   * Adds the {@link ThreadedMonitor}s only if it doesnt already exist in the monitor list
+   *
+   * @param monitors the {@link ThreadedMonitor}s to add
+   */
+  public void addMonitor(ThreadedMonitor... monitors) {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    for (ThreadedMonitor monitor : monitors) {</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">      if (!this.monitors.contains(monitor)) {</span>
+<span class="fc" id="L52">        this.monitors.add(monitor);</span>
+      }
+    }
+<span class="fc" id="L55">  }</span>
+
+  /**
+   * Removes the {@link ThreadedMonitor} from the list of monitors
+   *
+   * @param monitor the {@link ThreadedMonitor} to remove
+   */
+  public synchronized void removeMonitor(ThreadedMonitor monitor) {
+<span class="fc" id="L63">    this.monitors.remove(monitor);</span>
+<span class="fc" id="L64">  }</span>
+
+  @Override
+  public void run() {
+<span class="fc" id="L68">    this.stopped = false;</span>
+<span class="fc" id="L69">    this.done = false;</span>
+<span class="fc" id="L70">    this.initialized = false;</span>
+<span class="fc" id="L71">    loadInitialStatus();</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">    while (!this.stopped) {</span>
+<span class="fc" id="L74">      monitor();</span>
+    }
+
+<span class="fc" id="L77">    resetMonitors();</span>
+<span class="fc" id="L78">    this.done = true;</span>
+<span class="fc" id="L79">  }</span>
+
+  private void monitor() {
+    List&lt;String&gt; response;
+    try {
+<span class="fc" id="L84">      synchronized (this) {</span>
+<span class="fc" id="L85">        response = new ArrayList&lt;&gt;(serverStatus.getStatus());</span>
+<span class="fc" id="L86">        processResponse(response);</span>
+<span class="fc" id="L87">        monitors.forEach(ThreadedMonitor::checkStatus);</span>
+<span class="fc" id="L88">      }</span>
+<span class="fc" id="L89">      TimeUnit.SECONDS.sleep(delay);</span>
+<span class="fc" id="L90">    } catch (InterruptedException ie) {</span>
+<span class="fc" id="L91">      LOGGER.error(&quot;StandAloneMonitor interrupted&quot;, ie);</span>
+<span class="fc" id="L92">      setStopped(true);</span>
+<span class="fc" id="L93">      Thread.currentThread().interrupt();</span>
+<span class="fc" id="L94">    } catch (MPDException mpdException) {</span>
+<span class="fc" id="L95">      LOGGER.error(&quot;Error while checking statuses&quot;, mpdException);</span>
+<span class="fc" id="L96">      var retry = true;</span>
+
+<span class="fc bfc" id="L98" title="All 2 branches covered.">      while (retry) {</span>
+<span class="fc" id="L99">        retry = retry();</span>
+      }
+<span class="fc" id="L101">    }</span>
+<span class="fc" id="L102">  }</span>
+
+  private boolean retry() {
+    try {
+<span class="fc" id="L106">      TimeUnit.SECONDS.sleep(this.exceptionDelay);</span>
+<span class="fc" id="L107">    } catch (InterruptedException ex) {</span>
+<span class="fc" id="L108">      LOGGER.error(&quot;StandAloneMonitor interrupted&quot;, ex);</span>
+<span class="fc" id="L109">      setStopped(true);</span>
+<span class="fc" id="L110">      Thread.currentThread().interrupt();</span>
+<span class="fc" id="L111">      return false;</span>
+<span class="fc" id="L112">    }</span>
+
+    try {
+<span class="fc" id="L115">      connectionMonitor.checkStatus();</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">      return !connectionMonitor.isConnected();</span>
+<span class="fc" id="L117">    } catch (MPDException e) {</span>
+<span class="fc" id="L118">      throw new MPDException(&quot;Error checking connection status.&quot;, e);</span>
+    }
+  }
+
+  private void resetMonitors() {
+<span class="fc" id="L123">    this.monitors.forEach(ThreadedMonitor::reset);</span>
+<span class="fc" id="L124">  }</span>
+
+  private void processResponse(List&lt;String&gt; response) {
+<span class="fc" id="L127">    response.forEach(this::processResponseStatus);</span>
+<span class="fc" id="L128">  }</span>
+
+  private void processResponseStatus(String line) {
+<span class="fc bfc" id="L131" title="All 2 branches covered.">    for (ThreadedMonitor monitor : monitors) {</span>
+<span class="fc" id="L132">      monitor.processResponseLine(line);</span>
+<span class="fc" id="L133">    }</span>
+<span class="fc" id="L134">  }</span>
+
+  private void loadInitialStatus() {
+    try {
+      // initial load so no events fired
+<span class="fc" id="L139">      List&lt;String&gt; response = new ArrayList&lt;&gt;(serverStatus.getStatus());</span>
+<span class="fc" id="L140">      processResponse(response);</span>
+<span class="fc" id="L141">      this.initialized = true;</span>
+<span class="fc" id="L142">    } catch (MPDException ex) {</span>
+<span class="fc" id="L143">      throw new MPDException(&quot;Problem with initialization&quot;, ex);</span>
+<span class="fc" id="L144">    }</span>
+<span class="fc" id="L145">  }</span>
+
+  public boolean isInitialized() {
+<span class="fc" id="L148">    return this.initialized;</span>
+  }
+
+  public boolean isDone() {
+<span class="fc" id="L152">    return this.done;</span>
+  }
+
+  public void setStopped(boolean stopped) {
+<span class="fc" id="L156">    this.stopped = stopped;</span>
+<span class="fc" id="L157">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

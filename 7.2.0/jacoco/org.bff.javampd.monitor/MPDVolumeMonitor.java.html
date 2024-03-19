@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDVolumeMonitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.monitor</a> &gt; <span class="el_source">MPDVolumeMonitor.java</span></div><h1>MPDVolumeMonitor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.monitor;
+
+import com.google.inject.Singleton;
+import org.bff.javampd.player.VolumeChangeDelegate;
+import org.bff.javampd.player.VolumeChangeListener;
+import org.bff.javampd.server.Status;
+
+@Singleton
+public class MPDVolumeMonitor implements VolumeMonitor {
+  private int newVolume;
+  private int oldVolume;
+  private VolumeChangeDelegate volumeChangeDelegate;
+
+<span class="fc" id="L14">  MPDVolumeMonitor() {</span>
+<span class="fc" id="L15">    this.volumeChangeDelegate = new VolumeChangeDelegate();</span>
+<span class="fc" id="L16">  }</span>
+
+  @Override
+  public void processResponseStatus(String line) {
+<span class="fc bfc" id="L20" title="All 2 branches covered.">    if (Status.lookup(line) == Status.VOLUME) {</span>
+<span class="fc" id="L21">      newVolume = Integer.parseInt(line.substring(Status.VOLUME.getStatusPrefix().length()).trim());</span>
+    }
+<span class="fc" id="L23">  }</span>
+
+  @Override
+  public void reset() {
+<span class="fc" id="L27">    newVolume = 0;</span>
+<span class="fc" id="L28">    oldVolume = 0;</span>
+<span class="fc" id="L29">  }</span>
+
+  @Override
+  public void checkStatus() {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">    if (oldVolume != newVolume) {</span>
+<span class="fc" id="L34">      fireVolumeChangeEvent(newVolume);</span>
+<span class="fc" id="L35">      oldVolume = newVolume;</span>
+    }
+<span class="fc" id="L37">  }</span>
+
+  @Override
+  public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
+<span class="fc" id="L41">    volumeChangeDelegate.addVolumeChangeListener(vcl);</span>
+<span class="fc" id="L42">  }</span>
+
+  @Override
+  public synchronized void removeVolumeChangeListener(VolumeChangeListener vcl) {
+<span class="fc" id="L46">    volumeChangeDelegate.removeVolumeChangedListener(vcl);</span>
+<span class="fc" id="L47">  }</span>
+
+  /**
+   * Sends the appropriate {@link org.bff.javampd.player.VolumeChangeEvent} to all registered {@link
+   * VolumeChangeListener}.
+   *
+   * @param volume the new volume
+   */
+  protected synchronized void fireVolumeChangeEvent(int volume) {
+<span class="fc" id="L56">    volumeChangeDelegate.fireVolumeChangeEvent(this, volume);</span>
+<span class="fc" id="L57">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

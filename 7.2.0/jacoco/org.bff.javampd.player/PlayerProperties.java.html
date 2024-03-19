@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerProperties.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.player</a> &gt; <span class="el_source">PlayerProperties.java</span></div><h1>PlayerProperties.java</h1><pre class="source lang-java linenums">package org.bff.javampd.player;
+
+import org.bff.javampd.server.MPDProperties;
+
+<span class="fc" id="L5">public class PlayerProperties extends MPDProperties {</span>
+
+<span class="fc" id="L7">  private enum Command {</span>
+<span class="fc" id="L8">    XFADE(&quot;player.crossfade&quot;),</span>
+<span class="fc" id="L9">    CURRSONG(&quot;player.currentsong&quot;),</span>
+<span class="fc" id="L10">    NEXT(&quot;player.next&quot;),</span>
+<span class="fc" id="L11">    PAUSE(&quot;player.pause&quot;),</span>
+<span class="fc" id="L12">    PLAY(&quot;player.play&quot;),</span>
+<span class="fc" id="L13">    PLAYID(&quot;player.play.id&quot;),</span>
+<span class="fc" id="L14">    PREV(&quot;player.prev&quot;),</span>
+<span class="fc" id="L15">    REPEAT(&quot;player.repeat&quot;),</span>
+<span class="fc" id="L16">    RANDOM(&quot;player.random&quot;),</span>
+<span class="fc" id="L17">    SEEK(&quot;player.seek&quot;),</span>
+<span class="fc" id="L18">    SEEKID(&quot;player.seek.id&quot;),</span>
+<span class="fc" id="L19">    STOP(&quot;player.stop&quot;),</span>
+<span class="fc" id="L20">    CONSUME(&quot;player.consume&quot;),</span>
+<span class="fc" id="L21">    SINGLE(&quot;player.single&quot;),</span>
+<span class="fc" id="L22">    SETVOL(&quot;player.set.volume&quot;),</span>
+<span class="fc" id="L23">    MIX_RAMP_DB(&quot;player.mixrampdb&quot;),</span>
+<span class="fc" id="L24">    MIX_RAMP_DELAY(&quot;player.mixrampdelay&quot;);</span>
+
+    private final String key;
+
+<span class="fc" id="L28">    Command(String key) {</span>
+<span class="fc" id="L29">      this.key = key;</span>
+<span class="fc" id="L30">    }</span>
+
+    public String getKey() {
+<span class="fc" id="L33">      return key;</span>
+    }
+  }
+
+  public String getXFade() {
+<span class="fc" id="L38">    return getPropertyString(Command.XFADE.getKey());</span>
+  }
+
+  public String getCurrentSong() {
+<span class="fc" id="L42">    return getPropertyString(Command.CURRSONG.getKey());</span>
+  }
+
+  public String getNext() {
+<span class="fc" id="L46">    return getPropertyString(Command.NEXT.getKey());</span>
+  }
+
+  public String getPause() {
+<span class="fc" id="L50">    return getPropertyString(Command.PAUSE.getKey());</span>
+  }
+
+  public String getPlay() {
+<span class="fc" id="L54">    return getPropertyString(Command.PLAY.getKey());</span>
+  }
+
+  public String getPlayId() {
+<span class="fc" id="L58">    return getPropertyString(Command.PLAYID.getKey());</span>
+  }
+
+  public String getPrevious() {
+<span class="fc" id="L62">    return getPropertyString(Command.PREV.getKey());</span>
+  }
+
+  public String getRepeat() {
+<span class="fc" id="L66">    return getPropertyString(Command.REPEAT.getKey());</span>
+  }
+
+  public String getRandom() {
+<span class="fc" id="L70">    return getPropertyString(Command.RANDOM.getKey());</span>
+  }
+
+  public String getSeek() {
+<span class="fc" id="L74">    return getPropertyString(Command.SEEK.getKey());</span>
+  }
+
+  public String getSeekId() {
+<span class="fc" id="L78">    return getPropertyString(Command.SEEKID.getKey());</span>
+  }
+
+  public String getStop() {
+<span class="fc" id="L82">    return getPropertyString(Command.STOP.getKey());</span>
+  }
+
+  public String getSetVolume() {
+<span class="fc" id="L86">    return getPropertyString(Command.SETVOL.getKey());</span>
+  }
+
+  public String getConsume() {
+<span class="fc" id="L90">    return getPropertyString(Command.CONSUME.getKey());</span>
+  }
+
+  public String getSingle() {
+<span class="fc" id="L94">    return getPropertyString(Command.SINGLE.getKey());</span>
+  }
+
+  public String getMixRampDelay() {
+<span class="fc" id="L98">    return getPropertyString(Command.MIX_RAMP_DELAY.getKey());</span>
+  }
+
+  public String getMixRampDb() {
+<span class="fc" id="L102">    return getPropertyString(Command.MIX_RAMP_DB.getKey());</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServerProperties.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.server</a> &gt; <span class="el_source">ServerProperties.java</span></div><h1>ServerProperties.java</h1><pre class="source lang-java linenums">package org.bff.javampd.server;
+
+/**
+ * @author bill
+ */
+<span class="fc" id="L6">public class ServerProperties extends MPDProperties {</span>
+
+<span class="fc" id="L8">  private enum Command {</span>
+<span class="fc" id="L9">    SERVERENCODING(&quot;server.encoding&quot;),</span>
+<span class="fc" id="L10">    CLEARERROR(&quot;cmd.clear.error&quot;),</span>
+<span class="fc" id="L11">    CLOSE(&quot;cmd.close&quot;),</span>
+<span class="fc" id="L12">    KILL(&quot;cmd.kill&quot;),</span>
+<span class="fc" id="L13">    STATUS(&quot;cmd.status&quot;),</span>
+<span class="fc" id="L14">    STATS(&quot;cmd.statistics&quot;),</span>
+<span class="fc" id="L15">    STARTBULK(&quot;cmd.start.bulk&quot;),</span>
+<span class="fc" id="L16">    ENDBULK(&quot;cmd.end.bulk&quot;),</span>
+<span class="fc" id="L17">    PASSWORD(&quot;cmd.password&quot;),</span>
+<span class="fc" id="L18">    PING(&quot;cmd.ping&quot;);</span>
+
+    private final String key;
+
+<span class="fc" id="L22">    Command(String key) {</span>
+<span class="fc" id="L23">      this.key = key;</span>
+<span class="fc" id="L24">    }</span>
+
+    public String getKey() {
+<span class="fc" id="L27">      return key;</span>
+    }
+  }
+
+  public String getClearError() {
+<span class="fc" id="L32">    return getResponseCommand(Command.CLEARERROR);</span>
+  }
+
+  public String getStatus() {
+<span class="fc" id="L36">    return getResponseCommand(Command.STATUS);</span>
+  }
+
+  public String getStats() {
+<span class="fc" id="L40">    return getResponseCommand(Command.STATS);</span>
+  }
+
+  public String getPing() {
+<span class="fc" id="L44">    return getResponseCommand(Command.PING);</span>
+  }
+
+  public String getPassword() {
+<span class="fc" id="L48">    return getResponseCommand(Command.PASSWORD);</span>
+  }
+
+  public String getClose() {
+<span class="fc" id="L52">    return getResponseCommand(Command.CLOSE);</span>
+  }
+
+  public String getStartBulk() {
+<span class="fc" id="L56">    return getResponseCommand(Command.STARTBULK);</span>
+  }
+
+  public String getEndBulk() {
+<span class="fc" id="L60">    return getResponseCommand(Command.ENDBULK);</span>
+  }
+
+  private String getResponseCommand(Command command) {
+<span class="fc" id="L64">    return getPropertyString(command.getKey());</span>
+  }
+
+  public String getEncoding() {
+<span class="fc" id="L68">    return getResponseCommand(Command.SERVERENCODING);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

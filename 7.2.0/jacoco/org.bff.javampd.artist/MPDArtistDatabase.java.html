@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDArtistDatabase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.artist</a> &gt; <span class="el_source">MPDArtistDatabase.java</span></div><h1>MPDArtistDatabase.java</h1><pre class="source lang-java linenums">package org.bff.javampd.artist;
+
+import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.bff.javampd.database.TagLister;
+import org.bff.javampd.genre.MPDGenre;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * MPDArtistDatabase represents a artist database controller to a {@link
+ * org.bff.javampd.server.MPD}. To obtain an instance of the class you must use the {@link
+ * org.bff.javampd.database.MusicDatabase#getArtistDatabase} method from the {@link
+ * org.bff.javampd.server.MPD} connection class.
+ *
+ * @author Bill
+ */
+public class MPDArtistDatabase implements ArtistDatabase {
+<span class="fc" id="L22">  private static final Logger LOGGER = LoggerFactory.getLogger(MPDArtistDatabase.class);</span>
+
+  private final TagLister tagLister;
+
+  @Inject
+<span class="fc" id="L27">  public MPDArtistDatabase(TagLister tagLister) {</span>
+<span class="fc" id="L28">    this.tagLister = tagLister;</span>
+<span class="fc" id="L29">  }</span>
+
+  @Override
+  public Collection&lt;MPDArtist&gt; listAllArtists() {
+<span class="fc" id="L33">    return tagLister.list(TagLister.ListType.ARTIST).stream()</span>
+<span class="fc" id="L34">        .map(s -&gt; new MPDArtist(convertResponse(s)))</span>
+<span class="fc" id="L35">        .collect(Collectors.toList());</span>
+  }
+
+  @Override
+  public Collection&lt;MPDArtist&gt; listAllAlbumArtists() {
+<span class="fc" id="L40">    return tagLister.list(TagLister.ListType.ALBUM_ARTIST).stream()</span>
+<span class="fc" id="L41">        .map(s -&gt; new MPDArtist(convertResponse(s)))</span>
+<span class="fc" id="L42">        .collect(Collectors.toList());</span>
+  }
+
+  @Override
+  public Collection&lt;MPDArtist&gt; listArtistsByGenre(MPDGenre genre) {
+<span class="fc" id="L47">    List&lt;String&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L48">    list.add(TagLister.ListType.GENRE.getType());</span>
+<span class="fc" id="L49">    list.add(genre.getName());</span>
+
+<span class="fc" id="L51">    return tagLister.list(TagLister.ListType.ARTIST, list).stream()</span>
+<span class="fc" id="L52">        .map(s -&gt; new MPDArtist(convertResponse(s)))</span>
+<span class="fc" id="L53">        .collect(Collectors.toList());</span>
+  }
+
+  @Override
+  public MPDArtist listArtistByName(String name) {
+
+<span class="fc" id="L59">    List&lt;String&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L60">    list.add(TagLister.ListType.ARTIST.getType());</span>
+<span class="fc" id="L61">    list.add(name);</span>
+
+<span class="fc" id="L63">    MPDArtist artist = null;</span>
+<span class="fc" id="L64">    List&lt;MPDArtist&gt; artists =</span>
+<span class="fc" id="L65">        tagLister.list(TagLister.ListType.ARTIST, list).stream()</span>
+<span class="fc" id="L66">            .map(s -&gt; new MPDArtist(convertResponse(s)))</span>
+<span class="fc" id="L67">            .collect(Collectors.toList());</span>
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">    if (artists.size() &gt; 1) {</span>
+<span class="fc" id="L70">      LOGGER.warn(&quot;Multiple artists returned for name {}&quot;, name);</span>
+    }
+
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">    if (!artists.isEmpty()) {</span>
+<span class="fc" id="L74">      artist = artists.get(0);</span>
+    }
+
+<span class="fc" id="L77">    return artist;</span>
+  }
+
+  private static String convertResponse(String s) {
+<span class="fc" id="L81">    return s.substring(s.split(&quot;:&quot;)[0].length() + 1).trim();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

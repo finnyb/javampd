@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AlbumProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.album</a> &gt; <span class="el_source">AlbumProcessor.java</span></div><h1>AlbumProcessor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.album;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.bff.javampd.processor.*;
+
+<span class="fc" id="L7">public enum AlbumProcessor {</span>
+<span class="fc" id="L8">  ALBUM_ARTIST(new AlbumArtistTagProcessor()),</span>
+<span class="fc" id="L9">  ARTIST(new ArtistTagProcessor()),</span>
+<span class="fc" id="L10">  DATE(new DateTagProcessor()),</span>
+<span class="fc" id="L11">  ALBUM(new AlbumTagProcessor()),</span>
+<span class="fc" id="L12">  GENRE(new GenreTagProcessor());</span>
+
+  private final transient TagResponseProcessor albumTagResponseProcessor;
+<span class="fc" id="L15">  private static final Map&lt;String, AlbumProcessor&gt; lookup = new HashMap&lt;&gt;();</span>
+
+  static {
+<span class="fc bfc" id="L18" title="All 2 branches covered.">    for (AlbumProcessor a : AlbumProcessor.values()) {</span>
+<span class="fc" id="L19">      lookup.put(a.getProcessor().getPrefix().toLowerCase(), a);</span>
+    }
+<span class="fc" id="L21">  }</span>
+
+<span class="fc" id="L23">  AlbumProcessor(TagResponseProcessor albumTagResponseProcessor) {</span>
+<span class="fc" id="L24">    this.albumTagResponseProcessor = albumTagResponseProcessor;</span>
+<span class="fc" id="L25">  }</span>
+
+  public static AlbumProcessor lookup(String line) {
+<span class="fc" id="L28">    return lookup.get(line.substring(0, line.indexOf(&quot;:&quot;) + 1).toLowerCase());</span>
+  }
+
+  public TagResponseProcessor getProcessor() {
+<span class="fc" id="L32">    return this.albumTagResponseProcessor;</span>
+  }
+
+  /**
+   * Returns the line prefix that delimits songs in the response list
+   *
+   * @return the prefix that breaks songs in the list
+   */
+  public static String getDelimitingPrefix() {
+<span class="fc" id="L41">    return ALBUM.getProcessor().getPrefix();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

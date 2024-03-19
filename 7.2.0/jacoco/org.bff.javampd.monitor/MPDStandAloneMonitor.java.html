@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDStandAloneMonitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.monitor</a> &gt; <span class="el_source">MPDStandAloneMonitor.java</span></div><h1>MPDStandAloneMonitor.java</h1><pre class="source lang-java linenums">package org.bff.javampd.monitor;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import java.util.concurrent.Executors;
+import org.bff.javampd.output.OutputChangeListener;
+import org.bff.javampd.player.*;
+import org.bff.javampd.playlist.PlaylistBasicChangeListener;
+import org.bff.javampd.server.ConnectionChangeListener;
+import org.bff.javampd.server.ErrorListener;
+import org.bff.javampd.server.ServerStatus;
+
+/**
+ * MPDStandAloneMonitor monitors a MPD connection by querying the status and statistics of the MPD
+ * server at given getDelay intervals. As statistics change appropriate events are fired indicating
+ * these changes. If more detailed events are desired attach listeners to the different controllers
+ * of a connection.
+ *
+ * @author Bill
+ * @version 1.0
+ */
+@Singleton
+public class MPDStandAloneMonitor implements StandAloneMonitor, PlayerBasicChangeListener {
+
+  private StandAloneMonitorThread standAloneMonitorThread;
+
+  private OutputMonitor outputMonitor;
+  private ErrorMonitor errorMonitor;
+  private ConnectionMonitor connectionMonitor;
+  private PlayerMonitor playerMonitor;
+  private TrackMonitor trackMonitor;
+  private PlaylistMonitor playlistMonitor;
+
+  private MonitorProperties monitorProperties;
+
+  @Inject
+  MPDStandAloneMonitor(
+      ServerStatus serverStatus,
+      OutputMonitor outputMonitor,
+      TrackMonitor trackMonitor,
+      ConnectionMonitor connectionMonitor,
+      PlayerMonitor playerMonitor,
+      PlaylistMonitor playlistMonitor,
+<span class="fc" id="L44">      ErrorMonitor errorMonitor) {</span>
+<span class="fc" id="L45">    this.monitorProperties = new MonitorProperties();</span>
+<span class="fc" id="L46">    this.outputMonitor = outputMonitor;</span>
+<span class="fc" id="L47">    this.trackMonitor = trackMonitor;</span>
+<span class="fc" id="L48">    this.connectionMonitor = connectionMonitor;</span>
+<span class="fc" id="L49">    this.playerMonitor = playerMonitor;</span>
+<span class="fc" id="L50">    this.playlistMonitor = playlistMonitor;</span>
+<span class="fc" id="L51">    this.errorMonitor = errorMonitor;</span>
+
+<span class="fc" id="L53">    this.standAloneMonitorThread =</span>
+        new StandAloneMonitorThread(
+            serverStatus,
+            connectionMonitor,
+<span class="fc" id="L57">            monitorProperties.getMonitorDelay(),</span>
+<span class="fc" id="L58">            monitorProperties.getExceptionDelay());</span>
+<span class="fc" id="L59">    createMonitors();</span>
+<span class="fc" id="L60">  }</span>
+
+  private void createMonitors() {
+<span class="fc" id="L63">    standAloneMonitorThread.addMonitor(</span>
+<span class="fc" id="L64">        new ThreadedMonitor(trackMonitor, monitorProperties.getTrackDelay()),</span>
+<span class="fc" id="L65">        new ThreadedMonitor(playerMonitor, monitorProperties.getPlayerDelay()),</span>
+<span class="fc" id="L66">        new ThreadedMonitor(errorMonitor, monitorProperties.getErrorDelay()),</span>
+<span class="fc" id="L67">        new ThreadedMonitor(playlistMonitor, monitorProperties.getPlaylistDelay()),</span>
+<span class="fc" id="L68">        new ThreadedMonitor(connectionMonitor, monitorProperties.getConnectionDelay()),</span>
+<span class="fc" id="L69">        new ThreadedMonitor(outputMonitor, monitorProperties.getOutputDelay()));</span>
+<span class="fc" id="L70">  }</span>
+
+  /**
+   * Adds a {@link org.bff.javampd.player.TrackPositionChangeListener} to this object to receive
+   * {@link org.bff.javampd.player.TrackPositionChangeEvent}s.
+   *
+   * @param tpcl the TrackPositionChangeListener to add
+   */
+  @Override
+  public synchronized void addTrackPositionChangeListener(TrackPositionChangeListener tpcl) {
+<span class="fc" id="L80">    trackMonitor.addTrackPositionChangeListener(tpcl);</span>
+<span class="fc" id="L81">  }</span>
+
+  /**
+   * Removes a {@link TrackPositionChangeListener} from this object.
+   *
+   * @param tpcl the TrackPositionChangeListener to remove
+   */
+  @Override
+  public synchronized void removeTrackPositionChangeListener(TrackPositionChangeListener tpcl) {
+<span class="fc" id="L90">    trackMonitor.removeTrackPositionChangeListener(tpcl);</span>
+<span class="fc" id="L91">  }</span>
+
+  /**
+   * Adds a {@link org.bff.javampd.server.ConnectionChangeListener} to this object to receive {@link
+   * org.bff.javampd.server.ConnectionChangeEvent}s.
+   *
+   * @param ccl the ConnectionChangeListener to add
+   */
+  @Override
+  public synchronized void addConnectionChangeListener(ConnectionChangeListener ccl) {
+<span class="fc" id="L101">    connectionMonitor.addConnectionChangeListener(ccl);</span>
+<span class="fc" id="L102">  }</span>
+
+  /**
+   * Removes a {@link ConnectionChangeListener} from this object.
+   *
+   * @param ccl the ConnectionChangeListener to remove
+   */
+  @Override
+  public synchronized void removeConnectionChangeListener(ConnectionChangeListener ccl) {
+<span class="fc" id="L111">    connectionMonitor.removeConnectionChangeListener(ccl);</span>
+<span class="fc" id="L112">  }</span>
+
+  @Override
+  public synchronized void addPlayerChangeListener(PlayerBasicChangeListener pcl) {
+<span class="fc" id="L116">    playerMonitor.addPlayerChangeListener(pcl);</span>
+<span class="fc" id="L117">  }</span>
+
+  @Override
+  public synchronized void removePlayerChangeListener(PlayerBasicChangeListener pcl) {
+<span class="fc" id="L121">    playerMonitor.removePlayerChangeListener(pcl);</span>
+<span class="fc" id="L122">  }</span>
+
+  @Override
+  public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
+<span class="fc" id="L126">    playerMonitor.addVolumeChangeListener(vcl);</span>
+<span class="fc" id="L127">  }</span>
+
+  @Override
+  public synchronized void removeVolumeChangeListener(VolumeChangeListener vcl) {
+<span class="fc" id="L131">    playerMonitor.removeVolumeChangeListener(vcl);</span>
+<span class="fc" id="L132">  }</span>
+
+  @Override
+  public synchronized void addBitrateChangeListener(BitrateChangeListener bcl) {
+<span class="fc" id="L136">    playerMonitor.addBitrateChangeListener(bcl);</span>
+<span class="fc" id="L137">  }</span>
+
+  @Override
+  public synchronized void removeBitrateChangeListener(BitrateChangeListener bcl) {
+<span class="fc" id="L141">    playerMonitor.removeBitrateChangeListener(bcl);</span>
+<span class="fc" id="L142">  }</span>
+
+  @Override
+  public synchronized void addOutputChangeListener(OutputChangeListener vcl) {
+<span class="fc" id="L146">    outputMonitor.addOutputChangeListener(vcl);</span>
+<span class="fc" id="L147">  }</span>
+
+  @Override
+  public synchronized void removeOutputChangeListener(OutputChangeListener vcl) {
+<span class="fc" id="L151">    outputMonitor.removeOutputChangeListener(vcl);</span>
+<span class="fc" id="L152">  }</span>
+
+  @Override
+  public synchronized void addPlaylistChangeListener(PlaylistBasicChangeListener pcl) {
+<span class="fc" id="L156">    playlistMonitor.addPlaylistChangeListener(pcl);</span>
+<span class="fc" id="L157">  }</span>
+
+  @Override
+  public synchronized void removePlaylistChangeListener(PlaylistBasicChangeListener pcl) {
+<span class="fc" id="L161">    playlistMonitor.removePlaylistChangeListener(pcl);</span>
+<span class="fc" id="L162">  }</span>
+
+  @Override
+  public synchronized void addErrorListener(ErrorListener el) {
+<span class="fc" id="L166">    errorMonitor.addErrorListener(el);</span>
+<span class="fc" id="L167">  }</span>
+
+  @Override
+  public synchronized void removeErrorListener(ErrorListener el) {
+<span class="fc" id="L171">    errorMonitor.removeErrorListener(el);</span>
+<span class="fc" id="L172">  }</span>
+
+  @Override
+  public void start() {
+<span class="fc" id="L176">    Executors.newSingleThreadExecutor().execute(this.standAloneMonitorThread);</span>
+<span class="fc" id="L177">  }</span>
+
+  @Override
+  public void stop() {
+<span class="fc" id="L181">    this.standAloneMonitorThread.setStopped(true);</span>
+<span class="fc" id="L182">  }</span>
+
+  @Override
+  public boolean isDone() {
+<span class="fc" id="L186">    return this.standAloneMonitorThread.isDone();</span>
+  }
+
+  @Override
+  public boolean isLoaded() {
+<span class="fc" id="L191">    return this.standAloneMonitorThread.isInitialized();</span>
+  }
+
+  @Override
+  public void playerBasicChange(PlayerBasicChangeEvent event) {
+<span class="fc bfc" id="L196" title="All 2 branches covered.">    if (event.getStatus() == PlayerBasicChangeEvent.Status.PLAYER_STOPPED) {</span>
+<span class="fc" id="L197">      processStoppedStatus();</span>
+    }
+<span class="fc" id="L199">  }</span>
+
+  private void processStoppedStatus() {
+<span class="fc" id="L202">    trackMonitor.resetElapsedTime();</span>
+<span class="fc" id="L203">    playlistMonitor.playerStopped();</span>
+<span class="fc" id="L204">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

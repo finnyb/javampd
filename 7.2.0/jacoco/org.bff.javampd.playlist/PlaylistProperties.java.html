@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlaylistProperties.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.playlist</a> &gt; <span class="el_source">PlaylistProperties.java</span></div><h1>PlaylistProperties.java</h1><pre class="source lang-java linenums">package org.bff.javampd.playlist;
+
+import org.bff.javampd.server.MPDProperties;
+
+/**
+ * @author bill
+ */
+<span class="fc" id="L8">public class PlaylistProperties extends MPDProperties {</span>
+
+<span class="fc" id="L10">  private enum Command {</span>
+<span class="fc" id="L11">    ADD(&quot;playlist.add&quot;),</span>
+<span class="fc" id="L12">    CLEAR(&quot;playlist.clear&quot;),</span>
+<span class="fc" id="L13">    CURRSONG(&quot;playlist.currsong&quot;),</span>
+<span class="fc" id="L14">    DELETE(&quot;playlist.delete&quot;),</span>
+<span class="fc" id="L15">    CHANGES(&quot;playlist.changes&quot;),</span>
+<span class="fc" id="L16">    ID(&quot;playlist.list.id&quot;),</span>
+<span class="fc" id="L17">    INFO(&quot;playlist.list&quot;),</span>
+<span class="fc" id="L18">    LOAD(&quot;playlist.load&quot;),</span>
+<span class="fc" id="L19">    MOVE(&quot;playlist.move&quot;),</span>
+<span class="fc" id="L20">    MOVEID(&quot;playlist.move.id&quot;),</span>
+<span class="fc" id="L21">    REMOVE(&quot;playlist.remove&quot;),</span>
+<span class="fc" id="L22">    REMOVEID(&quot;playlist.remove.id&quot;),</span>
+<span class="fc" id="L23">    SAVE(&quot;playlist.save&quot;),</span>
+<span class="fc" id="L24">    SHUFFLE(&quot;playlist.shuffle&quot;),</span>
+<span class="fc" id="L25">    SWAP(&quot;playlist.swap&quot;),</span>
+<span class="fc" id="L26">    SWAPID(&quot;playlist.swap.id&quot;);</span>
+
+    private final String key;
+
+<span class="fc" id="L30">    Command(String key) {</span>
+<span class="fc" id="L31">      this.key = key;</span>
+<span class="fc" id="L32">    }</span>
+
+    public String getKey() {
+<span class="fc" id="L35">      return key;</span>
+    }
+  }
+
+  public String getAdd() {
+<span class="fc" id="L40">    return getPropertyString(Command.ADD.getKey());</span>
+  }
+
+  public String getClear() {
+<span class="fc" id="L44">    return getPropertyString(Command.CLEAR.getKey());</span>
+  }
+
+  public String getCurrentSong() {
+<span class="fc" id="L48">    return getPropertyString(Command.CURRSONG.getKey());</span>
+  }
+
+  public String getDelete() {
+<span class="fc" id="L52">    return getPropertyString(Command.DELETE.getKey());</span>
+  }
+
+  public String getChanges() {
+<span class="fc" id="L56">    return getPropertyString(Command.CHANGES.getKey());</span>
+  }
+
+  public String getId() {
+<span class="fc" id="L60">    return getPropertyString(Command.ID.getKey());</span>
+  }
+
+  public String getInfo() {
+<span class="fc" id="L64">    return getPropertyString(Command.INFO.getKey());</span>
+  }
+
+  public String getLoad() {
+<span class="fc" id="L68">    return getPropertyString(Command.LOAD.getKey());</span>
+  }
+
+  public String getMove() {
+<span class="fc" id="L72">    return getPropertyString(Command.MOVE.getKey());</span>
+  }
+
+  public String getMoveId() {
+<span class="fc" id="L76">    return getPropertyString(Command.MOVEID.getKey());</span>
+  }
+
+  public String getRemove() {
+<span class="fc" id="L80">    return getPropertyString(Command.REMOVE.getKey());</span>
+  }
+
+  public String getRemoveId() {
+<span class="fc" id="L84">    return getPropertyString(Command.REMOVEID.getKey());</span>
+  }
+
+  public String getSave() {
+<span class="fc" id="L88">    return getPropertyString(Command.SAVE.getKey());</span>
+  }
+
+  public String getShuffle() {
+<span class="fc" id="L92">    return getPropertyString(Command.SHUFFLE.getKey());</span>
+  }
+
+  public String getSwap() {
+<span class="fc" id="L96">    return getPropertyString(Command.SWAP.getKey());</span>
+  }
+
+  public String getSwapId() {
+<span class="fc" id="L100">    return getPropertyString(Command.SWAPID.getKey());</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

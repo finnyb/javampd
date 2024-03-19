@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VolumeChangeDelegate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.player</a> &gt; <span class="el_source">VolumeChangeDelegate.java</span></div><h1>VolumeChangeDelegate.java</h1><pre class="source lang-java linenums">package org.bff.javampd.player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Handles volume change eventing.
+ *
+ * @author bill
+ */
+public class VolumeChangeDelegate {
+  private List&lt;VolumeChangeListener&gt; volListeners;
+
+<span class="fc" id="L14">  public VolumeChangeDelegate() {</span>
+<span class="fc" id="L15">    volListeners = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L16">  }</span>
+
+  public synchronized void addVolumeChangeListener(VolumeChangeListener vcl) {
+<span class="fc" id="L19">    volListeners.add(vcl);</span>
+<span class="fc" id="L20">  }</span>
+
+  public synchronized void removeVolumeChangedListener(VolumeChangeListener vcl) {
+<span class="fc" id="L23">    volListeners.remove(vcl);</span>
+<span class="fc" id="L24">  }</span>
+
+  /**
+   * Sends the appropriate {@link VolumeChangeEvent} to all registered {@link VolumeChangeListener}.
+   *
+   * @param source source of event
+   * @param volume the new volume
+   */
+  public synchronized void fireVolumeChangeEvent(Object source, int volume) {
+<span class="fc" id="L33">    var vce = new VolumeChangeEvent(source, volume);</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    for (VolumeChangeListener vcl : volListeners) {</span>
+<span class="fc" id="L36">      vcl.volumeChanged(vce);</span>
+<span class="fc" id="L37">    }</span>
+<span class="fc" id="L38">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

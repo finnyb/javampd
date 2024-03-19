@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDPlaylistDatabase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.playlist</a> &gt; <span class="el_source">MPDPlaylistDatabase.java</span></div><h1>MPDPlaylistDatabase.java</h1><pre class="source lang-java linenums">package org.bff.javampd.playlist;
+
+import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.database.DatabaseProperties;
+import org.bff.javampd.database.MusicDatabase;
+import org.bff.javampd.database.TagLister;
+import org.bff.javampd.server.MPD;
+import org.bff.javampd.song.MPDSong;
+import org.bff.javampd.song.SongConverter;
+import org.bff.javampd.song.SongDatabase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * MPDPlaylistDatabase represents a playlist database to a {@link MPD}. To obtain an instance of the
+ * class you must use the {@link MusicDatabase#getPlaylistDatabase()} method from the {@link MPD}
+ * connection class.
+ *
+ * @author Bill
+ */
+public class MPDPlaylistDatabase implements PlaylistDatabase {
+
+  private final SongDatabase songDatabase;
+  private final CommandExecutor commandExecutor;
+  private final DatabaseProperties databaseProperties;
+  private final TagLister tagLister;
+  private final SongConverter songConverter;
+
+<span class="fc" id="L36">  private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlaylistDatabase.class);</span>
+
+  @Inject
+  public MPDPlaylistDatabase(
+      SongDatabase songDatabase,
+      CommandExecutor commandExecutor,
+      DatabaseProperties databaseProperties,
+      TagLister tagLister,
+      SongConverter songConverter,
+<span class="fc" id="L45">      PlaylistSongConverter playlistSongConverter) {</span>
+<span class="fc" id="L46">    this.songDatabase = songDatabase;</span>
+<span class="fc" id="L47">    this.commandExecutor = commandExecutor;</span>
+<span class="fc" id="L48">    this.databaseProperties = databaseProperties;</span>
+<span class="fc" id="L49">    this.tagLister = tagLister;</span>
+<span class="fc" id="L50">    this.songConverter = songConverter;</span>
+<span class="fc" id="L51">  }</span>
+
+  @Override
+  public Collection&lt;MPDSavedPlaylist&gt; listSavedPlaylists() {
+<span class="fc" id="L55">    List&lt;MPDSavedPlaylist&gt; playlists = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L57">    listPlaylists()</span>
+<span class="fc" id="L58">        .forEach(</span>
+            s -&gt; {
+<span class="fc" id="L60">              MPDSavedPlaylist playlist = MPDSavedPlaylist.builder(s).build();</span>
+<span class="fc" id="L61">              playlist.setSongs(listPlaylistSongs(s));</span>
+<span class="fc" id="L62">              playlists.add(playlist);</span>
+<span class="fc" id="L63">            });</span>
+<span class="fc" id="L64">    return playlists;</span>
+  }
+
+  @Override
+  public Collection&lt;String&gt; listPlaylists() {
+<span class="fc" id="L69">    return tagLister.listInfo(TagLister.ListInfoType.PLAYLIST);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; listPlaylistSongs(String playlistName) {
+<span class="fc" id="L74">    List&lt;String&gt; response =</span>
+<span class="fc" id="L75">        commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);</span>
+
+<span class="fc" id="L77">    List&lt;MPDSong&gt; songList =</span>
+<span class="fc" id="L78">        songConverter.getSongFileNameList(response).stream()</span>
+<span class="fc" id="L79">            .map(</span>
+                song -&gt; {
+<span class="fc" id="L81">                  Optional&lt;MPDSong&gt; mpdSong = Optional.empty();</span>
+                  try {
+<span class="fc" id="L83">                    mpdSong =</span>
+<span class="fc" id="L84">                        Optional.of(new ArrayList&lt;&gt;(songDatabase.searchFileName(song)).get(0));</span>
+<span class="nc" id="L85">                  } catch (IndexOutOfBoundsException e) {</span>
+<span class="nc" id="L86">                    LOGGER.error(&quot;Could not find file: {}&quot;, song);</span>
+<span class="fc" id="L87">                  }</span>
+<span class="fc" id="L88">                  return mpdSong;</span>
+                })
+<span class="fc" id="L90">            .filter(Optional::isPresent)</span>
+<span class="fc" id="L91">            .map(Optional::get)</span>
+<span class="fc" id="L92">            .collect(Collectors.toList());</span>
+
+    // Handle web radio streams
+<span class="fc" id="L95">    songList.addAll(</span>
+<span class="fc" id="L96">        songConverter.getSongFileNameList(response).stream()</span>
+<span class="fc" id="L97">            .filter(stream -&gt; Pattern.compile(&quot;http.+&quot;).matcher(stream.toLowerCase()).matches())</span>
+<span class="pc" id="L98">            .map(song -&gt; MPDPlaylistSong.builder().file(song).title(song).build())</span>
+<span class="fc" id="L99">            .collect(Collectors.toList()));</span>
+
+<span class="fc" id="L101">    return songList;</span>
+  }
+
+  @Override
+  public int countPlaylistSongs(String playlistName) {
+<span class="fc" id="L106">    List&lt;String&gt; response =</span>
+<span class="fc" id="L107">        commandExecutor.sendCommand(databaseProperties.getListSongs(), playlistName);</span>
+
+<span class="fc" id="L109">    return response.size();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
