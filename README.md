@@ -15,7 +15,7 @@ Maven Dependency:
 <dependency>
   <groupId>com.inthebacklog</groupId>
   <artifactId>javampd</artifactId>
-  <version>7.1.0</version>
+  <version>7.2.0</version>
 </dependency>
 ```
 
