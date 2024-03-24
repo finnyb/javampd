@@ -50,7 +50,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
 
     return tagLister.list(TagLister.ListType.ARTIST, list).stream()
         .map(s -> new MPDArtist(convertResponse(s)))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -64,7 +64,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
     List<MPDArtist> artists =
         tagLister.list(TagLister.ListType.ARTIST, list).stream()
             .map(s -> new MPDArtist(convertResponse(s)))
-            .collect(Collectors.toList());
+            .toList();
 
     if (artists.size() > 1) {
       LOGGER.warn("Multiple artists returned for name {}", name);
