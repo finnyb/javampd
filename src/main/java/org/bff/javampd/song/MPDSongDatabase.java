@@ -1,7 +1,6 @@
 package org.bff.javampd.song;
 
 import com.google.inject.Inject;
-
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Collection;
