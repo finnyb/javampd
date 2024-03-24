@@ -10,6 +10,7 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.command.MPDCommand;
@@ -30,7 +31,7 @@ public class MPDSocket {
   private final ServerProperties serverProperties;
   private final String encoding;
   private String lastError;
-  private String version;
+  @Getter private String version;
 
   private final String server;
   private final int port;
@@ -67,7 +68,7 @@ public class MPDSocket {
       throw new MPDConnectionException(e);
     }
 
-    if (line != null && isResponseOK(line)) {
+    if (isResponseOK(line)) {
       this.version = stripResponse(responseProperties.getOk(), line).trim();
     } else {
       throw new MPDConnectionException(
@@ -291,10 +292,6 @@ public class MPDSocket {
 
   private void writeToStream(String command) throws IOException {
     socket.getOutputStream().write(command.getBytes(serverProperties.getEncoding()));
-  }
-
-  public String getVersion() {
-    return this.version;
   }
 
   private boolean checkPing() {
