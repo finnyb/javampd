@@ -10,7 +10,6 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.MPDException;
@@ -32,8 +31,7 @@ public class MPDSocket {
   private final ServerProperties serverProperties;
   private final String encoding;
   private String lastError;
-  @Getter
-  private String version;
+  @Getter private String version;
 
   private final String server;
   private final int port;
