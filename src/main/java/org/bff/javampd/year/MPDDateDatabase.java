@@ -2,7 +2,6 @@ package org.bff.javampd.year;
 
 import com.google.inject.Inject;
 import java.util.Collection;
-import java.util.stream.Collectors;
 import org.bff.javampd.database.TagLister;
 
 /**
@@ -15,7 +14,7 @@ import org.bff.javampd.database.TagLister;
  */
 public class MPDDateDatabase implements DateDatabase {
 
-  private TagLister tagLister;
+  private final TagLister tagLister;
 
   @Inject
   public MPDDateDatabase(TagLister tagLister) {
@@ -29,6 +28,6 @@ public class MPDDateDatabase implements DateDatabase {
         .map(s -> s.substring(s.split(":")[0].length() + 1).trim())
         .distinct()
         .sorted()
-        .collect(Collectors.toList());
+        .toList();
   }
 }

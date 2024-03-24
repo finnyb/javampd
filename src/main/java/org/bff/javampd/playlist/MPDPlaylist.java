@@ -3,7 +3,6 @@ package org.bff.javampd.playlist;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.command.CommandExecutor;
@@ -147,7 +146,7 @@ public class MPDPlaylist implements Playlist {
     commandExecutor.sendCommands(
         songList.stream()
             .map(song -> new MPDCommand(playlistProperties.getAdd(), song.getFile()))
-            .collect(Collectors.toList()));
+            .toList());
 
     int oldCount = songList.size();
     updatePlaylist();
@@ -325,7 +324,7 @@ public class MPDPlaylist implements Playlist {
                 song ->
                     song.getArtistName().equals(artistName)
                         && song.getAlbumName().equals(albumName))
-            .collect(Collectors.toList());
+            .toList();
 
     removeList.forEach(this::removeSong);
   }
@@ -365,9 +364,7 @@ public class MPDPlaylist implements Playlist {
   @Override
   public void removeGenre(String genreName) {
     List<MPDPlaylistSong> removeList =
-        getSongList().stream()
-            .filter(song -> song.getGenre().equals(genreName))
-            .collect(Collectors.toList());
+        getSongList().stream().filter(song -> song.getGenre().equals(genreName)).toList();
 
     removeList.forEach(this::removeSong);
   }

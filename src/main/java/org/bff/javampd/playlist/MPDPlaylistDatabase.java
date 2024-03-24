@@ -41,8 +41,7 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
       CommandExecutor commandExecutor,
       DatabaseProperties databaseProperties,
       TagLister tagLister,
-      SongConverter songConverter,
-      PlaylistSongConverter playlistSongConverter) {
+      SongConverter songConverter) {
     this.songDatabase = songDatabase;
     this.commandExecutor = commandExecutor;
     this.databaseProperties = databaseProperties;
@@ -96,7 +95,7 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
         songConverter.getSongFileNameList(response).stream()
             .filter(stream -> Pattern.compile("http.+").matcher(stream.toLowerCase()).matches())
             .map(song -> MPDPlaylistSong.builder().file(song).title(song).build())
-            .collect(Collectors.toList()));
+            .toList());
 
     return songList;
   }

@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.bff.javampd.database.TagLister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public class MPDGenreDatabase implements GenreDatabase {
   private static final Logger LOGGER = LoggerFactory.getLogger(MPDGenreDatabase.class);
 
-  private TagLister tagLister;
+  private final TagLister tagLister;
 
   @Inject
   public MPDGenreDatabase(TagLister tagLister) {
@@ -31,7 +30,7 @@ public class MPDGenreDatabase implements GenreDatabase {
   public Collection<MPDGenre> listAllGenres() {
     return tagLister.list(TagLister.ListType.GENRE).stream()
         .map(s -> new MPDGenre(s.substring(s.split(":")[0].length() + 1).trim()))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override

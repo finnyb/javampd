@@ -1,11 +1,12 @@
 package org.bff.javampd.song;
 
 import com.google.inject.Inject;
+
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.genre.MPDGenre;
@@ -52,7 +53,7 @@ public class MPDSongDatabase implements SongDatabase {
 
     return songList.stream()
         .filter(song -> song.getArtistName() != null && song.getArtistName().equals(artistName))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -62,7 +63,7 @@ public class MPDSongDatabase implements SongDatabase {
 
     return songList.stream()
         .filter(song -> song.getGenre() != null && song.getGenre().equals(genre.getName()))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -72,7 +73,7 @@ public class MPDSongDatabase implements SongDatabase {
 
     return songList.stream()
         .filter(song -> song.getDate() != null && song.getDate().equals(year))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -196,7 +197,7 @@ public class MPDSongDatabase implements SongDatabase {
    */
   private static String removeSlashes(String path) {
     var retString = path;
-    var slash = System.getProperty("file.separator");
+    var slash = FileSystems.getDefault().getSeparator();
 
     // if non-Unix slashes replace
     retString = retString.replace(slash, "/");
