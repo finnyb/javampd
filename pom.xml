@@ -37,10 +37,6 @@
         <url>https://github.com/finnyb/javampd</url>
         <tag>HEAD</tag>
     </scm>
-    <ciManagement>
-        <system>travis-ci</system>
-        <url>https://travis-ci.org/github/finnyb/javampd</url>
-    </ciManagement>
     <distributionManagement>
         <site>
             <id>github-pages-site</id>
