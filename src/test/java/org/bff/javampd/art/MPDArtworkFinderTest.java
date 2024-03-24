@@ -260,7 +260,8 @@ class MPDArtworkFinderTest {
 
     testFile.setReadable(false);
 
-    assertThrows(MPDException.class, () -> artworkFinder.find(testFile.getParent()));
+    var parent = testFile.getParent();
+    assertThrows(MPDException.class, () -> artworkFinder.find(parent));
   }
 
   @Test
@@ -283,8 +284,10 @@ class MPDArtworkFinderTest {
     }
 
     tempDir.setReadable(false);
-    File finalTestFile = testFile;
-    assertThrows(MPDException.class, () -> artworkFinder.find(finalTestFile.getParent()));
+
+    var parent = testFile.getParent();
+
+    assertThrows(MPDException.class, () -> artworkFinder.find(parent));
   }
 
   @Test
