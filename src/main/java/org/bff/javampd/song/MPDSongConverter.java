@@ -2,7 +2,6 @@ package org.bff.javampd.song;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -41,6 +40,6 @@ public class MPDSongConverter extends MPDTagConverter<MPDSong> implements SongCo
     return fileList.stream()
         .filter(s -> s.toLowerCase().startsWith(delimiter))
         .map(s -> (s.substring(delimiter.length())).trim())
-        .collect(Collectors.toList());
+        .toList();
   }
 }
