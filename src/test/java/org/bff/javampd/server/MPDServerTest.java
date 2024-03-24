@@ -53,7 +53,8 @@ class MPDServerTest {
 
   @Test
   void testBuilderException() {
-    assertThrows(MPDConnectionException.class, () -> MPD.builder().server("bogusServer").build());
+    var mpd = MPD.builder().server("bogusServer");
+    assertThrows(MPDConnectionException.class, mpd::build);
   }
 
   @Test
