@@ -90,8 +90,7 @@ class MPDArtworkFinderTest {
                       .findFirst()
                       .orElse(null);
               assertEquals(prefix + albumSuffix + image, foundArtwork.getPath());
-              assertTrue(
-                  Arrays.equals(btyeMap.get(foundArtwork.getName()), foundArtwork.getBytes()));
+              assertArrayEquals(btyeMap.get(foundArtwork.getName()), foundArtwork.getBytes());
             });
   }
 
