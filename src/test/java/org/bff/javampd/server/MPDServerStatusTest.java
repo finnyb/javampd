@@ -513,6 +513,18 @@ class MPDServerStatusTest {
   }
 
   @Test
+  void mixRampDbFloat() {
+    var db = "0.000000";
+    statusList.add(String.format("mixrampdb: %s", db));
+    when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
+    when(clock.now()).thenReturn(LocalDateTime.now());
+
+    serverStatus
+        .getMixRampDb()
+        .ifPresentOrElse(s -> assertThat(s, is(0)), () -> fail("db was empty"));
+  }
+
+  @Test
   void testMixRampDbEmpty() {
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
