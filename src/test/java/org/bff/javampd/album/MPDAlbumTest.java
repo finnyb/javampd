@@ -11,7 +11,9 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/** @author Bill */
+/**
+ * @author Bill
+ */
 class MPDAlbumTest {
   @Test
   @DisplayName("add artist using default list")

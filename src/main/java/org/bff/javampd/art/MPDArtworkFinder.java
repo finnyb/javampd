@@ -18,7 +18,7 @@ import org.bff.javampd.song.SongDatabase;
 @Singleton
 public class MPDArtworkFinder implements ArtworkFinder {
 
-  private SongDatabase songDatabase;
+  private final SongDatabase songDatabase;
 
   @Inject
   public MPDArtworkFinder(SongDatabase songDatabase) {
@@ -95,7 +95,6 @@ public class MPDArtworkFinder implements ArtworkFinder {
   }
 
   private static MPDArtwork loadArtwork(Path file) {
-    file.getFileName();
     var artwork =
         MPDArtwork.builder()
             .name(file.getFileName().toString())

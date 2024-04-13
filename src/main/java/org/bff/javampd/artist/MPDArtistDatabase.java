@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
 import org.slf4j.Logger;
@@ -32,14 +31,14 @@ public class MPDArtistDatabase implements ArtistDatabase {
   public Collection<MPDArtist> listAllArtists() {
     return tagLister.list(TagLister.ListType.ARTIST).stream()
         .map(s -> new MPDArtist(convertResponse(s)))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
   public Collection<MPDArtist> listAllAlbumArtists() {
     return tagLister.list(TagLister.ListType.ALBUM_ARTIST).stream()
         .map(s -> new MPDArtist(convertResponse(s)))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -50,7 +49,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
 
     return tagLister.list(TagLister.ListType.ARTIST, list).stream()
         .map(s -> new MPDArtist(convertResponse(s)))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -64,7 +63,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
     List<MPDArtist> artists =
         tagLister.list(TagLister.ListType.ARTIST, list).stream()
             .map(s -> new MPDArtist(convertResponse(s)))
-            .collect(Collectors.toList());
+            .toList();
 
     if (artists.size() > 1) {
       LOGGER.warn("Multiple artists returned for name {}", name);

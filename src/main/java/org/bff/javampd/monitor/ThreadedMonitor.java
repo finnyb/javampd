@@ -26,14 +26,14 @@ public class ThreadedMonitor {
   }
 
   public void processResponseLine(String line) {
-    if (monitor instanceof StatusMonitor) {
-      ((StatusMonitor) monitor).processResponseStatus(line);
+    if (monitor instanceof StatusMonitor statusMonitor) {
+      statusMonitor.processResponseStatus(line);
     }
   }
 
   public void reset() {
-    if (monitor instanceof StatusMonitor) {
-      ((StatusMonitor) monitor).reset();
+    if (monitor instanceof StatusMonitor statusMonitor) {
+      statusMonitor.reset();
     }
   }
 }

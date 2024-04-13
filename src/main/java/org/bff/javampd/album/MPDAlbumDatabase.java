@@ -4,13 +4,12 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.database.TagLister;
 import org.bff.javampd.genre.MPDGenre;
 
 /**
- * MPDAlbumDatabase represents a album database to a {@link org.bff.javampd.server.MPD}. To obtain
+ * MPDAlbumDatabase represents an album database to a {@link org.bff.javampd.server.MPD}. To obtain
  * an instance of the class you must use the {@link
  * org.bff.javampd.database.MusicDatabase#getAlbumDatabase()} method from the {@link
  * org.bff.javampd.server.MPD} connection class.
@@ -57,7 +56,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
   public Collection<String> listAllAlbumNames() {
     return tagLister.list(TagLister.ListType.ALBUM).stream()
         .map(s -> s.substring(s.split(":")[0].length() + 1).trim())
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override

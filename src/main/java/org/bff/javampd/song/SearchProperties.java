@@ -2,7 +2,9 @@ package org.bff.javampd.song;
 
 import org.bff.javampd.server.MPDProperties;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public class SearchProperties extends MPDProperties {
   private enum Command {
     FIND("db.find"),

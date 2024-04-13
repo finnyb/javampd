@@ -2,7 +2,9 @@ package org.bff.javampd.playlist;
 
 import org.bff.javampd.server.MPDProperties;
 
-/** @author bill */
+/**
+ * @author bill
+ */
 public class PlaylistProperties extends MPDProperties {
 
   private enum Command {

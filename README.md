@@ -1,9 +1,8 @@
 JavaMPD
 =======
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.inthebacklop/javampd/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.inthebacklop/javampd)
-[![Build Status](https://travis-ci.org/finnyb/javampd.svg?branch=develop)](https://travis-ci.org/finnyb/javampd)
-[![Coverage Status](https://coveralls.io/repos/github/finnyb/javampd/badge.svg?branch=develop)](https://coveralls.io/github/finnyb/javampd?branch=develop)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.inthebacklog/javampd/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.inthebacklog/javampd)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=finnyb_javampd&metric=coverage)](https://sonarcloud.io/summary/new_code?id=finnyb_javampd)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=finnyb_javampd&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=finnyb_javampd)
 
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=finnyb_javampd)
@@ -12,22 +11,38 @@ Java API for controlling the Music Player Daemon (MPD)
 
 Maven Dependency:
 
-```
+```xml
 <dependency>
   <groupId>com.inthebacklog</groupId>
   <artifactId>javampd</artifactId>
-  <version>7.0.0</version>
+  <version>7.3.0</version>
 </dependency>
 ```
 
-To connect to mpd using the defaults of localhost and port 6600 
+Snapshot repo:
+```xml
+<repositories>
+    <repository>
+        <id>oss.sonatype.org-snapshot</id>
+        <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
 ```
+
+To connect to mpd using the defaults of localhost and port 6600 
+```java
 MPD mpd = MPD.builder().build();
 ```
 
 or build to your environment
 
-```
+```java
 MPD mpd = MPD.builder()
         .server("yourserver")
         .port(yourport)
@@ -35,4 +50,4 @@ MPD mpd = MPD.builder()
         .build();
 ```
 
-Full documentation can be found [here](http://finnyb.github.io/javampd/7.0.0)
+Full documentation can be found [here](http://finnyb.github.io/javampd/7.2.0)

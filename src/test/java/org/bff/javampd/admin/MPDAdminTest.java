@@ -3,17 +3,18 @@ package org.bff.javampd.admin;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.bff.javampd.command.MPDCommandExecutor;
 import org.bff.javampd.output.MPDOutput;
 import org.bff.javampd.output.OutputChangeEvent;
 import org.bff.javampd.output.OutputChangeListener;
-import org.bff.javampd.statistics.ServerStatistics;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -28,8 +29,6 @@ class MPDAdminTest {
   @Mock private MPDCommandExecutor commandExecutor;
 
   @Mock private AdminProperties adminProperties;
-
-  @Mock private ServerStatistics serverStatistics;
 
   @Captor private ArgumentCaptor<String> commandArgumentCaptor;
 
@@ -47,23 +46,40 @@ class MPDAdminTest {
   }
 
   @Test
+  void getSingleOutput() {
+    when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputSingleResponse());
+
+    var output1 = new ArrayList<>(admin.getOutputs()).get(0);
+
+    assertAll(
+        () -> assertThat(output1.getName(), is(equalTo("My ALSA Device"))),
+        () -> assertThat(output1.getId(), is(equalTo(0))),
+        () -> assertFalse(output1.isEnabled()));
+  }
+
+  @Test
   void getOutputs() {
     when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
 
-    MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
-    assertThat(output.getName(), is(equalTo("My ALSA Device")));
-    assertThat(output.getId(), is(equalTo(0)));
+    var outputs = admin.getOutputs();
+    var output1 = new ArrayList<>(outputs).get(0);
+    var output2 = new ArrayList<>(outputs).get(1);
 
-    output = new ArrayList<>(admin.getOutputs()).get(1);
-    assertThat(output.getName(), is(equalTo("My ALSA Device 2")));
-    assertThat(output.getId(), is(equalTo(0)));
+    assertAll(
+        () -> assertThat(output1.getName(), is(equalTo("My ALSA Device"))),
+        () -> assertThat(output1.getId(), is(equalTo(0))),
+        () -> assertFalse(output1.isEnabled()),
+        () -> assertThat(output2.getName(), is(equalTo("My ALSA Device 2"))),
+        () -> assertThat(output2.getId(), is(equalTo(1))),
+        () -> assertTrue(output2.isEnabled()));
   }
 
   @Test
   void disableOutput() {
     when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
     when(adminProperties.getOutputDisable()).thenReturn(realAdminProperties.getOutputDisable());
 
     MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
@@ -77,7 +93,7 @@ class MPDAdminTest {
   @Test
   void enableOutput() {
     when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
-    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputResponse());
+    when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
     when(adminProperties.getOutputEnable()).thenReturn(realAdminProperties.getOutputEnable());
 
     MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
@@ -100,19 +116,59 @@ class MPDAdminTest {
   @Test
   void updateDatabase() {
     when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
-
-    admin.updateDatabase();
+    when(commandExecutor.sendCommand("update"))
+        .thenReturn(Collections.singletonList("updating_db: 3"));
+    var id = admin.updateDatabase();
     verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
     assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(3)));
+  }
+
+  @Test
+  @DisplayName("handle missing id in response")
+  void updateDatabaseMissingId() {
+    when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
+    when(commandExecutor.sendCommand("update"))
+        .thenReturn(Collections.singletonList("updating_db: foo"));
+    var id = admin.updateDatabase();
+    verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+    assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(-1)));
+  }
+
+  @Test
+  @DisplayName("handle un-parseable id in response")
+  void updateDatabaseUnparseableId() {
+    when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
+    when(commandExecutor.sendCommand("update")).thenReturn(Collections.singletonList(""));
+    var id = admin.updateDatabase();
+    verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+    assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(-1)));
   }
 
   @Test
   void updateDatabaseWithPath() {
-    admin.updateDatabase("testPath");
+    when(adminProperties.getRefresh()).thenReturn(realAdminProperties.getRefresh());
+    when(commandExecutor.sendCommand("update", "testPath"))
+        .thenReturn(Collections.singletonList("updating_db: 3"));
+    var id = admin.updateDatabase("testPath");
     verify(commandExecutor)
         .sendCommand(commandArgumentCaptor.capture(), stringParamArgumentCaptor.capture());
     assertThat(adminProperties.getRefresh(), is(equalTo(commandArgumentCaptor.getValue())));
     assertThat("testPath", is(equalTo(stringParamArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(3)));
+  }
+
+  @Test
+  void rescanDatabase() {
+    when(adminProperties.getRescan()).thenReturn(realAdminProperties.getRescan());
+    when(commandExecutor.sendCommand("rescan"))
+        .thenReturn(Collections.singletonList("updating_db: 3"));
+    var id = admin.rescan();
+    verify(commandExecutor).sendCommand(commandArgumentCaptor.capture());
+    assertThat(adminProperties.getRescan(), is(equalTo(commandArgumentCaptor.getValue())));
+    assertThat(id, is(equalTo(3)));
   }
 
   @Test
@@ -179,7 +235,16 @@ class MPDAdminTest {
     assertNull(eventReceived[0]);
   }
 
-  private List<String> getOutputResponse() {
+  private List<String> getOutputSingleResponse() {
+    List<String> responseList = new ArrayList<>();
+    responseList.add("outputid: 0");
+    responseList.add("outputname: My ALSA Device");
+    responseList.add("outputenabled: 0");
+
+    return responseList;
+  }
+
+  private List<String> getOutputMultipleResponse() {
     List<String> responseList = new ArrayList<>();
     responseList.add("outputid: 0");
     responseList.add("outputname: My ALSA Device");
@@ -187,7 +252,7 @@ class MPDAdminTest {
 
     responseList.add("outputid: 1");
     responseList.add("outputname: My ALSA Device 2");
-    responseList.add("outputenabled: 0");
+    responseList.add("outputenabled: 1");
 
     return responseList;
   }
