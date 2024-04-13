@@ -202,7 +202,7 @@
                     </formats>
                     <java>
                         <googleJavaFormat>
-                            <version>1.15.0</version>
+                            <version>1.22.0</version>
                             <reflowLongStrings>true</reflowLongStrings>
                         </googleJavaFormat>
                     </java>
