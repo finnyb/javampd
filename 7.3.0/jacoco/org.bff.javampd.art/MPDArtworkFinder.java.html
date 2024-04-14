@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDArtworkFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.art</a> &gt; <span class="el_source">MPDArtworkFinder.java</span></div><h1>MPDArtworkFinder.java</h1><pre class="source lang-java linenums">package org.bff.javampd.art;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.album.MPDAlbum;
+import org.bff.javampd.artist.MPDArtist;
+import org.bff.javampd.song.SongDatabase;
+
+@Singleton
+public class MPDArtworkFinder implements ArtworkFinder {
+
+  private final SongDatabase songDatabase;
+
+  @Inject
+<span class="fc" id="L24">  public MPDArtworkFinder(SongDatabase songDatabase) {</span>
+<span class="fc" id="L25">    this.songDatabase = songDatabase;</span>
+<span class="fc" id="L26">  }</span>
+
+  @Override
+  public List&lt;MPDArtwork&gt; find(MPDAlbum album) {
+<span class="fc" id="L30">    return find(album, &quot;&quot;);</span>
+  }
+
+  @Override
+  public List&lt;MPDArtwork&gt; find(MPDAlbum album, String pathPrefix) {
+<span class="fc" id="L35">    List&lt;MPDArtwork&gt; artworkList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L36">    List&lt;String&gt; paths = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L38">    this.songDatabase</span>
+<span class="fc" id="L39">        .findAlbum(album)</span>
+<span class="fc" id="L40">        .forEach(</span>
+            song -&gt;
+<span class="fc" id="L42">                paths.add(</span>
+                    pathPrefix
+<span class="fc" id="L44">                        + song.getFile().substring(0, song.getFile().lastIndexOf(File.separator))));</span>
+
+<span class="fc" id="L46">    paths.stream().distinct().forEach(path -&gt; artworkList.addAll(find(path)));</span>
+
+<span class="fc" id="L48">    return artworkList;</span>
+  }
+
+  @Override
+  public List&lt;MPDArtwork&gt; find(MPDArtist artist) {
+<span class="fc" id="L53">    return find(artist, &quot;&quot;);</span>
+  }
+
+  @Override
+  public List&lt;MPDArtwork&gt; find(MPDArtist artist, String pathPrefix) {
+<span class="fc" id="L58">    List&lt;MPDArtwork&gt; artworkList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L59">    List&lt;String&gt; paths = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L60">    List&lt;String&gt; albumPaths = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L62">    this.songDatabase</span>
+<span class="fc" id="L63">        .findArtist(artist)</span>
+<span class="fc" id="L64">        .forEach(</span>
+            song -&gt;
+<span class="fc" id="L66">                albumPaths.add(</span>
+                    pathPrefix
+<span class="fc" id="L68">                        + song.getFile().substring(0, song.getFile().lastIndexOf(File.separator))));</span>
+
+<span class="fc" id="L70">    albumPaths.forEach(</span>
+        path -&gt; {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">          if (path.contains(File.separator + artist.getName() + File.separator)) {</span>
+<span class="fc" id="L73">            paths.add(path.substring(0, path.lastIndexOf(File.separator)));</span>
+          }
+<span class="fc" id="L75">        });</span>
+
+<span class="fc" id="L77">    paths.addAll(albumPaths);</span>
+<span class="fc" id="L78">    paths.stream().distinct().forEach(path -&gt; artworkList.addAll(find(path)));</span>
+
+<span class="fc" id="L80">    return artworkList;</span>
+  }
+
+  @Override
+  public List&lt;MPDArtwork&gt; find(String path) {
+<span class="fc" id="L85">    List&lt;MPDArtwork&gt; artworkList = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L87">    try (DirectoryStream&lt;Path&gt; stream =</span>
+<span class="fc" id="L88">        Files.newDirectoryStream(Paths.get(path), &quot;**.{jpg,jpeg,png}&quot;)) {</span>
+<span class="fc" id="L89">      stream.forEach(file -&gt; artworkList.add(loadArtwork(file)));</span>
+<span class="fc" id="L90">    } catch (IOException e) {</span>
+<span class="fc" id="L91">      throw new MPDException(String.format(&quot;Could not load art in %s&quot;, path), e);</span>
+<span class="fc" id="L92">    }</span>
+
+<span class="fc" id="L94">    return artworkList;</span>
+  }
+
+  private static MPDArtwork loadArtwork(Path file) {
+    var artwork =
+<span class="fc" id="L99">        MPDArtwork.builder()</span>
+<span class="fc" id="L100">            .name(file.getFileName().toString())</span>
+<span class="fc" id="L101">            .path(file.toAbsolutePath().toString())</span>
+<span class="fc" id="L102">            .build();</span>
+<span class="fc" id="L103">    artwork.setBytes(loadFile(file));</span>
+
+<span class="fc" id="L105">    return artwork;</span>
+  }
+
+  private static byte[] loadFile(Path path) {
+    try {
+<span class="fc" id="L110">      return Files.readAllBytes(path);</span>
+<span class="fc" id="L111">    } catch (IOException e) {</span>
+<span class="fc" id="L112">      throw new MPDException(String.format(&quot;Could not read path: %s&quot;, path), e);</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

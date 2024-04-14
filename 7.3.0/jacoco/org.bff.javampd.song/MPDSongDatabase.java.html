@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDSongDatabase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.song</a> &gt; <span class="el_source">MPDSongDatabase.java</span></div><h1>MPDSongDatabase.java</h1><pre class="source lang-java linenums">package org.bff.javampd.song;
+
+import com.google.inject.Inject;
+import java.nio.file.FileSystems;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import org.bff.javampd.album.MPDAlbum;
+import org.bff.javampd.artist.MPDArtist;
+import org.bff.javampd.genre.MPDGenre;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * MPDSongDatabase represents a song database controller to a {@link org.bff.javampd.server.MPD}. To
+ * obtain an instance of the class you must use the {@link
+ * org.bff.javampd.database.MusicDatabase#getSongDatabase()} method from the {@link
+ * org.bff.javampd.server.MPD} connection class.
+ *
+ * @author Bill
+ */
+public class MPDSongDatabase implements SongDatabase {
+<span class="fc" id="L24">  private static final Logger LOGGER = LoggerFactory.getLogger(MPDSongDatabase.class);</span>
+
+  private final SongSearcher songSearcher;
+
+  @Inject
+<span class="fc" id="L29">  public MPDSongDatabase(SongSearcher songSearcher) {</span>
+<span class="fc" id="L30">    this.songSearcher = songSearcher;</span>
+<span class="fc" id="L31">  }</span>
+
+  @Override
+  public Collection&lt;MPDSong&gt; findAlbum(MPDAlbum album) {
+<span class="fc" id="L35">    return findAlbum(album.getName());</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findAlbum(String album) {
+<span class="fc" id="L40">    return songSearcher.find(SongSearcher.ScopeType.ALBUM, album);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findAlbumByArtist(MPDArtist artist, MPDAlbum album) {
+<span class="fc" id="L45">    return findAlbumByArtist(artist.getName(), album.getName());</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findAlbumByArtist(String artistName, String albumName) {
+<span class="fc" id="L50">    List&lt;MPDSong&gt; songList =</span>
+<span class="fc" id="L51">        new ArrayList&lt;&gt;(songSearcher.find(SongSearcher.ScopeType.ALBUM, albumName));</span>
+
+<span class="fc" id="L53">    return songList.stream()</span>
+<span class="pc bpc" id="L54" title="1 of 4 branches missed.">        .filter(song -&gt; song.getArtistName() != null &amp;&amp; song.getArtistName().equals(artistName))</span>
+<span class="fc" id="L55">        .toList();</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findAlbumByGenre(MPDGenre genre, MPDAlbum album) {
+<span class="nc" id="L60">    List&lt;MPDSong&gt; songList =</span>
+<span class="nc" id="L61">        new ArrayList&lt;&gt;(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));</span>
+
+<span class="nc" id="L63">    return songList.stream()</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">        .filter(song -&gt; song.getGenre() != null &amp;&amp; song.getGenre().equals(genre.getName()))</span>
+<span class="nc" id="L65">        .toList();</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findAlbumByYear(String year, MPDAlbum album) {
+<span class="nc" id="L70">    List&lt;MPDSong&gt; songList =</span>
+<span class="nc" id="L71">        new ArrayList&lt;&gt;(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));</span>
+
+<span class="nc" id="L73">    return songList.stream()</span>
+<span class="nc bnc" id="L74" title="All 4 branches missed.">        .filter(song -&gt; song.getDate() != null &amp;&amp; song.getDate().equals(year))</span>
+<span class="nc" id="L75">        .toList();</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; searchAlbum(MPDAlbum album) {
+<span class="nc" id="L80">    return searchAlbum(album.getName());</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; searchAlbum(String album) {
+<span class="nc" id="L85">    return songSearcher.search(SongSearcher.ScopeType.ALBUM, album);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findArtist(MPDArtist artist) {
+<span class="nc" id="L90">    return findArtist(artist.getName());</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findArtist(String artist) {
+<span class="nc" id="L95">    return songSearcher.find(SongSearcher.ScopeType.ARTIST, artist);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; searchArtist(MPDArtist artist) {
+<span class="nc" id="L100">    return searchArtist(artist.getName());</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; searchArtist(String artist) {
+<span class="nc" id="L105">    return songSearcher.search(SongSearcher.ScopeType.ARTIST, artist);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findYear(String year) {
+<span class="nc" id="L110">    return songSearcher.find(SongSearcher.ScopeType.DATE, year);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findTitle(String title) {
+<span class="nc" id="L115">    return songSearcher.find(SongSearcher.ScopeType.TITLE, title);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findAny(String criteria) {
+<span class="nc" id="L120">    return songSearcher.find(SongSearcher.ScopeType.ANY, criteria);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; searchTitle(String title) {
+<span class="nc" id="L125">    return songSearcher.search(SongSearcher.ScopeType.TITLE, title);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; searchAny(String criteria) {
+<span class="nc" id="L130">    return songSearcher.search(SongSearcher.ScopeType.ANY, criteria);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; searchTitle(String title, int startYear, int endYear) {
+<span class="nc" id="L135">    List&lt;MPDSong&gt; retList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    for (MPDSong song : songSearcher.search(SongSearcher.ScopeType.TITLE, title)) {</span>
+      int year;
+
+      // Ignore songs that miss the year tag.
+<span class="nc bnc" id="L141" title="All 2 branches missed.">      if (song.getDate() == null) {</span>
+<span class="nc" id="L142">        continue;</span>
+      }
+
+      try {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (song.getDate().contains(&quot;-&quot;)) {</span>
+<span class="nc" id="L147">          year = Integer.parseInt(song.getDate().split(&quot;-&quot;)[0]);</span>
+        } else {
+<span class="nc" id="L149">          year = Integer.parseInt(song.getDate());</span>
+        }
+
+<span class="nc bnc" id="L152" title="All 4 branches missed.">        if (year &gt;= startYear &amp;&amp; year &lt;= endYear) {</span>
+<span class="nc" id="L153">          retList.add(song);</span>
+        }
+<span class="nc" id="L155">      } catch (Exception e) {</span>
+<span class="nc" id="L156">        LOGGER.error(&quot;Problem searching for title&quot;, e);</span>
+<span class="nc" id="L157">      }</span>
+<span class="nc" id="L158">    }</span>
+
+<span class="nc" id="L160">    return retList;</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; searchFileName(String fileName) {
+<span class="nc" id="L165">    return songSearcher.search(SongSearcher.ScopeType.FILENAME, removeSlashes(fileName));</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findGenre(MPDGenre genre) {
+<span class="nc" id="L170">    return findGenre(genre.getName());</span>
+  }
+
+  @Override
+  public Collection&lt;MPDSong&gt; findGenre(String genre) {
+<span class="nc" id="L175">    return songSearcher.find(SongSearcher.ScopeType.GENRE, genre);</span>
+  }
+
+  @Override
+  public Optional&lt;MPDSong&gt; findSong(String name, String album, String artist) {
+<span class="nc" id="L180">    List&lt;MPDSong&gt; songs = new ArrayList&lt;&gt;(songSearcher.find(SongSearcher.ScopeType.ALBUM, album));</span>
+
+<span class="nc bnc" id="L182" title="All 2 branches missed.">    for (MPDSong song : songs) {</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">      if (artist.equals(song.getArtistName())) {</span>
+<span class="nc" id="L184">        return Optional.of(song);</span>
+      }
+<span class="nc" id="L186">    }</span>
+<span class="nc" id="L187">    LOGGER.info(&quot;Song not found title --&gt; {}, artist --&gt; {}, album --&gt; {}&quot;, name, artist, album);</span>
+<span class="nc" id="L188">    return Optional.empty();</span>
+  }
+
+  /**
+   * Removes leading or trailing slashes from a string.
+   *
+   * @param path the string to remove leading or trailing slashes
+   * @return the string without leading or trailing slashes
+   */
+  private static String removeSlashes(String path) {
+<span class="nc" id="L198">    var retString = path;</span>
+<span class="nc" id="L199">    var slash = FileSystems.getDefault().getSeparator();</span>
+
+    // if non-Unix slashes replace
+<span class="nc" id="L202">    retString = retString.replace(slash, &quot;/&quot;);</span>
+
+<span class="nc" id="L204">    retString = retString.replaceFirst(&quot;^/&quot;, &quot;&quot;);</span>
+<span class="nc" id="L205">    retString = retString.replaceFirst(&quot;/$&quot;, &quot;&quot;);</span>
+
+<span class="nc" id="L207">    return retString;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

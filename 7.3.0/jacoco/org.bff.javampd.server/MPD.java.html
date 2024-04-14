@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPD.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.server</a> &gt; <span class="el_source">MPD.java</span></div><h1>MPD.java</h1><pre class="source lang-java linenums">package org.bff.javampd.server;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
+import java.net.InetAddress;
+import java.util.Optional;
+import lombok.Builder;
+import lombok.Getter;
+import org.bff.javampd.MPDDatabaseModule;
+import org.bff.javampd.MPDModule;
+import org.bff.javampd.MPDMonitorModule;
+import org.bff.javampd.admin.Admin;
+import org.bff.javampd.art.ArtworkFinder;
+import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.database.MusicDatabase;
+import org.bff.javampd.monitor.ConnectionMonitor;
+import org.bff.javampd.monitor.StandAloneMonitor;
+import org.bff.javampd.player.Player;
+import org.bff.javampd.playlist.Playlist;
+import org.bff.javampd.song.SongSearcher;
+import org.bff.javampd.statistics.ServerStatistics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * MPD represents a connection to a MPD server. The commands are maintained in a properties file
+ * called mpd.properties.
+ *
+ * &lt;p&gt;Uses the builder pattern for construction.
+ *
+ * &lt;p&gt;Defaults are:
+ *
+ * &lt;p&gt;server - localhost port - 6600 no timeout no password
+ *
+ * @author Bill
+ */
+@Getter
+@Singleton
+public class MPD extends MPDServer {
+<span class="fc" id="L41">  private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);</span>
+
+<span class="fc" id="L43">  private int port = 6600;</span>
+<span class="pc" id="L44">  private String server = &quot;localhost&quot;;</span>
+
+<span class="fc" id="L46">  private final int timeout;</span>
+<span class="fc" id="L47">  private final String password;</span>
+<span class="fc" id="L48">  private final InetAddress address;</span>
+
+<span class="pc" id="L50">  @Builder</span>
+<span class="fc" id="L51">  public MPD(String server, Integer port, int timeout, String password) {</span>
+<span class="fc" id="L52">    this.server = Optional.ofNullable(server).orElse(this.server);</span>
+<span class="fc" id="L53">    this.port = Optional.ofNullable(port).orElse(this.port);</span>
+<span class="fc" id="L54">    this.timeout = timeout;</span>
+<span class="fc" id="L55">    this.password = password;</span>
+
+    try {
+<span class="fc" id="L58">      this.address = InetAddress.getByName(this.server);</span>
+<span class="fc" id="L59">      init();</span>
+<span class="fc" id="L60">      authenticate();</span>
+<span class="fc" id="L61">    } catch (Exception e) {</span>
+<span class="fc" id="L62">      throw new MPDConnectionException(e);</span>
+<span class="fc" id="L63">    }</span>
+<span class="fc" id="L64">  }</span>
+
+  void init() {
+<span class="fc" id="L67">    var injector =</span>
+<span class="fc" id="L68">        Guice.createInjector(new MPDModule(), new MPDDatabaseModule(), new MPDMonitorModule());</span>
+
+<span class="fc" id="L70">    bind(injector);</span>
+<span class="fc" id="L71">    setMpd(this);</span>
+<span class="fc" id="L72">    authenticate();</span>
+<span class="fc" id="L73">    injector.getInstance(ConnectionMonitor.class).setServer(this);</span>
+<span class="fc" id="L74">  }</span>
+
+  private void bind(Injector injector) {
+<span class="fc" id="L77">    serverProperties = injector.getInstance(ServerProperties.class);</span>
+<span class="fc" id="L78">    player = injector.getInstance(Player.class);</span>
+<span class="fc" id="L79">    playlist = injector.getInstance(Playlist.class);</span>
+<span class="fc" id="L80">    admin = injector.getInstance(Admin.class);</span>
+<span class="fc" id="L81">    serverStatistics = injector.getInstance(ServerStatistics.class);</span>
+<span class="fc" id="L82">    serverStatus = injector.getInstance(ServerStatus.class);</span>
+<span class="fc" id="L83">    musicDatabase = injector.getInstance(MusicDatabase.class);</span>
+<span class="fc" id="L84">    songSearcher = injector.getInstance(SongSearcher.class);</span>
+<span class="fc" id="L85">    commandExecutor = injector.getInstance(CommandExecutor.class);</span>
+<span class="fc" id="L86">    artworkFinder = injector.getInstance(ArtworkFinder.class);</span>
+<span class="fc" id="L87">    standAloneMonitor = injector.getInstance(StandAloneMonitor.class);</span>
+<span class="fc" id="L88">  }</span>
+
+  void authenticate() {
+<span class="fc bfc" id="L91" title="All 2 branches covered.">    if (usingPassword()) {</span>
+<span class="fc" id="L92">      super.authenticate(this.password);</span>
+    }
+<span class="fc" id="L94">  }</span>
+
+  private boolean usingPassword() {
+<span class="fc bfc" id="L97" title="All 4 branches covered.">    return this.password != null &amp;&amp; !&quot;&quot;.equals(this.password);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

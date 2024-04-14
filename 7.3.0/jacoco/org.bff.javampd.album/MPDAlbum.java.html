@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDAlbum.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.album</a> &gt; <span class="el_source">MPDAlbum.java</span></div><h1>MPDAlbum.java</h1><pre class="source lang-java linenums">package org.bff.javampd.album;
+
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
+
+/**
+ * MPDAlbum represents an album
+ *
+ * @author Bill
+ */
+<span class="pc bpc" id="L14" title="2 of 10 branches missed.">@Builder(builderMethodName = &quot;internalBuilder&quot;)</span>
+<span class="pc bpc" id="L15" title="7 of 48 branches missed.">@Data</span>
+public class MPDAlbum implements Comparable&lt;MPDAlbum&gt; {
+<span class="fc" id="L17">  @NonNull private String name;</span>
+<span class="fc" id="L18">  private String albumArtist;</span>
+<span class="fc" id="L19">  @Builder.Default private List&lt;String&gt; artistNames = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L20">  @Builder.Default private List&lt;String&gt; dates = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L21">  @Builder.Default private List&lt;String&gt; genres = new ArrayList&lt;&gt;();</span>
+
+  public static MPDAlbumBuilder builder(String name) {
+<span class="fc" id="L24">    return internalBuilder().name(name);</span>
+  }
+
+  public void addArtist(String artist) {
+<span class="fc" id="L28">    this.artistNames.add(artist);</span>
+<span class="fc" id="L29">  }</span>
+
+  public void addArtists(List&lt;String&gt; artists) {
+<span class="fc" id="L32">    this.artistNames.addAll(artists);</span>
+<span class="fc" id="L33">  }</span>
+
+  public void addDate(String date) {
+<span class="fc" id="L36">    this.dates.add(date);</span>
+<span class="fc" id="L37">  }</span>
+
+  public void addDates(List&lt;String&gt; dates) {
+<span class="fc" id="L40">    this.dates.addAll(dates);</span>
+<span class="fc" id="L41">  }</span>
+
+  public void addGenre(String genre) {
+<span class="fc" id="L44">    this.genres.add(genre);</span>
+<span class="fc" id="L45">  }</span>
+
+  public void addGenres(List&lt;String&gt; genres) {
+<span class="fc" id="L48">    this.genres.addAll(genres);</span>
+<span class="fc" id="L49">  }</span>
+
+  @Override
+  public int compareTo(MPDAlbum album) {
+<span class="fc" id="L53">    return this.getName().compareTo(album.getName());</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

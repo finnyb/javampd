@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlaylistChangeEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.playlist</a> &gt; <span class="el_source">PlaylistChangeEvent.java</span></div><h1>PlaylistChangeEvent.java</h1><pre class="source lang-java linenums">package org.bff.javampd.playlist;
+
+import java.util.EventObject;
+
+/**
+ * Represents a change in the status of a MPD playlist.
+ *
+ * @author Bill
+ */
+public class PlaylistChangeEvent extends EventObject {
+  private Event event;
+  private String name;
+
+<span class="fc" id="L14">  public enum Event {</span>
+<span class="fc" id="L15">    SONG_ADDED,</span>
+<span class="fc" id="L16">    SONG_DELETED,</span>
+<span class="fc" id="L17">    SONG_SELECTED,</span>
+<span class="fc" id="L18">    PLAYLIST_ADDED,</span>
+<span class="fc" id="L19">    PLAYLIST_CHANGED,</span>
+<span class="fc" id="L20">    PLAYLIST_DELETED,</span>
+<span class="fc" id="L21">    PLAYLIST_LOADED,</span>
+<span class="fc" id="L22">    PLAYLIST_SAVED,</span>
+<span class="fc" id="L23">    PLAYLIST_CLEARED,</span>
+<span class="fc" id="L24">    ARTIST_ADDED,</span>
+<span class="fc" id="L25">    ALBUM_ADDED,</span>
+<span class="fc" id="L26">    GENRE_ADDED,</span>
+<span class="fc" id="L27">    YEAR_ADDED,</span>
+<span class="fc" id="L28">    FILE_ADDED,</span>
+<span class="fc" id="L29">    MULTIPLE_SONGS_ADDED</span>
+  }
+
+  /**
+   * Creates a new instance of PlayListChangeEvent
+   *
+   * @param source the object on which the Event initially occurred
+   * @param event the specific {@link Event} that occurred
+   */
+  public PlaylistChangeEvent(Object source, Event event) {
+<span class="fc" id="L39">    super(source);</span>
+<span class="fc" id="L40">    this.event = event;</span>
+<span class="fc" id="L41">  }</span>
+
+  /**
+   * Creates a new instance of PlayListChangeEvent
+   *
+   * @param source the object on which the Event initially occurred
+   * @param event the specific {@link Event} that occurred
+   * @param name name of the added entity
+   */
+  public PlaylistChangeEvent(Object source, Event event, String name) {
+<span class="fc" id="L51">    super(source);</span>
+<span class="fc" id="L52">    this.event = event;</span>
+<span class="fc" id="L53">    this.name = name;</span>
+<span class="fc" id="L54">  }</span>
+
+  /**
+   * Returns the {@link Event} that occurred.
+   *
+   * @return the specific id
+   */
+  public Event getEvent() {
+<span class="fc" id="L62">    return this.event;</span>
+  }
+
+  /**
+   * the name of the added entity
+   *
+   * @return name of the artist, album, song, etc
+   */
+  public String getName() {
+<span class="fc" id="L71">    return name;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

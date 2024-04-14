@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDSong.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.song</a> &gt; <span class="el_source">MPDSong.java</span></div><h1>MPDSong.java</h1><pre class="source lang-java linenums">package org.bff.javampd.song;
+
+import java.util.List;
+import java.util.Map;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+
+/**
+ * MPDSong represents a song in the MPD database that can be inserted into a playlist.
+ *
+ * @author Bill
+ * @version 1.0
+ */
+<span class="pc" id="L14">@SuperBuilder</span>
+<span class="pc bpc" id="L15" title="1 of 104 branches missed.">@Data</span>
+public class MPDSong implements Comparable&lt;MPDSong&gt; {
+
+  private final String name;
+<span class="fc" id="L19">  private final String title;</span>
+<span class="fc" id="L20">  private final String albumArtist;</span>
+<span class="fc" id="L21">  private final String artistName;</span>
+<span class="fc" id="L22">  private final String albumName;</span>
+
+  /** Returns the path of the song without a leading or trailing slash. */
+<span class="fc" id="L25">  private final String file;</span>
+
+<span class="fc" id="L27">  private final String genre;</span>
+<span class="fc" id="L28">  private final String comment;</span>
+<span class="fc" id="L29">  private final String date;</span>
+<span class="fc" id="L30">  private final String discNumber;</span>
+<span class="fc" id="L31">  private final String track;</span>
+
+  /** Returns the length of the song in seconds. */
+<span class="fc" id="L34">  private final int length;</span>
+
+  /** Returns a map of all tags for this song. */
+<span class="fc" id="L37">  private final Map&lt;String, List&lt;String&gt;&gt; tagMap;</span>
+
+  /**
+   * Returns the name of the song which can be different than the title if for example listening to
+   * streaming radio. If no name has been set then {@link #getTitle()} is used
+   *
+   * @return the name of the song if set, otherwise the title
+   */
+  public String getName() {
+<span class="fc bfc" id="L46" title="All 4 branches covered.">    if (this.name == null || &quot;&quot;.equals(this.name)) {</span>
+<span class="fc" id="L47">      return getTitle();</span>
+    } else {
+<span class="fc" id="L49">      return this.name;</span>
+    }
+  }
+
+  public int compareTo(MPDSong song) {
+    StringBuilder sb;
+
+<span class="fc" id="L56">    sb = new StringBuilder(getName());</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">    sb.append(getAlbumName() == null ? &quot;&quot; : getAlbumName());</span>
+<span class="fc" id="L58">    sb.append(getTrack());</span>
+<span class="fc" id="L59">    var thisSong = sb.toString();</span>
+
+<span class="fc" id="L61">    sb = new StringBuilder(song.getName());</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">    sb.append(song.getAlbumName() == null ? &quot;&quot; : song.getAlbumName());</span>
+<span class="fc" id="L63">    sb.append(getTrack());</span>
+<span class="fc" id="L64">    var songToCompare = sb.toString();</span>
+
+<span class="fc" id="L66">    return thisSong.compareTo(songToCompare);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

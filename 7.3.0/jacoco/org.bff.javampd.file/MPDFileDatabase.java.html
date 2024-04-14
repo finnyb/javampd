@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MPDFileDatabase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.file</a> &gt; <span class="el_source">MPDFileDatabase.java</span></div><h1>MPDFileDatabase.java</h1><pre class="source lang-java linenums">package org.bff.javampd.file;
+
+import com.google.inject.Inject;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import org.bff.javampd.MPDException;
+import org.bff.javampd.command.CommandExecutor;
+import org.bff.javampd.database.DatabaseProperties;
+import org.bff.javampd.database.TagLister;
+
+/**
+ * MPDFileDatabase represents a file database controller to a {@link org.bff.javampd.server.MPD}. To
+ * obtain an instance of the class you must use the {@link
+ * org.bff.javampd.database.MusicDatabase#getFileDatabase()} method from the {@link
+ * org.bff.javampd.server.MPD} connection class.
+ *
+ * @author Bill
+ */
+public class MPDFileDatabase implements FileDatabase {
+
+  private DatabaseProperties databaseProperties;
+  private CommandExecutor commandExecutor;
+
+<span class="fc" id="L28">  private static final String PREFIX_FILE = TagLister.ListInfoType.FILE.getPrefix();</span>
+<span class="fc" id="L29">  private static final String PREFIX_DIRECTORY = TagLister.ListInfoType.DIRECTORY.getPrefix();</span>
+<span class="fc" id="L30">  private static final String PREFIX_LAST_MODIFIED =</span>
+<span class="fc" id="L31">      TagLister.ListInfoType.LAST_MODIFIED.getPrefix();</span>
+
+  @Inject
+<span class="fc" id="L34">  public MPDFileDatabase(DatabaseProperties databaseProperties, CommandExecutor commandExecutor) {</span>
+<span class="fc" id="L35">    this.databaseProperties = databaseProperties;</span>
+<span class="fc" id="L36">    this.commandExecutor = commandExecutor;</span>
+<span class="fc" id="L37">  }</span>
+
+  @Override
+  public Collection&lt;MPDFile&gt; listRootDirectory() {
+<span class="fc" id="L41">    return listDirectory(&quot;&quot;);</span>
+  }
+
+  @Override
+  public Collection&lt;MPDFile&gt; listDirectory(MPDFile directory) {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">    if (directory.isDirectory()) {</span>
+<span class="fc" id="L47">      return listDirectory(directory.getPath());</span>
+    } else {
+<span class="fc" id="L49">      throw new MPDException(directory.getPath() + &quot; is not a directory.&quot;);</span>
+    }
+  }
+
+  private Collection&lt;MPDFile&gt; listDirectory(String directory) {
+<span class="fc" id="L54">    return listDirectoryInfo(directory);</span>
+  }
+
+  private Collection&lt;MPDFile&gt; listDirectoryInfo(String directory) {
+<span class="fc" id="L58">    List&lt;MPDFile&gt; returnList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L59">    List&lt;String&gt; commandResponse =</span>
+<span class="fc" id="L60">        commandExecutor.sendCommand(databaseProperties.getListInfo(), directory);</span>
+
+<span class="fc" id="L62">    Iterator&lt;String&gt; iterator = commandResponse.iterator();</span>
+<span class="fc" id="L63">    String line = null;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">    while (iterator.hasNext()) {</span>
+<span class="pc bpc" id="L65" title="1 of 6 branches missed.">      if (line == null || (!line.startsWith(PREFIX_FILE) &amp;&amp; !line.startsWith(PREFIX_DIRECTORY))) {</span>
+<span class="fc" id="L66">        line = iterator.next();</span>
+      }
+
+<span class="pc bpc" id="L69" title="1 of 4 branches missed.">      if (line.startsWith(PREFIX_FILE) || line.startsWith(PREFIX_DIRECTORY)) {</span>
+        var mpdFile =
+<span class="fc" id="L71">            MPDFile.builder(</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                    line.startsWith(PREFIX_FILE)</span>
+<span class="fc" id="L73">                        ? line.substring(PREFIX_FILE.length()).trim()</span>
+<span class="fc" id="L74">                        : line.substring(PREFIX_DIRECTORY.length()).trim())</span>
+<span class="fc" id="L75">                .build();</span>
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (line.startsWith(PREFIX_DIRECTORY)) {</span>
+<span class="fc" id="L78">          mpdFile.setDirectory(true);</span>
+        }
+<span class="fc" id="L80">        line = processFile(mpdFile, iterator);</span>
+<span class="fc" id="L81">        returnList.add(mpdFile);</span>
+<span class="fc" id="L82">      }</span>
+    }
+
+<span class="fc" id="L85">    return returnList;</span>
+  }
+
+  private static String processFile(MPDFile mpdFile, Iterator&lt;String&gt; iterator) {
+<span class="fc" id="L89">    String line = iterator.next();</span>
+<span class="fc bfc" id="L90" title="All 4 branches covered.">    while (!line.startsWith(PREFIX_FILE) &amp;&amp; !line.startsWith(PREFIX_DIRECTORY)) {</span>
+
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">      if (line.startsWith(PREFIX_LAST_MODIFIED)) {</span>
+<span class="fc" id="L93">        mpdFile.setLastModified(processDate(line));</span>
+      }
+
+<span class="fc bfc" id="L96" title="All 2 branches covered.">      if (!iterator.hasNext()) {</span>
+<span class="fc" id="L97">        break;</span>
+      }
+<span class="fc" id="L99">      line = iterator.next();</span>
+    }
+<span class="fc" id="L101">    return line;</span>
+  }
+
+  private static LocalDateTime processDate(String name) {
+<span class="fc" id="L105">    return LocalDateTime.parse(</span>
+<span class="fc" id="L106">        name.substring(PREFIX_LAST_MODIFIED.length()).trim(), DateTimeFormatter.ISO_DATE_TIME);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

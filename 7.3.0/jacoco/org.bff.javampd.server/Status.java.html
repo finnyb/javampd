@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Status.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JavaMPD</a> &gt; <a href="index.source.html" class="el_package">org.bff.javampd.server</a> &gt; <span class="el_source">Status.java</span></div><h1>Status.java</h1><pre class="source lang-java linenums">package org.bff.javampd.server;
+
+import java.util.HashMap;
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+
+/** Enumeration of the available information from the MPD server status. */
+<span class="fc" id="L8">@Slf4j</span>
+public enum Status {
+  /** The current volume (0-100) */
+<span class="fc" id="L11">  VOLUME(&quot;volume:&quot;),</span>
+  /** is the song repeating (0 or 1) */
+<span class="fc" id="L13">  REPEAT(&quot;repeat:&quot;),</span>
+  /** is the song playing in random order (0 or 1) */
+<span class="fc" id="L15">  RANDOM(&quot;random:&quot;),</span>
+  /** the playlist version number (31-bit unsigned integer) */
+<span class="fc" id="L17">  PLAYLIST(&quot;playlist:&quot;),</span>
+  /** the length of the playlist */
+<span class="fc" id="L19">  PLAYLISTLENGTH(&quot;playlistlength:&quot;),</span>
+  /** the current state (play, stop, or pause) */
+<span class="fc" id="L21">  STATE(&quot;state:&quot;),</span>
+  /** playlist song number of the current song stopped on or playing */
+<span class="fc" id="L23">  CURRENTSONG(&quot;song:&quot;),</span>
+  /** playlist song id of the current song stopped on or playing */
+<span class="fc" id="L25">  CURRENTSONGID(&quot;songid:&quot;),</span>
+  /** playlist next song number of the next song to be played */
+<span class="fc" id="L27">  NEXT_SONG(&quot;nextsong:&quot;),</span>
+  /** playlist song id of the next song to be played */
+<span class="fc" id="L29">  NEXT_SONG_ID(&quot;nextsongid:&quot;),</span>
+  /** duration of the current song in seconds */
+<span class="fc" id="L31">  DURATION(&quot;duration:&quot;),</span>
+  /** total time elapsed within the current song in seconds, but with higher resolution */
+<span class="fc" id="L33">  ELAPSED(&quot;elapsed:&quot;),</span>
+  /** the time of the current playing/paused song */
+<span class="fc" id="L35">  TIME(&quot;time:&quot;),</span>
+  /** instantaneous bitrate in kbps */
+<span class="fc" id="L37">  BITRATE(&quot;bitrate:&quot;),</span>
+  /** crossfade in seconds */
+<span class="fc" id="L39">  XFADE(&quot;xfade:&quot;),</span>
+  /** the cuurent samplerate, bits, and channels */
+<span class="fc" id="L41">  AUDIO(&quot;audio:&quot;),</span>
+  /** job id */
+<span class="fc" id="L43">  UPDATINGDB(&quot;updating_db:&quot;),</span>
+  /** if there is an error, returns message here */
+<span class="fc" id="L45">  ERROR(&quot;error:&quot;),</span>
+  /** if 'consume' mode is enabled */
+<span class="fc" id="L47">  CONSUME(&quot;consume:&quot;),</span>
+  /** if 'single' mode is enabled */
+<span class="fc" id="L49">  SINGLE(&quot;single:&quot;),</span>
+  /** if 'single' mode is enabled */
+<span class="fc" id="L51">  MIX_RAMP_DB(&quot;mixrampdb:&quot;),</span>
+  /** if 'single' mode is enabled */
+<span class="fc" id="L53">  MIX_RAMP_DELAY(&quot;mixrampdelay:&quot;),</span>
+  /** if the status is unknown */
+<span class="fc" id="L55">  UNKNOWN(&quot;unknown&quot;);</span>
+
+  /** the prefix associated with the status */
+  private final String prefix;
+
+<span class="fc" id="L60">  private static final Map&lt;String, Status&gt; lookup = new HashMap&lt;&gt;();</span>
+
+  static {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    for (Status s : Status.values()) {</span>
+<span class="fc" id="L64">      lookup.put(s.prefix, s);</span>
+    }
+<span class="fc" id="L66">  }</span>
+
+  /**
+   * Enum constructor
+   *
+   * @param prefix the prefix of the line in the response
+   */
+<span class="fc" id="L73">  Status(String prefix) {</span>
+<span class="fc" id="L74">    this.prefix = prefix;</span>
+<span class="fc" id="L75">  }</span>
+
+  /**
+   * Returns the &lt;CODE&gt;String&lt;/CODE&gt; prefix of the response.
+   *
+   * @return the prefix of the response
+   */
+  public String getStatusPrefix() {
+<span class="fc" id="L83">    return prefix;</span>
+  }
+
+  /**
+   * Returns the {@link Status} the status line starts with. If no status is found {@link #UNKNOWN}
+   * is returned
+   *
+   * @param line the line to process
+   * @return the {@link Status} the lines starts with. &lt;code&gt;null&lt;/code&gt; if there isn't a match
+   */
+  public static Status lookup(String line) {
+<span class="fc" id="L94">    var status = lookup.get(line.substring(0, line.indexOf(&quot;:&quot;) + 1));</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">    if (status != null) {</span>
+<span class="fc" id="L96">      return status;</span>
+    }
+
+<span class="fc" id="L99">    log.warn(&quot;Unknown status {} returned&quot;, line);</span>
+<span class="fc" id="L100">    return UNKNOWN;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
