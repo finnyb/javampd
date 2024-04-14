@@ -55,7 +55,7 @@ class MPDPlaylistTestSong {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals(mpdSong.getFile(), stringArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.SONG_ADDED, changeEvent[0].getEvent());
     assertEquals(mpdSong.getFile(), changeEvent[0].getName());
@@ -85,7 +85,7 @@ class MPDPlaylistTestSong {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals(mpdSong.getFile(), stringArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.SONG_ADDED, changeEvent[0].getEvent());
     assertEquals(mpdSong.getFile(), changeEvent[0].getName());
@@ -118,12 +118,14 @@ class MPDPlaylistTestSong {
 
     assertEquals(
         realPlaylistProperties.getAdd(),
-        commandArgumentCaptor.getAllValues().get(0).get(0).getCommand());
-    assertEquals("test1", commandArgumentCaptor.getAllValues().get(0).get(0).getParams().get(0));
+        commandArgumentCaptor.getAllValues().getFirst().getFirst().getCommand());
+    assertEquals(
+        "test1", commandArgumentCaptor.getAllValues().getFirst().getFirst().getParams().getFirst());
     assertEquals(
         realPlaylistProperties.getAdd(),
-        commandArgumentCaptor.getAllValues().get(0).get(1).getCommand());
-    assertEquals("test2", commandArgumentCaptor.getAllValues().get(0).get(1).getParams().get(0));
+        commandArgumentCaptor.getAllValues().getFirst().get(1).getCommand());
+    assertEquals(
+        "test2", commandArgumentCaptor.getAllValues().getFirst().get(1).getParams().getFirst());
     assertEquals(PlaylistChangeEvent.Event.MULTIPLE_SONGS_ADDED, changeEvent[0].getEvent());
   }
 
@@ -245,7 +247,7 @@ class MPDPlaylistTestSong {
     List<MPDPlaylistSong> songs = playlist.getSongList();
 
     assertEquals(mockedSongs.size(), songs.size());
-    assertEquals(mockedSongs.get(0), songs.get(0));
+    assertEquals(mockedSongs.getFirst(), songs.getFirst());
     assertEquals(mockedSongs.get(1), songs.get(1));
   }
 }

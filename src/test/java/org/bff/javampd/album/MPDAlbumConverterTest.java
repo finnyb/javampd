@@ -34,18 +34,18 @@ class MPDAlbumConverterTest {
             "Album: Anthem of the Peaceful Army");
 
     var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
-    var a = albums.get(0);
+    var a = albums.getFirst();
 
     assertAll(
         () -> assertThat(a.getName(), is(equalTo("Anthem of the Peaceful Army"))),
         () -> assertThat(albums.size(), is(equalTo(1))),
         () -> assertThat(a.getAlbumArtist(), is(equalTo("Greta Van Fleet"))),
         () -> assertThat(a.getArtistNames().size(), is(equalTo(1))),
-        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Greta Van Fleet"))),
+        () -> assertThat(a.getArtistNames().getFirst(), is(equalTo("Greta Van Fleet"))),
         () -> assertThat(a.getGenres().size(), is(equalTo(1))),
-        () -> assertThat(a.getGenres().get(0), is(equalTo("Rock"))),
+        () -> assertThat(a.getGenres().getFirst(), is(equalTo("Rock"))),
         () -> assertThat(a.getDates().size(), is(equalTo(1))),
-        () -> assertThat(a.getDates().get(0), is(equalTo("2018"))));
+        () -> assertThat(a.getDates().getFirst(), is(equalTo("2018"))));
   }
 
   @Test
@@ -62,18 +62,18 @@ class MPDAlbumConverterTest {
             "Album: Anthem of the Peaceful Army");
 
     var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
-    var a = albums.get(0);
+    var a = albums.getFirst();
 
     assertAll(
         () -> assertThat(a.getName(), is(equalTo("Anthem of the Peaceful Army"))),
         () -> assertThat(albums.size(), is(equalTo(1))),
         () -> assertThat(a.getAlbumArtist(), is(equalTo("Greta Van Fleet"))),
         () -> assertThat(a.getArtistNames().size(), is(equalTo(1))),
-        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Greta Van Fleet"))),
+        () -> assertThat(a.getArtistNames().getFirst(), is(equalTo("Greta Van Fleet"))),
         () -> assertThat(a.getGenres().size(), is(equalTo(1))),
-        () -> assertThat(a.getGenres().get(0), is(equalTo("Rock"))),
+        () -> assertThat(a.getGenres().getFirst(), is(equalTo("Rock"))),
         () -> assertThat(a.getDates().size(), is(equalTo(1))),
-        () -> assertThat(a.getDates().get(0), is(equalTo("2018"))));
+        () -> assertThat(a.getDates().getFirst(), is(equalTo("2018"))));
   }
 
   @Test
@@ -95,7 +95,7 @@ class MPDAlbumConverterTest {
         () -> assertThat(a.getName(), is(equalTo("Lateralus"))),
         () -> assertNull(a.getAlbumArtist()),
         () -> assertThat(a.getArtistNames().size(), is(equalTo(1))),
-        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Tool"))),
+        () -> assertThat(a.getArtistNames().getFirst(), is(equalTo("Tool"))),
         () -> assertThat(a.getGenres().size(), is(equalTo(0))),
         () -> assertThat(a.getDates().size(), is(equalTo(0))));
   }
@@ -113,18 +113,18 @@ class MPDAlbumConverterTest {
             "Album: Eternal Blue");
 
     var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
-    var a = albums.get(0);
+    var a = albums.getFirst();
 
     assertAll(
         () -> assertThat(albums.size(), is(equalTo(1))),
         () -> assertThat(a.getName(), is(equalTo("Eternal Blue"))),
         () -> assertThat(a.getAlbumArtist(), is(equalTo("Spiritbox"))),
         () -> assertThat(a.getArtistNames().size(), is(equalTo(2))),
-        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Spiritbox"))),
+        () -> assertThat(a.getArtistNames().getFirst(), is(equalTo("Spiritbox"))),
         () -> assertThat(a.getArtistNames().get(1), is(equalTo("Spiritbox feat. Sam Carter"))),
         () -> assertThat(a.getGenres().size(), is(equalTo(1))),
-        () -> assertThat(a.getGenres().get(0), is(equalTo("Metal"))),
+        () -> assertThat(a.getGenres().getFirst(), is(equalTo("Metal"))),
         () -> assertThat(a.getDates().size(), is(equalTo(1))),
-        () -> assertThat(a.getDates().get(0), is(equalTo("2021"))));
+        () -> assertThat(a.getDates().getFirst(), is(equalTo("2021"))));
   }
 }

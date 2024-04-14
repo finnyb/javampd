@@ -86,7 +86,7 @@ class MPDPlaylistTest {
 
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
-    assertEquals(realPlaylistProperties.getLoad(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getLoad(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("testPlaylist", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0].getEvent());
   }
@@ -102,7 +102,7 @@ class MPDPlaylistTest {
 
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
-    assertEquals(realPlaylistProperties.getLoad(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getLoad(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("testPlaylist", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0].getEvent());
   }
@@ -118,7 +118,7 @@ class MPDPlaylistTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("test", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.FILE_ADDED, changeEvent[0].getEvent());
   }
@@ -133,7 +133,7 @@ class MPDPlaylistTest {
 
     verify(commandExecutor).sendCommand(stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getClear(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getClear(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_CLEARED, changeEvent[0].getEvent());
   }
 
@@ -148,7 +148,8 @@ class MPDPlaylistTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getDelete(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(
+        realPlaylistProperties.getDelete(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("testPlaylist", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_DELETED, changeEvent[0].getEvent());
   }
@@ -162,7 +163,8 @@ class MPDPlaylistTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getDelete(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(
+        realPlaylistProperties.getDelete(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("testPlaylist", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_DELETED, changeEvent[0].getEvent());
   }
@@ -184,7 +186,7 @@ class MPDPlaylistTest {
             integerArgumentCaptor.capture());
 
     assertEquals(realPlaylistProperties.getMoveId(), stringArgumentCaptor.getValue());
-    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().get(0));
+    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().getFirst());
     assertEquals((Integer) 5, integerArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0].getEvent());
   }
@@ -206,7 +208,7 @@ class MPDPlaylistTest {
             integerArgumentCaptor.capture());
 
     assertEquals(realPlaylistProperties.getMove(), stringArgumentCaptor.getValue());
-    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().get(0));
+    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().getFirst());
     assertEquals((Integer) 5, integerArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0].getEvent());
   }
@@ -243,7 +245,7 @@ class MPDPlaylistTest {
             integerArgumentCaptor.capture());
 
     assertEquals(realPlaylistProperties.getSwapId(), stringArgumentCaptor.getValue());
-    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().get(0));
+    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().getFirst());
     assertEquals((Integer) 5, integerArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0].getEvent());
   }
@@ -267,7 +269,7 @@ class MPDPlaylistTest {
             integerArgumentCaptor.capture());
 
     assertEquals(realPlaylistProperties.getSwapId(), stringArgumentCaptor.getValue());
-    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().get(0));
+    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().getFirst());
     assertEquals((Integer) 5, integerArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0].getEvent());
   }
@@ -291,7 +293,7 @@ class MPDPlaylistTest {
             integerArgumentCaptor.capture());
 
     assertEquals(realPlaylistProperties.getSwap(), stringArgumentCaptor.getValue());
-    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().get(0));
+    assertEquals((Integer) 3, integerArgumentCaptor.getAllValues().getFirst());
     assertEquals((Integer) 5, integerArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_CHANGED, changeEvent[0].getEvent());
   }
@@ -307,7 +309,7 @@ class MPDPlaylistTest {
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
     assertTrue(saved);
-    assertEquals(realPlaylistProperties.getSave(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getSave(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("name", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.PLAYLIST_SAVED, changeEvent[0].getEvent());
   }

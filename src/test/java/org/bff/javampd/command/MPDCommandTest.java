@@ -36,14 +36,14 @@ class MPDCommandTest {
   void testParmsWithOneParm() {
     MPDCommand mpdCommand = new MPDCommand("command", "parm");
     assertEquals(1, mpdCommand.getParams().size());
-    assertEquals("parm", mpdCommand.getParams().get(0));
+    assertEquals("parm", mpdCommand.getParams().getFirst());
   }
 
   @Test
   void testParmsWithMultipleParms() {
     MPDCommand mpdCommand = new MPDCommand("command", "parm1", "parm2");
     assertEquals(2, mpdCommand.getParams().size());
-    assertEquals("parm1", mpdCommand.getParams().get(0));
+    assertEquals("parm1", mpdCommand.getParams().getFirst());
     assertEquals("parm2", mpdCommand.getParams().get(1));
   }
 

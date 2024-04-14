@@ -154,8 +154,10 @@ class MPDServerStatusTest {
     when(clock.now()).thenReturn(LocalDateTime.now());
 
     assertEquals(
-        "Failed to enable output \"default detected output\" (jack); Failed to connect to"
-            + " JACK server, status=17",
+        """
+        Failed to enable output "default detected output" (jack); Failed to connect to\
+         JACK server, status=17\
+        """,
         serverStatus.getError());
   }
 
@@ -383,7 +385,7 @@ class MPDServerStatusTest {
   @Test
   void testPlaylistSongNumber() {
     var id = 464;
-    statusList.add(String.format("song: %s", id));
+    statusList.add("song: %s".formatted(id));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -403,7 +405,7 @@ class MPDServerStatusTest {
   @Test
   void testPlaylistSongId() {
     var id = "464";
-    statusList.add(String.format("songid: %s", id));
+    statusList.add("songid: %s".formatted(id));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -423,7 +425,7 @@ class MPDServerStatusTest {
   @Test
   void testPlaylistNextSongNumber() {
     var id = 464;
-    statusList.add(String.format("nextsong: %s", id));
+    statusList.add("nextsong: %s".formatted(id));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -443,7 +445,7 @@ class MPDServerStatusTest {
   @Test
   void testPlaylistNextSongId() {
     var id = "464";
-    statusList.add(String.format("nextsongid: %s", id));
+    statusList.add("nextsongid: %s".formatted(id));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -463,7 +465,7 @@ class MPDServerStatusTest {
   @Test
   void testDurationCurrentSong() {
     var duration = 235;
-    statusList.add(String.format("duration: %s", duration));
+    statusList.add("duration: %s".formatted(duration));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -483,7 +485,7 @@ class MPDServerStatusTest {
   @Test
   void testElapsedCurrentSong() {
     var duration = 235;
-    statusList.add(String.format("elapsed: %s", duration));
+    statusList.add("elapsed: %s".formatted(duration));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -503,7 +505,7 @@ class MPDServerStatusTest {
   @ParameterizedTest
   @ValueSource(ints = {-5, 0, 5})
   void testMixRampDb(int db) {
-    statusList.add(String.format("mixrampdb: %s", db));
+    statusList.add("mixrampdb: %s".formatted(db));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -515,7 +517,7 @@ class MPDServerStatusTest {
   @Test
   void mixRampDbFloat() {
     var db = "0.000000";
-    statusList.add(String.format("mixrampdb: %s", db));
+    statusList.add("mixrampdb: %s".formatted(db));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -535,7 +537,7 @@ class MPDServerStatusTest {
   @ParameterizedTest
   @ValueSource(ints = {-5, 0, 5})
   void testMixRampDelay(int delay) {
-    statusList.add(String.format("mixrampdelay: %s", delay));
+    statusList.add("mixrampdelay: %s".formatted(delay));
     when(commandExecutor.sendCommand(properties.getStatus())).thenReturn(statusList);
     when(clock.now()).thenReturn(LocalDateTime.now());
 
@@ -570,8 +572,10 @@ class MPDServerStatusTest {
         "bitrate: 0",
         "duration: 426.680",
         "audio: 44100:16:2",
-        "error: Failed to enable output \"default detected output\" (jack); Failed to"
-            + " connect to JACK server, status=17",
+        """
+        error: Failed to enable output "default detected output" (jack); Failed to\
+         connect to JACK server, status=17\
+        """,
         "nextsong: 1",
         "nextsongid: 2",
         "OK");

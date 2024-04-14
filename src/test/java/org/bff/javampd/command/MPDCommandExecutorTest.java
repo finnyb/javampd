@@ -47,7 +47,7 @@ class MPDCommandExecutorTest {
 
     List<String> response = commandExecutor.sendCommand(commandString);
 
-    assertEquals(response.get(0), testResponse.get(0));
+    assertEquals(response.getFirst(), testResponse.getFirst());
   }
 
   @Test
@@ -61,7 +61,7 @@ class MPDCommandExecutorTest {
 
     List<String> response = commandExecutor.sendCommand(command);
 
-    assertEquals(response.get(0), testResponse.get(0));
+    assertEquals(response.getFirst(), testResponse.getFirst());
   }
 
   @Test
@@ -77,7 +77,7 @@ class MPDCommandExecutorTest {
 
     List<String> response = commandExecutor.sendCommand(commandString, paramString);
 
-    assertEquals(response.get(0), testResponse.get(0));
+    assertEquals(response.getFirst(), testResponse.getFirst());
   }
 
   @Test
@@ -93,7 +93,7 @@ class MPDCommandExecutorTest {
 
     List<String> response = commandExecutor.sendCommand(commandString, paramInteger);
 
-    assertEquals(response.get(0), testResponse.get(0));
+    assertEquals(response.getFirst(), testResponse.getFirst());
   }
 
   @Test
@@ -110,7 +110,7 @@ class MPDCommandExecutorTest {
         .thenThrow(new MPDSecurityException("exception"))
         .thenReturn(testResponse);
     List<String> response = new ArrayList<>(commandExecutor.sendCommand(command));
-    assertEquals(response.get(0), testResponse.get(0));
+    assertEquals(response.getFirst(), testResponse.getFirst());
   }
 
   @Test
