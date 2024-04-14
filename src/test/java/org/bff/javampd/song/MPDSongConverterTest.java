@@ -23,7 +23,7 @@ class MPDSongConverterTest {
     var s =
         converter
             .convertResponseToSongs(List.of("file: Tool/10,000 Days/01 Vicarious.flac"))
-            .get(0);
+            .getFirst();
     assertAll(
         () -> assertNull(s.getArtistName()),
         () -> assertNull(s.getAlbumArtist()),
@@ -45,13 +45,13 @@ class MPDSongConverterTest {
         "Tool/10,000 Days/01 Vicarious.flac",
         converter
             .convertResponseToSongs(List.of("file: Tool/10,000 Days/01 Vicarious.flac"))
-            .get(0)
+            .getFirst()
             .getFile());
   }
 
   @Test
   void single() {
-    var s = converter.convertResponseToSongs(createSingleResponse()).get(0);
+    var s = converter.convertResponseToSongs(createSingleResponse()).getFirst();
     assertAll(
         () -> assertEquals("Tool", s.getArtistName()),
         () -> assertEquals("Tool", s.getAlbumArtist()),
@@ -78,8 +78,10 @@ class MPDSongConverterTest {
                 "Genre: Hard Rock",
                 "Date: 2006",
                 "Track: 1",
-                "file: Greta Van Fleet/Anthem of the Peaceful Army/03-When the"
-                    + " Curtain Falls.flac",
+                """
+                file: Greta Van Fleet/Anthem of the Peaceful Army/03-When the\
+                 Curtain Falls.flac\
+                """,
                 "Artist: Greta Van Fleet",
                 "Album: Anthem of the Peaceful Army",
                 "Track: 3"));
@@ -93,7 +95,7 @@ class MPDSongConverterTest {
   @Test
   void multipleFirst() {
     var s = new ArrayList<>(converter.convertResponseToSongs(createMultipleResponse()));
-    var s1 = s.get(0);
+    var s1 = s.getFirst();
 
     assertAll(
         () -> assertEquals("Breaking Benjamin", s1.getArtistName()),
@@ -151,22 +153,23 @@ class MPDSongConverterTest {
 
   @Test
   void tagMap() {
-    var s = converter.convertResponseToSongs(createSingleResponse()).get(0);
+    var s = converter.convertResponseToSongs(createSingleResponse()).getFirst();
     var m = s.getTagMap();
 
     assertAll(
-        () -> assertEquals(24, m.size()), () -> assertEquals("Tool", m.get("AlbumArtist").get(0)));
+        () -> assertEquals(24, m.size()),
+        () -> assertEquals("Tool", m.get("AlbumArtist").getFirst()));
   }
 
   @Test
   @DisplayName("multiple instances of the same tag")
   void tagMapMultipleTags() {
-    var s = converter.convertResponseToSongs(createSingleResponse()).get(0);
+    var s = converter.convertResponseToSongs(createSingleResponse()).getFirst();
     var p = s.getTagMap().get("Performer");
 
     assertAll(
         () -> assertEquals(4, p.size()),
-        () -> assertEquals("Danny Carey (membranophone)", p.get(0)),
+        () -> assertEquals("Danny Carey (membranophone)", p.getFirst()),
         () -> assertEquals("Justin Chancellor (bass guitar)", p.get(1)),
         () -> assertEquals("Adam Jones (guitar)", p.get(2)),
         () -> assertEquals("Maynard James Keenan (lead vocals)", p.get(3)));
@@ -177,7 +180,7 @@ class MPDSongConverterTest {
     var songs =
         converter.convertResponseToSongs(
             Arrays.asList("file: Tool/10,000 Days/01 Vicarious.flac", "NotATag"));
-    var s = songs.get(0);
+    var s = songs.getFirst();
     assertEquals(0, s.getTagMap().size());
   }
 
@@ -187,10 +190,13 @@ class MPDSongConverterTest {
         this.converter.getSongFileNameList(
             Arrays.asList(
                 "file: Tool/10,000 Days/01 Vicarious.flac",
-                "File: Greta Van Fleet/Anthem of the Peaceful Army/02 The Cold" + " Wind.flac"));
+                """
+                File: Greta Van Fleet/Anthem of the Peaceful Army/02 The Cold\
+                 Wind.flac\
+                """));
 
     assertAll(
-        () -> assertEquals("Tool/10,000 Days/01 Vicarious.flac", files.get(0)),
+        () -> assertEquals("Tool/10,000 Days/01 Vicarious.flac", files.getFirst()),
         () ->
             assertEquals(
                 "Greta Van Fleet/Anthem of the Peaceful Army/02 The Cold Wind.flac", files.get(1)));

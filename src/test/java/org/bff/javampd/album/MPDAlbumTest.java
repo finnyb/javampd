@@ -21,14 +21,14 @@ class MPDAlbumTest {
     var artist = "Greta Van Fleet";
     var album = MPDAlbum.builder("Anthem of the Peaceful Army").build();
     album.addArtist(artist);
-    assertThat(artist, is(equalTo(album.getArtistNames().get(0))));
+    assertThat(artist, is(equalTo(album.getArtistNames().getFirst())));
   }
 
   @Test
   void addArtist() {
     var album = MPDAlbum.builder("album").build();
     album.addArtist("Tool");
-    assertThat("Tool", is(equalTo(album.getArtistNames().get(0))));
+    assertThat("Tool", is(equalTo(album.getArtistNames().getFirst())));
   }
 
   @Test
@@ -38,7 +38,7 @@ class MPDAlbumTest {
 
     assertAll(
         () -> assertThat(2, is(equalTo(album.getArtistNames().size()))),
-        () -> assertThat("Tool", is(equalTo(album.getArtistNames().get(0)))),
+        () -> assertThat("Tool", is(equalTo(album.getArtistNames().getFirst()))),
         () -> assertThat("Breaking Benjamin", is(equalTo(album.getArtistNames().get(1)))));
   }
 
@@ -46,7 +46,7 @@ class MPDAlbumTest {
   void addGenre() {
     var album = MPDAlbum.builder("album").build();
     album.addGenre("Rock");
-    assertThat("Rock", is(equalTo(album.getGenres().get(0))));
+    assertThat("Rock", is(equalTo(album.getGenres().getFirst())));
   }
 
   @Test
@@ -56,7 +56,7 @@ class MPDAlbumTest {
 
     assertAll(
         () -> assertThat(2, is(equalTo(album.getGenres().size()))),
-        () -> assertThat("Rock", is(equalTo(album.getGenres().get(0)))),
+        () -> assertThat("Rock", is(equalTo(album.getGenres().getFirst()))),
         () -> assertThat("Heavy Metal", is(equalTo(album.getGenres().get(1)))));
   }
 
@@ -64,7 +64,7 @@ class MPDAlbumTest {
   void addDate() {
     var album = MPDAlbum.builder("album").build();
     album.addDate("1990");
-    assertThat("1990", is(equalTo(album.getDates().get(0))));
+    assertThat("1990", is(equalTo(album.getDates().getFirst())));
   }
 
   @Test
@@ -74,7 +74,7 @@ class MPDAlbumTest {
 
     assertAll(
         () -> assertThat(2, is(equalTo(album.getDates().size()))),
-        () -> assertThat("1990", is(equalTo(album.getDates().get(0)))),
+        () -> assertThat("1990", is(equalTo(album.getDates().getFirst()))),
         () -> assertThat("2006-05-24", is(equalTo(album.getDates().get(1)))));
   }
 

@@ -42,7 +42,7 @@ class MPDArtistDatabaseTest {
 
     List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists());
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 
   @Test
@@ -71,7 +71,7 @@ class MPDArtistDatabaseTest {
 
     List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists());
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 
   @Test
@@ -96,7 +96,7 @@ class MPDArtistDatabaseTest {
 
     List<MPDArtist> artists = new ArrayList<>(artistDatabase.listArtistsByGenre(testGenre));
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 
   @Test
@@ -118,7 +118,7 @@ class MPDArtistDatabaseTest {
     artists.add(artistDatabase.listArtistByName(testArtistName));
 
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 
   @Test
@@ -142,6 +142,6 @@ class MPDArtistDatabaseTest {
     artists.add(artistDatabase.listArtistByName(testArtistName));
 
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 }

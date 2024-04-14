@@ -39,7 +39,7 @@ class MPDTagListerTest {
     List<String> infoList = new ArrayList<>(tagLister.listInfo(TagLister.ListInfoType.PLAYLIST));
 
     assertEquals(1, infoList.size());
-    assertEquals("5", infoList.get(0));
+    assertEquals("5", infoList.getFirst());
   }
 
   @Test
@@ -54,7 +54,7 @@ class MPDTagListerTest {
             tagLister.listInfo(TagLister.ListInfoType.PLAYLIST, TagLister.ListInfoType.DIRECTORY));
 
     assertEquals(2, infoList.size());
-    assertEquals("5", infoList.get(0));
+    assertEquals("5", infoList.getFirst());
     assertEquals("6", infoList.get(1));
   }
 
@@ -79,7 +79,7 @@ class MPDTagListerTest {
     List<String> infoList = new ArrayList<>(tagLister.list(TagLister.ListType.ALBUM));
 
     assertEquals(1, infoList.size());
-    assertEquals(testAlbumResponse, infoList.get(0));
+    assertEquals(testAlbumResponse, infoList.getFirst());
   }
 
   @Test
@@ -94,7 +94,7 @@ class MPDTagListerTest {
         new ArrayList<>(tagLister.list(TagLister.ListType.ALBUM, TagLister.GroupType.ARTIST));
 
     assertEquals(2, infoList.size());
-    assertEquals("album: testAlbum", infoList.get(0));
+    assertEquals("album: testAlbum", infoList.getFirst());
     assertEquals("artist: testArtist", infoList.get(1));
   }
 
@@ -111,7 +111,7 @@ class MPDTagListerTest {
         new ArrayList<>(tagLister.list(TagLister.ListType.ALBUM, TagLister.GroupType.DATE));
 
     assertEquals(2, infoList.size());
-    assertEquals("album: testAlbum", infoList.get(0));
+    assertEquals("album: testAlbum", infoList.getFirst());
     assertEquals("date: testDate", infoList.get(1));
   }
 
@@ -128,7 +128,7 @@ class MPDTagListerTest {
         new ArrayList<>(tagLister.list(TagLister.ListType.ALBUM, TagLister.GroupType.GENRE));
 
     assertEquals(2, infoList.size());
-    assertEquals("album: testAlbum", infoList.get(0));
+    assertEquals("album: testAlbum", infoList.getFirst());
     assertEquals("genre: testGenre", infoList.get(1));
   }
 
@@ -142,7 +142,7 @@ class MPDTagListerTest {
     List<String> infoList = new ArrayList<>(tagLister.list(TagLister.ListType.ARTIST));
 
     assertEquals(1, infoList.size());
-    assertEquals("", infoList.get(0));
+    assertEquals("", infoList.getFirst());
   }
 
   @Test
@@ -160,7 +160,7 @@ class MPDTagListerTest {
     List<String> infoList = new ArrayList<>(tagLister.list(TagLister.ListType.ALBUM, params));
 
     assertEquals(1, infoList.size());
-    assertEquals(testResponse, infoList.get(0));
+    assertEquals(testResponse, infoList.getFirst());
   }
 
   @Test
@@ -183,7 +183,7 @@ class MPDTagListerTest {
             tagLister.list(TagLister.ListType.ALBUM, params, TagLister.GroupType.ARTIST));
 
     assertEquals(1, infoList.size());
-    assertEquals(testResponse, infoList.get(0));
+    assertEquals(testResponse, infoList.getFirst());
   }
 
   @Test
@@ -220,7 +220,7 @@ class MPDTagListerTest {
             argumentCaptor.capture());
 
     assertAll(
-        () -> assertThat(argumentCaptor.getAllValues().get(0), is(equalTo("list"))),
+        () -> assertThat(argumentCaptor.getAllValues().getFirst(), is(equalTo("list"))),
         () -> assertThat(argumentCaptor.getAllValues().get(1), is(equalTo("album"))),
         () -> assertThat(argumentCaptor.getAllValues().get(2), is(equalTo("artist"))),
         () -> assertThat(argumentCaptor.getAllValues().get(3), is(equalTo("Tool"))),

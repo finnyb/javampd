@@ -81,7 +81,7 @@ class MPDSocketTest {
     MPDCommand command = new MPDCommand("command");
 
     List<String> response = new ArrayList<>(socket.sendCommand(command));
-    assertEquals(testResponse, response.get(0));
+    assertEquals(testResponse, response.getFirst());
   }
 
   @Test
@@ -119,7 +119,7 @@ class MPDSocketTest {
     MPDCommand command = new MPDCommand("command");
 
     List<String> response = new ArrayList<>(socket.sendCommand(command));
-    assertEquals(testResponse, response.get(0));
+    assertEquals(testResponse, response.getFirst());
   }
 
   @Test
@@ -219,7 +219,7 @@ class MPDSocketTest {
     MPDCommand command = new MPDCommand("command");
 
     List<String> response = new ArrayList<>(socket.sendCommand(command));
-    assertEquals(testResponse, response.get(0));
+    assertEquals(testResponse, response.getFirst());
   }
 
   @Test
@@ -352,7 +352,7 @@ class MPDSocketTest {
     socket.sendCommand(command);
     verify(mockedOutputStream, times(2)).write(byteArgumentCaptor.capture());
 
-    assertArrayEquals("ping\n".getBytes(), byteArgumentCaptor.getAllValues().get(0));
+    assertArrayEquals("ping\n".getBytes(), byteArgumentCaptor.getAllValues().getFirst());
   }
 
   @Test

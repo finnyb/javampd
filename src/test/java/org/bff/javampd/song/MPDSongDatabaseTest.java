@@ -84,6 +84,6 @@ class MPDSongDatabaseTest {
         () -> assertEquals(testAlbumName, argumentCaptor.getValue()),
         () -> assertEquals(SongSearcher.ScopeType.ALBUM, scopeCaptor.getValue()),
         () -> assertEquals(1, songs.size()),
-        () -> assertEquals(testArtistName, songs.get(0).getArtistName()));
+        () -> assertEquals(testArtistName, songs.getFirst().getArtistName()));
   }
 }

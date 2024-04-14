@@ -141,7 +141,7 @@ class MPDPlayerTest {
     assertAll(
         () ->
             assertThat(
-                stringArgumentCaptor.getAllValues().get(0),
+                stringArgumentCaptor.getAllValues().getFirst(),
                 is(equalTo((playerProperties.getCurrentSong())))),
         () ->
             assertThat(
@@ -149,7 +149,7 @@ class MPDPlayerTest {
                 is(equalTo((playerProperties.getSeekId())))),
         () ->
             assertThat(
-                paramArgumentCaptor.getAllValues().get(0),
+                paramArgumentCaptor.getAllValues().getFirst(),
                 is(equalTo((Integer.toString(testSong.getId()))))),
         () ->
             assertThat(
@@ -214,7 +214,7 @@ class MPDPlayerTest {
                 stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getSeekId())))),
         () ->
             assertThat(
-                paramArgumentCaptor.getAllValues().get(0),
+                paramArgumentCaptor.getAllValues().getFirst(),
                 is(equalTo((Integer.toString(testSong.getId()))))),
         () ->
             assertThat(
@@ -309,7 +309,7 @@ class MPDPlayerTest {
     verify(commandExecutor, times(2))
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
     assertThat(stringArgumentCaptor.getValue(), is(equalTo((playerProperties.getSetVolume()))));
-    assertThat(integerArgumentCaptor.getAllValues().get(0), is(equalTo(1)));
+    assertThat(integerArgumentCaptor.getAllValues().getFirst(), is(equalTo(1)));
     assertThat(integerArgumentCaptor.getAllValues().get(1), is(equalTo(0)));
   }
 
@@ -358,7 +358,8 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getRandom()))));
+        stringArgumentCaptor.getAllValues().getFirst(),
+        is(equalTo((playerProperties.getRandom()))));
     assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(("1"))));
   }
 
@@ -369,7 +370,7 @@ class MPDPlayerTest {
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo(playerProperties.getRandom())));
+        stringArgumentCaptor.getAllValues().getFirst(), is(equalTo(playerProperties.getRandom())));
     assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(("0"))));
   }
 
@@ -379,7 +380,8 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getRandom()))));
+        stringArgumentCaptor.getAllValues().getFirst(),
+        is(equalTo((playerProperties.getRandom()))));
     assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo("1")));
   }
 
@@ -389,7 +391,8 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getRandom()))));
+        stringArgumentCaptor.getAllValues().getFirst(),
+        is(equalTo((playerProperties.getRandom()))));
     assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(("0"))));
   }
 
@@ -405,7 +408,8 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getRepeat()))));
+        stringArgumentCaptor.getAllValues().getFirst(),
+        is(equalTo((playerProperties.getRepeat()))));
     assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(("1"))));
   }
 
@@ -415,7 +419,8 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getRepeat()))));
+        stringArgumentCaptor.getAllValues().getFirst(),
+        is(equalTo((playerProperties.getRepeat()))));
     assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(("0"))));
   }
 
@@ -482,7 +487,8 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getSingle()))));
+        stringArgumentCaptor.getAllValues().getFirst(),
+        is(equalTo((playerProperties.getSingle()))));
     assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(single ? "1" : "0")));
   }
 
@@ -493,7 +499,8 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getConsume()))));
+        stringArgumentCaptor.getAllValues().getFirst(),
+        is(equalTo((playerProperties.getConsume()))));
     assertThat(stringArgumentCaptor.getAllValues().get(1), is(equalTo(consume ? "1" : "0")));
   }
 
@@ -504,7 +511,8 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0), is(equalTo((playerProperties.getMixRampDb()))));
+        stringArgumentCaptor.getAllValues().getFirst(),
+        is(equalTo((playerProperties.getMixRampDb()))));
     assertThat(integerArgumentCaptor.getValue(), is(equalTo(db)));
   }
 
@@ -515,7 +523,7 @@ class MPDPlayerTest {
     verify(commandExecutor)
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
     assertThat(
-        stringArgumentCaptor.getAllValues().get(0),
+        stringArgumentCaptor.getAllValues().getFirst(),
         is(equalTo((playerProperties.getMixRampDelay()))));
     assertThat(
         stringArgumentCaptor.getAllValues().get(1),

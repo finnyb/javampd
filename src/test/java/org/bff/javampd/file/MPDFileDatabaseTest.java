@@ -41,11 +41,11 @@ class MPDFileDatabaseTest {
 
     List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listRootDirectory());
     assertEquals(1, mpdFiles.size());
-    assertEquals("Q", mpdFiles.get(0).getPath());
+    assertEquals("Q", mpdFiles.getFirst().getPath());
     assertEquals(
         LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
-        mpdFiles.get(0).getLastModified());
-    assertTrue(mpdFiles.get(0).isDirectory());
+        mpdFiles.getFirst().getLastModified());
+    assertTrue(mpdFiles.getFirst().isDirectory());
   }
 
   @Test
@@ -65,11 +65,11 @@ class MPDFileDatabaseTest {
 
     List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
     assertEquals(1, mpdFiles.size());
-    assertEquals("Q", mpdFiles.get(0).getPath());
+    assertEquals("Q", mpdFiles.getFirst().getPath());
     assertEquals(
         LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
-        mpdFiles.get(0).getLastModified());
-    assertTrue(mpdFiles.get(0).isDirectory());
+        mpdFiles.getFirst().getLastModified());
+    assertTrue(mpdFiles.getFirst().isDirectory());
   }
 
   @Test
@@ -87,11 +87,11 @@ class MPDFileDatabaseTest {
 
     List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
     assertEquals(1, mpdFiles.size());
-    assertEquals("Q", mpdFiles.get(0).getPath());
+    assertEquals("Q", mpdFiles.getFirst().getPath());
     assertEquals(
         LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
-        mpdFiles.get(0).getLastModified());
-    assertFalse(mpdFiles.get(0).isDirectory());
+        mpdFiles.getFirst().getLastModified());
+    assertFalse(mpdFiles.getFirst().isDirectory());
   }
 
   @Test
@@ -118,11 +118,11 @@ class MPDFileDatabaseTest {
     prepMockedCommand(dir, response);
 
     List<MPDFile> mpdFiles = new ArrayList<>(fileDatabase.listDirectory(file));
-    assertEquals("Q", mpdFiles.get(0).getPath());
+    assertEquals("Q", mpdFiles.getFirst().getPath());
     assertEquals(
         LocalDateTime.parse("2015-10-11T22:11:35Z", DateTimeFormatter.ISO_DATE_TIME),
-        mpdFiles.get(0).getLastModified());
-    assertTrue(mpdFiles.get(0).isDirectory());
+        mpdFiles.getFirst().getLastModified());
+    assertTrue(mpdFiles.getFirst().isDirectory());
   }
 
   @Test

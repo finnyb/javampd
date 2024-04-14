@@ -33,7 +33,7 @@ class MPDGenreDatabaseTest {
     List<MPDGenre> genres = new ArrayList<>(genreDatabase.listAllGenres());
 
     assertEquals(testGenres.size(), genres.size());
-    assertEquals(testGenre1, genres.get(0));
+    assertEquals(testGenre1, genres.getFirst());
     assertEquals(testGenre2, genres.get(1));
   }
 
