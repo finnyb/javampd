@@ -2,6 +2,8 @@ package org.bff.javampd.monitor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.bff.javampd.output.OutputChangeListener;
 import org.bff.javampd.player.*;
@@ -22,16 +24,16 @@ import org.bff.javampd.server.ServerStatus;
 @Singleton
 public class MPDStandAloneMonitor implements StandAloneMonitor, PlayerBasicChangeListener {
 
-  private StandAloneMonitorThread standAloneMonitorThread;
+  private final StandAloneMonitorThread standAloneMonitorThread;
+  private final OutputMonitor outputMonitor;
+  private final ErrorMonitor errorMonitor;
+  private final ConnectionMonitor connectionMonitor;
+  private final PlayerMonitor playerMonitor;
+  private final TrackMonitor trackMonitor;
+  private final PlaylistMonitor playlistMonitor;
+  private final MonitorProperties monitorProperties;
 
-  private OutputMonitor outputMonitor;
-  private ErrorMonitor errorMonitor;
-  private ConnectionMonitor connectionMonitor;
-  private PlayerMonitor playerMonitor;
-  private TrackMonitor trackMonitor;
-  private PlaylistMonitor playlistMonitor;
-
-  private MonitorProperties monitorProperties;
+  private ExecutorService executorService;
 
   @Inject
   MPDStandAloneMonitor(
@@ -173,12 +175,14 @@ public class MPDStandAloneMonitor implements StandAloneMonitor, PlayerBasicChang
 
   @Override
   public void start() {
-    Executors.newSingleThreadExecutor().execute(this.standAloneMonitorThread);
+executorService = Executors.newSingleThreadExecutor();
+    executorService.execute(this.standAloneMonitorThread);
   }
 
   @Override
   public void stop() {
     this.standAloneMonitorThread.setStopped(true);
+    executorService.shutdown();
   }
 
   @Override
