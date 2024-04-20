@@ -12,7 +12,7 @@ public class MPDBitrateMonitor extends MPDVolumeMonitor implements BitrateMonito
   private int oldBitrate;
   private int newBitrate;
 
-  private List<BitrateChangeListener> bitrateListeners;
+  private final List<BitrateChangeListener> bitrateListeners;
 
   MPDBitrateMonitor() {
     bitrateListeners = new ArrayList<>();

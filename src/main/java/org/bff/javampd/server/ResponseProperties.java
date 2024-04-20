@@ -1,5 +1,7 @@
 package org.bff.javampd.server;
 
+import lombok.Getter;
+
 /**
  * Properties for {@link org.bff.javampd.server.MPD} responses
  *
@@ -7,6 +9,7 @@ package org.bff.javampd.server;
  */
 public class ResponseProperties extends MPDProperties {
 
+  @Getter
   private enum Command {
     OK("cmd.response.ok"),
     LIST_OK("cmd.response.list.ok"),
@@ -16,10 +19,6 @@ public class ResponseProperties extends MPDProperties {
 
     Command(String key) {
       this.key = key;
-    }
-
-    public String getKey() {
-      return key;
     }
   }
 

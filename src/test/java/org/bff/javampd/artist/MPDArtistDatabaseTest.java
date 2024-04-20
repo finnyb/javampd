@@ -36,7 +36,7 @@ class MPDArtistDatabaseTest {
     MPDArtist testArtist = new MPDArtist("testName");
 
     List<String> mockReturn = new ArrayList<>();
-    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.name());
 
     when(tagLister.list(TagLister.ListType.ARTIST)).thenReturn(mockReturn);
 
@@ -50,7 +50,7 @@ class MPDArtistDatabaseTest {
     MPDArtist testArtist = new MPDArtist("Tool");
 
     List<String> mockReturn = new ArrayList<>();
-    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.name());
 
     when(tagLister.list(TagLister.ListType.ALBUM_ARTIST)).thenReturn(mockReturn);
 
@@ -65,7 +65,7 @@ class MPDArtistDatabaseTest {
     MPDArtist testArtist = new MPDArtist("Spiritbox");
 
     List<String> mockReturn = new ArrayList<>();
-    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.name());
 
     when(tagLister.list(TagLister.ListType.ARTIST)).thenReturn(mockReturn);
 
@@ -82,7 +82,7 @@ class MPDArtistDatabaseTest {
 
     List<String> mockGenreList = new ArrayList<>();
     mockGenreList.add(TagLister.ListType.GENRE.getType());
-    mockGenreList.add(testGenre.getName());
+    mockGenreList.add(testGenre.name());
 
     List<String> mockReturnGenreList = new ArrayList<>();
     mockReturnGenreList.add(testArtistName);

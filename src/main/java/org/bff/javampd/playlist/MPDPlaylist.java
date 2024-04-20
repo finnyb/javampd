@@ -190,7 +190,7 @@ public class MPDPlaylist implements Playlist {
   public MPDPlaylistSong getCurrentSong() {
     List<MPDPlaylistSong> songs =
         convertResponseToSong(commandExecutor.sendCommand(playlistProperties.getCurrentSong()));
-    return songs.isEmpty() ? null : songs.get(0);
+    return songs.isEmpty() ? null : songs.getFirst();
   }
 
   private List<MPDPlaylistSong> convertResponseToSong(List<String> response) {
@@ -313,7 +313,7 @@ public class MPDPlaylist implements Playlist {
 
   @Override
   public void removeAlbum(MPDArtist artist, MPDAlbum album) {
-    removeAlbum(artist.getName(), album.getName());
+    removeAlbum(artist.name(), album.getName());
   }
 
   @Override
@@ -331,7 +331,7 @@ public class MPDPlaylist implements Playlist {
 
   @Override
   public void insertArtist(MPDArtist artist) {
-    insertArtist(artist.getName());
+    insertArtist(artist.name());
   }
 
   @Override
@@ -345,7 +345,7 @@ public class MPDPlaylist implements Playlist {
 
   @Override
   public void insertGenre(MPDGenre genre) {
-    insertGenre(genre.getName());
+    insertGenre(genre.name());
   }
 
   @Override
@@ -358,7 +358,7 @@ public class MPDPlaylist implements Playlist {
 
   @Override
   public void removeGenre(MPDGenre genre) {
-    removeGenre(genre.getName());
+    removeGenre(genre.name());
   }
 
   @Override
@@ -392,7 +392,7 @@ public class MPDPlaylist implements Playlist {
 
   @Override
   public void removeArtist(MPDArtist artist) {
-    removeArtist(artist.getName());
+    removeArtist(artist.name());
   }
 
   @Override

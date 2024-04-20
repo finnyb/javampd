@@ -1,11 +1,13 @@
 package org.bff.javampd.database;
 
+import lombok.Getter;
 import org.bff.javampd.server.MPDProperties;
 
 /**
  * @author bill
  */
 public class DatabaseProperties extends MPDProperties {
+  @Getter
   private enum Command {
     FIND("db.find"),
     LIST("db.list.tag"),
@@ -18,10 +20,6 @@ public class DatabaseProperties extends MPDProperties {
 
     Command(String key) {
       this.key = key;
-    }
-
-    public String getKey() {
-      return key;
     }
   }
 

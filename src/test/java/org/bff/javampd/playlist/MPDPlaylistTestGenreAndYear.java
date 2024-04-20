@@ -50,7 +50,7 @@ class MPDPlaylistTestGenreAndYear {
     songs.add(MPDSong.builder().file("file1").title("testSong1").build());
     songs.add(MPDSong.builder().file("file2").title("testSong2").build());
 
-    when(songDatabase.findGenre(genre.getName())).thenReturn(songs);
+    when(songDatabase.findGenre(genre.name())).thenReturn(songs);
 
     final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
     playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
@@ -100,7 +100,7 @@ class MPDPlaylistTestGenreAndYear {
         MPDPlaylistSong.builder()
             .file("file1")
             .title("testSong1")
-            .genre(genre.getName())
+            .genre(genre.name())
             .id(1)
             .build();
 
@@ -108,7 +108,7 @@ class MPDPlaylistTestGenreAndYear {
         MPDPlaylistSong.builder()
             .file("file2")
             .title("testSong1")
-            .genre(genre.getName())
+            .genre(genre.name())
             .id(2)
             .build();
 

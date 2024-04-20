@@ -1,12 +1,26 @@
 package org.bff.javampd.player;
 
+import lombok.Getter;
+
 /**
  * Represents a bitrate change when playing a song.
  *
  * @author Bill
  */
+@Getter
 public class BitrateChangeEvent extends java.util.EventObject {
+  /**
+   * -- GETTER -- the old bitrate
+   *
+   * @return the from bitrate
+   */
   private final int oldBitrate;
+
+  /**
+   * -- GETTER -- the new bitrate
+   *
+   * @return the new bitrate
+   */
   private final int newBitrate;
 
   /**
@@ -20,23 +34,5 @@ public class BitrateChangeEvent extends java.util.EventObject {
     super(source);
     this.oldBitrate = oldBitrate;
     this.newBitrate = newBitrate;
-  }
-
-  /**
-   * the old bitrate
-   *
-   * @return the from bitrate
-   */
-  public int getOldBitrate() {
-    return oldBitrate;
-  }
-
-  /**
-   * the new bitrate
-   *
-   * @return the new bitrate
-   */
-  public int getNewBitrate() {
-    return newBitrate;
   }
 }

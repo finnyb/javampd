@@ -10,10 +10,10 @@ import org.bff.javampd.output.OutputChangeListener;
 
 @Singleton
 public class MPDOutputMonitor implements OutputMonitor {
-  private Map<Integer, MPDOutput> outputMap;
-  private List<OutputChangeListener> outputListeners;
+  private final Map<Integer, MPDOutput> outputMap;
+  private final List<OutputChangeListener> outputListeners;
 
-  private Admin admin;
+  private final Admin admin;
 
   @Inject
   MPDOutputMonitor(Admin admin) {

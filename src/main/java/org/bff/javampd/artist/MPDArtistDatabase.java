@@ -45,7 +45,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
   public Collection<MPDArtist> listArtistsByGenre(MPDGenre genre) {
     List<String> list = new ArrayList<>();
     list.add(TagLister.ListType.GENRE.getType());
-    list.add(genre.getName());
+    list.add(genre.name());
 
     return tagLister.list(TagLister.ListType.ARTIST, list).stream()
         .map(s -> new MPDArtist(convertResponse(s)))
@@ -70,7 +70,7 @@ public class MPDArtistDatabase implements ArtistDatabase {
     }
 
     if (!artists.isEmpty()) {
-      artist = artists.get(0);
+      artist = artists.getFirst();
     }
 
     return artist;

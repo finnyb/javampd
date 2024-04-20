@@ -1,12 +1,20 @@
 package org.bff.javampd.player;
 
+import lombok.Getter;
+
 /**
  * Represents a change in the status of a music player.
  *
  * @author Bill
  */
+@Getter
 public class PlayerBasicChangeEvent extends java.util.EventObject {
-  private Status status;
+  /**
+   * -- GETTER -- Returns the that occurred.
+   *
+   * @return the {@link Status}
+   */
+  private final Status status;
 
   public enum Status {
     PLAYER_STOPPED,
@@ -24,14 +32,5 @@ public class PlayerBasicChangeEvent extends java.util.EventObject {
   public PlayerBasicChangeEvent(Object source, Status status) {
     super(source);
     this.status = status;
-  }
-
-  /**
-   * Returns the {@link Status} that occurred.
-   *
-   * @return the {@link Status}
-   */
-  public Status getStatus() {
-    return this.status;
   }
 }

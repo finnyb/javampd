@@ -52,7 +52,7 @@ public class MPDGenreDatabase implements GenreDatabase {
     }
 
     if (!genres.isEmpty()) {
-      genre = genres.get(0);
+      genre = genres.getFirst();
     }
 
     return genre;

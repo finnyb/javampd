@@ -2,8 +2,8 @@ package org.bff.javampd.monitor;
 
 /** Threaded version of a {@link Monitor} */
 public class ThreadedMonitor {
-  private Monitor monitor;
-  private int delay;
+  private final Monitor monitor;
+  private final int delay;
   private int count;
 
   /**

@@ -52,7 +52,7 @@ class MPDPlaylistTestArtist {
         MPDPlaylistSong.builder()
             .file("file1")
             .title("testSong1")
-            .artistName(artist.getName())
+            .artistName(artist.name())
             .id(1)
             .build();
 
@@ -60,7 +60,7 @@ class MPDPlaylistTestArtist {
         MPDPlaylistSong.builder()
             .file("file2")
             .title("testSong1")
-            .artistName(artist.getName())
+            .artistName(artist.name())
             .id(2)
             .build();
 
@@ -149,7 +149,7 @@ class MPDPlaylistTestArtist {
     songs.add(MPDSong.builder().file("file1").title("testSong1").build());
     songs.add(MPDSong.builder().file("file2").title("testSong2").build());
 
-    when(songDatabase.findArtist(artist.getName())).thenReturn(songs);
+    when(songDatabase.findArtist(artist.name())).thenReturn(songs);
 
     final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
     playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);

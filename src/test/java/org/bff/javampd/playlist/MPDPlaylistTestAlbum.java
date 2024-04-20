@@ -156,7 +156,7 @@ class MPDPlaylistTestAlbum {
         MPDPlaylistSong.builder()
             .file("file1")
             .title("testSong1")
-            .artistName(artist.getName())
+            .artistName(artist.name())
             .albumName(album.getName())
             .id(1)
             .build();
@@ -165,7 +165,7 @@ class MPDPlaylistTestAlbum {
         MPDPlaylistSong.builder()
             .file("file1")
             .title("testSong1")
-            .artistName(artist.getName())
+            .artistName(artist.name())
             .albumName(album.getName())
             .id(2)
             .build();

@@ -1,11 +1,14 @@
 package org.bff.javampd;
 
+import lombok.Getter;
+
 /**
  * Base class for MPD Exceptions.
  *
  * @author Bill
  * @version 1.0
  */
+@Getter
 public class MPDException extends RuntimeException {
   private final String command;
 
@@ -67,9 +70,5 @@ public class MPDException extends RuntimeException {
   public MPDException(String message, String command, Throwable cause) {
     super(message, cause);
     this.command = command;
-  }
-
-  public String getCommand() {
-    return command;
   }
 }

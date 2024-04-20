@@ -43,7 +43,7 @@ public class MPDSong implements Comparable<MPDSong> {
    * @return the name of the song if set, otherwise the title
    */
   public String getName() {
-    if (this.name == null || "".equals(this.name)) {
+    if (this.name == null || this.name.isEmpty()) {
       return getTitle();
     } else {
       return this.name;

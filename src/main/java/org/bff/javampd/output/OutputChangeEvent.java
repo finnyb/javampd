@@ -1,14 +1,22 @@
 package org.bff.javampd.output;
 
+import lombok.Getter;
+
 /**
  * Represents a change in the outputs of a {@link MPDOutput}.
  *
  * @author Bill
  * @version 1.0
  */
+@Getter
 public class OutputChangeEvent extends java.util.EventObject {
 
-  private OUTPUT_EVENT event;
+  /**
+   * -- GETTER -- Returns the for this event.
+   *
+   * @return the event
+   */
+  private final OUTPUT_EVENT event;
 
   public enum OUTPUT_EVENT {
     OUTPUT_ADDED,
@@ -25,14 +33,5 @@ public class OutputChangeEvent extends java.util.EventObject {
   public OutputChangeEvent(Object source, OUTPUT_EVENT event) {
     super(source);
     this.event = event;
-  }
-
-  /**
-   * Returns the {@link OUTPUT_EVENT} for this event.
-   *
-   * @return the event
-   */
-  public OUTPUT_EVENT getEvent() {
-    return event;
   }
 }

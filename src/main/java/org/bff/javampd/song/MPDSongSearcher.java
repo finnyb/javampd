@@ -42,7 +42,7 @@ public class MPDSongSearcher implements SongSearcher {
         String.join(
             " AND ",
             Arrays.stream(criteria)
-                .map(c -> generateSearchParams(c.getSearchType(), c.getCriteria()))
+                .map(c -> generateSearchParams(c.searchType(), c.criteria()))
                 .toArray(String[]::new));
 
     return criteria.length == 1 ? search(command) : search("(" + command + ")");
@@ -64,7 +64,7 @@ public class MPDSongSearcher implements SongSearcher {
         String.join(
             " AND ",
             Arrays.stream(criteria)
-                .map(c -> generateFindParams(c.getSearchType(), c.getCriteria()))
+                .map(c -> generateFindParams(c.searchType(), c.criteria()))
                 .toArray(String[]::new));
 
     return criteria.length == 1 ? find(command) : find("(" + command + ")");

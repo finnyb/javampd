@@ -1,10 +1,13 @@
 package org.bff.javampd.server;
 
+import lombok.Getter;
+
 /**
  * @author bill
  */
 public class ServerProperties extends MPDProperties {
 
+  @Getter
   private enum Command {
     SERVERENCODING("server.encoding"),
     CLEARERROR("cmd.clear.error"),
@@ -21,10 +24,6 @@ public class ServerProperties extends MPDProperties {
 
     Command(String key) {
       this.key = key;
-    }
-
-    public String getKey() {
-      return key;
     }
   }
 
