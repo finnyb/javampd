@@ -9,7 +9,7 @@ import org.bff.javampd.server.Status;
 
 @Singleton
 public class MPDTrackMonitor implements TrackMonitor {
-  private List<TrackPositionChangeListener> trackListeners;
+  private final List<TrackPositionChangeListener> trackListeners;
   private long oldPos;
   private long elapsedTime;
 

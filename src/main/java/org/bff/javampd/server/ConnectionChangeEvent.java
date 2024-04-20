@@ -1,6 +1,7 @@
 package org.bff.javampd.server;
 
 import java.util.EventObject;
+import lombok.Getter;
 
 /**
  * An event used to identify a change in connection status.
@@ -8,8 +9,15 @@ import java.util.EventObject;
  * @author Bill
  * @version 1.0
  */
+@Getter
 public class ConnectionChangeEvent extends EventObject {
-  private boolean connected;
+  /**
+   * -- GETTER -- Returns true if there is a connection with the MPD server. If there is no
+   * connection returns false.
+   *
+   * @return true if connected; false otherwise
+   */
+  private final boolean connected;
 
   /**
    * Creates a new instance of ConnectionChangeEvent
@@ -20,15 +28,5 @@ public class ConnectionChangeEvent extends EventObject {
   public ConnectionChangeEvent(Object source, boolean isConnected) {
     super(source);
     this.connected = isConnected;
-  }
-
-  /**
-   * Returns true if there is a connection with the MPD server. If there is no connection returns
-   * false.
-   *
-   * @return true if connected; false otherwise
-   */
-  public boolean isConnected() {
-    return connected;
   }
 }

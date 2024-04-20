@@ -3,6 +3,8 @@ package org.bff.javampd.monitor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import lombok.Getter;
+import lombok.Setter;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.server.ServerStatus;
 import org.slf4j.Logger;
@@ -11,15 +13,15 @@ import org.slf4j.LoggerFactory;
 public class StandAloneMonitorThread implements Runnable {
   private static final Logger LOGGER = LoggerFactory.getLogger(StandAloneMonitorThread.class);
 
-  private List<ThreadedMonitor> monitors;
-  private ServerStatus serverStatus;
-  private ConnectionMonitor connectionMonitor;
+  private final List<ThreadedMonitor> monitors;
+  private final ServerStatus serverStatus;
+  private final ConnectionMonitor connectionMonitor;
 
-  private int delay;
-  private int exceptionDelay;
-  private boolean stopped;
-  private boolean done;
-  private boolean initialized;
+  private final int delay;
+  private final int exceptionDelay;
+  @Setter private boolean stopped;
+  @Getter private boolean done;
+  @Getter private boolean initialized;
 
   /**
    * Creates the monitor thread with the given delay seconds.
@@ -142,17 +144,5 @@ public class StandAloneMonitorThread implements Runnable {
     } catch (MPDException ex) {
       throw new MPDException("Problem with initialization", ex);
     }
-  }
-
-  public boolean isInitialized() {
-    return this.initialized;
-  }
-
-  public boolean isDone() {
-    return this.done;
-  }
-
-  public void setStopped(boolean stopped) {
-    this.stopped = stopped;
   }
 }

@@ -1,15 +1,14 @@
 package org.bff.javampd.processor;
 
+import lombok.Getter;
+
+@Getter
 public abstract class TagResponseProcessor implements ResponseProcessor {
 
   private final String prefix;
 
   protected TagResponseProcessor(String prefix) {
     this.prefix = prefix;
-  }
-
-  public String getPrefix() {
-    return prefix;
   }
 
   protected boolean startsWith(String line) {

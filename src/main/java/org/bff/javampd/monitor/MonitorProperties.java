@@ -1,5 +1,6 @@
 package org.bff.javampd.monitor;
 
+import lombok.Getter;
 import org.bff.javampd.server.MPDProperties;
 
 /**
@@ -10,6 +11,7 @@ import org.bff.javampd.server.MPDProperties;
  */
 public class MonitorProperties extends MPDProperties {
 
+  @Getter
   private enum Delay {
     OUTPUT("monitor.output.multiplier"),
     CONNECTION("monitor.connection.multiplier"),
@@ -24,10 +26,6 @@ public class MonitorProperties extends MPDProperties {
 
     Delay(String key) {
       this.key = key;
-    }
-
-    public String getKey() {
-      return key;
     }
   }
 

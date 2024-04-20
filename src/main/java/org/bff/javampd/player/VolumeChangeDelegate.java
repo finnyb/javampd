@@ -9,7 +9,7 @@ import java.util.List;
  * @author bill
  */
 public class VolumeChangeDelegate {
-  private List<VolumeChangeListener> volListeners;
+  private final List<VolumeChangeListener> volListeners;
 
   public VolumeChangeDelegate() {
     volListeners = new ArrayList<>();

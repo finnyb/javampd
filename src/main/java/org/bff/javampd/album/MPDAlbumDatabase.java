@@ -38,7 +38,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
   public Collection<MPDAlbum> listAlbumsByAlbumArtist(MPDArtist albumArtist) {
     var p = new ArrayList<String>();
     p.add(TagLister.ListType.ALBUM_ARTIST.getType());
-    p.add(albumArtist.getName());
+    p.add(albumArtist.name());
 
     return convertResponseToAlbum(tagLister.list(TagLister.ListType.ALBUM, p, ALBUM_TAGS));
   }
@@ -47,7 +47,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
   public Collection<MPDAlbum> listAlbumsByArtist(MPDArtist artist) {
     List<String> list = new ArrayList<>();
     list.add(TagLister.ListType.ARTIST.getType());
-    list.add(artist.getName());
+    list.add(artist.name());
 
     return convertResponseToAlbum(tagLister.list(TagLister.ListType.ALBUM, list, ALBUM_TAGS));
   }
@@ -77,7 +77,7 @@ public class MPDAlbumDatabase implements AlbumDatabase {
   public Collection<MPDAlbum> listAlbumsByGenre(MPDGenre genre) {
     List<String> list = new ArrayList<>();
     list.add(TagLister.ListType.GENRE.getType());
-    list.add(genre.getName());
+    list.add(genre.name());
 
     return convertResponseToAlbum(tagLister.list(TagLister.ListType.ALBUM, list, ALBUM_TAGS));
   }

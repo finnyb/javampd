@@ -9,7 +9,7 @@ import org.bff.javampd.server.Status;
 public class MPDVolumeMonitor implements VolumeMonitor {
   private int newVolume;
   private int oldVolume;
-  private VolumeChangeDelegate volumeChangeDelegate;
+  private final VolumeChangeDelegate volumeChangeDelegate;
 
   MPDVolumeMonitor() {
     this.volumeChangeDelegate = new VolumeChangeDelegate();

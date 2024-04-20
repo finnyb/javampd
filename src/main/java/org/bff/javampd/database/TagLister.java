@@ -1,6 +1,7 @@
 package org.bff.javampd.database;
 
 import java.util.List;
+import lombok.Getter;
 
 /**
  * Performs list operations against the MPD database.
@@ -8,6 +9,7 @@ import java.util.List;
  * @author Bill
  */
 public interface TagLister {
+  @Getter
   enum ListType {
     ALBUM("album"),
     ALBUM_ARTIST("albumartist"),
@@ -20,12 +22,9 @@ public interface TagLister {
     ListType(String type) {
       this.type = type;
     }
-
-    public String getType() {
-      return type;
-    }
   }
 
+  @Getter
   enum GroupType {
     ALBUM("album"),
     ALBUM_ARTIST("albumartist"),
@@ -38,12 +37,9 @@ public interface TagLister {
     GroupType(String type) {
       this.type = type;
     }
-
-    public String getType() {
-      return type;
-    }
   }
 
+  @Getter
   enum ListInfoType {
     PLAYLIST("playlist:"),
     DIRECTORY("directory:"),
@@ -54,10 +50,6 @@ public interface TagLister {
 
     ListInfoType(String prefix) {
       this.prefix = prefix;
-    }
-
-    public String getPrefix() {
-      return prefix;
     }
   }
 

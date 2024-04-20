@@ -1,6 +1,7 @@
 package org.bff.javampd.player;
 
 import java.util.Optional;
+import lombok.Getter;
 import org.bff.javampd.audioinfo.MPDAudioInfo;
 import org.bff.javampd.playlist.MPDPlaylistSong;
 
@@ -10,6 +11,7 @@ import org.bff.javampd.playlist.MPDPlaylistSong;
 public interface Player {
 
   /** The status of the player. */
+  @Getter
   enum Status {
     STATUS_STOPPED("stop"),
     STATUS_PLAYING("play"),
@@ -19,10 +21,6 @@ public interface Player {
 
     Status(String prefix) {
       this.prefix = prefix;
-    }
-
-    public String getPrefix() {
-      return prefix;
     }
   }
 

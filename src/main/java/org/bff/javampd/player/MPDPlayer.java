@@ -55,7 +55,7 @@ public class MPDPlayer implements Player {
     if (songList.isEmpty()) {
       return Optional.empty();
     } else {
-      return Optional.ofNullable(songList.get(0));
+      return Optional.ofNullable(songList.getFirst());
     }
   }
 

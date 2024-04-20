@@ -1,5 +1,6 @@
 package org.bff.javampd.playlist;
 
+import lombok.Getter;
 import org.bff.javampd.server.MPDProperties;
 
 /**
@@ -7,6 +8,7 @@ import org.bff.javampd.server.MPDProperties;
  */
 public class PlaylistProperties extends MPDProperties {
 
+  @Getter
   private enum Command {
     ADD("playlist.add"),
     CLEAR("playlist.clear"),
@@ -29,10 +31,6 @@ public class PlaylistProperties extends MPDProperties {
 
     Command(String key) {
       this.key = key;
-    }
-
-    public String getKey() {
-      return key;
     }
   }
 

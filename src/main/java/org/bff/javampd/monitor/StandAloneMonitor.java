@@ -1,5 +1,6 @@
 package org.bff.javampd.monitor;
 
+import lombok.Getter;
 import org.bff.javampd.output.OutputChangeListener;
 import org.bff.javampd.player.BitrateChangeListener;
 import org.bff.javampd.player.PlayerBasicChangeListener;
@@ -156,19 +157,16 @@ public interface StandAloneMonitor {
    */
   boolean isLoaded();
 
+  @Getter
   enum PlayerResponse {
     PLAY("play"),
     STOP("stop"),
     PAUSE("pause");
 
-    private String prefix;
+    private final String prefix;
 
     PlayerResponse(String prefix) {
       this.prefix = prefix;
-    }
-
-    public String getPrefix() {
-      return this.prefix;
     }
   }
 }

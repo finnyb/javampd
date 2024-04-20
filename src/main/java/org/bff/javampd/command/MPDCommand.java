@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 /**
@@ -14,10 +15,23 @@ import lombok.ToString;
  * @author Bill
  * @version 1.0
  */
+@Getter
 @EqualsAndHashCode
 @ToString
 public class MPDCommand {
+  /**
+   * -- GETTER -- Returns the command od this object.
+   *
+   * @return the command
+   */
   private final String command;
+
+  /**
+   * -- GETTER -- Returns the parameter(s) of this command as a of s. Returns null of there is no
+   * parameter for the command.
+   *
+   * @return the parameters for the command
+   */
   private final List<String> params;
 
   /**
@@ -34,24 +48,5 @@ public class MPDCommand {
     this.command = command;
     this.params = new ArrayList<>();
     Collections.addAll(this.params, Arrays.copyOf(parameters, parameters.length));
-  }
-
-  /**
-   * Returns the command od this object.
-   *
-   * @return the command
-   */
-  public String getCommand() {
-    return command;
-  }
-
-  /**
-   * Returns the parameter(s) of this command as a {@link List} of {@link String}s. Returns null of
-   * there is no parameter for the command.
-   *
-   * @return the parameters for the command
-   */
-  public List<String> getParams() {
-    return params;
   }
 }

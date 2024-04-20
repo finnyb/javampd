@@ -69,7 +69,7 @@ public class MPDArtworkFinder implements ArtworkFinder {
 
     albumPaths.forEach(
         path -> {
-          if (path.contains(File.separator + artist.getName() + File.separator)) {
+          if (path.contains(File.separator + artist.name() + File.separator)) {
             paths.add(path.substring(0, path.lastIndexOf(File.separator)));
           }
         });

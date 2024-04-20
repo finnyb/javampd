@@ -1,6 +1,7 @@
 package org.bff.javampd.song;
 
 import java.util.Collection;
+import lombok.Getter;
 
 /**
  * Provides search and list functionality for {@link MPDSong}s
@@ -9,6 +10,7 @@ import java.util.Collection;
  */
 public interface SongSearcher {
   /** Defines the scope of items such as find, search. */
+  @Getter
   enum ScopeType {
     ALBUM("album"),
     ALBUM_ARTIST("albumartist"),
@@ -28,10 +30,6 @@ public interface SongSearcher {
 
     ScopeType(String type) {
       this.type = type;
-    }
-
-    public String getType() {
-      return type;
     }
   }
 

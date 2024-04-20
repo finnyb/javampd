@@ -1,11 +1,13 @@
 package org.bff.javampd.song;
 
+import lombok.Getter;
 import org.bff.javampd.server.MPDProperties;
 
 /**
  * @author bill
  */
 public class SearchProperties extends MPDProperties {
+  @Getter
   private enum Command {
     FIND("db.find"),
     SEARCH("db.search"),
@@ -15,10 +17,6 @@ public class SearchProperties extends MPDProperties {
 
     Command(String key) {
       this.key = key;
-    }
-
-    public String getKey() {
-      return key;
     }
   }
 

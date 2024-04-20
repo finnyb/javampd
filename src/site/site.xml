@@ -18,7 +18,7 @@
     </custom>
     <body>
         <links>
-            <item name="GitHub" href="http://github.com/finnyb/javampd"/>
+            <item name="GitHub" href="https://github.com/finnyb/javampd"/>
             <item name="Sonar" href="https://sonarcloud.io/project/overview?id=finnyb_javampd"/>
             <item name="Coverage" href="https://coveralls.io/github/finnyb/javampd?branch=develop"/>
         </links>
@@ -31,8 +31,8 @@
             <item name="Java Docs" href="apidocs/index.html"/>
         </menu>
         <menu name="Contribute" inherit="bottom">
-            <item name="Issues" href="http://github.com/finnyb/javampd/issues/"/>
-            <item name="Fork on GitHub" href="http://github.com/finnyb/javampd/"/>
+            <item name="Issues" href="https://github.com/finnyb/javampd/issues/"/>
+            <item name="Fork on GitHub" href="https://github.com/finnyb/javampd/"/>
         </menu>
         <menu name="Maven Docs" ref="reports"/>
     </body>

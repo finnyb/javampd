@@ -1,12 +1,20 @@
 package org.bff.javampd.player;
 
+import lombok.Getter;
+
 /**
  * Represents a change in the status of a MPD music player.
  *
  * @author Bill
  */
+@Getter
 public class PlayerChangeEvent extends java.util.EventObject {
-  private Event event;
+  /**
+   * -- GETTER -- Returns the that occurred.
+   *
+   * @return the specific {@link Event}
+   */
+  private final Event event;
 
   public enum Event {
     PLAYER_STOPPED,
@@ -17,7 +25,6 @@ public class PlayerChangeEvent extends java.util.EventObject {
     PLAYER_MUTED,
     PLAYER_UNMUTED,
     PLAYER_SONG_SET,
-    PLAYER_UNPAUSED,
     PLAYER_SEEKING
   }
 
@@ -30,14 +37,5 @@ public class PlayerChangeEvent extends java.util.EventObject {
   public PlayerChangeEvent(Object source, Event event) {
     super(source);
     this.event = event;
-  }
-
-  /**
-   * Returns the {@link Event} that occurred.
-   *
-   * @return the specific {@link Event}
-   */
-  public Event getEvent() {
-    return this.event;
   }
 }
