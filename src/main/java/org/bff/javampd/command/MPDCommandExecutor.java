@@ -36,7 +36,6 @@ public class MPDCommandExecutor implements CommandExecutor {
 
   @Override
   public synchronized List<String> sendCommand(String command, String... params) {
-    // escape quote here?
     return sendCommand(new MPDCommand(command, process(params)));
   }
 
