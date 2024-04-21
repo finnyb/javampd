@@ -36,7 +36,8 @@ public class MPDCommandExecutor implements CommandExecutor {
 
   @Override
   public synchronized List<String> sendCommand(String command, String... params) {
-    return sendCommand(new MPDCommand(command, params));
+    // escape quote here?
+    return sendCommand(new MPDCommand(command, process(params)));
   }
 
   @Override
@@ -126,5 +127,14 @@ public class MPDCommandExecutor implements CommandExecutor {
     if (mpdSocket == null) {
       mpdSocket = createSocket();
     }
+  }
+
+  private String[] process(String[] params) {
+
+    for (int i = 0; i < params.length; i++) {
+      params[i] = params[i].replace("\"", "\\\"");
+    }
+
+    return params;
   }
 }

@@ -3,7 +3,7 @@
     <groupId>com.inthebacklog</groupId>
     <artifactId>javampd</artifactId>
     <packaging>jar</packaging>
-    <version>7.3.0</version>
+    <version>7.3.1</version>
     <name>JavaMPD</name>
     <description>A Java API for controlling the Music Player Daemon (MPD)</description>
     <url>https://github.com/finnyb/javampd/</url>
