@@ -22,8 +22,8 @@ import org.bff.javampd.database.TagLister;
  */
 public class MPDFileDatabase implements FileDatabase {
 
-  private DatabaseProperties databaseProperties;
-  private CommandExecutor commandExecutor;
+  private final DatabaseProperties databaseProperties;
+  private final CommandExecutor commandExecutor;
 
   private static final String PREFIX_FILE = TagLister.ListInfoType.FILE.getPrefix();
   private static final String PREFIX_DIRECTORY = TagLister.ListInfoType.DIRECTORY.getPrefix();

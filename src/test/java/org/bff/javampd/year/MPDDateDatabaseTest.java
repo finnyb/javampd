@@ -34,7 +34,7 @@ class MPDDateDatabaseTest {
 
     List<String> years = new ArrayList<>(yearDatabase.listAllDates());
     assertEquals(2, years.size());
-    assertEquals(year1, years.get(0));
+    assertEquals(year1, years.getFirst());
     assertEquals(year2, years.get(1));
   }
 }

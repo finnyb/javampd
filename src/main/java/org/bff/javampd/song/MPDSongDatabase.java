@@ -42,7 +42,7 @@ public class MPDSongDatabase implements SongDatabase {
 
   @Override
   public Collection<MPDSong> findAlbumByArtist(MPDArtist artist, MPDAlbum album) {
-    return findAlbumByArtist(artist.getName(), album.getName());
+    return findAlbumByArtist(artist.name(), album.getName());
   }
 
   @Override
@@ -61,7 +61,7 @@ public class MPDSongDatabase implements SongDatabase {
         new ArrayList<>(songSearcher.find(SongSearcher.ScopeType.ALBUM, album.getName()));
 
     return songList.stream()
-        .filter(song -> song.getGenre() != null && song.getGenre().equals(genre.getName()))
+        .filter(song -> song.getGenre() != null && song.getGenre().equals(genre.name()))
         .toList();
   }
 
@@ -87,7 +87,7 @@ public class MPDSongDatabase implements SongDatabase {
 
   @Override
   public Collection<MPDSong> findArtist(MPDArtist artist) {
-    return findArtist(artist.getName());
+    return findArtist(artist.name());
   }
 
   @Override
@@ -97,7 +97,7 @@ public class MPDSongDatabase implements SongDatabase {
 
   @Override
   public Collection<MPDSong> searchArtist(MPDArtist artist) {
-    return searchArtist(artist.getName());
+    return searchArtist(artist.name());
   }
 
   @Override
@@ -167,7 +167,7 @@ public class MPDSongDatabase implements SongDatabase {
 
   @Override
   public Collection<MPDSong> findGenre(MPDGenre genre) {
-    return findGenre(genre.getName());
+    return findGenre(genre.name());
   }
 
   @Override

@@ -1,9 +1,11 @@
 package org.bff.javampd.player;
 
+import lombok.Getter;
 import org.bff.javampd.server.MPDProperties;
 
 public class PlayerProperties extends MPDProperties {
 
+  @Getter
   private enum Command {
     XFADE("player.crossfade"),
     CURRSONG("player.currentsong"),
@@ -27,10 +29,6 @@ public class PlayerProperties extends MPDProperties {
 
     Command(String key) {
       this.key = key;
-    }
-
-    public String getKey() {
-      return key;
     }
   }
 

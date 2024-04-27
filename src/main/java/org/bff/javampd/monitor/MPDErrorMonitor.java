@@ -10,7 +10,7 @@ import org.bff.javampd.server.Status;
 @Singleton
 public class MPDErrorMonitor implements ErrorMonitor {
   private String error;
-  private List<ErrorListener> errorListeners;
+  private final List<ErrorListener> errorListeners;
 
   MPDErrorMonitor() {
     this.errorListeners = new ArrayList<>();

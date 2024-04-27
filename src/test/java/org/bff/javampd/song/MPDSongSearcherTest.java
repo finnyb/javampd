@@ -47,8 +47,7 @@ class MPDSongSearcherTest {
     assertAll(
         () -> assertEquals("search", commandArgumentCaptor.getValue()),
         () ->
-            assertEquals(
-                String.format("(any contains '%s')", search), paramArgumentCaptor.getValue()));
+            assertEquals("(any contains '%s')".formatted(search), paramArgumentCaptor.getValue()));
   }
 
   @Test
@@ -64,7 +63,7 @@ class MPDSongSearcherTest {
         () -> assertEquals("search", commandArgumentCaptor.getValue()),
         () ->
             assertEquals(
-                String.format("(album contains '%s')", search), paramArgumentCaptor.getValue()));
+                "(album contains '%s')".formatted(search), paramArgumentCaptor.getValue()));
   }
 
   @Test
@@ -80,7 +79,7 @@ class MPDSongSearcherTest {
         () -> assertEquals("search", commandArgumentCaptor.getValue()),
         () ->
             assertEquals(
-                String.format("(title contains '%s')", search), paramArgumentCaptor.getValue()));
+                "(title contains '%s')".formatted(search), paramArgumentCaptor.getValue()));
   }
 
   @Test
@@ -101,9 +100,8 @@ class MPDSongSearcherTest {
         () -> assertEquals("search", commandArgumentCaptor.getValue()),
         () ->
             assertEquals(
-                String.format(
-                    "((title contains '%s') AND (artist contains '%s'))",
-                    searchTitle, searchArtist),
+                "((title contains '%s') AND (artist contains '%s'))"
+                    .formatted(searchTitle, searchArtist),
                 paramArgumentCaptor.getValue()));
   }
 
@@ -120,7 +118,7 @@ class MPDSongSearcherTest {
 
     assertAll(
         () -> assertEquals("find", commandArgumentCaptor.getValue()),
-        () -> assertEquals(String.format("(any == '%s')", find), paramArgumentCaptor.getValue()));
+        () -> assertEquals("(any == '%s')".formatted(find), paramArgumentCaptor.getValue()));
   }
 
   @Test
@@ -134,7 +132,7 @@ class MPDSongSearcherTest {
 
     assertAll(
         () -> assertEquals("find", commandArgumentCaptor.getValue()),
-        () -> assertEquals(String.format("(album == '%s')", find), paramArgumentCaptor.getValue()));
+        () -> assertEquals("(album == '%s')".formatted(find), paramArgumentCaptor.getValue()));
   }
 
   @Test
@@ -148,7 +146,7 @@ class MPDSongSearcherTest {
 
     assertAll(
         () -> assertEquals("find", commandArgumentCaptor.getValue()),
-        () -> assertEquals(String.format("(title == '%s')", find), paramArgumentCaptor.getValue()));
+        () -> assertEquals("(title == '%s')".formatted(find), paramArgumentCaptor.getValue()));
   }
 
   @Test
@@ -169,7 +167,7 @@ class MPDSongSearcherTest {
         () -> assertEquals("find", commandArgumentCaptor.getValue()),
         () ->
             assertEquals(
-                String.format("((title == '%s') AND (artist == '%s'))", findTitle, findArtist),
+                "((title == '%s') AND (artist == '%s'))".formatted(findTitle, findArtist),
                 paramArgumentCaptor.getValue()));
   }
 
@@ -206,6 +204,6 @@ class MPDSongSearcherTest {
   }
 
   private String generateParams(SongSearcher.ScopeType scopeType, String criteria) {
-    return String.format("(%s == '%s')", scopeType.getType(), criteria);
+    return "(%s == '%s')".formatted(scopeType.getType(), criteria);
   }
 }

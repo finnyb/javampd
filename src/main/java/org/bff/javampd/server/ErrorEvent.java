@@ -1,12 +1,21 @@
 package org.bff.javampd.server;
 
+import lombok.Getter;
+
 /**
  * An event used to identify a MPD error.
  *
  * @author Bill
  * @version 1.0
  */
+@Getter
 public class ErrorEvent extends java.util.EventObject {
+  /**
+   * -- GETTER -- Returns the message attached to this event. If there is no message null is
+   * returned.
+   *
+   * @return the optional message
+   */
   private String message;
 
   /**
@@ -27,14 +36,5 @@ public class ErrorEvent extends java.util.EventObject {
   public ErrorEvent(Object source, String message) {
     super(source);
     this.message = message;
-  }
-
-  /**
-   * Returns the message attached to this event. If there is no message null is returned.
-   *
-   * @return the optional message
-   */
-  public String getMessage() {
-    return message;
   }
 }

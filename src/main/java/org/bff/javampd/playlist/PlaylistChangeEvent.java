@@ -1,14 +1,27 @@
 package org.bff.javampd.playlist;
 
 import java.util.EventObject;
+import lombok.Getter;
 
 /**
  * Represents a change in the status of a MPD playlist.
  *
  * @author Bill
  */
+@Getter
 public class PlaylistChangeEvent extends EventObject {
-  private Event event;
+  /**
+   * -- GETTER -- Returns the that occurred.
+   *
+   * @return the specific id
+   */
+  private final Event event;
+
+  /**
+   * -- GETTER -- the name of the added entity
+   *
+   * @return name of the artist, album, song, etc
+   */
   private String name;
 
   public enum Event {
@@ -51,23 +64,5 @@ public class PlaylistChangeEvent extends EventObject {
     super(source);
     this.event = event;
     this.name = name;
-  }
-
-  /**
-   * Returns the {@link Event} that occurred.
-   *
-   * @return the specific id
-   */
-  public Event getEvent() {
-    return this.event;
-  }
-
-  /**
-   * the name of the added entity
-   *
-   * @return name of the artist, album, song, etc
-   */
-  public String getName() {
-    return name;
   }
 }

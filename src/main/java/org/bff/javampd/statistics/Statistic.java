@@ -2,7 +2,9 @@ package org.bff.javampd.statistics;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
+@Getter
 public enum Statistic {
   ALBUMS("albums:"),
   ARTISTS("artists:"),
@@ -20,6 +22,11 @@ public enum Statistic {
     }
   }
 
+  /**
+   * -- GETTER -- Returns the <CODE>String</CODE> prefix of the response.
+   *
+   * @return the prefix of the response
+   */
   private final String prefix;
 
   /**
@@ -29,15 +36,6 @@ public enum Statistic {
    */
   Statistic(String prefix) {
     this.prefix = prefix;
-  }
-
-  /**
-   * Returns the <CODE>String</CODE> prefix of the response.
-   *
-   * @return the prefix of the response
-   */
-  public String getPrefix() {
-    return prefix;
   }
 
   public static Statistic lookup(String line) {

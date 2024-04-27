@@ -80,7 +80,7 @@ public class MPDPlaylistDatabase implements PlaylistDatabase {
                   Optional<MPDSong> mpdSong = Optional.empty();
                   try {
                     mpdSong =
-                        Optional.of(new ArrayList<>(songDatabase.searchFileName(song)).get(0));
+                        Optional.of(new ArrayList<>(songDatabase.searchFileName(song)).getFirst());
                   } catch (IndexOutOfBoundsException e) {
                     LOGGER.error("Could not find file: {}", song);
                   }

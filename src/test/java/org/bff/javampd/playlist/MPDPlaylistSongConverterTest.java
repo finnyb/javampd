@@ -20,7 +20,7 @@ class MPDPlaylistSongConverterTest {
     var s =
         playlistSongConverter
             .convertResponseToSongs(List.of("file: Tool/10,000 Days/01 Vicarious.flac"))
-            .get(0);
+            .getFirst();
     assertAll(
         () -> assertEquals(-1, s.getId()),
         () -> assertEquals(-1, s.getPosition()),
@@ -50,7 +50,7 @@ class MPDPlaylistSongConverterTest {
         playlistSongConverter
             .convertResponseToSongs(
                 Arrays.asList("file: Tool/10,000 Days/01 Vicarious.flac", "id: unparseable"))
-            .get(0);
+            .getFirst();
     assertEquals(-1, s.getId());
   }
 
@@ -60,7 +60,7 @@ class MPDPlaylistSongConverterTest {
         playlistSongConverter
             .convertResponseToSongs(
                 Arrays.asList("file: Tool/10,000 Days/01 Vicarious.flac", "id: unparseable"))
-            .get(0);
+            .getFirst();
 
     assertEquals(-1, s.getPosition());
   }

@@ -50,7 +50,7 @@ class MPDAdminTest {
     when(adminProperties.getOutputs()).thenReturn(realAdminProperties.getOutputs());
     when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputSingleResponse());
 
-    var output1 = new ArrayList<>(admin.getOutputs()).get(0);
+    var output1 = new ArrayList<>(admin.getOutputs()).getFirst();
 
     assertAll(
         () -> assertThat(output1.getName(), is(equalTo("My ALSA Device"))),
@@ -64,7 +64,7 @@ class MPDAdminTest {
     when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
 
     var outputs = admin.getOutputs();
-    var output1 = new ArrayList<>(outputs).get(0);
+    var output1 = new ArrayList<>(outputs).getFirst();
     var output2 = new ArrayList<>(outputs).get(1);
 
     assertAll(
@@ -82,7 +82,7 @@ class MPDAdminTest {
     when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
     when(adminProperties.getOutputDisable()).thenReturn(realAdminProperties.getOutputDisable());
 
-    MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
+    MPDOutput output = new ArrayList<>(admin.getOutputs()).getFirst();
     admin.disableOutput(output);
     verify(commandExecutor)
         .sendCommand(commandArgumentCaptor.capture(), integerParamArgumentCaptor.capture());
@@ -96,7 +96,7 @@ class MPDAdminTest {
     when(commandExecutor.sendCommand("outputs")).thenReturn(getOutputMultipleResponse());
     when(adminProperties.getOutputEnable()).thenReturn(realAdminProperties.getOutputEnable());
 
-    MPDOutput output = new ArrayList<>(admin.getOutputs()).get(0);
+    MPDOutput output = new ArrayList<>(admin.getOutputs()).getFirst();
     admin.enableOutput(output);
     verify(commandExecutor)
         .sendCommand(commandArgumentCaptor.capture(), integerParamArgumentCaptor.capture());

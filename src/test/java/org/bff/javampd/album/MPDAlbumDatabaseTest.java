@@ -53,9 +53,9 @@ class MPDAlbumDatabaseTest {
             groupCaptor.capture());
 
     assertAll(
-        () -> assertEquals("albumartist", argumentCaptor.getValue().get(0)),
+        () -> assertEquals("albumartist", argumentCaptor.getValue().getFirst()),
         () -> assertEquals(albumArtist, argumentCaptor.getValue().get(1)),
-        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().getFirst()),
         () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
         () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
         () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
@@ -80,9 +80,9 @@ class MPDAlbumDatabaseTest {
             groupCaptor.capture());
 
     assertAll(
-        () -> assertEquals("artist", argumentCaptor.getValue().get(0)),
+        () -> assertEquals("artist", argumentCaptor.getValue().getFirst()),
         () -> assertEquals(artist, argumentCaptor.getValue().get(1)),
-        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().getFirst()),
         () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
         () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
         () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
@@ -105,7 +105,7 @@ class MPDAlbumDatabaseTest {
 
     assertAll(
         () -> assertEquals(TagLister.ListType.ALBUM, listCaptor.getValue()),
-        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().getFirst()),
         () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
         () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
         () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
@@ -135,7 +135,7 @@ class MPDAlbumDatabaseTest {
     var albums = new ArrayList<>(albumDatabase.listAllAlbumNames());
 
     assertAll(
-        () -> assertEquals("10,000 Days", albums.get(0)),
+        () -> assertEquals("10,000 Days", albums.getFirst()),
         () -> assertEquals("72826", albums.get(1)),
         () -> assertEquals("Anthem of the Peaceful Army", albums.get(2)),
         () -> assertEquals("Dark Before Dawn", albums.get(3)));
@@ -160,9 +160,9 @@ class MPDAlbumDatabaseTest {
             groupCaptor.capture());
 
     assertAll(
-        () -> assertEquals("album", argumentCaptor.getValue().get(0)),
+        () -> assertEquals("album", argumentCaptor.getValue().getFirst()),
         () -> assertEquals(album, argumentCaptor.getValue().get(1)),
-        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().getFirst()),
         () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
         () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
         () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
@@ -187,9 +187,9 @@ class MPDAlbumDatabaseTest {
             groupCaptor.capture());
 
     assertAll(
-        () -> assertEquals("genre", argumentCaptor.getValue().get(0)),
+        () -> assertEquals("genre", argumentCaptor.getValue().getFirst()),
         () -> assertEquals(genre, argumentCaptor.getValue().get(1)),
-        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().getFirst()),
         () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
         () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
         () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));
@@ -214,9 +214,9 @@ class MPDAlbumDatabaseTest {
             groupCaptor.capture());
 
     assertAll(
-        () -> assertEquals("date", argumentCaptor.getValue().get(0)),
+        () -> assertEquals("date", argumentCaptor.getValue().getFirst()),
         () -> assertEquals(year, argumentCaptor.getValue().get(1)),
-        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().get(0)),
+        () -> assertEquals(TagLister.GroupType.ARTIST, groupCaptor.getAllValues().getFirst()),
         () -> assertEquals(TagLister.GroupType.DATE, groupCaptor.getAllValues().get(1)),
         () -> assertEquals(TagLister.GroupType.GENRE, groupCaptor.getAllValues().get(2)),
         () -> assertEquals(TagLister.GroupType.ALBUM_ARTIST, groupCaptor.getAllValues().get(3)));

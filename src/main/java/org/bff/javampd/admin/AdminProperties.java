@@ -1,9 +1,11 @@
 package org.bff.javampd.admin;
 
+import lombok.Getter;
 import org.bff.javampd.server.MPDProperties;
 
 public class AdminProperties extends MPDProperties {
 
+  @Getter
   private enum Command {
     KILL("admin.kill"),
     REFRESH("admin.update"),
@@ -16,10 +18,6 @@ public class AdminProperties extends MPDProperties {
 
     Command(String key) {
       this.key = key;
-    }
-
-    public String getKey() {
-      return key;
     }
   }
 

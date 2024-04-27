@@ -36,13 +36,13 @@ class MPDArtistDatabaseTest {
     MPDArtist testArtist = new MPDArtist("testName");
 
     List<String> mockReturn = new ArrayList<>();
-    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.name());
 
     when(tagLister.list(TagLister.ListType.ARTIST)).thenReturn(mockReturn);
 
     List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists());
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 
   @Test
@@ -50,7 +50,7 @@ class MPDArtistDatabaseTest {
     MPDArtist testArtist = new MPDArtist("Tool");
 
     List<String> mockReturn = new ArrayList<>();
-    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.name());
 
     when(tagLister.list(TagLister.ListType.ALBUM_ARTIST)).thenReturn(mockReturn);
 
@@ -65,13 +65,13 @@ class MPDArtistDatabaseTest {
     MPDArtist testArtist = new MPDArtist("Spiritbox");
 
     List<String> mockReturn = new ArrayList<>();
-    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.getName());
+    mockReturn.add(ARTIST_RESPONSE_PREFIX + testArtist.name());
 
     when(tagLister.list(TagLister.ListType.ARTIST)).thenReturn(mockReturn);
 
     List<MPDArtist> artists = new ArrayList<>(artistDatabase.listAllArtists());
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 
   @Test
@@ -82,7 +82,7 @@ class MPDArtistDatabaseTest {
 
     List<String> mockGenreList = new ArrayList<>();
     mockGenreList.add(TagLister.ListType.GENRE.getType());
-    mockGenreList.add(testGenre.getName());
+    mockGenreList.add(testGenre.name());
 
     List<String> mockReturnGenreList = new ArrayList<>();
     mockReturnGenreList.add(testArtistName);
@@ -96,7 +96,7 @@ class MPDArtistDatabaseTest {
 
     List<MPDArtist> artists = new ArrayList<>(artistDatabase.listArtistsByGenre(testGenre));
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 
   @Test
@@ -118,7 +118,7 @@ class MPDArtistDatabaseTest {
     artists.add(artistDatabase.listArtistByName(testArtistName));
 
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 
   @Test
@@ -142,6 +142,6 @@ class MPDArtistDatabaseTest {
     artists.add(artistDatabase.listArtistByName(testArtistName));
 
     assertEquals(1, artists.size());
-    assertEquals(testArtist, artists.get(0));
+    assertEquals(testArtist, artists.getFirst());
   }
 }

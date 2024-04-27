@@ -26,14 +26,14 @@ class MPDGenreDatabaseTest {
     MPDGenre testGenre2 = new MPDGenre("Genre2");
 
     List<String> testGenres = new ArrayList<>();
-    testGenres.add(GENRE_PREFIX + testGenre1.getName());
-    testGenres.add(GENRE_PREFIX + testGenre2.getName());
+    testGenres.add(GENRE_PREFIX + testGenre1.name());
+    testGenres.add(GENRE_PREFIX + testGenre2.name());
 
     when(tagLister.list(TagLister.ListType.GENRE)).thenReturn(testGenres);
     List<MPDGenre> genres = new ArrayList<>(genreDatabase.listAllGenres());
 
     assertEquals(testGenres.size(), genres.size());
-    assertEquals(testGenre1, genres.get(0));
+    assertEquals(testGenre1, genres.getFirst());
     assertEquals(testGenre2, genres.get(1));
   }
 
@@ -42,15 +42,15 @@ class MPDGenreDatabaseTest {
     MPDGenre genre = new MPDGenre("Genre1");
 
     List<String> testGenres = new ArrayList<>();
-    testGenres.add(GENRE_PREFIX + genre.getName());
+    testGenres.add(GENRE_PREFIX + genre.name());
 
     List<String> list = new ArrayList<>();
     list.add(TagLister.ListType.GENRE.getType());
-    list.add(genre.getName());
+    list.add(genre.name());
 
     when(tagLister.list(TagLister.ListType.GENRE, list)).thenReturn(testGenres);
 
-    assertEquals(genre, genreDatabase.listGenreByName(genre.getName()));
+    assertEquals(genre, genreDatabase.listGenreByName(genre.name()));
   }
 
   @Test
@@ -59,15 +59,15 @@ class MPDGenreDatabaseTest {
     MPDGenre genre2 = new MPDGenre("Genre2");
 
     List<String> testGenres = new ArrayList<>();
-    testGenres.add(GENRE_PREFIX + genre1.getName());
-    testGenres.add(GENRE_PREFIX + genre2.getName());
+    testGenres.add(GENRE_PREFIX + genre1.name());
+    testGenres.add(GENRE_PREFIX + genre2.name());
 
     List<String> list = new ArrayList<>();
     list.add(TagLister.ListType.GENRE.getType());
-    list.add(genre1.getName());
+    list.add(genre1.name());
 
     when(tagLister.list(TagLister.ListType.GENRE, list)).thenReturn(testGenres);
 
-    assertEquals(genre1, genreDatabase.listGenreByName(genre1.getName()));
+    assertEquals(genre1, genreDatabase.listGenreByName(genre1.name()));
   }
 }

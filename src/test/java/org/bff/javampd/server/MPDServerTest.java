@@ -34,7 +34,8 @@ class MPDServerTest {
     mpd.clearError();
 
     verify(mockCommandExecutor).sendCommand(commandArgumentCaptor.capture());
-    assertEquals(mockServerProperties.getClearError(), commandArgumentCaptor.getAllValues().get(0));
+    assertEquals(
+        mockServerProperties.getClearError(), commandArgumentCaptor.getAllValues().getFirst());
   }
 
   @Test
@@ -42,7 +43,7 @@ class MPDServerTest {
     new TestMPD().close();
 
     verify(mockCommandExecutor).sendCommand(commandArgumentCaptor.capture());
-    assertEquals(mockServerProperties.getClose(), commandArgumentCaptor.getAllValues().get(0));
+    assertEquals(mockServerProperties.getClose(), commandArgumentCaptor.getAllValues().getFirst());
   }
 
   @Test
@@ -77,7 +78,7 @@ class MPDServerTest {
 
     verify(mockCommandExecutor).usePassword(commandArgumentCaptor.capture());
     assertNotNull(mpd);
-    assertEquals(password, commandArgumentCaptor.getAllValues().get(0));
+    assertEquals(password, commandArgumentCaptor.getAllValues().getFirst());
   }
 
   @Test

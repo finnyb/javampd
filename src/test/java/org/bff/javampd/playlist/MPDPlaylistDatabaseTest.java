@@ -51,7 +51,7 @@ class MPDPlaylistDatabaseTest {
 
     List<MPDSavedPlaylist> playlists = new ArrayList<>(playlistDatabase.listSavedPlaylists());
 
-    assertEquals(testPlaylistName1, playlists.get(0).getName());
+    assertEquals(testPlaylistName1, playlists.getFirst().getName());
     assertEquals(testPlaylistName2, playlists.get(1).getName());
   }
 
@@ -90,7 +90,7 @@ class MPDPlaylistDatabaseTest {
     playlists.forEach(
         playlist -> {
           List<MPDSong> playlistSongs = new ArrayList<>(playlist.getSongs());
-          assertEquals(testSongName1, playlistSongs.get(0).getName());
+          assertEquals(testSongName1, playlistSongs.getFirst().getName());
           assertEquals(testSongName2, playlistSongs.get(1).getName());
         });
   }
@@ -106,7 +106,7 @@ class MPDPlaylistDatabaseTest {
 
     List<String> playlists = new ArrayList<>(playlistDatabase.listPlaylists());
 
-    assertEquals(testPlaylist, playlists.get(0));
+    assertEquals(testPlaylist, playlists.getFirst());
   }
 
   @Test

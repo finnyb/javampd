@@ -16,7 +16,7 @@ public class MPDPlayerMonitor extends MPDBitrateMonitor implements PlayerMonitor
   private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlayerMonitor.class);
 
   private PlayerStatus status = PlayerStatus.STATUS_STOPPED;
-  private List<PlayerBasicChangeListener> playerListeners;
+  private final List<PlayerBasicChangeListener> playerListeners;
   private String state;
 
   MPDPlayerMonitor() {

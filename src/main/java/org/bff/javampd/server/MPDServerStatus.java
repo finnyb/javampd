@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import lombok.Getter;
 import org.bff.javampd.Clock;
 import org.bff.javampd.command.CommandExecutor;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ public class MPDServerStatus implements ServerStatus {
   private final ServerProperties serverProperties;
   private final CommandExecutor commandExecutor;
 
+  @Getter
   private enum TimeType {
     ELAPSED(0),
     TOTAL(1);
@@ -31,10 +33,6 @@ public class MPDServerStatus implements ServerStatus {
 
     TimeType(int index) {
       this.index = index;
-    }
-
-    public int getIndex() {
-      return index;
     }
   }
 

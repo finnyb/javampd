@@ -63,7 +63,7 @@ class MPDPlaylistTestAlbum {
     verify(commandExecutor, times(2))
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
     assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
@@ -89,7 +89,7 @@ class MPDPlaylistTestAlbum {
     verify(commandExecutor, times(2))
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
     assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
@@ -113,7 +113,7 @@ class MPDPlaylistTestAlbum {
     verify(commandExecutor, times(2))
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
     assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
@@ -138,7 +138,7 @@ class MPDPlaylistTestAlbum {
     verify(commandExecutor, times(2))
         .sendCommand(stringArgumentCaptor.capture(), stringArgumentCaptor.capture());
 
-    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(0));
+    assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().getFirst());
     assertEquals("file1", stringArgumentCaptor.getAllValues().get(1));
     assertEquals(realPlaylistProperties.getAdd(), stringArgumentCaptor.getAllValues().get(2));
     assertEquals("file2", stringArgumentCaptor.getAllValues().get(3));
@@ -156,7 +156,7 @@ class MPDPlaylistTestAlbum {
         MPDPlaylistSong.builder()
             .file("file1")
             .title("testSong1")
-            .artistName(artist.getName())
+            .artistName(artist.name())
             .albumName(album.getName())
             .id(1)
             .build();
@@ -165,7 +165,7 @@ class MPDPlaylistTestAlbum {
         MPDPlaylistSong.builder()
             .file("file1")
             .title("testSong1")
-            .artistName(artist.getName())
+            .artistName(artist.name())
             .albumName(album.getName())
             .id(2)
             .build();
@@ -198,7 +198,7 @@ class MPDPlaylistTestAlbum {
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
 
     assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(1));
-    assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().get(0));
+    assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().getFirst());
     assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(2));
     assertEquals((Integer) song2.getId(), integerArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());
@@ -257,7 +257,7 @@ class MPDPlaylistTestAlbum {
         .sendCommand(stringArgumentCaptor.capture(), integerArgumentCaptor.capture());
 
     assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(1));
-    assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().get(0));
+    assertEquals((Integer) song1.getId(), integerArgumentCaptor.getAllValues().getFirst());
     assertEquals(realPlaylistProperties.getRemoveId(), stringArgumentCaptor.getAllValues().get(2));
     assertEquals((Integer) song2.getId(), integerArgumentCaptor.getAllValues().get(1));
     assertEquals(PlaylistChangeEvent.Event.SONG_DELETED, changeEvent[0].getEvent());

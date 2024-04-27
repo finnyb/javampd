@@ -36,6 +36,7 @@ class MPDStandAloneMonitorTest {
   @BeforeEach
   void setup() {
     Awaitility.setDefaultPollInterval(5, TimeUnit.MILLISECONDS);
+    standAloneMonitor.start();
   }
 
   @AfterEach

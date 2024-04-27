@@ -57,7 +57,7 @@ class MPDCommandExecutorTest {
     verify(mpdSocket).sendCommand(commandCaptor.capture());
 
     assertAll(
-        () -> assertEquals(response.get(0), testResponse.get(0)),
+        () -> assertEquals(response.getFirst(), testResponse.get(0)),
         () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()));
   }
 
@@ -75,7 +75,7 @@ class MPDCommandExecutorTest {
     verify(mpdSocket).sendCommand(commandCaptor.capture());
 
     assertAll(
-        () -> assertEquals(response.get(0), testResponse.get(0)),
+        () -> assertEquals(response.getFirst(), testResponse.get(0)),
         () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()));
   }
 
@@ -95,7 +95,7 @@ class MPDCommandExecutorTest {
     verify(mpdSocket).sendCommand(commandCaptor.capture());
 
     assertAll(
-        () -> assertEquals(response.get(0), testResponse.get(0)),
+        () -> assertEquals(response.getFirst(), testResponse.get(0)),
         () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()),
         () -> assertEquals("param", commandCaptor.getAllValues().get(0).getParams().get(0)));
 
@@ -192,7 +192,7 @@ class MPDCommandExecutorTest {
     verify(mpdSocket).sendCommand(commandCaptor.capture());
 
     assertAll(
-        () -> assertEquals(response.get(0), testResponse.get(0)),
+        () -> assertEquals(response.getFirst(), testResponse.get(0)),
         () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()),
         () -> assertEquals("1", commandCaptor.getAllValues().get(0).getParams().get(0)));
   }
@@ -211,7 +211,7 @@ class MPDCommandExecutorTest {
         .thenThrow(new MPDSecurityException("exception"))
         .thenReturn(testResponse);
     List<String> response = new ArrayList<>(commandExecutor.sendCommand(command));
-    assertEquals(response.get(0), testResponse.get(0));
+    assertEquals(response.getFirst(), testResponse.getFirst());
   }
 
   @Test
