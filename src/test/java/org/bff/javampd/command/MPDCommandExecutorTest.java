@@ -11,8 +11,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import org.bff.javampd.server.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,6 +24,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class MPDCommandExecutorTest {
   @Mock private MPDSocket mpdSocket;
   @Mock private MPD mpd;
+  @Captor private ArgumentCaptor<String> paramCaptor;
+  @Captor private ArgumentCaptor<String> commandStringCaptor;
+  @Captor private ArgumentCaptor<MPDCommand> commandCaptor;
+
   @InjectMocks private MPDCommandExecutor commandExecutor;
 
   @Test
@@ -47,7 +54,11 @@ class MPDCommandExecutorTest {
 
     List<String> response = commandExecutor.sendCommand(commandString);
 
-    assertEquals(response.getFirst(), testResponse.getFirst());
+    verify(mpdSocket).sendCommand(commandCaptor.capture());
+
+    assertAll(
+        () -> assertEquals(response.getFirst(), testResponse.get(0)),
+        () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()));
   }
 
   @Test
@@ -61,7 +72,11 @@ class MPDCommandExecutorTest {
 
     List<String> response = commandExecutor.sendCommand(command);
 
-    assertEquals(response.getFirst(), testResponse.getFirst());
+    verify(mpdSocket).sendCommand(commandCaptor.capture());
+
+    assertAll(
+        () -> assertEquals(response.getFirst(), testResponse.get(0)),
+        () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()));
   }
 
   @Test
@@ -77,7 +92,88 @@ class MPDCommandExecutorTest {
 
     List<String> response = commandExecutor.sendCommand(commandString, paramString);
 
-    assertEquals(response.getFirst(), testResponse.getFirst());
+    verify(mpdSocket).sendCommand(commandCaptor.capture());
+
+    assertAll(
+        () -> assertEquals(response.getFirst(), testResponse.get(0)),
+        () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()),
+        () -> assertEquals("param", commandCaptor.getAllValues().get(0).getParams().get(0)));
+
+    assertEquals(response.get(0), testResponse.get(0));
+  }
+
+  @Test
+  @DisplayName("Escape double quote search parameter")
+  void testSendCommandWithQuote() {
+    String commandString = "command";
+    String paramString = "param\"";
+    commandExecutor = new TestMPDCommandExecutor();
+    commandExecutor.setMpd(mpd);
+
+    List<String> testResponse = new ArrayList<>();
+    testResponse.add("testResponse");
+    when(mpdSocket.sendCommand(new MPDCommand(commandString, "param\\\"")))
+        .thenReturn(testResponse);
+
+    List<String> response = commandExecutor.sendCommand(commandString, paramString);
+
+    verify(mpdSocket).sendCommand(commandCaptor.capture());
+
+    assertAll(
+        () -> assertEquals(response.get(0), testResponse.get(0)),
+        () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()),
+        () -> assertEquals("param\\\"", commandCaptor.getAllValues().get(0).getParams().get(0)));
+  }
+
+  @Test
+  @DisplayName("Escape multiple double quotes search parameter")
+  void testSendCommandWithMultipleQuotes() {
+    String commandString = "command";
+    String paramString = "pa\"ram\"";
+    commandExecutor = new TestMPDCommandExecutor();
+    commandExecutor.setMpd(mpd);
+
+    List<String> testResponse = new ArrayList<>();
+    testResponse.add("testResponse");
+    when(mpdSocket.sendCommand(new MPDCommand(commandString, "pa\\\"ram\\\"")))
+        .thenReturn(testResponse);
+
+    List<String> response = commandExecutor.sendCommand(commandString, paramString);
+
+    verify(mpdSocket).sendCommand(commandCaptor.capture());
+
+    assertAll(
+        () -> assertEquals(response.get(0), testResponse.get(0)),
+        () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()),
+        () ->
+            assertEquals("pa\\\"ram\\\"", commandCaptor.getAllValues().get(0).getParams().get(0)));
+  }
+
+  @Test
+  @DisplayName("Escape multiple double quotes for multiple search parameters")
+  void testSendCommandsWithMultipleQuotes() {
+    String commandString = "command";
+    String paramString1 = "pa\"ram\"1";
+    String paramString2 = "pa\"ram\"2";
+    commandExecutor = new TestMPDCommandExecutor();
+    commandExecutor.setMpd(mpd);
+
+    List<String> testResponse = new ArrayList<>();
+    testResponse.add("testResponse");
+    when(mpdSocket.sendCommand(new MPDCommand(commandString, "pa\\\"ram\\\"1", "pa\\\"ram\\\"2")))
+        .thenReturn(testResponse);
+
+    List<String> response = commandExecutor.sendCommand(commandString, paramString1, paramString2);
+
+    verify(mpdSocket).sendCommand(commandCaptor.capture());
+
+    assertAll(
+        () -> assertEquals(response.get(0), testResponse.get(0)),
+        () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()),
+        () ->
+            assertEquals("pa\\\"ram\\\"1", commandCaptor.getAllValues().get(0).getParams().get(0)),
+        () ->
+            assertEquals("pa\\\"ram\\\"2", commandCaptor.getAllValues().get(0).getParams().get(1)));
   }
 
   @Test
@@ -93,7 +189,12 @@ class MPDCommandExecutorTest {
 
     List<String> response = commandExecutor.sendCommand(commandString, paramInteger);
 
-    assertEquals(response.getFirst(), testResponse.getFirst());
+    verify(mpdSocket).sendCommand(commandCaptor.capture());
+
+    assertAll(
+        () -> assertEquals(response.getFirst(), testResponse.get(0)),
+        () -> assertEquals("command", commandCaptor.getAllValues().get(0).getCommand()),
+        () -> assertEquals("1", commandCaptor.getAllValues().get(0).getParams().get(0)));
   }
 
   @Test
