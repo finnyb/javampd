@@ -5,7 +5,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -95,7 +94,7 @@ class MPDArtworkFinderTest {
   }
 
   @Test
-  void findArtistPrefix() throws UnsupportedEncodingException {
+  void findArtistPrefix() {
     String[] artistImages = new String[] {"artist200x200.jpg", "artist200x200.png"};
 
     String[] albumImages = new String[] {"album200x200.jpg", "album200x200.png"};
@@ -142,7 +141,7 @@ class MPDArtworkFinderTest {
   }
 
   @Test
-  void findArtistBadPath() throws UnsupportedEncodingException {
+  void findArtistBadPath() {
     String[] artistImages = new String[] {"artist200x200.png"};
 
     MPDArtist artist = new MPDArtist("artist");
@@ -162,7 +161,7 @@ class MPDArtworkFinderTest {
   }
 
   @Test
-  void findAlbum() throws UnsupportedEncodingException {
+  void findAlbum() {
     String[] albumImages = new String[] {"album200x200.jpg", "album200x200.png"};
 
     MPDAlbum album =
@@ -196,7 +195,7 @@ class MPDArtworkFinderTest {
   }
 
   @Test
-  void findAlbumPrefix() throws UnsupportedEncodingException {
+  void findAlbumPrefix() {
     String[] albumImages = new String[] {"album200x200.jpg", "album200x200.png"};
 
     MPDAlbum album =
@@ -230,7 +229,7 @@ class MPDArtworkFinderTest {
   }
 
   @Test
-  void findPath() throws UnsupportedEncodingException {
+  void findPath() {
     String[] images = new String[] {"artist200x200.jpg", "artist200x200.png"};
 
     String testImage =
@@ -295,7 +294,7 @@ class MPDArtworkFinderTest {
     assertThrows(MPDException.class, () -> artworkFinder.find("bad"));
   }
 
-  private String decode(String encodedString) throws UnsupportedEncodingException {
+  private String decode(String encodedString) {
     return URLDecoder.decode(encodedString, StandardCharsets.UTF_8);
   }
 }

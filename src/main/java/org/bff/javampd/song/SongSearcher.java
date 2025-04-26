@@ -66,7 +66,7 @@ public interface SongSearcher {
 
   /**
    * Returns a {@link java.util.Collection} of {@link MPDSong}s for searches matching all scope
-   * types. Please note this only returns an exact match of artist. To find a partial match use
+   * types. Please note this only returns an exact match of an artist. To find a partial match use
    * {@link #search(ScopeType, String)}.
    *
    * @param criteria the search criteria
@@ -87,8 +87,8 @@ public interface SongSearcher {
 
   /**
    * Returns a {@link java.util.Collection} of {@link MPDSong}s for searches matching all the
-   * provided scope types. Please note this only returns an exact match of artist. To find a partial
-   * match use {@link #search(ScopeType, String)}.
+   * provided scope types. Please note this only returns an exact match of an artist. To find a
+   * partial match use {@link #search(ScopeType, String)}.
    *
    * @param criteria the search {@link SearchCriteria}
    * @return a {@link java.util.Collection} of {@link MPDSong}s

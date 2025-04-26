@@ -165,7 +165,6 @@ class MPDPlaylistTestSong {
 
     final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
     playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-    MPDPlaylistSong mpdSong = MPDPlaylistSong.builder().position(position).build();
     playlist.removeSong(position);
 
     verify(commandExecutor)
@@ -182,7 +181,6 @@ class MPDPlaylistTestSong {
 
     final PlaylistChangeEvent[] changeEvent = new PlaylistChangeEvent[1];
     playlist.addPlaylistChangeListener(event -> changeEvent[0] = event);
-    MPDPlaylistSong mpdSong = MPDPlaylistSong.builder().position(position).build();
     playlist.removeSong(position);
 
     assertNull(changeEvent[0]);

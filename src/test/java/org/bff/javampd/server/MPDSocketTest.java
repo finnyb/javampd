@@ -511,6 +511,7 @@ class MPDSocketTest {
       return mockSocket;
     }
 
+    @Override
     public void setReader(BufferedReader reader) {
       super.setReader(mockedBufferedReader);
     }
