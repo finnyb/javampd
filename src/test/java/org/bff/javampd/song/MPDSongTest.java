@@ -41,7 +41,6 @@ class MPDSongTest {
 
   @Test
   void testToString() {
-    String file = "file1";
     MPDSong song = MPDSong.builder().file("file1").title("song1").build();
 
     assertThat(
