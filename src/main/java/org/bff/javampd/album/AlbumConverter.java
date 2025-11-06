@@ -14,7 +14,7 @@ public interface AlbumConverter {
    * Converts the response from the MPD server into a {@link MPDAlbum} object.
    *
    * @param list the response from the MPD server
-   * @return a {@link MPDAlbum} object
+   * @return a collection of {@link MPDAlbum} objects
    */
   Collection<MPDAlbum> convertResponseToAlbum(List<String> list);
 }
