@@ -11,18 +11,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MPDAlbumConverter implements AlbumConverter {
 
-  private static final String DELIMITING_PREFIX = AlbumProcessor.getDelimitingPrefix();
-
   @Override
   public Collection<MPDAlbum> convertResponseToAlbum(List<String> list) {
     var hashMap = new LinkedHashMap<String, MPDAlbum>();
     Iterator<String> iterator = list.iterator();
 
-    var artists = new ArrayList<String>();
-    var genres = new ArrayList<String>();
-    var dates = new ArrayList<String>();
+    List<String> artists = new ArrayList<>();
+    List<String> genres = new ArrayList<>();
+    String date = null;
     String albumArtist = null;
-    var album = "";
+    String albumName = "";
 
     String line;
     while (iterator.hasNext()) {
@@ -32,51 +30,46 @@ public class MPDAlbumConverter implements AlbumConverter {
       if (albumProcessor != null) {
         var tag = albumProcessor.getProcessor().processTag(line);
         switch (albumProcessor.getProcessor().getType()) {
-          case ALBUM:
-            album = tag;
-            break;
           case ALBUM_ARTIST:
             albumArtist = tag;
+            artists = new ArrayList<>();
+            date = null;
+            genres = new ArrayList<>();
+            break;
+          case GENRE:
+            genres.add(tag);
+            artists = new ArrayList<>();
+            date = null;
+            break;
+          case DATE:
+            date = tag;
+            artists = new ArrayList<>();
             break;
           case ARTIST:
             artists.add(tag);
             break;
-          case GENRE:
-            genres.add(tag);
-            break;
-          case DATE:
-            dates.add(tag);
+          case ALBUM:
+            albumName = tag;
+            if (albumArtist != null && !albumArtist.isBlank() && !albumName.isBlank() && date != null && !date.isEmpty()) {
+                String mapKey = String.format("%s - %s [%s]", albumArtist, albumName, date);
+                MPDAlbum a = hashMap.get(mapKey);
+                if (a == null) {
+                    hashMap.put(mapKey,
+                        MPDAlbum.builder(albumName)
+                            .albumArtist(albumArtist)
+                            .artistNames(artists)
+                            .genres(genres)
+                            .dates(new ArrayList<>(List.of(date)))
+                            .build());
+                }
+            }
             break;
           default:
-            log.warn("Unprocessed album type {} found.", tag);
+            log.warn("Unprocessed albumName type {} found.", tag);
             break;
         }
       } else {
         log.warn("Processor not found - {}", line);
-      }
-
-      if (line.startsWith(DELIMITING_PREFIX)) {
-        var a = hashMap.get(album);
-        if (a == null) {
-          hashMap.put(
-              album,
-              MPDAlbum.builder(album)
-                  .albumArtist(albumArtist)
-                  .artistNames(artists)
-                  .genres(genres)
-                  .dates(dates)
-                  .build());
-        } else {
-          a.addArtists(artists);
-          a.addGenres(genres);
-          a.addDates(dates);
-        }
-
-        artists = new ArrayList<>();
-        genres = new ArrayList<>();
-        dates = new ArrayList<>();
-        albumArtist = null;
-        album = "";
       }
     }
 

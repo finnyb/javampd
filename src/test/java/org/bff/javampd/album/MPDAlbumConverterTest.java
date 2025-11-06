@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -80,24 +81,30 @@ class MPDAlbumConverterTest {
   void clearAttributes() {
     var response =
         Arrays.asList(
-            "AlbumArtist: Spiritbox",
-            "Genre: Metal",
-            "Date: 2021",
-            "Artist: Spiritbox",
-            "Album: Eternal Blue",
-            "Artist: Tool",
-            "Album: Lateralus");
+            "AlbumArtist: Faith No More",
+            "Genre: Alternative Metal",
+            "Date: 1989",
+            "Artist: Faith No More",
+            "Album: The Real Thing",
+            "Date: 1997-06-03",
+            "Artist: Faith No More",
+            "Album: Album of the Year",
+            "Date: 1999",
+            "Artist: Faith No More",
+            "Album: Angel Dust",
+            "Album: King for a Day... Fool for a Lifetime");
 
     var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
-    var a = albums.get(1);
-
-    assertAll(
-        () -> assertThat(a.getName(), is(equalTo("Lateralus"))),
-        () -> assertNull(a.getAlbumArtist()),
-        () -> assertThat(a.getArtistNames().size(), is(equalTo(1))),
-        () -> assertThat(a.getArtistNames().get(0), is(equalTo("Tool"))),
-        () -> assertThat(a.getGenres().size(), is(equalTo(0))),
-        () -> assertThat(a.getDates().size(), is(equalTo(0))));
+    assertThat(albums.size(), is(4));
+    for (MPDAlbum a : albums) {
+        assertAll(
+            () -> assertThat(a.getAlbumArtist(), is("Faith No More")),
+            () -> assertThat(a.getArtistNames().size(), is(1)),
+            () -> assertThat(a.getArtistNames().get(0), is("Faith No More")),
+            () -> assertThat(a.getGenres().size(), is(1)),
+            () -> assertThat(a.getGenres().get(0), is("Alternative Metal")),
+            () -> assertThat(a.getDates().size(), is(1)));
+    }
   }
 
   @Test
@@ -126,5 +133,33 @@ class MPDAlbumConverterTest {
         () -> assertThat(a.getGenres().get(0), is(equalTo("Metal"))),
         () -> assertThat(a.getDates().size(), is(equalTo(1))),
         () -> assertThat(a.getDates().get(0), is(equalTo("2021"))));
+  }
+
+  @Test
+  void multipleAlbums_FromSameGroupOf_AlbumArtist_Genre_Date_Artist() {
+    var response =
+        Arrays.asList(
+            "AlbumArtist: Black Sabbath",
+            "Genre: Metal",
+            "Date: 1970",
+            "Artist: Black Sabbath",
+            "Album: Black Sabbath",
+            "Album: Paranoid");
+
+    var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
+    var a1 = albums.get(0);
+    var a2 = albums.get(1);
+
+    assertAll(
+        () -> assertThat(a1.getAlbumArtist(), is("Black Sabbath")),
+        () -> assertThat(a1.getArtistNames().get(0), is("Black Sabbath")),
+        () -> assertThat(a1.getGenres().get(0), is("Metal")),
+        () -> assertThat(a1.getDates().get(0), is("1970")),
+        () -> assertThat(a1.getName(), is("Black Sabbath")),
+        () -> assertThat(a2.getAlbumArtist(), is(a1.getAlbumArtist())),
+        () -> assertThat(a2.getArtistNames(), is(a1.getArtistNames())),
+        () -> assertThat(a2.getGenres(), is(a1.getGenres())),
+        () -> assertThat(a2.getDates(), is(a1.getDates())),
+        () -> assertThat(a2.getName(), is("Paranoid")));
   }
 }
