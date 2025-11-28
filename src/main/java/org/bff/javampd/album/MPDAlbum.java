@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
 /**
  * MPDAlbum represents an album
@@ -14,7 +13,7 @@ import lombok.NonNull;
 @Builder(builderMethodName = "internalBuilder")
 @Data
 public class MPDAlbum implements Comparable<MPDAlbum> {
-  @NonNull private String name;
+  private String name;
   private String albumArtist;
   @Builder.Default private List<String> artistNames = new ArrayList<>();
   @Builder.Default private List<String> dates = new ArrayList<>();

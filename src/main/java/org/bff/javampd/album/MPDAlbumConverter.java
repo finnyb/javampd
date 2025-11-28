@@ -1,7 +1,10 @@
 package org.bff.javampd.album;
 
+import static org.bff.javampd.processor.ResponseProcessor.TagType.ALBUM;
+
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
+import org.bff.javampd.processor.ResponseProcessor;
 
 /**
  * Converts a response from the server to an {@link MPDAlbum}
@@ -16,11 +19,7 @@ public class MPDAlbumConverter implements AlbumConverter {
     var hashMap = new LinkedHashMap<String, MPDAlbum>();
     Iterator<String> iterator = list.iterator();
 
-    List<String> artists = new ArrayList<>();
-    List<String> genres = new ArrayList<>();
-    String date = null;
-    String albumArtist = null;
-    String albumName = "";
+    MPDAlbum.MPDAlbumBuilder albumBuilder = new MPDAlbum.MPDAlbumBuilder();
 
     String line;
     while (iterator.hasNext()) {
@@ -28,50 +27,21 @@ public class MPDAlbumConverter implements AlbumConverter {
 
       var albumProcessor = AlbumProcessor.lookup(line);
       if (albumProcessor != null) {
-        var tag = albumProcessor.getProcessor().processTag(line);
-        switch (albumProcessor.getProcessor().getType()) {
-          case ALBUM_ARTIST:
-            albumArtist = tag;
-            artists = new ArrayList<>();
-            date = null;
-            genres = new ArrayList<>();
-            break;
-          case GENRE:
-            genres.add(tag);
-            artists = new ArrayList<>();
-            date = null;
-            break;
-          case DATE:
-            date = tag;
-            artists = new ArrayList<>();
-            break;
-          case ARTIST:
-            artists.add(tag);
-            break;
-          case ALBUM:
-            albumName = tag;
-            if (albumArtist != null
-                && !albumArtist.isBlank()
-                && !albumName.isBlank()
-                && date != null
-                && !date.isEmpty()) {
-              String mapKey = String.format("%s - %s [%s]", albumArtist, albumName, date);
-              MPDAlbum a = hashMap.get(mapKey);
-              if (a == null) {
-                hashMap.put(
-                    mapKey,
-                    MPDAlbum.builder(albumName)
-                        .albumArtist(albumArtist)
-                        .artistNames(artists)
-                        .genres(genres)
-                        .dates(new ArrayList<>(List.of(date)))
-                        .build());
-              }
-            }
-            break;
-          default:
-            log.warn("Unprocessed albumName type {} found.", tag);
-            break;
+        var tagType = albumProcessor.getProcessor().getType();
+        var tagValue = albumProcessor.getProcessor().processTag(line);
+        albumBuilder = mergeTag(albumBuilder, tagType, tagValue);
+        if (tagType == ALBUM) {
+          MPDAlbum album = albumBuilder.build();
+          if (album.getAlbumArtist() != null
+              && album.getName() != null
+              && album.getDates() != null
+              && !album.getDates().isEmpty()) {
+            String mapKey =
+                String.format(
+                    "%s - %s [%s]",
+                    album.getAlbumArtist(), album.getName(), album.getDates().get(0));
+            hashMap.putIfAbsent(mapKey, album);
+          }
         }
       } else {
         log.warn("Processor not found - {}", line);
@@ -79,5 +49,61 @@ public class MPDAlbumConverter implements AlbumConverter {
     }
 
     return hashMap.values();
+  }
+
+  /**
+   * Integrates the provided tag into the MPDAlbumBuilder.
+   *
+   * <p>It is assumed that all album metadata is grouped hierarchically in this (descending) order:
+   *
+   * <ol>
+   *   <li>{@link ResponseProcessor.TagType#ALBUM_ARTIST}
+   *   <li>{@link ResponseProcessor.TagType#GENRE}
+   *   <li>{@link ResponseProcessor.TagType#DATE}
+   *   <li>{@link ResponseProcessor.TagType#ARTIST}
+   *   <li>{@link ResponseProcessor.TagType#ALBUM}
+   * </ol>
+   *
+   * <p>Any tag that exists in higher levels of the hierarchy implies erasure of lower-hierarchy
+   * tags.
+   *
+   * @param accumulator The current album builder instance.
+   * @param tagValue The extracted, parsed value for the tag
+   * @param tagType The type of tag
+   * @return A reference to the builder provided as parameter, updated according to the rest of the
+   *     supplied parameters plus the assumptions explained above.
+   */
+  private static MPDAlbum.MPDAlbumBuilder mergeTag(
+      MPDAlbum.MPDAlbumBuilder accumulator, ResponseProcessor.TagType tagType, String tagValue) {
+    MPDAlbum cachedResult = accumulator.build();
+    return switch (tagType) {
+      case ALBUM_ARTIST -> accumulator
+          .albumArtist(tagValue)
+          .genres(new ArrayList<>())
+          .dates(new ArrayList<>())
+          .artistNames(new ArrayList<>())
+          .name(null);
+      case GENRE -> {
+        cachedResult.addGenre(tagValue);
+        yield accumulator
+            .genres(cachedResult.getGenres())
+            .dates(new ArrayList<>())
+            .artistNames(new ArrayList<>())
+            .name(null);
+      }
+      case DATE -> accumulator
+          .dates(new ArrayList<>(List.of(tagValue)))
+          .artistNames(new ArrayList<>())
+          .name(null);
+      case ARTIST -> {
+        cachedResult.addArtist(tagValue);
+        yield accumulator.artistNames(cachedResult.getArtistNames()).name(null);
+      }
+      case ALBUM -> accumulator.name(tagValue);
+      default -> {
+        log.warn("Unprocessed tagValue type {} found.", tagValue);
+        yield accumulator;
+      }
+    };
   }
 }
