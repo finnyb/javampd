@@ -4,12 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -97,13 +95,13 @@ class MPDAlbumConverterTest {
     var albums = new ArrayList<>(converter.convertResponseToAlbum(response));
     assertThat(albums.size(), is(4));
     for (MPDAlbum a : albums) {
-        assertAll(
-            () -> assertThat(a.getAlbumArtist(), is("Faith No More")),
-            () -> assertThat(a.getArtistNames().size(), is(1)),
-            () -> assertThat(a.getArtistNames().get(0), is("Faith No More")),
-            () -> assertThat(a.getGenres().size(), is(1)),
-            () -> assertThat(a.getGenres().get(0), is("Alternative Metal")),
-            () -> assertThat(a.getDates().size(), is(1)));
+      assertAll(
+          () -> assertThat(a.getAlbumArtist(), is("Faith No More")),
+          () -> assertThat(a.getArtistNames().size(), is(1)),
+          () -> assertThat(a.getArtistNames().get(0), is("Faith No More")),
+          () -> assertThat(a.getGenres().size(), is(1)),
+          () -> assertThat(a.getGenres().get(0), is("Alternative Metal")),
+          () -> assertThat(a.getDates().size(), is(1)));
     }
   }
 

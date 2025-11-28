@@ -50,18 +50,23 @@ public class MPDAlbumConverter implements AlbumConverter {
             break;
           case ALBUM:
             albumName = tag;
-            if (albumArtist != null && !albumArtist.isBlank() && !albumName.isBlank() && date != null && !date.isEmpty()) {
-                String mapKey = String.format("%s - %s [%s]", albumArtist, albumName, date);
-                MPDAlbum a = hashMap.get(mapKey);
-                if (a == null) {
-                    hashMap.put(mapKey,
-                        MPDAlbum.builder(albumName)
-                            .albumArtist(albumArtist)
-                            .artistNames(artists)
-                            .genres(genres)
-                            .dates(new ArrayList<>(List.of(date)))
-                            .build());
-                }
+            if (albumArtist != null
+                && !albumArtist.isBlank()
+                && !albumName.isBlank()
+                && date != null
+                && !date.isEmpty()) {
+              String mapKey = String.format("%s - %s [%s]", albumArtist, albumName, date);
+              MPDAlbum a = hashMap.get(mapKey);
+              if (a == null) {
+                hashMap.put(
+                    mapKey,
+                    MPDAlbum.builder(albumName)
+                        .albumArtist(albumArtist)
+                        .artistNames(artists)
+                        .genres(genres)
+                        .dates(new ArrayList<>(List.of(date)))
+                        .build());
+              }
             }
             break;
           default:
