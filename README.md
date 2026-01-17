@@ -1,7 +1,7 @@
 JavaMPD
 =======
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.inthebacklog/javampd/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.inthebacklog/javampd)
+[![Maven Central](https://img.shields.io/maven-central/v/com.inthebacklog/javampd)](https://central.sonatype.com/artifact/com.inthebacklog/javampd)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=finnyb_javampd&metric=coverage)](https://sonarcloud.io/summary/new_code?id=finnyb_javampd)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=finnyb_javampd&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=finnyb_javampd)
 
