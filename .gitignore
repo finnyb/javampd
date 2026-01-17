@@ -7,3 +7,7 @@ target/
 .project
 .settings/
 .DS_Store
+
+# VS Code
+.vscode/
+*.code-workspace
