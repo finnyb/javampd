@@ -39,14 +39,12 @@ public class MPDModule extends AbstractModule {
     bind(Playlist.class).to(MPDPlaylist.class);
     bind(ServerStatus.class).to(MPDServerStatus.class);
     bind(ServerStatistics.class).to(MPDServerStatistics.class);
-    bind(Player.class).to(MPDPlayer.class);
     bind(CommandExecutor.class).to(MPDCommandExecutor.class);
     bind(TagLister.class).to(MPDTagLister.class);
     bind(SongConverter.class).to(MPDSongConverter.class);
     bind(PlaylistSongConverter.class).to(MPDPlaylistSongConverter.class);
     bind(AlbumConverter.class).to(MPDAlbumConverter.class);
     bind(ArtworkFinder.class).to(MPDArtworkFinder.class);
-    bind(ServerStatistics.class).to(MPDServerStatistics.class);
     bind(StatsConverter.class).to(MPDStatsConverter.class);
     bind(Clock.class).to(MPDSystemClock.class);
   }

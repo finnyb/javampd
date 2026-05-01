@@ -14,16 +14,12 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.MPDException;
 import org.bff.javampd.command.MPDCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author bill
  */
 @Slf4j
 public class MPDSocket {
-  private static final Logger LOGGER = LoggerFactory.getLogger(MPDSocket.class);
-
   private Socket socket;
   private BufferedReader reader;
 
@@ -239,7 +235,7 @@ public class MPDSocket {
       inLine = reader.readLine();
     }
 
-    response.forEach(LOGGER::debug);
+    response.forEach(log::debug);
 
     return response;
   }

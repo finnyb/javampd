@@ -60,7 +60,7 @@ public class MPDSong implements Comparable<MPDSong> {
 
     sb = new StringBuilder(song.getName());
     sb.append(song.getAlbumName() == null ? "" : song.getAlbumName());
-    sb.append(getTrack());
+    sb.append(song.getTrack());
     var songToCompare = sb.toString();
 
     return thisSong.compareTo(songToCompare);
