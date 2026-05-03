@@ -26,7 +26,33 @@ public interface PlaylistDatabase {
    */
   Collection<String> listPlaylists();
 
+  /**
+   * Returns a {@link java.util.Collection} of all songs in this playlist on the server.
+   *
+   * @param playlistName the name of the playlist
+   * @return a collection of songs
+   */
   Collection<MPDSong> listPlaylistSongs(String playlistName);
+
+  /**
+   * Returns a range of songs in this playlist on the server. The range is specified by the
+   * parameters {@code start} and {@code end}.
+   *
+   * @param playlistName the name of the playlist
+   * @param start the start of the range
+   * @param count how many items will be returned at most
+   * @return a collection of songs
+   */
+  Collection<MPDSong> listPlaylistSongs(String playlistName, long start, long count);
+
+  /**
+   * Returns a {@link java.util.Collection} of the file names of all songs in this playlist on the
+   * server.
+   *
+   * @param playlistName the name of the playlist
+   * @return a collection of file names of songs
+   */
+  Collection<String> listRawPlaylistSongs(String playlistName);
 
   int countPlaylistSongs(String playlistName);
 }

@@ -24,9 +24,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class MPDPlaylistDatabaseTest {
 
   @Mock private SongDatabase songDatabase;
+
   @Mock private CommandExecutor commandExecutor;
+
   @Mock private DatabaseProperties databaseProperties;
+
   @Mock private TagLister tagLister;
+
   @Mock private SongConverter songConverter;
 
   @InjectMocks private MPDPlaylistDatabase playlistDatabase;
@@ -123,5 +127,55 @@ class MPDPlaylistDatabaseTest {
     when(commandExecutor.sendCommand("listplaylist", testPlaylist)).thenReturn(mockedSongs);
 
     assertThat(playlistDatabase.countPlaylistSongs(testPlaylist), is(5));
+  }
+
+  @Test
+  void testRawPlaylistSongs() {
+    String testPlaylist = "testPlaylist";
+
+    List<String> mockedSongs = new ArrayList<>();
+    IntStream.range(0, 5).forEach(i -> mockedSongs.add("file" + i));
+
+    when(databaseProperties.getListSongs()).thenReturn("listplaylist");
+    when(commandExecutor.sendCommand("listplaylist", testPlaylist)).thenReturn(mockedSongs);
+
+    assertThat(playlistDatabase.listRawPlaylistSongs(testPlaylist), is(mockedSongs));
+  }
+
+  @Test
+  void testPlaylistSongs() {
+    String testPlaylist = "testPlaylist";
+    final int songsPerPlaylist = 5;
+
+    List<String> mockedResponseList = new ArrayList<>();
+    List<MPDSong> mockedSongs = new ArrayList<>();
+
+    for (int i = 0; i < songsPerPlaylist; i++) {
+      mockedResponseList.add("testSong" + i);
+      mockedSongs.add(MPDSong.builder().file("file" + i).title("testSong" + i).build());
+    }
+
+    when(databaseProperties.getListSongs()).thenReturn("listplaylist");
+    when(commandExecutor.sendCommand("listplaylist", testPlaylist)).thenReturn(mockedResponseList);
+    when(songConverter.getSongFileNameList(mockedResponseList)).thenReturn(mockedResponseList);
+
+    for (int i = 0; i < songsPerPlaylist; i++) {
+      when(songDatabase.searchFileName(mockedResponseList.get(i)))
+          .thenReturn(List.of(MPDSong.builder().file("file" + i).title("testSong" + i).build()));
+    }
+
+    // Test the whole playlist
+    assertThat(playlistDatabase.listPlaylistSongs(testPlaylist), is(mockedSongs));
+
+    // Test slicing of the playlist
+    assertThat(
+        playlistDatabase.listPlaylistSongs(testPlaylist, 1, 1),
+        is(List.of(mockedSongs.getFirst())));
+    assertThat(
+        playlistDatabase.listPlaylistSongs(testPlaylist, songsPerPlaylist, 1),
+        is(List.of(mockedSongs.getLast())));
+    assertThat(
+        playlistDatabase.listPlaylistSongs(testPlaylist, 1, 3),
+        is(List.of(mockedSongs.getFirst(), mockedSongs.get(1), mockedSongs.get(2))));
   }
 }
