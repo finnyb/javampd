@@ -39,6 +39,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=finnyb_javampd -Dsonar.host.url=https://sonarcloud.io
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=finnyb_javampd -Dsonar.host.url=https://sonarcloud.io -Dsonar.scanner.skipJreProvisioning=true
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@fe8d4d650a4b66508612d0683ce4726d51dfe6ac # v4
