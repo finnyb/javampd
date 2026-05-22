@@ -193,6 +193,7 @@ class MPDServerTest {
     void init() {
       commandExecutor = mockCommandExecutor;
       serverProperties = mockServerProperties;
+      authenticate();
     }
   }
 }

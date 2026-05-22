@@ -21,7 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class MPDPlaylistTest {
   @Mock private ServerStatus serverStatus;
-  @Mock private PlaylistProperties playlistProperties;
   @Mock private CommandExecutor commandExecutor;
   @InjectMocks private MPDPlaylist playlist;
   @Captor private ArgumentCaptor<String> stringArgumentCaptor;

@@ -3,6 +3,7 @@ package org.bff.javampd.playlist;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.album.MPDAlbum;
 import org.bff.javampd.artist.MPDArtist;
 import org.bff.javampd.command.CommandExecutor;
@@ -12,8 +13,6 @@ import org.bff.javampd.genre.MPDGenre;
 import org.bff.javampd.server.ServerStatus;
 import org.bff.javampd.song.MPDSong;
 import org.bff.javampd.song.SongDatabase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * MPDPlaylist represents a playlist controller to a MPD server. To obtain an instance of the class
@@ -22,9 +21,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author Bill
  */
+@Slf4j
 public class MPDPlaylist implements Playlist {
-  private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlaylist.class);
-
   private int oldVersion = -1;
   private int version = -1;
 
@@ -41,7 +39,6 @@ public class MPDPlaylist implements Playlist {
    *
    * @param songDatabase the song database
    * @param serverStatus the server status
-   * @param playlistProperties playlist properties
    * @param commandExecutor command runner
    * @param songConverter song marshaller
    */
@@ -49,12 +46,10 @@ public class MPDPlaylist implements Playlist {
   public MPDPlaylist(
       SongDatabase songDatabase,
       ServerStatus serverStatus,
-      PlaylistProperties playlistProperties,
       CommandExecutor commandExecutor,
       PlaylistSongConverter songConverter) {
     this.songDatabase = songDatabase;
     this.serverStatus = serverStatus;
-    this.playlistProperties = playlistProperties;
     this.commandExecutor = commandExecutor;
     this.songConverter = songConverter;
     this.listeners = new ArrayList<>();
@@ -251,7 +246,7 @@ public class MPDPlaylist implements Playlist {
 
       return true;
     } else {
-      LOGGER.error("Playlist not saved since name was null");
+      log.error("Playlist not saved since name was null");
       return false;
     }
   }

@@ -2,9 +2,7 @@ package org.bff.javampd.song;
 
 import java.util.List;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class MPDSongConverter extends MPDTagConverter<MPDSong> implements SongConverter {
 
   @Override

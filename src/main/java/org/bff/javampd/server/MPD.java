@@ -20,8 +20,6 @@ import org.bff.javampd.player.Player;
 import org.bff.javampd.playlist.Playlist;
 import org.bff.javampd.song.SongSearcher;
 import org.bff.javampd.statistics.ServerStatistics;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * MPD represents a connection to a MPD server. The commands are maintained in a properties file
@@ -38,8 +36,6 @@ import org.slf4j.LoggerFactory;
 @Getter
 @Singleton
 public class MPD extends MPDServer {
-  private static final Logger LOGGER = LoggerFactory.getLogger(MPD.class);
-
   private int port = 6600;
   private String server = "localhost";
 
@@ -57,7 +53,6 @@ public class MPD extends MPDServer {
     try {
       this.address = InetAddress.getByName(this.server);
       init();
-      authenticate();
     } catch (Exception e) {
       throw new MPDConnectionException(e);
     }

@@ -26,7 +26,6 @@ class MPDPlaylistTestGenreAndYear {
 
   @Mock private SongDatabase songDatabase;
   @Mock private ServerStatus serverStatus;
-  @Mock private PlaylistProperties playlistProperties;
   @Mock private CommandExecutor commandExecutor;
   @Mock private SongConverter songConverter;
   @Mock private PlaylistSongConverter playlistSongConverter;

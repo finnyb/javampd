@@ -5,9 +5,7 @@ import static org.bff.javampd.statistics.Statistic.*;
 
 import java.util.EnumMap;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class MPDStatsConverter implements StatsConverter {
 
   @Override

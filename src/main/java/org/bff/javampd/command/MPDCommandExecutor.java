@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.bff.javampd.server.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Executes commands to the {@link org.bff.javampd.server.MPD}. You <b>MUST</b> call {@link #setMpd}
@@ -17,8 +15,6 @@ import org.slf4j.LoggerFactory;
 @Singleton
 @Slf4j
 public class MPDCommandExecutor implements CommandExecutor {
-  private static final Logger LOGGER = LoggerFactory.getLogger(MPDCommandExecutor.class);
-
   private MPDSocket mpdSocket;
   private MPD mpd;
   private String password;
@@ -55,7 +51,7 @@ public class MPDCommandExecutor implements CommandExecutor {
       log.debug("Sending command: {}", command);
       return new ArrayList<>(mpdSocket.sendCommand(command));
     } catch (MPDSecurityException se) {
-      LOGGER.warn(
+      log.warn(
           "Connection exception while sending command {}, will retry", command.getCommand(), se);
       authenticate();
       return new ArrayList<>(mpdSocket.sendCommand(command));
@@ -68,7 +64,7 @@ public class MPDCommandExecutor implements CommandExecutor {
       checkSocket();
       mpdSocket.sendCommands(commandList);
     } catch (MPDSecurityException se) {
-      LOGGER.warn("Connection exception while sending commands, will retry", se);
+      log.warn("Connection exception while sending commands, will retry", se);
       authenticate();
       mpdSocket.sendCommands(commandList);
     }
