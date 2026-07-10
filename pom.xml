@@ -54,7 +54,7 @@
     </distributionManagement>
     <properties>
         <java.version>21</java.version>
-        <logback.version>1.5.25</logback.version>
+        <logback.version>1.5.35</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <junit.jupiter.version>5.11.3</junit.jupiter.version>
