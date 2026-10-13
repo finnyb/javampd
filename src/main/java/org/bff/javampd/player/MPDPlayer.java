@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
  * @author Bill
  */
 public class MPDPlayer implements Player {
+
   private static final Logger LOGGER = LoggerFactory.getLogger(MPDPlayer.class);
 
   private int oldVolume;
@@ -304,13 +305,22 @@ public class MPDPlayer implements Player {
 
     String response = serverStatus.getAudio();
     if (!"".equals(response)) {
+      System.out.println(response);
       String[] split = response.split(":");
-      info =
-          MPDAudioInfo.builder()
-              .sampleRate(parseSampleRate(split[0]))
-              .bits(parseBitRate(split[1]))
-              .channels(parseChannels(split[2]))
-              .build();
+
+      switch (split.length) {
+        case 3:
+          info =
+              new MPDAudioInfo(
+                  parseSampleRate(split[0]), parseBitRate(split[1]), parseChannels(split[2]));
+          break;
+        case 2:
+          info = new MPDAudioInfo(split[0], parseChannels(split[1]));
+          break;
+        default:
+          info = new MPDAudioInfo(null, 0, 0, 0);
+          break;
+      }
     }
 
     return info;

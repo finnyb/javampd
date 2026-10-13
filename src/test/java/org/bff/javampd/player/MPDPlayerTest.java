@@ -563,37 +563,43 @@ class MPDPlayerTest {
   @Test
   void testGetAudioDetailsBitrate() {
     when(serverStatus.getAudio()).thenReturn("4:5:6");
-    assertThat(mpdPlayer.getAudioDetails().getBits(), is(equalTo(5)));
+    assertThat(mpdPlayer.getAudioDetails().bits(), is(equalTo(5)));
   }
 
   @Test
   void testGetAudioDetailsBadBitrate() {
     when(serverStatus.getAudio()).thenReturn("4:bad:6");
-    assertThat(mpdPlayer.getAudioDetails().getBits(), is(equalTo(-1)));
+    assertThat(mpdPlayer.getAudioDetails().bits(), is(equalTo(-1)));
   }
 
   @Test
   void testGetAudioDetailsChannels() {
     when(serverStatus.getAudio()).thenReturn("4:5:6");
-    assertThat(mpdPlayer.getAudioDetails().getChannels(), is(equalTo(6)));
+    assertThat(mpdPlayer.getAudioDetails().channels(), is(equalTo(6)));
   }
 
   @Test
   void testGetAudioDetailsBadChannels() {
     when(serverStatus.getAudio()).thenReturn("4:5:bad");
-    assertThat(mpdPlayer.getAudioDetails().getChannels(), is(equalTo(-1)));
+    assertThat(mpdPlayer.getAudioDetails().channels(), is(equalTo(-1)));
   }
 
   @Test
   void testGetAudioDetailsSampleRate() {
     when(serverStatus.getAudio()).thenReturn("4:5:6");
-    assertThat(mpdPlayer.getAudioDetails().getSampleRate(), is(equalTo(4)));
+    assertThat(mpdPlayer.getAudioDetails().sampleRate(), is(equalTo(4)));
   }
 
   @Test
   void testGetAudioDetailsBadSampleRate() {
     when(serverStatus.getAudio()).thenReturn("bad:5:6");
-    assertThat(mpdPlayer.getAudioDetails().getSampleRate(), is(equalTo(-1)));
+    assertThat(mpdPlayer.getAudioDetails().sampleRate(), is(equalTo(-1)));
+  }
+
+  @Test
+  void testGetAudioDetailsDSD() {
+    when(serverStatus.getAudio()).thenReturn("DSD512:2");
+    assertThat(mpdPlayer.getAudioDetails().dsd(), is("DSD512"));
   }
 
   @Test
