@@ -305,7 +305,6 @@ public class MPDPlayer implements Player {
 
     String response = serverStatus.getAudio();
     if (!"".equals(response)) {
-      System.out.println(response);
       String[] split = response.split(":");
 
       switch (split.length) {
